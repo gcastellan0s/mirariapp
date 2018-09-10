@@ -76,14 +76,14 @@ AWS_QUERYSTRING_AUTH = False
 _AWS_EXPIRY = 60 * 60 * 24 * 7
 # https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
 AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': f'max-age={_AWS_EXPIRY}, s-maxage={_AWS_EXPIRY}, must-revalidate',
+    'CacheControl': 'max-age='+str(_AWS_EXPIRY)+', s-maxage='+str(_AWS_EXPIRY)+', must-revalidate',
 }
 
 # STATIC
 # ------------------------
 
 STATICFILES_STORAGE = 'config.settings.production.StaticRootS3BotoStorage'
-STATIC_URL = f'https://s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/static/'
+STATIC_URL = 'https://s3.amazonaws.com/'+AWS_STORAGE_BUCKET_NAME+'/static/'
 
 # MEDIA
 # ------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ StaticRootS3BotoStorage = lambda: S3Boto3Storage(location='static')  # noqa
 MediaRootS3BotoStorage = lambda: S3Boto3Storage(location='media', file_overwrite=False)  # noqa
 # endregion
 DEFAULT_FILE_STORAGE = 'config.settings.production.MediaRootS3BotoStorage'
-MEDIA_URL = f'https://s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/media/'
+MEDIA_URL = 'https://s3.amazonaws.com/'+AWS_STORAGE_BUCKET_NAME+'/media/'
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
