@@ -6,7 +6,7 @@ APPS_DIR = ROOT_DIR.path('mirari')
 env = environ.Env()
 env.read_env(str(ROOT_DIR.path('.envs/.variables')))
 
-DJANGO_SETTINGS_MODULE = env.bool('DJANGO_SETTINGS_MODULE', default='config.settings.production')
+DJANGO_SETTINGS_MODULE = env.str('DJANGO_SETTINGS_MODULE', default='config.settings.production')
 
 print(DJANGO_SETTINGS_MODULE)
 
