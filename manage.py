@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import os
 import sys
-import environ
 
+import environ
 env = environ.Env()
-env.read_env(str(ROOT_DIR.path('.envs/.variables')))
+env.read_env('.envs/.variables')
 
 if __name__ == "__main__":
     DJANGO_SETTINGS_MODULE = env.str('DJANGO_SETTINGS_MODULE', default='config.settings.local')
