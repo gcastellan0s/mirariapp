@@ -5,8 +5,10 @@ APPS_DIR = ROOT_DIR.path('mirari')
 
 env = environ.Env()
 env.read_env(str(ROOT_DIR.path('.envs/.variables')))
-
 DJANGO_SETTINGS_MODULE = env.bool('DJANGO_SETTINGS_MODULE', default='config.settings.local')
+
+print(DJANGO_SETTINGS_MODULE)
+
 if DJANGO_SETTINGS_MODULE == 'config.settings.production':
     env.read_env(str(ROOT_DIR.path('.envs/.production/.caddy')))
     env.read_env(str(ROOT_DIR.path('.envs/.production/.django')))
