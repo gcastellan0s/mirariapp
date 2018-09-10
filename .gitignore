@@ -52,6 +52,8 @@ coverage.xml
 
 # Django stuff:
 staticfiles/
+!django/contrib/staticfiles
+
 
 # Sphinx documentation
 docs/_build/
@@ -265,9 +267,7 @@ Session.vim
 # Auto-generated tag files
 tags
 
-
 ### Project template
-
 mirari/media/
 
 .pytest_cache/
