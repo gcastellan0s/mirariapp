@@ -1,0 +1,5 @@
+{% load static%}
+.ms-container {
+	background: transparent url({%static 'mirari/img/switch.png'%}) no-repeat 50% 50%!important;
+	width: 100%!important;
+}

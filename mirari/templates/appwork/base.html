@@ -1,0 +1,84 @@
+{% extends "index.html" %}
+{% load static %}
+
+{%block basestyle%}material-style{%endblock basestyle%}
+
+{%block font%}
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet">
+{%endblock font%}
+
+{%block icons%}
+	<link rel="stylesheet" href="{%static 'appwork-html/vendor/fonts/fontawesome.css'%}">
+	<link rel="stylesheet" href="{%static 'appwork-html/vendor/fonts/ionicons.css'%}">
+	<link rel="stylesheet" href="{%static 'appwork-html/vendor/fonts/linearicons.css'%}">
+	<link rel="stylesheet" href="{%static 'appwork-html/vendor/fonts/open-iconic.css'%}">
+	<link rel="stylesheet" href="{%static 'appwork-html/vendor/fonts/pe-icon-7-stroke.css'%}">
+{%endblock icons%}
+
+{%block base_styles%}
+	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/bootstrap-material.css' %}">
+	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/appwork-material.css' %}">
+	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/colors-material.css' %}">
+	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/uikit.css' %}">
+	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/theme-gradient.css' %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.25.0/sweetalert2.min.css" />
+	{%block styles%}{%endblock styles%}
+{%endblock base_styles%}
+
+{%block base_css%}
+	{%block css%}{%endblock css%} 
+{%endblock base_css%}
+
+{%block head_scripts%}
+	<script src="{%static 'appwork-html/vendor/js/layout-helpers.js'%}"></script>
+{%endblock head_scripts%}
+
+{%block body_content%}
+	<div class="page-loader">
+		<div class="bg-primary"></div>
+	</div>
+	{%block content%}
+	{%endblock content%}
+{%endblock body_content%} 
+
+{%block base_js%}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="{%static 'appwork-html/vendor/libs/popper/popper.js'%}"></script>
+	<script src="{%static 'appwork-html/vendor/js/bootstrap.js'%}"></script>
+	<script src="{%static 'appwork-html/vendor/js/sidenav.js'%}"></script>
+	<script src="{%static 'appwork-html/vendor/libs/perfect-scrollbar/perfect-scrollbar.js'%}"></script>
+	<script src="{%static 'appwork-html/vendor/libs/block-ui/block-ui.js'%}"></script>
+	<script src="{%static 'appwork-html/vendor/js/material-ripple.js'%}"></script>
+	<script>
+		window.attachMaterialRippleOnLoad();
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.25.0/sweetalert2.min.js"></script>
+	{%block js%}{%endblock js%}
+{%endblock base_js%}
+
+{%block vue_data%} 
+    {%block data%}{%endblock data%}
+{%endblock vue_data%}
+
+{%block vue_created%}
+    {%block created%}{%endblock created%}
+{%endblock vue_created%}
+
+{%block vue_methods%}
+    {%block methods%}{%endblock methods%}
+{%endblock vue_methods%}
+
+{%block vue_mounted%}
+    {%block mounted%}{%endblock mounted%}
+{%endblock vue_mounted%}
+
+{%block global_functions%}
+	window.Block=function(){$.blockUI({message: '<div class="sk-folding-cube sk-primary"><div class="sk-cube1 sk-cube"></div><div class="sk-cube2 sk-cube"></div><div class="sk-cube4 sk-cube"></div><div class="sk-cube3 sk-cube"></div></div><h5 style="color: #444">Espere un momento...</h5>',css: {backgroundColor: 'transparent',border: '0',zIndex: 9999999},overlayCSS:  {backgroundColor: '#fff',opacity: 0.8,zIndex: 9999990}});}
+	window.UnBlock=function(){$.unblockUI();}
+{%endblock global_functions%}
+
+{%block base_scripts%}
+	<script type="text/javascript" charset="utf-8">
+		{%block scripts%}{%endblock scripts%}
+	</script>
+{%endblock base_scripts%}

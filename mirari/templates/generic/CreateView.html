@@ -1,0 +1,239 @@
+{% extends "metronic/layout-5.html" %} 
+{% load static %}
+{% load i18n %}
+{% load mirari_tags %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ model|verbose_name_plural|upper }} :: {{ G.ORGANIZATION.TITLE }}{% endblock title %}
+
+{%block styles%}
+	{{block.super}} 
+	<link href="{%static 'mirari/css/multi-select.css'%}" rel="stylesheet" type="text/css" />
+{%endblock styles%}
+
+{%block css%}
+	{{block.super}} 
+	{%include 'generic/includes/create-update/selectmultiple.css'%}
+{%endblock css%}
+
+{%block subheader%}
+    <div class="m-subheader m--padding-top-5">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="/" class="m-nav__link m-nav__link--icon">
+                            <strong> <i class="la la-home"></i> PANEL DE INICIO </strong>
+                        </a>
+                    </li>
+					{%if breadcrumbs%}
+						{{breadcrumbs|safe}}
+					{%else%}
+						<li class="m-nav__separator">
+							<strong>></strong>
+						</li>
+						<li class="m-nav__item m-nav__item--home">
+							{%if redirect_model%}
+								<a href="{{redirect_model.url_list}}" class="m-nav__link m-nav__link--icon">
+									Lista de {{ redirect_model|verbose_name_plural|upper }}
+								</a>
+							{%else%}
+								<a href="{{model.url_list}}" class="m-nav__link m-nav__link--icon">
+									Lista de {{ model|verbose_name_plural|upper }}
+								</a>
+							{%endif%}
+						</li>
+						<li class="m-nav__separator">
+							<strong>></strong>
+						</li>
+						<li class="m-nav__item">
+							<a class="m-nav__link">
+								<span class="m-nav__link-text h6">
+									{%if not object%}
+										<small>CREAR</small> 
+										<span>{{ model|verbose_name_singular|upper }}</span>
+									{%else%}
+										<small>EDITAR</small> 
+										<strong>{{object}}</strong>
+									{%endif%}
+								</span>
+							</a>
+						</li>
+					{%endif%}
+                </ul>
+            </div>
+        </div>
+    </div>
+{%endblock subheader%}
+
+{%block content%}
+    <div class="row">
+		<div class="col-md-10">
+			<div class="m-portlet m-portlet--tab">
+				<div class="m-portlet__head">
+					<div class="m-portlet__head-caption">
+						<div class="m-portlet__head-title">
+							<span class="m-portlet__head-icon m--hide">
+								<i class="la la-gear"></i>
+							</span>
+							<h3 class="m-portlet__head-text">
+								{%if not object%}
+									<small> CREAR </small> &nbsp;{{ model|verbose_name_singular|upper }}
+								{%else%}
+									<small> EDITAR </small> &nbsp;{{ object|upper }}
+								{%endif%}
+							</h3>
+						</div>
+					</div>
+				</div>
+				<!--begin::Form-->
+				<form id="form" method="post" enctype="multipart/form-data" class="m-form m-form--label-align-right">{% csrf_token %}
+					<div class="m-portlet__body">
+						<div class="m-form__content">
+							{%for message in messages%}
+								<div class="m-alert m-alert--icon alert alert-{{message.tags}}" role="{{message.tags}}">
+									<div class="m-alert__icon">
+										{%if message.tags == 'info'%}
+											<i class="la la-warning"></i>
+										{%elif message.tags == 'success'%}
+											<i class="la la-check"></i>
+										{%elif message.tags == 'warning'%}
+											<i class="la la-warning"></i>
+										{%elif message.tags == 'error'%}
+											<i class="la la-times"></i>
+										{%endif%}
+									</div>
+									<div class="m-alert__text">
+										{{message}}
+									</div>
+									<div class="m-alert__close">
+										<button type="button" class="close" data-close="alert" aria-label="Close"></button>
+									</div>
+								</div>
+							{%endfor%}
+							<div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="form_msg">
+								<div class="m-alert__icon">
+									<i class="la la-warning"></i>
+								</div>
+								<div class="m-alert__text">
+									Hay algúnos errores en tu formulario, corrigelos para poder continuar!
+								</div>
+								<div class="m-alert__close">
+									<button type="button" class="close" data-close="alert" aria-label="Close"></button>
+								</div>
+							</div>
+						</div>
+						{{ form|crispy }}
+						{%comment%}
+							{%if model.VARS.EXTRA_FORM%}
+								{%for EXTRA in model.VARS.EXTRA_FORM%}
+									{%if EXTRA.title %}
+										<div class="m-form__seperator m-form__seperator--dashed"></div>
+										<div class="m-form__section m-form__section--last">
+											{%if EXTRA.title%}
+												<div class="m-form__heading">
+													<h3 class="m-form__heading-title">{{EXTRA.title}}</h3>
+												</div>
+											{%endif%}
+											{%for extra in EXTRA.form%}
+												<div class="form-group m-form__group row">
+													<label class="col-lg-2 col-form-label">{{extra.label}}</label>
+													<div class="col-lg-6">
+														<input type="{{extra.type}}" name="{{extra.name}}" id="id_{{extra.name}}" class="form-control m-input" placeholder="{{extra.placeholder}}">
+														<span class="m-form__help">{{extra.help_text}}</span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div id="div_id_is_active" class="form-check">
+														<label for="id_is_active" class="form-check-label">
+															<input type="checkbox" name="is_active" class="checkboxinput form-check-input" id="id_is_active" checked /> Esta activo?
+														</label>
+														<small id="hint_id_is_active" class="form-text text-muted">Desactivar producto?</small>
+													</div>
+												</div>
+											{%endfor%}
+										</div>
+									{%endif%}
+								{%endfor%}
+							{%endif%}
+						{%endcomment%}
+						<div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
+							<div class="m-form__actions">
+								{%if buttons%}
+									{{buttons}}
+								{%else%}
+									<button type="submit" class="btn btn-primary m--margin-right-15" name="save">
+										{%if not object%}
+											GUARDAR {{ model|verbose_name_singular|upper }}
+										{%else%}
+											ACTUALIZAR <small>{{ model|verbose_name_singular|upper }}</small>
+										{%endif%}
+									</button>
+									{%if not hide_extra_submmit%}
+										<button type="submit" class="btn btn-success" name="save__edit">
+											{%if not object%}
+												GUARDAR  <small>y continuar editando.</small>
+											{%else%}
+												ACTUALIZAR <small>y continuar editando.</small>
+											{%endif%}
+										</button>
+										{%if not object%}
+											<button type="submit" class="btn btn-warning m--pull-right" name="save__other">
+												GUARDAR <small>y crear otro.</small>
+											</button>
+										{%endif%}
+										{%if object%}
+											{%if not hide_delete_button%}
+												<button type="submit" class="btn btn-danger m--pull-right" name="delete">
+													ELIMINAR <small>{{ model|verbose_name_singular|upper }}</small>
+												</button>
+											{%endif%}
+										{%endif%}
+									{%endif%}
+								{%endif%}
+							</div>
+						</div>
+
+
+
+						
+
+
+							
+					</div>
+				</form>
+				<!--end::Form-->
+			</div>
+		</div>
+	</div>
+{%endblock content%}
+
+{%block js%}
+	{{block.super}} 
+	<script src="{%static 'mirari/js/jquery.multi-select.js'%}" type="text/javascript"></script>
+	<script src="{%static 'mirari/js/quicksearch.js'%}" type="text/javascript"></script>
+{%endblock js%}
+
+{%block mounted%}
+	///////BASE
+	$( ".form-group" ).addClass( "m-form__group" );
+	$('[name="color"]').attr('type','color')
+	$(".form-check").each(function(index) {
+		label = $(this).children('label')
+		hint = $(this).children('small')
+		input = label.children('input')
+		text = label.text()
+		parent = $(this).parent('div')
+		parent.addClass('row')
+		checked = ''
+		if (input.is(':checked'))
+			checked = 'checked="checked"'
+		$(this).empty()
+		$(this).append('<label class="col-12 col-form-label" for="'+input.attr('id')+'">'+text+'</label>')
+		$(this).append('<div class="col-3"><span class="m-switch m-switch--outline m-switch--icon m-switch--primary"><label class="checkbox-container"><input type="checkbox" name="'+input.attr('name')+'" id="'+input.attr('id')+'" '+checked+' class="checkboxinput form-check-input"><span></span></label></div>')
+		$(this).append(hint)
+	});
+	{%include 'generic/includes/create-update/select.js'%}
+	{%include 'generic/includes/create-update/datepicker.js'%}
+	{%include 'generic/includes/create-update/validate.js'%}
+{%endblock mounted%}

@@ -1,0 +1,217 @@
+{% extends "metronic/layout-5.html" %} 
+{% load static %}
+{% load i18n %}
+{% load mirari_tags %}
+
+{% block title %}{{ model|verbose_name_plural|upper }} :: {{ G.ORGANIZATION.TITLE }}{% endblock title %}
+
+{%block css%}
+	{{block.super}}
+    <style>
+		.m-table__row--danger td{
+			background: #f4516c!important;
+			color: #fff!important;
+			border-bottom: 0!important;
+			border-top: 0!important;
+		}
+		.m-table__row--danger {
+			background: #f4516c!important;
+			color: #fff!important;
+			border-bottom: 0!important;
+			border-top: 0!important;
+		}
+		.m-table__row--danger td span a {
+			color: #fff!important;
+		}
+		.m-table__row--danger td span i {
+			color: #fff!important;
+		}
+	</style>
+{%endblock css%}
+
+{%block subheader%}
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="/" class="m-nav__link m-nav__link--icon">
+                            <strong> <i class="la la-home"></i> INICIO</strong>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        <strong>></strong>
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="" class="m-nav__link">
+                            <span class="m-nav__link-text">
+                                Lista de <span class="m-subheader__title">{{ model|verbose_name_plural|upper }}</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{%endblock subheader%}
+
+{%block content%}
+    <div class="m-portlet m-portlet--mobile">
+		<div class="m-portlet__body">
+			<!--begin: Search Form -->
+			<div class="m-form m-form--label-align-right m--margin-top-0 m--margin-bottom-10">
+				<div class="row align-items-center">
+					<div class="col-xl-8 order-2 order-xl-1">
+						<div class="form-group m-form__group row align-items-center">
+							<div class="col-md-4">
+								<div class="m-input-icon m-input-icon--left">
+									<input type="text" class="form-control m-input m-input--solid" placeholder="Buscar..." id="generalSearch">
+									<span class="m-input-icon__icon m-input-icon__icon--left">
+										<span>
+											<i class="la la-search"></i>
+										</span>
+									</span>
+								</div>
+							</div>
+							{% for item in filters %}
+								<div class="col-md-{{item.size}}">
+									<div class="m-form__group m-form__group--inline">
+										<div class="m-form__label">
+											<label>
+											</label>
+										</div>
+										<div class="m-form__control">
+											<select class="form-control m-bootstrap-select" id="m_form_{{item.key}}">
+												<option value="">
+													{{item.label}}
+												</option>
+												{%for obj in item.options%}
+													<option value="{{obj.0}}">
+														{{obj.1}}
+													</option>
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+									<div class="d-md-none m--margin-bottom-10"></div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
+						{%if 'Can_Create__'|prepend_perm:model.VARS|if_has_perm:request and not 'create' in model.VARS.EXCLUDE_PERMISSIONS%}
+							<a href="{{model.url_add}}" class="btn btn-brand m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-sm">
+								{{ model.add_text.0 }}
+								<br />
+								<small class="fs-9">
+									{{ model.add_text.2 }}
+								</small>
+							</a>
+						{%endif%}
+						<div class="m-separator m-separator--dashed d-xl-none"></div>
+					</div>
+				</div>
+			</div>
+            <!--end: Search Form -->
+			<div class="row align-items-center" v-if="selected_items">
+				<div class="col-xl-12">
+					<div class="m-form__group m-form__group--inline">
+						<div class="m-form__control">
+							<div class="btn-toolbar"  class="align-items-center">
+								{%if 'Can_Delete__'|prepend_perm:model.VARS|if_has_perm:request%}
+									<button class="btn btn-sm btn-danger" type="button" id="m_form_delete_rows">
+										ELIMINAR SELECCIÓN
+									</button>
+									<small>
+										&nbsp;&nbsp;&nbsp;
+										${selected_items} elementos marcados
+									<small>
+								{%endif%}
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+			<!--begin: Datatable -->
+			<div class="my_datatable m-table--border-brand m--margin-top-20" id="m_datatable{{model.VARS.MODEL}}"></div>
+			<!--end: Datatable -->
+		</div>
+	</div>
+{%endblock content%}
+
+{%block data%}
+	{{ block.super }}
+	selected_items: 0,
+{%endblock data%}
+
+{%block methods%}
+	{{ block.super }}
+	delete_row: function (row, alerts) {
+		$.post(row.attr('value'), {
+			'csrfmiddlewaretoken': '{{ csrf_token }}',
+		}).done(function( json ){
+			parent = row.parents('tr:first')
+			parent.addClass('m-table__row--danger')
+			parent.find('a').removeAttr( "href" )
+			parent.find('.m-checkbox.m-checkbox--single').hide()
+			parent.find('.m-btn--pill').hide()
+			parent.find('.delete_row').hide()
+			if(alerts){
+				swal('Éxito!','Se eliminó correctamente el registro.','success');
+			}
+		}).fail(function(){
+			if(alerts){
+				swal('Error','Ocurrio un error al eliminar el registro.','error');
+			}
+		});
+	},
+{%endblock methods%}
+
+{%block mounted%}
+	{{block.super}}
+
+	{% for item in filters %}
+		$("#m_form_{{item.key}}").selectpicker()
+		$("#m_form_{{item.key}}").on("change", function() {
+			datatable{{model.VARS.MODEL}}.search($(this).val(), "{{item.key}}")
+		})
+	{% endfor %}
+
+	{%include 'generic/includes/list/datatable.js'%}
+
+	$(document).on("click",".delete_row",function(event) {
+		event.preventDefault();
+		row = $(this)
+		swal({
+			title: row.attr('text'),
+			text: "Los datos asociados, no se podrán recuperar.",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonText: 'Eliminar registro',
+			cancelButtonText: 'Cancelar',
+		}).then((result) => {
+			if(result.value==true){
+				self.delete_row(row, true)
+			}
+		})
+	});
+	$(document).on('click', '#m_form_delete_rows', function(event) {
+		swal({
+			title: "Estas seguro de eliminar estos registros?",
+			text: "Los datos asociados, no se podrán recuperar.",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonText: 'Eliminar registro',
+			cancelButtonText: 'Cancelar',
+		}).then((result) => {
+			if(result.value==true){
+				Block();
+				$.each( datatable{{model.VARS.MODEL}}.rows(".m-datatable__row--active").nodes().find('.m-checkbox--single>[type="checkbox"]'), function(key, row){
+					self.delete_row($(row), false);
+				});
+				UnBlock();
+			}
+		});
+	})
+
+{%endblock mounted%}

@@ -1,0 +1,64 @@
+{% extends "metronic/layout-5.html" %} 
+{% load static %}
+{% load i18n %}
+{% load mirari_tags %}
+
+{%block menu_header%}
+    <li class="m-menu__item  m-menu__item--active "  aria-haspopup="true">
+        <a  href="?page=index" class="m-menu__link ">
+        <span class="m-menu__item-here"></span>
+        <span class="m-menu__link-text">
+            {%trans 'PANEL DE INICIO'%}
+        </span>
+        </a>
+    </li>
+{%endblock menu_header%}
+
+{%block content%}
+    <div class="row">
+		{%for key, modules in ''|get_menu%}
+			<div class="col-xl-4" v-if="MENU__{{key}}.length > 0">
+				<div class="m-portlet m-portlet--full-height m-portlet--fit ">
+					<div class="m-portlet__head">
+						<div class="m-portlet__head-caption">
+							<div class="m-portlet__head-title">
+								<h3 class="m-portlet__head-text color-background">
+									{{modules.title}}
+								</h3>
+							</div>
+						</div>
+					</div>
+					<div class="m-portlet__body">
+                        {%for module in modules.modules%}
+							<div class="m-widget4 m-widget4--chart-bottom">
+								<div class="m-widget4__item" key="{{module.keys}}">
+									<div class="m-widget4__ext">
+										<a href="{{module|get_url}}" class="m-widget4__icon m--font-brand">
+											<i class="{{module.icon}}"></i>
+										</a>
+									</div>
+									<div class="m-widget4__info">
+										<a href="{{module|get_url}}" class="m-widget4__icon m--font-brand">
+											<span class="m-widget4__title">
+												{{module.title|upper}}
+											</span><br>
+											<span class="m-widget4__sub">
+												<small>
+													<strong>
+														{{module.text}}
+													</strong>
+												</small>
+												<br />
+												<small>{{module.subtext}}</small>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						{%endfor%}
+					</div>
+				</div>
+			</div>
+		{%endfor%}
+	</div>
+{%endblock content%}

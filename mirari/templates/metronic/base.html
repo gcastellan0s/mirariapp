@@ -1,0 +1,147 @@
+{% extends "index.html" %}
+{% load static %}
+{% load mirari_tags %}
+
+{%block font%}
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700"]
+      },
+      active: function () {
+        sessionStorage.fonts = true;
+      }
+    });
+  </script>
+{%endblock font%}
+
+{%block base_styles%}
+  {%block styles%}
+  {%endblock styles%}
+{%endblock base_styles%}
+
+{%block base_css%}
+  {%block css%}
+    <style>
+      .m-subheader {
+        padding: 10px 0 0 0;
+      }
+      .m-grid--ver-desktop{
+            min-height: 94vh;
+      }
+    </style> 
+  {%endblock css%} 
+{%endblock base_css%}
+
+{%block body_class%}
+  m-page--fluid m-page--loading-enabled m-header--fixed m-header--fixed-mobile m-footer--push m-aside--offcanvas-default
+{%endblock body_class%}
+
+{%block body_content%}
+  <!-- begin::Page loader -->
+  <div class="m-page-loader m-page-loader--base">
+    <div class="m-spinner m-spinner--brand"></div>
+  </div>
+  <!-- end::Page Loader -->
+  <!-- begin:: Page -->
+  <div class="m-grid m-grid--hor m-grid--root m-page">
+    <!-- begin::Header -->
+    <header id="m_header" class="m-grid__item		m-header "  m-minimize="minimize" m-minimize-offset="200" m-minimize-mobile-offset="200" >
+      <div class="m-header__top">
+        <div class="m-container m-container--fluid m-container--full-height m-page__container">
+          <div class="m-stack m-stack--ver m-stack--desktop">
+            {%include 'metronic/metronic-partials/_header-brand.html'%}
+            {%include 'metronic/metronic-partials/_header-topbar.html'%}
+          </div>
+        </div>
+      </div>
+      <div class="m-header__bottom">
+        <div class="m-container m-container--fluid m-container--full-height m-page__container">
+          <div class="m-stack m-stack--ver m-stack--desktop">
+            <!-- begin::Horizontal Menu -->
+            <div class="m-stack__item m-stack__item--middle m-stack__item--fluid">
+              <button class="m-aside-header-menu-mobile-close  m-aside-header-menu-mobile-close--skin-light " id="m_aside_header_menu_mobile_close_btn">
+                <i class="la la-close"></i>
+              </button>
+              <div id="m_header_menu" class="m-header-menu m-aside-header-menu-mobile m-aside-header-menu-mobile--offcanvas  m-header-menu--skin-dark m-header-menu--submenu-skin-light m-aside-header-menu-mobile--skin-light m-aside-header-menu-mobile--submenu-skin-light "  >
+                <ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
+                  {%block menu_header%}
+                    {%include 'metronic/metronic-partials/_menu-header.html'%}
+                  {%endblock menu_header%}
+                </ul>
+              </div>
+            </div>
+            <!-- end::Horizontal Menu -->
+            {%comment%}
+              {%include 'metronic/metronic-partials/_header-search.html'%}
+            {%endcomment%}
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- end::Header -->
+    <!-- begin::Body -->
+    <div class="m-grid__item m-grid__item--fluid  m-grid m-grid--ver-desktop m-grid--desktop 	m-body m-page__container">
+      <div class="m-grid__item m-grid__item--fluid m-wrapper">
+        <div class="m-subheader ">
+          <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                {%block subheader%}
+                {%endblock subheader%}
+            </div>
+          </div>
+        </div>
+        <div class="m-content">
+          {%block content%}
+          {%endblock content%}
+        </div>
+      </div>
+    </div>
+    <!-- end::Body -->
+    {%include 'metronic/metronic-partials/_footer-default.html'%}
+  </div>
+  <!-- end:: Page -->
+  {%include 'metronic/metronic-partials/_layout-quick-sidebar.html'%}
+  {%include 'metronic/metronic-partials/_layout-scroll-top.html'%}
+{%endblock body_content%}
+
+{%block base_js%} 
+    {%block js%}{%endblock js%}
+{%endblock base_js%}
+
+{%block vue_data%} 
+  {%for key, modules in 'mirari'|get_menu%}
+    MENU__{{key}}:[
+      {%for module in modules.modules%}
+        {%if request|has_app:module.apps and request|has_permission:module%}
+          '{{module.title|upper}}',
+        {%endif%}
+      {%endfor%}
+    ],
+  {%endfor%}
+  {%block data%}{%endblock data%}
+{%endblock vue_data%}
+
+{%block vue_created%}
+    {%block created%}{%endblock created%}
+{%endblock vue_created%}
+
+{%block vue_methods%}
+    {%block methods%}{%endblock methods%}
+{%endblock vue_methods%}
+
+{%block vue_mounted%}
+    {%block mounted%}{%endblock mounted%}
+{%endblock vue_mounted%}
+
+{%block global_functions%}
+	window.Block=function(){$.blockUI({message: '<div class="sk-folding-cube sk-primary"><div class="sk-cube1 sk-cube"></div><div class="sk-cube2 sk-cube"></div><div class="sk-cube4 sk-cube"></div><div class="sk-cube3 sk-cube"></div></div><h5 style="color: #444">Espere un momento...</h5>',css: {backgroundColor: 'transparent',border: '0',zIndex: 9999999},overlayCSS:  {backgroundColor: '#fff',opacity: 0.8,zIndex: 9999990}});}
+	window.UnBlock=function(){$.unblockUI();}
+{%endblock global_functions%}
+
+{%block base_scripts%}
+  <script type="text/javascript" charset="utf-8">
+      {%block scripts%}{%endblock scripts%}
+  </script>
+{%endblock base_scripts%}
