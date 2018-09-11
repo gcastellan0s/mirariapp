@@ -56,7 +56,7 @@ def get_variables(class_view):
 	if class_view.permissions:
 		check_permissions(class_view)
 	return {
-		'ORGANIZATION': Organization.objects.filter(sites=site).first(),
+		'ORGANIZATION': Organization.objects.get(sites=site),
 		'SITE': site,
 		'MEDIA': settings.MEDIA_URL,
 	}
