@@ -7,7 +7,6 @@ env = environ.Env()
 env.read_env(str(ROOT_DIR.path('.envs/.variables')))
 
 DJANGO_SETTINGS_MODULE = env.str('DJANGO_SETTINGS_MODULE', default='config.settings.production')
-print(DJANGO_SETTINGS_MODULE)
 
 if DJANGO_SETTINGS_MODULE == 'config.settings.production':
     env.read_env(str(ROOT_DIR.path('.envs/.production/.caddy')))
