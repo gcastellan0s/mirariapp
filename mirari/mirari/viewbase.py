@@ -47,7 +47,7 @@ DEFAULT_DOMAIN = settings.MEDIA_URL
 ######### RETURN ###############################################################################################
 def return_site(request):
 	site = request.get_host()
-	if 'www.' in site[0:3]:
+	if 'www.' in site:
 		site = site.replace('www.','',1)
 	raise ValueError('Sitio: ' + request.get_host())
 	if site.domain == 'localhost:8000':
