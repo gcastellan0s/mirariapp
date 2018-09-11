@@ -46,8 +46,8 @@ DEFAULT_DOMAIN = settings.MEDIA_URL
 ################################################################################################################
 ######### RETURN ###############################################################################################
 def return_site(request):
-	site = get_current_site(request)
-	raise ValueError('Sitio: ' + site.domain)
+	#site = get_current_site(request)
+	raise ValueError('Sitio: ' + request.get_host())
 	if site.domain == 'localhost:8000':
 		return Site.objects.get(domain=DEFAULT_DOMAIN)
 	return site
