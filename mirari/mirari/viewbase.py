@@ -52,11 +52,12 @@ def return_site(request):
 	return site
 ######### VARIABLES ############################################################################################
 def get_variables(class_view):
+	raise Http404()
 	site = return_site(class_view.request)
 	if class_view.permissions:
 		check_permissions(class_view)
 	return {
-		'ORGANIZATION': Organization.objects.get(sites=site),
+		'ORGANIZATION': Organization.objects.filter(sites=site).first(),
 		'SITE': site,
 		'MEDIA': settings.MEDIA_URL,
 	}
