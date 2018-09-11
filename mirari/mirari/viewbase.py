@@ -49,7 +49,6 @@ def return_site(request):
 	site = request.get_host()
 	if 'www.' in site:
 		site = site.replace('www.','',1)
-	raise ValueError('Sitio: ' + site)
 	if site.domain == 'localhost:8000':
 		return Site.objects.get(domain=DEFAULT_DOMAIN)
 	return site
