@@ -7,7 +7,7 @@ from django.views.generic.detail import DetailView
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.sites.shortcuts import get_current_site, get_current_site_name
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
@@ -48,7 +48,7 @@ DEFAULT_DOMAIN = settings.MEDIA_URL
 ################################################################################################################
 ######### RETURN ###############################################################################################
 def return_site(request):
-	site = get_current_site(request)
+	site = get_current_site_name(request)
 	raise ValueError('X:', site.domain)
 	if site == 'localhost:8000':
 		return Site.objects.get(domain=DEFAULT_DOMAIN)
