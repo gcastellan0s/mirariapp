@@ -509,22 +509,22 @@ VARS = {
 		#},
 	#""",
 }
-class EmployeeAccess(Model_base):
-	user = models.ForeignKey('mirari.User', on_delete=models.CASCADE, related_name='+', verbose_name="Usuario")
-	sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="", help_text="Asignado a estas sucursales",)
-	profiles = models.CharField('Perfil', max_length=30, choices={
-            ('vendor', 'Vendedor'),
-            ('casher', 'Cajero'),
-            ('supervisor','Supervisor'),
-        })
-	VARS = VARS
-	class Meta(Model_base.Meta):
-		verbose_name = VARS['NAME']
-		verbose_name_plural = VARS['PLURAL']
-		permissions = permissions(VARS)
-	def __str__(self):
-		return '{0} | {1} | {2}'.format(self.user, self.sellpoints, self.profiles)
-	def get_sellpoint(self):
-		return self.render_list(self.sellpoints.all(), 'name')
-	def get_user(self):
-		return self.user.visible_username
+#class EmployeeAccess(Model_base):
+	#user = models.ForeignKey('mirari.User', on_delete=models.CASCADE, related_name='+', verbose_name="Usuario")
+	#sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="", help_text="Asignado a estas sucursales",)
+	#profiles = models.CharField('Perfil', max_length=30, choices={
+            #('vendor', 'Vendedor'),
+            #('casher', 'Cajero'),
+            #('supervisor','Supervisor'),
+        #})
+	#VARS = VARS
+	#class Meta(Model_base.Meta):
+		#verbose_name = VARS['NAME']
+		#verbose_name_plural = VARS['PLURAL']
+		#permissions = permissions(VARS)
+	#def __str__(self):
+		#return '{0} | {1} | {2}'.format(self.user, self.sellpoints, self.profiles)
+	#def get_sellpoint(self):
+		#return self.render_list(self.sellpoints.all(), 'name')
+	#def get_user(self):
+		#return self.user.visible_username
