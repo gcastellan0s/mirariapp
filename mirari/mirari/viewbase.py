@@ -39,7 +39,7 @@ from validate_email import validate_email
 from .models import *
 from .vars import *
 
-DEFAULT_DOMAIN = 'localhost:8000'
+DEFAULT_DOMAIN = settings.MEDIA_URL
 
 ################################################################################################################
 ######### BASES ################################################################################################
