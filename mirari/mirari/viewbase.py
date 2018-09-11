@@ -10,7 +10,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
-from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -47,13 +47,13 @@ DEFAULT_DOMAIN = settings.MEDIA_URL
 ######### RETURN ###############################################################################################
 def return_site(request):
 	site = get_current_site(request)
+	raise ValueError('Represents a hidden bug, do not catch this')
 	if site.domain == 'localhost:8000':
 		return Site.objects.get(domain=DEFAULT_DOMAIN)
 	return site
 ######### VARIABLES ############################################################################################
 def get_variables(class_view):
 	site = return_site(class_view.request)
-	return HttpResponse(site.domain)
 	if class_view.permissions:
 		check_permissions(class_view)
 	return {
