@@ -41,6 +41,8 @@ from .vars import *
 
 DEFAULT_DOMAIN = settings.MEDIA_URL
 
+#raise ValueError('xxx')
+
 ################################################################################################################
 ######### BASES ################################################################################################
 ################################################################################################################
@@ -49,7 +51,7 @@ def return_site(request):
 	site = request.get_host()
 	if 'www.' in site:
 		site = site.replace('www.','',1)
-	if site.domain == 'localhost:8000':
+	if site == 'localhost:8000':
 		return Site.objects.get(domain=DEFAULT_DOMAIN)
 	return site
 ######### VARIABLES ############################################################################################
