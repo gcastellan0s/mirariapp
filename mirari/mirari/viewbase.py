@@ -10,7 +10,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -52,8 +52,8 @@ def return_site(request):
 	return site
 ######### VARIABLES ############################################################################################
 def get_variables(class_view):
-	raise Http404()
 	site = return_site(class_view.request)
+	return HttpResponse(site.domain)
 	if class_view.permissions:
 		check_permissions(class_view)
 	return {
