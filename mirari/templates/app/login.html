@@ -57,7 +57,7 @@
     Block();
     Ax('post', '', credentials).then(function(json){
       if (!json.data.message) 
-        location.reload(); 
+        null //location.reload(); 
       else 
         swal('Error!', json.data.message, 'error') 
       UnBlock();
