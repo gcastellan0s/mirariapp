@@ -56,7 +56,8 @@
   login: function (credentials) {
     Block();
     Ax('post', '', credentials).then(function(json){
-      if (!json.data.message) 
+      if (!json.data.message)
+        console.log(json)
         null //location.reload(); 
       else 
         swal('Error!', json.data.message, 'error') 
