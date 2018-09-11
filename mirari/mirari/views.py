@@ -42,7 +42,7 @@ class login__Organization__TemplateView(BaseTemplateView, TemplateView):
 				if user:
 					username = user.username
 				else:
-					message = 'Usuario o contraseña incorrectos 1.'
+					message = 'Usuario o contraseña incorrectos'
 			else:
 				username = request.POST.get('code') + '__' + username
 			if not message:
@@ -54,7 +54,7 @@ class login__Organization__TemplateView(BaseTemplateView, TemplateView):
 					else:
 						message = 'Usuario desactivado'
 				else:
-					message = 'Usuario o contraseña incorrectos 2.'
+					message = 'Usuario o contraseña incorrectos'
 			return JsonResponse({'message':message,'token':token})
 		return super().dispatch(request, *args, **kwargs)
 
