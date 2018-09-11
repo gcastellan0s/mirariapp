@@ -50,6 +50,7 @@ class login__Organization__TemplateView(BaseTemplateView, TemplateView):
 				if access:
 					if access.is_active and access.active:
 						login(request, access)
+						message = 'Todo bien'
 					else:
 						message = 'Usuario desactivado'
 				else:
