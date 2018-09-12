@@ -37,7 +37,15 @@
       methods: {
         {%block vue_methods%}{%endblock vue_methods%}
         change_organization(code) {
-          alert(code)
+          Block();
+          Ax('post', '{%url 'ChangeOrganization__ApiView'%}', code).then(function(json){
+            //if (!json.data.message)
+              //location.reload();
+            //else 
+              //swal('Error!', json.data.message, 'error') 
+            console.log(json)
+            UnBlock();
+          })
         },
       },
       mounted: function () {

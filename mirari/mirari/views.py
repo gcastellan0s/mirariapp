@@ -136,3 +136,12 @@ class GetUser__ApiView(Generic__ApiView):
 			pass
 		ApiSerializer.Meta.model = self.model
 		return ApiSerializer(self.request.user)
+
+class GetUser__ApiView(Generic__ApiView):
+	def dispatch(self, request, *args, **kwargs):
+		self.initialize(request, *args, **kwargs)
+		if request.method == "POST" or request.method == "GET":
+			return JsonResponse({
+				'api':'ok',
+			})
+		return super().dispatch(request, *args, **kwargs)
