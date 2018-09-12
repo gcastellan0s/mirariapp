@@ -198,9 +198,9 @@ class User(AbstractUser, Model_base):
 	def url_password(self):
 		return reverse('mirari:UserPassword__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
 	def my_organizations(self):
-		if request.user.is_superuser:
+		if self.is_superuser:
 			return Organization.objects.all()
-		return request.user.organization.get_descendants(include_self=True)
+		return self.organization.get_descendants(include_self=True)
 	def get_full_name(self):
 		return self.first_name + ' ' + self.last_name
 	def get_is_active(self):
