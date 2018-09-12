@@ -137,7 +137,7 @@ class GetUser__ApiView(Generic__ApiView):
 		ApiSerializer.Meta.model = self.model
 		return ApiSerializer(self.request.user)
 
-class GetUser__ApiView(Generic__ApiView):
+class ChangeOrganization__ApiView(Generic__ApiView):
 	def dispatch(self, request, *args, **kwargs):
 		self.initialize(request, *args, **kwargs)
 		if request.method == "POST" or request.method == "GET":
