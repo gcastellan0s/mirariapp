@@ -213,4 +213,4 @@ RAVEN_CONFIG = {
 
 # Your stuff...
 # ------------------------------------------------------------------------------
-DEFAULT_DOMAIN = 'gustavo-castellanos.com'
+DEFAULT_DOMAIN = 'mirari.xyz'

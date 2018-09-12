@@ -275,4 +275,4 @@ STATICFILES_FINDERS += ['compressor.finders.CompressorFinder']
 # ------------------------------------------------------------------------------
 PAGINATOR_SIZE = 10
 CORS_ORIGIN_ALLOW_ALL = True
-DEFAULT_DOMAIN = 'localhost:8000'
+DEFAULT_DOMAIN = 'mirari.xyz'

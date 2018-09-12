@@ -39,7 +39,6 @@ from validate_email import validate_email
 from .models import *
 from .vars import *
 
-DEFAULT_DOMAIN = settings.MEDIA_URL
 #raise ValueError('xxx')
 
 ################################################################################################################
@@ -49,7 +48,7 @@ DEFAULT_DOMAIN = settings.MEDIA_URL
 def return_site(request):
 	site = get_current_site(request)
 	if site == 'localhost:8000':
-		return Site.objects.get(domain=DEFAULT_DOMAIN)
+		return Site.objects.get(domain=settings.DEFAULT_DOMAIN)
 	return site
 ######### VARIABLES ############################################################################################
 def get_variables(class_view):
