@@ -56,8 +56,12 @@ def get_variables(class_view):
 	site = return_site(class_view.request)
 	if class_view.permissions:
 		check_permissions(class_view)
+	try:
+		organization = Organization.objects.get(pk=class_view.request.user.session['organization'])
+	except:
+		organization = Organization.objects.filter(sites=site).first()
 	return {
-		'ORGANIZATION': Organization.objects.filter(sites=site).first(),
+		'ORGANIZATION': organization,
 		'SITE': site,
 		'MEDIA': settings.MEDIA_URL,
 	}

@@ -1,0 +1,11 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "MirariApp",
+  "short_name": "MirariApp",
+  "version": "app.mirari.www",
+  "description": "mirari.app",
+  "author": "Gustavo Castellanos",
+  "icons": [],
+  "start_url": "dist/index.html"
+}

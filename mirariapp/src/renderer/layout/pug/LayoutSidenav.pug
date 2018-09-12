@@ -1,0 +1,6 @@
+sidenav(:orientation='orientation' :class='curClasses')
+    // Inner
+    .sidenav-inner(:class="{ 'py-1': orientation !== 'horizontal' }")
+        block sidenav_content
+            sidenav-router-link(icon='ion ion-ios-contact' to='/' :exact='true') Home
+            sidenav-router-link(icon='ion ion-md-desktop' to='/page-2' :exact='true') Page 2

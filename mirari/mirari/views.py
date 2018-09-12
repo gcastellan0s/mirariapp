@@ -32,7 +32,7 @@ class login__Organization__TemplateView(BaseTemplateView, TemplateView):
 				try:
 					request.session['organization'] = request.user.organization.pk
 				except:
-					request.session['organization'] = Organization.objects.all().first().pk
+					request.session['organization'] = Organization.objects.get(id=1).pk
 			return HttpResponseRedirect(reverse('mirari:dashboard__Organization__TemplateView', args=[]))
 		if request.method == 'POST':
 			message, token = False, False
