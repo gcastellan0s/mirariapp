@@ -564,7 +564,7 @@ class Base_Delete(object):
 class Base_Api(object):
 	permissions = True
 	model = None
-	login_required = True
+	tokenserializer = False
 	def dispatch(self, request, *args, **kwargs):
 		self.initialize(request, *args, **kwargs)
 		if request.method == "POST" or request.method == "GET":
@@ -608,7 +608,7 @@ class Base_Api(object):
 	############################################################################################################
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], kwargs['model'])
-		if self.login_required:
+		if self.tokenserializer:
 			try:
 				valid_data = VerifyJSONWebTokenSerializer().validate({'token': request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]})
 				request.user = valid_data['user']
