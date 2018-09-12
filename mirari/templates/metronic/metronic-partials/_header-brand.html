@@ -23,7 +23,7 @@
 								<ul class="m-nav">
 									{%for organization in request.user.my_organizations%}
 										<li class="m-nav__item">
-											<a href="" class="m-nav__link" v-on:click.prevent="change_organization({{organization.code}})">
+											<a href="#{{organization.id}}" class="m-nav__link" v-on:click.prevent="change_organization({{organization.code}})">
 												<i class="m-nav__link-icon flaticon-more"></i>
 												<span class="m-nav__link-text">
 													{{ organization }}
