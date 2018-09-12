@@ -21,16 +21,16 @@
 						<div class="m-dropdown__body">
 							<div class="m-dropdown__content">
 								<ul class="m-nav">
-									{%comment%}
+									{%for organization in request.user.my_organizations%}
 										<li class="m-nav__item">
 											<a href="" class="m-nav__link">
 												<i class="m-nav__link-icon flaticon-more"></i>
 												<span class="m-nav__link-text">
-													{{ G.ORGANIZATION }}
+													{{ organization }}
 												</span>
 											</a>
 										</li>
-									{%endcomment%}
+									{%endfor%}
 								</ul>
 							</div>
 						</div>
