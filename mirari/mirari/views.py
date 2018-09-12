@@ -28,11 +28,7 @@ class login__Organization__TemplateView(BaseTemplateView, TemplateView):
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
-			if not 'organization' in request.session:
-				try:
-					request.session['organization'] = request.user.organization.pk
-				except:
-					request.session['organization'] = Organization.objects.get(id=1).pk
+			request.session['organization'] = request.user.organization.pk
 			return HttpResponseRedirect(reverse('mirari:dashboard__Organization__TemplateView', args=[]))
 		if request.method == 'POST':
 			message, token = False, False
