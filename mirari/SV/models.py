@@ -2,6 +2,8 @@
 from mirari.mirari.models import *
 from .vars import *
 
+
+
 ########################################################################################
 ########################################################################################
 VARS = {
@@ -34,10 +36,20 @@ VARS = {
 			'title': 'COLOR',
 		},
 	],
+	'SELECTQ': {
+		'cashers': {
+			'plugin': 'selectmultiple',
+		},
+		'vendors': {
+			'plugin': 'selectmultiple',
+		},
+	},
 	'SEARCH': ['name'],
 	'SORTEABLE': ['name'],
 	'EXCLUDE_FORM': ['serial'],
+	'FORM': ('name','have_cashier','color','vendors','cashers','is_active','number_tickets','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
 }
+
 class Sellpoint(Model_base):
 	organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
 	name = models.CharField('Nombre del punto de venta', max_length=250)
@@ -53,6 +65,8 @@ class Sellpoint(Model_base):
 	header_line_2 = models.CharField('Linea 2 del texto del ticket', max_length=80, blank=True, null=True)
 	footer_line_1 = models.CharField('Linea 1 del pie del ticket', max_length=80, blank=True, null=True)
 	is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactiva este punto de venta')
+	cashers = models.ManyToManyField('mirari.User', verbose_name='Cajeros', blank=True, related_name='+',)
+	vendors = models.ManyToManyField('mirari.User', verbose_name='Vendedores', blank=True, related_name='+',)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -61,7 +75,7 @@ class Sellpoint(Model_base):
 	def __str__(self):
 		return '{0}'.format(self.name)
 	def get_have_cashier(self):
-		return self.render_boolean(self.have_cashier)
+		return self.render_boolean(not self.have_cashier)
 	def get_color(self):
 		return self.render_color(self.color)
 	def get_folio(self):
@@ -151,7 +165,7 @@ VARS = {
 	'QUERY':{
 		'query': [
 			(
-				('menu__organization','Organization.objects.get(pk=self.request.session.get("organization"))'),
+				('menu__organization__in','Organization.objects.filter(pk=self.request.session.get("organization")).all()'),
 				('active','True'),
 			)
 		],
@@ -160,7 +174,17 @@ VARS = {
 		{
 			'field': 'name',
 			'title': 'Información de producto',
-			'template': '<span><strong>{{name}} </strong> {{property_get_is_active}}<br /> {{property_get_menu}} <br /><small>{{property_get_code}}<br /> {{property_get_units}}</small></span>',
+			'template': 
+				"""
+					<span>
+						<strong class="mr-2">{{name}}</strong>{{property_get_is_active}}<br /> 
+						{{property_get_menu}} <br />
+						<small>
+							{{property_get_code}}<br /> 
+							{{property_get_units}}
+						</small>
+					</span>
+				""",
 		},
 		{
 			'field': 'code',
@@ -191,7 +215,7 @@ VARS = {
 			],
 		}
 	},
-	'SERIALIZER': ['get_code','get_units','get_is_active','get_productattributes','get_menu','get_color','get_sellpoint'],
+	'SERIALIZER': ['get_code','get_units','get_is_active','get_productattributes','get_menu','get_sellpoint'],
 	'SELECTQ': {
 		'code': {
 			'model': ['mirari', 'ProductsServicesSAT'],
@@ -213,67 +237,17 @@ VARS = {
 			'plugin': 'selectmultiple',
 		},
 		'menu': {
-			'model': ['SV', 'Menu'],
-			'plugin': 'select2',
-			'query': [
-				(
-					('organization', 'Organization.objects.get(pk=self.request.session.get("organization"))'),
-					('active', 'True'),
-				),
-			],
+			'plugin': 'selectmultiple',
 		},
 	},
 	'FORM': ('name','code','units','sellpoints','menu','is_active'),
-	#'EXTRA_FORM': [{
-		#'title': 'Atributos',
-		#'atributes': ('hidden',),
-		#'views': ('CreateView',),
-		#'form':[
-			#{
-				#'label': 'Precio',
-				#'type': 'number',
-				#'name': 'price',
-				#'rules': [],
-			#},
-			#{
-				#'label': 'IVA',
-				#'type': 'boolean',
-				#'name': 'iva',
-				#'rules': [],
-			#},
-			#{
-				#'label': 'IEPS',
-				#'type': 'boolean',
-				#'name': 'ieps',
-				#'rules': [],
-			#},
-			#{
-				#'label': 'Código de barras',
-				#'type': 'text',
-				#'name': 'bar_code',
-				#'rules': [],
-			#},
-			#{
-				#'label': 'Es dinámico',
-				#'type': 'boolean',
-				#'name': 'is_dynamic',
-				#'rules': [],
-			#},
-			#{
-				#'label': 'Es favorito',
-				#'type': 'boolean',
-				#'name': 'is_favorite',
-				#'rules': [],
-			#},
-		#]
-	#}],
 }
 class Product(Model_base):
 	name = models.CharField('Nombre del producto', max_length=250)
 	code = models.ForeignKey('mirari.ProductsServicesSAT', blank=True, null=True,on_delete=models.PROTECT, verbose_name="Código de producto en el SAT", help_text='Código de registro ante el SAT', related_name='+')
 	units = models.ForeignKey('mirari.UnitsCodesSat', blank=True, null=True,on_delete=models.PROTECT, verbose_name="Código de unidad en el SAT", help_text="Unidad de medida para este producto", related_name='+')
-	sellpoints = models.ManyToManyField('Sellpoint', blank=True, related_name='+', verbose_name="", help_text="Se vende en estas sucursales")
-	menu = models.ForeignKey('Menu', on_delete=models.PROTECT, verbose_name="", help_text="Elige el menú donde se vende este producto")
+	sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="", help_text="Se vende en estas sucursales")
+	menu = models.ManyToManyField('Menu', related_name='+', verbose_name="", help_text="Elige el o los menus donde se vende este producto")
 	is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar producto?')
 	VARS = VARS
 	class Meta(Model_base.Meta):
@@ -283,23 +257,25 @@ class Product(Model_base):
 	def __str__(self):
 		return '{0}'.format(self.name)
 	def my_organization(self):
-		return self.menu.organization
+		return self.menu.all()[0].organization
 	def get_is_active(self):
 		return self.render_boolean(self.is_active)
 	def get_code(self):
 		if self.code:
 			return self.code.str_obj()
 		else:
-			'-'
+			return '-'
 	def get_units(self):
 		if self.units:
 			return self.units.str_obj()
 		else:
-			'-'
+			return '-'
 	def get_menu(self):
-		return mark_safe(self.render_boolean_del('<small class="m--font-'+self.menu.render_string_color(self.menu.is_active)+'" style="color:'+self.menu.color+'!important">'+self.menu.name+'</small>', self.menu.is_active))
-	def get_color(self):
-		return self.menu.color
+		string_menu = ''
+		for menu in self.menu.all():
+			string_menu += mark_safe(self.render_boolean_del('<small class="m--font-'+menu.render_string_color(menu.is_active)+'" style="color:'+menu.color+'!important">'+menu.name+'</small>', menu.is_active))
+			string_menu += ', '
+		return string_menu[0:len(string_menu)-2]
 	def get_productattributes(self):
 		string = ''
 		for sellpoint in self.sellpoints.all():
@@ -375,7 +351,7 @@ VARS = {
 	'APP':APP,
 	'EXCLUDE_PERMISSIONS': ['ALL'],
 	#'EXTEND_PERMISSIONS': [('Can_Change__ProductAttributesSuVenta', 'Modifica atributos de producto')],
-	'REDIRECT_MODEL':['SuVenta','Product'],
+	'REDIRECT_MODEL':['SV','Product'],
 	'FORM': ('alias','price','bar_code','iva','ieps','is_dynamic','is_favorite','is_active',),
 	'RULES': """
 		price: {
@@ -433,98 +409,3 @@ class ProductAttributes(Model_base):
 		return mark_safe(self.render_boolean_del('<span class="m--font-'+self.sellpoint.render_string_color(self.sellpoint.is_active)+'" style="color:'+self.sellpoint.color+'!important">'+self.sellpoint.name+'</span>', self.sellpoint.is_active))
 
 
-########################################################################################
-########################################################################################
-VARS = {
-	'NAME': 'Acceso de empleado',
-	'PLURAL': 'Accesos de empleados',
-	'MODEL': 'EmployeeAccess',
-	'NEW': 'NUEVO',
-	'NEW_GENDER': 'un nuevo',
-	'THIS': 'este',
-	'APP': APP,
-	'QUERY': {
-		'query': [
-			(
-				('user__organization', 'Organization.objects.get(pk=self.request.session.get("organization"))'),
-				('active', 'True'),
-			)
-		],
-	},
-	'LIST': [
-		{
-			'field': 'property_get_user',
-			'title': 'Usuario',
-		},
-		{
-			'field': 'property_get_sellpoint',
-			'title': 'Puntos de venta',
-		},
-		{
-			'field': 'profiles',
-			'title': 'Perfil',
-		},
-	],
-	#'SEARCH': ['user', 'list_sellpoint', 'vire'],
-	'SORTEABLE': ['id'],
-	#'FILTERS': {
-		#'is_active': {
-			#'size': '4',
-			#'label': 'Mostrar activos?',
-			#'list': [
-				#[1, 'Mostrar activos'],
-				#[0, 'Mostrar desactivados'],
-			#],
-		#},
-	#},
-	'SELECTQ': {
-		'user': {
-			'model': ['mirari', 'User'],
-			'plugin': 'select2',
-			'query': [
-				(
-					('organization', 'Organization.objects.get(pk=self.request.session.get("organization"))'),
-					('active', 'True'),
-				),
-			],
-		},
-		'sellpoints': {
-			'model': ['SV', 'Sellpoint'],
-			'plugin': 'select2',
-			'query': [
-				(
-					('organization', 'Organization.objects.get(pk=self.request.session.get("organization"))'),
-					('active', 'True'),
-				),
-			],
-		},
-		'profiles': {
-			'plugin': 'select2',
-		},
-	},
-	#'RULES': """
-		#email: {
-			#required: true,
-			#email: true,
-		#},
-	#""",
-}
-#class EmployeeAccess(Model_base):
-	#user = models.ForeignKey('mirari.User', on_delete=models.CASCADE, related_name='+', verbose_name="Usuario")
-	#sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="", help_text="Asignado a estas sucursales",)
-	#profiles = models.CharField('Perfil', max_length=30, choices={
-            #('vendor', 'Vendedor'),
-            #('casher', 'Cajero'),
-            #('supervisor','Supervisor'),
-        #})
-	#VARS = VARS
-	#class Meta(Model_base.Meta):
-		#verbose_name = VARS['NAME']
-		#verbose_name_plural = VARS['PLURAL']
-		#permissions = permissions(VARS)
-	#def __str__(self):
-		#return '{0} | {1} | {2}'.format(self.user, self.sellpoints, self.profiles)
-	#def get_sellpoint(self):
-		#return self.render_list(self.sellpoints.all(), 'name')
-	#def get_user(self):
-		#return self.user.visible_username

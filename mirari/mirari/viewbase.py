@@ -56,7 +56,7 @@ def get_variables(class_view):
 	if class_view.permissions:
 		check_permissions(class_view)
 	try:
-		organization = Organization.objects.get(pk=class_view.request.user.session['organization'])
+		organization = Organization.objects.get(pk=class_view.request.session['organization'])
 	except:
 		organization = Organization.objects.filter(sites=site).first()
 	return {
@@ -71,11 +71,13 @@ def check_permissions(class_view):
 	if not class_view.permissions == True:
 		for permission in class_view.permissions:
 			if not class_view.request.user.has_perm(permission):
+				print("1")
 				raise PermissionDenied
 	else:
 		if class_view.model:
 			perm = ''
 			if not class_view.model.VARS['APP'] in class_view.request.user.organization.get_modules_code():
+				print("2")
 				raise PermissionDenied
 			if '__ListView' in class_view.__class__.__name__:
 				perm = '.Can_View__'
@@ -92,6 +94,7 @@ def check_permissions(class_view):
 				check_owner(class_view.request.user.organization, class_view.get_object().my_organization())
 			if perm:
 				if not class_view.request.user.has_perm(class_view.model.VARS['APP']+perm+class_view.model.VARS['MODEL']):
+					print("3")
 					raise PermissionDenied
 	return True
 
@@ -305,7 +308,7 @@ class Base_List(object):
 				query = self.model.objects.filter(q)
 			if 'order_by' in self.model.VARS['QUERY']:
 				query = query.order_by(self.model.VARS['QUERY']['order_by'])
-			return query
+			return query.distinct()
 		else:
 			try:
 				return self.model.objects.filter(organization__pk=self.request.session.get('organization'), active=True)
@@ -567,13 +570,20 @@ class Base_Api(object):
 	def dispatch(self, request, *args, **kwargs):
 		self.initialize(request, *args, **kwargs)
 		if request.method == "POST" or request.method == "GET":
-			return JsonResponse(self.get_objects().data)
+			self.serializer = self.get_objects().data
+			self.actions(request, *args, **kwargs)
+			return JsonResponse(self.serializer)
 		return super().dispatch(request, *args, **kwargs)
-	def get_pk(self, pk):
-		if 'pk' in self.request.GET:
-			return self.request.GET['pk']
-		else:
-			return None
+	############################################################################################################
+	def initialize(self, request, *args, **kwargs):
+		self.model = apps.get_model(kwargs['app'], kwargs['model'])
+		if self.tokenserializer:
+			try:
+				valid_data = VerifyJSONWebTokenSerializer().validate({'token': request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]})
+				request.user = valid_data['user']
+			except Exception as e:
+				raise PermissionDenied
+		return True
 	def get_objects(self):
 		pk = self.get_pk()
 		if pk:
@@ -587,31 +597,13 @@ class Base_Api(object):
 				raise Http404
 		else:
 			pass
-	#def get(self, request, format=None):
-		#print("###GET")
-		#return Response(self.get_objects().data, status=status.HTTP_201_CREATED)
-	#def post(self, request, format=None):
-		#print("###POST")
-		#return Response(status=status.HTTP_201_CREATED)
-	#def put(self, request, pk, format=None):
-		#snippet = self.get_object(pk)
-		#serializer = SnippetSerializer(snippet, data=request.data)
-		#if serializer.is_valid():
-			#serializer.save()
-			#return Response(serializer.data)
-		#return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-	#def delete(self, request, pk, format=None):
-		#snippet = self.get_object(pk)
-		#snippet.delete()
-		#return Response(status=status.HTTP_204_NO_CONTENT)
-	############################################################################################################
-	def initialize(self, request, *args, **kwargs):
-		self.model = apps.get_model(kwargs['app'], kwargs['model'])
-		if self.tokenserializer:
-			try:
-				valid_data = VerifyJSONWebTokenSerializer().validate({'token': request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]})
-				request.user = valid_data['user']
-			except Exception as e:
-				print(str(e))
-				raise PermissionDenied
+	def get_object(self, pk):
+		self.object = self.model.objects.get(pk=pk)
+		return self.object
+	def get_pk(self):
+		if 'pk' in self.request.GET:
+			return self.request.GET['pk']
+		else:
+			return None
+	def actions(self, request, *args, **kwargs):
 		return True

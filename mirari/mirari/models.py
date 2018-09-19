@@ -334,13 +334,6 @@ VARS = {
 class ProductsServicesSAT(Model_base):
 	code = models.CharField('Código de producto o servicio',max_length=120)
 	name = models.CharField('Nombre de producto o servicio',max_length=255)
-	iva_transladado = models.BooleanField(default=False)
-	ieps_transladado = models.BooleanField(default=False)
-	description = models.CharField(max_length=255, blank=True, null=True)
-	tipo = models.CharField(max_length=120, blank=True, null=True)
-	division = models.CharField(max_length=120, blank=True, null=True)
-	grupo = models.CharField(max_length=120, blank=True, null=True)
-	clase = models.CharField(max_length=120, blank=True, null=True)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']

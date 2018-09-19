@@ -16,7 +16,7 @@ urlpatterns = [
 	path('update/UserUpdateView/<slug:app>/<int:pk>/<slug:model>/', login_required(User__UpdateView.as_view()), name='User__UpdateView'),
 	path('delete/UserPasswordUpdateView/<slug:app>/<int:pk>/<slug:model>/', login_required(UserPassword__UpdateView.as_view()), name='UserPassword__UpdateView'),
 	path('api/GetUserApiView/<slug:app>/<slug:action>/<slug:model>/', GetUser__ApiView.as_view(), name='GetUser__ApiView'),
-	path('api/ChangeOrganizationApiView/', ChangeOrganization__ApiView.as_view(), name='ChangeOrganization__ApiView'),
+	path('api/ChangeOrganizationApiView/<slug:app>/<slug:model>/', ChangeOrganization__ApiView.as_view(), name='ChangeOrganization__ApiView'),
 
 	path('glist/<slug:app>/<slug:model>/', Generic__ListView.as_view(), name='Generic__ListView'),
 	path('gcreate/<slug:app>/<slug:model>/', Generic__CreateView.as_view(), name='Generic__CreateView'),

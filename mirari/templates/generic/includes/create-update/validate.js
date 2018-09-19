@@ -32,7 +32,7 @@ $("#form").validate({
         mUtil.scrollTo(i, -200)
     },
     submitHandler: function(e) {
-        self.block();
+        Block();
         e.submit();
     }
 })

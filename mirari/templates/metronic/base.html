@@ -128,7 +128,17 @@
 {%endblock vue_created%}
 
 {%block vue_methods%}
-    {%block methods%}{%endblock methods%}
+  change_organization(pk) {
+    Block();
+    Ax('post', '{%url 'mirari:ChangeOrganization__ApiView' 'mirari' 'Organization'%}?pk='+pk).then(function(json){
+      if (!json.data.message) location.reload();
+      else {
+        swal('Error!', json.data.message, 'error') 
+        UnBlock();
+      }
+    })
+  },
+  {%block methods%}{%endblock methods%}
 {%endblock vue_methods%}
 
 {%block vue_mounted%}

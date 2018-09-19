@@ -275,3 +275,6 @@ mirari/media/
 .envs/*
 .envs/.local/
 .envs/.production/
+.bash_history
+celerybeat-schedule
+celerybeat.pid

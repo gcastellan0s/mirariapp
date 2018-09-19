@@ -138,10 +138,9 @@ class GetUser__ApiView(Generic__ApiView):
 		return ApiSerializer(self.request.user)
 
 class ChangeOrganization__ApiView(Generic__ApiView):
-	def dispatch(self, request, *args, **kwargs):
-		self.initialize(request, *args, **kwargs)
-		if request.method == "POST" or request.method == "GET":
-			return JsonResponse({
-				'api':'ok',
-			})
-		return super().dispatch(request, *args, **kwargs)
+	def actions(self, request, *args, **kwargs):
+		request.session['organization'] = self.object.pk
+		if request.user.is_superuser:
+			request.user.organization = self.object
+			request.user.save()
+		return True

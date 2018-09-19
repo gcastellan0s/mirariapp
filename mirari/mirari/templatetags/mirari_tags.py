@@ -2,6 +2,7 @@
 from django import template
 from mirari.mirari.vars import *
 from mirari.mirari.models import *
+from django.conf import settings
 
 register = template.Library()
 
@@ -15,7 +16,7 @@ def verbose_name_plural(obj):
 
 @register.filter
 def get_menu(obj):
-	return MENU.items()
+	return MMENU.items()
 
 @register.filter
 def has_app(request, apps):
