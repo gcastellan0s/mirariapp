@@ -278,3 +278,4 @@ mirari/media/
 .bash_history
 celerybeat-schedule
 celerybeat.pid
+.bash_history
