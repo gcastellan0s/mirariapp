@@ -34,6 +34,16 @@ MENU = {
                 'model': APP + '.Handbook',
                 'url': 'Generic__ListView',
             },
+            {
+                'title': 'CANALES DE COMUNICACIÓN',
+                'icon': 'flaticon-speech-bubble-1',
+                'text': 'Lista de canales',
+                'subtext': 'Canales para avisos en la organización',
+                'apps': [APP, ],
+                'permission': 'Can_View',
+                'model': APP + '.Chanel',
+                'url': 'Generic__ListView',
+            },
         ]
     }
 }
