@@ -1,0 +1,4 @@
+APP = 'BASE'
+
+MENU = {
+}

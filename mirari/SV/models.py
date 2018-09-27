@@ -49,7 +49,6 @@ VARS = {
 	'EXCLUDE_FORM': ['serial'],
 	'FORM': ('name','have_cashier','color','vendors','cashers','is_active','number_tickets','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
 }
-
 class Sellpoint(Model_base):
 	organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
 	name = models.CharField('Nombre del punto de venta', max_length=250)
