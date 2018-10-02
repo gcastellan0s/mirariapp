@@ -27,6 +27,13 @@ def has_app(request, apps):
 	return False
 
 @register.filter
+def has_app_code(request, code_app):
+	organization = Organization.objects.get(pk=request.session.get('organization'))
+	if Module.objects.get(code=code_app) in organization.modules.all():
+		return True
+	return False
+
+@register.filter
 def has_permission(request, module):
 	model = module['model'].split('.')
 	if 'permission_' in module:

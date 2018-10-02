@@ -41,9 +41,25 @@ MENU = {
                 'subtext': 'Canales para avisos en la organización',
                 'apps': [APP, ],
                 'permission': 'Can_View',
-                'model': APP + '.Chanel',
+                'model': APP + '.Channel',
+                'url': 'Generic__ListView',
+            },
+            {
+                'title': 'ENVIO DE NOTIFICACIONES',
+                'icon': 'flaticon-paper-plane',
+                'text': 'Envía notificaciones por canal',
+                'subtext': 'Envía notificaciones a los destinatarios de un canal',
+                'apps': [APP, ],
+                'permission': 'Can_View',
+                'model': APP + '.Notification',
                 'url': 'Generic__ListView',
             },
         ]
     }
 }
+
+NOTIFICATION_STATUS = (
+	('draft', 'Borrador'),
+	('published', 'Publicado'),
+	('deleted', 'Eliminado'),
+)

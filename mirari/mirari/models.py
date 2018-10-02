@@ -141,17 +141,11 @@ VARS = {
 	'SEARCH': ['visible_username', 'first_name', 'last_name', 'email'],
 	'SORTEABLE': ['visible_username'],
 	'SERIALIZER': ('url_password',),
-	'FORM': ('visible_username', 'first_name', 'last_name', 'email', 'is_active', 'groups', 'user_permissions', 'birthday', 'phone', 'extention'),
+	'FORM': ('visible_username', 'first_name', 'last_name', 'email', 'is_active', 'groups', 'user_permissions', 'birthday', 'phone',),
 	'SELECTQ': {
 		'groups': {
 			'model': ['mirari', 'Profile'],
 			'plugin': 'selectmultiple',
-			'query': [
-				(
-					('organization', 'Organization.objects.get(pk=self.request.session.get("organization"))'),
-					('active', 'True'),
-				),
-			],
 		},
 		'user_permissions': {
 			'model': ['auth', 'Permission'],
@@ -176,9 +170,7 @@ class User(AbstractUser, Model_base):
 	birthday = models.DateField('Fecha nacimiento', blank=True, null=True)
 	first_login = models.BooleanField(default=False)
 	phone = models.CharField('Telefono de contacto', max_length=50, blank=True, null=True)
-	extention = models.CharField('Extensión Telefónica', max_length=50, blank=True, null=True)
 	gender = models.CharField('Género', choices=GENDER, max_length=50, blank=True, null=True)
-	origin = CountryField('País de origen', blank=True, null=True, default="MX")
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -206,11 +198,11 @@ class User(AbstractUser, Model_base):
 	def get_is_active(self):
 		return self.render_boolean(self.is_active)
 	def get_email(self):
-		return self.render_ifnot(self.email)
+		return self.render_if(self.email)
 	def get_phone(self):
-		return self.render_ifnot(self.phone)
+		return self.render_if(self.phone)
 	def get_extension(self):
-		return self.render_ifnot(self.extention)
+		return self.render_if(self.extention)
 	def get_groups(self):
 		return self.render_list(self.groups, 'name')
 	def get_all_permissions(self):
@@ -224,6 +216,10 @@ class User(AbstractUser, Model_base):
 			myperms = self.user_permissions.all() | Permission.objects.filter(group__user=self)
 		myperms = myperms.filter(content_type__app_label__in=self.organization.get_modules_code())
 		return myperms.values_list('pk', flat=True)
+	############ INT ###############################################################
+	def get_my_notifications(self):
+		return apps.get_model('INT','Notification')().get_user_notifications(self)
+
 
 
 

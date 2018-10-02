@@ -14,10 +14,7 @@
 		<div class="m-dropdown__inner">
 			<div class="m-dropdown__header m--align-center" style="background: url({%static 'metronic/demo5/assets/app/media/img/misc/notification_bg.jpg'%}); background-size: cover;">
 				<span class="m-dropdown__header-title">
-					9 New
-				</span>
-				<span class="m-dropdown__header-subtitle">
-					User Notifications
+					NOTIFICACIONES
 				</span>
 			</div>
 			<div class="m-dropdown__body">
@@ -25,17 +22,7 @@
 					<ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist">
 						<li class="nav-item m-tabs__item">
 							<a class="nav-link m-tabs__link active" data-toggle="tab" href="#topbar_notifications_notifications" role="tab">
-								Alerts
-							</a>
-						</li>
-						<li class="nav-item m-tabs__item">
-							<a class="nav-link m-tabs__link" data-toggle="tab" href="#topbar_notifications_events" role="tab">
-								Events
-							</a>
-						</li>
-						<li class="nav-item m-tabs__item">
-							<a class="nav-link m-tabs__link" data-toggle="tab" href="#topbar_notifications_logs" role="tab">
-								Logs
+								TODOS LOS CANALES
 							</a>
 						</li>
 					</ul>
@@ -44,90 +31,17 @@
 							<div class="m-scrollable" data-scrollable="true" data-height="250" data-mobile-height="200">
 								<div class="m-list-timeline m-list-timeline--skin-light">
 									<div class="m-list-timeline__items">
-										<div class="m-list-timeline__item">
-											<span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
-											<span class="m-list-timeline__text">
-												12 new users registered
-											</span>
-											<span class="m-list-timeline__time">
-												Just now
-											</span>
-										</div>
-										<div class="m-list-timeline__item">
-											<span class="m-list-timeline__badge"></span>
-											<span class="m-list-timeline__text">
-												System shutdown
-												<span class="m-badge m-badge--success m-badge--wide">
-													pending
-												</span>
-											</span>
-											<span class="m-list-timeline__time">
-												14 mins
-											</span>
-										</div>
-										<div class="m-list-timeline__item">
-											<span class="m-list-timeline__badge"></span>
-											<span class="m-list-timeline__text">
-												New invoice received
-											</span>
-											<span class="m-list-timeline__time">
-												20 mins
-											</span>
-										</div>
-										<div class="m-list-timeline__item">
-											<span class="m-list-timeline__badge"></span>
-											<span class="m-list-timeline__text">
-												DB overloaded 80%
-												<span class="m-badge m-badge--info m-badge--wide">
-													settled
-												</span>
-											</span>
-											<span class="m-list-timeline__time">
-												1 hr
-											</span>
-										</div>
-										<div class="m-list-timeline__item">
-											<span class="m-list-timeline__badge"></span>
-											<span class="m-list-timeline__text">
-												System error -
-												<a href="#" class="m-link">
-													Check
+										{%for notification in request.user.get_my_notifications%}
+											<div class="m-list-timeline__item">
+												<span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
+												<a href="{%url 'INT:Notification__TemplateView' notification.uuid%}" class="m-list-timeline__text {%if not request.user in notification.get_user_notifications.all%}m--font-danger{%endif%}">
+													{{notification}}
 												</a>
-											</span>
-											<span class="m-list-timeline__time">
-												2 hrs
-											</span>
-										</div>
-										<div class="m-list-timeline__item m-list-timeline__item--read">
-											<span class="m-list-timeline__badge"></span>
-											<span href="" class="m-list-timeline__text">
-												New order received
-												<span class="m-badge m-badge--danger m-badge--wide">
-													urgent
+												<span class="m-list-timeline__time">
+													{{notification.creation_date|date:"SHORT_DATE_FORMAT"}}
 												</span>
-											</span>
-											<span class="m-list-timeline__time">
-												7 hrs
-											</span>
-										</div>
-										<div class="m-list-timeline__item m-list-timeline__item--read">
-											<span class="m-list-timeline__badge"></span>
-											<span class="m-list-timeline__text">
-												Production server down
-											</span>
-											<span class="m-list-timeline__time">
-												3 hrs
-											</span>
-										</div>
-										<div class="m-list-timeline__item">
-											<span class="m-list-timeline__badge"></span>
-											<span class="m-list-timeline__text">
-												Production server up
-											</span>
-											<span class="m-list-timeline__time">
-												5 hrs
-											</span>
-										</div>
+											</div>
+										{%endfor%}
 									</div>
 								</div>
 							</div>

@@ -12,6 +12,9 @@ from django.utils.text import slugify
 from django.conf import settings
 from django.urls import reverse
 from django.db import models
+from django.apps import apps
+from django.db.models import Q
+
 
 from localflavor.mx.models import MXRFCField, MXZipCodeField, MXCURPField
 from mptt.models import MPTTModel, TreeForeignKey
@@ -19,6 +22,7 @@ from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
 import datetime
+import uuid
 
 from .vars import *
 

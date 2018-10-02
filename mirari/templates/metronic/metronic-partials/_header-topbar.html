@@ -1,10 +1,13 @@
+{%load mirari_tags%}
 <!-- begin::Topbar -->
 <div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
 	<div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
 		<div class="m-stack__item m-topbar__nav-wrapper">
 			<ul class="m-topbar__nav m-nav m-nav--inline">
-				{%comment%}
+				{%if request|has_app_code:'INT'%}
 					{%include 'metronic/metronic-partials/_topbar-notifications.html'%}
+				{%endif%}
+				{%comment%}
 					{%include 'metronic/metronic-partials/_topbar-quick-actions.html'%}
 				{%endcomment%}
 				{%include 'metronic/metronic-partials/_topbar-user-profile.html'%}

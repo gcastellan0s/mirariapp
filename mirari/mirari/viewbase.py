@@ -71,13 +71,11 @@ def check_permissions(class_view):
 	if not class_view.permissions == True:
 		for permission in class_view.permissions:
 			if not class_view.request.user.has_perm(permission):
-				print("1")
 				raise PermissionDenied
 	else:
 		if class_view.model:
 			perm = ''
 			if not class_view.model.VARS['APP'] in class_view.request.user.organization.get_modules_code():
-				print("2")
 				raise PermissionDenied
 			if '__ListView' in class_view.__class__.__name__:
 				perm = '.Can_View__'
@@ -94,7 +92,6 @@ def check_permissions(class_view):
 				check_owner(class_view.request.user.organization, class_view.get_object().my_organization())
 			if perm:
 				if not class_view.request.user.has_perm(class_view.model.VARS['APP']+perm+class_view.model.VARS['MODEL']):
-					print("3")
 					raise PermissionDenied
 	return True
 
@@ -153,8 +150,12 @@ class Base_Form(Basic_Form):
 		if 'SELECTQ' in self.Meta.model.VARS:
 			if self.Meta.model.VARS['SELECTQ']:
 				for key, value in self.Meta.model.VARS['SELECTQ'].items():
-					if 'query' in value:
-						fields_select.update({key: kwargs.pop(key)})
+					fields_select.update({key: kwargs.pop(key)})
+					#try:
+						#getattr(self.Meta.model(), 'SELECTQ__' + key)()
+						#fields_select.update({key: kwargs.pop(key)})
+					#except Exception as e:
+						#fields_select.update({key: kwargs.pop(key)})
 		super().__init__(*args, **kwargs)
 		if fields_select:
 			for key, value in fields_select.items():
@@ -163,29 +164,48 @@ class Base_Form(Basic_Form):
 		if 'SELECTQ' in self.model.VARS:
 			if self.model.VARS['SELECTQ']:
 				for key, value in self.model.VARS['SELECTQ'].items():
-					if 'query' in value:
-						if value['query'] == 'ALL':
-							query = apps.get_model(value['model'][0], value['model'][1]).objects.all()
-						elif value['query'] == 'NONE':
-							query = apps.get_model(value['model'][0], value['model'][1]).objects.none()
+					try:
+						kwargs[key] = getattr(self.model(), 'SELECTQ__' + key)(model=self.model._meta.get_field(key).remote_field.model, view=self)
+					except Exception as e:
+						if 'model' in value:
+							model = apps.get_model(value['model'][0], value['model'][1])
 						else:
-							q = Q()
-							for attributes in value['query']:
-								params = {}
-								for attribute in attributes:
-									params.update({attribute[0]: eval(attribute[1])})
-								q.add(Q(**params), Q.OR)
-							query = apps.get_model(value['model'][0], value['model'][1]).objects.filter(q)
+							model = self.model._meta.get_field(key).remote_field.model
+						query = model.objects.all()
+						if 'query' in value:
+							if value['query'] == 'ALL':
+								query = model.objects.all()
+							elif value['query'] == 'NONE':
+								query = model.objects.none()
+							else:
+								q = Q()
+								for attributes in value['query']:
+									params = {}
+									for attribute in attributes:
+										params.update({attribute[0]: eval(attribute[1])})
+									q.add(Q(**params), Q.OR)
+								query = model.objects.filter(q)
 						if 'order_by' in value:
 							query = query.order_by(value['order_by'])
 						if 'limits' in value:
-							if value['limits']:
-								query = query[0:value['limits']]
+							query = query[0:value['limits']]
+						try:
+							query = query.filter(organization__pk=self.request.session.get('organization'))
+						except:
+							pass
+						try:
+							query = query.filter(is_active=True)
+						except:
+							pass
+						try:
+							query = query.filter(active=True)
+						except:
+							pass
 						if self.request.method == 'POST':
 							if self.request.POST.get(key):
-								query = apps.get_model(value['model'][0], value['model'][1]).objects.filter(**{'pk': self.request.POST.get(key)}) | query
+								query = model.objects.filter(**{'pk': self.request.POST.get(key)}) | query
 						try:
-							query = apps.get_model(value['model'][0], value['model'][1]).objects.filter(**{'pk': getattr(self.object, key).pk}) | query
+							query = model.objects.filter(**{'pk': getattr(self.object, key).pk}) | query
 						except:
 							pass
 						kwargs[key] = query
@@ -293,27 +313,30 @@ class Base_List(object):
 	def list(self):
 		return self.render_list()
 	def query_list(self):
-		if 'QUERY' in self.model.VARS:
-			if self.model.VARS['QUERY']['query'] == 'ALL':
-				query = self.model.objects.all()
-			elif self.model.VARS['QUERY']['query'] == 'NONE':
-				query = self.model.objects.none()
+		try: 
+			return self.model().QUERY(self)
+		except Exception as e:
+			if 'QUERY' in self.model.VARS:
+				if self.model.VARS['QUERY']['query'] == 'ALL':
+					query = self.model.objects.all()
+				elif self.model.VARS['QUERY']['query'] == 'NONE':
+					query = self.model.objects.none()
+				else:
+					q = Q()
+					for attributes in self.model.VARS['QUERY']['query']:
+						params = {}
+						for attribute in attributes:
+							params.update({attribute[0]: eval(attribute[1])})
+						q.add(Q(**params), Q.OR)
+					query = self.model.objects.filter(q)
+				if 'order_by' in self.model.VARS['QUERY']:
+					query = query.order_by(self.model.VARS['QUERY']['order_by'])
+				return query.distinct()
 			else:
-				q = Q()
-				for attributes in self.model.VARS['QUERY']['query']:
-					params = {}
-					for attribute in attributes:
-						params.update({attribute[0]: eval(attribute[1])})
-					q.add(Q(**params), Q.OR)
-				query = self.model.objects.filter(q)
-			if 'order_by' in self.model.VARS['QUERY']:
-				query = query.order_by(self.model.VARS['QUERY']['order_by'])
-			return query.distinct()
-		else:
-			try:
-				return self.model.objects.filter(organization__pk=self.request.session.get('organization'), active=True)
-			except:
-				return self.model.objects.none()
+				try:
+					return self.model.objects.filter(organization__pk=self.request.session.get('organization'), active=True)
+				except:
+					return self.model.objects.none()
 	def query_search(self, query_list, query):
 		if not self.model.VARS['SEARCH']:
 			return query_list

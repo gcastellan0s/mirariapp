@@ -8,10 +8,9 @@ from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
 
 urlpatterns = [
     path('', include('mirari.mirari.urls')),
-    #path('IN/', include('mirari.Intranet.urls')),
-    #path('PL/', include('mirari.PartnerLenders.urls')),
     path('SV/', include('mirari.SV.urls')),
-    #path('CR/', include('mirari.CryE.urls')),
+    path('INT/', include('mirari.INT.urls')),
+    path('CRYE/', include('mirari.CRYE.urls')),
 
     path('rest-auth/', include('rest_auth.urls')),
     path('api-token-auth/', obtain_jwt_token),
