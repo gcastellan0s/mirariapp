@@ -5,14 +5,14 @@ MENU = {
         'title': 'CREDIPyME',
         'modules': [
             {
-                'title': 'NOTIFICACIONES PLD',
-                'icon': 'flaticon-speech-bubble-1',
-                'text': 'Avisos de PLD',
-                'subtext': 'Es importante leer todos los avisos de PLD.',
+                'title': 'SIEBEL DESBLOQUEO',
+                'icon': 'flaticon-lifebuoy',
+                'text': 'Desbloquea trenes de crédito',
+                'subtext': 'Desbloqueo de tren de credito del sistema SIEBEL',
                 'apps': [APP, ],
                 'permission': 'Can_View',
-                'model': APP + '.PLDNotifications',
-                'url': 'Generic__ListView',
+                'model': APP + '.SiebelUnblock',
+                'href': 'CRYE:SiebelUnblock__SiebelUnblock__TemplateView',
             },
         ]
     }

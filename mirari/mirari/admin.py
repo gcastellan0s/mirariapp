@@ -27,3 +27,7 @@ class ProductsServicesSATAdmin(PassAdmin):
 @admin.register(UnitsCodesSat)
 class UnitsCodesSatAdmin(PassAdmin):
 	pass
+
+@admin.register(DBConnection)
+class DBConnectionAdmin(PassAdmin):
+	pass

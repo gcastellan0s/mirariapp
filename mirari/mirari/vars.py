@@ -17,7 +17,7 @@ MENU = {
 				'subtext': 'Administra tus organizaciones del sistema',
 				'apps': ['mirari',],
 				'permission': 'Can_View',
-				'model': 'mirari.Organization',
+				'model': APP + '.Organization',
 				'url': 'Generic__ListView',
 			},
 			{
@@ -27,7 +27,7 @@ MENU = {
 				'subtext': 'Configura nuevos perfiles o permisos del sistema',
 				'apps': ['mirari', ],
 				'permission': 'Can_View',
-				'model': 'mirari.Profile',
+				'model': APP + '.Profile',
 				'url': 'Generic__ListView',
 			},
 			{
@@ -37,7 +37,7 @@ MENU = {
 				'subtext': 'Herramientas para la administracion de usuarios',
 				'apps': ['mirari', ],
 				'permission': 'Can_View',
-				'model': 'mirari.User',
+				'model': APP + '.User',
 				'url': 'User__ListView',
 			},
 		]

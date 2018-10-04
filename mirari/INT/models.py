@@ -128,15 +128,19 @@ VARS = {
 			'title': 'Nombre',
 			'template': 
 				"""
-					<span>
-						<a href="{{file}}" target="_blank">
-							{{property_get_name_with_color}}
-						</a>
-						<br />
+					<a href="{{file}}" target="_blank">
+						{{property_get_name_with_color}}
+					</a>
+				""",
+		},
+		{
+			'field': 'notes',
+			'title': 'Notas',
+			'template': 
+				"""
 						<small>
 							{{property_get_notes}}
 						</small>
-					</span>
 				""",
 		},
 	],
@@ -172,7 +176,7 @@ class Handbook(Model_base):
 		class_color = ''
 		if not self.is_active:
 			class_color = 'm--font-danger'
-		return '<div class="{1}">{0}</div>'.format(self, class_color)
+		return '<div class="{1}"><i class="fa fa-cloud-download-alt m--regular-font-size-sm2"></i> {0}</div>'.format(self, class_color)
 
 
 
@@ -245,8 +249,16 @@ VARS = {
 	'APP':APP,
 	'LIST': [
 		{
-			'field': 'name',
-			'title': 'Nombre',
+			'field': 'title',
+			'title': 'Título',
+		},
+		{
+			'field': 'creation_date',
+			'title': 'Canal',
+		},
+		{
+			'field': 'creation_date',
+			'title': 'Desde',
 		},
 	],
 	'SEARCH': ['name'],
@@ -269,13 +281,14 @@ class Notification(Model_base):
 	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 	organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+')
 	channel = models.ForeignKey('Channel', on_delete=models.PROTECT, related_name='+', verbose_name="Canal(es) por donde envias")
-	name = models.CharField('Nombre', max_length=250)
+	title = models.CharField('Título', max_length=250)
 	message = models.TextField('Mensaje', max_length=500)
 	files = models.FileField('Archivo(s) adjunto(s)', upload_to=path_Notification_file, blank=True, null=True)
 	status = models.CharField('Estatus', max_length=250, choices=NOTIFICATION_STATUS, default='draft')
 	datetime_expire = models.DateTimeField('Fecha de expiración', blank=True, null=True, help_text='Este mensaje expira?, dejalo vacio si no expira.')
 	sended = models.BooleanField('Enviado?', default=False, help_text="Indica si esta notificación ya fue enviada.", editable=False)
 	creation_date = models.DateTimeField(auto_now_add=True)
+	craeted_by = models.ForeignKey('mirari.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name="Canal(es) por donde envias")
 	readed_by = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Leido por...')
 	VARS = VARS
 	class Meta(Model_base.Meta):
@@ -283,20 +296,24 @@ class Notification(Model_base):
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
 	def __str__(self):
-		return '{0}'.format(self.name)
+		return '{0}'.format(self.title)
 	def QUERY(self, view):
-		#if view.request.user.is_superuser:
-			#channel = Channel.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
-		#else:
-		channel = Channel.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
+		if view.request.user.is_superuser:
+			channel = Channel.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
+		else:
+			channel = Channel.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
 		return Notification.objects.filter(channel__in=channel)
 	def SELECTQ__channel(self, model=None, view=None):
 		if not view and not model:
 			return True
 		if view.request.user.is_superuser:
-			return model.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
+			query = model.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
 		else:
-			return model.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
+			query = model.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
+			if self.datetime_expire:
+				pass
+		query = query.filter(datetime_expire__gt = datetime.datetime.now())
+		return query
 	#######		
 	def get_user_notifications(self, user):
 		return Notification.objects.all()
