@@ -14,7 +14,7 @@ class SiebelUnblock__SiebelUnblock__TemplateView(BaseTemplateView, TemplateView)
 				try:
 					import cx_Oracle
 					db = DBConnection.objects.filter(name='siebel', organization__pk=self.request.session.get('organization')).first()
-					con = cx_Oracle.connect(db.db_name+'/'+db.db_password+'@'+db.db_ip+'/'+db.db_user, encoding = "UTF-8", nencoding = "UTF-8")
+					con = cx_Oracle.connect(db.db_name+'/'+db.db_password+'@'+db.db_host+'/'+db.db_user, encoding = "UTF-8", nencoding = "UTF-8")
 					con.autocommit = True
 					cursor = con.cursor()
 					query = "update siebline.S_ASSET set status_cd='Análisis' where asset_num='{0}'".format(request.POST.get('unblock_number'))
