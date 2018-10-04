@@ -16,7 +16,7 @@ def verbose_name_plural(obj):
 
 @register.filter
 def get_menu(obj):
-	return MMENU.items()
+	return MMENU.items().sort()
 
 @register.filter
 def has_app(request, apps):
