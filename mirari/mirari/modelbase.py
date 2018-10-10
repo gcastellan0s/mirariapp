@@ -110,6 +110,11 @@ class Model_base(models.Model):
 			return reverse('mirari:Generic__DeleteView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
 		else:
 			return None
+	def url_detail(self):
+		try:
+			return reverse('mirari:Generic__DetailView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
+		except:
+			return None
 	def str_obj(self):
 		return str(self)
 	def str_select2(self):

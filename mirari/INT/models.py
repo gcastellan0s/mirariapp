@@ -332,8 +332,8 @@ class Notification(Model_base):
 			targets = self.get_targets()
 			email_host = HostEmail.objects.filter(module__code = 'INT', company=self.organization).first()
 			context = {
-				'organization': self.organization,
-				'message': self.message
+				'notification': self,
+				'destinatary': User.objects.all().first()
 			}
 			template = render_to_string('email/default/base_email.html', context)
 			connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
