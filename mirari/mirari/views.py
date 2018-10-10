@@ -4,6 +4,9 @@ from .viewbase import *
 
 ###############################################################################################
 ###############################################################################################
+######### TEMPLATE ################################################################################
+class Generic__TemplateView(Base_Template, TemplateView):
+    pass
 ######### LIST ################################################################################
 class Generic__ListView(Base_List, ListView):
     pass
@@ -23,7 +26,7 @@ class Generic__ApiView(Base_Api, APIView):
 ###############################################################################################
 ###############################################################################################
 ######### AUTH ################################################################################
-class login__Organization__TemplateView(BaseTemplateView, TemplateView):
+class login__Organization__TemplateView(Generic__TemplateView):
 	template_name = "app/login.html"
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
@@ -53,7 +56,7 @@ class login__Organization__TemplateView(BaseTemplateView, TemplateView):
 			return JsonResponse({'message':message,'token':token})
 		return super().dispatch(request, *args, **kwargs)
 
-class logout__Organization__TemplateView(BaseTemplateView, TemplateView):
+class logout__Organization__TemplateView(Generic__TemplateView):
 	def dispatch(self, request, *args, **kwargs):
 		logout(self.request)
 		return HttpResponseRedirect('/')
@@ -61,7 +64,7 @@ class logout__Organization__TemplateView(BaseTemplateView, TemplateView):
 ###############################################################################################
 ###############################################################################################
 ######### DASHBOARD ###########################################################################
-class dashboard__Organization__TemplateView(BaseTemplateView, TemplateView):
+class dashboard__Organization__TemplateView(Generic__TemplateView):
 	template_name = "app/dashboard.html"
 ################################################################################################
 ################################################################################################

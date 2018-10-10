@@ -3,7 +3,7 @@ from mirari.mirari.views import *
 from .models import *
 from .vars import *	
 
-class SiebelUnblock__SiebelUnblock__TemplateView(BaseTemplateView, TemplateView):
+class SiebelUnblock__SiebelUnblock__TemplateView(Generic__TemplateView):
 	model = apps.get_model(APP, 'SiebelUnblock')
 	template_name = "SiebelUnblock__TemplateView.html"
 	@method_decorator(csrf_exempt)

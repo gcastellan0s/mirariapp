@@ -388,3 +388,34 @@ class DBConnection(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return '{0}'.format(self.name)
+
+########################################################################################
+########################################################################################
+VARS = {
+	'NAME':'HostEmail',
+	'PLURAL':'HostEmail',
+	'MODEL':'HostEmail',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS': 'este',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS':['ALL'],
+}
+class HostEmail(Model_base):
+	company = models.ForeignKey('Organization', on_delete=models.CASCADE, related_name='+',)
+	module = models.ForeignKey('Module', on_delete=models.CASCADE, related_name='+',)
+	host = models.CharField(max_length=250)
+	port = models.CharField(max_length=250, default='')
+	username = models.CharField(max_length=250)
+	password = models.CharField(max_length=250)
+	email = models.CharField(max_length=250)
+	prefix = models.CharField(max_length=250)
+	is_available = models.BooleanField(default=True)
+	default = models.BooleanField(default=False)
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0}'.format(self.module)

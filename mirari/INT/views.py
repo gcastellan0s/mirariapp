@@ -6,7 +6,7 @@ from .vars import *
 ###############################################################################################
 ###############################################################################################
 ######### Notification ########################################################################
-class Notification__TemplateView(BaseTemplateView, TemplateView):
+class Notification__TemplateView(Generic__TemplateView):
 	template_name = "Notification__TemplateView.html"
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], 'Notification')

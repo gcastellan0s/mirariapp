@@ -7,6 +7,9 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.core.exceptions import PermissionDenied
 from django.db.models.signals import m2m_changed
 from django_countries.fields import CountryField
+from django.template.loader import get_template, render_to_string
+from django.core.mail import EmailMultiAlternatives, get_connection
+
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.conf import settings
@@ -15,17 +18,15 @@ from django.db import models
 from django.apps import apps
 from django.db.models import Q
 
-
 from localflavor.mx.models import MXRFCField, MXZipCodeField, MXCURPField
 from mptt.models import MPTTModel, TreeForeignKey
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
-
+from itertools import chain
 import datetime
 import uuid
 
 from .vars import *
-
 
 ########################################################################################
 ## FUNCTIONS ###########################################################################
@@ -145,8 +146,10 @@ class Model_base(models.Model):
 		#if not attr:
 			#return '-'
 		#return str(self.attr)
-	#def render_date(self, attr):
-		#return attr.strftime('%d/%m/%Y')
+	def render_date(self, attr):
+		return attr.strftime('%d/%m/%Y')
+	def render_datetime(self, attr):
+		return attr.strftime('%d/%m/%Y %I:%M %p')
 	#def get_select2(self):
 		#return self.name
 	#def max_string(self, field, value):

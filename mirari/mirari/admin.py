@@ -31,3 +31,7 @@ class UnitsCodesSatAdmin(PassAdmin):
 @admin.register(DBConnection)
 class DBConnectionAdmin(PassAdmin):
 	pass
+
+@admin.register(HostEmail)
+class HostEmailAdmin(PassAdmin):
+	pass

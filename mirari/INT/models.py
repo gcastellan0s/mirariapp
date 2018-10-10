@@ -234,6 +234,14 @@ class Channel(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return '{0}'.format(self.name)
+	def get_targets(self):
+		users = []
+		for team in self.notify_team.all():
+			for member in team.members.all():
+				if not member in users:
+					users.append(member.pk)
+		targets = User.objects.filter(pk__in=users).all() | self.notify_user.all()
+		return targets.distinct()
 
 
 
@@ -253,12 +261,16 @@ VARS = {
 			'title': 'Título',
 		},
 		{
-			'field': 'creation_date',
+			'field': 'property_get_channel',
 			'title': 'Canal',
 		},
 		{
-			'field': 'creation_date',
-			'title': 'Desde',
+			'field': 'property_get_creation_date',
+			'title': 'Creado',
+		},
+		{
+			'field': 'property_get_status',
+			'title': 'Estatus',
 		},
 	],
 	'SEARCH': ['name'],
@@ -288,7 +300,7 @@ class Notification(Model_base):
 	datetime_expire = models.DateTimeField('Fecha de expiración', blank=True, null=True, help_text='Este mensaje expira?, dejalo vacio si no expira.')
 	sended = models.BooleanField('Enviado?', default=False, help_text="Indica si esta notificación ya fue enviada.", editable=False)
 	creation_date = models.DateTimeField(auto_now_add=True)
-	craeted_by = models.ForeignKey('mirari.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name="Canal(es) por donde envias")
+	craeted_by = models.ForeignKey('mirari.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name="Canal(es) por donde envias", editable=False)
 	readed_by = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Leido por...')
 	VARS = VARS
 	class Meta(Model_base.Meta):
@@ -314,6 +326,44 @@ class Notification(Model_base):
 				pass
 		query = query.filter(datetime_expire__gt = datetime.datetime.now())
 		return query
+	def save(self, *args, **kwargs):
+		if self.sended == False and self.status == 'published':
+			self.sended = False
+			targets = self.get_targets()
+			email_host = HostEmail.objects.filter(module__code = 'INT', company=self.organization).first()
+			context = {
+				'organization': self.organization
+			}
+			template = render_to_string('email/default/base_email.html', context)
+			connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
+			connection.open()
+			msg = EmailMultiAlternatives(
+				subject=self.title,
+				body=template,
+				from_email=email_host.email +'<'+email_host.prefix+'>', 
+				to=['rampzodia1@gmail.com'],
+				connection=connection
+			)
+			msg.attach_alternative(template, "text/html")
+			msg.send(False)
+			connection.close()
+		super().save()
 	#######		
 	def get_user_notifications(self, user):
 		return Notification.objects.all()
+	def get_channel(self):
+		return str(self.channel)
+	def get_creation_date(self):
+		return self.render_datetime(self.creation_date)
+	def get_sended(self):
+		return self.render_boolean(self.sended)
+	def get_status(self):
+		return self.status
+	def send_notifications(self):
+		reminders = self.channel
+		return True
+	def get_targets(self):
+		return self.render_list(self.channel.get_targets(), 'visible_username')
+	
+	
+		
