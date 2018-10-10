@@ -340,7 +340,7 @@ class Notification(Model_base):
 			msg = EmailMultiAlternatives(
 				subject=self.title,
 				body=template,
-				from_email=email_host.email +'<'+email_host.prefix+'>', 
+				from_email=email_host.email, 
 				to=['g@gustavo-castellanos.com'],
 				connection=connection
 			)
