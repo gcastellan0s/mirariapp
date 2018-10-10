@@ -337,17 +337,11 @@ class Notification(Model_base):
 			template = render_to_string('email/default/base_email.html', context)
 			connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
 			connection.open()
-			print(email_host.username)
-			print(email_host.password)
-			print(email_host.host)
-			print(email_host.port)
-			print(email_host.email)
-			print(email_host.prefix)
 			msg = EmailMultiAlternatives(
 				subject=self.title,
 				body=template,
 				from_email=email_host.email +'<'+email_host.prefix+'>', 
-				to=['rampzodia1@gmail.com'],
+				to=['g@gustavo-castellanos.com'],
 				connection=connection
 			)
 			msg.attach_alternative(template, "text/html")
