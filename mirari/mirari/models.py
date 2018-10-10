@@ -109,7 +109,7 @@ class Organization(MPTTModel, Model_base):
 		return self.render_if(self.parent)
 	def get_domains(self):
 		return self.render_list(self.sites, 'domain')
-	def get_my_domain(self):
+	def get_my_domains(self):
 		return self.sites.all().first()
 	def get_modules_code(self):
 		return self.modules.all().values_list('code', flat=True)
