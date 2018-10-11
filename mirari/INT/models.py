@@ -346,7 +346,7 @@ class Notification(Model_base):
 				connection=connection
 			)
 			msg.attach_alternative(template, "text/html")
-			msg.send(False)
+			msg.send(True)
 			connection.close()
 		super().save()
 	def url_detail(self):
