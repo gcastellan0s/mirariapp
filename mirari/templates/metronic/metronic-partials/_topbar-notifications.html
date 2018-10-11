@@ -34,7 +34,7 @@
 										{%for notification in request.user.get_my_notifications%}
 											<div class="m-list-timeline__item">
 												<span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-												<a href="{%url 'INT:Notification__TemplateView' notification.uuid%}" class="m-list-timeline__text {%if not request.user in notification.get_user_notifications.all%}m--font-danger{%endif%}">
+												<a href="{{notification.url_detail}}" class="m-list-timeline__text {%if not request.user in notification.get_user_notifications.all%}m--font-danger{%endif%}">
 													{{notification}}
 												</a>
 												<span class="m-list-timeline__time">

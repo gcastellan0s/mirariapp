@@ -290,7 +290,7 @@ def path_Notification_file(self, filename):
 	upload_to = "companys/%s_%s/INT/Notification/%s" % (self.organization.id, self.organization.code, filename)
 	return upload_to
 class Notification(Model_base):
-	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+	uuid = models.UUIDField(default=uuid.uuid4)
 	organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+')
 	channel = models.ForeignKey('Channel', on_delete=models.PROTECT, related_name='+', verbose_name="Canal(es) por donde envias")
 	title = models.CharField('Título', max_length=250)
