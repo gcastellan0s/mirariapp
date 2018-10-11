@@ -5,5 +5,5 @@ from .vars import *
 app_name = APP
 
 urlpatterns = [
-    path('notification/<slug:uuid>/', Notification__TemplateView.as_view(), name='Notification__TemplateView'),
+    path('detail/NotificationDetailView/<slug:uuid>/', Notification__DetailView.as_view(), name='Notification__DetailView'),
 ]

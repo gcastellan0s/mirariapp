@@ -349,6 +349,8 @@ class Notification(Model_base):
 			msg.send(False)
 			connection.close()
 		super().save()
+	def url_detail(self):
+		return reverse('INT:Notification__DetailView', kwargs={'uuid': self.VARS['UUID'],})
 	#######		
 	def get_user_notifications(self, user):
 		return Notification.objects.all()

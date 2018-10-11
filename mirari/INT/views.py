@@ -6,12 +6,11 @@ from .vars import *
 ###############################################################################################
 ###############################################################################################
 ######### Notification ########################################################################
-class Notification__TemplateView(Generic__TemplateView):
-	template_name = "Notification__TemplateView.html"
+class Notification__DetailView(Generic__DetailView):
+	def get_object(self):
+		return self.model.objects.filter(uuid=kwargs['uuid']).first()
+#######
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], 'Notification')
-		self.object = Notification.objects.get(uuid=kwargs['uuid'])
 		return True
-	def proccess_context(self, context, *args, **kwargs):
-		context['object'] = Notification.objects.all()[0]
-		return context
+		

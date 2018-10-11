@@ -7,6 +7,9 @@ from .viewbase import *
 ######### TEMPLATE ################################################################################
 class Generic__TemplateView(Base_Template, TemplateView):
     pass
+######### Detail ################################################################################
+class Generic__DetailView(Base_Detail, DetailView):
+    pass
 ######### LIST ################################################################################
 class Generic__ListView(Base_List, ListView):
     pass

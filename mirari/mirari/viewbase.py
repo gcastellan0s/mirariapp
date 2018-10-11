@@ -215,9 +215,9 @@ class Base_Form(Basic_Form):
 ######### TEMPLATE #############################################################################################
 ################################################################################################################
 class Base_Template(object):
-	permissions = None
-	model= None
 	template_name = 'generic/TemplateView.html'
+	model= None
+	permissions = None
 	############################################################################################################
 	#dispatch()
 	#http_method_not_allowed()
@@ -238,7 +238,49 @@ class Base_Template(object):
 			class Meta(Base_Serializer.Meta):
 				model = self.model
 		return Serializer
-	
+
+
+################################################################################################################
+######### TEMPLATE #############################################################################################
+################################################################################################################
+class Base_Detail(object):
+	permissions = None
+	model= None
+	template_name = 'generic/DetailView.html'
+	############################################################################################################
+	#dispatch()
+	#http_method_not_allowed()
+	#get_template_names()
+	#get_slug_field()
+	#get_queryset()
+	#get_object()
+	#get_context_object_name()
+	#get_context_data()
+	#get()
+	#render_to_response()
+	############################################################################################################
+	def dispatch(self, request, *args, **kwargs):
+		self.initialize(request, *args, **kwargs)
+		return super().dispatch(request, *args, **kwargs)
+	def get_object(self):
+		return self.model.objects.filter(pk=kwargs['pk']).first()
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context = self.proccess_context(context)
+		context['G'] = get_variables(self)
+		return context
+	############################################################################################################
+	def initialize(self, request, *args, **kwargs):
+		self.model = apps.get_model(kwargs['app'], kwargs['model'])
+		return True
+	def proccess_context(self, context):
+		return context
+	def get_default_serializer(self):
+		class Serializer(Base_Serializer):
+			class Meta(Base_Serializer.Meta):
+				model = self.model
+		return Serializer
+		
 
 ################################################################################################################
 #########  LIST  ###############################################################################################
