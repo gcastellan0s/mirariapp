@@ -350,7 +350,7 @@ class Notification(Model_base):
 			connection.close()
 		super().save()
 	def url_detail(self):
-		return reverse('INT:Notification__DetailView', kwargs={'uuid': self.VARS['UUID'],})
+		return reverse('INT:Notification__DetailView', kwargs={'uuid':self.uuid,})
 	#######		
 	def get_user_notifications(self, user):
 		return Notification.objects.all()

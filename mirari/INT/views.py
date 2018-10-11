@@ -13,4 +13,3 @@ class Notification__DetailView(Generic__DetailView):
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], 'Notification')
 		return True
-		
