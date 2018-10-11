@@ -342,7 +342,7 @@ class Notification(Model_base):
 				subject=self.title,
 				body=template,
 				from_email=email_host.prefix +'<'+email_host.email+'>', 
-				to=['g@gustavo-castellanos.com'],
+				to=['rampzodia1@gmail.com'],
 				connection=connection
 			)
 			msg.attach_alternative(template, "text/html")
