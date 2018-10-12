@@ -9,14 +9,15 @@ from .vars import *
 ###############################################################################################
 ######### Notification ########################################################################
 class Notification__DetailView(Generic__DetailView):
-	def get_object(self, *args, **kwargs):
-		if kwargs['uuid'] == '404':
+	def get_object(self, request, *args, **kwargs):
+		if self.uuid  == '404':
 			raise Http404
-		notification = self.model.objects.filter(uuid=kwargs['uuid']).first()
+		notification = self.model.objects.filter(uuid=self.uuid).first()
 		if not self.request.user in notification.get_targets().all():
 			raise Http404
 		return notification
 #######
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(APP, 'Notification')
+		self.uuid = kwargs['uuid']
 		return True
