@@ -290,7 +290,7 @@ def path_Notification_file(self, filename):
 	upload_to = "companys/%s_%s/INT/Notification/%s" % (self.organization.id, self.organization.code, filename)
 	return upload_to
 class Notification(Model_base):
-	uuid = models.UUIDField(default=uuid.uuid4)
+	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 	organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+', editable=False)
 	channel = models.ForeignKey('Channel', on_delete=models.PROTECT, related_name='+', verbose_name="Canal(es) por donde envias")
 	title = models.CharField('Título', max_length=250)
@@ -301,7 +301,8 @@ class Notification(Model_base):
 	sended = models.BooleanField('Enviado?', default=False, help_text="Indica si esta notificación ya fue enviada.", editable=False)
 	creation_date = models.DateTimeField(auto_now_add=True)
 	craeted_by = models.ForeignKey('mirari.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name="Canal(es) por donde envias", editable=False)
-	readed_by = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Leido por...')
+	sended_to = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Enviado a...', editable=False)
+	readed_by = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Leido por...', editable=False)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -331,22 +332,25 @@ class Notification(Model_base):
 			self.sended = False
 			targets = self.get_targets()
 			email_host = HostEmail.objects.filter(module__code = 'INT', company=self.organization).first()
-			context = {
-				'notification': self,
-				'destinatary': User.objects.all().first()
-			}
-			template = render_to_string('email/default/base_email.html', context)
 			connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
 			connection.open()
-			msg = EmailMultiAlternatives(
-				subject=self.title,
-				body=template,
-				from_email=email_host.prefix +'<'+email_host.email+'>', 
-				to=['rampzodia1@gmail.com'],
-				connection=connection
-			)
-			msg.attach_alternative(template, "text/html")
-			msg.send(True)
+			for user in self.get_targets():
+				if user.email:
+					context = {
+						'notification': self,
+						'destinatary': user
+					}
+					template = render_to_string('email/default/base_email.html', context)
+					msg = EmailMultiAlternatives(
+						subject=self.title,
+						body=template,
+						from_email=email_host.prefix +'<'+email_host.email+'>', 
+						to=[user.email],
+						connection=connection
+					)
+					msg.attach_alternative(template, "text/html")
+					msg.send(True)
+					self.sended_to.add(user)
 			connection.close()
 		super().save()
 	def url_detail(self):
@@ -366,7 +370,6 @@ class Notification(Model_base):
 		reminders = self.channel
 		return True
 	def get_targets(self):
-		return self.render_list(self.channel.get_targets(), 'visible_username')
-	
-	
-		
+		return self.channel.get_targets()
+	def get_user_notification(self, user):
+		return 	Notification.objects.filter(user__in = sended_to)[0:50]

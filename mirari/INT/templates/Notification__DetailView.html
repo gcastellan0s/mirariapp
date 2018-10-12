@@ -40,15 +40,23 @@
 				<form id="form" method="post" enctype="multipart/form-data" class="m-form m-form--label-align-right">{% csrf_token %}
 					<div class="m-portlet__body">
 						<div class="m-form__content">
-							{{object.description|safe}}
+							{{object.message|safe}}
 						</div>
+						{%comment%}
 						<div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
 							<div class="m-form__actions">
                                 <button type="submit" class="btn btn-primary m--margin-right-15" name="save">
-                                    He leido esta notificación
+                                    Ve
                                 </button>
 							</div>
 						</div>
+						{%endcomment%}
+						<p>
+							Enviado por el canal: <strong> {{object.channel}}</strong>
+							{%if object.datetime_expire%}
+								<br /> Expira el: <strong>{{object.datetime_expire|date:"SHORT_DATE_FORMAT"}}</strong>
+							{%endif%}
+						</p>
 					</div>
 				</form>
 				<!--end::Form-->
