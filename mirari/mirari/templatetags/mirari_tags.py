@@ -69,4 +69,3 @@ def datatableformat(obj):
 @register.filter
 def get_session_organization(request):
 	return Organization.objects.filter(pk=request.session['organization']).first()
-
