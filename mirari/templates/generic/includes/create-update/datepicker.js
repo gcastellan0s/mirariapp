@@ -9,5 +9,5 @@ $(".dateinput").datepicker({
 $(".datetimeinput").datetimepicker({
     todayHighlight: !0,
     autoclose: !0,
-    format: "dd/mm/yyyy hh:ii"
+    format: "dd/mm/yyyy hh:ii:ss"
 })
