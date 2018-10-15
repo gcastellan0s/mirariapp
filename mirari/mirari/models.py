@@ -295,7 +295,7 @@ VARS = {
 	'NEW_GENDER': 'una nueva',
 	'THIS': 'esta',
 	'APP': APP,
-	'EXCLUDE_PERMISSIONS': ['ALL'],
+	'EXCLUDE_PERMISSIONS': ['all'],
 }
 class Serial(Model_base):
 	organization = models.ForeignKey('Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
@@ -327,7 +327,7 @@ VARS = {
 	'NEW_GENDER':'un nuevo',
 	'THIS':'este',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS': ['ALL'],
+	'EXCLUDE_PERMISSIONS': ['all'],
 }
 class ProductsServicesSAT(Model_base):
 	code = models.CharField('Código de producto o servicio',max_length=120)
@@ -351,7 +351,7 @@ VARS = {
 	'NEW_GENDER': 'una nueva',
 	'THIS':'esta',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS': ['ALL'],
+	'EXCLUDE_PERMISSIONS': ['all'],
 }
 class UnitsCodesSat(Model_base):
 	code = models.CharField('Código de producto o servicio',max_length=120)
@@ -373,7 +373,7 @@ VARS = {
 	'NEW_GENDER': 'un nuevo',
 	'THIS': 'este',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS':['ALL'],
+	'EXCLUDE_PERMISSIONS':['all'],
 }
 class DBConnection(Model_base):
 	organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+',)
@@ -401,7 +401,7 @@ VARS = {
 	'NEW_GENDER': 'un nuevo',
 	'THIS': 'este',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS':['ALL'],
+	'EXCLUDE_PERMISSIONS':['all'],
 }
 class HostEmail(Model_base):
 	company = models.ForeignKey('Organization', on_delete=models.CASCADE, related_name='+',)

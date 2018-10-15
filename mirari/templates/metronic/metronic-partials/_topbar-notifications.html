@@ -1,5 +1,7 @@
 {% load static %} 
 {% load i18n %}
+{% load mirari_tags %}
+{% load INT_tags %}
 <li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width" m-dropdown-toggle="click" m-dropdown-persistent="1">
 	<a href="#" class="m-nav__link m-dropdown__toggle" id="m_topbar_notification_icon">
 		<span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger"></span>
@@ -31,13 +33,14 @@
 							<div class="m-scrollable" data-scrollable="true" data-height="250" data-mobile-height="200">
 								<div class="m-list-timeline m-list-timeline--skin-light">
 									<div class="m-list-timeline__items">
-										{%for notification in request.user.get_my_notifications%}
+										{%for notification in request.user|get_user_notifications%}
 											<div class="m-list-timeline__item">
 												<span class="m-list-timeline__badge m-list-timeline__badge--state-info"></span>
-												<a href="{{notification.url_detail}}" class="m-list-timeline__text {%if not request.user in notification.get_user_notifications.all%}m--font-danger{%endif%}">
-													{{notification}}
+												<a href="{{notification.url_detail}}" class="m-list-timeline__text {%if not request.user in notification.readed_by.all%}m--font-danger{%endif%}">
+													{{notification}} 
 												</a>
 												<span class="m-list-timeline__time">
+													{%if notification.files%}<small><i class="fa fa-save" style="font-size:10px;"></i></small>{%endif%}
 													{{notification.creation_date|date:"SHORT_DATE_FORMAT"}}
 												</span>
 											</div>

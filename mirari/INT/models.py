@@ -326,7 +326,7 @@ class Notification(Model_base):
 		return query
 	def save(self, *args, **kwargs):
 		if self.sended == False and self.status == 'published':
-			self.sended = False
+			self.sended = True
 			targets = self.get_targets()
 			email_host = HostEmail.objects.filter(module__code = 'INT', company=self.organization).first()
 			connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
@@ -369,4 +369,4 @@ class Notification(Model_base):
 	def get_targets(self):
 		return self.channel.get_targets()
 	def get_user_notification(self, user):
-		return 	Notification.objects.filter(user__in = sended_to)[0:50]
+		return 	Notification.objects.filter(sended_to = user)[0:50]

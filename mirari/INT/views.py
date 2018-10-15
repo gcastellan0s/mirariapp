@@ -18,6 +18,7 @@ class Notification__DetailView(Generic__DetailView):
 		if notification.datetime_expire:
 			if timezone.now() > notification.datetime_expire:
 				raise Http404
+		notification.readed_by.add(self.request.user)
 		return notification
 #######
 	def initialize(self, request, *args, **kwargs):

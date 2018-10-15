@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
-from mirari.mirari.templatetags.mirari_tags import *
+from django import template
+from django.conf import settings
+
 from mirari.INT.models import Notification
+
+register = template.Library()
 
 @register.filter
 def get_user_notifications(user):

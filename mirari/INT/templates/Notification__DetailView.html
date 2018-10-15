@@ -42,15 +42,15 @@
 						<div class="m-form__content">
 							{{object.message|safe}}
 						</div>
-						{%comment%}
-						<div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
-							<div class="m-form__actions">
-                                <button type="submit" class="btn btn-primary m--margin-right-15" name="save">
-                                    Ve
-                                </button>
+						{%if object.files%}
+							<div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
+								<div class="m-form__actions">
+									<a href="{{object.files.url}}" target="_blank" class="btn btn-primary m--margin-right-15">
+										VER ARCHIVO ADJUNTO
+									</a>
+								</div>
 							</div>
-						</div>
-						{%endcomment%}
+						{%endif%}
 						<p>
 							Enviado por el canal: <strong> {{object.channel}}</strong>
 							{%if object.datetime_expire%}
