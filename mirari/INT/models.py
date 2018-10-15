@@ -278,9 +278,6 @@ VARS = {
 		'channel': {
 			'plugin': 'select2',
 		},
-		'readed_by': {
-			'plugin': 'selectmultiple',
-		},
 	},
 	'SORTEABLE': ['creation_date'],
 	'SUMMERNOTE': ['message'],
