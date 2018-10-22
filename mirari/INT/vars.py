@@ -15,6 +15,16 @@ MENU = {
                 'url': 'Generic__ListView',
             },
             {
+                'title': 'Directorio',
+                'icon': 'flaticon-users',
+                'text': 'Directorio de empleados',
+                'subtext': 'Empleados en la organización',
+                'apps': [APP,],
+                'permission': 'Can_View',
+                'model': APP + '.Team',
+                'href': 'INT:EmployeDirectory__ListView',
+            },
+            {
                 'title': 'EQUIPOS',
                 'icon': 'flaticon-network',
                 'text': 'Equipos de trabajo',

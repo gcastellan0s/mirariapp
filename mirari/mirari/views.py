@@ -105,6 +105,7 @@ class User__UpdateView(Generic__UpdateView):
 		form.instance.username = code + '__' + form.instance.visible_username
 		form.save()
 		return super().form_valid(form)
+		
 class UserPassword__UpdateView(Generic__UpdateView):
 	def get_form_class(self):
 		class Form(Basic_Form):

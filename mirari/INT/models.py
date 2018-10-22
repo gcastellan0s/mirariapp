@@ -110,6 +110,8 @@ class Team(Model_base):
 		return '{0}'.format(self.name)
 	def get_members(self):
 		return self.render_list(self.members, 'visible_username')
+	def get_user_team(self, user):
+		return Team.objects.filter(members=user)
 
 
 ########################################################################################

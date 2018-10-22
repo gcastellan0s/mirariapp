@@ -291,7 +291,10 @@ class Base_List(object):
 	template_name = 'generic/ListView.html'
 	paginator_size = settings.PAGINATOR_SIZE
 	permissions = True
-	model = None	
+	model = None
+	field_list = []
+	search = []
+	sorteable = []
 	############################################################################################################
 	# dispatch()
 	# http_method_not_allowed()
@@ -396,20 +399,24 @@ class Base_List(object):
 		if sort == 'asc':
 			field = '-' + field
 		return query_list.order_by(field)
-	def render_list(self, fields_list=False, basemodel=None, btn_update='property_url_update', btn_delete='property_url_delete', btn_checkbox=True, extrabuttons='',):
-		if not fields_list:
+	def render_list(self, basemodel=None, btn_update='property_url_update', btn_delete='property_url_delete', btn_checkbox=True, extrabuttons='',):
+		if not self.field_list:
 			if 'LIST' in self.model.VARS:
-				fields_list = self.model.VARS['LIST']
+				self.field_list = self.model.VARS['LIST']
 			else:
-				fields_list = [{'field': 'get_str_obj', 'title': self.model.VARS['PLURAL'], 'url': 'property_url_update', },]
-				self.model.VARS['SEACH'] = []
-				self.model.VARS['SORTEABLE'] = []
+				self.field_list = [{'field': 'get_str_obj', 'title': self.model.VARS['PLURAL'], 'url': 'property_url_update', },]
+		if not self.search:
+			if 'SEARCH' in self.model.VARS:
+				self.search = self.model.VARS['SEARCH']
+		if not self.sorteable:
+			if 'SORTEABLE' in self.model.VARS:
+				self.sorteable = self.model.VARS['SORTEABLE']
 		if not basemodel:
 			basemodel = self.model
 		dictionary_datatable = []
 		if btn_checkbox and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Delete__'+self.model.VARS['MODEL']) and not 'delete' in self.model().exclude_permissions():
 			dictionary_datatable.append({'field': "property_url_delete", 'title': "#", 'locked': '{left: "xl"}','sortable': 'false', 'width': 40, 'selector': '{class: "m-checkbox--solid m-checkbox--brand"}'})
-		for item in fields_list:
+		for item in self.field_list:
 			item_dictionary = {}
 			item_dictionary['field'] = item['field']
 			item_dictionary['title'] = item['title'].upper()
