@@ -292,9 +292,17 @@ class Base_List(object):
 	paginator_size = settings.PAGINATOR_SIZE
 	permissions = True
 	model = None
-	field_list = []
-	search = []
-	sorteable = []
+	verbose_name = None
+	verbose_name_plural = None
+	############################################################################################################
+	LIST = []
+	SERIALIZER = []
+	SEARCH = []
+	SORTEABLE = []
+	FILTERS = []
+	QUERY = []
+	EXCLUDE_SERIALIZER = []
+	BASEMODEL = []
 	############################################################################################################
 	# dispatch()
 	# http_method_not_allowed()
@@ -331,27 +339,57 @@ class Base_List(object):
 		context['list'] = self.list()
 		context['q'] = self.request.GET.get('q')
 		context['filters'] = self.filters()
+		context['verbose_name'] = self.verbose_name
+		context['verbose_name_plural'] = self.verbose_name_plural
 		context = self.proccess_context(context)
 		return context
 	#############################################################################################################
 	def get_default_serializer(self):
 		class Serializer(Base_Serializer):
-			if 'LIST' in self.model.VARS:
-				for field in self.model.VARS['LIST']:
-					if field['field'][0:9] == 'property_':
-						vars()[field['field']] = eval("serializers.ReadOnlyField(source='"+field['field'][9:len(field['field'])]+"')")
-			if 'SERIALIZER' in self.model.VARS:
-				for field in self.model.VARS['SERIALIZER']:
-					vars()['property_'+field] = eval("serializers.ReadOnlyField(source='"+field+"')")
+			for field in self.LIST:
+				if field['field'][0:9] == 'property_':
+					vars()[field['field']] = eval("serializers.ReadOnlyField(source='"+field['field'][9:len(field['field'])]+"')")
+			for field in self.SERIALIZER:
+				vars()['property_'+field] = eval("serializers.ReadOnlyField(source='"+field+"')")
 			class Meta(Base_Serializer.Meta):
 				model = self.model
 		serializer = Serializer
-		if 'EXCLUDE_SERIALIZER' in self.model.VARS:
+		if self.EXCLUDE_SERIALIZER:
 			serializer.Meta.fields = None
-			serializer.Meta.exclude = self.model.VARS['EXCLUDE_SERIALIZER']
+			serializer.Meta.exclude = self.EXCLUDE_SERIALIZER
 		return Serializer
 	def initialize(self, request, *args, **kwargs):
-		self.model = apps.get_model(kwargs['app'], kwargs['model'])
+		if not self.model:
+			try:
+				self.model = apps.get_model(kwargs['app'], kwargs['model'])
+			except:
+				pass
+		self.initialize_list(request, *args, **kwargs)
+		return True
+	def initialize_list(self, request, *args, **kwargs):
+		if not self.LIST:
+			if 'LIST' in self.model.VARS:
+				self.LIST = self.model.VARS['LIST']
+			else:
+				self.LIST = [{'field': 'get_str_obj', 'title': self.model.VARS['PLURAL'], 'url': 'property_url_update', },]
+		if not self.SERIALIZER:  
+			if 'SERIALIZER' in self.model.VARS:
+				self.SERIALIZER = self.model.VARS['SERIALIZER']
+		if not self.SEARCH:  
+			if 'SEARCH' in self.model.VARS:
+				self.SEARCH = self.model.VARS['SEARCH']
+		if not self.SORTEABLE:  
+			if 'SORTEABLE' in self.model.VARS:
+				self.SORTEABLE = self.model.VARS['SORTEABLE']
+		if not self.QUERY:  
+			if 'QUERY' in self.model.VARS:
+				self.QUERY = self.model.VARS['QUERY']
+		if not self.EXCLUDE_SERIALIZER:  
+			if 'EXCLUDE_SERIALIZER' in self.model.VARS:
+				self.EXCLUDE_SERIALIZER = self.model.VARS['EXCLUDE_SERIALIZER']
+		if not self.QUERY:  
+			if 'QUERY' in self.model.VARS:
+				self.QUERY = self.model.VARS['QUERY']
 		return True
 	def proccess_context(self, context):
 		return context
@@ -361,21 +399,21 @@ class Base_List(object):
 		try: 
 			return self.model().QUERY(self)
 		except Exception as e:
-			if 'QUERY' in self.model.VARS:
-				if self.model.VARS['QUERY']['query'] == 'ALL':
+			if self.QUERY:
+				if self.QUERY['query'] == 'ALL':
 					query = self.model.objects.all()
-				elif self.model.VARS['QUERY']['query'] == 'NONE':
+				elif self.QUERY['query'] == 'NONE':
 					query = self.model.objects.none()
 				else:
 					q = Q()
-					for attributes in self.model.VARS['QUERY']['query']:
+					for attributes in self.QUERY['query']:
 						params = {}
 						for attribute in attributes:
 							params.update({attribute[0]: eval(attribute[1])})
 						q.add(Q(**params), Q.OR)
 					query = self.model.objects.filter(q)
-				if 'order_by' in self.model.VARS['QUERY']:
-					query = query.order_by(self.model.VARS['QUERY']['order_by'])
+				if 'order_by' in self.QUERY:
+					query = query.order_by(self.QUERY['order_by'])
 				return query.distinct()
 			else:
 				try:
@@ -383,10 +421,10 @@ class Base_List(object):
 				except:
 					return self.model.objects.none()
 	def query_search(self, query_list, query):
-		if not self.model.VARS['SEARCH']:
+		if not self.SEARCH:
 			return query_list
 		q = Q()
-		for attribute in self.model.VARS['SEARCH']:
+		for attribute in self.SEARCH:
 			q.add(Q(**{attribute+'__icontains': query}), Q.OR)
 		return query_list.filter(q)
 	def query_filter(self, request, query_list):
@@ -399,28 +437,15 @@ class Base_List(object):
 		if sort == 'asc':
 			field = '-' + field
 		return query_list.order_by(field)
-	def render_list(self, basemodel=None, btn_update='property_url_update', btn_delete='property_url_delete', btn_checkbox=True, extrabuttons='',):
-		if not self.field_list:
-			if 'LIST' in self.model.VARS:
-				self.field_list = self.model.VARS['LIST']
-			else:
-				self.field_list = [{'field': 'get_str_obj', 'title': self.model.VARS['PLURAL'], 'url': 'property_url_update', },]
-		if not self.search:
-			if 'SEARCH' in self.model.VARS:
-				self.search = self.model.VARS['SEARCH']
-		if not self.sorteable:
-			if 'SORTEABLE' in self.model.VARS:
-				self.sorteable = self.model.VARS['SORTEABLE']
-		if not basemodel:
-			basemodel = self.model
+	def render_list(self, btn_update='property_url_update', btn_delete='property_url_delete', btn_checkbox=True, extrabuttons='',):
 		dictionary_datatable = []
 		if btn_checkbox and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Delete__'+self.model.VARS['MODEL']) and not 'delete' in self.model().exclude_permissions():
 			dictionary_datatable.append({'field': "property_url_delete", 'title': "#", 'locked': '{left: "xl"}','sortable': 'false', 'width': 40, 'selector': '{class: "m-checkbox--solid m-checkbox--brand"}'})
-		for item in self.field_list:
+		for item in self.LIST:
 			item_dictionary = {}
 			item_dictionary['field'] = item['field']
 			item_dictionary['title'] = item['title'].upper()
-			if not item['field'] in basemodel.VARS['SORTEABLE']:
+			if not item['field'] in self.SORTEABLE:
 				item_dictionary['sortable'] = 'false'
 			if 'template' in item:
 				item_dictionary['template'] = item['template']
@@ -440,7 +465,7 @@ class Base_List(object):
 		else:
 			btn_update = ''
 		if btn_delete and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Delete__'+self.model.VARS['MODEL']) and not 'delete' in self.model().exclude_permissions():
-			btn_delete = '<a href="" value="{{'+btn_delete+'}}" text="'+basemodel().delete_text()[3]+'" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill btn-sm delete_row" title="Borrar"><i class="la la-trash"></i></a>'
+			btn_delete = '<a href="" value="{{'+btn_delete+'}}" text="'+self.model().delete_text()[3]+'" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill btn-sm delete_row" title="Borrar"><i class="la la-trash"></i></a>'
 		else:
 			btn_delete = ''
 		if btn_update or btn_delete or extrabuttons:
@@ -448,8 +473,8 @@ class Base_List(object):
 		return dictionary_datatable
 	def filters(self):
 		filters = []
-		if 'FILTERS' in self.model.VARS:
-			for key, value in self.model.VARS['FILTERS'].items():
+		if self.FILTERS:
+			for key, value in self.FILTERS.items():
 				options = []
 				if 'list' in value:
 					for object in value['list']:

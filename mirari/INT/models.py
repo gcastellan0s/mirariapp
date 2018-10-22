@@ -80,7 +80,7 @@ VARS = {
 			'field': 'name',
 			'title': 'Nombre',
 			'url': 'property_url_update',
-			'width':'100',
+			'width':'200',
 		},
 		{
 			'field': 'property_get_members',

@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load mirari_tags %}
 
-{% block title %}{{ model|verbose_name_plural|upper }} :: {{ G.ORGANIZATION.TITLE }}{% endblock title %}
+{% block title %}{%if verbose_name_plural%}{{verbose_name_plural|upper}}{%else%}{{ model|verbose_name_plural|upper }}{%endif%} :: {{ G.ORGANIZATION.TITLE }}{% endblock title %}
 
 {%block css%}
 	{{block.super}}
@@ -45,7 +45,7 @@
                     <li class="m-nav__item">
                         <a href="" class="m-nav__link">
                             <span class="m-nav__link-text">
-                                Lista de <span class="m-subheader__title">{{ model|verbose_name_plural|upper }}</span>
+                                Lista de <span class="m-subheader__title">{%if verbose_name_plural%}{{verbose_name_plural|upper}}{%else%}{{ model|verbose_name_plural|upper }}{%endif%}</span>
                             </span>
                         </a>
                     </li>
