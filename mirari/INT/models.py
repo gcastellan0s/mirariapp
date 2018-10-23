@@ -197,6 +197,14 @@ VARS = {
 			'field': 'name',
 			'title': 'Nombre',
 		},
+		{
+			'field': 'property_get_audience',
+			'title': 'Audiencia',
+		},
+		{
+			'field': 'property_get_list_administrators',
+			'title': 'Administradores',
+		},
 	],
 	'SEARCH': ['title'],
 	'SELECTQ': {
@@ -242,9 +250,16 @@ class Channel(Model_base):
 			for member in team.members.all():
 				if not member in users:
 					users.append(member.pk)
-		targets = User.objects.filter(pk__in=users).all() | self.notify_user.all()
-		return targets.distinct()
-
+		return (User.objects.filter(pk__in=users).all() | self.notify_user.all()).distinct()
+	def get_audience(self):
+		return len(self.get_targets())
+	def get_list_administrators(self):
+		users = []
+		for team in self.team_admin.all():
+			for member in team.members.all():
+				if not member in users:
+					users.append(member.pk)
+		return self.render_list((User.objects.filter(pk__in=users).all() | self.user_admin.all()).distinct(), 'visible_username')
 
 
 #######################################################################################
@@ -269,6 +284,10 @@ VARS = {
 		{
 			'field': 'property_get_creation_date',
 			'title': 'Creado',
+		},
+		{
+			'field': 'property_get_expiration_date',
+			'title': 'Expira',
 		},
 		{
 			'field': 'property_get_status',
@@ -314,17 +333,12 @@ class Notification(Model_base):
 			channel = Channel.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
 		else:
 			channel = Channel.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
-		return Notification.objects.filter(channel__in=channel)
+		return Notification.objects.filter(Q(channel__in=channel))
 	def SELECTQ__channel(self, model=None, view=None):
-		if not view and not model:
-			return True
 		if view.request.user.is_superuser:
 			query = model.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
 		else:
 			query = model.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
-			if self.datetime_expire:
-				pass
-		query = query.filter(datetime_expire__gt = datetime.datetime.now())
 		return query
 	def save(self, *args, **kwargs):
 		if self.sended == False and self.status == 'published':
@@ -361,6 +375,10 @@ class Notification(Model_base):
 		return str(self.channel)
 	def get_creation_date(self):
 		return self.render_datetime(self.creation_date)
+	def get_expiration_date(self):
+		if self.datetime_expire:
+			return self.render_datetime(self.datetime_expire)
+		return '-'
 	def get_sended(self):
 		return self.render_boolean(self.sended)
 	def get_status(self):
