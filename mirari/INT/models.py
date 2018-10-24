@@ -365,8 +365,8 @@ class Notification(Model_base):
 					msg.send(True)
 			connection.close()
 			sended_to = self.get_targets()
-		self.sended_to.add(self.get_targets().all())
 		super(self).save(*args, **kwargs)
+		self.sended_to.add(self.get_targets().all())
 		
 
 	def url_detail(self):
