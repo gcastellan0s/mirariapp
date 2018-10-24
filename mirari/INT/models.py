@@ -365,10 +365,11 @@ class Notification(Model_base):
 					msg.send(True)
 			connection.close()
 			sended_to = self.get_targets()
-		super(self).save(*args, **kwargs)
-		self.sended_to.add(self.get_targets().all())
-		
-
+		super().save()
+		if sended_to:
+			self.add_sended_to(self,sended_to)
+	def add_sended_to(self, sended_to):
+		self.sended_to(sended_to.all())
 	def url_detail(self):
 		return reverse('INT:Notification__DetailView', kwargs={'uuid':self.uuid,})
 	def url_update(self):
