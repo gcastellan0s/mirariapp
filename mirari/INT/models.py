@@ -319,8 +319,8 @@ class Notification(Model_base):
 	sended = models.BooleanField('Enviado?', default=False, help_text="Indica si esta notificación ya fue enviada.", editable=False)
 	creation_date = models.DateTimeField(auto_now_add=True)
 	craeted_by = models.ForeignKey('mirari.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name="Canal(es) por donde envias", editable=False)
-	sended_to = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Enviado a...', editable=False)
-	readed_by = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Leido por...', editable=False)
+	sended_to = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Enviado a...')
+	readed_by = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Leido por...')
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
