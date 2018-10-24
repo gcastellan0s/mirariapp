@@ -333,7 +333,7 @@ class Notification(Model_base):
 			channel = Channel.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
 		else:
 			channel = Channel.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
-		return Notification.objects.filter(Q(channel__in=channel, datetime_expire__isnull=True, active=True)|Q(channel__in=channel, datetime_expire__lt=datetime.datetime.now(), active=True))
+		return Notification.objects.filter(Q(channel__in=channel, datetime_expire__isnull=True, active=True)|Q(channel__in=channel, datetime_expire__lt=datetime.datetime.now(), active=True)).exclude(status='Publicado')
 	def SELECTQ__channel(self, model=None, view=None):
 		if view.request.user.is_superuser:
 			query = model.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
@@ -363,7 +363,9 @@ class Notification(Model_base):
 					msg.attach_alternative(template, "text/html")
 					msg.send(True)
 					self.sended_to.add(user)
+			self.sended_to.add(self.get_targets())
 			connection.close()
+
 		super().save()
 	def url_detail(self):
 		return reverse('INT:Notification__DetailView', kwargs={'uuid':self.uuid,})
