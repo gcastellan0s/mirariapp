@@ -341,6 +341,7 @@ class Notification(Model_base):
 			query = model.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
 		return query
 	def save(self, *args, **kwargs):
+		sended_to = []
 		if self.sended == False and self.status == 'Publicado':
 			self.sended = True
 			email_host = HostEmail.objects.filter(module__code = 'INT', company=self.organization).first()
@@ -362,9 +363,12 @@ class Notification(Model_base):
 					)
 					msg.attach_alternative(template, "text/html")
 					msg.send(True)
-					self.sended_to.add(user)
 			connection.close()
-		super().save()
+			sended_to = self.get_targets()
+		self.sended_to.add(self.get_targets().all())
+		super(self).save(*args, **kwargs)
+		
+
 	def url_detail(self):
 		return reverse('INT:Notification__DetailView', kwargs={'uuid':self.uuid,})
 	def url_update(self):
