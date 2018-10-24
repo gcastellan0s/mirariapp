@@ -363,9 +363,7 @@ class Notification(Model_base):
 					msg.attach_alternative(template, "text/html")
 					msg.send(True)
 					self.sended_to.add(user)
-			self.sended_to.add(self.get_targets())
 			connection.close()
-
 		super().save()
 	def url_detail(self):
 		return reverse('INT:Notification__DetailView', kwargs={'uuid':self.uuid,})
