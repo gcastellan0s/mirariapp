@@ -342,7 +342,7 @@ class Notification(Model_base):
 			query = model.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
 		return query
 	def save(self, *args, **kwargs):
-		if self.sended == False and self.status == 'published':
+		if self.sended == False and self.status == 'Publicado':
 			self.sended = True
 			email_host = HostEmail.objects.filter(module__code = 'INT', company=self.organization).first()
 			connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
