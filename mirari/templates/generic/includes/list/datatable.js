@@ -1,7 +1,6 @@
 {% load static %}
 {% load i18n %}
 {% load mirari_tags %}
-
 var options = {
     data: {
         type: 'remote',

@@ -314,7 +314,7 @@ class Notification(Model_base):
 	title = models.CharField('Título', max_length=250)
 	message = models.TextField('Mensaje', max_length=500)
 	files = models.FileField('Archivo(s) adjunto(s)', upload_to=path_Notification_file, blank=True, null=True)
-	status = models.CharField('Estatus', max_length=250, choices=NOTIFICATION_STATUS, default='draft')
+	status = models.CharField('Estatus', max_length=250, choices=NOTIFICATION_STATUS, default='Borrador')
 	datetime_expire = models.DateTimeField('Fecha de expiración', blank=True, null=True, help_text='Este mensaje expira?, dejalo vacio si no expira.')
 	sended = models.BooleanField('Enviado?', default=False, help_text="Indica si esta notificación ya fue enviada.", editable=False)
 	creation_date = models.DateTimeField(auto_now_add=True)
@@ -333,7 +333,8 @@ class Notification(Model_base):
 			channel = Channel.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
 		else:
 			channel = Channel.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
-		return Notification.objects.filter(Q(channel__in=channel))
+		#return Notification.objects.filter(Q(channel__in=channel, datetime_expire__isnull=True, active=True)|Q(channel__in=channel, datetime_expire__lt=datetime.datetime.now(), active=True))
+		return Notification.objects.all()
 	def SELECTQ__channel(self, model=None, view=None):
 		if view.request.user.is_superuser:
 			query = model.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
@@ -343,7 +344,6 @@ class Notification(Model_base):
 	def save(self, *args, **kwargs):
 		if self.sended == False and self.status == 'published':
 			self.sended = True
-			targets = self.get_targets()
 			email_host = HostEmail.objects.filter(module__code = 'INT', company=self.organization).first()
 			connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
 			connection.open()
@@ -368,6 +368,13 @@ class Notification(Model_base):
 		super().save()
 	def url_detail(self):
 		return reverse('INT:Notification__DetailView', kwargs={'uuid':self.uuid,})
+	def url_update(self):
+		if self.sended:
+			return '#'
+		if not 'update' in self.exclude_permissions():
+			return reverse('mirari:Generic__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
+		else:
+			return None
 	#######		
 	def get_user_notifications(self, user):
 		return Notification.objects.all()
@@ -390,3 +397,4 @@ class Notification(Model_base):
 		return self.channel.get_targets()
 	def get_user_notification(self, user):
 		return 	Notification.objects.filter(sended_to = user)[0:50]
+	

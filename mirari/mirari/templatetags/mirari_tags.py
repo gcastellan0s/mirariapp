@@ -46,7 +46,10 @@ def has_permission(request, module):
 def get_url(module):
 	if 'url' in module:
 		app, model = module['model'].split('.')
-		return reverse('mirari:'+module['url'], kwargs={'app':app,'model':model})
+		if 'Generic__' in module['url']:
+			return reverse('mirari:'+module['url'], kwargs={'app':app,'model':model})
+		else:
+			return reverse(app+':'+module['url'], kwargs={'app':app,'model':model})
 	elif 'href' in module:
 		return reverse(module['href'])
 	else:

@@ -71,5 +71,4 @@ MENU = {
 NOTIFICATION_STATUS = (
 	('Borrador', 'Borrador'),
 	('Publicado', 'Publicado'),
-	('Eliminado', 'Eliminado'),
 )

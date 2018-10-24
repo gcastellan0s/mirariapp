@@ -460,17 +460,23 @@ class Base_List(object):
 			if 'width' in item:
 				item_dictionary['width'] = item['width']
 			dictionary_datatable.append(item_dictionary)
+		btn_update = self.get_btn_update(btn_update)
+		btn_delete = self.get_btn_delete(btn_delete)
+		if btn_update or btn_delete or extrabuttons:
+			dictionary_datatable.append({'field': '', 'title': '', 'width': 150, 'template': extrabuttons + btn_update + btn_delete})
+		return dictionary_datatable
+	def get_btn_update(self, btn_update):
 		if btn_update and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Update__'+self.model.VARS['MODEL']) and not 'update' in self.model().exclude_permissions():
 			btn_update = '<a href="{{'+btn_update+'}}" class="btn btn-outline-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill btn-sm m--margin-right-25" title="Editar"><i class="la la-edit"></i></a>'
 		else:
 			btn_update = ''
+		return btn_update
+	def get_btn_delete(self, btn_delete):
 		if btn_delete and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Delete__'+self.model.VARS['MODEL']) and not 'delete' in self.model().exclude_permissions():
 			btn_delete = '<a href="" value="{{'+btn_delete+'}}" text="'+self.model().delete_text()[3]+'" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill btn-sm delete_row" title="Borrar"><i class="la la-trash"></i></a>'
 		else:
 			btn_delete = ''
-		if btn_update or btn_delete or extrabuttons:
-			dictionary_datatable.append({'field': '', 'title': '', 'width': 150, 'template': extrabuttons + btn_update + btn_delete})
-		return dictionary_datatable
+		return btn_delete
 	def filters(self):
 		filters = []
 		if self.FILTERS:
