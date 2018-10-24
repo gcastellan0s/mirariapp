@@ -333,7 +333,7 @@ class Notification(Model_base):
 			channel = Channel.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
 		else:
 			channel = Channel.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
-		return Notification.objects.filter(Q(channel__in=channel, datetime_expire__isnull=True, active=True)|Q(channel__in=channel, datetime_expire__lt=datetime.datetime.now(), active=True)).exclude(status='Publicado')
+		return Notification.objects.filter(Q(channel__in=channel, datetime_expire__isnull=True, active=True)|Q(channel__in=channel, datetime_expire__lt=datetime.datetime.now(), active=True))
 	def SELECTQ__channel(self, model=None, view=None):
 		if view.request.user.is_superuser:
 			query = model.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
