@@ -47,7 +47,7 @@ class EmployeDirectory__ListView(Generic__ListView):
 			},
 			{
 				'field': 'property_get_phone',
-				'title': 'Contacto',
+				'title': 'EXT',
 			},
 			{
 				'field': 'property_get_my_teams',

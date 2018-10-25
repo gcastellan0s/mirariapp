@@ -198,7 +198,10 @@ class User(AbstractUser, Model_base):
 	def get_full_name(self):
 		return self.first_name + ' ' + self.last_name
 	def get_last_login(self):
-		return self.render_datetime(self.last_login)
+		if self.last_login:
+			return self.render_datetime(self.last_login)
+		else:
+			return '-'
 	def get_is_active(self):
 		return self.render_boolean(self.is_active)
 	def get_email(self):
