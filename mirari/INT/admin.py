@@ -10,6 +10,10 @@ class CatalogueAdmin(PassAdmin):
 class TeamAdmin(PassAdmin):
 	pass
 
+@admin.register(Channel)
+class ChannelAdmin(PassAdmin):
+	pass
+
 @admin.register(Notification)
 class NotificationAdmin(PassAdmin):
 	pass
