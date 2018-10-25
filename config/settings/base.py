@@ -37,6 +37,7 @@ USE_L10N = True
 USE_TZ = True
 
 DATE_INPUT_FORMATS = ['%d/%m/%Y']
+DATETIME_INPUT_FORMATS = ['%d/%m/%Y %H:%M:%S']
 
 # DATABASES
 # ------------------------------------------------------------------------------

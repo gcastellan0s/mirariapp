@@ -12,7 +12,7 @@ class Notification__DetailView(Generic__DetailView):
 		if self.uuid  == '404':
 			raise Http404
 		notification = self.model.objects.filter(uuid=self.uuid).first()
-		if not self.request.user in notification.get_targets().all():
+		if not self.request.user in notification.sended_to.all():
 			raise Http404
 		if notification.datetime_expire:
 			if timezone.now() > notification.datetime_expire:

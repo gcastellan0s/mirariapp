@@ -44,6 +44,12 @@
 													{{notification.creation_date|date:"SHORT_DATE_FORMAT"}}
 												</span>
 											</div>
+										{%empty%}
+											<div class="m-list-timeline__item">
+												<a class="m-list-timeline__text">
+													No tienes notificaciones
+												</a>
+											</div>
 										{%endfor%}
 									</div>
 								</div>
