@@ -321,6 +321,7 @@ class Notification(Model_base):
 	craeted_by = models.ForeignKey('mirari.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name="Canal(es) por donde envias", editable=False)
 	sended_to = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Enviado a...', editable=False)
 	readed_by = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Leido por...', editable=False)
+	hide_content = models.BooleanField('Ocultar contenido?', default=True, help_text="Si ocultas el contenido el usuario deberá ingresar usuario y contraseña para ver el contenido.")
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
