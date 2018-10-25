@@ -310,7 +310,7 @@ class Notification(Model_base):
 	organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+', editable=False)
 	channel = models.ForeignKey('Channel', on_delete=models.PROTECT, related_name='+', verbose_name="Canal(es) por donde envias")
 	title = models.CharField('Título', max_length=250)
-	message = models.TextField('Mensaje', max_length=500)
+	message = models.TextField('Mensaje')
 	files = models.FileField('Archivo(s) adjunto(s)', upload_to=path_Notification_file, blank=True, null=True)
 	status = models.CharField('Estatus', max_length=250, choices=NOTIFICATION_STATUS, default='Borrador')
 	datetime_expire = models.DateTimeField('Fecha de expiración', blank=True, null=True, help_text='Este mensaje expira?, dejalo vacio si no expira.')
