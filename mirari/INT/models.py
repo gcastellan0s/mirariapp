@@ -394,11 +394,11 @@ def notification_post_save(sender, instance=None, created=None, **kwargs):
 				)
 				msg.attach_alternative(template, "text/html")
 				msg.send(True)
-		if created:
-			transaction.on_commit(
-				lambda: instance.sended_to.add(instance.get_targets().all())
-			)
-		else:
-			instance.sended_to.add(instance.get_targets().all())
+				if created:
+					transaction.on_commit(
+						lambda: instance.sended_to.add(user)
+					)
+				else:
+					instance.sended_to.add(user)
 		connection.close()
 		instance.save()
