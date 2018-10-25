@@ -396,9 +396,9 @@ def notification_post_save(sender, instance=None, created=None, **kwargs):
 				msg.send(True)
 		if created:
 			transaction.on_commit(
-				lambda: instance.sended_to.add(instance.get_targets())
+				lambda: instance.sended_to.add(instance.get_targets().all())
 			)
 		else:
-			instance.sended_to.add(instance.get_targets())
+			instance.sended_to.add(instance.get_targets().all())
 		connection.close()
 		instance.save()
