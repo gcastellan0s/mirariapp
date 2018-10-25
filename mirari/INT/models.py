@@ -232,8 +232,6 @@ class Channel(Model_base):
 	name = models.CharField('Nombre del canal', max_length=250)
 	user_admin = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Lo administran usuarios')
 	team_admin = models.ManyToManyField('Team', blank=True, related_name='+', verbose_name='Lo administran equipos')
-	send_mail = models.BooleanField('Se notifica por mail?', default=True, help_text="Se notifica via mail a los destinatarios?")
-	mandatory = models.BooleanField('Obligatorio?', default=True, help_text="Es obligatorio leerlo y se envian notificaciones constantes")
 	notify_user = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Destinado a usuarios')
 	notify_team = models.ManyToManyField('Team', blank=True, related_name='+', verbose_name='Destinado a equipos', help_text="Si el campo anterior y este estan vacios, se notificara a todos los equipos.")
 	is_active = models.BooleanField('Canal activo', default=True)
