@@ -53,4 +53,8 @@ class EmployeDirectory__ListView(Generic__ListView):
 				'field': 'property_get_my_teams',
 				'title': 'Equipo',
 			},
+			{
+				'field': 'property_get_last_login',
+				'title': 'Último Acceso',
+			},
 		]

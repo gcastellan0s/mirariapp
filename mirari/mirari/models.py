@@ -197,6 +197,8 @@ class User(AbstractUser, Model_base):
 		return self.organization.get_descendants(include_self=True)
 	def get_full_name(self):
 		return self.first_name + ' ' + self.last_name
+	def get_last_login(self):
+		return self.render_datetime(self.last_login)
 	def get_is_active(self):
 		return self.render_boolean(self.is_active)
 	def get_email(self):
