@@ -12,7 +12,7 @@ class Notification__DetailView(Generic__DetailView):
 		if self.uuid  == '404':
 			raise Http404
 		notification = self.model.objects.filter(uuid=self.uuid).first()
-		if not notification.is_active:
+		if not notification.active:
 			raise Http404
 		if not self.request.user in notification.sended_to.all():
 			raise Http404
