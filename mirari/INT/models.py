@@ -340,36 +340,6 @@ class Notification(Model_base):
 		else:
 			query = model.objects.filter(Q(team_admin__members=view.request.user, is_active=True, active=True) | Q(user_admin=view.request.user, is_active=True, active=True))
 		return query
-	def save(self, *args, **kwargs):
-		sended_to = []
-		if self.sended == False and self.status == 'Publicado':
-			self.sended = True
-			email_host = HostEmail.objects.filter(module__code = 'INT', company=self.organization).first()
-			connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
-			connection.open()
-			for user in self.get_targets():
-				if user.email:
-					context = {
-						'notification': self,
-						'destinatary': user
-					}
-					template = render_to_string('email/default/base_email.html', context)
-					msg = EmailMultiAlternatives(
-						subject=self.title,
-						body=template,
-						from_email=email_host.prefix +'<'+email_host.email+'>', 
-						to=[user.email],
-						connection=connection
-					)
-					msg.attach_alternative(template, "text/html")
-					msg.send(True)
-			connection.close()
-			sended_to = self.get_targets()
-		super().save()
-		if sended_to:
-			self.add_sended_to(self,sended_to)
-	def add_sended_to(self, sended_to):
-		self.sended_to(sended_to.all())
 	def url_detail(self):
 		return reverse('INT:Notification__DetailView', kwargs={'uuid':self.uuid,})
 	def url_update(self):
@@ -401,4 +371,33 @@ class Notification(Model_base):
 		return self.channel.get_targets()
 	def get_user_notification(self, user):
 		return 	Notification.objects.filter(sended_to = user)[0:50]
-	
+
+@receiver(post_save, sender=Notification)
+def notification_post_save(sender, instance=None, created=None, **kwargs):
+	if instance.sended == False and instance.status == 'Publicado':
+		instance.sended = True
+		email_host = HostEmail.objects.filter(module__code='INT', company=instance.organization).first()
+		connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
+		connection.open()
+		for user in instance.get_targets():
+			if user.email:
+				context = {
+					'notification': instance,
+					'destinatary': user
+				}
+				template = render_to_string('email/default/base_email.html', context)
+				msg = EmailMultiAlternatives(
+					subject=instance.title,
+					body=template,
+					from_email=email_host.prefix +'<'+email_host.email+'>', 
+					to=[user.email],
+					connection=connection
+				)
+				msg.attach_alternative(template, "text/html")
+				msg.send(True)
+				if created:
+					transaction.on_commit(
+					lambda: instance.sended_to.add(user)
+				)
+		connection.close()
+		instance.save()
