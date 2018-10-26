@@ -348,7 +348,6 @@ class Notification(Model_base):
 			return reverse('mirari:Generic__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
 		else:
 			return None
-
 	#######		
 	def get_user_notifications(self, user):
 		return Notification.objects.all()
@@ -395,8 +394,11 @@ def notification_post_save(sender, instance=None, created=None, **kwargs):
 				)
 				msg.attach_alternative(template, "text/html")
 				msg.send(True)
-				transaction.on_commit(
-					lambda: instance.sended_to.add(user)
-				)
+				if created:
+					transaction.on_commit(
+						lambda: instance.sended_to.add(user)
+					)
+				else:
+					instance.sended_to.add(user)
 		connection.close()
 		instance.save()
