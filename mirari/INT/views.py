@@ -21,7 +21,6 @@ class Notification__DetailView(Generic__DetailView):
 				raise Http404
 		notification.readed_by.add(self.request.user)
 		return notification
-########## Notification #######################################################################
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(APP, 'Notification')
 		self.uuid = kwargs['uuid']
