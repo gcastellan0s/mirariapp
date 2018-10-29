@@ -3,7 +3,6 @@ from mirari.mirari.models import *
 from .vars import *
 
 
-
 ########################################################################################
 ########################################################################################
 VARS = {
@@ -306,7 +305,7 @@ def path_Notification_file(self, filename):
 	upload_to = "companys/%s_%s/INT/Notification/%s" % (self.organization.id, self.organization.code, filename)
 	return upload_to
 class Notification(Model_base):
-	uuid = models.UUIDField(default=uuid.uuid4)
+	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 	organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+', editable=False)
 	channel = models.ForeignKey('Channel', on_delete=models.PROTECT, related_name='+', verbose_name="Canal(es) por donde envias")
 	title = models.CharField('Título', max_length=250)
@@ -317,8 +316,8 @@ class Notification(Model_base):
 	sended = models.BooleanField('Enviado?', default=False, help_text="Indica si esta notificación ya fue enviada.", editable=False)
 	creation_date = models.DateTimeField(auto_now_add=True)
 	craeted_by = models.ForeignKey('mirari.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name="Canal(es) por donde envias", editable=False)
-	sended_to = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Enviado a...', editable=True)
-	readed_by = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Leido por...', editable=True)
+	sended_to = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Enviado a...', editable=False)
+	readed_by = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Leido por...', editable=False)
 	hide_content = models.BooleanField('Ocultar contenido?', default=True, help_text="Si ocultas el contenido el usuario deberá ingresar usuario y contraseña para ver el contenido.")
 	VARS = VARS
 	class Meta(Model_base.Meta):
@@ -370,35 +369,35 @@ class Notification(Model_base):
 		return self.channel.get_targets()
 	def get_user_notification(self, user):
 		return 	Notification.objects.filter(sended_to = user)[0:50]
+	def send_mail(self):
+		email_host = HostEmail.objects.filter(module__code=APP, company=self.organization).first()
+		connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
+		connection.open()
+		for target in self.get_targets():
+			if target.email:
+				context = {
+					'notification': self,
+					'destinatary': target
+				}
+				template = render_to_string('email/default/base_email.html', context)
+				msg = EmailMultiAlternatives(
+					subject=self.title,
+					body=template,
+					from_email=email_host.prefix +'<'+email_host.email+'>', 
+					to=[target.email],
+					connection=connection
+				)
+				msg.attach_alternative(template, "text/html")
+				msg.send(True)
+		transaction.on_commit(
+			lambda: self.sended_to.add(*self.get_targets())
+		)
+		connection.close()
+		return True
 
 @receiver(post_save, sender=Notification)
 def notification_post_save(sender, instance=None, created=None, **kwargs):
 	if instance.sended == False and instance.status == 'Publicado':
 		instance.sended = True
-		email_host = HostEmail.objects.filter(module__code='INT', company=instance.organization).first()
-		connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
-		connection.open()
-		for user in instance.get_targets():
-			if user.email:
-				context = {
-					'notification': instance,
-					'destinatary': user
-				}
-				template = render_to_string('email/default/base_email.html', context)
-				msg = EmailMultiAlternatives(
-					subject=instance.title,
-					body=template,
-					from_email=email_host.prefix +'<'+email_host.email+'>', 
-					to=[user.email],
-					connection=connection
-				)
-				msg.attach_alternative(template, "text/html")
-				msg.send(True)
-				if created:
-					transaction.on_commit(
-						lambda: instance.sended_to.add(user)
-					)
-				else:
-					instance.sended_to.add(user)
-		connection.close()
 		instance.save()
+		send_mail_task.delay(instance)

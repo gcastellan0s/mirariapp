@@ -87,7 +87,7 @@
 					</div>
 				</div>
 				<!--begin::Form-->
-				<form id="form" method="post" enctype="multipart/form-data" class="m-form m-form--label-align-right">{% csrf_token %}
+				<form id="form" method="post" enctype="multipart/form-data" class="m-form m-form--label-align-right" autocomplete="off">{% csrf_token %}
 					<div class="m-portlet__body">
 						<div class="m-form__content">
 							{%for message in messages%}
@@ -124,39 +124,6 @@
 							</div>
 						</div>
 						{{ form|crispy }}
-						{%comment%}
-							{%if model.VARS.EXTRA_FORM%}
-								{%for EXTRA in model.VARS.EXTRA_FORM%}
-									{%if EXTRA.title %}
-										<div class="m-form__seperator m-form__seperator--dashed"></div>
-										<div class="m-form__section m-form__section--last">
-											{%if EXTRA.title%}
-												<div class="m-form__heading">
-													<h3 class="m-form__heading-title">{{EXTRA.title}}</h3>
-												</div>
-											{%endif%}
-											{%for extra in EXTRA.form%}
-												<div class="form-group m-form__group row">
-													<label class="col-lg-2 col-form-label">{{extra.label}}</label>
-													<div class="col-lg-6">
-														<input type="{{extra.type}}" name="{{extra.name}}" id="id_{{extra.name}}" class="form-control m-input" placeholder="{{extra.placeholder}}">
-														<span class="m-form__help">{{extra.help_text}}</span>
-													</div>
-												</div>
-												<div class="form-group">
-													<div id="div_id_is_active" class="form-check">
-														<label for="id_is_active" class="form-check-label">
-															<input type="checkbox" name="is_active" class="checkboxinput form-check-input" id="id_is_active" checked /> Esta activo?
-														</label>
-														<small id="hint_id_is_active" class="form-text text-muted">Desactivar producto?</small>
-													</div>
-												</div>
-											{%endfor%}
-										</div>
-									{%endif%}
-								{%endfor%}
-							{%endif%}
-						{%endcomment%}
 						<div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
 							<div class="m-form__actions">
 								{%if buttons%}

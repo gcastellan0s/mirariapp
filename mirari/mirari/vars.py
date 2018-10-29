@@ -47,11 +47,11 @@ MENU = {
 MMENU = {}
 MMENU.update(MENU)
 
-from SV.vars import MENU as SVMENU
+from mirari.SV.vars import MENU as SVMENU
 MMENU.update(SVMENU)
 
-from INT.vars import MENU as INTMENU
+from mirari.INT.vars import MENU as INTMENU
 MMENU.update(INTMENU)
 
-from CRYE.vars import MENU as CRYEMENU
+from mirari.CRYE.vars import MENU as CRYEMENU
 MMENU.update(CRYEMENU)
