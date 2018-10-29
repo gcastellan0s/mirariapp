@@ -31,3 +31,4 @@ django-rest-auth==0.9.3
 djangorestframework-jwt==1.11.0
 django-cors-headers==2.4.0
 cx-Oracle==7.0.0
+django-celery-results==1.0.1

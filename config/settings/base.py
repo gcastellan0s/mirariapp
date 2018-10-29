@@ -237,6 +237,7 @@ MANAGERS = ADMINS
 # Celery
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += ['mirari.taskapp.celery.CeleryAppConfig']
+INSTALLED_APPS += ['django_celery_results']
 
 if USE_TZ:
     # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-timezone

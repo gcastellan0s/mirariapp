@@ -6,7 +6,7 @@ from django.conf import settings
 
 if not settings.configured:
     # set the default Django settings module for the 'celery' program.
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')  # pragma: no cover
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.production')  # pragma: no cover
 
 app = Celery('mirari')
 
@@ -38,5 +38,4 @@ class CeleryAppConfig(AppConfig):
 
 @app.task(bind=True)
 def debug_task(self):
-    pass
-    #print(f'Request: {self.request!r}')  # pragma: no cover
+    print(f'Request: {self.request!r}')  # pragma: no cover
