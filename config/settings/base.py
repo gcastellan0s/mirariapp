@@ -1,4 +1,3 @@
-from __future__ import absolute_import, unicode_literals
 import environ
 
 ROOT_DIR = environ.Path(__file__) - 3  # (mirari/config/settings/base.py - 3 = mirari/)
@@ -80,7 +79,6 @@ THIRD_PARTY_APPS = [
     'localflavor',
     'django_countries',
     'corsheaders',
-    'djcelery',
 ]
 LOCAL_APPS = [
     'mirari.mirari',
@@ -238,6 +236,7 @@ MANAGERS = ADMINS
 
 # Celery
 # ------------------------------------------------------------------------------
+INSTALLED_APPS += ['mirari.taskapp.celery.CeleryAppConfig']
 
 if USE_TZ:
     # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-timezone
