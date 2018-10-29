@@ -58,3 +58,4 @@ sudo chown redis:redis /var/lib/redis
 sudo chmod 770 /var/lib/redis
 sudo systemctl start redis
 sudo systemctl enable redis
+sudo systemctl restart redis
