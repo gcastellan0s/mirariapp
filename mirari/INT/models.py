@@ -326,6 +326,8 @@ class Notification(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return '{0}'.format(self.title)
+	def __init__(self, *args, **kwargs):
+        super().__init__()
 	def QUERY(self, view):
 		if view.request.user.is_superuser:
 			channel = Channel.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
