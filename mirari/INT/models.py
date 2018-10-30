@@ -327,7 +327,7 @@ class Notification(Model_base):
 	def __str__(self):
 		return '{0}'.format(self.title)
 	def __init__(self, *args, **kwargs):
-        super().__init__()
+        super(self).__init__(self,)
 	def QUERY(self, view):
 		if view.request.user.is_superuser:
 			channel = Channel.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
