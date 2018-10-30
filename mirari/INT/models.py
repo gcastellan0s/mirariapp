@@ -291,6 +291,7 @@ VARS = {
 			'title': 'Estatus',
 		},
 	],
+	'FORM': ('channel','title','message','files','status','datetime_expire','hide_content',),
 	'SEARCH': ['name'],
 	'SELECTQ': {
 		'channel': {
@@ -305,19 +306,19 @@ def path_Notification_file(self, filename):
 	upload_to = "companys/%s_%s/INT/Notification/%s" % (self.organization.id, self.organization.code, filename)
 	return upload_to
 class Notification(Model_base):
-	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
-	organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+', editable=False)
+	uuid = models.UUIDField(default=uuid.uuid4)
+	organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+')
 	channel = models.ForeignKey('Channel', on_delete=models.PROTECT, related_name='+', verbose_name="Canal(es) por donde envias")
 	title = models.CharField('Título', max_length=250)
 	message = models.TextField('Mensaje')
 	files = models.FileField('Archivo(s) adjunto(s)', upload_to=path_Notification_file, blank=True, null=True)
 	status = models.CharField('Estatus', max_length=250, choices=NOTIFICATION_STATUS, default='Borrador')
 	datetime_expire = models.DateTimeField('Fecha de expiración', blank=True, null=True, help_text='Este mensaje expira?, dejalo vacio si no expira.')
-	sended = models.BooleanField('Enviado?', default=False, help_text="Indica si esta notificación ya fue enviada.", editable=False)
+	sended = models.BooleanField('Enviado?', default=False, help_text="Indica si esta notificación ya fue enviada.")
 	creation_date = models.DateTimeField(auto_now_add=True)
-	craeted_by = models.ForeignKey('mirari.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name="Canal(es) por donde envias", editable=False)
-	sended_to = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Enviado a...', editable=False)
-	readed_by = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Leido por...', editable=False)
+	craeted_by = models.ForeignKey('mirari.User', on_delete=models.SET_NULL, blank=True, null=True, related_name='+', verbose_name="Canal(es) por donde envias")
+	sended_to = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Enviado a...')
+	readed_by = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Leido por...')
 	hide_content = models.BooleanField('Ocultar contenido?', default=True, help_text="Si ocultas el contenido el usuario deberá ingresar usuario y contraseña para ver el contenido.")
 	VARS = VARS
 	class Meta(Model_base.Meta):
