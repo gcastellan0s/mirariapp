@@ -400,4 +400,4 @@ def notification_post_save(sender, instance=None, created=None, **kwargs):
 	if instance.sended == False and instance.status == 'Publicado':
 		instance.sended = True
 		instance.save()
-		send_mail_task.delay(instance)
+		send_mail_task.delay(app='INT', model='Notification')
