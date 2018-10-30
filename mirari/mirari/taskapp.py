@@ -3,7 +3,6 @@ from celery import shared_task
 from django.apps import apps
 
 @shared_task
-def send_mail_task(app=None, model=None):
-	instance = apps.get_model(app, model)
-	instance().send_mail()
+def send_mail_task(app=None, model=None, pk=None):
+	apps.get_model(app, model).objects.get(pk=pk).send_mail()
 	return 'send_mail_task OK'
