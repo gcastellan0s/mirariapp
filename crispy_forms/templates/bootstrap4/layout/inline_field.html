@@ -1,0 +1,26 @@
+{% load crispy_forms_field %}
+
+{% if field.is_hidden %}
+    {{ field }}
+{% else %}
+    {% if field|is_checkbox %}
+        <div id="div_{{ field.auto_id }}" class="m-form__group form-group row form-check form-check-inline{% if wrapper_class %} {{ wrapper_class }}{% endif %}">
+            <label for="{{ field.id_for_label }}" class="form-check-label{% if field.field.required %} requiredField{% endif %} col-4 col-form-label">{{ field.label|safe }}</label>
+            <div class="col-8">
+                <span class="m-switch m-switch--icon">
+                    <label>
+                        {% crispy_field field 'class' 'form-check-input' %}
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+        </div>
+    {% else %}
+        <div id="div_{{ field.auto_id }}" class="input-group{% if wrapper_class %} {{ wrapper_class }}{% endif %}">
+            <label for="{{ field.id_for_label }}" class="sr-only{% if field.field.required %} requiredField{% endif %}">
+                {{ field.label|safe }}
+            </label>
+            {% crispy_field field 'placeholder' field.label %}
+        </div>
+    {% endif %}
+{% endif %}

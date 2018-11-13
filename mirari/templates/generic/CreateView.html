@@ -13,7 +13,10 @@
 
 {%block css%}
 	{{block.super}} 
-	{%include 'generic/includes/create-update/selectmultiple.css'%}
+	{%include 'generic/includes/create-update/selectmultiple.html'%}
+	{%if 'small_form' in model.VARS.FORM_CLASS%}
+		{%include 'generic/includes/create-update/small_form.html'%}
+	{%endif%}
 {%endblock css%}
 
 {%block subheader%}
@@ -23,7 +26,7 @@
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="/" class="m-nav__link m-nav__link--icon">
-                            <strong> <i class="la la-home"></i> PANEL DE INICIO </strong>
+                            <strong> <i class="la la-home"></i> PANEL DE INICIO</strong>
                         </a>
                     </li>
 					{%if breadcrumbs%}
@@ -68,14 +71,11 @@
 
 {%block content%}
     <div class="row">
-		<div class="col-md-10">
+		<div class="col-md-12">
 			<div class="m-portlet m-portlet--tab">
 				<div class="m-portlet__head">
 					<div class="m-portlet__head-caption">
 						<div class="m-portlet__head-title">
-							<span class="m-portlet__head-icon m--hide">
-								<i class="la la-gear"></i>
-							</span>
 							<h3 class="m-portlet__head-text">
 								{%if not object%}
 									<small> CREAR </small> &nbsp;{{ model|verbose_name_singular|upper }}
@@ -86,83 +86,42 @@
 						</div>
 					</div>
 				</div>
-				<!--begin::Form-->
-				<form id="form" method="post" enctype="multipart/form-data" class="m-form m-form--label-align-right" autocomplete="off">{% csrf_token %}
-					<div class="m-portlet__body">
-						<div class="m-form__content">
-							{%for message in messages%}
-								<div class="m-alert m-alert--icon alert alert-{{message.tags}}" role="{{message.tags}}">
-									<div class="m-alert__icon">
-										{%if message.tags == 'info'%}
-											<i class="la la-warning"></i>
-										{%elif message.tags == 'success'%}
-											<i class="la la-check"></i>
-										{%elif message.tags == 'warning'%}
-											<i class="la la-warning"></i>
-										{%elif message.tags == 'error'%}
-											<i class="la la-times"></i>
-										{%endif%}
-									</div>
-									<div class="m-alert__text">
-										{{message}}
-									</div>
-									<div class="m-alert__close">
-										<button type="button" class="close" data-close="alert" aria-label="Close"></button>
-									</div>
-								</div>
-							{%endfor%}
-							<div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="form_msg">
-								<div class="m-alert__icon">
-									<i class="la la-warning"></i>
-								</div>
-								<div class="m-alert__text">
-									Hay algúnos errores en tu formulario, corrigelos para poder continuar!
-								</div>
-								<div class="m-alert__close">
-									<button type="button" class="close" data-close="alert" aria-label="Close"></button>
-								</div>
-							</div>
+				<div class="m-form__content">
+					{%for message in messages%}
+					<div class="m-alert m-alert--icon alert alert-{{message.tags}}" role="{{message.tags}}">
+						<div class="m-alert__icon">
+							{%if message.tags == 'info'%}
+							<i class="la la-warning"></i>
+							{%elif message.tags == 'success'%}
+							<i class="la la-check"></i>
+							{%elif message.tags == 'warning'%}
+							<i class="la la-warning"></i>
+							{%elif message.tags == 'error'%}
+							<i class="la la-times"></i>
+							{%endif%}
 						</div>
-						{{ form|crispy }}
-						<div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
-							<div class="m-form__actions">
-								{%if buttons%}
-									{{buttons}}
-								{%else%}
-									<button type="submit" class="btn btn-primary m--margin-right-15" name="save">
-										{%if not object%}
-											GUARDAR {{ model|verbose_name_singular|upper }}
-										{%else%}
-											ACTUALIZAR <small>{{ model|verbose_name_singular|upper }}</small>
-										{%endif%}
-									</button>
-									{%if not hide_extra_submmit%}
-										<button type="submit" class="btn btn-success" name="save__edit">
-											{%if not object%}
-												GUARDAR  <small>y continuar editando.</small>
-											{%else%}
-												ACTUALIZAR <small>y continuar editando.</small>
-											{%endif%}
-										</button>
-										{%if not object%}
-											<button type="submit" class="btn btn-warning m--pull-right" name="save__other">
-												GUARDAR <small>y crear otro.</small>
-											</button>
-										{%endif%}
-										{%if object%}
-											{%if not hide_delete_button%}
-												<button type="submit" class="btn btn-danger m--pull-right" name="delete">
-													ELIMINAR <small>{{ model|verbose_name_singular|upper }}</small>
-												</button>
-											{%endif%}
-										{%endif%}
-									{%endif%}
-								{%endif%}
-							</div>
+						<div class="m-alert__text">
+							{{message}}
+						</div>
+						<div class="m-alert__close">
+							<button type="button" class="close" data-close="alert" aria-label="Close"></button>
 						</div>
 					</div>
-				</form>
-				<!--end::Form-->
+					{%endfor%}
+					<div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="form_msg">
+						<div class="m-alert__icon">
+							<i class="la la-warning"></i>
+						</div>
+						<div class="m-alert__text">
+							Hay algúnos errores en tu formulario, corrigelos para poder continuar!
+						</div>
+						<div class="m-alert__close">
+							<button type="button" class="close" data-close="alert" aria-label="Close"></button>
+						</div>
+					</div>
+				</div>
+				<!--begin::Form-->
+				{% crispy form %}
 			</div>
 		</div>
 	</div>
@@ -175,24 +134,7 @@
 {%endblock js%}
 
 {%block mounted%}
-	///////BASE
-	$( ".form-group" ).addClass( "m-form__group" );
-	$('[name="color"]').attr('type','color')
-	$(".form-check").each(function(index) {
-		label = $(this).children('label')
-		hint = $(this).children('small')
-		input = label.children('input')
-		text = label.text()
-		parent = $(this).parent('div')
-		parent.addClass('row')
-		checked = ''
-		if (input.is(':checked'))
-			checked = 'checked="checked"'
-		$(this).empty()
-		$(this).append('<label class="col-12 col-form-label" for="'+input.attr('id')+'">'+text+'</label>')
-		$(this).append('<div class="col-3"><span class="m-switch m-switch--outline m-switch--icon m-switch--primary"><label class="checkbox-container"><input type="checkbox" name="'+input.attr('name')+'" id="'+input.attr('id')+'" '+checked+' class="checkboxinput form-check-input"><span></span></label></div>')
-		$(this).append(hint)
-	});
+	$('[name="color"]').attr('type','color');
 	{%include 'generic/includes/create-update/select.js'%}
 	{%include 'generic/includes/create-update/datepicker.js'%}
 	{%include 'generic/includes/create-update/validate.js'%}

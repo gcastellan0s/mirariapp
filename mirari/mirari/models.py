@@ -425,3 +425,29 @@ class HostEmail(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return '{0}'.format(self.module)
+
+
+########################################################################################
+########################################################################################
+VARS = {
+	'NAME':'HostEmail',
+	'PLURAL':'HostEmail',
+	'MODEL':'HostEmail',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS': 'este',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS':['all'],
+}
+class HTMLPage(Model_base):
+	organization = models.ForeignKey('Organization', on_delete=models.CASCADE, related_name='+',)
+	sites = models.ManyToManyField(Site)
+	folder = models.CharField(max_length=250)
+	ManyToManyField = models.CharField(max_length=250)
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0}'.format(self.organization)

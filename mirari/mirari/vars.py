@@ -55,3 +55,6 @@ MMENU.update(INTMENU)
 
 from mirari.CRYE.vars import MENU as CRYEMENU
 MMENU.update(CRYEMENU)
+
+from mirari.TCS.vars import MENU as TCS
+MMENU.update(TCS)

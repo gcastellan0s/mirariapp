@@ -27,11 +27,13 @@ from django.core.paginator import Paginator
 from django.forms import widgets
 from django import forms
 
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_jwt.serializers import VerifyJSONWebTokenSerializer
+
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import *
 
 import requests
 
@@ -578,13 +580,53 @@ class Base_Create(object):
 		class Form(Base_Form):
 			class Meta(Base_Form.Meta):
 				model = self.model
-				exclude = []
-				if 'FORM' in self.model.VARS:
-					fields = self.model.VARS['FORM']
+			def __init__(self, *args, **kwargs):
+				super().__init__(*args, **kwargs)
+				self.helper = FormHelper()
+				if 'FORM_ID' in self._meta.model.VARS:
+					self.helper.form_id = self._meta.model.VARS['FORM_ID']
+				else:	
+					self.helper.form_id = 'form'
+				if 'FORM_CLASS' in self._meta.model.VARS:
+					self.helper.form_class = self._meta.model.VARS['FORM_CLASS']
 				else:
-					exclude = ['active', 'organization', 'serial']
-				if 'EXCLUDE_FORM' in self.model.VARS:
-					exclude.append(self.model.VARS['EXCLUDE_FORM'])
+					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed col-md-8'
+				self.helper.layout = Layout()
+				if 'FORM' in self._meta.model.VARS:
+					attach_div = False
+					div = Div(css_class="form-group m-form__group row")
+					for element in self._meta.model.VARS['FORM']:
+						if type(element) == str:
+							div.append(Div(element, css_class="col-md-12"))
+							attach_div = True
+						else:
+							self.helper.layout.append(element)
+					if attach_div:
+						self.helper.layout.append(div)
+				else:
+					EXCLUDE_FORM = ['active', 'organization']
+					div = Div(css_class="form-group m-form__group row")
+					if 'EXCLUDE_FORM' in self._meta.model.VARS:
+						EXCLUDE_FORM = self._meta.model.VARS['EXCLUDE_FORM']
+					for element in self._meta.model._meta.fields:
+						flag=True
+						if element.name in EXCLUDE_FORM:
+							flag = False
+						if flag:
+							div.append(Div(element.name, css_class="col-md-12"))
+					self.helper.layout.append(div)
+				if 'FORM_BUTTONS' in self._meta.model.VARS:
+					self.helper.layout.append(
+						self._meta.model.VARS['FORM_BUTTONS']
+					)
+					self.helper.layout = Layout(self._meta.model.VARS['FORM_BUTTONS'])
+				else:
+					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed col-md-8'
+					self.helper.layout.append(
+						HTML("""
+							{%include 'generic/includes/create-update/submit_buttons.html'%}
+						""")
+					)
 		return Form
 	def extra_response(self):
 		return False

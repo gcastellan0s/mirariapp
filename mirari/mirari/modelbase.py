@@ -18,16 +18,21 @@ from django.conf import settings
 from django.urls import reverse
 from django.apps import apps
 
+from crispy_forms.layout import *
+from crispy_forms.bootstrap import *
+
 from localflavor.mx.models import MXRFCField, MXZipCodeField, MXCURPField
+
 from mptt.models import MPTTModel, TreeForeignKey
+
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
-from itertools import chain
+
 import datetime
 import uuid
+from itertools import chain
 
 from .vars import *
-
 from .taskapp import *
 
 ########################################################################################
