@@ -70,7 +70,7 @@ class logout__Organization__TemplateView(Generic__TemplateView):
 class dashboard__Organization__TemplateView(Generic__TemplateView):
 	template_name = "app/dashboard.html"
 	def dispatch(self, request, *args, **kwargs):
-		if True:
+		if not request.user.is_authenticated:
 			organization = get_variables(self)['ORGANIZATION']
 			self.HTMLPage = HTMLPage.objects.get(organization=organization)
 			if self.HTMLPage:
