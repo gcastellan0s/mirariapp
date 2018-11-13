@@ -35,3 +35,7 @@ class DBConnectionAdmin(PassAdmin):
 @admin.register(HostEmail)
 class HostEmailAdmin(PassAdmin):
 	pass
+
+@admin.register(HTMLPage)
+class HTMLPageAdmin(PassAdmin):
+	pass
