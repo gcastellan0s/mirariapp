@@ -430,9 +430,9 @@ class HostEmail(Model_base):
 ########################################################################################
 ########################################################################################
 VARS = {
-	'NAME':'HostEmail',
-	'PLURAL':'HostEmail',
-	'MODEL':'HostEmail',
+	'NAME':'PaginasHTML',
+	'PLURAL':'PaginasHTML',
+	'MODEL':'HTMLPage',
 	'NEW':'NUEVO',
 	'NEW_GENDER': 'un nuevo',
 	'THIS': 'este',
