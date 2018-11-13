@@ -441,9 +441,8 @@ VARS = {
 }
 class HTMLPage(Model_base):
 	organization = models.ForeignKey('Organization', on_delete=models.CASCADE, related_name='+',)
-	sites = models.ManyToManyField(Site)
 	folder = models.CharField(max_length=250)
-	ManyToManyField = models.CharField(max_length=250)
+	index = models.CharField(max_length=250)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
