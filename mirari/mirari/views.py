@@ -69,6 +69,13 @@ class logout__Organization__TemplateView(Generic__TemplateView):
 ######### DASHBOARD ###########################################################################
 class dashboard__Organization__TemplateView(Generic__TemplateView):
 	template_name = "app/dashboard.html"
+	def dispatch(self, request, *args, **kwargs):
+		if True:
+			organization = get_variables(self)['ORGANIZATION']
+			self.HTMLPage = HTMLPage.objects.get(organization=organization)
+			if self.HTMLPage:
+				self.template_name = self.HTMLPage.folder + self.HTMLPage.index
+		return super().dispatch(request, *args, **kwargs)
 ################################################################################################
 ################################################################################################
 ########## LIST ################################################################################

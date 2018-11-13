@@ -9,7 +9,7 @@ urlpatterns = [
 
 	path('login/', login__Organization__TemplateView.as_view(), name='login__Organization__TemplateView'),
 	path('logout/', logout__Organization__TemplateView.as_view(), name='logout__Organization__TemplateView'),
-	path('', login_required(dashboard__Organization__TemplateView.as_view()), name='dashboard__Organization__TemplateView'),
+	path('', dashboard__Organization__TemplateView.as_view(), name='dashboard__Organization__TemplateView'),
 
 	path('list/UserListView/<slug:app>/<slug:model>/', login_required(User__ListView.as_view()), name='User__ListView'),
 	path('create/UserCreateView/<slug:app>/<slug:model>/', login_required(User__CreateView.as_view()), name='User__CreateView'),

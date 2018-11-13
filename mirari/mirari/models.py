@@ -442,6 +442,7 @@ VARS = {
 class HTMLPage(Model_base):
 	organization = models.ForeignKey('Organization', on_delete=models.CASCADE, related_name='+',)
 	folder = models.CharField(max_length=250)
+	static = models.CharField(max_length=250)
 	index = models.CharField(max_length=250)
 	VARS = VARS
 	class Meta(Model_base.Meta):

@@ -1,0 +1,29 @@
+{% load staticfiles i18n %}
+<hr />
+<h3 class="modal-title" style="color:#1D0C55;">GARANTÍAS Y PLAZO</h3>
+<ul class="list-group" style="margin-top:10px;">
+    <li class="list-group-item">Garantías propias del crédito.</li>
+    <li class="list-group-item">Aval y Obligado Solidario.</li>
+    <li class="list-group-item">Plazo de 12 a 36 meses.</li>
+    {%if producto == 'credito'%}
+        <li class="list-group-item">Tasa Variable Anual.</li>
+        <li class="list-group-item">Tasa Variable Anual Mínima 21%.</li>
+        <li class="list-group-item">Tasa Variable Anual Máxima 30%.</li>
+    {%endif%}
+    <li class="list-group-item">Comisión por apertura del 1% anual según el plazo del crédito.</li>
+    {%comment%}
+    <li class="list-group-item">Gastos, Impuestos, Derechos y Honorarios en la formalización del Contrato.</li>
+    {%endcomment%}
+    <li class="list-group-item">Crédito en Pesos Mexicanos.</li>
+    <li class="list-group-item">Cobertura geográfica Nacional.</li>
+    <li class="list-group-item"><strong style="font-size:17px;">Costo Anual Total (CAT) sin IVA promedio para fines informativos: 37.2%  **</strong></li>
+    <li class="list-group-item"><strong>Para mayor información de características de este producto puede consultar en: <a href="https://www.buro.gob.mx/tbl_general_comportamiento.php?id_sector=85&id_periodo=14#." target="_blank">
+        <img src="http://www.unionprogreso.com.mx/img/LOGO_BURO.png" style="max-width:80px;">
+    </a></strong>
+    </li>
+</ul>
+<hr />
+<p style="font-size:17px;line-height: 18px;">
+**Fecha de cálculo 30 de septiembre de 2017. Con base promedio de un ticket de 5 millones con una tasa TIIE + 22.7 = 30. Estos datos son para efectos informativos y comparativos y no constituyen obligación u ofrecimiento formal por parte de la Unión de Crédito Credipyme, S.A. de C.V. en el otorgamiento del crédito. Las condiciones de los préstamos estarán sujetas a cambios sin previo aviso.
+</p>
+{% include "pages/credipyme/extend_documentacion.html" %}

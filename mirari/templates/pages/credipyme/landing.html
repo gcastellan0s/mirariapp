@@ -1,0 +1,1519 @@
+{% load staticfiles i18n %}
+{% load user_agents %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#333">
+    <title>CREDIPyME | Unión de crédito</title>
+    <meta name="description" content="Material Style Theme">
+    <link rel="shortcut icon" href="{%static HTMLPage.static%}img/favicon.png%}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="{%static HTMLPage.static%}css/preload.min.css" />
+    <link rel="stylesheet" href="{%static HTMLPage.static%}css/plugins.min.css" />
+    <link rel="stylesheet" href="{%static HTMLPage.static%}css/style.css" />
+    <link rel="stylesheet" href="{%static HTMLPage.static%}css/width-boxed.min.css" id="ms-boxed" disabled="">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <meta property="og:image" content="{%static HTMLPage.static%}img/logo.png"/>
+    <meta property="og:url" content="credipyme.mx" />
+    <meta property="og:type" content="" />
+    <meta property="og:title" content="CREDIPyME | Unión de crédito" />
+    <meta property="og:description" content="Institución financiera privada de desarrollo que provee créditos a las Pequeñas y Medianas empresas (PYMES) de México" />
+    <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      .logo{
+          max-width: 230px;
+      }
+      .ms-configurator-btn {
+          position: fixed;
+          z-index: 3000;
+          right: 20px;
+          top: 80px;
+          -webkit-animation-delay: 5s;
+          animation-delay: 5s;
+      }
+      .ms-navbar .navbar-brand {
+          font-weight: 300;
+          word-spacing: -4px;
+          font-size: 20px;
+          padding-top: 0px;
+          margin: 0px -10px;
+          color: #f5f5f5;
+          display: none;
+          height: 50px;
+          white-space: nowrap;
+      }
+      
+      .footer-div{
+          padding-right: 60px;
+          padding-left: 100px;
+          padding-top: 30px; 
+          padding-bottom: : 20px;
+      }
+      .ms-collapse .panel-info .panel-heading {
+          padding: 0;
+          background-color: #241c64;
+      }
+      .card.card-info {
+          border-bottom: solid 3px #c1b926;
+          border-radius: 3px;
+      }
+      .btn-circle.btn-circle-raised.btn-circle-primary {
+          background-color: #c2b931!important;
+      }
+      .ms-navbar-white.navbar-mode .navbar-nav>li>a:before, .ms-header-white+.ms-navbar-white .navbar-nav>li>a:before {
+          background-color: #241c64;
+      }
+      .ms-hero.ms-hero-material .ms-hero-bg:after {
+        background-color: #241c64;
+      }
+      .ms-navbar-white.navbar-mode .navbar-nav>li .dropdown-menu li a,
+      .ms-navbar-white.navbar-mode .navbar-nav>li .dropdown-menu li a,
+      .ms-header-white+.ms-navbar-white .navbar-nav>li .dropdown-menu li a,
+      .ms-header-white+.ms-navbar-white .navbar-nav>li .dropdown-menu li a {
+          background-color: #241c64;
+      }
+      .ms-navbar-white.navbar-mode .navbar-nav>li .dropdown-menu li a:hover,
+      .ms-navbar-white.navbar-mode .navbar-nav>li .dropdown-menu li a:focus,
+      .ms-header-white+.ms-navbar-white .navbar-nav>li .dropdown-menu li a:hover,
+      .ms-header-white+.ms-navbar-white .navbar-nav>li .dropdown-menu li a:focus {
+          background-color: #fff;
+          color: #8d8143
+      }
+      .ms-hero.ms-hero-material .ms-hero-material-text-container .ms-hero-material-title h1 {
+          margin: 0 0 18px;
+          margin: 0 0 0rem;
+          font-size: 30px;
+          font-size: 3rem;
+          font-weight: 200;
+          text-transform: capitalize;
+      }
+      .ms-hero.ms-hero-material .ms-hero-material-text-container .ms-hero-material-title h1 strong {
+          font-weight: 500;
+      }
+      .ms-hero.ms-hero-material .ms-hero-material-text-container .ms-hero-material-title h1 {
+          margin: 0 0 18px;
+          margin: 0 0 0rem;
+          font-size: 30px;
+          font-size: 3rem;
+          font-weight: 300;
+          text-transform: capitalize;
+      }
+      .ms-hero-img {
+          margin: 0 auto 0rem!important;
+      }
+      .bg-info {
+          background-color: #c2b931!important;
+          color: #fff;
+      }
+      .btn:not(.btn-raised).btn-info, .input-group-btn .btn:not(.btn-raised).btn-info {
+          color: #2d265f;
+      }
+      .card .card-block, .card.card-block {
+          min-height: 190px;
+      }
+      .img-avatar-circle {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          border: solid 5px #fff;
+          box-shadow: 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .2), 0 1px 8px 0 rgba(0, 0, 0, .12);
+          margin: 0 auto;
+          display: block;
+          position: relative;
+          z-index: 1;
+      }
+      .modal-p{
+        font-weight: 300;
+        text-align: justify;
+      }
+      .p-lead{
+        text-align: justify;
+      }
+      .bg-info{
+        height: 105px;
+      }
+      .btn.btn-raised.btn-warning, .btn.btn-fab.btn-warning, .btn-group-raised .btn.btn-warning, .input-group-btn .btn.btn-raised.btn-warning, .input-group-btn .btn.btn-fab.btn-warning, .btn-group-raised .input-group-btn .btn.btn-warning {
+          background-color: #c2b931;
+          color: rgba(255, 255, 255, .84);
+      }
+      .btn.btn-raised:not(.btn-link):hover.btn-warning,
+      .btn.btn-raised:not(.btn-link):focus.btn-warning,
+      .btn.btn-raised:not(.btn-link).active.btn-warning,
+      .btn.btn-raised:not(.btn-link):active.btn-warning,
+      .btn-group-raised .btn:not(.btn-link):hover.btn-warning,
+      .btn-group-raised .btn:not(.btn-link):focus.btn-warning,
+      .btn-group-raised .btn:not(.btn-link).active.btn-warning,
+      .btn-group-raised .btn:not(.btn-link):active.btn-warning,
+      .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-warning,
+      .input-group-btn .btn.btn-raised:not(.btn-link):focus.btn-warning,
+      .input-group-btn .btn.btn-raised:not(.btn-link).active.btn-warning,
+      .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-warning,
+      .btn-group-raised .input-group-btn .btn:not(.btn-link):hover.btn-warning,
+      .btn-group-raised .input-group-btn .btn:not(.btn-link):focus.btn-warning,
+      .btn-group-raised .input-group-btn .btn:not(.btn-link).active.btn-warning,
+      .btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-warning {
+          background-color: #9a8f56
+      }
+
+      .btn.btn-raised.btn-blue, .btn.btn-fab.btn-blue, .btn-group-raised .btn.btn-blue, .input-group-btn .btn.btn-raised.btn-blue, .input-group-btn .btn.btn-fab.btn-blue, .btn-group-raised .input-group-btn .btn.btn-blue {
+        background-color: #241c64;
+        color: rgba(255, 255, 255, .84);
+      } 
+
+      .btn.btn-raised:not(.btn-link):hover.btn-blue,
+      .btn.btn-raised:not(.btn-link):focus.btn-blue,
+      .btn.btn-raised:not(.btn-link).active.btn-blue,
+      .btn.btn-raised:not(.btn-link):active.btn-blue,
+      .btn-group-raised .btn:not(.btn-link):hover.btn-blue,
+      .btn-group-raised .btn:not(.btn-link):focus.btn-blue,
+      .btn-group-raised .btn:not(.btn-link).active.btn-blue,
+      .btn-group-raised .btn:not(.btn-link):active.btn-blue,
+      .input-group-btn .btn.btn-raised:not(.btn-link):hover.btn-blue,
+      .input-group-btn .btn.btn-raised:not(.btn-link):focus.btn-blue,
+      .input-group-btn .btn.btn-raised:not(.btn-link).active.btn-blue,
+      .input-group-btn .btn.btn-raised:not(.btn-link):active.btn-blue,
+      .btn-group-raised .input-group-btn .btn:not(.btn-link):hover.btn-blue,
+      .btn-group-raised .input-group-btn .btn:not(.btn-link):focus.btn-blue,
+      .btn-group-raised .input-group-btn .btn:not(.btn-link).active.btn-blue,
+      .btn-group-raised .input-group-btn .btn:not(.btn-link):active.btn-blue {
+          background-color: #18114f
+      }
+      .btn.btn-raised.btn-primary,
+      .btn.btn-fab.btn-primary,
+      .btn-group-raised .btn.btn-primary,
+      .input-group-btn .btn.btn-raised.btn-primary,
+      .input-group-btn .btn.btn-fab.btn-primary,
+      .btn-group-raised .input-group-btn .btn.btn-primary {
+          background-color: #241c64;
+          color: rgba(255, 255, 255, .84);
+      }
+
+      .ms-hero-page-override {
+          margin: 60px 0 0;
+          padding: 30px 0 140px;
+      }
+      .ms-footbar {
+          margin-top: 0px;
+      }
+      @media (min-width: 768px){
+        .modal-dialog {
+            width: 600px;
+            margin: 100px auto;
+        }
+      }
+      @media (max-width: 768px){
+        .ms-navbar .navbar-brand img {
+            margin-top: -10px;
+        }
+      }
+      .ms-footer-media .media img {
+        border-radius: 0%;
+        margin-right: 2rem;
+        border: solid 0px #607d8b;
+        min-width: 120px;
+      }
+      .ms-navbar .navbar-brand img {
+          margin-top: 2px;
+      }
+      .wrap.wrap-mountain:after {
+          background-color: rgba(7, 0, 64, 0.8);
+      }
+      .wrap.wrap-mountain {
+          background-color: #ffffff;
+      }
+      .nav.nav-tabs.indicator-primary .ms-tabs-indicator {
+          background-color: #c2b931;
+      }
+      .ms-hero-bg-primary:after {
+          background-color: rgba(36, 28, 100, 0.83);
+      }
+      .ms-footbar {
+          background: -webkit-gradient(linear, left top, right top, color-stop(50%,#f5f5f5), color-stop(50%,#241c64), color-stop(0%,#f5f5f5));
+      }
+      .ms-footbar-social a {
+          background-color: #c2b931;
+          color: #ffffff!important;
+      }
+      .ms-footer {
+          background-color: #181150;
+      }
+      .ms-footer-alt-color {
+          background-color: #f5f5f5;
+      }
+      @media (min-width: 768px){
+        .modal-dialog {
+            width: 800px;
+            margin: 100px auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="{%url 'mirari:login__Organization__TemplateView' %}" class="ms-configurator-btn btn-circle btn-circle-raised btn-circle-primary animated rubberBand">
+      <i class="fa fa-key"></i>
+    </a>
+    <div class="sb-site-container">
+      <header class="ms-header ms-header-white">
+        <div class="container container-full">
+          <div class="ms-title">
+            <a href="/">
+              <!-- <img src="assets/img/demo/logo-header.png" alt=""> -->
+              <img src="{%static HTMLPage.static%}img/logo.png" alt="" class="logo">
+            </a>
+          </div>
+          <div class="header-right">
+            <span style="font-weight: 200;">
+              <button class="btn btn-blue btn-xs btn-raised btn-outline open_modal"  modal="buzon_de_denuncias">
+                <i class="fa fa-envelope"></i>Buzón de denuncia para operaciones en materia de PLD
+              </button>
+            </span><br />
+            <span style="font-weight: 200;">Telefóno Gratuito </span><span> 01-800-700-PYME (7963)</span><br />
+            <span style="font-weight: 200;">Telefóno Matríz </span><span> (55) 36 85 3920</span>
+          </div>
+        </div>
+      </header>
+      <nav class="navbar navbar-static-top yamm ms-navbar ms-navbar-white">
+        <div class="container container-full">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">
+              <img src="{%static HTMLPage.static%}img/logo.png" alt="" class="logo" style="max-width: 130px;">
+            </a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <a data-scroll href="#nosotros" class="animated fadeIn animation-delay-8" role="button" aria-haspopup="true" aria-expanded="false" data-name="nosotros">NOSOTROS
+                </a>
+              </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle animated fadeIn animation-delay-8" data-toggle="dropdown" data-hover="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-name="productos">PRODUCTOS
+                  <i class="zmdi zmdi-chevron-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="" modal="credito_simple_modal" class="open_modal">
+                      CRÉDITO SIMPLE
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" modal="credito_refaccionario_modal" class="open_modal">
+                      CRÉDITO REFACCIONARIO
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" modal="credito_de_descuento_de_documentos_modal" class="open_modal">
+                      CRÉDITO DE DESCUENTO DE DOCUMENTOS
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" modal="credito_para_provedores_de_gobierno_modal" class="open_modal">
+                      CRÉDITO PARA PROVEEDORES DE GOBIERNO
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" modal="arrendamiento_financiero_modal" class="open_modal">
+                      ARRENDAMIENTO FINANCIERO
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" modal="factoraje_financiero_modal" class="open_modal">
+                      FACTORAJE FINANCIERO
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" modal="arrendamiento_puro_modal" class="open_modal">
+                      ARRENDAMIENTO PURO
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" modal="prestamo_de_socios_modal" class="open_modal">
+                      PRÉSTAMO DE SOCIOS
+                    </a>
+                  </li>
+                  <li>
+                    <a data-scroll href="#productos">
+                      VER TODOS
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              
+              <li class="dropdown">
+                <a data-scroll href="#informacionfinanciera" class="animated fadeIn animation-delay-8" role="button" aria-haspopup="true" aria-expanded="false" data-name="nosotros">INFORMACIÓN FINANCIERA
+                </a>
+              </li>
+
+              <li class="dropdown">
+                <a href="https://www.gob.mx/condusef" class="animated fadeIn animation-delay-8" target="_blank" role="button" aria-haspopup="true" aria-expanded="false">EDUCACIÓN FINANCIERA
+                </a>
+              </li>
+              
+              <li class="dropdown">
+                <a data-scroll href="#contacto" class="animated fadeIn animation-delay-8" role="button" aria-haspopup="true" aria-expanded="false" data-name="nosotros">CONTACTO
+                </a>
+              </li>   
+            </ul>
+          </div>
+          <!-- navbar-collapse collapse -->
+          <a href="javascript:void(0)" class="sb-toggle-left btn-navbar-menu">
+            <i class="zmdi zmdi-menu"></i>
+          </a>
+        </div>
+        <!-- container -->
+      </nav>
+
+      <div class="ms-hero ms-hero-material">
+        <span class="ms-hero-bg"></span>
+        <div class="container">
+          <div class="col-lg-6 col-md-7">
+            <div id="carousel-hero" class="carousel slide carousel-fade" data-ride="carousel" data-interval="8000">
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                  <div class="carousel-caption">
+                    <div class="ms-hero-material-text-container">
+                      <header class="ms-hero-material-title animated slideInLeft animation-delay-5">
+                        <h1 class="animated fadeInLeft animation-delay-15 font-smoothing">
+                          CREDI<strong>PyME</strong> 
+                        </h1>
+                      </header>
+                      <ul class="ms-hero-material-list">
+                        <li class="">
+                          <div class="ms-list-text animated fadeInRight animation-delay-19" style="text-align:justify">Somos una institución financiera privada cuyo objetivo es ofrecer productos crediticios, financieros y de inversión, seguros y rentables a las pequeñas y medianas Empresas(PYMES) de México, brindándoles apoyo para ser mas competitivas.</div>
+                        </li>
+                      </ul>
+                      <div class="ms-hero-material-buttons text-right">
+                        <div class="ms-hero-material-buttons text-right">
+                          <a data-scroll href="#contacto" class="btn btn-warning btn-raised animated fadeInLeft animation-delay-24 mr-2">
+                            <i class="fa fa-envelope"></i> CONTACTANOS</a>
+                          <a data-scroll href="{%url 'mirari:login__Organization__TemplateView' %}" class="btn btn-warning btn-raised animated fadeInRight animation-delay-24 btn-outline">
+                            <i class="fa fa-sign-in"></i> ACCESO CLIENTES
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- ms-hero-material-text-container -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-5">
+            <div class="ms-hero-img animated zoomInUp animation-delay-30">
+              <img src="{%static HTMLPage.static%}img/mock-imac-material2.png" alt="" class="img-responsive">
+              <div id="carousel-hero-img" class="carousel carousel-fade slide" data-ride="carousel" data-interval="3000">
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                  <div class="ms-hero-img-slider item active">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- container -->
+      </div>
+
+      <div class="container mt-4" id="nosotros">
+        <section class="mb-4" style="margin-top:50px;">
+          <h2 class="text-center no-mt mb-6 wow fadeInUp">Nuestra <strong style="color:#241c64">EMPRESA</strong></h2>
+          
+          <div class="row">
+
+            <div class="col-md-10 col-md-offset-1">
+              <div class="ms-icon-feature wow flipInX animation-delay-4">
+                <p style="text-align:justify">
+                  Existen en México mas de cuatro millones de micro, pequeñas y medianas empresas que en su mayoría carecen de apoyo financiero que les permita crecer de acuerdo con la demanda de sus productos y servicios, ya que requieren de financiamiento estructurado que va más allá de los productos tradicionales actualmente ofrecidos de manera paramétrica por la banca comercial.
+                </p>
+              </div>
+              <hr />
+            </div>
+
+            <div class="col-md-5 col-md-offset-1 col-sm-6 mb-2">
+              <div class="ms-icon-feature wow flipInX animation-delay-4">
+                <div class="ms-icon-feature-icon">
+                  <span class="ms-icon ms-icon-lg ms-icon-inverse">
+                    <i class="fa fa-building"></i>
+                  </span>
+                </div>
+                <div class="ms-icon-feature-content">
+                  <h4 class="color-primary">HISTORIA</h4>
+                  <p style="text-align:justify"><strong class="color-primary">Unión de Crédito CREDIPyME, S.A. de C.V.</strong> es una entidad financiera no bancaria constituida en 1993, regida bajo la ley de Uniones de Crédito, supervisada y regulada por la Comisión Nacional Bancaria y de Valores (CNBV). <strong class="color-primary">CREDIPyME</strong> cuenta con una fuente diversificada de fondeo a través de la banca de desarrollo nacional e internacional, de la banca privada, y de inversionistas privados.</p>
+                  <hr />
+                  <button type="submit" class="btn btn-raised btn-primary open_modal" modal="mision">MISIÓN<div class="ripple-container"></div></button>
+                  <button type="submit" class="btn btn-raised btn-primary open_modal" modal="vision">VISIÓN<div class="ripple-container"></div></button>
+                  <button type="submit" class="btn btn-raised btn-primary open_modal" modal="valores">VALORES<div class="ripple-container"></div></button>
+                </div>
+              </div>
+              <div class="ms-icon-feature wow flipInX animation-delay-4">
+                <div class="ms-icon-feature-icon">
+                  <span class="ms-icon ms-icon-lg ms-icon-inverse">
+                    <i class="fa fa-globe"></i>
+                  </span>
+                </div>
+                <div class="ms-icon-feature-content">
+                  <h4 class="color-primary">NUESTRA PRESENCIA</h4>
+                  <p style="text-align:justify"><strong class="color-primary">CREDIPyME</strong> cuenta con oficina en la CDMX y atiende las necesidades de sus socios en todo el país.</p>
+                </div>
+              </div>
+              <div class="ms-icon-feature wow flipInX animation-delay-4">
+                <div class="ms-icon-feature-icon">
+                  <span class="ms-icon ms-icon-lg ms-icon-inverse">
+                    <i class="fa fa-star"></i>
+                  </span>
+                </div>
+                <div class="ms-icon-feature-content">
+                  <h4 class="color-primary">CALIFICACIONES</h4>
+                  <p style="text-align:justify"><strong class="color-primary">CREDIPyME</strong> mantiene una calificación de S&P de BB+ a largo plazo.</p> {% comment %}
+                    logo sta
+                  {% endcomment %}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 col-sm-6 mb-2">
+              <div class="ms-icon-feature">
+                <div class="ms-icon-feature-icon wow flipInX animation-delay-4">
+                  <span class="ms-icon ms-icon-lg ms-icon-inverse">
+                    <i class="fa fa-university"></i>
+                  </span>
+                </div>
+                <div class="ms-icon-feature-content">
+                  <h4 class="color-primary wow flipInX animation-delay-4" >NOSOTROS</h4>
+                  <p style="text-align:justify" class="wow flipInX animation-delay-4"><strong class="color-primary">CREDIPyME</strong> es una Sociedad Anónima de Capital Variable con duración indefinida y constituida como Unión de Crédito al amparo de la ley correspondiente. Hace más de 20 años se creó la empresa para atender el sector pesquero y posteriormente el industrial.</p>
+                  <p style="text-align:justify" class="wow flipInX animation-delay-4">A partir de 2005, la Unión re-direccionó sus esfuerzos para atender a pequeñas y medianas empresas; ese mismo año cambió su razón social a Credipyme.</p>
+                  <p style="text-align:justify" class="wow flipInX animation-delay-4"> En el año 2014 la Unión fue autorizada para operar con el nivel II por la (CNBV).</p>
+                  <p style="text-align:justify" class="wow flipInX animation-delay-4">Los principales Órganos de Gobierno Corporativo de Credipyme son el Consejo de Administración, el Comité de Auditoría y Prácticas Societarias, el Comité de Crédito, el Comité de Comunicación y Control, la Dirección General y Unidad de Auditoría Interna. La administración está encomendada a un Consejo de Administración y al Director General. El Consejo está integrado por accionistas y consejeros independientes. Bajo la Dirección General, se encuentran ocho Áreas: Control Administrativo y Financiero, Jurídico, Cumplimiento, Sistemas/TI, Comercial, Departamento Especial (Arrendamiento y Factoraje), Crédito y Recursos Humanos.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- container -->
+      <section id="productos" class="mt-6">
+        <div class="wrap ms-hero-img-meeting ms-hero-bg-info color-white ms-bg-fixed wrap-mountain">
+          <div class="container">
+            <h2 class="text-center no-mt mb-6 wow fadeInUp" ><span style="color:#c2b931">Nuestros</span> <strong>PRODUCTOS</strong></h2>
+            <div class="row" style="color: #757575;">
+              <div class="col-md-3">
+                <div class="card card-info animated zoomInUp animation-delay-5">
+                  <div class="bg-info">
+                    <img src="{%static HTMLPage.static%}img/m1.png" alt="..." class="img-avatar-circle"> 
+                  </div>
+                  <div class="card-block pt-4 text-center">
+                    <h4 class="color-default" style="color: #2d265f;font-weight: 500;">Crédito Simple</h4>
+
+                    <a href="javascript:void(0)" class="btn btn-info open_modal" style="font-weight: 300;" modal="credito_simple_modal">
+                      <i class="fa fa-plus"></i> VÉR MAS
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card card-info animated zoomInUp animation-delay-5">
+                  <div class="bg-info">
+                    <img src="{%static HTMLPage.static%}img/m2.png" alt="..." class="img-avatar-circle"> </div>
+                  <div class="card-block pt-4 text-center">
+                    <h4 class="color-default" style="color: #2d265f;font-weight: 500;">Crédito Refaccionario</h4>
+                    <a href="javascript:void(0)" class="btn btn-info open_modal" style="font-weight: 300;" modal="credito_refaccionario_modal">
+                      <i class="fa fa-plus"></i> VÉR MAS</a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-3">
+                <div class="card card-info animated zoomInUp animation-delay-5">
+                  <div class="bg-info">
+                    <img src="{%static HTMLPage.static%}img/m7.png" alt="..." class="img-avatar-circle"> </div>
+                  <div class="card-block pt-4 text-center">
+                    <h4 class="color-default" style="color: #2d265f;font-weight: 500;">Crédito De Descuento de Documentos</h4>
+                    <a href="javascript:void(0)" class="btn btn-info open_modal" style="font-weight: 300;" modal="credito_de_descuento_de_documentos_modal">
+                      <i class="fa fa-plus"></i> VÉR MAS</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card card-info animated zoomInUp animation-delay-5">
+                  <div class="bg-info">
+                    <img src="{%static HTMLPage.static%}img/m8.png" alt="..." class="img-avatar-circle"> </div>
+                  <div class="card-block pt-4 text-center">
+                    <h4 class="color-default" style="color: #2d265f;font-weight: 500;">Crédito Para Proveedores de Gobierno</h4>
+                    <a href="javascript:void(0)" class="btn btn-info open_modal" style="font-weight: 300;" modal="credito_para_provedores_de_gobierno_modal">
+                      <i class="fa fa-plus"></i> VÉR MAS</a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-3">
+                <div class="card card-info animated zoomInUp animation-delay-5">
+                  <div class="bg-info">
+                    <img src="{%static HTMLPage.static%}img/m3.png" alt="..." class="img-avatar-circle"> </div>
+                  <div class="card-block pt-4 text-center">
+                    <h4 class="color-default" style="color: #2d265f;font-weight: 500;">Arrendamiento Financiero</h4>
+                    <a href="javascript:void(0)" class="btn btn-info open_modal" style="font-weight: 300;" modal="arrendamiento_financiero_modal">
+                      <i class="fa fa-plus"></i> VÉR MAS</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card card-info animated zoomInUp animation-delay-5">
+                  <div class="bg-info">
+                    <img src="{%static HTMLPage.static%}img/m4.png" alt="..." class="img-avatar-circle"> </div>
+                  <div class="card-block pt-4 text-center">
+                    <h4 class="color-default" style="color: #2d265f;font-weight: 500;">Factoraje Financiero</h4>
+                    <a href="javascript:void(0)" class="btn btn-info open_modal" style="font-weight: 300;" modal="factoraje_financiero_modal">
+                      <i class="fa fa-plus"></i> VÉR MAS</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card card-info animated zoomInUp animation-delay-5">
+                  <div class="bg-info">
+                    <img src="{%static HTMLPage.static%}img/m5.png" alt="..." class="img-avatar-circle"> </div>
+                  <div class="card-block pt-4 text-center">
+                    <h4 class="color-default" style="color: #2d265f;font-weight: 500;">Arrendamiento Puro</h4>
+                    <a href="javascript:void(0)" class="btn btn-info open_modal" style="font-weight: 300;" modal="arrendamiento_puro_modal">
+                      <i class="fa fa-plus"></i> VÉR MAS</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card card-info animated zoomInUp animation-delay-5">
+                  <div class="bg-info">
+                    <img src="{%static HTMLPage.static%}img/m6.png" alt="..." class="img-avatar-circle"> </div>
+                  <div class="card-block pt-4 text-center">
+                    <h4 class="color-default" style="color: #2d265f;font-weight: 500;">Préstamo de Socios</h4>
+                    <a href="javascript:void(0)" class="btn btn-info open_modal" style="font-weight: 300;" modal="prestamo_de_socios_modal">
+                      <i class="fa fa-plus"></i> VÉR MAS</a>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-raised btn-primary open_modal animated zoomInUp animation-delay-5 open_modal" modal="documentacion">DOCUMENTACIÓN<div class="ripple-container"></div></button>
+            </div>
+          </div>
+        </div>
+      </section>
+      {%comment%}
+      <div class="container mt-6" id="socios">
+        <h1 class="font-light">Conviertete en <strong style="color:#241c64">SOCIO</strong></h1>
+        <p class="lead color-primary">— Quieres convertirte en socio de CREDIPyME?</p>
+        <div class="panel panel-light panel-flat">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs nav-tabs-transparent indicator-primary nav-tabs-full nav-tabs-5" role="tablist">
+            <li class="wow fadeInDown animation-delay-6 active" role="presentation">
+              <a href="#windows" aria-controls="windows" role="tab" data-toggle="tab" class="withoutripple">
+                <span class="hidden-xs">OPORTUNIDAD</span>
+              </a>
+            </li>
+            <li class="wow fadeInDown animation-delay-4" role="presentation">
+              <a href="#macos" aria-controls="macos" role="tab" data-toggle="tab" class="withoutripple">
+                <span class="hidden-xs">PORQUÉ</span>
+              </a>
+            </li>
+            <li class="wow fadeInDown animation-delay-2" role="presentation">
+              <a href="#linux" aria-controls="linux" role="tab" data-toggle="tab" class="withoutripple">
+                <span class="hidden-xs">FUERZAS / DEBILIDADES</span>
+              </a>
+            </li>
+            <li class="wow fadeInDown animation-delay-4" role="presentation">
+              <a href="#android" aria-controls="android" role="tab" data-toggle="tab" class="withoutripple">
+                <span class="hidden-xs">ESTRATEGIA</span>
+              </a>
+            </li>
+            <li class="wow fadeInDown animation-delay-6" role="presentation">
+              <a href="#ios" aria-controls="ios" role="tab" data-toggle="tab" class="withoutripple">
+                <span class="hidden-xs">CARTERA</span>
+              </a>
+            </li>
+          </ul>
+          <div class="panel-body">
+            <!-- Tab panes -->
+            <div class="tab-content mt-4">
+              <div role="tabpanel" class="tab-pane active in fade" id="windows">
+                <div class="row">
+                  <div class="col-md-6 col-md-push-6">
+                    <img src="{%static HTMLPage.static%}img/mock4.png" alt="" class="img-responsive wow animated zoomIn animation-delay-8"> 
+                  </div>
+                  <div class="col-md-6 col-md-pull-6">
+                    <h3 class="text-normal wow animated fadeInUp animation-delay-4" style="color: #241c64;">LA OPORTUNIDAD</h3>
+                    <p class="lead lead-md wow animated fadeInUp animation-delay-6 p-lead">Existen 3 millones de PYMES en México, que emplean y dan ingreso a 10 millones de personas y representan una demanda potencial de crédito de $5000,000 millones</p>
+                    <p class="lead lead-md animated fadeInUp animation-delay-7 p-lead">Existen tambien 1.5 millones de maestros afiliados al Sindicato Nacional de Trabajadores de la edicación (SNTE) que representan una demanda potencial de crédito por $30,000 millones</p>
+                  </div>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="macos">
+                <div class="row">
+                  <div class="col-md-6">
+                    <img src="{%static HTMLPage.static%}img/mock2.png" alt="" class="img-responsive animated zoomIn animation-delay-8"> </div>
+                  <div class="col-md-6" style="margin-top:-30px;">
+                    <h3 class="text-normal animated fadeInUp animation-delay-4" style="color: #241c64;">PORQUE CREDyPIME</h3>
+                    <p class="lead lead-md animated fadeInUp animation-delay-6 p-lead">Las instituciones bancarias no prestan prioritariamente a las PYMES</p>
+                    <p class="lead lead-md animated fadeInUp animation-delay-7 p-lead">Prestar a las PYMES, al menos en la curva inicial de aprendizaje, requiere un proceso costoso y lento de organización, supervición y cobranza que no permiten generalmente masificacón de los créditos. Por lo tanto los montos iniciales de cartera que pueden colocarse son muy pequeños en comparación con los del sector de consumo, hipotecario o de grandes empresas. Esto tiene como consecuancia que el Retorno al Capital para los bancos grandes es mayor en estos sectores que en el de las PYMES.</p>
+                  </div>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="linux">
+                <div class="row">
+                  <div class="col-md-6 col-md-push-6">
+                    <img src="{%static HTMLPage.static%}img/mock5.png" alt="" class="img-responsive animated zoomIn animation-delay-8"> </div>
+                  <div class="col-md-6 col-md-pull-6" style="margin-top:-30px;">
+                    <h3 class="text-normal animated fadeInUp animation-delay-4" style="color: #241c64;">FUERZAS Y DEBILIDADES DE LA EMPRESA</h3>
+                    <p class="lead lead-md animated fadeInUp animation-delay-6 p-lead">La principal ventaja competitiva de CREDIPyME consiste en que los créditos, uno a uno, son estructurados de manera individualizada y especializada, dependiendo de las caracteristicas de cada empresa, lo cual aumenta la probabilidad de pago de los créditos, asi tambien su capacidad de respuesta rapuda en relación con los otros ofertantes de crédito. En los créditos de nómina nuestras tasas son ls más bajas del mercado y los créditos mas rapidamente otorgados (20 minutos).</p>
+                    <hr/>
+                    <p class="lead lead-md animated fadeInUp animation-delay-7 p-lead">Una debilidad importante de CREDIPyME ha sido su dependencia de fondeo por parte de la Banca de desarrollo, lo cual establece condiciones de aceptación de créditos que son muy restrictivos y no necesariamente las que el mercado necesita.</p>
+                  </div>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="android">
+                <div class="row">
+                  <div class="col-md-6" style="margin-top:-30px;">
+                    <h3 class="text-normal animated fadeInUp animation-delay-4" style="color: #241c64;">ESTRATEGIA FINANCIERA</h3>
+                    <p class="lead lead-md  animated fadeInUp animation-delay-6 p-lead">Actualmente CREDIPyME antiene indices muy bajos de deuda, con un indice de deuda/capital 400% y un indice de capital/activos de un 20%, cuando en la industria los indices son del 900% y el 10% respectivamente.</p>
+                    <p class="lead lead-md animated fadeInUp animation-delay-7 p-lead">Esto significa que con el capital actual CREDIPyME puede crecer sanamente por medio de deuda hasta $400 millones en activos, implicando un crecimiento en su cartera equivalente a casi 3 veces el actual y llevando el rendimiento de su capital a índices del 70%.</p>
+                  </div>
+                  <div class="col-md-6">
+                    <img src="{%static HTMLPage.static%}img/mock6.png" alt="" class="img-responsive animated zoomIn animation-delay-8"> </div>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane fade" id="ios">
+                <div class="row">
+                  <div class="col-md-6 col-md-push-6">
+                    <img src="{%static HTMLPage.static%}img/mock3.png" alt="" class="img-responsive animated zoomIn animation-delay-8"> </div>
+                  <div class="col-md-6 col-md-pull-6" style="margin-top:-30px;">
+                    <h3 class="text-normal animated fadeInUp animation-delay-4" style="color: #241c64;">CARTERA CREDITICIA Y DE INVERSIÓN</h3>
+                    <p class="lead lead-md animated fadeInUp animation-delay-6">La Unión cuenta con 5,991 acreditos. El 51% de la cartera se encuentra concentrada en el 2% de los clientes corporativos de la Unión, con créditos que van desde $3,000 hasta $3,700,7000 de pesos.</p>
+                    <p class="lead lead-md animated fadeInUp animation-delay-7">Un total de 85 inversionestas nos distinguen con su confianza, contando con una inversion promedio de $500,000 y a un plazo de 12 meses</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- panel -->
+      </div>
+      {%endcomment%}
+      <!-- ms-hero ms-hero-black -->
+      <div class="container mt-4" id="informacionfinanciera">
+        <h2 class="text-center text-light mb-6 wow fadeInDown animation-delay-5">Información <strong  style="color:#241c64">Financiera</strong></h2>
+        <div class="row">
+          <div class="col-md-5" style="">
+            <img src="{%static HTMLPage.static%}img/informacion_financiera.jpg" alt="" class="img-responsive center-block wow zoomIn">
+          </div>
+          <div class="col-md-7">
+            <div class="card card-info">
+              <div class="panel-group ms-collapse no-margin" id="accordion3" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-info">
+                  <div class="panel-heading" role="tab" id="headingTwo3">
+                    <h4 class="panel-title">
+                      <a class="collapsed withripple" role="button" data-toggle="collapse" data-parent="" href="#collapse2018" aria-expanded="false"
+                        aria-controls="">
+                        <i class="zmdi zmdi-collection-pdf"></i> Estados Financieros 2018
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapse2018" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo3">
+                    <div class="panel-body">
+                      <p><a href="{%static HTMLPage.static%}docs/marzo2018.pdf" target="_blank">Marzo</a></p>
+                      <p><a href="{%static HTMLPage.static%}docs/junio2018.pdf" target="_blank">Junio</a></p>
+                      <p><a href="{%static HTMLPage.static%}docs/septiembre2018.pdf" target="_blank">Septiembre</a></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-info">
+                  <div class="panel-heading" role="tab" id="headingTwo3">
+                    <h4 class="panel-title">
+                      <a class="collapsed withripple" role="button" data-toggle="collapse" data-parent="" href="#collapse2017" aria-expanded="false" aria-controls="">
+                        <i class="zmdi zmdi-collection-pdf"></i> Estados Financieros 2017 
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapse2017" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo3">
+                    <div class="panel-body"> 
+                      <p><a href="{%static HTMLPage.static%}docs/marzo2017.pdf" target="_blank">Marzo</a></p>
+                      <p><a href="{%static HTMLPage.static%}docs/junio2017.pdf" target="_blank">Junio</a></p>
+                      <p><a href="{%static HTMLPage.static%}docs/septembrie2017.pdf" target="_blank">Septiembre</a></p>
+                      <p><a href="{%static HTMLPage.static%}docs/diciembre2017.pdf" target="_blank">Diciembre</a></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-info">
+                  <div class="panel-heading" role="tab" id="headingTwo3">
+                    <h4 class="panel-title">
+                      <a class="collapsed withripple" role="button" data-toggle="collapse" data-parent="" href="#collapse2016" aria-expanded="false" aria-controls="">
+                        <i class="zmdi zmdi-collection-pdf"></i> Estados Financieros 2016 
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapse2016" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo3">
+                    <div class="panel-body"> 
+                      <p><a href="{%static HTMLPage.static%}docs/marzo2016.pdf" target="_blank">Marzo</a></p>
+                      <p><a href="{%static HTMLPage.static%}docs/junio2016.pdf" target="_blank">Junio</a></p>
+                      <p><a href="{%static HTMLPage.static%}docs/septiembre2016.pdf" target="_blank">Septiembre</a></p>
+                      <p><a href="{%static HTMLPage.static%}docs/diciembre2016.pdf" target="_blank">Diciembre</a></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-info">
+                  <div class="panel-heading" role="tab" id="headingThree3">
+                    <h4 class="panel-title">
+                      <a class="collapsed withripple" role="button" data-toggle="collapse" data-parent="" href="#collapse2015" aria-expanded="false" aria-controls="">
+                       <i class="zmdi zmdi-collection-pdf"></i> Estados Financieros 2015 </a>
+                    </h4>
+                  </div>
+                  <div id="collapse2015" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree3">
+                    <div class="panel-body"> 
+                        <p><a href="{%static HTMLPage.static%}docs/marzo2015.pdf" target="_blank">Marzo</a></p>
+                      <p><a href="{%static HTMLPage.static%}docs/junio2015.pdf" target="_blank">Junio</a></p>
+                      <p><a href="{%static HTMLPage.static%}docs/septiembre2015.pdf" target="_blank">Septiembre</a></p>
+                      <p><a href="{%static HTMLPage.static%}docs/diciembre2015.pdf" target="_blank">Diciembre</a></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel panel-info">
+                  <div class="panel-heading" role="tab" id="headingThree3">
+                    <h4 class="panel-title">
+                      <a class="collapsed withripple" role="button" data-toggle="collapse" data-parent="" href="#collapse2014" aria-expanded="false" aria-controls="">
+                       <i class="zmdi zmdi-collection-pdf"></i> Estados Financieros 2014 </a>
+                    </h4>
+                  </div>
+                  <div id="collapse2014" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree3">
+                    <div class="panel-body"> 
+                    <p><a href="{%static HTMLPage.static%}docs/diciembre2014.pdf" target="_blank">Diciembre</a></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ms-hero-page-override ms-hero-img-team ms-hero-bg-primary" id="contacto" >
+        <div class="container">
+          <div class="text-center">
+            <h1 class="no-m ms-site-title color-white center-block ms-site-title-lg mt-2 animated zoomInDown animation-delay-5">CONTACTENOS</h1>
+            <p class="lead lead-lg color-light text-center center-block mt-2 mw-800 text-uppercase fw-300 animated fadeInUp animation-delay-7">
+              ESTAREMOS COMPLACIDOS DE ATENDERLO Y RESPONDER A TODAS SUS DUDAS, NOS PONDREMOS EN CONTACTO CON USTED A LA BREVEDAD
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="card card-hero animated fadeInUp animation-delay-7"  style="margin-bottom: 100px;!important">
+          <div class="card-block">
+            
+              <form id="form" method="post" enctype="multipart/form-data" class="m-t">{% csrf_token %}
+                <fieldset>
+                  <div class="form-group">
+                    <label for="inputName" class="col-md-2 control-label">NOMBRE</label>
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" id="inputName" placeholder="Ingrese su nombre..." name="name"> </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-md-2 control-label">EMAIL</label>
+                    <div class="col-md-9">
+                      <input type="email" class="form-control" id="inputEmail" placeholder="Ingrese su correo electronico..."  name="email"> </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputSubject" class="col-md-2 control-label">TEMA</label>
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" id="inputSubject" placeholder="Sobre qué es su comentario?" name="theme"> </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="textArea" class="col-md-2 control-label">MENSAJE</label>
+                    <div class="col-md-9">
+                      <textarea class="form-control" rows="5" id="textArea" placeholder="Escriba aquí su mensaje..." name="message"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-9 col-md-offset-2">
+                      <button type="submit" class="btn btn-raised btn-primary" name="contact">ENVIAR</button>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+          </div>
+        </div>
+      </div>
+      <div class="row"  style="background-color:red;min-height:250px;" id="map" style="margin-top:30px;">
+      </div>
+      <aside class="ms-footbar">
+        <div class="container container-footer">
+          <div class="row" >
+            <div class="col-md-9 col-sm-7 ms-footer-col ms-footer-alt-color footer-div" style="color: #757575;">
+              <div class="ms-footbar-block">
+                <h3 class="ms-footbar-title mb-2" style="margin-top:20px;color:#9c9633">AVISO DE PRIVACIDAD</h3>
+                <div class="ms-footer-media">
+                  <div class="media">
+                    <div class="media-body">
+                      <h4 class="media-heading" style="font-size:16px;line-height: 15px;text-align:justify">
+                          AUTORIZACIÓN DE USO DE DATOS PERSONALES, QUE EN TÉRMINOS DE LA LEY DE PROTECCIÓN DE DATOS PERSONALES EN POSESIÓN DE LOS PARTICULARES (LPDPPP) OTORGA “LA PERSONA FÍSICA O MORAL QUE CONSIENTE A DEJAR SU INFORMACIÓN EN CUALQUIER MEDIOELECTRÓNICO, FISICO, OPTICO, POR SIGNOS INEQUÍVOCOS O CUALQUIER OTRA TECNOLOGÍA” SE LE DENOMINARÁ EN FORMA GENÉRICA “EL TITULAR DE DATOS”. <br />
+                          Credipyme es una Unión de Crédito que su objeto es el otorgamiento de créditos a socios de la Unión, por medio de fondeo institucional y préstamos de los mismos socios.<br />
+                          El titular de datos autoriza en términos de los artículos 8, 14, 15, 16 y demás de la LPDPPP a Credipyme a utilizar los datos personales aquí proporcionados por el mismo, para que sean utilizados única exclusivamente para el cumplimiento del objeto social de la Unión consistente de manera enunciativa mas no limitativa al otorgamiento de créditos y obtención de fondeo a través de préstamos de socios. <br />
+                          El tratamiento de datos personales podrá abarcar cualesquiera fines que resulten compatibles o análogos a los establecidos en esta autorización, sin que para ello se requiera obtener nuevamente consentimiento del titular de los datos. <br />
+                          UNION DE CREDITO CREDIPYME S.A. DE C.V. se encuentra ubicado en RIO LERMA 333 DEPARTAMENTO 4 PISO 1, CUAUHTEMOC, MÉXICO DISTRITO FEDERAL, C.P. 06500 teléfono 3685 3920 y que la persona responsable de la protección de sus datos personales es el Ing. Rodolfo Juárez Tapia (ext. 553). <br />
+                          Los Datos serán tratados de conformidad con la LFPDPPP, su Reglamento y demás regulación emitida por las autoridades en la materia. La confidencialidad de los Datos está garantizada y los mismos están protegidos por medidas de seguridad administrativas, técnicas y físicas, para evitar su daño, pérdida, alteración, destrucción, uso, acceso o divulgación indebida. Únicamente las personas autorizadas tendrán acceso a sus Datos. <br />
+                          Los datos personales que el titular de datos acepta que Credipyme pueda recopilar son los siguientes: <ul><li>Datos Generales: nombre, sexo, correo electrónico, estado civil, lugar y fecha de nacimiento, teléfonos, dirección, CURP, RFC, NSS, cuenta bancaria, firma, entre otros.</li> <li>Carta de antecedentes no penales.</li><li>Solicitud de buró de crédito </li><li>Datos Financieros/ situación patrimonial para el análisis del crédito. </li><li>Datos sensibles: esto incluye aquellos datos personales que afecten la esfera más íntima de su titular, o cuya utilización indebida pueda dar origen a discriminación o conlleve a un riesgo grave para éste. </li></ul>
+                          El titular de datos manifiesta en este acto su conformidad para que Credipyme pueda utilizar, transferir o compartir sus datos personales con terceros en cualquier momento, en México y/o en el extranjero, siempre y cuando dichos terceros, utilicen los citados datos única y exclusivamente para los fines semejantes al objeto social de Credipyme y las finalidades a las que el titular de datos sujetó su tratamiento, por lo tanto, los terceros receptores se comprometan a tratar los datos transferidos conforme a la presente autorización de uso de datos personales. <br />En este sentido Credipyme se compromete a velar porque se cumplan todos los principios legales de protección en torno a la transferencia de sus datos personales y manifiesta su compromiso para que se respete en todo momento la presente autorización de uso de datos personales. <br />
+                          Credipyme es el responsable del tratamiento que se le dé a sus datos personales, incluyendo la obtención, la protección de los mismos y su uso, por lo que tiene la obligación de cumplir con las medidas legales y de seguridad suficientes para proteger única y exclusivamente los datos personales aquí estipulados por el titular de datos, ya que los datos que no se hayan manifestado o se hayan manifestado incorrectamente por el titular de datos no pueden ser imputables a Credipyme. <br />
+                          El titular de datos por sí o mediante representante legal debidamente acreditado podrá ejercer sus derechos de acceso, rectificación, cancelación y oposición al tratamiento de los mismos o revocación del consentimiento para el fin que nos haya otorgado, formulando la solicitud respectiva únicamente a través de la persona responsable o de quien Credipyme designe como encargado de los trámites de las solicitudes de los titulares en relación con los derechos a que se refiere la mencionada ley. <br />
+                          Por lo que en este acto consiento y autorizo que mis datos personales sean tratados conforme a lo previsto en el presente aviso de privacidad. <br />
+                          Credipyme se reserva el derecho de efectuar los cambios o modificaciones necesarias a la presente autorización, ya sea para atención de novedades legislativas, regulatorias o jurisprudenciales, políticas internas, prácticas de mercado o por cualquier otra razón o circunstancia y se hará saber por medio electrónico, aviso por escrito o a través de aviso en la página de internet http://www.credipyme.com.mx
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+                <h3 class="ms-footbar-title mb-2" style="margin-top:20px;color:#9c9633">SITIOS DE INTERÉS</h3>
+                <div class="ms-footer-media">
+                  <div class="media">
+                      <a href="http://www.cnbv.gob.mx/" target="_blank"><img src="{%static HTMLPage.static%}img/site1.png" style="max-width: 100px; margin-top:20px;" /></a>
+                      <a href="http://www.shcp.gob.mx/" target="_blank"><img src="{%static HTMLPage.static%}img/site2.png" style="max-width: 100px; margin-top:20px;" /></a>
+                      <a href="http://www.banxico.org.mx/" target="_blank"><img src="{%static HTMLPage.static%}img/site3.png" style="max-width: 100px; margin-top:20px;" /></a>
+                      <a href="http://www.conunion.org.mx/" target="_blank"><img src="{%static HTMLPage.static%}img/site4.png" style="max-width: 100px; margin-top:20px;" /></a>
+                      <a href="http://www.fira.gob.mx/" target="_blank"><img src="{%static HTMLPage.static%}img/site5.png" style="max-width: 100px; margin-top:20px;" /></a>
+                      <a href="http://www.fifomi.gob.mx/" target="_blank"><img src="{%static HTMLPage.static%}img/site7.png" style="max-width: 100px; margin-top:20px;" /></a>
+                      <a href="https://www.burodecredito.com.mx/" target="_blank"><img src="{%static HTMLPage.static%}img/site9.png" style="max-width: 100px; margin-top:20px;" /></a>
+                      <a href="http://www.condusef.gob.mx/" target="_blank"><img src="{%static HTMLPage.static%}img/site10.png" style="max-width: 100px; margin-top:20px;" /></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-5 ms-footer-col ms-footer-text-right" style="background-color: #241c64;">
+              <div class="ms-footbar-block">
+                <div class="ms-footbar-title">
+                  <img src="{%static HTMLPage.static%}img/logo.png" alt="" class="logo">
+                </div>
+                <address class="no-mb">
+                  <p>
+                    <i class="zmdi zmdi-pin mr-1"></i> Calle Río Lerma #333 <br /> Cuauhtémoc, CP 06500 
+                  </p>
+                  <p>
+                    <i class="zmdi zmdi-email mr-1"></i>
+                    <a href="mailto:contacto@credipyme.com.mx">contacto@credipyme.com.mx</a>
+                  </p>
+                  <p>
+                    <i class="zmdi zmdi-phone mr-1"></i> 01-800-700-PYME (7963) </p>
+                  <p>
+                    <i class="zmdi zmdi-phone mr-1"></i> (55) 36 85 3920 </p>
+                </address>
+              </div>
+              {%comment%}
+                <hr />
+                <div class="ms-footbar-block">
+                  <h3 class="ms-footbar-title" >Redes Sociales</h3>
+                  <div class="ms-footbar-social">
+                    <a href="javascript:void(0)" class="btn-circle btn-facebook">
+                      <i class="zmdi zmdi-facebook"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="btn-circle btn-twitter">
+                      <i class="zmdi zmdi-twitter"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="btn-circle btn-youtube">
+                      <i class="zmdi zmdi-youtube"></i>
+                    </a>
+                    <br>
+                  </div>
+                </div>
+              {%endcomment%}
+              <hr />
+              <div class="ms-footbar-block">
+                <h3 class="ms-footbar-title" style="font-size: 12px;">ART. 2 DE LA LEY DE UNIONES DE CRÉDITO.</h3>
+                <div class="ms-footbar-social" style="font-size: 10px; line-height: 14px;">
+                  <p>El Gobierno Federal y las entidades de la administración pública paraestatal no podrán responsabilizarse ni garantizar el resultado de las operaciones que realicen las uniones, así como tampoco asumir responsabilidad alguna de las obligaciones contraídas con sus socios a terceros.</p>
+                </div>
+              </div>
+              <hr />
+              <div class="ms-footbar-block">
+                <h3 class="ms-footbar-title" style="font-size: 12px;">POLÍTICA DE CALIDAD</h3>
+                <div class="ms-footbar-social" style="font-size: 10px; line-height: 14px;">
+                  <p>Lograr los más altos estándares de calidad en atención y servicios financieros, a través de mejora continua y capacitación del personal para lograr la satisfacción total de nuestros clientes.</p>
+                </div>
+              </div>
+              <hr />
+              <div class="ms-footbar-block">
+                <h3 class="ms-footbar-title" style="font-size: 12px;">
+                  <strong>
+                    <a href="" modal="unemodal" class="open_modal" style="font-size: 15px;">UNE DE ATENCIÓN A USUARIOS</a>
+                  </strong>
+                </h3>
+                <h3 class="ms-footbar-title" style="font-size: 12px;">
+                  <strong>
+                    <a href="" modal="buromodal" class="open_modal" style="font-size: 15px;">BURÓ DE ENTIDADES FINANCIERAS</a>
+                  </strong>
+                </h3>
+                <a href="https://www.burodecredito.com.mx/" style="font-size: 15px;"><img src="http://www.unionprogreso.com.mx/img/LOGO_BURO.png" style="max-width:150px;"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <footer class="ms-footer">
+        <div class="container">
+          <p>CREDIPyME &copy; {{today.year}} </p>
+        </div>
+      </footer>
+      <div class="btn-back-top">
+        <a href="#" data-scroll id="back-top" class="btn-circle btn-circle-primary btn-circle-sm btn-circle-raised ">
+          <i class="zmdi zmdi-long-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+    <!-- sb-site-container -->
+    <div class="ms-slidebar sb-slidebar sb-left sb-style-overlay" id="ms-slidebar">
+      <div class="sb-slidebar-container">
+        <header class="ms-slidebar-header">
+          <div class="ms-slidebar-login">
+            {%comment%}
+            <a href="javascript:void(0)" class="withripple">
+              <i class="zmdi zmdi-account"></i> Login</a>
+            <a href="javascript:void(0)" class="withripple">
+              <i class="zmdi zmdi-account-add"></i> Register</a>
+            {%endcomment%}
+          </div>
+          <div class="ms-slidebar-title">
+            <div class="ms-slidebar-t">
+              <h3>CREDI
+                <span>PyME</span>
+              </h3>
+            </div>
+          </div>
+        </header>
+        <ul class="ms-slidebar-menu" id="slidebar-menu" role="tablist" aria-multiselectable="true">
+          <li class="panel" role="tab" id="sch1">
+            <a data-scroll href="#nosotros" class="link" role="button">
+              NOSOTROS 
+            </a>
+            <a data-scroll href="#productos" class="link" role="button">
+              PRODUCTOS 
+            </a>
+            <a data-scroll href="#informacionfinanciera" class="link" role="button">
+              INFORMACIÓN FINANCIERA 
+            </a>
+            <a data-scroll href="#contacto" class="link" role="button">
+              CONTACTO
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="mision" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Nuestra <strong style="color:#c2b931;">Misión</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">Ser la entidad financiera por excelencia de las Pequeñas y Medianas Empresas en México, diseñando y ofreciendo productos crediticios oportunos, adecuados, seguros y rentables, y asesoría financiera especializada con alto nivel profesional que brinde a nuestros clientes beneficios y satisfacción total.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="vision" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Nuestra <strong style="color:#c2b931;">Visión</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">Ser la mejor Unión de Crédito dedicada a las Pequeñas y Medianas Empresas en México, atendiendo a nuestros clientes con interés y dedicación y proporcionando servicios con altos estándares de calidad.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="valores" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Nuestros <strong style="color:#c2b931;">Valores</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">Honestidad, Transparencia, Servicio, Lealtad, Compromiso, Profesionalismo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="documentacion" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Documentación</h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <h3 class="modal-title" style="color:#1D0C55;">DOCUMENTACIÓN PREVIA</h3>
+            <ul class="list-group" style="margin-top:10px;">
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/requisitos.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Requisitos </a> </li>
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/autorizacion-buro-de-credito-personas-fisicas.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Autorización Buro de Crédito Personas Físicas </a> </li>
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/autorizacion-buro-de-credito-personas-morales.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Autorización Buro de Crédito Personas Morales </a> </li>
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/convenio-de-confidencialidad.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Convenio de Confidencialidad </a> </li>
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/formato-de-entrevista-conocimiento-y-declaracion-del-cliente-persona-fisica.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Formato de Entrevista, Conocimiento y Declaración del Cliente - Persona Fisica </a> </li>
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/formato-de-entrevista-conocimiento-y-declaracion-del-cliente-persona-moral.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Formato de Entrevista, Conocimiento y Declaración del Cliente - Persona Moral </a> </li>
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/estado-de-situacion-patrimonial-persona-fisica.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Relación Patrimonial </a> </li>
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/solicitud-de-credito.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Solicitud de Crédito </a> </li>
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/solicitud-de-ingreso.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Solicitud de Ingreso </a> </li>
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/visita-ocular.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Visita Ocular </a> </li>
+            </ul>
+            <h3 class="modal-title" style="color:#1D0C55;">DOCUMENTACIÓN INFORMATIVA</h3>
+            <ul class="list-group" style="margin-top:10px;">
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/estado-de-cuenta.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Estado de cuenta </a> </li>
+                <li class="list-group-item"><a href="{%static HTMLPage.static%}docs/pagare.pdf" target="_blank" style="color:inherit"><i class="zmdi zmdi-download" style="color:#B6AF00"></i> Pagaré </a> </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal" id="credito_simple_modal" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Crédito <strong style="color:#c2b931;">Simple</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">El Crédito Simple busca financiar los gastos derivados del proceso de transformación de las PYMES. En el caso de PYMES que comercializan productos se busca financiar los inventarios para atender un determinado pedido, ventas de temporada o fabricación de nuevos productos. Se otorga con el fin de apoyar o fomentar el capital de trabajo. Para cumplir este requisito, el monto se debe destinar a la adquisición de materias primas, pagos de sueldos y salarios y gastos directos de la producción indispensables para apoyar una empresa o unidad de producción o transformación.</p>
+            {% include "pages/credipyme/extend_products.html" with producto='credito' %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="credito_refaccionario_modal" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Crédito <strong style="color:#c2b931;">Refaccionario</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">El Crédito Refaccionario es una operación estructurada para la adquisición de infraestructura y activos fijos y/o productivos. En términos generales, los recursos asignados por un Crédito Refaccionario, se deben destinar a la adquisición de maquinaria y equipo, plantas industriales, unidades de transporte y otros activos productivos que pasan a formar parte del activo fijo de las empresas.</p>
+
+            {% include "pages/credipyme/extend_products.html" with producto='credito' %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="credito_de_descuento_de_documentos_modal" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Crédito de Descuento <strong style="color:#c2b931;">de Documentos</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">El Crédito de Descuentos de Documentos, es un producto donde Credipyme otorga créditos con la garantía de documentos por cobrar provenientes de operaciones habituales de venta o de prestación de servicios correspondientes a la actividad del proveedor (cliente de Credipyme) a cambio de recursos líquidos.</p>
+            {% include "pages/credipyme/extend_products.html" with producto='credito' %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="credito_para_provedores_de_gobierno_modal" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Crédito para Proveedores <strong style="color:#c2b931;">de Gobierno</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">El Crédito para Proveedores del Gobierno está diseñado para financiar el capital de trabajo de PYMES que proveen bienes y servicios al gobierno. La fuente de pago es el contrato que la PyME tiene con el gobierno, por lo que los derechos de flujos derivados de este contrato se ceden a Credipyme.</p>
+            {% include "pages/credipyme/extend_products.html" with producto='credito' %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="arrendamiento_financiero_modal" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Arrendamiento <strong style="color:#c2b931;">Financiero</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">El Arrendamiento Financiero es un tipo de crédito por medio del cual el Arrendador otorga el uso o goce temporal de un bien mueble o inmueble al Arrendatario (Pequeña y Mediana Empresa) financiándolo a cambio del pago de rentas durante un plazo determinado, al término del cual el Arrendatario tiene el derecho de ejercer la adquisición del bien a un precio menor al de mercado y/o renovar el arrendamiento a un importe menor del mismo bien mueble o inmueble.</p>
+            {% include "pages/credipyme/extend_products.html" with producto='arrendamiento' %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="factoraje_financiero_modal" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Factoraje <strong style="color:#c2b931;">Financiero</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">El Factoraje Financiero es un tipo de crédito por medio del cual las Pequeñas y Medianas Empresas ceden a la Unión de Crédito Credipyme, S.A. de C.V. las cuentas por cobrar que tiene a su favor, a través de una operación de descuento.</p>
+            {% include "pages/credipyme/extend_products.html" with producto='' %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="arrendamiento_puro_modal" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Arrendamiento <strong style="color:#c2b931;">Puro</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">Es un contrato mediante el cual el Arrendador y el Arrendatario se obligan recíprocamente, el Arrendador a conceder el uso o goce temporal de un bien mueble y/o inmueble y el Arrendatario a pagar por ese uso o goce a un precio determinado. El contrato debe de otorgarse por escrito y firmado por ambos.</p>
+            {% include "pages/credipyme/extend_products.html" with producto='arrendamiento' %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="prestamo_de_socios_modal" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Préstamo <strong style="color:#c2b931;">de Socios</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">Los recursos que destinamos al otorgamiento de créditos y préstamos son obtenidos de la Banca Comercial y de la Banca de Desarrollo, de Fideicomisos Públicos, de otras Entidades Financieras y de los Préstamos de Nuestros Socios.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="unemodal" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">UNE <strong style="color:#c2b931;">(Unidad Especializada de Atención a Usuarios)</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">UNION DE CRÉDITO CREDIPYME, S.A. DE C.V., pone a su disposición, la Unidad especializada de Atención a Usuarios (UNE), en donde podra presentar, consultas, reclamaciones o aclaraciones, la que dará respiuesta en un plazo no mayor a 30 días hábiles.</p>
+            <ul class="list-group" style="margin-top:10px;">
+                <li class="list-group-item"> Titular de la UNE: <strong>Julio Flores Morales</strong> </li>
+                <li class="list-group-item"> Domicilio: <strong>Río Lerma 333, piso 1 depto. 4, Col. Cuauhtémoc, Ciudad de México, C.P. 06500</strong> </li>
+                <li class="list-group-item"> Horario de atención: <strong>De Lunes a Viernes de 9:00 a 18:00</strong> </li>
+                <li class="list-group-item"> Telefonos: <strong>5536853920 ext.531</strong> </li>
+                <li class="list-group-item"> Correo: <strong>unidad.especializada@credipyme.com.mx</strong> </li>
+            </ul>
+            <hr>
+            
+              <form method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+                <fieldset>
+                  <div class="form-group">
+                    <label for="inputName" class="col-md-3 control-label">NOMBRE COMPLETO</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="nombre" id="inputName" placeholder="Ingrese su nombre completo..."> </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-md-3 control-label">EMAIL</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="email" id="inputName" placeholder="Ingrese su email empresarial..."> </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-md-3 control-label">TELEFONO</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="telefono" id="inputName" placeholder="Ingrese su teléfono..."> </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-md-3 control-label">EMPRESA</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" name="empresa" id="inputName" placeholder="Ingrese su empresa..."> </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputGen" class="col-md-2 control-label">TIPO DE COMENTARIO</label>
+                    <div class="col-md-9">
+                      <select id="tipo_comentario" name="tipo_comentario" class="form-control selectpicker">
+                        <option>Aclaraciones / Solicitud de información</option>
+                        <option>Reclamaciones / Queja sobre el servicio</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="textArea" class="col-md-2 control-label">MENSAJE</label>
+                    <div class="col-md-9">
+                      <textarea class="form-control" rows="5" name="mensaje" id="textArea" placeholder="Su mensaje..."></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-9 col-md-offset-2">
+                      <button type="submit" class="btn btn-raised btn-primary" name="une">ENVIAR</button>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="buromodal" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#1D0C55;">Buró <strong style="color:#c2b931;">de Entidades Financieras</strong></h3>
+          </div>
+          <div class="modal-body">
+            <hr style="margin-top:-20px;">
+            <p class="modal-p">Es una herramienta de consulta y difusión con la que podrás conocer los productos que ofrecen las entidades financieras, sus comisiones y tasas, las reclamaciones de los usuarios, las practicas no sanas en que incurren, las sanciones administrativas que les han impuesto, las cláusulas abusivas de sus contratos y otra información que resulte relevante para informarte sobre su desempeño.</p>
+            <p class="modal-p">Con el Buró de Entidades Financieras, se logrará saber quién es quién en bancos, seguros, sociedades financieras de objeto multiple, cajas de ahorro, afores, entre otras entidades. Con ello, podrás comparar y evaluar las entidades financieras, sus productos y servicios y tendrás mayores elementos para elegir lo que más te convenga.</p>
+            <p class="modal-p">Esta información te será útil para elegir un producto financiero y también para conocer y usar mejor lo que ya tienes.</p>
+            <p class="modal-p">Este Buró de Entidades Financieras, es una herramienta que pueda contribuir al crecimiento económico del país, al promover la competencia entra las instituciones financieras; que impulsará la transparencia al revelar información a los usuarios sobre el desempeño de éstas y los productos que ofrecen y que va a facilitar un manejo responsable de los productos y servicios financieros al conocer a detalle sus características.</p>
+            <p class="modal-p">Lo anterior, podrá derivar en un mayor bienestar social, porque al conjuntar en un solo espacio tan diversa información del sistema financiero, el usuario tendrá más elementos para optimizar su presupuesto, para mejorar sus finanzas personales, para utilizar correctamente los créditos que fortalecerán su economía y obtener los seguros que la protejan, entre otros aspectos. </p>
+             <p class="modal-p">La información corresponde únicamente a su Servicio Financiero, Unión de Crédito CREDIPyME, S.A. de C.V., para conocer la información de todo el sector a la que corresponda, se podrá acceder al sitio <a href="http://buro.gob.mx">http://buro.gob.mx</a> </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="buzon_de_denuncias" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#241c64">
+              BUZÓN DE DENUNCIA <br />
+              <small style="color: #c2b931;">PARA OPERACIONES EN MATERIA DE PLD</small>
+            </h3>
+          </div>
+          <div class="modal-body">
+            
+              <form method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+                <fieldset>
+                  <div class="form-group">
+                    <label for="inputName" class="col-md-2 control-label">NOMBRE <small><strong>(opcional)</strong></small></label>
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" name="nombre" id="inputName" placeholder="Ingrese su nombre..."> </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-md-2 control-label">CONTACTO <small><strong>(opcional)</strong></small></label>
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" name="contacto" id="inputName" placeholder="Donde puedo ser contactado?"> </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="textArea" class="col-md-2 control-label">MENSAJE</label>
+                    <div class="col-md-9">
+                      <textarea class="form-control" rows="5" name="mensaje" id="textArea" placeholder="Su mensaje..."></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-9 col-md-offset-2">
+                      <button type="submit" class="btn btn-raised btn-primary" name="pld">ENVIAR</button>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="message_modal" tabindex="-1" role="dialog" aria-labelledby="">
+      <div class="modal-dialog animated zoomIn animated-3x" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">
+                <i class="zmdi zmdi-close"></i>
+              </span>
+            </button>
+            <h3 class="modal-title" style="color:#241c64">
+            </h3>
+          </div>
+          <div class="modal-body">
+            <p>
+              {{message|safe}} 
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{%static HTMLPage.static%}js/plugins.min.js"></script>
+    <script src="{%static HTMLPage.static%}js/app.min.js"></script>
+    <script type="text/javascript" charset="utf-8" async defer>
+        $( ".open_modal" ).click(function(event) {
+          event.preventDefault();
+          open_modal = $(this).attr('modal')
+          $( "#"+open_modal ).modal('show');
+        });
+        {%if message%}
+          $( "#message_modal" ).modal('show');
+        {%endif%}
+        var styleArray = [
+          {
+              "featureType": "administrative",
+              "elementType": "labels.text.fill",
+              "stylers": [
+                  {
+                      "visibility": "on"
+                  }
+              ]
+          },
+          {
+              "featureType": "landscape",
+              "elementType": "all",
+              "stylers": [
+                  {
+                      "color": "#f2f2f2"
+                  }
+              ]
+          },
+          {
+              "featureType": "landscape",
+              "elementType": "labels.text",
+              "stylers": [
+                  {
+                      "visibility": "simplified"
+                  }
+              ]
+          },
+          {
+              "featureType": "road",
+              "elementType": "all",
+              "stylers": [
+                  {
+                      "saturation": -100
+                  },
+                  {
+                      "lightness": 45
+                  },
+                  {
+                      "visibility": "simplified"
+                  }
+              ]
+          },
+          {
+              "featureType": "transit",
+              "elementType": "all",
+              "stylers": [
+                  {
+                      "visibility": "simplified"
+                  }
+              ]
+          },
+          {
+              "featureType": "transit",
+              "elementType": "labels.text",
+              "stylers": [
+                  {
+                      "visibility": "off"
+                  }
+              ]
+          },
+          {
+              "featureType": "water",
+              "elementType": "all",
+              "stylers": [
+                  {
+                      "color": "#b4d4e1"
+                  }
+              ]
+          }
+      ];
+      function initMap() {
+          var myLatLng = {lat: 19.4254399, lng: -99.175459};
+          var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 16,
+              styles: styleArray,
+              scrollwheel: false,
+              center: myLatLng,
+              disableDefaultUI: false
+          });
+          var marker = new google.maps.Marker({
+              position: myLatLng,
+              map: map,
+              icon: '{%static HTMLPage.static%}img/marker.png'
+          });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDu5qGCk7QUMr14He1Xu99CnkonzgbG9nc&signed_in=true&callback=initMap" defer></script>
+  </body>
+</html>

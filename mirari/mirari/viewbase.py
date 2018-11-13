@@ -222,6 +222,7 @@ class Base_Template(object):
 	template_name = 'generic/TemplateView.html'
 	model= None
 	permissions = None
+	HTMLPage=None
 	############################################################################################################
 	#dispatch()
 	#http_method_not_allowed()
@@ -233,6 +234,7 @@ class Base_Template(object):
 		context = super().get_context_data(**kwargs)
 		context = self.proccess_context(context)
 		context['G'] = get_variables(self)
+		context['HTMLPage'] =self.HTMLPage
 		return context
 	############################################################################################################
 	def proccess_context(self, context):
