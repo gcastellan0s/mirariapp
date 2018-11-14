@@ -139,9 +139,6 @@ VARS = {
 				Div('icon_ics_3'),
 				Div('icon_on'),
 				Div('icon_cn'),
-				Div(
-					InlineCheckboxes('active')
-				),
 				css_class="col-md-4"
 			),
 			Div(

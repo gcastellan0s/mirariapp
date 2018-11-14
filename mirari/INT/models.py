@@ -82,6 +82,11 @@ VARS = {
 			'width':'200',
 		},
 		{
+			'field': 'property_get_code',
+			'title': 'Código',
+			'width':'200',
+		},
+		{
 			'field': 'property_get_members',
 			'title': 'Miebros',
 			'template': '<div class="m--regular-font-size-sm5" style="line-height:15px;">{{property_get_members}}</div>',
@@ -99,6 +104,7 @@ VARS = {
 class Team(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
 	name = models.CharField('Nombre', max_length=250)
+	code = models.CharField('Código', max_length=250, blank=True, null=True)
 	members = models.ManyToManyField('mirari.User', blank=True, related_name='+', verbose_name='Miembros de equipo')
 	VARS = VARS
 	class Meta(Model_base.Meta):
@@ -111,6 +117,8 @@ class Team(Model_base):
 		return self.render_list(self.members, 'visible_username')
 	def get_user_team(self, user):
 		return Team.objects.filter(members=user)
+	def get_code(self):
+		return self.render_if(self.code)
 
 
 ########################################################################################
