@@ -375,7 +375,7 @@ class Base_List(object):
 			if 'LIST' in self.model.VARS:
 				self.LIST = self.model.VARS['LIST']
 			else:
-				self.LIST = [{'field': 'get_str_obj', 'title': self.model.VARS['PLURAL'], 'url': 'property_url_update', },]
+				self.LIST = [{'field': 'property_str_obj', 'title': self.model.VARS['PLURAL'], 'url': 'property_url_update', },]
 		if not self.SERIALIZER:  
 			if 'SERIALIZER' in self.model.VARS:
 				self.SERIALIZER = self.model.VARS['SERIALIZER']
@@ -582,6 +582,20 @@ class Base_Create(object):
 		class Form(Base_Form):
 			class Meta(Base_Form.Meta):
 				model = self.model
+				fields = []
+				exclude = []
+				if 'FORM' in self.model.VARS:
+					for element in self.model.VARS['FORM']:
+						if type(element) == str:
+							fields.append(element)
+						else:
+							fields = '__all__'
+				else:
+					fields = '__all__'
+				if 'EXCLUDE_FORM' in self.model.VARS:
+					exclude = self.model.VARS['EXCLUDE_FORM']
+				else:
+					exclude = ['active', 'organization']
 			def __init__(self, *args, **kwargs):
 				super().__init__(*args, **kwargs)
 				self.helper = FormHelper()
@@ -595,7 +609,7 @@ class Base_Create(object):
 					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed col-md-8'
 				self.helper.layout = Layout()
 				if 'FORM' in self._meta.model.VARS:
-					attach_div = False
+					attach_div = None
 					div = Div(css_class="form-group m-form__group row")
 					for element in self._meta.model.VARS['FORM']:
 						if type(element) == str:
@@ -610,7 +624,7 @@ class Base_Create(object):
 					div = Div(css_class="form-group m-form__group row")
 					if 'EXCLUDE_FORM' in self._meta.model.VARS:
 						EXCLUDE_FORM = self._meta.model.VARS['EXCLUDE_FORM']
-					for element in self._meta.model._meta.fields:
+					for element in self._meta.model._meta.get_fields():
 						flag=True
 						if element.name in EXCLUDE_FORM:
 							flag = False

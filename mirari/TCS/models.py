@@ -11,6 +11,7 @@ VARS = {
 	'THIS': 'esta',
 	'APP':APP,
 	'EXCLUDE_PERMISSIONS': ['all'],
+	'FORM': ['name'],
 }
 class Store(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
@@ -31,12 +32,18 @@ VARS = {
 	'NEW_GENDER': 'una nueva',
 	'THIS': 'esta',
 	'APP':APP,
+	'SELECTQ': {
+		'store': {
+			'model': [APP, 'Store'],
+			'plugin': 'selectmultiple',
+		},
+	},
 	'EXCLUDE_PERMISSIONS': ['all'],
 }
 class Brand(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	store = models.ManyToManyField('Store')
-	name = models.CharField(max_length=250)
+	store = models.ManyToManyField('Store', verbose_name="Tienda donde se vende")
+	name = models.CharField('Marca', max_length=250)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
