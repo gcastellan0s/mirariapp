@@ -158,7 +158,7 @@ VARS = {
 	'SERIALIZER': ['get_notes','get_name_with_color'],
 }
 def path_Handbook_file(self, filename):
-	upload_to = "companys/2_credipyme/INT/Handbook/%s" % (self.organization.id, self.organization.code, filename)
+	upload_to = "companys/%s_%s/INT/Handbook/%s" % ('2', 'credipyme', filename)#(self.organization.id, self.organization.code, filename)
 	return upload_to
 class Handbook(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
