@@ -177,9 +177,9 @@ class Base_Form(Basic_Form):
 							model = self.model._meta.get_field(key).remote_field.model
 						query = model.objects.all()
 						if 'query' in value:
-							if value['query'] == 'ALL':
+							if value['query'] == 'all':
 								query = model.objects.all()
-							elif value['query'] == 'NONE':
+							elif value['query'] == 'none':
 								query = model.objects.none()
 							else:
 								q = Q()
@@ -278,6 +278,8 @@ class Base_Detail(object):
 	############################################################################################################
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], kwargs['model'])
+		if 'HTMLPage' in self.request.GET:
+			self.template_name = self.request.GET[HTMLPage] + '.html'
 		return True
 	def proccess_context(self, context):
 		return context
@@ -368,7 +370,11 @@ class Base_List(object):
 				self.model = apps.get_model(kwargs['app'], kwargs['model'])
 			except:
 				pass
+		if 'HTMLPage' in self.request.GET:
+			self.template_name = self.request.GET[HTMLPage] + '.html'
 		self.initialize_list(request, *args, **kwargs)
+		if 'HTMLPage' in self.request.GET:
+			self.template_name = self.request.GET[HTMLPage] + '.html'
 		return True
 	def initialize_list(self, request, *args, **kwargs):
 		if not self.LIST:
@@ -536,11 +542,6 @@ class Base_Create(object):
 		self.initialize(request, *args, **kwargs)
 		return super().dispatch(request, *args, **kwargs)
 	def form_valid(self, form):
-		try:
-			form.instance.organization = Organization.objects.get(pk=self.request.session.get('organization'))
-			form.save()
-		except:
-			pass
 		return super().form_valid(form)
 	def get(self, request, *args, **kwargs):
 		response = super().get(request, *args, **kwargs)
@@ -565,6 +566,8 @@ class Base_Create(object):
 	############################################################################################################
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], kwargs['model'])
+		if 'HTMLPage' in self.request.GET:
+			self.template_name = self.request.GET['HTMLPage'] + '.html'
 		return True
 	def get_success_url(self):
 		if 'save' in self.request.POST:

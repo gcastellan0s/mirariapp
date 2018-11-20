@@ -135,10 +135,19 @@
 
 {%block mounted%}
 	$('[name="color"]').attr('type','color');
-	{%include 'generic/includes/create-update/select.js'%}
+
+	{%block select2%}
+		{%include 'generic/includes/create-update/select.js'%}
+	{%endblock select2%}
+
+	{%block extraselect2%}
+	{%endblock extraselect2%}
+
 	{%include 'generic/includes/create-update/datepicker.js'%}
 	{%include 'generic/includes/create-update/validate.js'%}
+
 	{%if 'SUMMERNOTE' in model.VARS%}
 		{%include 'generic/includes/create-update/summernote.js'%}
 	{%endif%}
+	
 {%endblock mounted%}

@@ -5,5 +5,5 @@ from .vars import *
 app_name = APP
 
 urlpatterns = [
-    #path('BASE/FunctionName/', FunctionName__TypeView.as_view(), name='FunctionName__TypeView'),
+    path('api/OrderServiceApiView/<slug:app>/<slug:action>/<slug:model>/', OrderService__ApiView.as_view(), name='OrderService__ApiView'),
 ]

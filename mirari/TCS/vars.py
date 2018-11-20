@@ -14,6 +14,16 @@ MENU = {
 				'model': APP + '.OrderService',
 				'url': 'Generic__ListView',
 			},
+			{
+				'title': 'Empresas',
+				'icon': 'flaticon-bag',
+				'text': 'Administración de empresas',
+				'subtext': 'Configura empresas en el sistema',
+				'apps': [APP, ],
+				'permission': 'Can_View',
+				'model': APP + '.Company',
+				'url': 'Generic__ListView',
+			},
             {
 				'title': 'Tiendas',
 				'icon': 'flaticon-map-location',

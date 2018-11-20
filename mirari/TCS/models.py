@@ -3,6 +3,28 @@ from mirari.mirari.models import *
 from .vars import *
 
 VARS = {
+	'NAME':'Empresa',
+	'PLURAL':'Empresas',
+	'MODEL':'Company',
+	'NEW':'NUEVA',
+	'NEW_GENDER': 'una nueva',
+	'THIS': 'esta',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS': ['all'],
+	'FORM': ['name'],
+}
+class Company(Model_base):
+	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
+	name = models.CharField('Nombre de la empresa', max_length=250)
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return self.name
+
+VARS = {
 	'NAME':'Tienda',
 	'PLURAL':'Tiendas',
 	'MODEL':'Store',
@@ -15,6 +37,7 @@ VARS = {
 }
 class Store(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
+	company = models.ForeignKey('Company', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
 	name = models.CharField('Nombre de la tienda', max_length=250)
 	VARS = VARS
 	class Meta(Model_base.Meta):
@@ -87,18 +110,30 @@ VARS = {
 		'technical': {
 			'model': ['mirari', 'User'],
 			'plugin': 'select2',
+			'query': 'all',
+			'sercheable': ['visible_username__icontains',],
+			'limits': 50,
+			'placeholder': 'Elige un técnico',
+		},
+		'company': {
+			'model': ['TCS', 'Company'],
+			'plugin': 'select2',
+			'query': 'all',
 		},
 		'store': {
 			'model': ['TCS', 'Store'],
 			'plugin': 'select2',
+			'query': 'none',
 		},
 		'brand': {
 			'model': ['TCS', 'Brand'],
 			'plugin': 'select2',
+			'query': 'none',
 		},
 		'modelo': {
 			'model': ['TCS', 'Modelo'],
 			'plugin': 'select2',
+			'query': 'none',
 		},
 	},
 	'FORM': [
@@ -125,7 +160,8 @@ VARS = {
 			Div('contact_phone1', css_class="col-md-4"),
 			Div('contact_phone2', css_class="col-md-4"),
 			Div('address', css_class="col-md-8"),
-			Div('client_notes', css_class="col-md-12"),
+			Div('client_notes', css_class="col-md-8"),
+			Div('company', css_class="col-md-4"),
 			css_class="form-group m-form__group row"
 		),
 		Div(
@@ -179,9 +215,10 @@ class OrderService(Model_base):
 	address_lat = models.FloatField(blank=True, null=True)
 	address_lng = models.FloatField(blank=True, null=True)
 	client_notes = models.TextField(blank=True, verbose_name="Notas sobre el cliente")
+	company = models.ForeignKey('Company', on_delete=models.SET_NULL, null=True, verbose_name="Empresa")
 	store = models.ForeignKey('Store', on_delete=models.SET_NULL, null=True, verbose_name="Tienda")
 	brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, verbose_name="Marca")
-	report_name = models.CharField(max_length=250, blank=True, verbose_name="Numero de serie")
+	report_name = models.CharField(max_length=250, blank=True, verbose_name="Nombre de quien reporta")
 	modelo = models.ForeignKey('Modelo', on_delete=models.SET_NULL, null=True, verbose_name="Modelo")
 	serial_number = models.CharField(max_length=250, blank=True, verbose_name="Numero de serie")
 	hidden_notes = models.TextField(blank=True, verbose_name="Notas <small>(No se imprimen en la orden)</small>")
@@ -199,3 +236,8 @@ class OrderService(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return self.name
+	def url_add(self):
+		return reverse('mirari:Generic__CreateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']}) + '?HTMLPage=OrderService__CreateView'
+		
+	def url_update(self):
+		return reverse('mirari:Generic__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk}) + '?HTMLPage=OrderService__CreateView'
