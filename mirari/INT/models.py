@@ -311,7 +311,7 @@ VARS = {
 	'DATE': ['datetime_expire'],
 }
 def path_Notification_file(self, filename):
-	upload_to = "companys/%s_%s/INT/Notification/%s" % (self.organization.id, self.organization.code, filename)
+	upload_to = "companys/2_credipymes/INT/Notification/%s" % (filename)
 	return upload_to
 class Notification(Model_base):
 	uuid = models.UUIDField(default=uuid.uuid4)
