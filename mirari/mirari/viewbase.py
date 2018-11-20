@@ -542,11 +542,11 @@ class Base_Create(object):
 		self.initialize(request, *args, **kwargs)
 		return super().dispatch(request, *args, **kwargs)
 	def form_valid(self, form):
-		try:
-			form.instance.organization = Organization.objects.get(pk=self.request.session.get('organization'))
-			form.save()
-		except:
-			pass
+		#try:
+			#form.instance.organization = Organization.objects.get(pk=self.request.session.get('organization'))
+			#form.save()
+		#except:
+			#pass
 		return super().form_valid(form)
 	def get(self, request, *args, **kwargs):
 		response = super().get(request, *args, **kwargs)
