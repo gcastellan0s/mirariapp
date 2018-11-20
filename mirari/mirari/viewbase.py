@@ -543,8 +543,8 @@ class Base_Create(object):
 		return super().dispatch(request, *args, **kwargs)
 	def form_valid(self, form):
 		try:
-			form.instance.organization = Organization.objects.get(pk=self.request.session.get('organization'))
-			form.save()
+			with transaction.atomic():
+				form.instance.organization = Organization.objects.get(pk=self.request.session.get('organization'))
 		except:
 			pass
 		return super().form_valid(form)
