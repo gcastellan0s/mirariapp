@@ -155,6 +155,7 @@ VARS = {
 	],
 	'SEARCH': ['name'],
 	'SORTEABLE': ['name'],
+	'SUMMERNOTE': ['notes'],
 	'SERIALIZER': ['get_notes','get_name_with_color'],
 }
 def path_Handbook_file(self, filename):
@@ -311,7 +312,7 @@ VARS = {
 	'DATE': ['datetime_expire'],
 }
 def path_Notification_file(self, filename):
-	upload_to = "companys/2_credipymes/INT/Notification/%s" % (filename)
+	upload_to = "companys/%s_%s/INT/Notification/%s" % (self.organization.id, self.organization.code, filename)
 	return upload_to
 class Notification(Model_base):
 	uuid = models.UUIDField(default=uuid.uuid4)
