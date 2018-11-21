@@ -268,6 +268,7 @@ class Channel(Model_base):
 		return self.render_list((User.objects.filter(pk__in=users).all() | self.user_admin.all()).distinct(), 'visible_username')
 
 
+
 #######################################################################################
 #######################################################################################
 VARS = {
