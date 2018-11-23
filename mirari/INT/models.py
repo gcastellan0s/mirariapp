@@ -24,7 +24,8 @@ VARS = {
 			'field': 'name',
 			'title': 'Nombre',
 			'template': '{{property_get_name_with_color}}',
-			'sortable': 'desc'
+			'sortable': 'desc',
+			'url': 'property_url_update'
 		},
 		{
 			'field': 'description',
