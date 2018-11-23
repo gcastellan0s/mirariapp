@@ -454,6 +454,8 @@ class Base_List(object):
 			item_dictionary['title'] = item['title'].upper()
 			if not item['field'] in self.SORTEABLE:
 				item_dictionary['sortable'] = 'false'
+			if 'sortable' in item:
+				item_dictionary['sortable'] = item['sortable']
 			if 'template' in item:
 				item_dictionary['template'] = item['template']
 			else:

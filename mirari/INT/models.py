@@ -24,6 +24,7 @@ VARS = {
 			'field': 'name',
 			'title': 'Nombre',
 			'template': '{{property_get_name_with_color}}',
+			'sortable': 'asc'
 		},
 		{
 			'field': 'description',
@@ -51,9 +52,9 @@ class Catalogue(Model_base):
 		return '{0}'.format(self.name)
 	def QUERY(self, view):
 		if view.request.user.has_perm(self.model.VARS['APP']+'.Can_Update__'+self.model.VARS['MODEL']):
-			return Catalogue.objects.filter(organization__pk=view.request.session.get('organization'), active=True).order_by('name')
+			return Catalogue.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
 		else:
-			return Catalogue.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True).order_by('name')
+			return Catalogue.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
 	def get_description(self):
 		return self.render_if(self.description)
 	def get_name_with_color(self):
