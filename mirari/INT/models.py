@@ -37,6 +37,7 @@ VARS = {
 	'SEARCH': ['name','code'],
 	'SORTEABLE': ['code'],
 	'SUMMERNOTE': ['description'],
+	'EXCLUDE_FORM': ['code','is_active'],
 }
 class Catalogue(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
