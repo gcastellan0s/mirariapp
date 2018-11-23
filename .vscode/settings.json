@@ -34,7 +34,7 @@
         "setup.cfg": true,
         "compose": true,
         "merge_production_dotenvs_in_dotenv.py": true,
-        "django": true,
+        "django": false,
         ".envs": false,
         "**/hooks": true,
         "**/node_modules": true,

@@ -136,6 +136,8 @@
 {%block mounted%}
 	$('[name="color"]').attr('type','color');
 
+	{%include 'generic/includes/create-update/switch.js'%}
+
 	{%block select2%}
 		{%include 'generic/includes/create-update/select.js'%}
 	{%endblock select2%}
@@ -149,5 +151,22 @@
 	{%if 'SUMMERNOTE' in model.VARS%}
 		{%include 'generic/includes/create-update/summernote.js'%}
 	{%endif%}
+
+
 	
+	if ($('#id_zona_0').is(":checked"))
+		actualizar_tecnicos('locales')
+	else
+		actualizar_tecnicos('foraneos')
+	
+
+	$( "#id_zona_0" ).change(function() {
+		actualizar_tecnicos('locales')
+	});
+	$( "#id_zona_1" ).change(function() {
+		actualizar_tecnicos('foraneos')
+	});
+		
+
+
 {%endblock mounted%}

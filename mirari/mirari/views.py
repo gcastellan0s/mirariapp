@@ -157,3 +157,12 @@ class ChangeOrganization__ApiView(Generic__ApiView):
 			request.user.organization = self.object
 			request.user.save()
 		return True
+
+class Select2GetQuery__ApiView(Generic__ApiView):
+	def get_objects(self):
+		class ApiSerializer(Base_Serializer):
+			class Meta(Basic_Serializer.Meta):
+				model = self.model
+		#key 
+		#query = 
+		return ApiSerializer(self.get_object(pk))

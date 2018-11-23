@@ -522,6 +522,7 @@ class Base_Create(object):
 	template_name = 'generic/CreateView.html'
 	permissions = True
 	model = None
+	formhelper = None
 	############################################################################################################
 	#as_view()
 	#dispatch()
@@ -589,23 +590,12 @@ class Base_Create(object):
 		class Form(Base_Form):
 			class Meta(Base_Form.Meta):
 				model = self.model
-				fields = []
+				fields = '__all__'
 				exclude = []
-				if 'FORM' in self.model.VARS:
-					for element in self.model.VARS['FORM']:
-						if type(element) == str:
-							fields.append(element)
-						else:
-							fields = '__all__'
-				else:
-					fields = '__all__'
-				if 'EXCLUDE_FORM' in self.model.VARS:
-					exclude = self.model.VARS['EXCLUDE_FORM']
-				else:
-					exclude = ['active', 'organization']
 			def __init__(self, *args, **kwargs):
 				super().__init__(*args, **kwargs)
 				self.helper = FormHelper()
+				self.helper.layout = Layout()
 				if 'FORM_ID' in self._meta.model.VARS:
 					self.helper.form_id = self._meta.model.VARS['FORM_ID']
 				else:	
@@ -614,42 +604,38 @@ class Base_Create(object):
 					self.helper.form_class = self._meta.model.VARS['FORM_CLASS']
 				else:
 					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed col-md-8'
-				self.helper.layout = Layout()
+				self._meta.fields = []
+				div = Div(css_class="form-group m-form__group row")
 				if 'FORM' in self._meta.model.VARS:
-					attach_div = None
-					div = Div(css_class="form-group m-form__group row")
-					for element in self._meta.model.VARS['FORM']:
-						if type(element) == str:
-							div.append(Div(element, css_class="col-md-12"))
-							attach_div = True
+					is_crispy_helper = False
+					for field in self._meta.model.VARS['FORM']:
+						if type(field) == str:
+							div.append(Div(field, css_class="col-md-12"))
 						else:
-							self.helper.layout.append(element)
-					if attach_div:
+							self.helper.layout.append(field)
+							is_crispy_helper = True
+					if not is_crispy_helper:
 						self.helper.layout.append(div)
+					for field in self.helper.layout.get_field_names():
+						self._meta.fields.append(field[1])
+				if 'EXCLUDE_FORM' in self._meta.model.VARS:
+					self._meta.exclude = self._meta.model.VARS['EXCLUDE_FORM']
 				else:
-					EXCLUDE_FORM = ['active', 'organization']
-					div = Div(css_class="form-group m-form__group row")
-					if 'EXCLUDE_FORM' in self._meta.model.VARS:
-						EXCLUDE_FORM = self._meta.model.VARS['EXCLUDE_FORM']
-					for element in self._meta.model._meta.get_fields():
-						flag=True
-						if element.name in EXCLUDE_FORM:
-							flag = False
-						if flag:
-							div.append(Div(element.name, css_class="col-md-12"))
+					if not 'active' in self._meta.fields:
+						self._meta.exclude.append('active')
+					if not 'organization' in self._meta.fields:
+						self._meta.exclude.append('organization')
+				if not self._meta.fields:
+					for field in self._meta.model._meta.get_fields():
+						if not field.name in self._meta.exclude:
+							div.append(Div(field.name, css_class="col-md-12"))
+							self._meta.fields.append(field.name)
 					self.helper.layout.append(div)
 				if 'FORM_BUTTONS' in self._meta.model.VARS:
-					self.helper.layout.append(
-						self._meta.model.VARS['FORM_BUTTONS']
-					)
-					self.helper.layout = Layout(self._meta.model.VARS['FORM_BUTTONS'])
+					self.helper.layout.append(self._meta.model.VARS['FORM_BUTTONS'])
 				else:
 					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed col-md-8'
-					self.helper.layout.append(
-						HTML("""
-							{%include 'generic/includes/create-update/submit_buttons.html'%}
-						""")
-					)
+					self.helper.layout.append(HTML("""{%include 'generic/includes/create-update/submit_buttons.html'%}"""))
 		return Form
 	def extra_response(self):
 		return False
@@ -732,7 +718,7 @@ class Base_Delete(object):
 
 
 class Base_Api(object):
-	permissions = True
+	#permissions = True
 	model = None
 	tokenserializer = False
 	def dispatch(self, request, *args, **kwargs):

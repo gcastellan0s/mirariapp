@@ -6,7 +6,7 @@ MENU = {
         'modules': [
 			{
 				'title': 'Ordenes de servicio',
-				'icon': 'flaticon-edit-1',
+				'icon': 'flaticon-network',
 				'text': 'Lista y altas de servicios',
 				'subtext': 'Administra ordenes de servicio en el sistemas',
 				'apps': [APP, ],

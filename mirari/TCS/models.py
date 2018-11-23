@@ -11,7 +11,6 @@ VARS = {
 	'THIS': 'esta',
 	'APP':APP,
 	'EXCLUDE_PERMISSIONS': ['all'],
-	'FORM': ['name'],
 }
 class Company(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
@@ -33,11 +32,15 @@ VARS = {
 	'THIS': 'esta',
 	'APP':APP,
 	'EXCLUDE_PERMISSIONS': ['all'],
-	'FORM': ['name'],
+	'SELECTQ': {
+		'company': {
+			'plugin': 'select2',
+		},
+	},
 }
 class Store(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	company = models.ForeignKey('Company', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
+	company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name='+', verbose_name="Compañia")
 	name = models.CharField('Nombre de la tienda', max_length=250)
 	VARS = VARS
 	class Meta(Model_base.Meta):
@@ -57,7 +60,6 @@ VARS = {
 	'APP':APP,
 	'SELECTQ': {
 		'store': {
-			'model': [APP, 'Store'],
 			'plugin': 'selectmultiple',
 		},
 	},
@@ -83,12 +85,17 @@ VARS = {
 	'NEW_GENDER': 'un nuevo',
 	'THIS': 'este',
 	'APP':APP,
+	'SELECTQ': {
+		'brand': {
+			'plugin': 'select2',
+		},
+	},
 	'EXCLUDE_PERMISSIONS': ['all'],
 }
 class Modelo(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True)
-	name = models.CharField(max_length=250)
+	brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, verbose_name="Marca")
+	name = models.CharField('Nombre del modelo', max_length=250)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
