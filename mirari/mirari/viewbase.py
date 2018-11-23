@@ -397,9 +397,6 @@ class Base_List(object):
 		if not self.EXCLUDE_SERIALIZER:  
 			if 'EXCLUDE_SERIALIZER' in self.model.VARS:
 				self.EXCLUDE_SERIALIZER = self.model.VARS['EXCLUDE_SERIALIZER']
-		if not self.QUERY:  
-			if 'QUERY' in self.model.VARS:
-				self.QUERY = self.model.VARS['QUERY']
 		return True
 	def proccess_context(self, context):
 		return context

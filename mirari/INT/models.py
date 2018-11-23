@@ -14,12 +14,12 @@ VARS = {
 	'THIS': 'este',
 	'APP':APP,
 	'LIST': [
-		{
-			'field': 'code',
-			'title': 'Código',
-			'width': '50',
-			'url': 'property_url_update'
-		},
+		#{
+			#'field': 'code',
+			#'title': 'Código',
+			#'width': '50',
+			#'url': 'property_url_update'
+		#},
 		{
 			'field': 'name',
 			'title': 'Nombre',
@@ -51,9 +51,9 @@ class Catalogue(Model_base):
 		return '{0}'.format(self.name)
 	def QUERY(self, view):
 		if view.request.user.has_perm(self.model.VARS['APP']+'.Can_Update__'+self.model.VARS['MODEL']):
-			return Catalogue.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
+			return Catalogue.objects.filter(organization__pk=view.request.session.get('organization'), active=True).order_by('name')
 		else:
-			return Catalogue.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
+			return Catalogue.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True).order_by('name')
 	def get_description(self):
 		return self.render_if(self.description)
 	def get_name_with_color(self):
