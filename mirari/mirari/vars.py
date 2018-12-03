@@ -58,3 +58,6 @@ MMENU.update(CRYEMENU)
 
 from mirari.TCS.vars import MENU as TCS
 MMENU.update(TCS)
+
+from mirari.SIEBEL.vars import MENU as SIEBEL
+MMENU.update(SIEBEL)
