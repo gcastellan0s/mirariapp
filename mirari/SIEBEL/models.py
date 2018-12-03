@@ -12,8 +12,9 @@ VARS = {
 	'APP':APP,
 }
 class Credit(Model_base):
+	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
+	name = models.CharField('Nombre', max_length=255)
 	VARS = VARS
-	name = models.CharField(max_length=255)
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
 		verbose_name_plural = VARS['PLURAL']
@@ -31,7 +32,8 @@ VARS = {
 	'APP':APP,
 }
 class Actor(Model_base):
-	name = models.CharField(max_length=255)
+	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
+	name = models.CharField('Nombre', max_length=255)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
