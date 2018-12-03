@@ -86,6 +86,7 @@ LOCAL_APPS = [
     'mirari.SV',
     'mirari.INT',
     'mirari.CRYE',
+    'mirari.SIEBEL',
     'mirari.TCS',
     # Your stuff: custom apps go here
 ]
@@ -144,6 +145,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

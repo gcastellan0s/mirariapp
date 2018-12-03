@@ -1,0 +1,50 @@
+<template src="@/layouts/pug/LayoutSidenav.pug" lang="pug"></template>
+<script>
+  import { Sidenav, SidenavLink, SidenavRouterLink, SidenavMenu, SidenavHeader, SidenavBlock, SidenavDivider } from '@appwork/vendor/libs/sidenav'
+  export default {
+    name: 'app-layout-sidenav',
+    components: {
+      Sidenav,
+      SidenavLink,
+      SidenavRouterLink,
+      SidenavMenu,
+      SidenavHeader,
+      SidenavBlock,
+      SidenavDivider
+    },
+    props: {
+      orientation: {
+        type: String,
+        default: 'vertical'
+      }
+    },
+    computed: {
+      curClasses () {
+        let bg = this.layoutSidenavBg
+        if (this.orientation === 'horizontal' && (bg.indexOf(' sidenav-dark') !== -1 || bg.indexOf(' sidenav-light') !== -1)) {
+          bg = bg
+            .replace(' sidenav-dark', '')
+            .replace(' sidenav-light', '')
+            .replace('-darker', '')
+            .replace('-dark', '')
+        }
+        return `bg-${bg} ` + (
+          this.orientation !== 'horizontal'
+            ? 'layout-sidenav'
+            : 'layout-sidenav-horizontal container-p-x flex-grow-0'
+        )
+      }
+    },
+    methods: {
+      isMenuActive (url) {
+        return this.$route.path.indexOf(url) === 0
+      },
+      isMenuOpen (url) {
+        return this.$route.path.indexOf(url) === 0 && this.orientation !== 'horizontal'
+      },
+      toggleSidenav () {
+        this.layoutHelpers.toggleCollapsed()
+      }
+    }
+  }
+</script>

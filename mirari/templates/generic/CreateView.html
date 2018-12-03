@@ -151,14 +151,11 @@
 	{%if 'SUMMERNOTE' in model.VARS%}
 		{%include 'generic/includes/create-update/summernote.js'%}
 	{%endif%}
-
-
 	
 	if ($('#id_zona_0').is(":checked"))
 		actualizar_tecnicos('locales')
 	else
 		actualizar_tecnicos('foraneos')
-	
 
 	$( "#id_zona_0" ).change(function() {
 		actualizar_tecnicos('locales')
@@ -166,7 +163,4 @@
 	$( "#id_zona_1" ).change(function() {
 		actualizar_tecnicos('foraneos')
 	});
-		
-
-
 {%endblock mounted%}

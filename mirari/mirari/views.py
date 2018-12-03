@@ -144,6 +144,14 @@ class UserPassword__UpdateView(Generic__UpdateView):
 		return context
 
 class GetUser__ApiView(Generic__ApiView):
+	#def dispatch(self, request, *args, **kwargs):
+		#self.initialize(request, *args, **kwargs)
+		#if request.method == "POST" or request.method == "GET":
+			#username, password = request.POST.get('username'), request.POST.get('password')
+			#self.serializer = self.get_objects().data
+			#self.actions(request, *args, **kwargs)
+			#return JsonResponse(self.serializer)
+		#return super().dispatch(request, *args, **kwargs)
 	def get_objects(self):
 		class ApiSerializer(Base_Serializer):
 			pass
@@ -163,6 +171,5 @@ class Select2GetQuery__ApiView(Generic__ApiView):
 		class ApiSerializer(Base_Serializer):
 			class Meta(Basic_Serializer.Meta):
 				model = self.model
-		#key 
-		#query = 
-		return ApiSerializer(self.get_object(pk))
+		query = Team.objects.filter(code='Local').first().members.all()
+		return ApiSerializer(query, many=True)
