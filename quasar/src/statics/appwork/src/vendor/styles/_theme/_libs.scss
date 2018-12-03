@@ -1,0 +1,57 @@
+// -------------------------------------------------------------------------------
+// Imports
+
+@import "@appwork/vendor/libs/nouislider/_mixins.scss";
+@import "@appwork/vendor/libs/vue-quill-editor/_mixins.scss";
+@import "@appwork/vendor/libs/vue-dropzone/_mixins.scss";
+@import "@appwork/vendor/libs/vue-awesome-swiper/_mixins.scss";
+@import "@appwork/vendor/libs/spinkit/_mixins.scss";
+@import "@appwork/vendor/libs/plyr/_mixins.scss";
+@import "@appwork/vendor/libs/vue-slider-component/_mixins.scss";
+@import "@appwork/vendor/libs/vue-multiselect/_mixins.scss";
+@import "@appwork/vendor/libs/vue-input-tag/_mixins.scss";
+@import "@appwork/vendor/libs/vuejs-datepicker/_mixins.scss";
+@import "@appwork/vendor/libs/vue-flatpickr-component/_mixins.scss";
+@import "@appwork/vendor/libs/sweet-modal-vue/_mixins.scss";
+@import "@appwork/vendor/libs/vue-notification/_mixins.scss";
+@import "@appwork/vendor/libs/vue-form-wizard/_mixins.scss";
+@import "@appwork/vendor/libs/vue-simple-calendar/_mixins.scss";
+
+// -------------------------------------------------------------------------------
+// Theme mixin
+
+@mixin appwork-libs-theme($background, $color: null) {
+  @include nouislider-theme($background);
+  @include quill-theme($background);
+  @include dropzone-theme($background);
+  @include swiper-theme($background);
+  @include spinkit-theme($background);
+  @include plyr-theme($background, $color);
+  @include vue-slider-theme($background, $color);
+  @include vue-multiselect-theme($background, $color);
+  @include vue-input-tag-theme($background, $color);
+  @include vuejs-datepicker-theme($background, $color);
+  @include vue-flatpickr-component-theme($background, $color);
+  @include sweet-modal-vue-theme($background);
+  @include vue-notification-theme($background, $color);
+  @include vue-form-wizard-theme($background);
+  @include vue-simple-calendar-theme($background);
+}
+
+@mixin appwork-libs-material-theme($background, $color: null) {
+  @include material-nouislider-theme($background);
+  @include quill-theme($background);
+  @include dropzone-theme($background);
+  @include swiper-theme($background);
+  @include spinkit-theme($background);
+  @include plyr-theme($background, $color);
+  @include material-vue-slider-theme($background, $color);
+  @include material-vue-multiselect-theme($background, $color);
+  @include vue-input-tag-theme($background, $color);
+  @include vuejs-datepicker-theme($background, $color);
+  @include vue-flatpickr-component-theme($background, $color);
+  @include sweet-modal-vue-theme($background);
+  @include vue-notification-theme($background, $color);
+  @include vue-form-wizard-theme($background);
+  @include vue-simple-calendar-theme($background);
+}

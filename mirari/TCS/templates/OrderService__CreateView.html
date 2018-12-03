@@ -3,16 +3,3 @@
 {% load mirari_tags %}
 
 {%block select2url%}{%url OrderService__ApiView 'TCS' 'select2' 'OrderService'%}{%endblock select2url%}
-
-{%block extraselect2%}
-    //if ($('#id_zona_0').is(":checked")) 
-        //updateselect2(id='id_technical', key='Local', action="get_Technical")
-    //else
-        //updateselect2(id='id_technical', key='Foraneo', action="get_Technical")
-    //$( "#id_zona_0" ).change(function() {
-        //updateselect2(id='id_technical', key='Local', action="get_Technical")
-    //});
-    //$( "#id_zona_1" ).change(function() {
-        //updateselect2(id='id_technical', key='Foraneo', action="get_Technical")
-    //});
-{%endblock extraselect2%}
