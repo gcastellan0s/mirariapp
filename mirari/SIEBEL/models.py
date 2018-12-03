@@ -20,7 +20,7 @@ class Credit(Model_base):
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
 	def __str__(self):
-		return '{0}'.format(self.VARS['NAME'])
+		return '{0}'.format(self.name)
 
 VARS = {
 	'NAME':'Actor',
@@ -40,4 +40,4 @@ class Actor(Model_base):
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
 	def __str__(self):
-		return '{0}'.format(self.VARS['NAME'])
+		return '{0}'.format(self.name)
