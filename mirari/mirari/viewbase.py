@@ -547,6 +547,9 @@ class Base_Create(object):
 		except:
 			pass
 		return super().form_valid(form)
+	def form_invalid(self, form):
+		print(form.errors)
+		return super().form_invalid(form)
 	def get(self, request, *args, **kwargs):
 		response = super().get(request, *args, **kwargs)
 		extra = self.extra_response()
@@ -563,10 +566,7 @@ class Base_Create(object):
 		context = self.proccess_context(context)
 		return context
 	def get_form_kwargs(self):
-		try:
-			return self.get_form_class().AddKwargs(self, super().get_form_kwargs())
-		except:
-			return self.get_form_class()
+		return self.get_form_class().AddKwargs(self, super().get_form_kwargs())
 	############################################################################################################
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], kwargs['model'])
@@ -585,12 +585,36 @@ class Base_Create(object):
 		return self.model().url_list()
 	def proccess_context(self, context):
 		return context
+	#def get_form_fields(self):
+		#if 'FORM' in self._meta.model.VARS:
+		#else:
+	#def get_form_excludes(self):
 	def get_form_class(self):
 		class Form(Base_Form):
 			class Meta(Base_Form.Meta):
 				model = self.model
-				fields = '__all__'
+				fields = []
 				exclude = []
+				if 'FORM' in model.VARS:
+					for field in model.VARS['FORM']:
+						if type(field) == str:
+							fields.append(field)
+						else:
+							for field_name in field.get_field_names():
+								fields.append(field_name[1])
+				else:
+					for field in model._meta.get_fields():
+						exclude = False
+						if 'EXCLUDE_FORM' in model.VARS:
+							if field.name in model.VARS['EXCLUDE_FORM']:
+								exclude = True
+						if field.name == 'active' or field.name == 'organization':
+							exclude = True
+						if not exclude:
+							fields.append(field.name)
+				for field in model._meta.get_fields():
+					if not field.name in fields:
+						exclude.append(field.name)
 			def __init__(self, *args, **kwargs):
 				super().__init__(*args, **kwargs)
 				self.helper = FormHelper()
@@ -615,20 +639,17 @@ class Base_Create(object):
 							is_crispy_helper = True
 					if not is_crispy_helper:
 						self.helper.layout.append(div)
-					for field in self.helper.layout.get_field_names():
-						self._meta.fields.append(field[1])
-				if 'EXCLUDE_FORM' in self._meta.model.VARS:
-					self._meta.exclude = self._meta.model.VARS['EXCLUDE_FORM']
 				else:
-					if not 'active' in self._meta.fields:
-						self._meta.exclude.append('active')
-					if not 'organization' in self._meta.fields:
-						self._meta.exclude.append('organization')
-				if not self._meta.fields:
 					for field in self._meta.model._meta.get_fields():
-						if not field.name in self._meta.exclude:
+						exclude = False
+						if 'EXCLUDE_FORM' in self._meta.model.VARS:
+							if field.name in self._meta.model.VARS['EXCLUDE_FORM']:
+								exclude = True
+						if field.name == 'active' or field.name == 'organization':
+							exclude = True
+						if not exclude:
 							div.append(Div(field.name, css_class="col-md-12"))
-							self._meta.fields.append(field.name)
+							self._meta.fields.append(field[1])
 					self.helper.layout.append(div)
 				if 'FORM_BUTTONS' in self._meta.model.VARS:
 					self.helper.layout.append(self._meta.model.VARS['FORM_BUTTONS'])
