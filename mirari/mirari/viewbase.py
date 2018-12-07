@@ -585,10 +585,6 @@ class Base_Create(object):
 		return self.model().url_list()
 	def proccess_context(self, context):
 		return context
-	#def get_form_fields(self):
-		#if 'FORM' in self._meta.model.VARS:
-		#else:
-	#def get_form_excludes(self):
 	def get_form_class(self):
 		class Form(Base_Form):
 			class Meta(Base_Form.Meta):
@@ -603,18 +599,9 @@ class Base_Create(object):
 							for field_name in field.get_field_names():
 								fields.append(field_name[1])
 				else:
-					for field in model._meta.get_fields():
-						exclude = False
-						if 'EXCLUDE_FORM' in model.VARS:
-							if field.name in model.VARS['EXCLUDE_FORM']:
-								exclude = True
-						if field.name == 'active' or field.name == 'organization':
-							exclude = True
-						if not exclude:
-							fields.append(field.name)
-				for field in model._meta.get_fields():
-					if not field.name in fields:
-						exclude.append(field.name)
+					fields = '__all__'
+				if 'EXCLUDE_FORM' in model.VARS:
+					exclude.append(model.VARS['EXCLUDE_FORM'])
 			def __init__(self, *args, **kwargs):
 				super().__init__(*args, **kwargs)
 				self.helper = FormHelper()
@@ -627,7 +614,6 @@ class Base_Create(object):
 					self.helper.form_class = self._meta.model.VARS['FORM_CLASS']
 				else:
 					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed col-md-8'
-				self._meta.fields = []
 				div = Div(css_class="form-group m-form__group row")
 				if 'FORM' in self._meta.model.VARS:
 					is_crispy_helper = False
@@ -641,15 +627,18 @@ class Base_Create(object):
 						self.helper.layout.append(div)
 				else:
 					for field in self._meta.model._meta.get_fields():
-						exclude = False
+						exclude_from_form = False
 						if 'EXCLUDE_FORM' in self._meta.model.VARS:
 							if field.name in self._meta.model.VARS['EXCLUDE_FORM']:
-								exclude = True
+								exclude_from_form = True
 						if field.name == 'active' or field.name == 'organization':
-							exclude = True
-						if not exclude:
+							if not self._meta.fields:
+								exclude_from_form = True
+							else:
+								if field.name in self._meta.fields:
+									exclude_from_form = True
+						if not exclude_from_form:
 							div.append(Div(field.name, css_class="col-md-12"))
-							self._meta.fields.append(field[1])
 					self.helper.layout.append(div)
 				if 'FORM_BUTTONS' in self._meta.model.VARS:
 					self.helper.layout.append(self._meta.model.VARS['FORM_BUTTONS'])
