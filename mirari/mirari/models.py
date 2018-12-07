@@ -168,7 +168,7 @@ VARS = {
 }
 class User(AbstractUser, Model_base):
 	organization = models.ForeignKey('Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	visible_username = models.CharField('Usuario', max_length=50, help_text="Obligatorio. Longitud máxima 30 caracteres alfanuméricos (letras, dígitos y @/./+/-/_) solamente.")
+	visible_username = models.CharField('Nombre de usuario', max_length=50, help_text="Obligatorio. Longitud máxima 30 caracteres alfanuméricos (letras, dígitos y @/./+/-/_) solamente.")
 	birthday = models.DateField('Fecha nacimiento', blank=True, null=True)
 	phone = models.CharField('Telefono de contacto', max_length=50, blank=True, null=True)
 	gender = models.CharField('Género', choices=GENDER, max_length=50, blank=True, null=True)
