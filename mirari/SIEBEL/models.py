@@ -97,7 +97,7 @@ VARS = {
 	'APP':APP,
 }
 class CreditActor(Model_base):
-	actor = models.ForeignKey(Actor, on_delete=models.PROTECT, related_name='+')
+	.actor = models.ForeignKey(Actor, on_delete=models.PROTECT, related_name='+')
 	person = models.ForeignKey(Person, on_delete=models.PROTECT, related_name='+')
 	credit = models.ForeignKey(SIEBELCredit, on_delete=models.PROTECT, related_name='+')
 	#....
@@ -107,4 +107,4 @@ class CreditActor(Model_base):
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
 	def __str__(self):
-		return '[{0}] {1} en {2}'.format(self.name)
+		return '[{0}] {1} en {2}'.format(self.actor)
