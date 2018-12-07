@@ -97,7 +97,7 @@ VARS = {
 	'APP':APP,
 }
 class CreditActor(Model_base):
-	.actor = models.ForeignKey(Actor, on_delete=models.PROTECT, related_name='+')
+	actor = models.ForeignKey(Actor, on_delete=models.PROTECT, related_name='+')
 	person = models.ForeignKey(Person, on_delete=models.PROTECT, related_name='+')
 	credit = models.ForeignKey(SIEBELCredit, on_delete=models.PROTECT, related_name='+')
 	#....
