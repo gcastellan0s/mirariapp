@@ -613,8 +613,8 @@ class Base_Create(object):
 				if 'FORM_CLASS' in self._meta.model.VARS:
 					self.helper.form_class = self._meta.model.VARS['FORM_CLASS']
 				else:
-					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed col-md-8'
-				div = Div(css_class="form-group m-form__group row")
+					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed'
+				div = Div(css_class="")
 				if 'FORM' in self._meta.model.VARS:
 					is_crispy_helper = False
 					for field in self._meta.model.VARS['FORM']:
@@ -640,11 +640,6 @@ class Base_Create(object):
 						if not exclude_from_form:
 							div.append(Div(field.name, css_class="col-md-12"))
 					self.helper.layout.append(div)
-				if 'FORM_BUTTONS' in self._meta.model.VARS:
-					self.helper.layout.append(self._meta.model.VARS['FORM_BUTTONS'])
-				else:
-					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed col-md-8'
-					self.helper.layout.append(HTML("""{%include 'generic/includes/create-update/submit_buttons.html'%}"""))
 		return Form
 	def extra_response(self):
 		return False
@@ -770,3 +765,15 @@ class Base_Api(object):
 			return None
 	def actions(self, request, *args, **kwargs):
 		return True
+
+class View400(TemplateView):
+	template_name = "generic/errors/400.html"
+
+class View403(TemplateView):
+	template_name = "generic/errors/403.html"
+
+class View404(TemplateView):
+	template_name = "generic/errors/404.html"
+
+class View500(TemplateView):
+	template_name = "generic/errors/500.html"

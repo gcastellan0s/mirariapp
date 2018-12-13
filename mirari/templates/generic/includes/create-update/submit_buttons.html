@@ -1,37 +1,70 @@
 {% load mirari_tags %}
-<div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
-    <div class="m-form__actions">
-        {%if buttons%}
-            {{buttons}}
-        {%else%}
-            <button type="submit" class="btn btn-primary m--margin-right-15" name="save">
+
+{%if buttons%}
+    {{buttons}}
+{%else%}
+    <div class="m-portlet__head-caption">
+        {%comment%}
+            <h3 class="m-portlet__head-text">
                 {%if not object%}
-                    GUARDAR {{ model|verbose_name_singular|upper }}
+                    <small>CREAR</small> 
+                    <span>{{ model|verbose_name_singular|upper }}</span>
                 {%else%}
-                    ACTUALIZAR <small>{{ model|verbose_name_singular|upper }}</small>
+                    <small>EDITAR</small> 
+                    <strong>{{object}}</strong>
                 {%endif%}
+            </h3>
+        {%endcomment%}
+        <a href="#" class="btn btn-secondary m-btn m-btn--icon m-btn--wide m-btn--md m--margin-right-10">
+            <span>
+                <i class="la la-arrow-left"></i>
+                <span>REGRESAR</span>
+            </span>
+        </a>
+    </div>
+    <div class="m-portlet__head-tools">
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary m-btn m-btn--icon m-btn--wide m-btn--md" name="save" form="{{form}}">
+                <span>
+                    <i class="la la-save"></i>
+                    <span>
+                        {%if not object%}
+                            GUARDAR {{ model|verbose_name_singular|upper }}
+                        {%else%}
+                            ACTUALIZAR <small>{{ model|verbose_name_singular|upper }}</small>
+                        {%endif%}
+                    </span>
+                </span>
             </button>
             {%if not hide_extra_submmit%}
-                <button type="submit" class="btn btn-success" name="save__edit">
-                    {%if not object%}
-                        GUARDAR  <small>y continuar editando.</small>
-                    {%else%}
-                        ACTUALIZAR <small>y continuar editando.</small>
-                    {%endif%}
+                <button type="button" class="btn btn-primary  dropdown-toggle dropdown-toggle-split m-btn m-btn--md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 </button>
-                {%if not object%}
-                    <button type="submit" class="btn btn-warning m--pull-right" name="save__other">
-                        GUARDAR <small>y crear otro.</small>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <button class="dropdown-item" type="submit" name="save__edit" form="{{form}}">
+                        <i class="la la-copy"></i>
+                        {%if not object%}
+                            GUARDAR  <small>y continuar editando.</small>
+                        {%else%}
+                            ACTUALIZAR <small>y continuar editando.</small>
+                        {%endif%}
                     </button>
-                {%endif%}
-                {%if object%}
-                    {%if not hide_delete_button%}
-                        <button type="submit" class="btn btn-danger m--pull-right" name="delete">
-                            ELIMINAR <small>{{ model|verbose_name_singular|upper }}</small>
+                    {%if not object%}
+                        <button class="dropdown-item" type="submit" name="save__other" form="{{form}}">
+                            <i class="la la-plus"></i> 
+                            GUARDAR <small>y crear otro.</small>
                         </button>
                     {%endif%}
-                {%endif%}
+                    {%if object%}
+                        {%if not hide_delete_button%}
+                            <div class="dropdown-divider"></div>
+                            <button class="dropdown-item" type="submit" name="delete" form="{{form}}">
+                                <i class="la la-close"></i> 
+                                ELIMINAR <small>{{ model|verbose_name_singular|upper }}</small>
+                            </button>
+                        {%endif%}
+                    {%endif%}
+                </div>
             {%endif%}
-        {%endif%}
+        </div>
     </div>
-</div>
+{%endif%}

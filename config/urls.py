@@ -36,8 +36,8 @@ if settings.DEBUG:
     if "debug_toolbar" in settings.INSTALLED_APPS:
         import debug_toolbar
         urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
-#else:
-    #handler404 = 'mirari.mirari.views.400_view'
-    #handler500 = 'mirari.mirari.views.403_view'
-    #handler403 = 'mirari.mirari.views.404_view'
-    #handler400 = 'mirari.mirari.views.500_view'
+else:
+    handler404 = 'mirari.mirari.views.View400'
+    handler500 = 'mirari.mirari.views.View403'
+    handler403 = 'mirari.mirari.views.View404'
+    handler400 = 'mirari.mirari.views.View500'
