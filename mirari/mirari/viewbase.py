@@ -613,13 +613,13 @@ class Base_Create(object):
 				if 'FORM_CLASS' in self._meta.model.VARS:
 					self.helper.form_class = self._meta.model.VARS['FORM_CLASS']
 				else:
-					self.helper.form_class = 'm-form m-form--label-align-right- m-form--state- m-form--group-seperator-dashed form-horizontal'
-				div = Div(css_class="form-group m-form__group")
+					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed'
+				div = Div(css_class="")
 				if 'FORM' in self._meta.model.VARS:
 					is_crispy_helper = False
 					for field in self._meta.model.VARS['FORM']:
 						if type(field) == str:
-							div.append(field)
+							div.append(Div(field, css_class="col-md-12"))
 						else:
 							self.helper.layout.append(field)
 							is_crispy_helper = True
@@ -638,7 +638,7 @@ class Base_Create(object):
 								if field.name in self._meta.fields:
 									exclude_from_form = True
 						if not exclude_from_form:
-							div.append(field.name)
+							div.append(Div(field.name, css_class="col-md-12"))
 					self.helper.layout.append(div)
 		return Form
 	def extra_response(self):
