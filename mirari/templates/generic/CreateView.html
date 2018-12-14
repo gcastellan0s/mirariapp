@@ -74,56 +74,52 @@
 					{%endblock form_buttons%}
 				</div>
 				<div class="m-portlet__body">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="m-form__content">
-								{%for message in messages%}
-									<div class="m-alert m-alert--icon alert alert-{{message.tags}}" role="{{message.tags}}">
-										<div class="m-alert__icon">
-											{%if message.tags == 'info'%}
-											<i class="la la-warning"></i>
-											{%elif message.tags == 'success'%}
-											<i class="la la-check"></i>
-											{%elif message.tags == 'warning'%}
-											<i class="la la-warning"></i>
-											{%elif message.tags == 'error'%}
-											<i class="la la-times"></i>
-											{%endif%}
-										</div>
-										<div class="m-alert__text">
-											{{message}}
-										</div>
-										<div class="m-alert__close">
-											<button type="button" class="close" data-close="alert" aria-label="Close"></button>
-										</div>
-									</div>
-								{%endfor%}
-								<div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="form_msg">
-									<div class="m-alert__icon">
-										<i class="la la-warning"></i>
-									</div>
-									<div class="m-alert__text">
-										Hay algúnos errores en tu formulario, corrigelos para poder continuar!
-									</div>
-									<div class="m-alert__close">
-										<button type="button" class="close" data-close="alert" aria-label="Close"></button>
-									</div>
+					<div class="m-form__content">
+						{%for message in messages%}
+							<div class="m-alert m-alert--icon alert alert-{{message.tags}}" role="{{message.tags}}">
+								<div class="m-alert__icon">
+									{%if message.tags == 'info'%}
+									<i class="la la-warning"></i>
+									{%elif message.tags == 'success'%}
+									<i class="la la-check"></i>
+									{%elif message.tags == 'warning'%}
+									<i class="la la-warning"></i>
+									{%elif message.tags == 'error'%}
+									<i class="la la-times"></i>
+									{%endif%}
+								</div>
+								<div class="m-alert__text">
+									{{message}}
+								</div>
+								<div class="m-alert__close">
+									<button type="button" class="close" data-close="alert" aria-label="Close"></button>
 								</div>
 							</div>
-							<div class="m-form__heading">
-								<h3 class="m-form__heading-title">
-									{%if not object%}
-										<small>CREAR</small> 
-										<span>{{ model|verbose_name_singular|upper }}</span>
-									{%else%}
-										<small>EDITAR</small> 
-										<strong>{{object}}</strong>
-									{%endif%}
-								</h3>
+						{%endfor%}
+						<div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="form_msg">
+							<div class="m-alert__icon">
+								<i class="la la-warning"></i>
 							</div>
-							{% crispy form %}
+							<div class="m-alert__text">
+								Hay algúnos errores en tu formulario, corrigelos para poder continuar!
+							</div>
+							<div class="m-alert__close">
+								<button type="button" class="close" data-close="alert" aria-label="Close"></button>
+							</div>
 						</div>
 					</div>
+					<div class="m-form__heading">
+						<h3 class="m-form__heading-title">
+							{%if not object%}
+								<small>CREAR</small> 
+								<span>{{ model|verbose_name_singular|upper }}</span>
+							{%else%}
+								<small>EDITAR</small> 
+								<strong>{{object}}</strong>
+							{%endif%}
+						</h3>
+					</div>
+					{% crispy form %}
 				</div>
 			</div>
 		</div>
