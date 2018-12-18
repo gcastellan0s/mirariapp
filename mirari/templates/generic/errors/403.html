@@ -1,0 +1,35 @@
+{% extends "metronic/layout-5.html" %}
+{% load static %}
+
+{%block title%} 404 Pagina no encontrada {%endblock title%}
+
+{%block styles%}
+    <link href="{%static 'metronic/default/assets/vendors/base/vendors.bundle.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{%static 'metronic/default/assets/demo/default/base/style.bundle.css'%}" rel="stylesheet" type="text/css" />
+    <style>
+        .m-grid__item{
+                min-height: 100vh!important;
+        }
+    </style>
+{%endblock styles%}
+
+{%block body_content%}
+<div class="m-grid m-grid--hor m-grid--root m-page">
+    <div class="m-grid__item m-grid__item--fluid m-grid m-error-4" style="background-image: url({%static 'metronic/default/assets/app/media/img/error/bg4.jpg'%});">
+        <div class="m-error_container">
+            <h1 class="m-error_number">
+                404
+            </h1>
+            <p class="m-error_title">
+                ERROR
+            </p>
+            <p class="m-error_description">
+                PAGINA NO ENCONTRADA 
+                <br />
+                <br />
+                <button type="button" class="btn btn-outline-brand m-btn m-btn--custom" v-on:click="back_history()"><i class="fa fa-arrow-left fa2x"></i> REGRESAR</button>
+            </p>
+        </div>
+    </div>
+</div>
+{%endblock%}

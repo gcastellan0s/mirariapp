@@ -118,9 +118,10 @@ VARS = {
 			'model': ['mirari', 'User'],
 			'plugin': 'select2',
 			'query': 'all',
-			'sercheable': ['visible_username__icontains',],
+			'sercheable': ('visible_username__icontains','email__icontains'),
 			'limits': 50,
 			'placeholder': 'Elige un técnico',
+			'field_filter': (('zone',"""$("input[name='zone']:checked").val()"""),)
 		},
 		'company': {
 			'model': ['TCS', 'Company'],
@@ -200,6 +201,7 @@ VARS = {
 		),
 	],
 	'FORM_CLASS': 'small_form',
+	'FORM_SIZE': 'col-xl-9',
 }
 class OrderService(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)

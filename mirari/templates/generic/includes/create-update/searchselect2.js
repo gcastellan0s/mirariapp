@@ -7,6 +7,9 @@ $('#id_{{key}}').select2({
                 search: params.term,
                 field: '{{key}}',
                 action: 'select2',
+                {%for field_filter in value.field_filter%}
+                    {{field_filter.0}}:{{field_filter.1|safe}},
+                {%endfor%}
             }
         },
         processResults: function (data, params) {

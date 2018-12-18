@@ -1,3 +1,5 @@
+from .extra_vars import *
+
 APP = 'mirari'
 
 GENDER = (

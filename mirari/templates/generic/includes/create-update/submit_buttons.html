@@ -3,68 +3,44 @@
 {%if buttons%}
     {{buttons}}
 {%else%}
-    <div class="m-portlet__head-caption">
-        {%comment%}
-            <h3 class="m-portlet__head-text">
-                {%if not object%}
-                    <small>CREAR</small> 
-                    <span>{{ model|verbose_name_singular|upper }}</span>
-                {%else%}
-                    <small>EDITAR</small> 
-                    <strong>{{object}}</strong>
-                {%endif%}
-            </h3>
-        {%endcomment%}
-        <a href="#" class="btn btn-secondary m-btn m-btn--icon m-btn--wide m-btn--md m--margin-right-10">
+    <div class="btn-group">
+        <button type="submit" class="btn btn-primary m-btn m-btn--icon m-btn--wide m-btn--md" name="save">
             <span>
-                <i class="la la-arrow-left"></i>
-                <span>REGRESAR</span>
+                {%if not object%}
+                    GUARDAR {{ model|verbose_name_singular|upper }}
+                {%else%}
+                    ACTUALIZAR <small>{{ model|verbose_name_singular|upper }}</small>
+                {%endif%}
             </span>
-        </a>
-    </div>
-    <div class="m-portlet__head-tools">
-        <div class="btn-group">
-            <button type="submit" class="btn btn-primary m-btn m-btn--icon m-btn--wide m-btn--md" name="save" form="{{form}}">
-                <span>
-                    <i class="la la-save"></i>
-                    <span>
-                        {%if not object%}
-                            GUARDAR {{ model|verbose_name_singular|upper }}
-                        {%else%}
-                            ACTUALIZAR <small>{{ model|verbose_name_singular|upper }}</small>
-                        {%endif%}
-                    </span>
-                </span>
+        </button>
+        {%if not hide_extra_submmit%}
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split m-btn m-btn--md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             </button>
-            {%if not hide_extra_submmit%}
-                <button type="button" class="btn btn-primary  dropdown-toggle dropdown-toggle-split m-btn m-btn--md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <button class="dropdown-item" type="submit" name="save__edit" form="{{form}}">
-                        <i class="la la-copy"></i>
-                        {%if not object%}
-                            GUARDAR  <small>y continuar editando.</small>
-                        {%else%}
-                            ACTUALIZAR <small>y continuar editando.</small>
-                        {%endif%}
-                    </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <button class="dropdown-item" type="submit" name="save__edit">
+                    <i class="la la-edit"></i>
                     {%if not object%}
-                        <button class="dropdown-item" type="submit" name="save__other" form="{{form}}">
-                            <i class="la la-plus"></i> 
-                            GUARDAR <small>y crear otro.</small>
+                        GUARDAR  <small>y continuar editando.</small>
+                    {%else%}
+                        ACTUALIZAR <small>y continuar editando.</small>
+                    {%endif%}
+                </button>
+                {%if not object%}
+                    <button class="dropdown-item" type="submit" name="save__other">
+                        <i class="la la-plus"></i> 
+                        GUARDAR <small>y crear otro.</small>
+                    </button>
+                {%endif%}
+                {%if object%}
+                    {%if not hide_delete_button%}
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" type="submit" name="delete">
+                            <i class="la la-close"></i> 
+                            ELIMINAR <small>{{ model|verbose_name_singular|upper }}</small>
                         </button>
                     {%endif%}
-                    {%if object%}
-                        {%if not hide_delete_button%}
-                            <div class="dropdown-divider"></div>
-                            <button class="dropdown-item" type="submit" name="delete" form="{{form}}">
-                                <i class="la la-close"></i> 
-                                ELIMINAR <small>{{ model|verbose_name_singular|upper }}</small>
-                            </button>
-                        {%endif%}
-                    {%endif%}
-                </div>
-            {%endif%}
-        </div>
+                {%endif%}
+            </div>
+        {%endif%}
     </div>
 {%endif%}

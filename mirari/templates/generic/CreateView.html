@@ -26,8 +26,10 @@
 				<h3 class="m-subheader__title m-subheader__title--separator">
 					{%if not object%}
 						<small>CREAR</small> 
+						<strong>{{ model|verbose_name_singular|upper }}</strong>
 					{%else%}
 						<small>EDITAR</small> 
+						<strong>{{object}}</strong>
 					{%endif%}
 				</h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
@@ -62,70 +64,8 @@
 
 {%block content%}
     <div class="row">
-		<div class="col-xl-8 offset-xl-2">
-			<div class="m-portlet m-portlet--last m-portlet--head-lg m-portlet--responsive-mobile">
-				<div class="m-portlet__head">
-					{%block form_buttons%}
-						{%if not 'FORM_BUTTONS' in model.VARS%}
-							{%include 'generic/includes/create-update/submit_buttons.html' with form='form'%}
-						{%else%}
-							{{model.VARS.FORM_BUTTONS}}
-						{%endif%}
-					{%endblock form_buttons%}
-				</div>
-				<div class="m-portlet__body">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="m-form__content">
-								{%for message in messages%}
-									<div class="m-alert m-alert--icon alert alert-{{message.tags}}" role="{{message.tags}}">
-										<div class="m-alert__icon">
-											{%if message.tags == 'info'%}
-											<i class="la la-warning"></i>
-											{%elif message.tags == 'success'%}
-											<i class="la la-check"></i>
-											{%elif message.tags == 'warning'%}
-											<i class="la la-warning"></i>
-											{%elif message.tags == 'error'%}
-											<i class="la la-times"></i>
-											{%endif%}
-										</div>
-										<div class="m-alert__text">
-											{{message}}
-										</div>
-										<div class="m-alert__close">
-											<button type="button" class="close" data-close="alert" aria-label="Close"></button>
-										</div>
-									</div>
-								{%endfor%}
-								<div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="form_msg">
-									<div class="m-alert__icon">
-										<i class="la la-warning"></i>
-									</div>
-									<div class="m-alert__text">
-										Hay algúnos errores en tu formulario, corrigelos para poder continuar!
-									</div>
-									<div class="m-alert__close">
-										<button type="button" class="close" data-close="alert" aria-label="Close"></button>
-									</div>
-								</div>
-							</div>
-							<div class="m-form__heading">
-								<h3 class="m-form__heading-title">
-									{%if not object%}
-										<small>CREAR</small> 
-										<span>{{ model|verbose_name_singular|upper }}</span>
-									{%else%}
-										<small>EDITAR</small> 
-										<strong>{{object}}</strong>
-									{%endif%}
-								</h3>
-							</div>
-							{% crispy form %}
-						</div>
-					</div>
-				</div>
-			</div>
+		<div class="{%if 'FORM_SIZE' in model.VARS%}{{model.VARS.FORM_SIZE}}{%else%}col-xl-8 offset-xl-2{%endif%}">
+			{% crispy form %}
 		</div>
 	</div>
 {%endblock content%}
@@ -155,14 +95,6 @@
 		{%include 'generic/includes/create-update/summernote.js'%}
 	{%endif%}
 	
-	//if ($('#id_zona_0').is(":checked"))
-		//actualizar_tecnicos('locales')
-	//else
-		//actualizar_tecnicos('foraneos')
-	//$( "#id_zona_0" ).change(function() {
-		//actualizar_tecnicos('locales')
-	//});
-	//$( "#id_zona_1" ).change(function() {
-		//actualizar_tecnicos('foraneos')
-	//});
+	{%block extra_mounted%}
+	{%endblock extra_mounted%}
 {%endblock mounted%}

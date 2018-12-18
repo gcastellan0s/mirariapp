@@ -32,21 +32,15 @@
 {%block subheader%}
     <div class="m-subheader">
         <div class="d-flex align-items-center">
-            <div class="mr-auto">
+			<div class="mr-auto">
+				<h3 class="m-subheader__title m-subheader__title--separator">
+					<small>LISTA DE</small> 
+					<strong>{%if verbose_name_plural%}{{verbose_name_plural|upper}}{%else%}{{ model|verbose_name_plural|upper }}{%endif%}</strong>
+				</h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="/" class="m-nav__link m-nav__link--icon">
                             <strong> <i class="la la-home"></i> INICIO</strong>
-                        </a>
-                    </li>
-                    <li class="m-nav__separator">
-                        <strong>></strong>
-                    </li>
-                    <li class="m-nav__item">
-                        <a href="" class="m-nav__link">
-                            <span class="m-nav__link-text">
-                                Lista de <span class="m-subheader__title">{%if verbose_name_plural%}{{verbose_name_plural|upper}}{%else%}{{ model|verbose_name_plural|upper }}{%endif%}</span>
-                            </span>
                         </a>
                     </li>
                 </ul>
@@ -169,16 +163,13 @@
 
 {%block mounted%}
 	{{block.super}}
-
 	{% for item in filters %}
 		$("#m_form_{{item.key}}").selectpicker()
 		$("#m_form_{{item.key}}").on("change", function() {
 			datatable{{model.VARS.MODEL}}.search($(this).val(), "{{item.key}}")
 		})
 	{% endfor %}
-
 	{%include 'generic/includes/list/datatable.js'%}
-
 	$(document).on("click",".delete_row",function(event) {
 		event.preventDefault();
 		row = $(this)
@@ -213,5 +204,4 @@
 			}
 		});
 	})
-
 {%endblock mounted%}
