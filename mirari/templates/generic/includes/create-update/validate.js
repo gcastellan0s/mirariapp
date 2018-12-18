@@ -21,6 +21,7 @@ $.extend($.validator.messages, {
     nieES: "Por favor, escribe un NIE válido.",
     cifES: "Por favor, escribe un CIF válido."
 });
+
 $("#form").validate({
     rules: {
         {{rules|safe}}
@@ -36,5 +37,3 @@ $("#form").validate({
         e.submit();
     }
 })
-
-

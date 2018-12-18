@@ -23,10 +23,19 @@
     <div class="m-subheader m--padding-top-5">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
+				<h3 class="m-subheader__title m-subheader__title--separator">
+					{%if not object%}
+						<small>CREAR</small> 
+						<strong>{{ model|verbose_name_singular|upper }}</strong>
+					{%else%}
+						<small>EDITAR</small> 
+						<strong>{{object}}</strong>
+					{%endif%}
+				</h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="/" class="m-nav__link m-nav__link--icon">
-                            <strong> <i class="la la-home"></i> PANEL DE INICIO</strong>
+                            <strong> <i class="la la-home"></i> INICIO</strong>
                         </a>
                     </li>
 					{%if breadcrumbs%}
@@ -46,22 +55,6 @@
 								</a>
 							{%endif%}
 						</li>
-						<li class="m-nav__separator">
-							<strong>></strong>
-						</li>
-						<li class="m-nav__item">
-							<a class="m-nav__link">
-								<span class="m-nav__link-text h6">
-									{%if not object%}
-										<small>CREAR</small> 
-										<span>{{ model|verbose_name_singular|upper }}</span>
-									{%else%}
-										<small>EDITAR</small> 
-										<strong>{{object}}</strong>
-									{%endif%}
-								</span>
-							</a>
-						</li>
 					{%endif%}
                 </ul>
             </div>
@@ -71,58 +64,8 @@
 
 {%block content%}
     <div class="row">
-		<div class="col-md-12">
-			<div class="m-portlet m-portlet--tab">
-				<div class="m-portlet__head">
-					<div class="m-portlet__head-caption">
-						<div class="m-portlet__head-title">
-							<h3 class="m-portlet__head-text">
-								{%if not object%}
-									<small> CREAR </small> &nbsp;{{ model|verbose_name_singular|upper }}
-								{%else%}
-									<small> EDITAR </small> &nbsp;{{ object|upper }}
-								{%endif%}
-							</h3>
-						</div>
-					</div>
-				</div>
-				<div class="m-form__content">
-					{%for message in messages%}
-					<div class="m-alert m-alert--icon alert alert-{{message.tags}}" role="{{message.tags}}">
-						<div class="m-alert__icon">
-							{%if message.tags == 'info'%}
-							<i class="la la-warning"></i>
-							{%elif message.tags == 'success'%}
-							<i class="la la-check"></i>
-							{%elif message.tags == 'warning'%}
-							<i class="la la-warning"></i>
-							{%elif message.tags == 'error'%}
-							<i class="la la-times"></i>
-							{%endif%}
-						</div>
-						<div class="m-alert__text">
-							{{message}}
-						</div>
-						<div class="m-alert__close">
-							<button type="button" class="close" data-close="alert" aria-label="Close"></button>
-						</div>
-					</div>
-					{%endfor%}
-					<div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="form_msg">
-						<div class="m-alert__icon">
-							<i class="la la-warning"></i>
-						</div>
-						<div class="m-alert__text">
-							Hay algúnos errores en tu formulario, corrigelos para poder continuar!
-						</div>
-						<div class="m-alert__close">
-							<button type="button" class="close" data-close="alert" aria-label="Close"></button>
-						</div>
-					</div>
-				</div>
-				<!--begin::Form-->
-				{% crispy form %}
-			</div>
+		<div class="{%if 'FORM_SIZE' in model.VARS%}{{model.VARS.FORM_SIZE}}{%else%}col-xl-8 offset-xl-2{%endif%}">
+			{% crispy form %}
 		</div>
 	</div>
 {%endblock content%}
@@ -152,15 +95,6 @@
 		{%include 'generic/includes/create-update/summernote.js'%}
 	{%endif%}
 	
-	if ($('#id_zona_0').is(":checked"))
-		actualizar_tecnicos('locales')
-	else
-		actualizar_tecnicos('foraneos')
-
-	$( "#id_zona_0" ).change(function() {
-		actualizar_tecnicos('locales')
-	});
-	$( "#id_zona_1" ).change(function() {
-		actualizar_tecnicos('foraneos')
-	});
+	{%block extra_mounted%}
+	{%endblock extra_mounted%}
 {%endblock mounted%}

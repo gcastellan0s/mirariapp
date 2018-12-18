@@ -20,6 +20,3 @@ function formatRepo (repo) {
 function formatRepoSelection (repo) {
     return repo.str_select2 || repo.text;
 }
-function updateselect2(id = null, key = null) {
-    console.log(id, key)
-}

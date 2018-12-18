@@ -548,7 +548,6 @@ class Base_Create(object):
 			pass
 		return super().form_valid(form)
 	def form_invalid(self, form):
-		print(form.errors)
 		return super().form_invalid(form)
 	def get(self, request, *args, **kwargs):
 		response = super().get(request, *args, **kwargs)
@@ -602,10 +601,20 @@ class Base_Create(object):
 					fields = '__all__'
 				if 'EXCLUDE_FORM' in model.VARS:
 					exclude.append(model.VARS['EXCLUDE_FORM'])
+				else:
+					if 'FORM' in model.VARS:
+						if not 'active' in model.VARS['FORM']:
+							exclude.append('active')
+						if not 'organization' in model.VARS['FORM']:
+							exclude.append('organization')
+					else:
+						exclude.append('active')
+						exclude.append('organization')
 			def __init__(self, *args, **kwargs):
 				super().__init__(*args, **kwargs)
 				self.helper = FormHelper()
 				self.helper.layout = Layout()
+				self.helper.layout.append(HTML(FORM1PART))
 				if 'FORM_ID' in self._meta.model.VARS:
 					self.helper.form_id = self._meta.model.VARS['FORM_ID']
 				else:	
@@ -613,13 +622,13 @@ class Base_Create(object):
 				if 'FORM_CLASS' in self._meta.model.VARS:
 					self.helper.form_class = self._meta.model.VARS['FORM_CLASS']
 				else:
-					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed col-md-8'
-				div = Div(css_class="form-group m-form__group row")
+					self.helper.form_class = 'm-form m-form--label-align-left- m-form--state- form-horizontal'
+				div = Div(css_class="form-group m-form__group")
 				if 'FORM' in self._meta.model.VARS:
 					is_crispy_helper = False
 					for field in self._meta.model.VARS['FORM']:
 						if type(field) == str:
-							div.append(Div(field, css_class="col-md-12"))
+							div.append(field)
 						else:
 							self.helper.layout.append(field)
 							is_crispy_helper = True
@@ -638,13 +647,13 @@ class Base_Create(object):
 								if field.name in self._meta.fields:
 									exclude_from_form = True
 						if not exclude_from_form:
-							div.append(Div(field.name, css_class="col-md-12"))
+							div.append(field.name)
 					self.helper.layout.append(div)
-				if 'FORM_BUTTONS' in self._meta.model.VARS:
-					self.helper.layout.append(self._meta.model.VARS['FORM_BUTTONS'])
-				else:
-					self.helper.form_class = 'm-form m-form--fit m-form--label-align-right m-form--group-seperator-dashed col-md-8'
-					self.helper.layout.append(HTML("""{%include 'generic/includes/create-update/submit_buttons.html'%}"""))
+				#if 'FORM_BUTTONS' in self._meta.model.VARS:
+					#self.helper.layout.append(self._meta.model.VARS['FORM_BUTTONS'])
+				#else:
+					#self.helper.layout.append(HTML("""{%include 'generic/includes/create-update/submit_buttons.html'%}"""))
+				self.helper.layout.append(HTML(FORM2PART))
 		return Form
 	def extra_response(self):
 		return False
@@ -770,3 +779,15 @@ class Base_Api(object):
 			return None
 	def actions(self, request, *args, **kwargs):
 		return True
+
+class View400(TemplateView):
+	template_name = "generic/errors/400.html"
+
+class View403(TemplateView):
+	template_name = "generic/errors/403.html"
+
+class View404(TemplateView):
+	template_name = "generic/errors/404.html"
+
+class View500(TemplateView):
+	template_name = "generic/errors/500.html"
