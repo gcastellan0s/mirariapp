@@ -63,3 +63,6 @@ MMENU.update(TCS)
 
 from mirari.SIEBEL.vars import MENU as SIEBEL
 MMENU.update(SIEBEL)
+
+from mirari.PHOTO.vars import MENU as PHOTO
+MMENU.update(PHOTO)

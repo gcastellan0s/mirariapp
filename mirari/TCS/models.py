@@ -117,11 +117,15 @@ VARS = {
 		'technical': {
 			'model': ['mirari', 'User'],
 			'plugin': 'select2',
-			'query': 'all',
+			'query': [
+				(
+					('organization__pk', 'self.request.session.get("organization")'),
+				),
+			],
 			'sercheable': ('visible_username__icontains','email__icontains'),
 			'limits': 50,
 			'placeholder': 'Elige un técnico',
-			'field_filter': (('zone',"""$("input[name='zone']:checked").val()"""),)
+			'field_filter': (('zone', """$("input[name='zone']:checked").val()"""),)
 		},
 		'company': {
 			'model': ['TCS', 'Company'],
@@ -247,6 +251,20 @@ class OrderService(Model_base):
 		return self.name
 	def url_add(self):
 		return reverse('mirari:Generic__CreateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']}) + '?HTMLPage=OrderService__CreateView'
-		
 	def url_update(self):
 		return reverse('mirari:Generic__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk}) + '?HTMLPage=OrderService__CreateView'
+	def select2filter(self, query):
+		if self.request.GET.get('field') == 'technical':
+			team = apps.get_model('INT', 'Team').objects.filter(code=self.request.GET.get('zone'), organization__id=self.request.session['organization']).first()
+			#if team:
+				#query = query.filter( pk__in = list(team.members.all().values_list('pk', flat=True)) )
+			#else:
+				#query = None
+			#query = query.filter()
+			#model = apps.get_model('INT', 'Team')
+			#self.request.GET.get('zone')
+		#if self.request.GET.get('field') == 'technical':
+			#query = 
+		#if self.request.GET.get('field') == 'technical':
+			#query = 
+		return query
