@@ -149,10 +149,8 @@
 
 				<div class="aurel_header_right_part aurel_header_socials_part">
 					<div class="aurel_header_socials">
-						<a class="aurel_footer_social_button aurel_facebook" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
-						<a class="aurel_footer_social_button aurel_twitter" href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
-						<a class="aurel_footer_social_button aurel_instagram" href="https://www.instagram.com/?hl=ru"><i class="fa fa-instagram"></i></a>
-						<a class="aurel_footer_social_button aurel_pinterest" href="https://pinterest.com/"><i class="fa fa-pinterest"></i></a>
+						<a class="aurel_footer_social_button aurel_instagram" href="https://www.instagram.com/the_histogramer/" target="_blank"><i class="fa fa-instagram"></i></a>
+						<a class="aurel_footer_social_button aurel_facebook" href="{%url 'mirari:login__Organization__TemplateView'%}"><i class="fa fa-sign-in"></i></a>
 						<a class="aurel_toogle_fullview" href="javascript:void(0)">
 							<span class="aurel_fullview_block01"></span>
 							<span class="aurel_fullview_block02"></span>
@@ -181,11 +179,8 @@
 			<!-- Mobile Menu -->
 			<div class="aurel_mobile_menu_wrapper">
 				<div class="aurel_header_socials">
-					<a class="aurel_footer_social_button aurel_facebook" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
-					<a class="aurel_footer_social_button aurel_twitter" href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
-					<a class="aurel_footer_social_button aurel_google_plus" href="https://plus.google.com/"><i class="fa fa-google-plus"></i></a>
-					<a class="aurel_footer_social_button aurel_instagram" href="https://www.instagram.com/?hl=ru"><i class="fa fa-instagram"></i></a>
-					<a class="aurel_footer_social_button aurel_pinterest" href="https://pinterest.com/"><i class="fa fa-pinterest"></i></a>
+					<a class="aurel_footer_social_button aurel_instagram" href="https://www.instagram.com/the_histogramer/" target="_blank"><i class="fa fa-instagram"></i></a>
+					<a class="aurel_footer_social_button aurel_facebook" href="{%url 'mirari:login__Organization__TemplateView'%}"><i class="fa fa-sign-in"></i></a>
 					<a class="aurel_toogle_fullview" href="javascript:void(0)">
 						<span class="aurel_fullview_block01"></span>
 						<span class="aurel_fullview_block02"></span>
@@ -195,8 +190,8 @@
 				</div>
 
 				<nav class="aurel_mobile_nav">
-					{%comment%}
 					<ul class="aurel_menu">
+						{%comment%}
 						<li class="menu-item-has-children">
 							<a href="javascript:void(0)">Albums</a>
 							
@@ -300,8 +295,9 @@
 								<li><a href="contacts_3.html">Contacts 03</a></li>
 							</ul>
 						</li>
+						{%endcomment%}
 					</ul>
-					{%endcomment%}
+				
 				</nav>
 			</div>
 		</header>
@@ -314,7 +310,7 @@
 						<div class="aurel_tiny">
 							<div class="row aurel_js_bg_image aurel_js_min_height aurel_bg_center_center aurel_bg_size_cover aurel_pf_fullwidth aurel_mb_40" data-src="{%static HTMLPage.static%}img/clipart/back_7.jpg" data-min-height="650">
 								<div class="col col-12 push-middle">
-									<h1 class="aurel_page_heading">HITOGRAMMX</h1>
+									<h1 class="aurel_page_heading">{{ G.ORGANIZATION.TITLE }}{{ G.ORGANIZATION.SLOGAN }}</h1>
 								</div>
 							</div>
 							<div class="row aurel_pf_fullwidth">
@@ -322,6 +318,7 @@
 									<div class="aurel_widget_pm_grid_gallery">
 										<div class="aurel_widget_container">
 											<div class="aurel_front_end_display">
+												{%comment%}
 												<div class="aurel_grid_wrapper aurel_photoswipe_wrapper aurel_grid_007" data-uniqid="007" data-perload="4">
 													<div class="aurel_grid_inner aurel_isotope_trigger is_masonry grid_columns4 hover_type_solid_plus side_paddings_off" data-perload="4" data-pad="30">
 														<!-- Item 1 -->
@@ -529,6 +526,7 @@
 														</div>
 													</div>
 												</div>
+												{%endcomment%}
 											</div>
 										</div>
 									</div>
@@ -545,7 +543,7 @@
 	<div class="aurel_preloader_wrapper">
 		<div class="aurel_preloader_content">
 			<div class="aurel_preloader_bar"></div>
-			<h6 class="aurel_preloader_text">HISTOGRAMMX</h6>
+			<h6 class="aurel_preloader_text">{{ G.ORGANIZATION.TITLE }}{{ G.ORGANIZATION.SLOGAN }}</h6>
 		</div>
 	</div>
 
