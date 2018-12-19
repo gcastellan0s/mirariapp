@@ -28,6 +28,8 @@ from mptt.models import MPTTModel, TreeForeignKey
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
+from itertools import chain
+
 import datetime
 import uuid
 from itertools import chain
@@ -126,6 +128,8 @@ class Model_base(models.Model):
 		return str(self)
 	def str_select2(self):
 		return self.str_obj()
+	def select2filter(self, query):
+		return query
 	###########
 	def render_boolean(self, field):
 		if field:

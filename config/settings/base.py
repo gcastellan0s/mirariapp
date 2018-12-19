@@ -88,6 +88,7 @@ LOCAL_APPS = [
     'mirari.CRYE',
     'mirari.SIEBEL',
     'mirari.TCS',
+    'mirari.PHOTO',
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

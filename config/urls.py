@@ -12,6 +12,7 @@ urlpatterns = [
     path('INT/', include('mirari.INT.urls')),
     path('CRYE/', include('mirari.CRYE.urls')),
     path('TCS/', include('mirari.TCS.urls')),
+    path('PHOTO/', include('mirari.PHOTO.urls')),
 
     path('rest-auth/', include('rest_auth.urls')),
     path('api-token-auth/', obtain_jwt_token),

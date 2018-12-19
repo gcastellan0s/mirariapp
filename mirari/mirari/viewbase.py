@@ -99,8 +99,6 @@ def check_permissions(class_view):
 					raise PermissionDenied
 	return True
 
-
-
 ################################################################################################################
 #########  SERIALIZER  #########################################################################################
 ################################################################################################################
@@ -124,10 +122,26 @@ def Select2Serializer(self):
 		class Meta(Basic_Serializer.Meta):
 			fields = ('str_select2', 'id')
 	model = apps.get_model(self.model.VARS['SELECTQ'][self.request.GET.get('field')]['model'][0], self.model.VARS['SELECTQ'][self.request.GET.get('field')]['model'][1])
-	q = Q()
-	for element in self.model.VARS['SELECTQ'][self.request.GET.get('field')]['sercheable']:
-		q.add(Q(**{element: self.request.GET.get('search')}), Q.OR)
-	query = model.objects.filter(q)
+	query = model.objects.all()
+	if 'query' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
+		if self.model.VARS['SELECTQ'][self.request.GET.get('field')]['query'] == 'all':
+			query = query
+		elif self.model.VARS['SELECTQ'][self.request.GET.get('field')]['query'] == 'none':
+			query = query
+		else:
+			q = Q()
+			for attributes in self.model.VARS['SELECTQ'][self.request.GET.get('field')]['query']:
+				params = {}
+				for attribute in attributes:
+					params.update({attribute[0]: eval(attribute[1])})
+				q.add(Q(**params), Q.OR)
+			query = model.objects.filter(q)
+	if 'sercheable' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
+		q = Q()
+		for element in self.model.VARS['SELECTQ'][self.request.GET.get('field')]['sercheable']:
+			q.add(Q(**{element: self.request.GET.get('search')}), Q.OR)
+		query = query.filter(q)
+	query = self.select2filter(query)
 	if 'order_by' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
 		query = query.order_by(self.model.VARS['SELECTQ'][self.request.GET.get('field')]['order_by'])
 	if 'limits' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
@@ -659,6 +673,8 @@ class Base_Create(object):
 		return False
 	def select2_response(self):
 		return JsonResponse({'items': Select2Serializer(self)})
+	def select2filter(self, query):
+		return self.model.select2filter(self, query)
 
 
 
