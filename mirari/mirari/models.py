@@ -66,8 +66,9 @@ VARS = {
 		'SORTEABLE': ['name','code'],
 		'FORM': ['name','code','default_mail','contact_mail', 'sites'],
 	}
+
 def path_system(self, filename):
-	upload_to = "companys/%s_%s/SYSTEM/%s" % (self.id, self.slug, filename)
+	upload_to = "companys/%s_%s/SYSTEM/%s" % (self.id, self.code, filename)
 	return upload_to
 class Organization(MPTTModel, Model_base):
 	parent = TreeForeignKey('self', null=True, blank=True, related_name='+', db_index=True, on_delete=models.CASCADE)
@@ -225,6 +226,11 @@ class User(AbstractUser, Model_base):
 		return apps.get_model('INT','Notification')().get_user_notifications(self)
 	def get_my_teams(self):
 		return self.render_list(apps.get_model('INT','Team')().get_user_team(self), 'name')
+	#def QUERY(self, view):
+		#if view.request.user.has_perm(self.model.VARS['APP']+'.Can_Update__'+self.model.VARS['MODEL']):
+			#return Handbook.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
+		#else:
+			#return Handbook.objects.filter(organization__pk=view.request.session.get('organization'), is_active=True, active=True)
 
 
 
