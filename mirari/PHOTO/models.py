@@ -4,8 +4,8 @@ from .vars import *
 
 
 VARS = {
-	'NAME':'FOTO',
-	'PLURAL':'FOTOS',
+	'NAME':'Foto',
+	'PLURAL':'Fotos',
 	'MODEL':'Photo',
 	'NEW':'NUEVA',
 	'NEW_GENDER': 'una nueva',
