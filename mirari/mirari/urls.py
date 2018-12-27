@@ -11,6 +11,11 @@ urlpatterns = [
 	path('logout/', logout__Organization__TemplateView.as_view(), name='logout__Organization__TemplateView'),
 	path('', dashboard__Organization__TemplateView.as_view(), name='dashboard__Organization__TemplateView'),
 
+	path('400/', dashboard__400.as_view(), name='dashboard__400'),
+	path('403/', dashboard__403.as_view(), name='dashboard__403'),
+	path('404/', dashboard__404.as_view(), name='dashboard__404'),
+	path('500/', dashboard__500.as_view(), name='dashboard__500'),
+
 	path('list/UserListView/<slug:app>/<slug:model>/', login_required(User__ListView.as_view()), name='User__ListView'),
 	path('create/UserCreateView/<slug:app>/<slug:model>/', login_required(User__CreateView.as_view()), name='User__CreateView'),
 	path('update/UserUpdateView/<slug:app>/<int:pk>/<slug:model>/', login_required(User__UpdateView.as_view()), name='User__UpdateView'),

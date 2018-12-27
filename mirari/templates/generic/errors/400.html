@@ -1,7 +1,7 @@
 {% extends "metronic/layout-5.html" %}
 {% load static %}
 
-{%block title%} 404 Pagina no encontrada {%endblock title%}
+{%block title%} 400 Bad request {%endblock title%}
 
 {%block styles%}
     <link href="{%static 'metronic/default/assets/vendors/base/vendors.bundle.css'%}" rel="stylesheet" type="text/css" />
@@ -14,24 +14,21 @@
 {%endblock styles%}
 
 {%block body_content%}
-<div class="m-grid m-grid--hor m-grid--root m-page">
-    <div class="m-grid__item m-grid__item--fluid m-grid m-error-4" style="background-image: url({%static 'metronic/default/assets/app/media/img/error/bg4.jpg'%});">
-        <div class="m-error_container">
-            <h1 class="m-error_number">
-                404
-            </h1>
-            <p class="m-error_title">
-                ERROR
-            </p>
-            <p class="m-error_description">
-                PAGINA NO ENCONTRADA 
-                <br />
-                <br />
-                <button type="button" class="btn btn-outline-brand m-btn m-btn--custom" v-on:click="back_history()"><i class="fa fa-arrow-left fa2x"></i> REGRESAR</button>
-            </p>
+    <div class="m-grid m-grid--hor m-grid--root m-page">
+        <div class="m-grid__item m-grid__item--fluid m-grid  m-error-3" style="background-image: url({%static 'metronic/default/assets/app/media/img/error/bg3.jpg'%});">
+            <div class="m-error_container">
+                <span class="m-error_number">
+                    <h1>403</h1>		 
+                </span> 	
+                <p class="m-error_title m--font-light">
+                    ERROR!
+                </p>
+                <p class="m-error_subtitle">
+                    Bad request
+                </p>	
+            </div>	 
         </div>
     </div>
-</div>
 {%endblock%}
 
 
