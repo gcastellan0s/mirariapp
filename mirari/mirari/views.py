@@ -173,3 +173,19 @@ class Select2GetQuery__ApiView(Generic__ApiView):
 				model = self.model
 		query = Team.objects.filter(code='Local').first().members.all()
 		return ApiSerializer(query, many=True)
+
+
+###############################################################################################
+###############################################################################################
+######### 404 #################################################################################
+class dashboard__400(Generic__TemplateView):
+	template_name = "generic/errors/400.html"
+
+class dashboard__403(Generic__TemplateView):
+	template_name = "generic/errors/403.html"
+
+class dashboard__404(Generic__TemplateView):
+	template_name = "generic/errors/404.html"
+
+class dashboard__500(Generic__TemplateView):
+	template_name = "generic/errors/500.html"

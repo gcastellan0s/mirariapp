@@ -89,8 +89,6 @@ class Organization(MPTTModel, Model_base):
 	LOGO_WHITE = ProcessedImageField(upload_to=path_system, blank=True, null=True, options={'quality': 100}, help_text="Logo 600x600")
 	LOGO_BG = ProcessedImageField(upload_to=path_system, blank=True, null=True)
 	LOGO_BG_WHITE = ProcessedImageField(upload_to=path_system, blank=True, null=True)
-	REGISTER = models.BooleanField(default=True)
-	FACEBOOK = models.BooleanField(default=True)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
