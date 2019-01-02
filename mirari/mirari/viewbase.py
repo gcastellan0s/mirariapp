@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+  # -*- coding: utf-8 -*-
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -667,7 +667,7 @@ class Base_Create(object):
 					#self.helper.layout.append(self._meta.model.VARS['FORM_BUTTONS'])
 				#else:
 					#self.helper.layout.append(HTML("""{%include 'generic/includes/create-update/submit_buttons.html'%}"""))
-				self.helper.layout.append(HTML(FORM2PART))
+				#self.helper.layout.append(HTML(FORM2PART))
 		return Form
 	def extra_response(self):
 		return False
