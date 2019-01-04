@@ -20,7 +20,7 @@ $('#id_{{key}}').select2({
         cache: true
     },
     escapeMarkup: function (markup) { return markup; },
-    minimumInputLength: 1,
+    minimumInputLength: {{value.minimumInputLength|default:1}},
     templateResult: formatRepo,
     templateSelection: formatRepoSelection,
     {%if value.placeholder%}

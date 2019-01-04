@@ -137,11 +137,22 @@ def Select2Serializer(self):
 				q.add(Q(**params), Q.OR)
 			query = model.objects.filter(q)
 	if 'sercheable' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
-		q = Q()
-		for element in self.model.VARS['SELECTQ'][self.request.GET.get('field')]['sercheable']:
-			q.add(Q(**{element: self.request.GET.get('search')}), Q.OR)
-		query = query.filter(q)
+		if 'minimumInputLength' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
+			minimumInputLength = self.model.VARS['SELECTQ'][self.request.GET.get('field')]['minimumInputLength']
+		else:
+			minimumInputLength = '1'
+		if not self.request.GET.get('search') and minimumInputLength == '0':
+			query = query
+		else:
+			q = Q()
+			for element in self.model.VARS['SELECTQ'][self.request.GET.get('field')]['sercheable']:
+				q.add(Q(**{element: self.request.GET.get('search')}), Q.OR)
+			query = query.filter(q)
 	query = self.select2filter(query)
+	try:
+		query = query.filter(active=True)
+	except:
+		query = query.none()
 	if 'order_by' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
 		query = query.order_by(self.model.VARS['SELECTQ'][self.request.GET.get('field')]['order_by'])
 	if 'limits' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
@@ -667,7 +678,7 @@ class Base_Create(object):
 					#self.helper.layout.append(self._meta.model.VARS['FORM_BUTTONS'])
 				#else:
 					#self.helper.layout.append(HTML("""{%include 'generic/includes/create-update/submit_buttons.html'%}"""))
-				#self.helper.layout.append(HTML(FORM2PART))
+				self.helper.layout.append(HTML(FORM2PART))
 		return Form
 	def extra_response(self):
 		return False
