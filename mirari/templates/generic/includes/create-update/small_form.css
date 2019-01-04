@@ -82,4 +82,9 @@
     select.form-control:not([size]):not([multiple]) {
         height: calc(2.35rem + 2px);
     }
+    .alert.m-alert--icon {
+        display: table;
+        padding: 0;
+        margin: 0px 0px 10px 0px;
+    }
 </style>

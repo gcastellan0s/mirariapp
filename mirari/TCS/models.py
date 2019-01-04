@@ -66,7 +66,7 @@ VARS = {
 	'THIS': 'esta',
 	'APP':APP,
 	'SELECTQ': {
-		'store': {
+		'company': {
 			'plugin': 'selectmultiple',
 		},
 	},
@@ -83,7 +83,7 @@ class Brand(Model_base):
 	def __str__(self):
 		return self.name
 	def QUERY(self, view):
-		return Brand.objects.filter(store__company__organization__pk=view.request.session.get('organization'), active=True)
+		return Brand.objects.filter(company__organization__pk=view.request.session.get('organization'), active=True).distinct()
 
 
 
@@ -112,6 +112,8 @@ class Modelo(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return self.name
+	def QUERY(self, view):
+		return Modelo.objects.filter(brand__company__organization__pk=view.request.session.get('organization'), active=True).distinct()
 
 VARS = {
 	'NAME':'Orden de servicio',
@@ -122,6 +124,58 @@ VARS = {
 	'THIS': 'esta',
 	'APP':APP,
 	'EXCLUDE_PERMISSIONS': ['all'],
+	'LIST': [
+		{
+			'field': 'status',
+			'title': 'Estatus',
+			'template': 
+				"""
+					<span>
+						<strong class="mr-2"> {{status|default:'---'}} </strong>
+						<br /> 
+						<br />
+						<small>
+							xxx<br /> 
+							xxx
+						</small>
+					</span>
+				""",
+		},
+		{
+			'field': 'pk',
+			'title': 'Orden de servicio',
+			'template': 
+				"""
+					<span>
+						<strong>{{pk}}</strong>xxx
+						<br /> 
+						{{technical}} <br />
+						<small>
+							{{property___technical}}
+							<br /> 
+							xxx
+						</small>
+					</span>
+				""",
+		},
+		{
+			'field': 'creation_date',
+			'title': 'Información',
+			'template': 
+				"""
+					<span>
+						<strong>{{property__pk}}</strong>xxx
+						<br /> 
+						{{technical}} <br />
+						<small>
+							{{property___technical}}
+							<br /> 
+							xxx
+						</small>
+					</span>
+				""",
+		},
+	],
 	'SELECTQ': {
 		'technical': {
 			'model': ['mirari', 'User'],
@@ -169,7 +223,7 @@ VARS = {
 			'limits': 50,
 			'placeholder': 'Elige una marca',
 			'field_filter': (
-				('store', """$("#id_store").val()"""),
+				('company', """$("#id_company").val()"""),
 			),
 			'minimumInputLength': '0',
 		},
@@ -247,7 +301,7 @@ VARS = {
 }
 class OrderService(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	serial = models.ForeignKey('mirari.Serial', related_name='+', on_delete=models.SET_NULL, null=True)
+	#serial = models.IntegerField()
 	creation_date = models.DateTimeField(auto_now_add=True, editable=True)
 	user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
 	technical = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True, verbose_name="Tecnico")
@@ -286,7 +340,7 @@ class OrderService(Model_base):
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
 	def __str__(self):
-		return self.name
+		return str(self.pk)
 	def url_add(self):
 		return reverse('mirari:Generic__CreateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']}) + '?HTMLPage=OrderService__CreateView'
 	def url_update(self):
@@ -303,4 +357,16 @@ class OrderService(Model_base):
 				query = query.filter(company = apps.get_model('TCS', 'Company').objects.filter(pk=self.request.GET.get('company')).first())
 			else:
 				query = query.none()
+		if self.request.GET.get('field') == 'brand':
+			if self.request.GET.get('company'):
+				query = query.filter(company = apps.get_model('TCS', 'Company').objects.filter(pk=self.request.GET.get('company')).first())
+			else:
+				query = query.none()
+		if self.request.GET.get('field') == 'modelo':
+			if self.request.GET.get('brand'):
+				query = query.filter(brand = apps.get_model('TCS', 'Brand').objects.filter(pk=self.request.GET.get('brand')).first())
+			else:
+				query = query.none()
 		return query
+	def QUERY(self, view):
+		return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
