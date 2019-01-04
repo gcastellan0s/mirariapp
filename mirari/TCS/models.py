@@ -2,6 +2,8 @@
 from mirari.mirari.models import *
 from .vars import *
 
+
+
 VARS = {
 	'NAME':'Empresa',
 	'PLURAL':'Empresas',
@@ -23,6 +25,8 @@ class Company(Model_base):
 	def __str__(self):
 		return self.name
 
+
+
 VARS = {
 	'NAME':'Tienda',
 	'PLURAL':'Tiendas',
@@ -39,7 +43,6 @@ VARS = {
 	},
 }
 class Store(Model_base):
-	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
 	company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name='+', verbose_name="Compañia")
 	name = models.CharField('Nombre de la tienda', max_length=250)
 	VARS = VARS
@@ -49,6 +52,10 @@ class Store(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return self.name
+	def QUERY(self, view):
+		return Store.objects.filter(company__organization__pk=view.request.session.get('organization'), active=True)
+
+
 
 VARS = {
 	'NAME':'Marca',
@@ -59,15 +66,14 @@ VARS = {
 	'THIS': 'esta',
 	'APP':APP,
 	'SELECTQ': {
-		'store': {
+		'company': {
 			'plugin': 'selectmultiple',
 		},
 	},
 	'EXCLUDE_PERMISSIONS': ['all'],
 }
 class Brand(Model_base):
-	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	store = models.ManyToManyField('Store', verbose_name="Tienda donde se vende")
+	company = models.ManyToManyField('Company', verbose_name="Empresas que la venden")
 	name = models.CharField('Marca', max_length=250)
 	VARS = VARS
 	class Meta(Model_base.Meta):
@@ -76,6 +82,10 @@ class Brand(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return self.name
+	def QUERY(self, view):
+		return Brand.objects.filter(company__organization__pk=view.request.session.get('organization'), active=True).distinct()
+
+
 
 VARS = {
 	'NAME':'Modelo',
@@ -93,7 +103,6 @@ VARS = {
 	'EXCLUDE_PERMISSIONS': ['all'],
 }
 class Modelo(Model_base):
-	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
 	brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, verbose_name="Marca")
 	name = models.CharField('Nombre del modelo', max_length=250)
 	VARS = VARS
@@ -103,6 +112,8 @@ class Modelo(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return self.name
+	def QUERY(self, view):
+		return Modelo.objects.filter(brand__company__organization__pk=view.request.session.get('organization'), active=True).distinct()
 
 VARS = {
 	'NAME':'Orden de servicio',
@@ -113,6 +124,58 @@ VARS = {
 	'THIS': 'esta',
 	'APP':APP,
 	'EXCLUDE_PERMISSIONS': ['all'],
+	'LIST': [
+		{
+			'field': 'status',
+			'title': 'Estatus',
+			'template': 
+				"""
+					<span>
+						<strong class="mr-2"> {{status|default:'---'}} </strong>
+						<br /> 
+						<br />
+						<small>
+							xxx<br /> 
+							xxx
+						</small>
+					</span>
+				""",
+		},
+		{
+			'field': 'pk',
+			'title': 'Orden de servicio',
+			'template': 
+				"""
+					<span>
+						<strong>{{pk}}</strong>xxx
+						<br /> 
+						{{technical}} <br />
+						<small>
+							{{property___technical}}
+							<br /> 
+							xxx
+						</small>
+					</span>
+				""",
+		},
+		{
+			'field': 'creation_date',
+			'title': 'Información',
+			'template': 
+				"""
+					<span>
+						<strong>{{property__pk}}</strong>xxx
+						<br /> 
+						{{technical}} <br />
+						<small>
+							{{property___technical}}
+							<br /> 
+							xxx
+						</small>
+					</span>
+				""",
+		},
+	],
 	'SELECTQ': {
 		'technical': {
 			'model': ['mirari', 'User'],
@@ -125,27 +188,56 @@ VARS = {
 			'sercheable': ('visible_username__icontains','email__icontains'),
 			'limits': 50,
 			'placeholder': 'Elige un técnico',
-			'field_filter': (('zone', """$("input[name='zone']:checked").val()"""),)
+			'field_filter': (
+				('zone', """$("input[name='zone']:checked").val()"""),
+			),
+			'minimumInputLength': '0',
 		},
 		'company': {
 			'model': ['TCS', 'Company'],
 			'plugin': 'select2',
-			'query': 'all',
+			'query': [
+				(
+					('organization__pk', 'self.request.session.get("organization")'),
+				),
+			],
+			'placeholder': 'Elige una empresa',
 		},
 		'store': {
 			'model': ['TCS', 'Store'],
 			'plugin': 'select2',
 			'query': 'none',
+			'sercheable': ('name__icontains',),
+			'limits': 50,
+			'placeholder': 'Elige una tienda',
+			'field_filter': (
+				('company', """$("#id_company").val()"""),
+			),
+			'minimumInputLength': '0',
 		},
 		'brand': {
 			'model': ['TCS', 'Brand'],
 			'plugin': 'select2',
 			'query': 'none',
+			'sercheable': ('name__icontains',),
+			'limits': 50,
+			'placeholder': 'Elige una marca',
+			'field_filter': (
+				('company', """$("#id_company").val()"""),
+			),
+			'minimumInputLength': '0',
 		},
 		'modelo': {
 			'model': ['TCS', 'Modelo'],
 			'plugin': 'select2',
 			'query': 'none',
+			'sercheable': ('name__icontains',),
+			'limits': 50,
+			'placeholder': 'Elige un modelo',
+			'field_filter': (
+				('brand', """$("#id_brand").val()"""),
+			),
+			'minimumInputLength': '0',
 		},
 	},
 	'FORM': [
@@ -209,7 +301,7 @@ VARS = {
 }
 class OrderService(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	serial = models.ForeignKey('mirari.Serial', related_name='+', on_delete=models.SET_NULL, null=True)
+	#serial = models.IntegerField()
 	creation_date = models.DateTimeField(auto_now_add=True, editable=True)
 	user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
 	technical = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True, verbose_name="Tecnico")
@@ -248,7 +340,7 @@ class OrderService(Model_base):
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
 	def __str__(self):
-		return self.name
+		return str(self.pk)
 	def url_add(self):
 		return reverse('mirari:Generic__CreateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']}) + '?HTMLPage=OrderService__CreateView'
 	def url_update(self):
@@ -256,15 +348,25 @@ class OrderService(Model_base):
 	def select2filter(self, query):
 		if self.request.GET.get('field') == 'technical':
 			team = apps.get_model('INT', 'Team').objects.filter(code=self.request.GET.get('zone'), organization__id=self.request.session['organization']).first()
-			#if team:
-				#query = query.filter( pk__in = list(team.members.all().values_list('pk', flat=True)) )
-			#else:
-				#query = None
-			#query = query.filter()
-			#model = apps.get_model('INT', 'Team')
-			#self.request.GET.get('zone')
-		#if self.request.GET.get('field') == 'technical':
-			#query = 
-		#if self.request.GET.get('field') == 'technical':
-			#query = 
+			if team:
+				query = query.filter( pk__in = list(team.members.all().values_list('pk', flat=True)) )
+			else:
+				query = None
+		if self.request.GET.get('field') == 'store':
+			if self.request.GET.get('company'):
+				query = query.filter(company = apps.get_model('TCS', 'Company').objects.filter(pk=self.request.GET.get('company')).first())
+			else:
+				query = query.none()
+		if self.request.GET.get('field') == 'brand':
+			if self.request.GET.get('company'):
+				query = query.filter(company = apps.get_model('TCS', 'Company').objects.filter(pk=self.request.GET.get('company')).first())
+			else:
+				query = query.none()
+		if self.request.GET.get('field') == 'modelo':
+			if self.request.GET.get('brand'):
+				query = query.filter(brand = apps.get_model('TCS', 'Brand').objects.filter(pk=self.request.GET.get('brand')).first())
+			else:
+				query = query.none()
 		return query
+	def QUERY(self, view):
+		return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
