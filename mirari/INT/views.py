@@ -57,3 +57,20 @@ class EmployeDirectory__ListView(Generic__ListView):
 				'title': 'Último Acceso',
 			},
 		]
+
+
+
+###############################################################################################
+###############################################################################################
+######### DASHBOARD ###########################################################################
+class InternalMailBox_Mail__CreateView(Generic__CreateView):
+	def initialize(self, request, *args, **kwargs):
+		self.model = apps.get_model(kwargs['app'], kwargs['model'])
+		self.internalmailbox = apps.get_model(kwargs['app'], 'InternalMailBox').objects.get(pk=kwargs['pk'])
+		return True
+	def form_valid(self, form, *args, **kwargs):
+		form.instance.internalmailbox = self.internalmailbox
+		form.instance.internalmailbox = self.internalmailbox
+		return super().form_valid(form)
+	def get_success_url(self):	
+		return self.model().url_list()

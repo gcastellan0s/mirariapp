@@ -97,9 +97,9 @@ class Model_base(models.Model):
 		else:
 			return []
 	def add_text(self):
-		return self.VARS['NEW']+" "+self.VARS['NAME'].upper(), "Agregar "+self.VARS['NAME'].lower(), "Agrega "+self.VARS['NEW_GENDER']+" "+self.VARS['NAME'].lower()+"al sistema"
+		return self.VARS['NEW']+" "+self.VARS['NAME'].upper(), "Agregar "+self.VARS['NAME'].lower(), "Agrega "+self.VARS['NEW_GENDER']+" "+self.VARS['NAME'].lower()+" al sistema"
 	def edit_text(self):
-		return "EDITAR "+self.VARS['NAME'].upper(), "Editar "+self.VARS['NAME'].lower(), "Edita los datos de "+self.VARS['THIS']+" "+self.VARS['NAME'].lower()+"al sistema"
+		return "EDITAR "+self.VARS['NAME'].upper(), "Editar "+self.VARS['NAME'].lower(), "Edita los datos de "+self.VARS['THIS']+" "+self.VARS['NAME'].lower()+" al sistema"
 	def delete_text(self):
 		return "ELIMINAR " + self.VARS['NAME'].upper(), "Eliminar "+self.VARS['NAME'].lower(), "Elimina los datos de "+self.VARS['THIS']+" "+self.VARS['NAME'].lower(), "Se eliminará "+self.VARS['THIS']+" "+self.VARS['NAME'].lower()+" y todos sus datos asociados!"
 	def url_list(self):
