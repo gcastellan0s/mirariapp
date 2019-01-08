@@ -59,7 +59,7 @@
         ".vscode": false,
         "mirariapp": true,
         "requirements": true,
-        ".gitignore": true,
+        ".gitignore": false,
         "manage.py": true,
         ".envs": true,
         "quasar": true,
