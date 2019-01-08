@@ -45,6 +45,16 @@ MENU = {
                 'url': 'Generic__ListView',
             },
             {
+                'title': 'BUZÓN INTERNO',
+                'icon': 'flaticon-email-black-circular-button',
+                'text': 'Configuración de Buzones',
+                'subtext': 'Buzones internos disponibles en la organización',
+                'apps': [APP, ],
+                'permission': 'Can_View',
+                'model': APP + '.InternalMailBox',
+                'url': 'Generic__ListView',
+            },
+            {
                 'title': 'CANALES DE COMUNICACIÓN',
                 'icon': 'flaticon-speech-bubble-1',
                 'text': 'Lista de canales',

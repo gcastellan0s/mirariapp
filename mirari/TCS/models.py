@@ -124,55 +124,69 @@ VARS = {
 	'THIS': 'esta',
 	'APP':APP,
 	'EXCLUDE_PERMISSIONS': ['all'],
+	'HIDE_CHECKBOX_LIST': True,
+	'HIDE_BUTTONS_LIST': True,
+	'SERIALIZER': ('get_service_date_html','get_client_name_html','get_contact_phone1_html','get_contact_phone2_html','get_id_html','get_creation_date_html','get_technical_html','get_concept_html', 'get_status_html'),
 	'LIST': [
-		{
-			'field': 'status',
-			'title': 'Estatus',
-			'template': 
-				"""
-					<span>
-						<strong class="mr-2"> {{status|default:'---'}} </strong>
-						<br /> 
-						<br />
-						<small>
-							xxx<br /> 
-							xxx
-						</small>
-					</span>
-				""",
-		},
 		{
 			'field': 'pk',
 			'title': 'Orden de servicio',
 			'template': 
 				"""
-					<span>
-						<strong>{{pk}}</strong>xxx
-						<br /> 
-						{{technical}} <br />
-						<small>
-							{{property___technical}}
-							<br /> 
-							xxx
-						</small>
-					</span>
+					<a href="{{url_update}}" style="color:inherit;text-decoration:none;">
+						<span>
+							{{property_get_id_html}}
+							{{property_get_creation_date_html}}
+							{{property_get_technical_html}}
+							{{property_get_concept_html}}
+						</span>
+					</a>
 				""",
 		},
 		{
-			'field': 'creation_date',
-			'title': 'Información',
+			'field': 'service_date',
+			'title': 'Cliente',
 			'template': 
 				"""
-					<span>
-						<strong>{{property__pk}}</strong>xxx
-						<br /> 
-						{{technical}} <br />
-						<small>
-							{{property___technical}}
-							<br /> 
-							xxx
-						</small>
-					</span>
+					<a href="{{url_update}}" style="color:inherit;text-decoration:none;">
+						<span>
+						
+							{{property_get_service_date_html}}
+							{{property_get_client_name_html}}
+							{{property_get_contact_phone1_html}}
+							{{property_get_contact_phone2_html}}
+						</span>
+					</a>
+				""",
+		},
+		{
+			'field': 'service_date',
+			'title': 'Informacion',
+			'template': 
+				"""
+					<a href="{{url_update}}" style="color:inherit;text-decoration:none;">
+						<span>
+							{{property_get_service_date_html}}
+							{{property_get_client_name_html}}
+							{{property_get_contact_phone1_html}}
+							{{property_get_contact_phone2_html}}
+						</span>
+					</a>
+				""",
+		},
+		{
+			'field': 'service_date',
+			'title': 'Extra',
+			'template': 
+				"""
+					<a href="{{url_update}}" style="color:inherit;text-decoration:none;">
+						<span>
+							{{property_get_service_date_html}}
+							{{property_get_client_name_html}}
+							{{property_get_contact_phone1_html}}
+							{{property_get_contact_phone2_html}}
+						</span>
+					</a>
 				""",
 		},
 	],
@@ -342,9 +356,9 @@ class OrderService(Model_base):
 	def __str__(self):
 		return str(self.pk)
 	def url_add(self):
-		return reverse('mirari:Generic__CreateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']}) + '?HTMLPage=OrderService__CreateView'
+		return reverse('mirari:Generic__CreateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})
 	def url_update(self):
-		return reverse('mirari:Generic__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk}) + '?HTMLPage=OrderService__CreateView'
+		return reverse('mirari:Generic__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
 	def select2filter(self, query):
 		if self.request.GET.get('field') == 'technical':
 			team = apps.get_model('INT', 'Team').objects.filter(code=self.request.GET.get('zone'), organization__id=self.request.session['organization']).first()
@@ -370,3 +384,31 @@ class OrderService(Model_base):
 		return query
 	def QUERY(self, view):
 		return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
+	def get_id_html(self):
+		return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
+	def get_creation_date_html(self):
+		return """<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.creation_date.strftime('%d %b %Y %I:%M %p'))
+	def get_technical_html(self):
+		return """<i class="fa fa-user-cog m--icon-font-size-sm5 mr-1"></i> TEC: {0}<br />""".format(self.technical)
+	def get_concept_html(self):
+		return """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.concept)
+	def get_service_date_html(self):
+		if self.service_date:
+			return """<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.service_date.strftime('%d %b %Y'))
+		else:
+			return '<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>'
+	def get_client_name_html(self):
+		if self.client_name:
+			return """<i class="fa fa-user m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.client_name.title())
+		else:
+			return ''
+	def get_contact_phone1_html(self):
+		if self.contact_phone1:
+			return """<i class="fa fa-mobile m--icon-font-size-sm5 mr-1"></i>CEL: {0}<br />""".format(self.contact_phone1)
+		else:
+			return ''
+	def get_contact_phone2_html(self):
+		if self.contact_phone2:
+			return """<i class="fa fa-phone m--icon-font-size-sm5 mr-1"></i>TEL: {0}<br />""".format(self.contact_phone2)
+		else:
+			return ''

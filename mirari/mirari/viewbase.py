@@ -471,8 +471,9 @@ class Base_List(object):
 		return query_list.order_by(field)
 	def render_list(self, btn_update='property_url_update', btn_delete='property_url_delete', btn_checkbox=True, extrabuttons='',):
 		dictionary_datatable = []
-		if btn_checkbox and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Delete__'+self.model.VARS['MODEL']) and not 'delete' in self.model().exclude_permissions():
-			dictionary_datatable.append({'field': "property_url_delete", 'title': "#", 'locked': '{left: "xl"}','sortable': 'false', 'width': 40, 'selector': '{class: "m-checkbox--solid m-checkbox--brand"}'})
+		if not 'HIDE_CHECKBOX_LIST' in self.model.VARS:
+			if btn_checkbox and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Delete__'+self.model.VARS['MODEL']) and not 'delete' in self.model().exclude_permissions():
+				dictionary_datatable.append({'field': "property_url_delete", 'title': "#", 'locked': '{left: "xl"}','sortable': 'false', 'width': 40, 'selector': '{class: "m-checkbox--solid m-checkbox--brand"}'})
 		for item in self.LIST:
 			item_dictionary = {}
 			item_dictionary['field'] = item['field']
@@ -496,8 +497,9 @@ class Base_List(object):
 			dictionary_datatable.append(item_dictionary)
 		btn_update = self.get_btn_update(btn_update)
 		btn_delete = self.get_btn_delete(btn_delete)
-		if btn_update or btn_delete or extrabuttons:
-			dictionary_datatable.append({'field': '', 'title': '', 'width': 150, 'template': extrabuttons + btn_update + btn_delete})
+		if not 'HIDE_BUTTONS_LIST' in self.model.VARS:
+			if btn_update or btn_delete or extrabuttons:
+				dictionary_datatable.append({'field': '', 'title': '', 'width': 150, 'template': extrabuttons + btn_update + btn_delete})
 		return dictionary_datatable
 	def get_btn_update(self, btn_update):
 		if btn_update and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Update__'+self.model.VARS['MODEL']) and not 'update' in self.model().exclude_permissions():

@@ -415,3 +415,110 @@ def notification_post_save(sender, instance=None, created=None, **kwargs):
 		instance.sended = True
 		instance.save()
 		send_mail_task.delay(app='INT', model='Notification', pk=instance.pk)
+
+
+
+########################################################################################
+########################################################################################
+VARS = {
+	'NAME':'Buzon Interno',
+	'PLURAL':'Buzonez Internos',
+	'MODEL':'InternalMailBox',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS': 'este',
+	'APP':APP,
+	'LIST': [
+		{
+			'field': 'name',
+			'title': 'Nombre',
+		},
+		{
+			'field': 'emails',
+			'title': 'Destino',
+		},
+		{
+			'field': 'description',
+			'title': 'Descripción',
+		},
+	],
+}
+class InternalMailBox(Model_base):
+	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
+	name = models.CharField('Nombre del buzón', max_length=250)
+	slug = models.CharField('Nombre del buzón', max_length=250, editable=False)
+	emails = models.CharField("Email's de los destinatarios", max_length=500, help_text="Separa con una coma todos los correos de los destinatarios")
+	description = models.TextField("Descripción del buzón", blank=True, null=True)
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0}'.format(self.VARS['NAME'])
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.name)
+		super().save()
+	def get_user_mailbox(self, user):
+		return 	InternalMailBox.objects.filter(organization = user.organization)
+	def url_sendmailbox(self):
+		return reverse('INT:InternalMailBox_Mail__CreateView', kwargs={'pk':self.pk,'slug':self.slug,'app':APP,'model':'InternalMailBox_Mail'})
+
+
+
+########################################################################################
+########################################################################################
+VARS = {
+	'NAME':'Email de Buzon Interno',
+	'PLURAL':'Emails Buzonez Internos',
+	'MODEL':'InternalMailBox_Mail',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS': 'este',
+	'APP':APP,
+	'SUMMERNOTE': ['message'],
+	'FORM': [
+		Div(
+			HTML('<div class="m--margin-bottom-10"><span>El mail que envies no se almacena y nos aseguramos que solo sea leido por los destinatarios del buzón</span></div>'),
+			Div('message'),
+			css_class="col-md-12"
+		),
+	],
+	'FORM_SIZE': 'col-xl-12',
+	'SUBMIT_BUTTONS': "InternalMailBox_Mail__SUBMIT_BUTTONS.html",
+	'EXCLUDE_PERMISSIONS': ['all'],
+}
+class InternalMailBox_Mail(Model_base):
+	internalmailbox = models.ForeignKey('InternalMailBox', on_delete=models.CASCADE, related_name='+')
+	message = models.TextField("Mensaje")
+	creation_date = models.DateTimeField(auto_now_add=True)
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0}'.format(str(self.pk))
+	def get_targets(self):
+		return self.internalmailbox.emails.split(',')
+	def send_mail(self):
+		email_host = HostEmail.objects.filter(module__code=APP, company=self.organization).first()
+		connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
+		connection.open()
+		for target in self.get_targets():
+			context = {
+				'mail': self.internalmailbox,
+				'message': message
+			}
+			template = render_to_string('email/default/InternalMailBox_Mail.html', context)
+			msg = EmailMultiAlternatives(
+				subject=self.title,
+				body=template,
+				from_email=email_host.prefix +'<'+email_host.email+'>', 
+				to=[target],
+				connection=connection
+			)
+			msg.attach_alternative(template, "text/html")
+			msg.send(True)
+		connection.close()
+		return True
