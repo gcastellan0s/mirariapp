@@ -505,14 +505,16 @@ class InternalMailBox_Mail(Model_base):
 		email_host = HostEmail.objects.filter(module__code=APP, company=self.organization).first()
 		connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
 		connection.open()
+		print("#######")
+		print(self.get_targets())
 		for target in self.get_targets():
 			context = {
 				'mail': self.internalmailbox,
-				'message': message
+				'message': self.message.encode("UTF-8")
 			}
 			template = render_to_string('email/default/InternalMailBox_Mail.html', context)
 			msg = EmailMultiAlternatives(
-				subject=self.title,
+				subject=self.internalmailbox.slug,
 				body=template,
 				from_email=email_host.prefix +'<'+email_host.email+'>', 
 				to=[target],
