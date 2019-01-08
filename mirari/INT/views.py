@@ -70,7 +70,8 @@ class InternalMailBox_Mail__CreateView(Generic__CreateView):
 		return True
 	def form_valid(self, form, *args, **kwargs):
 		form.instance.internalmailbox = self.internalmailbox
-		form.instance.internalmailbox = self.internalmailbox
 		return super().form_valid(form)
 	def get_success_url(self):	
-		return self.model().url_list()
+		self.object.send_mail()
+		return reverse('mirari:dashboard__Organization__TemplateView',)
+	
