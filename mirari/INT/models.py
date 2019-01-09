@@ -515,11 +515,11 @@ class InternalMailBox_Mail(Model_base):
 		for target in self.get_targets():
 			context = {
 				'mail': self.internalmailbox,
-				'message': str(self.message.encode("UTF-8"))
+				'message': self.message
 			}
 			template = render_to_string('email/default/InternalMailBox_Mail.html', context)
 			msg = EmailMultiAlternatives(
-				subject=self.internalmailbox,
+				subject=self.internalmailbox.slug,
 				body=template,
 				from_email=email_host.prefix +'<'+email_host.email+'>', 
 				to=[target],
