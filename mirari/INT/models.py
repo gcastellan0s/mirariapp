@@ -519,7 +519,7 @@ class InternalMailBox_Mail(Model_base):
 			}
 			template = render_to_string('email/default/InternalMailBox_Mail.html', context)
 			msg = EmailMultiAlternatives(
-				subject=self.internalmailbox.slug,
+				subject=self.internalmailbox,
 				body=template,
 				from_email=email_host.prefix +'<'+email_host.email+'>', 
 				to=[target],
