@@ -422,7 +422,7 @@ def notification_post_save(sender, instance=None, created=None, **kwargs):
 ########################################################################################
 VARS = {
 	'NAME':'Buzon Interno',
-	'PLURAL':'Buzonez Internos',
+	'PLURAL':'Buzones Internos',
 	'MODEL':'InternalMailBox',
 	'NEW':'NUEVO',
 	'NEW_GENDER': 'un nuevo',
@@ -442,6 +442,11 @@ VARS = {
 			'title': 'Descripción',
 		},
 	],
+	'SELECTQ': {
+		'availability': {
+			'plugin': 'selectmultiple',
+		},
+	},
 }
 class InternalMailBox(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
@@ -449,6 +454,8 @@ class InternalMailBox(Model_base):
 	slug = models.CharField('Nombre del buzón', max_length=250, editable=False)
 	emails = models.CharField("Email's de los destinatarios", max_length=500, help_text="Separa con una coma todos los correos de los destinatarios")
 	description = models.TextField("Descripción del buzón", blank=True, null=True)
+	availability = models.ManyToManyField('Team', blank=True, related_name='+', verbose_name='Disponible para estos equipos', help_text="Si lo dejas en blanco, estara disponible para cualquier persona de la organización")
+	is_active = models.BooleanField('Buzón activo?', default=True)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -460,7 +467,8 @@ class InternalMailBox(Model_base):
 		self.slug = slugify(self.name)
 		super().save()
 	def get_user_mailbox(self, user):
-		return 	InternalMailBox.objects.filter(organization = user.organization)
+		print(user.get_my_teams())
+		return 	InternalMailBox.objects.filter( Q(organization = user.organization, availability__isnull=True, is_active=True) | Q(organization = user.organization, availability__in=user.get_teams(), is_active=True) )
 	def url_sendmailbox(self):
 		return reverse('INT:InternalMailBox_Mail__CreateView', kwargs={'pk':self.pk,'slug':self.slug,'app':APP,'model':'InternalMailBox_Mail'})
 
@@ -470,7 +478,7 @@ class InternalMailBox(Model_base):
 ########################################################################################
 VARS = {
 	'NAME':'Email de Buzon Interno',
-	'PLURAL':'Emails Buzonez Internos',
+	'PLURAL':'Emails Buzones Internos',
 	'MODEL':'InternalMailBox_Mail',
 	'NEW':'NUEVO',
 	'NEW_GENDER': 'un nuevo',
