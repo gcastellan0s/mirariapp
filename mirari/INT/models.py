@@ -507,7 +507,7 @@ class InternalMailBox_Mail(Model_base):
 	def __str__(self):
 		return '{0}'.format(str(self.pk))
 	def get_targets(self):
-		return self.internalmailbox.emails.replace(',',';').split(';')
+		return self.internalmailbox.emails.replace(' ','').replace(',',';').split(';')
 	def send_mail(self):
 		email_host = HostEmail.objects.filter(module__code=APP, company=self.organization).first()
 		connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
