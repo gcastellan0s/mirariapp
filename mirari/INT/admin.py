@@ -22,6 +22,10 @@ class NotificationAdmin(PassAdmin):
 class HandbookAdmin(PassAdmin):
 	pass
 
+@admin.register(InternalMailBox)
+class InternalMailBoxAdmin(PassAdmin):
+	pass
+
 @admin.register(InternalMailBox_Mail)
 class InternalMailBox_MailAdmin(PassAdmin):
 	pass
