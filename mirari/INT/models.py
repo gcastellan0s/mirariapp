@@ -452,9 +452,9 @@ class InternalMailBox(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
 	name = models.CharField('Nombre del buzón', max_length=250)
 	slug = models.CharField('Nombre del buzón', max_length=250, editable=False)
-	emails = models.CharField("Email's de los destinatarios", max_length=500, help_text="Separa con una coma todos los correos de los destinatarios")
+	emails = models.CharField("Email's de los destinatarios", max_length=500, help_text="Separa con ',' o ';' los correos de los destinatarios")
 	description = models.TextField("Descripción del buzón", blank=True, null=True)
-	availability = models.ManyToManyField('Team', blank=True, related_name='+', verbose_name='Disponible para estos equipos', help_text="Si lo dejas en blanco, estara disponible para cualquier persona de la organización")
+	availability = models.ManyToManyField('Team', blank=True, related_name='+', verbose_name='Disponible para estos equipos', help_text="Si lo dejas en blanco, estara disponible para cualquier persona de la organización.")
 	is_active = models.BooleanField('Buzón activo?', default=True)
 	VARS = VARS
 	class Meta(Model_base.Meta):
@@ -467,7 +467,6 @@ class InternalMailBox(Model_base):
 		self.slug = slugify(self.name)
 		super().save()
 	def get_user_mailbox(self, user):
-		print(user.get_my_teams())
 		return 	InternalMailBox.objects.filter( Q(organization = user.organization, availability__isnull=True, is_active=True) | Q(organization = user.organization, availability__in=user.get_teams(), is_active=True) )
 	def url_sendmailbox(self):
 		return reverse('INT:InternalMailBox_Mail__CreateView', kwargs={'pk':self.pk,'slug':self.slug,'app':APP,'model':'InternalMailBox_Mail'})
@@ -508,7 +507,7 @@ class InternalMailBox_Mail(Model_base):
 	def __str__(self):
 		return '{0}'.format(str(self.pk))
 	def get_targets(self):
-		return self.internalmailbox.emails.split(',')
+		return self.internalmailbox.emails.replace(',',';').split(';')
 	def send_mail(self):
 		email_host = HostEmail.objects.filter(module__code=APP, company=self.organization).first()
 		connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
