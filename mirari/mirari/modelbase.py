@@ -30,6 +30,8 @@ from imagekit.processors import ResizeToFill
 
 from itertools import chain
 
+from taggit.managers import TaggableManager
+
 import datetime
 import uuid
 from itertools import chain

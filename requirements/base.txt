@@ -33,3 +33,5 @@ django-cors-headers==2.4.0
 cx-Oracle==7.0.0
 django-celery-results==1.0.1
 django-user-agents==0.3.2
+django-taggit==0.23.0
+beautifulsoup4==4.7.1

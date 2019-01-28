@@ -58,7 +58,7 @@
         "notes.sh": true,
         ".vscode": false,
         "mirariapp": true,
-        "requirements": true,
+        "requirements": false,
         ".gitignore": true,
         "manage.py": true,
         ".envs": true,
