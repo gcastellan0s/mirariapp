@@ -1,4 +1,7 @@
 {% load staticfiles i18n %}
+{% load PHOTO_tags %}
+{% load watermark %}
+
 <!DOCTYPE html>
 <html lang="es" class="aurel_header_gradient_page aurel_content_under_header aurel_non_transparent_header">
 <head>
@@ -421,6 +424,32 @@
 								</div>
 							</div>
 							<!-- Row -->
+							<div class="row gutters aurel_mb_75 aurel_mt_25" style="margin-top:75px">
+								<div class="col col-6 aurel_md_width_100">
+									<div class="aurel-widget-image">
+										<div class="aurel_widget_container aurel_md_text_align_center aurel_md_mb_22">
+											<div class="aurel-image">
+												{%comment%}
+													<img src="{{ '/static/pages/imagebankphoto/static/img/clipart/about04.jpg' |watermark:"logo,position=br,opacity=35" }}" alt=""/>
+													{%for photo in ''|get_photos%}
+														<img src="{%static HTMLPage.static%}{{photo.file.url}}" alt=""/>
+													{%endfor%}
+												{%endcomment%}
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col col-6 aurel_md_width_100">
+									<div class="aurel-widget-heading aurel_mt_5 aurel_mb_23">
+										<div class="aurel_widget_container">
+											<h3 class="aurel-heading-title">EJEMPLO</h3>
+										</div>
+									</div>
+									<p class="aurel_mb_40">
+										
+									</p>
+								</div>
+							</div>
 							<div class="row gutters aurel_mb_75 aurel_mt_25" style="margin-top:75px">
 								<div class="col col-6 aurel_md_width_100">
 									<div class="aurel-widget-image">

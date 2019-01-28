@@ -26,16 +26,18 @@
                             </h3>
                             <ul class="m-menu__inner">
                                 {%for module in modules.modules%}
-                                    {%if request|has_app:module.apps and request|has_permission:module%}
-                                        <li class="m-menu__item "  m-menu-link-redirect="1" aria-haspopup="true">
-                                            <a  href="{{module|get_url}}" class="m-menu__link ">
-                                                <i class="m-menu__link-icon {{module.icon}}"></i>
-                                                <span class="m-menu__link-text">
-                                                    {{module.title|upper}}<br/>
-                                                    <small>{{module.text}}</small>
-                                                </span>
-                                            </a>
-                                        </li>
+                                    {%if not 'html' in module%}
+                                        {%if request|has_app:module.apps and request|has_permission:module%}
+                                            <li class="m-menu__item "  m-menu-link-redirect="1" aria-haspopup="true">
+                                                <a  href="{{module|get_url}}" class="m-menu__link ">
+                                                    <i class="m-menu__link-icon {{module.icon}}"></i>
+                                                    <span class="m-menu__link-text">
+                                                        {{module.title|upper}}<br/>
+                                                        <small>{{module.text}}</small>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        {%endif%}
                                     {%endif%}
                                 {%endfor%}
                             </ul>

@@ -133,7 +133,7 @@ VARS = {
 			'title': 'Orden de servicio',
 			'template': 
 				"""
-					<a href="{{url_update}}" style="color:inherit;text-decoration:none;">
+					<a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
 						<span>
 							{{property_get_id_html}}
 							{{property_get_creation_date_html}}
@@ -148,7 +148,7 @@ VARS = {
 			'title': 'Cliente',
 			'template': 
 				"""
-					<a href="{{url_update}}" style="color:inherit;text-decoration:none;">
+					<a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
 						<span>
 						
 							{{property_get_service_date_html}}
@@ -164,7 +164,7 @@ VARS = {
 			'title': 'Informacion',
 			'template': 
 				"""
-					<a href="{{url_update}}" style="color:inherit;text-decoration:none;">
+					<a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
 						<span>
 							{{property_get_service_date_html}}
 							{{property_get_client_name_html}}
@@ -179,7 +179,7 @@ VARS = {
 			'title': 'Extra',
 			'template': 
 				"""
-					<a href="{{url_update}}" style="color:inherit;text-decoration:none;">
+					<a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
 						<span>
 							{{property_get_service_date_html}}
 							{{property_get_client_name_html}}
@@ -300,6 +300,7 @@ VARS = {
 				Div('icon_ics_3'),
 				Div('icon_on'),
 				Div('icon_cn'),
+				Div('status'),
 				css_class="col-md-4"
 			),
 			Div(
@@ -311,11 +312,11 @@ VARS = {
 		),
 	],
 	'FORM_CLASS': 'small_form',
-	'FORM_SIZE': 'col-xl-9',
+	'FORM_SIZE': ('col-xl-8 offset-xl-2','col-xl-9'),
+	'EXTRA_FORM': 'OrderService__EXTRAFORM.html',
 }
 class OrderService(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	#serial = models.IntegerField()
 	creation_date = models.DateTimeField(auto_now_add=True, editable=True)
 	user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
 	technical = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True, verbose_name="Tecnico")
@@ -340,8 +341,8 @@ class OrderService(Model_base):
 	report_name = models.CharField(max_length=250, blank=True, verbose_name="Nombre de quien reporta")
 	modelo = models.ForeignKey('Modelo', on_delete=models.SET_NULL, null=True, verbose_name="Modelo")
 	serial_number = models.CharField(max_length=250, blank=True, verbose_name="Numero de serie")
-	hidden_notes = models.TextField(blank=True, verbose_name="Notas <small>(No se imprimen en la orden)</small>")
-	order_notes = models.TextField(blank=True, verbose_name="Notas <small>(Impresas en la orden)</small>")
+	hidden_notes = models.TextField(blank=True, verbose_name="Notas OCULTAS<small>(No se imprimen en la orden)</small>")
+	order_notes = models.TextField(blank=True, verbose_name="Notas IMPRESAS<small>(Impresas en la orden)</small>")
 	icon_os = models.CharField(max_length=250, blank=True)
 	icon_ics = models.CharField('icon ics 1', max_length=250, blank=True)
 	icon_ics_2 = models.CharField('icon ics 2', max_length=250, blank=True, default="")
@@ -412,3 +413,26 @@ class OrderService(Model_base):
 			return """<i class="fa fa-phone m--icon-font-size-sm5 mr-1"></i>TEL: {0}<br />""".format(self.contact_phone2)
 		else:
 			return ''
+
+
+VARS = {
+	'NAME':'Historial de Orden',
+	'PLURAL':'Historial de Ordenes',
+	'MODEL':'OrderServiceHistory',
+	'NEW':'NUEVA',
+	'NEW_GENDER': 'una nueva',
+	'THIS': 'esta',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS': ['all'],
+}
+class OrderServiceHistory(Model_base):
+	orderservice = models.ForeignKey('OrderService', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
+	user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
+	notes = models.TextField(blank=True, verbose_name="Notas <small>(Impresas en la orden)</small>")
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return str(self.pk)

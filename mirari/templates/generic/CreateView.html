@@ -9,6 +9,11 @@
 {%block styles%}
 	{{block.super}} 
 	<link href="{%static 'mirari/css/multi-select.css'%}" rel="stylesheet" type="text/css" />
+	<style>
+		.m-portlet .m-portlet__body {
+			padding: .6rem 2.2rem;
+		}
+	</style>>
 {%endblock styles%}
 
 {%block css%}
@@ -64,9 +69,27 @@
 
 {%block content%}
     <div class="row">
-		<div class="{%if 'FORM_SIZE' in model.VARS%}{{model.VARS.FORM_SIZE}}{%else%}col-xl-8 offset-xl-2{%endif%}">
-			{% crispy form %}
-		</div>
+		{%if 'EXTRA_FORM' in model.VARS%}
+			{%include model.VARS.EXTRA_FORM%}
+		{%else%}
+			<div class="
+					{%if 'FORM_SIZE' in model.VARS%}
+						{%if model.VARS.FORM_SIZE|length > 1 %}
+							{%if not object%}
+								{{model.VARS.FORM_SIZE.0}}
+							{%else%}
+								{{model.VARS.FORM_SIZE.1}}
+							{%endif%}
+						{%else%}
+							{{model.VARS.FORM_SIZE}}
+						{%endif%}
+					{%else%}
+						col-xl-8 offset-xl-2
+					{%endif%}
+				">
+				{% crispy form %}
+			</div>
+		{%endif%}
 	</div>
 {%endblock content%}
 
