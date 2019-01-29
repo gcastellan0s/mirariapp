@@ -2,6 +2,8 @@
 from mirari.mirari.models import *
 from .vars import *
 
+
+
 VARS = {
 	'NAME':'Desbloqueo Siebel',
 	'PLURAL':'Desbloqueo Siebel',
@@ -21,6 +23,8 @@ class SiebelUnblock(Model_base):
     def __str__(self):
         return '{0}'.format(self.VARS['NAME'])
 
+
+
 VARS = {
 	'NAME':'Tasa de interés',
 	'PLURAL':'Tasas de interés',
@@ -38,3 +42,113 @@ class TasasInteres(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.VARS['NAME'])
+
+
+
+VARS = {
+	'NAME':'Cartera',
+	'PLURAL':'Carteras',
+	'MODEL':'WalletCredit',
+	'NEW':'NUEVA',
+	'NEW_GENDER': 'una nueva',
+	'THIS': 'esta',
+	'APP':APP,
+	'LIST': [
+			{
+				'field': 'numero',
+				'title': '#',
+				'width': 20,
+			},
+			{
+				'field': 'nombre',
+				'title': 'Nombre',
+				'width': 300,
+				'url': 'property_url_update',
+			},
+			{
+				'field': 'rfc',
+				'title': 'RFC',
+				'width': 80,
+			},
+			{
+				'field': 'obligacion',
+				'title': 'Obligación',
+				'width': 80,
+			},
+			{
+				'field': 'fecha_otorgado',
+				'title': 'Otorgado',
+				'width': 80,
+			},
+			{
+				'field': 'fecha_vencimiento',
+				'title': 'Vencimiento',
+				'width': 80,
+			},
+		],
+	'SEARCH': ['nombre','rfc','obligacion'],
+	'SORTEABLE': ['nombre','fecha_otorgado','fecha_vencimiento'],
+	'FORM': [
+		Div(
+			Div('numero', css_class="col-md-3"),
+			Div('nombre', css_class="col-md-9"),
+			
+			css_class="form-group m-form__group row"
+		),
+		Div(
+			Div('obligacion', css_class="col-md-4"),
+			Div('clasificacion', css_class="col-md-4"),
+			Div('clasificacion_contable', css_class="col-md-4"),
+			css_class="form-group m-form__group row"
+		),
+		Div(
+			Div('rfc', css_class="col-md-4"),
+			Div('producto', css_class="col-md-4"),
+			Div('forma_pago', css_class="col-md-4"),
+			css_class="form-group m-form__group row"
+		),
+		Div(
+			Div('fecha_otorgado', css_class="col-md-6"),
+			Div('fecha_vencimiento', css_class="col-md-6"),
+			css_class="form-group m-form__group row"
+		),
+		
+		Div(
+			Div('tipo_tasa', css_class="col-md-4"),
+			Div('tasa', css_class="col-md-4"),
+			css_class="form-group m-form__group row"
+		),
+		Div(
+			Div('plazo', css_class="col-md-4"),
+			Div('monto', css_class="col-md-4"),
+			Div('fondeador', css_class="col-md-4"),
+			css_class="form-group m-form__group row"
+		),
+	],
+	'FORM_CLASS': 'small_form',
+}
+class WalletCredit(Model_base):
+	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
+	numero = models.IntegerField('ID CLiente')
+	obligacion = models.CharField('Obligación', max_length=250)
+	clasificacion = models.CharField('Clasificación', max_length=250, blank=True, null=True)
+	clasificacion_contable = models.CharField('Clasificación contable', max_length=250, choices=CLASIFICACION_CONTABLE)
+	nombre = models.CharField('Nombre', max_length=250)
+	rfc = models.CharField('RFC', max_length=250, blank=True, null=True)
+	producto = models.CharField('Producto', max_length=250, blank=True, null=True)
+	forma_pago = models.CharField('Forma de pago', max_length=250, choices=FORMA_PAGO)
+	tipo_tasa = models.CharField('Tipo de tasa', max_length=250, choices=TIPO_TASA)
+	tasa = models.CharField('Tasa', max_length=250)
+	fecha_otorgado = models.DateField('Fecha otorgado')
+	fecha_vencimiento = models.DateField('Fecha vencimiento')
+	plazo = models.CharField('Plazo', max_length=250)
+	monto = models.CharField('Monto', max_length=250)
+	fondeador = models.CharField('Fondeador', max_length=250, blank=True, null=True)
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0}'.format(self.VARS['NAME'])
+		

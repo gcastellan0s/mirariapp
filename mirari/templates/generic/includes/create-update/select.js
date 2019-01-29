@@ -1,5 +1,7 @@
 {%include 'generic/includes/create-update/select2-es.js' with key=key value=value%}
 ///////SELECT
+
+$('.select').select2();
 {%for key, value in model.VARS.SELECTQ.items%}
     {%if value.plugin == 'select2'%}
         {%if value.sercheable%}

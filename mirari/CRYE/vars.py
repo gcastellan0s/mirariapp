@@ -75,13 +75,13 @@ MENU = {
         'title': 'COBRANZA',
         'modules': [
             {
-                'title': 'CREDITO',
-                'icon': 'flaticon-graphic',
-                'text': 'Cartera de crédito',
-                'subtext': 'Cobranza de la cartera de crédito',
+                'title': 'CARTERA',
+                'icon': 'flaticon-folder-1',
+                'text': 'Clientes de cartera',
+                'subtext': 'Lista de cartera',
                 'apps': [APP, ],
                 'permission': 'Can_View',
-                'model': APP + '.SiebelUnblock',
+                'model': APP + '.WalletCredit',
                 'url': 'Generic__ListView',
             },
             #{
@@ -97,3 +97,21 @@ MENU = {
         ]
     },
 }
+
+TIPO_TASA = (
+	('FIJA', 'FIJA'),
+	('TIIE', 'TIIE'),
+)
+
+FORMA_PAGO = (
+	('INTERESES MENSUALES Y CAPITAL AL VENCIMIENTO', 'INTERESES MENSUALES Y CAPITAL AL VENCIMIENTO'),
+	('INTERES Y CAPITAL MENSUALMENTE', 'INTERES Y CAPITAL MENSUALMENTE'),
+    ('INTERESES Y CAPITAL AL VENCIMIENTO', 'INTERESES Y CAPITAL AL VENCIMIENTO'),
+)
+
+CLASIFICACION_CONTABLE = (
+	('GARANTIZADOS CON LOS BIENES QUE DAN ORIG', 'GARANTIZADOS CON LOS BIENES QUE DAN ORIG'),
+	('CRÉDITO SIMPLE', 'CRÉDITO SIMPLE'),
+    ('GARANTIZADOS CON INMUEBLES URBANOS', 'GARANTIZADOS CON INMUEBLES URBANOS'),
+    ('QUIROGRAFARIOS', 'QUIROGRAFARIOS'),
+)
