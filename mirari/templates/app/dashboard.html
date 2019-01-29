@@ -14,10 +14,22 @@
     </li>
 {%endblock menu_header%}
 
+{%block css%}
+	{{block.super}}
+    <style>
+		.grid-item{
+			width: calc(33.3333% - 10px);
+		}
+		.m-portlet__head{
+			background-color: #f7f7fb;
+		}
+    </style> 
+{%endblock css%} 
+
 {%block content%}
-    <div class="row">
+    <div class="row grid">
 		{%for key, modules in ''|get_menu%}
-			<div class="col-xl-4" v-if="MENU__{{key}}.length > 0">
+			<div class="col-xl-4 grid-item" v-if="MENU__{{key}}.length > 0">
 				<div class="m-portlet m-portlet--full-height m-portlet--fit ">
 					<div class="m-portlet__head">
 						<div class="m-portlet__head-caption">
@@ -71,3 +83,16 @@
 		{%endfor%}
 	</div>
 {%endblock content%}
+
+{%block base_js%}
+	{{block.super}}
+	<script src="{%static 'mirari/js/masonry.js'%}" type="text/javascript"></script>
+{%endblock base_js%}
+
+{%block scripts%}
+	$('.grid').masonry({
+		itemSelector: '.grid-item',
+		columnWidth: '.grid-item',
+		gutter: 10
+	});
+{%endblock scripts%}
