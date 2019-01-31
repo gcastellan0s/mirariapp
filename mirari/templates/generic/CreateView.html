@@ -13,7 +13,9 @@
 		.m-portlet .m-portlet__body {
 			padding: .6rem 2.2rem;
 		}
-	</style>>
+	</style>
+	{%block extra_styles%}
+	{%endblock extra_styles%}
 {%endblock styles%}
 
 {%block css%}
@@ -22,6 +24,8 @@
 	{%if 'small_form' in model.VARS.FORM_CLASS%}
 		{%include 'generic/includes/create-update/small_form.css'%}
 	{%endif%}
+	{%block extra_css%}
+	{%endblock extra_css%}
 {%endblock css%}
 
 {%block subheader%}
@@ -69,27 +73,23 @@
 
 {%block content%}
     <div class="row">
-		{%if 'EXTRA_FORM' in model.VARS%}
-			{%include model.VARS.EXTRA_FORM%}
-		{%else%}
-			<div class="
-					{%if 'FORM_SIZE' in model.VARS%}
-						{%if model.VARS.FORM_SIZE|length > 1 %}
-							{%if not object%}
-								{{model.VARS.FORM_SIZE.0}}
-							{%else%}
-								{{model.VARS.FORM_SIZE.1}}
-							{%endif%}
+		<div class="
+				{%if 'FORM_SIZE' in model.VARS%}
+					{%if model.VARS.FORM_SIZE|length > 1 %}
+						{%if not object%}
+							{{model.VARS.FORM_SIZE.0}}
 						{%else%}
-							{{model.VARS.FORM_SIZE}}
+							{{model.VARS.FORM_SIZE.1}}
 						{%endif%}
 					{%else%}
-						col-xl-8 offset-xl-2
+						{{model.VARS.FORM_SIZE}}
 					{%endif%}
-				">
-				{% crispy form %}
-			</div>
-		{%endif%}
+				{%else%}
+					col-xl-8 offset-xl-2
+				{%endif%}
+			">
+			{% crispy form %}
+		</div>
 	</div>
 {%endblock content%}
 

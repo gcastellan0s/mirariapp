@@ -92,3 +92,23 @@ class Photo(Model_base):
 		return self.render_datetime(self.creation_date)
 	def get_file(self):
 		return 'Ya casi lo termino'
+
+
+VARS = {
+	'NAME':'Busqueda',
+	'PLURAL':'Busquedas',
+	'MODEL':'Search',
+	'NEW':'NUEVA',
+	'NEW_GENDER': 'una nueva',
+	'THIS': 'esta',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS':['all',],
+}
+class Search(Model_base):
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return '{0}'.format(self.VARS['NAME'])

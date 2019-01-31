@@ -303,8 +303,11 @@ class Base_Detail(object):
 	############################################################################################################
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], kwargs['model'])
-		if 'HTMLPage' in self.request.GET:
-			self.template_name = self.request.GET[HTMLPage] + '.html'
+		try:
+			if self.model.VARS['TEMPLATE_NAME']:
+				self.template_name = self.model.VARS['TEMPLATE_NAME']
+		except:
+			pass
 		return True
 	def proccess_context(self, context):
 		return context
@@ -395,11 +398,12 @@ class Base_List(object):
 				self.model = apps.get_model(kwargs['app'], kwargs['model'])
 			except:
 				pass
-		if 'HTMLPage' in self.request.GET:
-			self.template_name = self.request.GET[HTMLPage] + '.html'
+		try:
+			if self.model.VARS['TEMPLATE_NAME']:
+				self.template_name = self.model.VARS['TEMPLATE_NAME']
+		except:
+			pass
 		self.initialize_list(request, *args, **kwargs)
-		if 'HTMLPage' in self.request.GET:
-			self.template_name = self.request.GET[HTMLPage] + '.html'
 		return True
 	def initialize_list(self, request, *args, **kwargs):
 		if not self.LIST:
@@ -596,8 +600,11 @@ class Base_Create(object):
 	############################################################################################################
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], kwargs['model'])
-		if 'HTMLPage' in self.request.GET:
-			self.template_name = self.request.GET['HTMLPage'] + '.html'
+		try:
+			if self.model.VARS['TEMPLATE_NAME']:
+				self.template_name = self.model.VARS['TEMPLATE_NAME']
+		except:
+			pass
 		return True
 	def get_success_url(self):
 		if 'save' in self.request.POST:
