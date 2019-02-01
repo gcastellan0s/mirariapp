@@ -15,6 +15,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="{%static HTMLPage.static%}css/theme.css">
 	<link rel="stylesheet" href="{%static HTMLPage.static%}css/owl.carousel.css">
+	{%if search%}
+		<link rel="stylesheet" href="{%static HTMLPage.static%}css/photoswipe.css">
+		<link rel="stylesheet" href="{%static HTMLPage.static%}css/default-skin/default-skin.css">
+	{%endif%}
 	<!-- Google Analytics -->
 	<script>
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -147,475 +151,481 @@
 			</div>
 		</header>
 		<!-- Content -->
-		<div class="aurel_main_wrapper aurel_top_padding_no aurel_bottom_padding_yes">
+		<div class="aurel_main_wrapper aurel_top_padding_no {%if not search%}aurel_bottom_padding_yes{%endif%}">
 			<div class="aurel_container">
 				<div class="aurel_content_wrapper row aurel_no_sidebar">
 					<div class="aurel_content col col-12">
 						<div class="aurel_tiny">
 							<!-- Row -->
-							<div class="row aurel_js_bg_image aurel_js_min_height aurel_bg_center_center aurel_bg_size_cover aurel_pf_fullwidth" data-src="{%static HTMLPage.static%}img/clipart/about_title_bg.jpg" data-min-height="750">
+							<div class="row aurel_js_bg_image aurel_js_min_height aurel_bg_center_center aurel_bg_size_cover aurel_pf_fullwidth" data-src="{%static HTMLPage.static%}img/clipart/about_title_bg.jpg" data-min-height="{%if not search%}750{%else%}450{%endif%}">
 								<div class="col col-12 push-middle">
-									<h1 class="aurel_page_heading">IMAGEBANKPHOTO</h1>
+									{%if not search%}
+										<h1 class="aurel_page_heading">IMAGEBANKPHOTO</h1>
+									{%endif%}
 									<div class="row">
 										<div class="col col-6 push-center aurel_md_width_80 aurel_sm_pl_20 aurel_sm_pr_20">
-											<p class="aurel_text_align_center aurel_js_font_size aurel_js_color aurel_mb_35" data-font-size="18px" data-line-height="28px" data-color="#fff">
-													<br class="aurel_sm_disable">
-													Fotografía e Imagenes para los expertos
-											</p>
-											<form id="contact_form" name="contact_form" method="post">
+											{%if not search%}
+												<p class="aurel_text_align_center aurel_js_font_size aurel_js_color aurel_mb_35" data-font-size="18px" data-line-height="28px" data-color="#fff">
+														<br class="aurel_sm_disable">
+														Fotografía e Imagenes para los expertos
+												</p>
+											{%endif%}
+											<form id="search_form" name="search_form" method="get" action="{%url 'PHOTO:Search__TemplateView'%}">
 												<div class="aurel_contact_form">
-													<input type="text" name="name" form="contact_form" placeholder="Tecnologia" size="40" required="">
+													<input type="text" name="search" form="search_form" placeholder="Tecnologia" size="40">
 													<p class="aurel_text_align_center aurel_js_font_size aurel_js_color aurel_mb_15" data-font-size="10px" data-line-height="10px" data-color="#fff">
 														<i> #industria, #arte, #viajes, #tecnologia, #naturaleza, #cocina, #diseño, #hogar... </i>
 													</p>
 												</div>
+												<div class="aurel_widget_button aurel_text_align_center">
+													<div class="aurel_widget_container">
+														<button class="aurel-button" type="submit">
+															<span>BUSCAR</span>
+														</button>
+													</div>
+												</div>
 											</form>
-											<div class="aurel_widget_button aurel_text_align_center">
+										</div>
+									</div>
+								</div>
+							</div>
+							{%block content%}
+								<!-- Albums Carousel -->
+								<div class="row">
+									<div class="col col-12">
+										<div class="aurel-widget-heading aurel_mb_75"  style="margin-top:75px;">
+											<div class="aurel_widget_container aurel_text_align_center">
+												<h2 class="aurel-heading-title"><span class="aurel_color">EXPLORA</span> CATEGORIAS</h2>
+											</div>
+										</div>
+										<div class="aurel_pf_fullwidth">
+											<div class="elementor-widget-pm-albums-carousel aurel_mb_30">
 												<div class="aurel_widget_container">
-													<a class="aurel-button" href="#">
-														<span>BUSCAR</span>
-													</a>
+													<div class="aurel_front_end_display">
+														<div class="aurel_albums_carousel_wrapper">
+															<div class="aurel_albums_carousel aurel_owlCarousel owl-carousel owl-theme" data-setpad="30" data-onscreen="4" data-pause="yes" data-infinite="yes" data-autoplay="yes" data-speed="5000">
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/animales.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Animales</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/arquitectura.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Arquitectura</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/belleza.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Belleza</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/cienciatecnologia.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Ciencia</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/comidabebida.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Comida</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/computacion.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Tecnología</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/deportes.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Deportes</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/educacion.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Educacion</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/emociones.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Emociones</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/fondos.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Fondos</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/gente.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Gente</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/industria.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Industria</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/lugares.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Lugares</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/musica.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Musica</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/naturaleza.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Naturaleza</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/negocios.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Negocios</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/religion.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Religión</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/salud.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Salud</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/transporte.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Transporte</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+																<!-- Item 1 -->
+																<div class="aurel_albums_carousel_item">
+																	<div class="aurel_albums_carousel_item_inner">
+																		<a href="#">
+																			<img src="{%static HTMLPage.static%}img/clipart/index/viajes.jpg" alt=""/>
+																			<div class="aurel_albums_carousel_content">
+																				<h3 class="aurel_albums_title">Viajes</h3>
+																			</div>
+																		</a>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<!-- Albums Carousel -->
-							<div class="row">
-								<div class="col col-12">
-									<div class="aurel-widget-heading aurel_mb_75"  style="margin-top:75px;">
-										<div class="aurel_widget_container aurel_text_align_center">
-											<h2 class="aurel-heading-title"><span class="aurel_color">EXPLORA</span> CATEGORIAS</h2>
+								<!-- Row -->
+								<div class="row gutters aurel_mb_75 aurel_mt_25" style="margin-top:75px">
+									<div class="col col-6 aurel_md_width_100">
+										<div class="aurel-widget-image">
+											<div class="aurel_widget_container aurel_md_text_align_center aurel_md_mb_22">
+												<div class="aurel-image">
+													{%comment%}
+														<img src="{{ '/static/pages/imagebankphoto/static/img/clipart/about04.jpg' |watermark:"logo,position=br,opacity=35" }}" alt=""/>
+														{%for photo in ''|get_photos%}
+															<img src="{%static HTMLPage.static%}{{photo.file.url}}" alt=""/>
+														{%endfor%}
+													{%endcomment%}
+												</div>
+											</div>
 										</div>
 									</div>
-									<div class="aurel_pf_fullwidth">
-										<div class="elementor-widget-pm-albums-carousel aurel_mb_30">
+									<div class="col col-6 aurel_md_width_100">
+										<div class="aurel-widget-heading aurel_mt_5 aurel_mb_23">
+											<div class="aurel_widget_container">
+												<h3 class="aurel-heading-title">EJEMPLO</h3>
+											</div>
+										</div>
+										<p class="aurel_mb_40">
+											
+										</p>
+									</div>
+								</div>
+								<div class="row gutters aurel_mb_75 aurel_mt_25" style="margin-top:75px">
+									<div class="col col-6 aurel_md_width_100">
+										<div class="aurel-widget-image">
+											<div class="aurel_widget_container aurel_md_text_align_center aurel_md_mb_22">
+												<div class="aurel-image">
+													<img src="{%static HTMLPage.static%}img/clipart/about04.jpg" alt=""/>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col col-6 aurel_md_width_100">
+										<div class="aurel-widget-heading aurel_mt_5 aurel_mb_23">
+											<div class="aurel_widget_container">
+												<h3 class="aurel-heading-title">GRAN STOCK<span class="aurel_color"> DE CONTENIDO VISUAL</span></h3>
+											</div>
+										</div>
+										<p class="aurel_mb_40">
+											Encuentra la imagen que buscas, usa nuestro buscador usando cualquier palabra clave, libres de derechos, vectores, video, y audio.
+										</p>
+										<div class="row aurel_mb_40">
+											<div class="col col-2">
+												<div class="aurel-widget-icon">
+													<div class="aurel_widget_container">
+														<div class="aurel-icon-wrapper aurel_sm_text_center">
+															<div class="aurel-icon aurel_js_bg_color" data-bgcolor="#232527">
+																<i class="fa fa-heart-o"></i>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col col-10">
+												<div class="aurel-widget-heading aurel_mb_15">
+													<div class="aurel_widget_container aurel_sm_text_center">
+														<h6 class="aurel-heading-title aurel_js_font_size" data-font-size="16px" data-line-height="26px">FOTOGRAFÍA</h6>
+													</div>
+												</div>
+												<p class="aurel_sm_text_center">ImageBankPhoto es su mejor fuente de imágenes de fotos de gran-calidad en cualquier tema y género.</p>
+											</div>
+										</div>
+										<div class="row aurel_mb_40">
+											<div class="col col-2">
+												<div class="aurel-widget-icon">
+													<div class="aurel_widget_container">
+														<div class="aurel-icon-wrapper aurel_sm_text_center">
+															<div class="aurel-icon aurel_js_bg_color" data-bgcolor="#232527">
+																<i class="fa fa-video-camera"></i>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col col-10">
+												<div class="aurel-widget-heading aurel_mb_15">
+													<div class="aurel_widget_container aurel_sm_text_center">
+														<h6 class="aurel-heading-title aurel_js_font_size" data-font-size="16px" data-line-height="26px">VIDEO</h6>
+													</div>
+												</div>
+												<p class="aurel_sm_text_center">La mejor variedad de clips de vídeo para crear cualquier clase de proyecto.</p>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col col-2">
+												<div class="aurel-widget-icon">
+													<div class="aurel_widget_container">
+														<div class="aurel-icon-wrapper aurel_sm_text_center">
+															<div class="aurel-icon aurel_js_bg_color" data-bgcolor="#232527">
+																<i class="fa fa-file-image-o"></i>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col col-10">
+												<div class="aurel-widget-heading aurel_mb_15">
+													<div class="aurel_widget_container aurel_sm_text_center">
+														<h6 class="aurel-heading-title aurel_js_font_size" data-font-size="16px" data-line-height="26px">ILUSTRACIÓN</h6>
+													</div>
+												</div>
+												<p class="aurel_sm_text_center">Gráficos y arte vectoriales ajustables a escala.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Testimonials -->
+								<div class="row">
+									<div class="col col-12">
+										<div class="aurel-widget-heading aurel_mb_30">
+											<div class="aurel_widget_container aurel_text_align_center">
+												<h2 class="aurel-heading-title">Nuestros <span class="aurel_color">artistas </span> </h2>
+											</div>
+										</div>
+										<div class="aurel_widget_pm_testimonials aurel_mb_80">
 											<div class="aurel_widget_container">
 												<div class="aurel_front_end_display">
-													<div class="aurel_albums_carousel_wrapper">
-														<div class="aurel_albums_carousel aurel_owlCarousel owl-carousel owl-theme" data-setpad="30" data-onscreen="4" data-pause="yes" data-infinite="yes" data-autoplay="yes" data-speed="5000">
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/animales.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Animales</h3>
-																		</div>
-																	</a>
+													<div class="aurel_testimonials_carousel owl-carousel owl-theme" data-pause="yes" data-infinite="yes" data-autoplay="yes" data-speed="5000">
+														<!-- Item 1 -->
+														<div class="aurel_testimonials_item">
+															<div class="aurel_testimonials_item_inner">
+																<div class="testimonial_img_wrapper">
+																	<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-1.jpg" class="testimonials_img" alt=""/>
 																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/arquitectura.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Arquitectura</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/belleza.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Belleza</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/cienciatecnologia.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Ciencia</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/comidabebida.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Comida</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/computacion.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Tecnología</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/deportes.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Deportes</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/educacion.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Educacion</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/emociones.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Emociones</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/fondos.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Fondos</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/gente.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Gente</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/industria.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Industria</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/lugares.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Lugares</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/musica.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Musica</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/naturaleza.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Naturaleza</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/negocios.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Negocios</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/religion.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Religión</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/salud.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Salud</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/transporte.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Transporte</h3>
-																		</div>
-																	</a>
-																</div>
-															</div>
-															<!-- Item 1 -->
-															<div class="aurel_albums_carousel_item">
-																<div class="aurel_albums_carousel_item_inner">
-																	<a href="#">
-																		<img src="{%static HTMLPage.static%}img/clipart/index/viajes.jpg" alt=""/>
-																		<div class="aurel_albums_carousel_content">
-																			<h3 class="aurel_albums_title">Viajes</h3>
-																		</div>
-																	</a>
+																<div class="testimonial_author_info">
+																	<h6 class="testimonial_author">Debra Campbell</h6>
+																	<div class="testimonial_additional">Photographer, New York</div>
 																</div>
 															</div>
 														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Row -->
-							<div class="row gutters aurel_mb_75 aurel_mt_25" style="margin-top:75px">
-								<div class="col col-6 aurel_md_width_100">
-									<div class="aurel-widget-image">
-										<div class="aurel_widget_container aurel_md_text_align_center aurel_md_mb_22">
-											<div class="aurel-image">
-												{%comment%}
-													<img src="{{ '/static/pages/imagebankphoto/static/img/clipart/about04.jpg' |watermark:"logo,position=br,opacity=35" }}" alt=""/>
-													{%for photo in ''|get_photos%}
-														<img src="{%static HTMLPage.static%}{{photo.file.url}}" alt=""/>
-													{%endfor%}
-												{%endcomment%}
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col col-6 aurel_md_width_100">
-									<div class="aurel-widget-heading aurel_mt_5 aurel_mb_23">
-										<div class="aurel_widget_container">
-											<h3 class="aurel-heading-title">EJEMPLO</h3>
-										</div>
-									</div>
-									<p class="aurel_mb_40">
-										
-									</p>
-								</div>
-							</div>
-							<div class="row gutters aurel_mb_75 aurel_mt_25" style="margin-top:75px">
-								<div class="col col-6 aurel_md_width_100">
-									<div class="aurel-widget-image">
-										<div class="aurel_widget_container aurel_md_text_align_center aurel_md_mb_22">
-											<div class="aurel-image">
-												<img src="{%static HTMLPage.static%}img/clipart/about04.jpg" alt=""/>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col col-6 aurel_md_width_100">
-									<div class="aurel-widget-heading aurel_mt_5 aurel_mb_23">
-										<div class="aurel_widget_container">
-											<h3 class="aurel-heading-title">GRAN STOCK<span class="aurel_color"> DE CONTENIDO VISUAL</span></h3>
-										</div>
-									</div>
-									<p class="aurel_mb_40">
-										Encuentra la imagen que buscas, usa nuestro buscador usando cualquier palabra clave, libres de derechos, vectores, video, y audio.
-									</p>
-									<div class="row aurel_mb_40">
-										<div class="col col-2">
-											<div class="aurel-widget-icon">
-												<div class="aurel_widget_container">
-													<div class="aurel-icon-wrapper aurel_sm_text_center">
-														<div class="aurel-icon aurel_js_bg_color" data-bgcolor="#232527">
-															<i class="fa fa-heart-o"></i>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col col-10">
-											<div class="aurel-widget-heading aurel_mb_15">
-												<div class="aurel_widget_container aurel_sm_text_center">
-													<h6 class="aurel-heading-title aurel_js_font_size" data-font-size="16px" data-line-height="26px">FOTOGRAFÍA</h6>
-												</div>
-											</div>
-											<p class="aurel_sm_text_center">ImageBankPhoto es su mejor fuente de imágenes de fotos de gran-calidad en cualquier tema y género.</p>
-										</div>
-									</div>
-									<div class="row aurel_mb_40">
-										<div class="col col-2">
-											<div class="aurel-widget-icon">
-												<div class="aurel_widget_container">
-													<div class="aurel-icon-wrapper aurel_sm_text_center">
-														<div class="aurel-icon aurel_js_bg_color" data-bgcolor="#232527">
-															<i class="fa fa-video-camera"></i>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col col-10">
-											<div class="aurel-widget-heading aurel_mb_15">
-												<div class="aurel_widget_container aurel_sm_text_center">
-													<h6 class="aurel-heading-title aurel_js_font_size" data-font-size="16px" data-line-height="26px">VIDEO</h6>
-												</div>
-											</div>
-											<p class="aurel_sm_text_center">La mejor variedad de clips de vídeo para crear cualquier clase de proyecto.</p>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col col-2">
-											<div class="aurel-widget-icon">
-												<div class="aurel_widget_container">
-													<div class="aurel-icon-wrapper aurel_sm_text_center">
-														<div class="aurel-icon aurel_js_bg_color" data-bgcolor="#232527">
-															<i class="fa fa-file-image-o"></i>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col col-10">
-											<div class="aurel-widget-heading aurel_mb_15">
-												<div class="aurel_widget_container aurel_sm_text_center">
-													<h6 class="aurel-heading-title aurel_js_font_size" data-font-size="16px" data-line-height="26px">ILUSTRACIÓN</h6>
-												</div>
-											</div>
-											<p class="aurel_sm_text_center">Gráficos y arte vectoriales ajustables a escala.</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- Testimonials -->
-							<div class="row">
-								<div class="col col-12">
-									<div class="aurel-widget-heading aurel_mb_30">
-										<div class="aurel_widget_container aurel_text_align_center">
-											<h2 class="aurel-heading-title">Nuestros <span class="aurel_color">artistas </span> </h2>
-										</div>
-									</div>
-									<div class="aurel_widget_pm_testimonials aurel_mb_80">
-										<div class="aurel_widget_container">
-											<div class="aurel_front_end_display">
-												<div class="aurel_testimonials_carousel owl-carousel owl-theme" data-pause="yes" data-infinite="yes" data-autoplay="yes" data-speed="5000">
-													<!-- Item 1 -->
-													<div class="aurel_testimonials_item">
-														<div class="aurel_testimonials_item_inner">
-															<div class="testimonial_img_wrapper">
-																<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-1.jpg" class="testimonials_img" alt=""/>
-															</div>
-															<div class="testimonial_author_info">
-																<h6 class="testimonial_author">Debra Campbell</h6>
-																<div class="testimonial_additional">Photographer, New York</div>
+														<!-- Item 2 -->
+														<div class="aurel_testimonials_item">
+															<div class="aurel_testimonials_item_inner">
+																<div class="testimonial_img_wrapper">
+																	<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-2.jpg" class="testimonials_img" alt=""/>
+																</div>
+																<div class="testimonial_author_info">
+																	<h6 class="testimonial_author">Bill Greenberg</h6>
+																	<div class="testimonial_additional">Artist, Boston</div>
+																</div>
 															</div>
 														</div>
-													</div>
-													<!-- Item 2 -->
-													<div class="aurel_testimonials_item">
-														<div class="aurel_testimonials_item_inner">
-															<div class="testimonial_img_wrapper">
-																<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-2.jpg" class="testimonials_img" alt=""/>
-															</div>
-															<div class="testimonial_author_info">
-																<h6 class="testimonial_author">Bill Greenberg</h6>
-																<div class="testimonial_additional">Artist, Boston</div>
-															</div>
-														</div>
-													</div>
-													<!-- Item 3 -->
-													<div class="aurel_testimonials_item">
-														<div class="aurel_testimonials_item_inner">
-															<div class="testimonial_img_wrapper">
-																<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-3.jpg" class="testimonials_img" alt=""/>
-															</div>
-															<div class="testimonial_author_info">
-																<h6 class="testimonial_author">Megan Knight</h6>
-																<div class="testimonial_additional">Designer, San Francisco</div>
+														<!-- Item 3 -->
+														<div class="aurel_testimonials_item">
+															<div class="aurel_testimonials_item_inner">
+																<div class="testimonial_img_wrapper">
+																	<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-3.jpg" class="testimonials_img" alt=""/>
+																</div>
+																<div class="testimonial_author_info">
+																	<h6 class="testimonial_author">Megan Knight</h6>
+																	<div class="testimonial_additional">Designer, San Francisco</div>
+																</div>
 															</div>
 														</div>
-													</div>
-													<!-- Item 4 -->
-													<div class="aurel_testimonials_item">
-														<div class="aurel_testimonials_item_inner">
-															<div class="testimonial_img_wrapper">
-																<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-4.jpg" class="testimonials_img" alt=""/>
-															</div>
-															<div class="testimonial_author_info">
-																<h6 class="testimonial_author">Angela Kelly</h6>
-																<div class="testimonial_additional">Photographer, New York</div>
-															</div>
-														</div>
-													</div>
-													<!-- Item 5 -->
-													<div class="aurel_testimonials_item">
-														<div class="aurel_testimonials_item_inner">
-															<div class="testimonial_img_wrapper">
-																<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-5.jpg" class="testimonials_img" alt=""/>
-															</div>
-															<div class="testimonial_author_info">
-																<h6 class="testimonial_author">Frank Stewart</h6>
-																<div class="testimonial_additional">Artist, Boston</div>
+														<!-- Item 4 -->
+														<div class="aurel_testimonials_item">
+															<div class="aurel_testimonials_item_inner">
+																<div class="testimonial_img_wrapper">
+																	<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-4.jpg" class="testimonials_img" alt=""/>
+																</div>
+																<div class="testimonial_author_info">
+																	<h6 class="testimonial_author">Angela Kelly</h6>
+																	<div class="testimonial_additional">Photographer, New York</div>
+																</div>
 															</div>
 														</div>
-													</div>
-													<!-- Item 6 -->
-													<div class="aurel_testimonials_item">
-														<div class="aurel_testimonials_item_inner">
-															<div class="testimonial_img_wrapper">
-																<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-6.jpg" class="testimonials_img" alt=""/>
+														<!-- Item 5 -->
+														<div class="aurel_testimonials_item">
+															<div class="aurel_testimonials_item_inner">
+																<div class="testimonial_img_wrapper">
+																	<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-5.jpg" class="testimonials_img" alt=""/>
+																</div>
+																<div class="testimonial_author_info">
+																	<h6 class="testimonial_author">Frank Stewart</h6>
+																	<div class="testimonial_additional">Artist, Boston</div>
+																</div>
 															</div>
+														</div>
+														<!-- Item 6 -->
+														<div class="aurel_testimonials_item">
+															<div class="aurel_testimonials_item_inner">
+																<div class="testimonial_img_wrapper">
+																	<img src="{%static HTMLPage.static%}img/clipart/testimonials/author-6.jpg" class="testimonials_img" alt=""/>
+																</div>
 
-															<div class="testimonial_author_info">
-																<h6 class="testimonial_author">Rebecca Grant</h6>
-																<div class="testimonial_additional">Designer, San Francisco</div>
+																<div class="testimonial_author_info">
+																	<h6 class="testimonial_author">Rebecca Grant</h6>
+																	<div class="testimonial_additional">Designer, San Francisco</div>
+																</div>
 															</div>
 														</div>
 													</div>
@@ -624,78 +634,77 @@
 										</div>
 									</div>
 								</div>
-							</div>
-							<!-- Row -->
-							<div class="row">
-								<div class="col col-12">
-									<div class="aurel-widget-heading aurel_mb_50">
-										<div class="aurel_widget_container aurel_text_align_center">
-											<h2 class="aurel-heading-title">Planes y <span class="aurel_color">precios</span></h2>
+								<!-- Row -->
+								<div class="row">
+									<div class="col col-12">
+										<div class="aurel-widget-heading aurel_mb_50">
+											<div class="aurel_widget_container aurel_text_align_center">
+												<h2 class="aurel-heading-title">Planes y <span class="aurel_color">precios</span></h2>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<!-- Price Tables -->
-							<div class="row gutters">
-								<div class="col col-4">
-									<div class="aurel_widget_pm_price_item">
-										<div class="aurel_widget_container aurel_mb_70">
-											<div class="aurel_price_item aurel_js_bg_color" data-bgcolor="#1e2022">
-												<div class="aurel_price_item_inner">
-													<img src="img/clipart/price-img-1.jpg" alt="" class="aurel_price_item_image aurel_dp aurel_no_select"/>
-													<h5 class="aurel_price_item_title">Plata</h5>
-													<h2>$100<small style="font-size: 20px;">/m</small></h2>
-													<div class="aurel_price_item_descr">
-														<p>1er mes gratis</p>
-														<p>5 imagenes por día</p>
-														<p>2 videos por día</p>
+								<!-- Price Tables -->
+								<div class="row gutters">
+									<div class="col col-4">
+										<div class="aurel_widget_pm_price_item">
+											<div class="aurel_widget_container aurel_mb_70">
+												<div class="aurel_price_item aurel_js_bg_color" data-bgcolor="#1e2022">
+													<div class="aurel_price_item_inner">
+														<img src="img/clipart/price-img-1.jpg" alt="" class="aurel_price_item_image aurel_dp aurel_no_select"/>
+														<h5 class="aurel_price_item_title">Plata</h5>
+														<h2>$100<small style="font-size: 20px;">/m</small></h2>
+														<div class="aurel_price_item_descr">
+															<p>1er mes gratis</p>
+															<p>5 imagenes por día</p>
+															<p>2 videos por día</p>
+														</div>
+														<a class="aurel_button aurel_reverse_button" href="/" target="_self">CONTRATAR</a>
 													</div>
-													<a class="aurel_button aurel_reverse_button" href="/" target="_self">CONTRATAR</a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col col-4">
+										<div class="aurel_widget_pm_price_item">
+											<div class="aurel_widget_container aurel_mb_70">
+												<div class="aurel_price_item aurel_js_bg_color" data-bgcolor="#1e2022">
+													<div class="aurel_price_item_inner">
+														<img src="img/clipart/price-img-2.jpg" alt="" class="aurel_price_item_image aurel_dp aurel_no_select"/>
+														<h5 class="aurel_price_item_title">Oro</h5>
+														<h2>$200<small style="font-size: 20px;">/m</small></h2>
+														<div class="aurel_price_item_descr">
+															<p>1er mes gratis</p>
+															<p>10 imagenes por día</p>
+															<p>5 videos por día</p>
+														</div>
+														<a class="aurel_button aurel_reverse_button" href="/" target="_self">CONTRATAR</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col col-4">
+										<div class="aurel_widget_pm_price_item">
+											<div class="aurel_widget_container aurel_mb_70">
+												<div class="aurel_price_item aurel_js_bg_color" data-bgcolor="#1e2022">
+													<div class="aurel_price_item_inner">
+														<img src="img/clipart/price-img-3.jpg" alt="" class="aurel_price_item_image aurel_dp aurel_no_select"/>
+														<h5 class="aurel_price_item_title">Platino</h5>
+														<h2>$400<small style="font-size: 20px;">/m</small></h2>
+														<div class="aurel_price_item_descr">
+															<p>1er mes gratis</p>
+															<p>50 imagenes por día</p>
+															<p>15 videos por día</p>
+														</div>
+														<a class="aurel_button aurel_reverse_button" href="/" target="_self">CONTRATAR</a>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col col-4">
-									<div class="aurel_widget_pm_price_item">
-										<div class="aurel_widget_container aurel_mb_70">
-											<div class="aurel_price_item aurel_js_bg_color" data-bgcolor="#1e2022">
-												<div class="aurel_price_item_inner">
-													<img src="img/clipart/price-img-2.jpg" alt="" class="aurel_price_item_image aurel_dp aurel_no_select"/>
-													<h5 class="aurel_price_item_title">Oro</h5>
-													<h2>$200<small style="font-size: 20px;">/m</small></h2>
-													<div class="aurel_price_item_descr">
-														<p>1er mes gratis</p>
-														<p>10 imagenes por día</p>
-														<p>5 videos por día</p>
-													</div>
-													<a class="aurel_button aurel_reverse_button" href="/" target="_self">CONTRATAR</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col col-4">
-									<div class="aurel_widget_pm_price_item">
-										<div class="aurel_widget_container aurel_mb_70">
-											<div class="aurel_price_item aurel_js_bg_color" data-bgcolor="#1e2022">
-												<div class="aurel_price_item_inner">
-													<img src="img/clipart/price-img-3.jpg" alt="" class="aurel_price_item_image aurel_dp aurel_no_select"/>
-													<h5 class="aurel_price_item_title">Platino</h5>
-													<h2>$400<small style="font-size: 20px;">/m</small></h2>
-													<div class="aurel_price_item_descr">
-														<p>1er mes gratis</p>
-														<p>50 imagenes por día</p>
-														<p>15 videos por día</p>
-													</div>
-													<a class="aurel_button aurel_reverse_button" href="/" target="_self">CONTRATAR</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
+							{%endblock content%}				
 						</div>
 					</div>
 				</div>
@@ -817,7 +826,12 @@
 	<script src="{%static HTMLPage.static%}js/jquery.fullscreen.min.js"></script>
 	<script src="{%static HTMLPage.static%}js/owl.carousel.min.js"></script>
 	<script src="{%static HTMLPage.static%}js/pm_testimonials.js"></script>
-
+	{%if search%}
+		<script src="{%static HTMLPage.static%}js/imagesloaded.pkgd.min.js"></script>
+		<script src="{%static HTMLPage.static%}js/isotope.pkgd.min.js"></script>
+		<script src="{%static HTMLPage.static%}js/photoswipe.min.js"></script>
+		<script src="{%static HTMLPage.static%}js/photoswipe-ui-default.min.js"></script>
+	{%endif%}
 	<script src="{%static HTMLPage.static%}js/theme.js"></script>
 </body>
 </html>

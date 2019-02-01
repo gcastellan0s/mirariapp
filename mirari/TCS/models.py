@@ -254,6 +254,7 @@ VARS = {
 			'minimumInputLength': '0',
 		},
 	},
+	'TEMPLATE_NAME': 'OrderService__CreateView.html',
 	'FORM': [
 		Div(
 			Div(
@@ -300,7 +301,6 @@ VARS = {
 				Div('icon_ics_3'),
 				Div('icon_on'),
 				Div('icon_cn'),
-				Div('status'),
 				css_class="col-md-4"
 			),
 			Div(
