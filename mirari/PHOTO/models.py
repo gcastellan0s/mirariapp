@@ -71,7 +71,7 @@ def path_photo_file(self, filename):
 	return upload_to
 class Photo(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	file = ProcessedImageField(upload_to=path_photo_file, blank=True, null=True, verbose_name="Imagen", options={'quality': 100}, help_text="Menor a 12mb")
+	file = ProcessedImageField(upload_to=path_photo_file, blank=True, null=True, verbose_name="Imagen", options={'quality': 65}, help_text="Menor a 12mb")
 	categories = models.ManyToManyField('Category', verbose_name="Categorias")
 	description = models.CharField('Descripción de la foto', max_length=250, help_text="Menos de 250 caracteres")
 	creation_date = models.DateTimeField(auto_now_add=True)
