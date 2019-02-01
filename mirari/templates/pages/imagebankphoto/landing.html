@@ -55,22 +55,11 @@
 								<a href="javascript:void(0)">INICIO</a>
 							</li>
 							<li class="menu-item-has-children">
-								<a href="javascript:void(0)">EXPLORA</a>
+								<a href="javascript:void(0)">CATEGORIAS</a>
 								<ul class="sub-menu">
-									<li><a href="/">Animales</a></li>
-									<li><a href="/">Arquitectura</a></li>
-									<li><a href="/">Belleza</a></li>
-									<li><a href="/">Ciencia</a></li>
-									<li><a href="/">Comida</a></li>
-									<li><a href="/">Tecnología</a></li>
-									<li><a href="/">Deportes</a></li>
-									<li><a href="/">Industria</a></li>
-									<li><a href="/">Lugares</a></li>
-									<li><a href="/">Musica</a></li>
-									<li><a href="/">Naturaleza</a></li>
-									<li><a href="/">Negocios</a></li>
-									<li><a href="/">Salud</a></li>
-									<li><a href="/">Viajes</a></li>
+									{%for category in categoryes%}
+										<li><a href="{%url 'PHOTO:Search__TemplateView'%}?search={{category.name|lower|slugify}}">{{category.name}}</a></li>
+									{%endfor%}
 								</ul>
 							</li>
 							<li class="menu-item-has-children">
@@ -122,22 +111,11 @@
 							<a href="javascript:void(0)">INICIO</a>
 						</li>
 						<li class="menu-item-has-children">
-							<a href="javascript:void(0)">EXPLORA</a>
-							<ul class="sub-menu">
-								<li><a href="/">Animales</a></li>
-								<li><a href="/">Arquitectura</a></li>
-								<li><a href="/">Belleza</a></li>
-								<li><a href="/">Ciencia</a></li>
-								<li><a href="/">Comida</a></li>
-								<li><a href="/">Tecnología</a></li>
-								<li><a href="/">Deportes</a></li>
-								<li><a href="/">Industria</a></li>
-								<li><a href="/">Lugares</a></li>
-								<li><a href="/">Musica</a></li>
-								<li><a href="/">Naturaleza</a></li>
-								<li><a href="/">Negocios</a></li>
-								<li><a href="/">Salud</a></li>
-								<li><a href="/">Viajes</a></li>
+							<a href="javascript:void(0)">CATEGORIAS</a>
+							<ul class="sub-menu"></ul>
+								{%for category in categoryes%}
+									<li><a href="{%url 'PHOTO:Search__TemplateView'%}?search={{category.name|lower|slugify}}">{{category.name}}</a></li>
+								{%endfor%}
 							</ul>
 						</li>
 						<li class="menu-item-has-children">

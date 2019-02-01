@@ -32,4 +32,5 @@ class Search__TemplateView(Generic__TemplateView):
         context['object'] = self.model
         context['search'] = self.search
         context['photos'] = Photo.objects.all()
+        context['categoryes'] = Category.objects.all()
         return context

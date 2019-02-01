@@ -5,22 +5,14 @@
 {%block content%}
 	<div class="row">
 		<div class="col col-12">
-			{%comment%}
-				<div class="aurel-widget-heading aurel_mb_75" style="margin-top:75px;">
-					<div class="aurel_widget_container aurel_text_align_center">
-						<h2 class="aurel-heading-title">{{search|upper}}</h2>
-					</div>
-				</div>
-			{%endcomment%}
 			<div class="row aurel_pf_fullwidth">
 				<div class="col col-12 aurel_pl_30 aurel_pr_30" style="padding-top: 3rem;">
-					<div class="aurel_widget_pm_grid_gallery">
+					<div class="aurel_widget_pm_grid_gallery">	
 						<div class="aurel_widget_container">
 							<div class="aurel_front_end_display">
 								<div class="aurel_grid_wrapper aurel_photoswipe_wrapper aurel_grid_007" data-uniqid="007" data-perload="4">
 									<div class="aurel_grid_inner aurel_isotope_trigger is_masonry grid_columns4 hover_type_solid_plus side_paddings_off" data-perload="4" data-pad="30">
 										{%for photo in photos%}
-											<!-- Item 1 -->
 											<div class="grid-item element grid_b2p">
 												<div class="grid-item-inner">
 													<a class="aurel_pswp_slide aurel_drag_protect aurel_dp aurel_no_select" href="{{photo.file.url}}" data-size="1200x800" data-count="0">
@@ -34,7 +26,16 @@
 												</div>
 											</div>
 										{%empty%}
-											<h4>NO HAY FOTOS RELACIONADAS</h4>
+											<div class="col col-6 aurel_md_width_100" style="text-align: center;eam">
+												<div class="aurel-widget-heading aurel_mt_5 aurel_mb_23">
+													<div class="aurel_widget_container">
+														<h3 class="aurel-heading-title">NO HAY<span class="aurel_color"> IMAGENES</span> RELACIONADAS</h3>
+													</div>
+												</div>
+												<p class="aurel_mb_40">
+													Prueba con otras etiquetas o categorias para obtener otros resultados.
+												</p>
+											</div>
 										{%endfor%}
 									</div>
 								</div>
@@ -45,5 +46,4 @@
 			</div>
 		</div>
 	</div>
-	
 {%endblock content%}
