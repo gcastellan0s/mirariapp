@@ -18,6 +18,7 @@ VARS = {
 		{
 			'field': 'name',
 			'title': 'Nombre',
+			'url': 'property_url_update',
 		},
 		{
 			'field': 'property_get_have_cashier',
@@ -215,31 +216,31 @@ VARS = {
 		}
 	},
 	'SERIALIZER': ['get_code','get_units','get_is_active','get_productattributes','get_menu','get_sellpoint'],
-	'SELECTQ': {
-		'code': {
-			'model': ['mirari', 'ProductsServicesSAT'],
-			'query': 'NONE',
-			'plugin': 'select2',
-			'sercheable': ['code__icontains', 'name__icontains'],
-			'limits': 50,
-			'placeholder': 'Elige un producto o código del producto',
-		},
-		'units': {
-			'model': ['mirari', 'UnitsCodesSat'],
-			'query': 'NONE',
-			'plugin': 'select2',
-			'sercheable': ['code__icontains', 'name__icontains'],
-			'limits': 50,
-			'placeholder': 'Elige una unidad o código de la unidad',
-		},
-		'sellpoints': {
-			'plugin': 'selectmultiple',
-		},
-		'menu': {
-			'plugin': 'selectmultiple',
-		},
-	},
-	'FORM': ('name','code','units','sellpoints','menu','is_active'),
+	#'SELECTQ': {
+		#'code': {
+			#'model': ['mirari', 'ProductsServicesSAT'],
+			#'query': 'NONE',
+			#'plugin': 'select2',
+			#'sercheable': ['code__icontains', 'name__icontains'],
+			#'limits': 50,
+			#'placeholder': 'Elige un producto o código del producto',
+		#},
+		#'units': {
+			#'model': ['mirari', 'UnitsCodesSat'],
+			#'query': 'NONE',
+			#'plugin': 'select2',
+			#'sercheable': ['code__icontains', 'name__icontains'],
+			#'limits': 50,
+			#'placeholder': 'Elige una unidad o código de la unidad',
+		#},
+		#'sellpoints': {
+			#'plugin': 'selectmultiple',
+		#},
+		#'menu': {
+			#'plugin': 'selectmultiple',
+		#},
+	#},
+	#'FORM': ('name','code','units','sellpoints','menu','is_active'),
 }
 class Product(Model_base):
 	name = models.CharField('Nombre del producto', max_length=250)
