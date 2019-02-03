@@ -21,7 +21,7 @@ MENU = {
                 'subtext': 'Organiza tus productos por medio de menús',
                 'apps': [APP, ],
                 'permission': 'Can_View',
-                'model':  APP + '.User',
+                'model':  APP + '.Menu',
                 'url': 'Generic__ListView',
             },
             {
