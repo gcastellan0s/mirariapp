@@ -48,13 +48,13 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 				#query = "select ACCUM_VAL NUM_PAGO,to_char(END_DT,'DD/MM/YYYY') FECHA,X_ESTATUS_FACTURA STATUS,END_BALANCE INSOLUTO,CASH_SURRENDER_VAL CAPITAL,INTEREST_PAID INTERESES,FEE_PAID RENTA, HIGH_BALANCE PAGADO from S_FN_ACCNT_BAL where X_CLAVE_PH like '3-DKRL9%' order by ACCUM_VAL"
 				query = "SELECT ref_number_3,owner_accnt_id,PR_CON_ID FROM siebline.S_ASSET WHERE asset_num='{0}'".format(request.POST.get('number'))
 				#query = """update siebline.S_ASSET set status_cd='Análisis' where asset_num='{0}'""".format(request.POST.get('number'))
-				print(query)
-				cursor.execute(query)
+				response = cursor.execute(query)
 				cursor.close()
+
 				message, api = 'Solicitud atendida', 'success' 
 				#except Exception as e:
 					#message, api = str(e), 'error' 
-			return JsonResponse({'message':message,'api':api, 'query':query})
+			return JsonResponse({'message':message,'api':api, 'query':query, 'response':response})
 		return super().dispatch(request, *args, **kwargs)
 	###############################################################################################
 	def proccess_context(self, context):
