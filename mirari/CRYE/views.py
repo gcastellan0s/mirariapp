@@ -47,6 +47,7 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 				cursor = con.cursor()
 				query = "SELECT ref_number_3,owner_accnt_id,PR_CON_ID FROM siebline.S_ASSET WHERE asset_num='{0}'".format(request.POST.get('number'))
 				cursor.execute(query)
+				response_1 = cursor.fetchone()
 				id_cliente = cursor.fetchone()[2]
 				cursor.close()
 
@@ -59,7 +60,7 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 				message, api = 'Solicitud atendida', 'success' 
 				#except Exception as e:
 					#message, api = str(e), 'error' 
-			return JsonResponse({'message':message,'api':api, 'query':query, 'response':response})
+			return JsonResponse({'message':message,'api':api, 'query':query, 'response':response, 'response_1':response_1})
 		return super().dispatch(request, *args, **kwargs)
 	###############################################################################################
 	def proccess_context(self, context):
