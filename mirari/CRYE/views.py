@@ -51,7 +51,7 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 				cursor.close()
 
 				cursor = con.cursor()
-				query = "select ACCUM_VAL NUM_PAGO,to_char(END_DT,'DD/MM/YYYY') FECHA,X_ESTATUS_FACTURA STATUS,END_BALANCE INSOLUTO,CASH_SURRENDER_VAL CAPITAL,INTEREST_PAID INTERESES,FEE_PAID RENTA, HIGH_BALANCE PAGADO from S_FN_ACCNT_BAL where X_CLAVE_PH like '{0}' order by ACCUM_VAL".format(id_cliente)
+				query = "select ACCUM_VAL NUM_PAGO,to_char(END_DT,'DD/MM/YYYY') FECHA,X_ESTATUS_FACTURA STATUS,END_BALANCE INSOLUTO,CASH_SURRENDER_VAL CAPITAL,INTEREST_PAID INTERESES,FEE_PAID RENTA, HIGH_BALANCE PAGADO from S_FN_ACCNT_BAL where X_CLAVE_PH like '{0}%' order by ACCUM_VAL".format(id_cliente)
 				cursor.execute(query)
 				response = cursor.fetchone()
 				cursor.close()
