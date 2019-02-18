@@ -45,7 +45,7 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 				con.autocommit = True
 
 				cursor = con.cursor()
-				query = "SELECT ref_number_3,owner_accnt_id,PR_CON_ID FROM siebline.S_ASSET WHERE asset_num='{0}'".format(request.POST.get('number'))
+				query = "SELECT ref_number_3,owner_accnt_id,PR_CON_ID, ROW_ID FROM siebline.S_ASSET WHERE asset_num='{0}'".format(request.POST.get('number'))
 				cursor.execute(query)
 				response1 = cursor.fetchone()
 				cursor.close()
