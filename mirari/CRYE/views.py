@@ -47,20 +47,19 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 				cursor = con.cursor()
 				query = "SELECT ref_number_3,owner_accnt_id,PR_CON_ID FROM siebline.S_ASSET WHERE asset_num='{0}'".format(request.POST.get('number'))
 				cursor.execute(query)
-				response_1 = cursor.fetchone()
-				id_cliente = cursor.fetchone()[2]
+				response1 = cursor.fetchone()
 				cursor.close()
 
 				cursor = con.cursor()
-				query = "select ACCUM_VAL NUM_PAGO,to_char(END_DT,'DD/MM/YYYY') FECHA,X_ESTATUS_FACTURA STATUS,END_BALANCE INSOLUTO,CASH_SURRENDER_VAL CAPITAL,INTEREST_PAID INTERESES,FEE_PAID RENTA, HIGH_BALANCE PAGADO from S_FN_ACCNT_BAL where X_CLAVE_PH like '{0}%' order by ACCUM_VAL".format(id_cliente)
+				query = "select ACCUM_VAL NUM_PAGO,to_char(END_DT,'DD/MM/YYYY') FECHA,X_ESTATUS_FACTURA STATUS,END_BALANCE INSOLUTO,CASH_SURRENDER_VAL CAPITAL,INTEREST_PAID INTERESES,FEE_PAID RENTA, HIGH_BALANCE PAGADO from S_FN_ACCNT_BAL where X_CLAVE_PH like '{0}%' order by ACCUM_VAL".format(response1[2])
 				cursor.execute(query)
-				response = cursor.fetchone()
+				response2 = cursor.fetchone()
 				cursor.close()
 
 				message, api = 'Solicitud atendida', 'success' 
 				#except Exception as e:
 					#message, api = str(e), 'error' 
-			return JsonResponse({'message':message,'api':api, 'query':query, 'response':response, 'response_1':response_1})
+			return JsonResponse({'message':message,'api':api, 'query':query, 'response1':response1, 'response2':response2})
 		return super().dispatch(request, *args, **kwargs)
 	###############################################################################################
 	def proccess_context(self, context):
