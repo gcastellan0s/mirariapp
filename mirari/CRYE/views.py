@@ -65,10 +65,16 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 				response3 = cursor.fetchone()
 				cursor.close()
 
+				query = "select ACCUM_VAL NUM_PAGO,to_char(END_DT,'DD/MM/YYYY') FECHA,X_ESTATUS_FACTURA STATUS,END_BALANCE INSOLUTO,CASH_SURRENDER_VAL CAPITAL,INTEREST_PAID INTERESES,FEE_PAID RENTA, HIGH_BALANCE PAGADO from S_FN_ACCNT_BAL where X_CLAVE_PH like '{0}' order by ACCUM_VAL".format(response1[3])
+				cursor = con.cursor()
+				cursor.execute(query)
+				response4 = cursor.fetchone()
+				cursor.close()
+
 				message, api = 'Solicitud atendida', 'success' 
 				#except Exception as e:
 					#message, api = str(e), 'error' 
-			return JsonResponse({'message':message,'api':api, 'query':query, 'response1':response1, 'response2':response2, 'response3':response3})
+			return JsonResponse({'message':message,'api':api, 'query':query, 'response1':response1, 'response2':response2, 'response3':response3, 'response4':response4})
 		return super().dispatch(request, *args, **kwargs)
 	###############################################################################################
 	def proccess_context(self, context):
