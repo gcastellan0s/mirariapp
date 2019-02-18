@@ -26,6 +26,27 @@ class SiebelUnblock(Model_base):
 
 
 VARS = {
+	'NAME':'Tabla de amortización',
+	'PLURAL':'Tablas de amortización',
+	'MODEL':'TablaAmortizacion',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS': 'este',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS':['all'],
+}
+class TablaAmortizacion(Model_base):
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return '{0}'.format(self.VARS['NAME'])
+
+
+
+VARS = {
 	'NAME':'Tasa de interés',
 	'PLURAL':'Tasas de interés',
 	'MODEL':'TasasInteres',

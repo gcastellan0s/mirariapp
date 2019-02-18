@@ -772,26 +772,32 @@ class Base_Delete(object):
 
 
 class Base_Api(object):
-	#permissions = True
 	model = None
-	tokenserializer = False
+	permissions = None
+	serializer = None
 	def dispatch(self, request, *args, **kwargs):
 		self.initialize(request, *args, **kwargs)
 		if request.method == "POST" or request.method == "GET":
-			self.serializer = self.get_objects().data
-			self.actions(request, *args, **kwargs)
-			return JsonResponse(self.serializer)
+			return self.get_serializers(request)
 		return super().dispatch(request, *args, **kwargs)
 	############################################################################################################
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], kwargs['model'])
-		if self.tokenserializer:
+		self.have_permissions(request)
+	def have_permissions(self, request):
+		if self.permissions:
 			try:
 				valid_data = VerifyJSONWebTokenSerializer().validate({'token': request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]})
-				request.user = valid_data['user']
+				self.request.user = valid_data['user']
 			except Exception as e:
 				raise PermissionDenied
+			return True
+	def actions(self, request):
 		return True
+	def get_serializers(self, request):
+		objects = self.get_objects().data
+		self.actions(request)
+		return JsonResponse(objects)
 	def get_objects(self):
 		pk = self.get_pk()
 		if pk:
@@ -813,8 +819,6 @@ class Base_Api(object):
 			return self.request.GET['pk']
 		else:
 			return None
-	def actions(self, request, *args, **kwargs):
-		return True
 
 class View400(TemplateView):
 	template_name = "generic/errors/400.html"
