@@ -159,28 +159,7 @@
 {%endblock vue_filters%}
 
 {%block global_functions%}
-    window.Ax=function(method, url, data={}){ 
-        data.csrfmiddlewaretoken = '{{ csrf_token }}' 
-        return axios({method:method,url:url,data:Qs.stringify(data)}).catch(function(error){swal('Ooops!','{% trans "Algo salió mal"%}','error')})
-    }
-	window.Block=function(){$.blockUI({message: '<div class="sk-folding-cube sk-primary"><div class="sk-cube1 sk-cube"></div><div class="sk-cube2 sk-cube"></div><div class="sk-cube4 sk-cube"></div><div class="sk-cube3 sk-cube"></div></div><h5 style="color: #444">Espere un momento...</h5>',css: {backgroundColor: 'transparent',border: '0',zIndex: 9999999},overlayCSS:  {backgroundColor: '#fff',opacity: 0.8,zIndex: 9999990}});}
-	window.UnBlock=function(){$.unblockUI();}
-	window.Notify=function(title, message){
-		$.notify({
-			title: title,
-			message: message,
-		},{
-			type: "brand",
-			placement: {
-				from: "bottom",
-				align: "right"
-			},
-			animate: {
-				enter: 'animated fadeInUp',
-				exit: 'animated fadeOutDown'
-			},
-		});
-	} 
+    {%include 'generic/includes/global_functions.html'%}
 {%endblock global_functions%}
 
 {%block base_scripts%}
