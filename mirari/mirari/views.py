@@ -6,22 +6,22 @@ from .viewbase import *
 ###############################################################################################
 ######### TEMPLATE ################################################################################
 class Generic__TemplateView(Base_Template, TemplateView):
-    pass
+	pass
 ######### Detail ################################################################################
 class Generic__DetailView(Base_Detail, DetailView):
-    pass
+	pass
 ######### LIST ################################################################################
 class Generic__ListView(Base_List, ListView):
-    pass
+	pass
 ######### CREATE ##############################################################################
 class Generic__CreateView(Base_Create, CreateView):
-    pass
+	pass
 ######### UPDATE ##############################################################################
 class Generic__UpdateView(Base_Update, UpdateView):
-    pass
+	pass
 ######### DELETE ##############################################################################
 class Generic__DeleteView(Base_Delete, DeleteView):
-    pass
+	pass
 ######### API ##############################################################################
 class Generic__ApiView(Base_Api, APIView):
 	pass
@@ -72,9 +72,11 @@ class dashboard__Organization__TemplateView(Generic__TemplateView):
 	def dispatch(self, request, *args, **kwargs):
 		if not request.user.is_authenticated:
 			organization = get_variables(self)['ORGANIZATION']
-			self.HTMLPage = HTMLPage.objects.get(organization=organization)
-			if self.HTMLPage:
+			if HTMLPage.objects.filter(organization=organization):
+				self.HTMLPage = HTMLPage.objects.filter(organization=organization).first()
 				self.template_name = self.HTMLPage.folder + self.HTMLPage.index
+			else:
+				return HttpResponseRedirect(reverse('mirari:login__Organization__TemplateView', args=[]))
 		return super().dispatch(request, *args, **kwargs)
 ################################################################################################
 ################################################################################################
