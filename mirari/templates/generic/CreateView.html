@@ -9,11 +9,6 @@
 {%block styles%}
 	{{block.super}} 
 	<link href="{%static 'mirari/css/multi-select.css'%}" rel="stylesheet" type="text/css" />
-	<style>
-		.m-portlet .m-portlet__body {
-			padding: .6rem 2.2rem;
-		}
-	</style>
 	{%block extra_styles%}
 	{%endblock extra_styles%}
 {%endblock styles%}
@@ -87,7 +82,7 @@
 				{%else%}
 					col-xl-8 offset-xl-2
 				{%endif%}
-			">
+            ">
 			{% crispy form %}
 		</div>
 	</div>

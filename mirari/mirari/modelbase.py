@@ -8,6 +8,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import models, transaction
 from django.db.models import Q
 from django.db.models.signals import m2m_changed, post_save
+from django.http import JsonResponse
 from django_countries.fields import CountryField
 from django.template.loader import get_template, render_to_string
 from django.core.mail import EmailMultiAlternatives, get_connection
@@ -132,6 +133,11 @@ class Model_base(models.Model):
 		return self.str_obj()
 	def select2filter(self, query):
 		return query
+	###########
+	def FORM_VALID(self, view, form):
+		return form
+	def EXTRA_RESPONSE(self, request):
+		return False
 	###########
 	def render_boolean(self, field):
 		if field:

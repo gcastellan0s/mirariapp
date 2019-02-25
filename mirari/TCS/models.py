@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
+from rest_framework import serializers
 from mirari.mirari.models import *
 from .vars import *
-
-
 
 VARS = {
 	'NAME':'Empresa',
@@ -254,7 +253,6 @@ VARS = {
 			'minimumInputLength': '0',
 		},
 	},
-	'TEMPLATE_NAME': 'OrderService__CreateView.html',
 	'FORM': [
 		Div(
 			Div(
@@ -313,14 +311,18 @@ VARS = {
 	],
 	'FORM_CLASS': 'small_form',
 	'FORM_SIZE': ('col-xl-8 offset-xl-2','col-xl-9'),
-	'EXTRA_FORM': 'OrderService__EXTRAFORM.html',
+	'TEMPLATE_NAME': {
+		'CREATEVIEW': 'OrderService__CreateView.html',
+	},
+	'FORM_BUTTONS': 'TOP',
 }
 class OrderService(Model_base):
+	estatus_choices = ESTATUS
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
 	creation_date = models.DateTimeField(auto_now_add=True, editable=True)
 	user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
 	technical = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True, verbose_name="Tecnico")
-	status = models.CharField(max_length=250, choices=ESTATUS, verbose_name="Estatus")
+	status = models.CharField(max_length=250, choices=ESTATUS, verbose_name="Estatus", default="Nueva") #Esta parte esta agregada directamente al codigo OrderService__CreateView.html
 	service = models.CharField(max_length=250, choices=SERVICIO, default="Icon", verbose_name="Tipo de servicio")
 	zone = models.CharField(max_length=250, choices=ZONAS, default="Local", verbose_name="Zona")
 	concept = models.CharField(max_length=250, choices=CONCEPTO, default="Armado", verbose_name="Concepto")
@@ -383,14 +385,68 @@ class OrderService(Model_base):
 			else:
 				query = query.none()
 		return query
+	def FORM_VALID(self, view, form):
+		if not form.instance.pk:
+			form.instance.user = view.request.user
+		return form
+	def EXTRA_RESPONSE(self, request):
+		if self.request.GET.get('comment'):
+			if not self.request.GET.get('comment') == 'false':
+				orderservicecomment = OrderServiceComment()
+				orderservicecomment.orderservice = self.object
+				orderservicecomment.user = request.user
+				orderservicecomment.comment = self.request.GET.get('comment')
+				orderservicecomment.save()
+			class OrderServiceComment_Serializer(serializers.ModelSerializer):
+				username = serializers.CharField(source='user.visible_username')
+				class Meta:
+					model = OrderServiceComment
+					fields = ('__all__')
+			return JsonResponse({'OrderServiceComment': OrderServiceComment_Serializer(OrderServiceComment.objects.filter(orderservice = self.object).order_by('creation_date'), many=True).data})
+		if self.request.GET.get('status'):
+			self.object.status = self.request.GET.get('status')
+			self.object.save()
+			return JsonResponse({'api': 'OK'})
+		if self.request.GET.get('concept'):
+			if not self.request.GET.get('concept') == 'false':
+				orderserviceconcept = OrderServiceConcept()
+				orderserviceconcept.orderservice = self.object
+				orderserviceconcept.user = request.user
+				orderserviceconcept.concept = self.request.GET.get('concept')
+				orderserviceconcept.quantity = self.request.GET.get('quantity')
+				orderserviceconcept.save()
+			class OrderServiceConcept_Serializer(serializers.ModelSerializer):
+				username = serializers.CharField(source='user.visible_username')
+				class Meta:
+					model = OrderServiceConcept
+					fields = ('__all__')
+			return JsonResponse({'OrderServiceConcept': OrderServiceConcept_Serializer(OrderServiceConcept.objects.filter(orderservice = self.object).order_by('creation_date'), many=True).data})
+		if self.request.GET.get('get_calendar'):
+			start = datetime.datetime.utcfromtimestamp(int(self.request.GET.get('start'))).date()
+			end = datetime.datetime.utcfromtimestamp(int(self.request.GET.get('end'))).date()
+			class OrderServiceCalendar_Serializer(serializers.ModelSerializer):
+				class Meta:
+					model = OrderService
+					fields = ('title','start','end', 'id', 'url_update','className', 'description')
+			query = OrderService.objects.filter(service_date__range=(start, end))
+			if self.request.GET.get('show'):
+				query = query.filter(zone = self.request.GET.get('show'))
+			serializer = OrderServiceCalendar_Serializer(query, many=True)
+			return JsonResponse(serializer.data,  safe=False)
 	def QUERY(self, view):
-		return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
+		team_codes = view.request.user.get_my_teams_codes()
+		if 'Operador' in team_codes or 'Administrator' in team_codes:
+			return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
+		else:
+			return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.usera, active=True).distinct()
 	def get_id_html(self):
 		return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
 	def get_creation_date_html(self):
 		return """<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.creation_date.strftime('%d %b %Y %I:%M %p'))
+	def get_user_html(self):
+		return """<i class="fa fa-user m--icon-font-size-sm5 mr-1"></i> OPERADOR: {0}<br />""".format(self.user)
 	def get_technical_html(self):
-		return """<i class="fa fa-user-cog m--icon-font-size-sm5 mr-1"></i> TEC: {0}<br />""".format(self.technical)
+		return """<i class="fa fa-user-cog m--icon-font-size-sm5 mr-1"></i> TECNICO: {0}<br />""".format(self.technical)
 	def get_concept_html(self):
 		return """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.concept)
 	def get_service_date_html(self):
@@ -413,6 +469,83 @@ class OrderService(Model_base):
 			return """<i class="fa fa-phone m--icon-font-size-sm5 mr-1"></i>TEL: {0}<br />""".format(self.contact_phone2)
 		else:
 			return ''
+	def get_total(self):
+		orderserviceconcept = OrderServiceConcept.objects.filter(orderservice = self)
+		total = 0
+		for concept in orderserviceconcept:
+			total += concept.quantity
+		return total
+	def title(self):
+		return '{0} {1}'.format(self.id, self.service)
+	def start(self):
+		return self.service_date.strftime("%Y-%m-%d")
+	def end(self):
+		return self.service_date.strftime("%Y-%m-%d")
+	def description(self):
+		return mark_safe("""T. {0} | C. {1}""".format(self.technical.visible_username, self.client_name))
+	def className(self):
+		if self.status == 'Nueva':
+			return 'm-fc-event--solid-primary m-fc-event--light'
+		elif self.status == 'Alerta':
+			return 'm-fc-event--solid-warning m-fc-event--light'
+		elif self.status == 'Espera de refacciones':
+			return 'm-fc-event--solid-accent m-fc-event--light'
+		elif self.status == 'Terminada':
+			return 'm-fc-event--solid-metal m-fc-event--light'
+		elif self.status == 'Cancelada':
+			return 'm-fc-event--solid-danger m-fc-event--light'
+		elif self.status == 'Especial':
+			return 'm-fc-event--solid-focus m-fc-event--light'
+
+
+VARS = {
+	'NAME':'Comentario de Orden',
+	'PLURAL':'Comentarios de Orden',
+	'MODEL':'OrderServiceComment',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS': 'este',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS': ['all'],
+}
+class OrderServiceComment(Model_base):
+	orderservice = models.ForeignKey('OrderService', on_delete=models.CASCADE, related_name='+',)
+	user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
+	comment = models.TextField()
+	creation_date = models.DateTimeField(auto_now_add=True, editable=True)
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return str(self.pk)
+
+
+
+VARS = {
+	'NAME':'Concepto de Orden',
+	'PLURAL':'Conceptos de Orden',
+	'MODEL':'OrderServiceConcept',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS': 'este',
+	'APP':APP,
+}
+class OrderServiceConcept(Model_base):
+	orderservice = models.ForeignKey('OrderService', on_delete=models.CASCADE, related_name='+',)
+	user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
+	concept = models.CharField(max_length=250, blank=True,)
+	quantity = models.IntegerField()
+	creation_date = models.DateTimeField(auto_now_add=True, editable=True)
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return str(self.pk)
+
 
 
 VARS = {

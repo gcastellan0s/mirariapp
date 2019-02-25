@@ -52,6 +52,8 @@ def get_url(module):
 			return reverse(app+':'+module['url'], kwargs={'app':app,'model':model})
 	elif 'href' in module:
 		return reverse(module['href'])
+	elif 'link' in module:
+		return module['link']
 	else:
 		return '#@'
 

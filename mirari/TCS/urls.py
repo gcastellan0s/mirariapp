@@ -5,5 +5,7 @@ from .vars import *
 app_name = APP
 
 urlpatterns = [
-    path('api/OrderServiceApiView/<slug:app>/<slug:action>/<slug:model>/', OrderService__ApiView.as_view(), name='OrderService__ApiView'),
+    path('calendar/', calendar__OrderService__TemplateView.as_view(), name='calendar__OrderService__TemplateView'),
+    path('manuales-usuario/', manuales_usuario__OrderService__TemplateView.as_view(), name='manuales_usuario__OrderService__TemplateView'),
+    path('manuales-iconfield/', manuales_iconfield__OrderService__TemplateView.as_view(), name='manuales_iconfield__OrderService__TemplateView'),
 ]

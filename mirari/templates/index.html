@@ -2,51 +2,53 @@
 <!DOCTYPE html>
 <html lang="{%block language%}es{%endblock language%}" class="{%block class_html%}{%endblock class_html%}">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-  <link href="{%if G.ORGANIZATION.ICO%}{{ G.ORGANIZATION.ICO.url }}{%endif%}" rel="icon" type="image/x-icon" />
-  <title>{%block title%}{{ G.ORGANIZATION.TITLE }} :: {{ G.ORGANIZATION.SLOGAN }}{%endblock title%}</title>
-  {%block font%}{%endblock font%}
-  {%block icons%}{%endblock icons%}
-  {%block base_styles%}{%endblock base_styles%}
-  {%block base_css%}{%endblock base_css%}
-  {%block head_scripts%}{%endblock head_scripts%}
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+	<link href="{%if G.ORGANIZATION.ICO%}{{ G.ORGANIZATION.ICO.url }}{%endif%}" rel="icon" type="image/x-icon" />
+	<title>{%block title%}{{ G.ORGANIZATION.TITLE }} :: {{ G.ORGANIZATION.SLOGAN }}{%endblock title%}</title>
+	{%block font%}{%endblock font%}
+	{%block icons%}{%endblock icons%}
+	{%block base_styles%}{%endblock base_styles%}
+	{%block base_css%}{%endblock base_css%}
+	{%block head_scripts%}{%endblock head_scripts%}
 </head>
 <body class="{%block body_class%}{%endblock body_class%}">
-  <div id="app">
-  {%block body_content%}
-  {%endblock body_content%}
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.5.2/qs.js"></script>
-  {%block base_js%}{%endblock base_js%}
-  <script type="text/javascript" charset="utf-8">
-    new Vue({
-      el: '#app',
-      delimiters: ['${', '}'],
-      data: {
-        {%block vue_data%}{%endblock vue_data%}
-      },
-      created:function(){
-        self = this
-        {%block vue_created%}{%endblock vue_created%}
-      },
-      methods: {
-        {%block vue_methods%}{%endblock vue_methods%}
-      },
-      mounted: function () {
-        {%block vue_mounted%}{%endblock vue_mounted%}
-      },
-    });
-    window.Ax=function(method, url, data={}){ 
-      data.csrfmiddlewaretoken = '{{ csrf_token }}' 
-      return axios({method:method,url:url,data:Qs.stringify(data)}).catch(function(error){swal('Ooops!','{% trans "Algo salió mal"%}','error')})
-    }
-    {%block global_functions%}{%endblock global_functions%}
-  </script>
-  {%block base_scripts%}{%endblock base_scripts%}
+	<div id="app">
+		{%block body_content%}
+		{%endblock body_content%}
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.5.2/qs.js"></script>
+	{%block base_js%}{%endblock base_js%}
+	<script type="text/javascript" charset="utf-8">
+        {%block global_functions%}{%endblock global_functions%}
+		new Vue({
+			el: '#app',
+			delimiters: ['${', '}'],
+			data: {
+				{%block vue_data%}{%endblock vue_data%}
+			},
+			created:function(){
+				self = this
+				{%block vue_created%}{%endblock vue_created%}
+			},
+			methods: {
+				{%block vue_methods%}{%endblock vue_methods%}
+			},
+			mounted: function () {
+				{%block vue_mounted%}{%endblock vue_mounted%}
+			},
+			watch: {
+				{%block vue_watch%}{%endblock vue_watch%}
+			},
+            filters: {
+                {%block vue_filters%}{%endblock vue_filters%}
+            }
+		});
+	</script>
+	{%block base_scripts%}{%endblock base_scripts%}
 </body> 
 </html>

@@ -258,8 +258,8 @@ class Base_Template(object):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context = self.proccess_context(context)
-		context['G'] = get_variables(self)
-		context['HTMLPage'] =self.HTMLPage
+		context['HTMLPage'] = self.HTMLPage
+		context['model'], context['G'] = self.model, get_variables(self)
 		return context
 	############################################################################################################
 	def proccess_context(self, context):
@@ -303,11 +303,6 @@ class Base_Detail(object):
 	############################################################################################################
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], kwargs['model'])
-		try:
-			if self.model.VARS['TEMPLATE_NAME']:
-				self.template_name = self.model.VARS['TEMPLATE_NAME']
-		except:
-			pass
 		return True
 	def proccess_context(self, context):
 		return context
@@ -398,11 +393,6 @@ class Base_List(object):
 				self.model = apps.get_model(kwargs['app'], kwargs['model'])
 			except:
 				pass
-		try:
-			if self.model.VARS['TEMPLATE_NAME']:
-				self.template_name = self.model.VARS['TEMPLATE_NAME']
-		except:
-			pass
 		self.initialize_list(request, *args, **kwargs)
 		return True
 	def initialize_list(self, request, *args, **kwargs):
@@ -577,14 +567,15 @@ class Base_Create(object):
 			form.instance.organization = self.request.user.organization
 		except:
 			pass
+		form = form.instance.FORM_VALID(self, form)
 		return super().form_valid(form)
 	def form_invalid(self, form):
 		return super().form_invalid(form)
 	def get(self, request, *args, **kwargs):
 		response = super().get(request, *args, **kwargs)
-		extra = self.extra_response()
-		if extra:
-			return extra
+		extra_response = self.extra_response(request)
+		if extra_response:
+			return extra_response
 		if self.request.GET.get('action') == 'select2':
 			return self.select2_response()
 		return response
@@ -600,11 +591,9 @@ class Base_Create(object):
 	############################################################################################################
 	def initialize(self, request, *args, **kwargs):
 		self.model = apps.get_model(kwargs['app'], kwargs['model'])
-		try:
-			if self.model.VARS['TEMPLATE_NAME']:
-				self.template_name = self.model.VARS['TEMPLATE_NAME']
-		except:
-			pass
+		if 'TEMPLATE_NAME' in self.model.VARS:
+			if 'CREATEVIEW' in self.model.VARS['TEMPLATE_NAME']:
+				self.template_name = self.model.VARS['TEMPLATE_NAME']['CREATEVIEW']
 		return True
 	def get_success_url(self):
 		if 'save' in self.request.POST:
@@ -648,7 +637,7 @@ class Base_Create(object):
 				super().__init__(*args, **kwargs)
 				self.helper = FormHelper()
 				self.helper.layout = Layout()
-				self.helper.layout.append(HTML(FORM1PART))
+				self.helper.layout.append(HTML(FORMTEMPLATE1))
 				if 'FORM_ID' in self._meta.model.VARS:
 					self.helper.form_id = self._meta.model.VARS['FORM_ID']
 				else:	
@@ -683,14 +672,10 @@ class Base_Create(object):
 						if not exclude_from_form:
 							div.append(field.name)
 					self.helper.layout.append(div)
-				#if 'FORM_BUTTONS' in self._meta.model.VARS:
-					#self.helper.layout.append(self._meta.model.VARS['FORM_BUTTONS'])
-				#else:
-					#self.helper.layout.append(HTML("""{%include 'generic/includes/create-update/submit_buttons.html'%}"""))
-				self.helper.layout.append(HTML(FORM2PART))
+				self.helper.layout.append(HTML(FORMTEMPLATE2))
 		return Form
-	def extra_response(self):
-		return False
+	def extra_response(self, request):
+		return self.model.EXTRA_RESPONSE(self, request)
 	def select2_response(self):
 		return JsonResponse({'items': Select2Serializer(self)})
 	def select2filter(self, query):
