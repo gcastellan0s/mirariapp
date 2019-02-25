@@ -85,6 +85,7 @@ class Organization(MPTTModel, Model_base):
 	STYLE = models.CharField(max_length=255, blank=True, null=True)
 	ICO = ProcessedImageField(upload_to=path_system, blank=True, null=True, options={'quality': 100}, help_text="Logo 100x100")
 	LOGO = ProcessedImageField(upload_to=path_system, blank=True, null=True, options={'quality': 100}, help_text="Logo 600x600")
+	DASHBOARD_LOGO_WIDTH = models.PositiveIntegerField(blank=True, null=True, default="0", help_text="px")
 	LOGO_WHITE = ProcessedImageField(upload_to=path_system, blank=True, null=True, options={'quality': 100}, help_text="Logo 600x600")
 	LOGO_BG = ProcessedImageField(upload_to=path_system, blank=True, null=True)
 	LOGO_BG_WHITE = ProcessedImageField(upload_to=path_system, blank=True, null=True)
