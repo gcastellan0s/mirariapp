@@ -2,6 +2,7 @@
 ///////SELECT
 
 $('.select').select2();
+
 {%for key, value in model.VARS.SELECTQ.items%}
     {%if value.plugin == 'select2'%}
         {%if value.sercheable%}

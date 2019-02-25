@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 from .modelbase import *
 
-
 ########################################################################################
 ########################################################################################
 VARS = {
@@ -221,9 +220,11 @@ class User(AbstractUser, Model_base):
 	############ INT ###############################################################
 	def get_my_notifications(self):
 		return apps.get_model('INT','Notification')().get_user_notifications(self)
-	def get_my_teams(self):
+	def get_my_teams(self): ### ENTREGA UNA LISTA
 		return self.render_list(apps.get_model('INT','Team')().get_user_team(self), 'name')
-	def get_teams(self):
+	def get_my_teams_codes(self):
+		return self.render_list(apps.get_model('INT','Team')().get_user_team(self), 'code')
+	def get_teams(self): ### ENTREGA LOS MODELOS
 		return apps.get_model('INT','Team')().get_user_team(self)
 	def QUERY(self, view):
 		return User.objects.filter(organization__pk=view.request.session.get('organization'), active=True).exclude(is_superuser=True)

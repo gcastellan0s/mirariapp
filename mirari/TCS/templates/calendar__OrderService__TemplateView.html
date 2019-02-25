@@ -1,0 +1,150 @@
+
+{% extends "generic/TemplateView.html" %}
+{% load static %}
+{% load i18n %}
+{% load mirari_tags %}
+
+{%block styles%}
+    {{block.super}}  
+    <link href="{%static 'metronic/dist/demo5/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css'%}" rel="stylesheet" type="text/css" /> 
+{%endblock styles%}
+
+{%block subheader%}
+    <div class="m-subheader m--padding-top-5">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+				<h3 class="m-subheader__title m-subheader__title--separator">
+                    <small>LISTA DE</small> 
+                    <strong>{{ model|verbose_name_plural|upper }}</strong>
+				</h3>
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="/" class="m-nav__link m-nav__link--icon">
+                            <strong> <i class="la la-home"></i> INICIO</strong>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline pl-5">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="{{model.url_add}}" class="btn btn-brand m-btn m-btn--custom m-btn--icon m-btn--air">
+                            <span>
+                                <i class="la la-plus"></i>
+                                <span>AGREGAR nueva orden</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{%endblock subheader%}
+
+{%block content%}
+<div class="row">
+    <div class="col-lg-12">	
+        <!--begin::Portlet-->
+		<div class="m-portlet" id="m_portlet">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-caption">
+                    <div class="m-portlet__head-title">
+                        <ul class="m-subheader__breadcrumbs m-nav m-nav--inline pl-5">
+                            <li class="m-nav__item m-nav__item--home">
+                                <a href="{%url 'TCS:calendar__OrderService__TemplateView' %}" class="btn btn-secondary m-btn m-btn--custom m-btn--icon m-btn--air">
+                                    <span>
+                                        <i class="flaticon-calendar-with-a-clock-time-tools"></i>
+                                        <span>MOSTRAR todos</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item m-nav__item--home">
+                                <a href="{%url 'TCS:calendar__OrderService__TemplateView' %}?show=Local" class="btn btn-secondary m-btn m-btn--custom m-btn--icon m-btn--air">
+                                    <span>
+                                        <i class="flaticon-placeholder"></i>
+                                        <span>MOSTRAR locales</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="m-nav__item m-nav__item--home">
+                                <a href="{%url 'TCS:calendar__OrderService__TemplateView' %}?show=Foraneo" class="btn btn-secondary m-btn m-btn--custom m-btn--icon m-btn--air">
+                                    <span>
+                                        <i class="flaticon-truck"></i>
+                                        <span>MOSTRAR foraneos</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+			<div class="m-portlet__body">
+				<div id="m-calendar"></div>
+			</div>
+		</div>	
+		<!--end::Portlet-->
+	</div>
+</div>
+{%endblock content%}
+
+
+{%block js%}
+    {{block.super}}
+    <script src="{%static 'metronic/dist/demo5/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js'%}" type="text/javascript"></script>
+    <script src="{%static 'mirari/js/calendar_es.js'%}" type="text/javascript"></script>
+{%endblock js%}
+
+{%block created%}
+    var CalendarBasic = {
+        init: function () {
+            var e = moment().startOf("day"),
+                t = e.format("YYYY-MM"),
+                i = e.clone().subtract(1, "day").format("YYYY-MM-DD"),
+                n = e.format("YYYY-MM-DD"),
+                r = e.clone().add(1, "day").format("YYYY-MM-DD");
+            $("#m-calendar").fullCalendar({
+                isRTL: mUtil.isRTL(),
+                header: {
+                    left: "prev,next today",
+                    center: "title",
+                    right: "month, listWeek"
+                },
+                editable: !0,
+                eventLimit: !0,
+                navLinks: !0,
+                events: function(start, end, timezone, callback) {
+                    $.ajax({
+                        url: '{{request.get_full_path}}',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            start: start.unix(),
+                            end: end.unix(),
+                            get_calendar: 'true',
+                        },
+                        success: function(json) {
+                            var events = [];
+                            console.log(json)
+                            $.each(json, function(i, event) {
+                                events.push({
+                                    id: event.id,
+                                    title: event.title,
+                                    start: event.start,
+                                    url: event.url_update,
+                                    className: event.className,
+                                    description: event.description,
+                                    editable: false,
+                                })
+                            })
+                            callback(events)
+                        },
+                    });
+                },
+                eventRender: function (e, t) {
+                    t.hasClass("fc-day-grid-event") ? (t.data("content", e.description), t.data("placement", "top"), mApp.initPopover(t)) : t.hasClass("fc-time-grid-event") ? t.find(".fc-title").append('<div class="fc-description">' + e.description + "</div>") : 0 !== t.find(".fc-list-item-title").lenght && t.find(".fc-list-item-title").append('<div class="fc-description">' + e.description + "</div>")
+                }
+            })
+        }
+    };
+    jQuery(document).ready(function () {
+        CalendarBasic.init()
+    });
+{%endblock created%}
