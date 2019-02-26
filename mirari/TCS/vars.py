@@ -80,7 +80,7 @@ MENU = {
 				'link': 'https://mail.yandex.com/',
 			},
 			{
-				'title': 'Manulaes Usuario',
+				'title': 'Manuales Usuario',
 				'icon': 'flaticon-users-1',
 				'text': 'Manuales de usuario',
 				'subtext': 'Consulta los manuales de usuario',
@@ -92,8 +92,8 @@ MENU = {
 			{
 				'title': 'Manuales IconField',
 				'icon': 'flaticon-layer',
-				'text': 'Consulta tu correo',
-				'subtext': 'Ingresa a tu buzón electrónico',
+				'text': 'Manuales de usuario',
+				'subtext': 'Consulta los manuales de IconField',
 				'apps': [APP, ],
 				'permission': '',
 				'model': APP + '.OrderService',
@@ -114,6 +114,7 @@ ESTATUS= (
 SERVICIO = (
 	('Icon', 'Icon'),
 	('Tecnoservicio', 'Tecnoservicio'),
+    ('Tc2', 'Tc2'),
 )
 ZONAS = (
 	('Local', 'Local'),
