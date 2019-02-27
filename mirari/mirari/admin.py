@@ -15,7 +15,9 @@ class UserAdmin(PassAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(PassAdmin):
-	pass
+	actions_on_top = True
+	actions_on_bottom = False
+	list_display = ('visible_name', 'name', 'organization',)
 
 @admin.register(Permission)
 class PermissionAdmin(admin.ModelAdmin):

@@ -27,7 +27,13 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
 	template_name = "manuales_iconfield__OrderService__TemplateView.html"
 	model = apps.get_model('TCS', 'OrderService')
 	def dispatch(self, request, *args, **kwargs):
-		import csv
+		#p = Profile.objects.all()
+		#for a in p:
+			#print(a)
+			#a.visible_name = a.name.upper()
+			#a.name = a.organization.code +'__'+ a.name.upper()
+			#a.save()
+		#import csv
 		#from mirari.INT.models import Team
 		#with open('temp/users_user.csv', newline='', encoding='utf-8') as f:
 			#reader = csv.reader(f)
@@ -40,11 +46,11 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
 			#p_operador = Profile.objects.get(name='OPERADOR')
 			#p_administrador = Profile.objects.get(name='ADMINISTRADOR')
 			#for row in reader:
-				#if not User.objects.filter(username = request.user.organization.code + '__' + row[4]):
+				#if not User.objects.filter(username = u.organization.code + '__' + row[4]):
 					#user = User()
-					#user.username = request.user.organization.code + '__' + row[4]
+					#user.username = u.organization.code + '__' + row[4]
 					#user.visible_username = row[4]
-					#user.organization = request.user.organization
+					#user.organization = u.organization
 					#user.email = row[7]
 					#user.id_bckp = row[0]
 					#user.set_password(row[4])
