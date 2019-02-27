@@ -254,7 +254,7 @@ VARS = {
 	},
 	'LIST': [
 		{
-			'field': 'name',
+			'field': 'visible_name',
 			'title': 'Nombre',
 		},
 		{
@@ -282,14 +282,18 @@ VARS = {
 }
 class Profile(Group, Model_base):
 	organization = models.ForeignKey('Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
+	visible_name = models.CharField('Nombre del perfil', max_length=100)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
 	def save(self, *args, **kwargs):
-		self.name = self.name.upper()
+		self.visible_name = self.name.upper()
+		self.name = self.organization.code +'__'+ self.name.upper()
 		super().save()
+	def __str__(self):
+		return '{0}'.format(self.visible_name)
 	def get_permissions(self):
 		return self.render_list(self.permissions, 'name')
 
@@ -305,12 +309,12 @@ VARS = {
 	'THIS': 'esta',
 	'APP': APP,
 	'EXCLUDE_PERMISSIONS': ['all'],
-    'LIST': [
+	'LIST': [
 		{
 			'field': 'name',
 			'title': 'Nombre',
 		},
-        {
+		{
 			'field': 'serial',
 			'title': 'Numeración',
 		},
