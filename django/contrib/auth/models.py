@@ -125,6 +125,9 @@ class Group(models.Model):
 
     def natural_key(self):
         return (self.name,)
+    
+    def group_name(self):
+        return self.name.split('__')[1]
 
 
 class UserManager(BaseUserManager):
