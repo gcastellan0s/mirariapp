@@ -140,7 +140,7 @@ VARS = {
 	],
 	'SEARCH': ['visible_username', 'first_name', 'last_name', 'email'],
 	'SORTEABLE': ['visible_username'],
-	'SERIALIZER': ('url_password',),
+	'SERIALIZER': ('url_password','get_groups'),
 	'FORM': ('visible_username', 'first_name', 'last_name', 'email', 'is_active', 'groups', 'user_permissions', 'birthday', 'phone',),
 	'SELECTQ': {
 		'groups': {
