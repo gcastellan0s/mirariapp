@@ -283,8 +283,8 @@ VARS = {
 }
 class Profile(Group, Model_base):
 	organization = models.ForeignKey('Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	visible_name = models.CharField('Nombre del perfil', max_length=100)
-	
+	visible_name = models.CharField('Nombre del perfil', max_length=50)
+
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
