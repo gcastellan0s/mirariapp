@@ -13,6 +13,10 @@ class OrganizationAdmin(PassAdmin):
 class UserAdmin(PassAdmin):
 	pass
 
+@admin.register(Profile)
+class ProfileAdmin(PassAdmin):
+	pass
+
 @admin.register(Permission)
 class PermissionAdmin(admin.ModelAdmin):
 	actions_on_top = True

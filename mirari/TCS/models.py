@@ -16,6 +16,7 @@ VARS = {
 class Company(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
 	name = models.CharField('Nombre de la empresa', max_length=250)
+	id_bckp = models.IntegerField()
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -43,7 +44,11 @@ VARS = {
 }
 class Store(Model_base):
 	company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name='+', verbose_name="Compañia")
+	state  = models.CharField('Estado', max_length=250, blank=True, null=True)
+	adress = models.CharField('Domicilio', max_length=250, blank=True, null=True)
+	phone = models.CharField('Teléfono', max_length=250, blank=True, null=True)
 	name = models.CharField('Nombre de la tienda', max_length=250)
+	id_bckp = models.IntegerField()
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -74,6 +79,7 @@ VARS = {
 class Brand(Model_base):
 	company = models.ManyToManyField('Company', verbose_name="Empresas que la venden")
 	name = models.CharField('Marca', max_length=250)
+	id_bckp = models.IntegerField()
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -104,6 +110,8 @@ VARS = {
 class Modelo(Model_base):
 	brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, verbose_name="Marca")
 	name = models.CharField('Nombre del modelo', max_length=250)
+	description = models.CharField('Descripción', max_length=250, blank=True, null=True)
+	id_bckp = models.IntegerField()
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -125,16 +133,16 @@ VARS = {
 	'EXCLUDE_PERMISSIONS': ['all'],
 	'HIDE_CHECKBOX_LIST': True,
 	'HIDE_BUTTONS_LIST': True,
-	'SERIALIZER': ('get_service_date_html','get_client_name_html','get_contact_phone1_html','get_contact_phone2_html','get_id_html','get_creation_date_html','get_technical_html','get_concept_html', 'get_status_html'),
+	'SERIALIZER': ('get_service_date_html','get_client_name_html','get_contact_phone1_html','get_contact_phone2_html','get_id_html','get_serial_html','get_creation_date_html','get_technical_html','get_concept_html', 'get_status_html', 'get_user_html', 'get_icon_os_html','get_icon_ics_html','get_icon_ics_2_html','get_icon_ics_3_html','get_icon_on_html','get_icon_cn_html'),
 	'LIST': [
 		{
-			'field': 'pk',
+			'field': 'serial',
 			'title': 'Orden de servicio',
 			'template': 
 				"""
 					<a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
 						<span>
-							{{property_get_id_html}}
+							{{property_get_serial_html}}
 							{{property_get_creation_date_html}}
 							{{property_get_technical_html}}
 							{{property_get_concept_html}}
@@ -159,31 +167,30 @@ VARS = {
 				""",
 		},
 		{
-			'field': 'service_date',
-			'title': 'Informacion',
+			'field': 'user',
+			'title': 'Modificaciones',
 			'template': 
 				"""
 					<a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
 						<span>
-							{{property_get_service_date_html}}
-							{{property_get_client_name_html}}
-							{{property_get_contact_phone1_html}}
-							{{property_get_contact_phone2_html}}
+							{{property_get_user_html}}
 						</span>
 					</a>
 				""",
 		},
 		{
-			'field': 'service_date',
-			'title': 'Extra',
+			'field': 'icon_os',
+			'title': 'Icon',
 			'template': 
 				"""
 					<a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
 						<span>
-							{{property_get_service_date_html}}
-							{{property_get_client_name_html}}
-							{{property_get_contact_phone1_html}}
-							{{property_get_contact_phone2_html}}
+							{{property_get_icon_os_html}}
+							{{property_get_icon_ics_html}}
+							{{property_get_icon_ics_2_html}}
+							{{property_get_icon_ics_3_html}}
+							{{property_get_icon_on_html}}
+							{{property_get_icon_cn_html}}
 						</span>
 					</a>
 				""",
@@ -277,6 +284,10 @@ VARS = {
 			Div('contact_phone1', css_class="col-md-4"),
 			Div('contact_phone2', css_class="col-md-4"),
 			Div('address', css_class="col-md-8"),
+			Div('colony', css_class="col-md-5"),
+			Div('city', css_class="col-md-5"),
+			Div('cp', css_class="col-md-2"),
+			Div('address_reference', css_class="col-md-12"),
 			Div('client_notes', css_class="col-md-8"),
 			Div('company', css_class="col-md-4"),
 			css_class="form-group m-form__group row"
@@ -318,6 +329,7 @@ VARS = {
 }
 class OrderService(Model_base):
 	estatus_choices = ESTATUS
+	serial = models.CharField(max_length=50, verbose_name="Folio de la orden", blank=True, null=True)
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
 	creation_date = models.DateTimeField(auto_now_add=True, editable=True)
 	user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
@@ -331,9 +343,14 @@ class OrderService(Model_base):
 	delivery_date = models.DateField(blank=True, null=True, verbose_name="Fecha de entrega")
 	client_name = models.CharField(max_length=500, verbose_name="Nombre completo del cliente")
 	email = models.CharField(max_length=250, blank=True, verbose_name="Email del cliente")
-	contact_phone1 = models.CharField(max_length=250, blank=True, verbose_name="Teléfono de contacto del cliente")
-	contact_phone2 = models.CharField(max_length=250, blank=True, verbose_name="Teléfono de contacto del cliente")
-	address = models.CharField(max_length=500, blank=True, verbose_name="Calle")
+	contact_phone1 = models.CharField(max_length=250, blank=True, verbose_name="Teléfono casa")
+	contact_phone2 = models.CharField(max_length=250, blank=True, verbose_name="Teléfono oficina")
+	contact_phone3 = models.CharField(max_length=250, blank=True, verbose_name="Teléfono movil")
+	address = models.CharField(max_length=500, blank=True, verbose_name="Dirección")
+	colony = models.CharField(max_length=250, blank=True, verbose_name="Colonia")
+	city = models.CharField(max_length=250, blank=True, verbose_name="Ciudad")
+	cp = models.CharField(max_length=250, blank=True, verbose_name="CP")
+	address_reference = models.CharField(max_length=500, blank=True, verbose_name="Referencias")
 	address_lat = models.FloatField(blank=True, null=True)
 	address_lng = models.FloatField(blank=True, null=True)
 	client_notes = models.TextField(blank=True, verbose_name="Notas sobre el cliente")
@@ -351,13 +368,14 @@ class OrderService(Model_base):
 	icon_ics_3 = models.CharField('icon ics 3', max_length=250, blank=True, default="")
 	icon_on = models.CharField(max_length=250, blank=True)
 	icon_cn = models.CharField(max_length=250, blank=True)
+	id_bckp = models.IntegerField()
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
 	def __str__(self):
-		return str(self.pk)
+		return str(self.serial)
 	def url_add(self):
 		return reverse('mirari:Generic__CreateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})
 	def url_update(self):
@@ -385,6 +403,10 @@ class OrderService(Model_base):
 			else:
 				query = query.none()
 		return query
+	def save(self, *args, **kwargs):
+		if not self.serial:
+			self.serial = Serial.objects.filter(organization=self.organization, content_type=ContentType.objects.get_for_model(self)).first().get_serial()
+		super().save()
 	def FORM_VALID(self, view, form):
 		if not form.instance.pk:
 			form.instance.user = view.request.user
@@ -441,6 +463,8 @@ class OrderService(Model_base):
 			return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.usera, active=True).distinct()
 	def get_id_html(self):
 		return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
+	def get_serial_html(self):
+		return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.serial, self.service.upper())
 	def get_creation_date_html(self):
 		return """<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.creation_date.strftime('%d %b %Y %I:%M %p'))
 	def get_user_html(self):
@@ -469,6 +493,30 @@ class OrderService(Model_base):
 			return """<i class="fa fa-phone m--icon-font-size-sm5 mr-1"></i>TEL: {0}<br />""".format(self.contact_phone2)
 		else:
 			return ''
+	def get_icon_os_html(self):
+		if self.icon_os:
+			return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>OS: {0}<br />""".format(self.icon_os)
+		return ''
+	def get_icon_ics_html(self):
+		if self.icon_ics:
+			return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>ICS: {0}<br />""".format(self.icon_ics)
+		return ''
+	def get_icon_ics_2_html(self):
+		if self.icon_ics_2:
+			return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>ICS2: {0}<br />""".format(self.icon_ics_2)
+		return ''
+	def get_icon_ics_3_html(self):
+		if self.icon_ics_3:
+			return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>ICS3: {0}<br />""".format(self.icon_ics_3)
+		return ''
+	def get_icon_on_html(self):
+		if self.icon_on:
+			return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>ON: {0}<br />""".format(self.icon_on)
+		return ''
+	def get_icon_cn_html(self):
+		if self.icon_cn:
+			return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>CN: {0}<br />""".format(self.icon_cn)
+		return ''
 	def get_total(self):
 		orderserviceconcept = OrderServiceConcept.objects.filter(orderservice = self)
 		total = 0
@@ -476,7 +524,7 @@ class OrderService(Model_base):
 			total += concept.quantity
 		return total
 	def title(self):
-		return '{0} {1}'.format(self.id, self.service)
+		return '{0} {1}'.format(self.serial, self.service)
 	def start(self):
 		return self.service_date.strftime("%Y-%m-%d")
 	def end(self):

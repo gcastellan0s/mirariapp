@@ -42,6 +42,16 @@ MENU = {
 				'model': APP + '.User',
 				'url': 'User__ListView',
 			},
+            {
+				'title': 'SERIES',
+				'icon': 'fa fa-barcode',
+				'text': 'LISTA DE SERIES DISPONIBLES',
+				'subtext': 'Administra las series disponibles en el sistema',
+				'apps': ['mirari', ],
+				'permission': 'Can_View',
+				'model': APP + '.Serial',
+				'url': 'Generic__ListView',
+			},
 		]
 	},
 }
