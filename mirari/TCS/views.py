@@ -27,12 +27,11 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
 	template_name = "manuales_iconfield__OrderService__TemplateView.html"
 	model = apps.get_model('TCS', 'OrderService')
 	def dispatch(self, request, *args, **kwargs):
-		#p = Profile.objects.all()
-		#for a in p:
-			#print(a)
-			#a.visible_name = a.name.upper()
+		p = Profile.objects.all()
+		for a in p:
+			a.visible_name = a.name.split('__')[1]
 			#a.name = a.organization.code +'__'+ a.name.upper()
-			#a.save()
+			a.save()
 		#import csv
 		#from mirari.INT.models import Team
 		#with open('temp/users_user.csv', newline='', encoding='utf-8') as f:

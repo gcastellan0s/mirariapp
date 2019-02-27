@@ -140,7 +140,7 @@ VARS = {
 	],
 	'SEARCH': ['visible_username', 'first_name', 'last_name', 'email'],
 	'SORTEABLE': ['visible_username'],
-	'SERIALIZER': ('url_password',),
+	'SERIALIZER': ('url_password','get_groups'),
 	'FORM': ('visible_username', 'first_name', 'last_name', 'email', 'is_active', 'groups', 'user_permissions', 'birthday', 'phone',),
 	'SELECTQ': {
 		'groups': {
@@ -207,7 +207,7 @@ class User(AbstractUser, Model_base):
 	def get_phone(self):
 		return self.render_if(self.phone)
 	def get_groups(self):
-		return self.render_list(self.groups, 'group_name')
+		return self.render_list(self.groups, 'name')
 	def get_all_permissions(self):
 		if self.is_superuser:
 			return Permission.objects.all()
@@ -283,17 +283,16 @@ VARS = {
 }
 class Profile(Group, Model_base):
 	organization = models.ForeignKey('Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	visible_name = models.CharField('Nombre del perfil', max_length=50)
 
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
-	def save(self, *args, **kwargs):
-		self.visible_name = self.visible_name.upper()
-		self.name = self.organization.code +'__'+ self.visible_name
-		super().save()
+	#def save(self, *args, **kwargs):
+		#self.visible_name = self.visible_name.upper()
+		#self.name = self.organization.code +'__'+ self.visible_name
+		#super().save()
 	def __str__(self):
 		return '{0}'.format(self.visible_name)
 	def get_permissions(self):
