@@ -207,7 +207,7 @@ class User(AbstractUser, Model_base):
 	def get_phone(self):
 		return self.render_if(self.phone)
 	def get_groups(self):
-		return self.render_list(self.groups, 'visible_name')
+		return self.render_list(self.groups, 'group_name')
 	def get_all_permissions(self):
 		if self.is_superuser:
 			return Permission.objects.all()
