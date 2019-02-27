@@ -207,7 +207,7 @@ class User(AbstractUser, Model_base):
 	def get_phone(self):
 		return self.render_if(self.phone)
 	def get_groups(self):
-		return self.render_list(self.groups, 'name')
+		return self.render_list(self.groups, 'visible_name')
 	def get_all_permissions(self):
 		if self.is_superuser:
 			return Permission.objects.all()
@@ -283,7 +283,6 @@ VARS = {
 }
 class Profile(Group, Model_base):
 	organization = models.ForeignKey('Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
