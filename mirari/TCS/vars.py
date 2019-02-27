@@ -121,9 +121,11 @@ ZONAS = (
 	('Foraneo', 'Foraneo'),
 )
 CONCEPTO = (
-	('Armado', 'Armado'),
-	('Revision', 'Revision'),
-	('OrdenesIcon', 'OrdenesIcon'),
-	('Mantenimiento', 'Mantenimiento'),
-	('Servicio', 'Servicio'),
+	('Armado', 'Armado'),# $23, $650, 
+	('Revision', 'Revision'),# $50, $350
+	('OrdenesIcon', 'OrdenesIcon'),# $50,
+	('Mantenimiento', 'Mantenimiento'),# $50, $750
+    ('Servicio', 'Servicio'),# $50, $750
 )
+
+#-300, 

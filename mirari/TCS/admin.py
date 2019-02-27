@@ -4,7 +4,7 @@ from .vars import *
 
 @admin.register(Company)
 class CompanyAdmin(PassAdmin):
-	pass
+	list_display = ('id', 'name', 'id_bckp',)
 
 @admin.register(Store)
 class StoreAdmin(PassAdmin):
@@ -16,7 +16,8 @@ class BrandAdmin(PassAdmin):
 
 @admin.register(Modelo)
 class ModeloAdmin(PassAdmin):
-	pass
+	list_display = ('name', 'id_bckp',)
+	search_fields = ('name', 'id_bckp')
 
 @admin.register(OrderService)
 class OrderServiceAdmin(PassAdmin):

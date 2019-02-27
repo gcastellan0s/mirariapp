@@ -170,6 +170,7 @@ class User(AbstractUser, Model_base):
 	birthday = models.DateField('Fecha nacimiento', blank=True, null=True)
 	phone = models.CharField('Telefono de contacto', max_length=50, blank=True, null=True)
 	gender = models.CharField('Género', choices=GENDER, max_length=50, blank=True, null=True)
+	id_bckp = models.IntegerField()
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -304,6 +305,16 @@ VARS = {
 	'THIS': 'esta',
 	'APP': APP,
 	'EXCLUDE_PERMISSIONS': ['all'],
+    'LIST': [
+		{
+			'field': 'name',
+			'title': 'Nombre',
+		},
+        {
+			'field': 'serial',
+			'title': 'Numeración',
+		},
+	],
 }
 class Serial(Model_base):
 	organization = models.ForeignKey('Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
@@ -318,11 +329,11 @@ class Serial(Model_base):
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
 	def __str__(self):
-		return '{0} [{1}]'.format(self.name, self.serial)
-	#def assign(self):
-		#self.serial += 1
-		#self.save()
-		#return self.serial - 1
+		return '{0} ( {1} )'.format(self.name, self.serial)
+	def get_serial(self):
+		self.serial += 1
+		self.save()
+		return self.serial
 
 
 ########################################################################################

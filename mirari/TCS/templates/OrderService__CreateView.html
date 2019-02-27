@@ -97,7 +97,7 @@
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
                                 <h3 class="m-portlet__head-text">
-                                    ID: {{object.pk}}
+                                    ID: {{object.serial}}
                                 </h3>
                             </div>
                         </div>
@@ -308,7 +308,7 @@
                                             <div class="col-4">
                                                 <div class="row">
                                                     <div class="col-6" style="text-align:right;">
-                                                        <span>FOLIO: <strong>{{object.pk}}</strong></span><br />
+                                                        <span>FOLIO: <strong>{{object.serial}}</strong></span><br />
                                                     </div>
                                                     <div class="col-6" style="text-align:right;">
                                                         <span>ALTA: <strong>{{object.creation_date|date:"SHORT_DATETIME_FORMAT"}}</strong></span><br />
@@ -476,7 +476,7 @@
                                             <div class="col-4">
                                                 <div class="row">
                                                     <div class="col-6" style="text-align:right;">
-                                                        <span>FOLIO: <strong>{{object.pk}}</strong></span><br />
+                                                        <span>FOLIO: <strong>{{object}}</strong></span><br />
                                                     </div>
                                                     <div class="col-6" style="text-align:right;">
                                                         <span>ALTA: <strong>{{object.creation_date|date:"SHORT_DATETIME_FORMAT"}}</strong></span><br />
