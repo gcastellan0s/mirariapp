@@ -279,6 +279,7 @@ VARS = {
 			],
 		},
 	},
+	'FORM': ['visible_name','permissions'],
 }
 class Profile(Group, Model_base):
 	organization = models.ForeignKey('Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
@@ -289,7 +290,7 @@ class Profile(Group, Model_base):
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
 	def save(self, *args, **kwargs):
-		self.visible_name = self.name.upper()
+		self.visible_name = self.visible_name.upper()
 		self.name = self.organization.code +'__'+ self.visible_name
 		super().save()
 	def __str__(self):
