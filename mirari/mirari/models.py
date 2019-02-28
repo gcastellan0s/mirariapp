@@ -326,8 +326,6 @@ class Serial(Model_base):
 	name = models.CharField('Nombre con el que identificas la serie', max_length=120)
 	content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
 	serial = models.PositiveIntegerField(default=1)
-	is_global = models.BooleanField('Serie compartida?', default=False)
-	is_visible = models.BooleanField('Esta disponible?', default=False)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
