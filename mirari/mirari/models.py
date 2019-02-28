@@ -289,14 +289,15 @@ class Profile(Group, Model_base):
 		verbose_name = VARS['NAME']
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
-	def save(self, *args, **kwargs):
-		self.visible_name = self.visible_name.upper()
-		self.name = self.organization.code +'__'+ self.visible_name
-		super().save()
 	def __str__(self):
 		return '{0}'.format(self.visible_name)
 	def get_permissions(self):
 		return self.render_list(self.permissions, 'name')
+	
+	def FORM_VALID(self, view, form):
+		form.instance.visible_name = form.instance.visible_name.upper()
+		form.instance.name = view.request.user.organization.code + '__' + form.instance.visible_name 
+		return form
 
 
 ########################################################################################

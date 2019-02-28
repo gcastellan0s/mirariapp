@@ -113,7 +113,6 @@ class Group(models.Model):
 		blank=True,
 	)
 	visible_name = models.CharField('Nombre del perfil', max_length=150)
-
 	objects = GroupManager()
 
 	class Meta:
