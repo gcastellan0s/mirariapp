@@ -292,11 +292,8 @@ class Profile(Group, Model_base):
 	def __str__(self):
 		return '{0}'.format(self.visible_name)
 	def save(self, *args, **kwargs):
-		print("#######1###")
 		self.visible_name = self.visible_name.upper()
 		self.name = self.organization.code +'__'+ self.visible_name
-		print(self.visible_name)
-		print(self.name)
 		super().save()
 	def get_permissions(self):
 		return self.render_list(self.permissions, 'name')
