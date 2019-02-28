@@ -133,11 +133,11 @@ VARS = {
 	'EXCLUDE_PERMISSIONS': ['all'],
 	'HIDE_CHECKBOX_LIST': True,
 	'HIDE_BUTTONS_LIST': True,
-	'SERIALIZER': ('get_service_date_html','get_client_name_html','get_contact_phone1_html','get_contact_phone2_html','get_id_html','get_serial_html','get_creation_date_html','get_technical_html','get_concept_html', 'get_status_html', 'get_user_html', 'get_icon_os_html','get_icon_ics_html','get_icon_ics_2_html','get_icon_ics_3_html','get_icon_on_html','get_icon_cn_html'),
+	'SERIALIZER': ('get_service_date_html','get_client_name_html','get_contact_phone1_html','get_contact_phone2_html','get_id_html','get_serial_html','get_creation_date_html','get_technical_html','get_concept_html', 'get_status_html', 'get_user_html', 'get_icon_os_html','get_icon_ics_html','get_icon_ics_2_html','get_icon_ics_3_html','get_icon_on_html','get_icon_cn_html','get_contact_phone3_html','get_email_html','get_adress_html','get_store_html','get_brand_html', 'get_modelo_html'),
 	'LIST': [
 		{
 			'field': 'serial',
-			'title': 'Orden de servicio',
+			'title': 'ORDEN',
 			'template': 
 				"""
 					<a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
@@ -146,13 +146,16 @@ VARS = {
 							{{property_get_creation_date_html}}
 							{{property_get_technical_html}}
 							{{property_get_concept_html}}
+							{{property_get_store_html}}
+							{{property_get_brand_html}}
+							{{property_get_modelo_html}}
 						</span>
 					</a>
 				""",
 		},
 		{
 			'field': 'service_date',
-			'title': 'Cliente',
+			'title': 'SERVICIO',
 			'template': 
 				"""
 					<a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
@@ -160,15 +163,18 @@ VARS = {
 						
 							{{property_get_service_date_html}}
 							{{property_get_client_name_html}}
+							{{property_get_email_html}}
 							{{property_get_contact_phone1_html}}
 							{{property_get_contact_phone2_html}}
+							{{property_get_contact_phone3_html}}
+							{{property_get_adress_html}}
 						</span>
 					</a>
 				""",
 		},
 		{
 			'field': 'user',
-			'title': 'Modificaciones',
+			'title': 'INFORMACIÓN',
 			'template': 
 				"""
 					<a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
@@ -180,7 +186,7 @@ VARS = {
 		},
 		{
 			'field': 'icon_os',
-			'title': 'Icon',
+			'title': 'ICON',
 			'template': 
 				"""
 					<a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
@@ -196,6 +202,7 @@ VARS = {
 				""",
 		},
 	],
+	'SEARCH': ['serial', 'client_name', 'email'],
 	'SELECTQ': {
 		'technical': {
 			'model': ['mirari', 'User'],
@@ -331,7 +338,7 @@ class OrderService(Model_base):
 	estatus_choices = ESTATUS
 	serial = models.IntegerField(verbose_name="Folio de la orden")
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	creation_date = models.DateTimeField()#auto_now_add=True, editable=True
+	creation_date = models.DateTimeField(auto_now_add=True, editable=True)
 	user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
 	technical = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True, verbose_name="Tecnico")
 	status = models.CharField(max_length=250, choices=ESTATUS, verbose_name="Estatus", default="Nueva") #Esta parte esta agregada directamente al codigo OrderService__CreateView.html
@@ -469,14 +476,29 @@ class OrderService(Model_base):
 	def get_creation_date_html(self):
 		return """<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.creation_date.strftime('%d %b %Y %I:%M %p'))
 	def get_user_html(self):
-		return """<i class="fa fa-user m--icon-font-size-sm5 mr-1"></i> OPERADOR: {0}<br />""".format(self.user)
+		return """<i class="fa fa-user-edit m--icon-font-size-sm5 mr-1"></i> OPERADOR: {0}<br />""".format(self.user)
 	def get_technical_html(self):
 		return """<i class="fa fa-user-cog m--icon-font-size-sm5 mr-1"></i> TECNICO: {0}<br />""".format(self.technical)
 	def get_concept_html(self):
 		return """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.concept)
+	def get_store_html(self):
+		if self.store:
+			return """<i class="fa fa-store m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.store)
+		else:
+			return ''
+	def get_brand_html(self):
+		if self.brand:
+			return """<i class="fa fa-tags m--icon-font-size-sm5 mr-1"></i>{0} """.format(self.brand)
+		else:
+			return ''
+	def get_modelo_html(self):
+		if self.modelo:
+			return """<i class="fa fa-tag m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.modelo)
+		else:
+			return ''
 	def get_service_date_html(self):
 		if self.service_date:
-			return """<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.service_date.strftime('%d %b %Y'))
+			return """<i class="fa fa-calendar-check m--icon-font-size-sm5 mr-1"></i><strong>{0}</strong><br />""".format(self.service_date.strftime('%d %b %Y'))
 		else:
 			return '<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>'
 	def get_client_name_html(self):
@@ -484,16 +506,38 @@ class OrderService(Model_base):
 			return """<i class="fa fa-user m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.client_name.title())
 		else:
 			return ''
+	def get_email_html(self):
+		if self.email:
+			return """<i class="fa fa-envelope m--icon-font-size-sm5 mr-1"></i>TEL: {0}<br />""".format(self.email)
+		else:
+			return ''
 	def get_contact_phone1_html(self):
 		if self.contact_phone1:
-			return """<i class="fa fa-mobile m--icon-font-size-sm5 mr-1"></i>CEL: {0}<br />""".format(self.contact_phone1)
+			return """<i class="fa fa-phone m--icon-font-size-sm5 mr-1"></i>TEL: {0}<br />""".format(self.contact_phone1)
 		else:
 			return ''
 	def get_contact_phone2_html(self):
 		if self.contact_phone2:
-			return """<i class="fa fa-phone m--icon-font-size-sm5 mr-1"></i>TEL: {0}<br />""".format(self.contact_phone2)
+			return """<i class="fa fa-building m--icon-font-size-sm5 mr-1"></i>OFI: {0}<br />""".format(self.contact_phone2)
 		else:
 			return ''
+	def get_contact_phone3_html(self):
+		if self.contact_phone3:
+			return """<i class="fa fa-mobile m--icon-font-size-sm5 mr-1"></i>CEL: {0}<br />""".format(self.contact_phone3)
+		else:
+			return ''
+	def get_adress_html(self):
+		adress = ''
+		if self.address:
+			adress += self.address + ', '
+		if self.colony:
+			adress += 'col. ' + self.colony + ', ' 
+		if self.city:
+			adress += self.city + ' '
+		if self.cp:
+			adress += 'CP ' + self.cp
+		return """<i class="fa fa-map-marker-alt m--icon-font-size-sm5 mr-1"></i> {0}<br />""".format(adress)
+		
 	def get_icon_os_html(self):
 		if self.icon_os:
 			return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>OS: {0}<br />""".format(self.icon_os)
