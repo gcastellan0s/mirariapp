@@ -70,8 +70,7 @@ class Permission(models.Model):
                     'codename')
 
     def __str__(self):
-        return "%s | %s" % (
-            self.content_type,
+        return "%s" % (
             self.name,
         )
 
