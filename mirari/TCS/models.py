@@ -472,7 +472,7 @@ class OrderService(Model_base):
 	def get_id_html(self):
 		return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
 	def get_serial_html(self):
-		return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.serial, self.service.upper())
+		return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small class="m--font-brand">[{1}]</small><br />'.format(self.serial, self.service.upper())
 	def get_creation_date_html(self):
 		return """<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.creation_date.strftime('%d %b %Y %I:%M %p'))
 	def get_user_html(self):
