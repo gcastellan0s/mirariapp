@@ -130,7 +130,6 @@ VARS = {
 	'NEW_GENDER': 'una nueva',
 	'THIS': 'esta',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS': ['all'],
 	'HIDE_CHECKBOX_LIST': True,
 	'HIDE_BUTTONS_LIST': True,
 	'SERIALIZER': ('get_service_date_html','get_client_name_html','get_contact_phone1_html','get_contact_phone2_html','get_id_html','get_serial_html','get_creation_date_html','get_technical_html','get_concept_html', 'get_status_html', 'get_user_html', 'get_icon_os_html','get_icon_ics_html','get_icon_ics_2_html','get_icon_ics_3_html','get_icon_on_html','get_icon_cn_html','get_contact_phone3_html','get_email_html','get_adress_html','get_store_html','get_brand_html', 'get_modelo_html'),
@@ -472,7 +471,7 @@ class OrderService(Model_base):
 	def get_id_html(self):
 		return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
 	def get_serial_html(self):
-		return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small class="m--font-brand">[{1}]</small><br />'.format(self.serial, self.service.upper())
+		return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small class="m--font-brandºº">[{1}]</small><br />'.format(self.serial, self.service.upper())
 	def get_creation_date_html(self):
 		return """<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.creation_date.strftime('%d %b %Y %I:%M %p'))
 	def get_user_html(self):
