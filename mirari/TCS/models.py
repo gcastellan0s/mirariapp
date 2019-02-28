@@ -11,7 +11,6 @@ VARS = {
 	'NEW_GENDER': 'una nueva',
 	'THIS': 'esta',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS': ['all'],
 }
 class Company(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
@@ -35,7 +34,6 @@ VARS = {
 	'NEW_GENDER': 'una nueva',
 	'THIS': 'esta',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS': ['all'],
 	'SELECTQ': {
 		'company': {
 			'plugin': 'select2',
@@ -74,7 +72,6 @@ VARS = {
 			'plugin': 'selectmultiple',
 		},
 	},
-	'EXCLUDE_PERMISSIONS': ['all'],
 }
 class Brand(Model_base):
 	company = models.ManyToManyField('Company', verbose_name="Empresas que la venden")
@@ -105,7 +102,6 @@ VARS = {
 			'plugin': 'select2',
 		},
 	},
-	'EXCLUDE_PERMISSIONS': ['all'],
 }
 class Modelo(Model_base):
 	brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, verbose_name="Marca")
@@ -598,7 +594,6 @@ VARS = {
 	'NEW_GENDER': 'un nuevo',
 	'THIS': 'este',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS': ['all'],
 }
 class OrderServiceComment(Model_base):
 	orderservice = models.ForeignKey('OrderService', on_delete=models.CASCADE, related_name='+',)
