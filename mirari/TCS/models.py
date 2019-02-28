@@ -329,7 +329,6 @@ VARS = {
 }
 class OrderService(Model_base):
 	estatus_choices = ESTATUS
-	serial = models.CharField(max_length=50, verbose_name="Folio de la orden", blank=True, null=True)
 	s = models.IntegerField(verbose_name="Folio de la orden")
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
 	creation_date = models.DateTimeField()#auto_now_add=True, editable=True
@@ -375,6 +374,7 @@ class OrderService(Model_base):
 		verbose_name = VARS['NAME']
 		verbose_name_plural = VARS['PLURAL']
 		permissions = permissions(VARS)
+		#ordering = ['-serial']
 	def __str__(self):
 		return str(self.serial)
 	def url_add(self):
