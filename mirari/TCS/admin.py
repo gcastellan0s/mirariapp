@@ -14,10 +14,10 @@ class StoreAdmin(PassAdmin):
 class BrandAdmin(PassAdmin):
 	pass
 
-@admin.register(Modelo)
-class ModeloAdmin(PassAdmin):
-	list_display = ('name', 'id_bckp',)
-	search_fields = ('name', 'id_bckp')
+#@admin.register(Modelo#)
+#class ModeloAdmin(PassAdmin)#:
+	#list_display = ('name', 'id_bckp',#)
+	#search_fields = ('name', 'id_bckp'#)
 
 @admin.register(OrderService)
 class OrderServiceAdmin(PassAdmin):
