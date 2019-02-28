@@ -20,7 +20,7 @@ class UserAdmin(PassAdmin):
 class ProfileAdmin(PassAdmin):
 	actions_on_top = True
 	actions_on_bottom = False
-	list_display = ('visible_name', 'name', 'organization',)
+	#list_display = ('visible_name', 'name', 'organization',)
 
 @admin.register(Permission)
 class PermissionAdmin(admin.ModelAdmin):
