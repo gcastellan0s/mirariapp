@@ -112,7 +112,7 @@ class Group(models.Model):
         verbose_name=_('permissions'),
         blank=True,
     )
-    visible_name = models.CharField('Nombre del perfil', max_length=150)
+    visible_name = models.CharField('Nombre del perfil', max_length=150, blank=True, null=True)
 
     objects = GroupManager()
 
