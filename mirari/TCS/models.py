@@ -74,6 +74,7 @@ VARS = {
 	},
 }
 class Brand(Model_base):
+	organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+',)
 	company = models.ManyToManyField('Company', verbose_name="Empresas que la venden")
 	name = models.CharField('Marca', max_length=250)
 	id_bckp = models.IntegerField()
