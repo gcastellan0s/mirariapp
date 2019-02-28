@@ -11,7 +11,10 @@ class OrganizationAdmin(PassAdmin):
 
 @admin.register(User)
 class UserAdmin(PassAdmin):
-	pass
+	actions_on_top = True
+	actions_on_bottom = False
+	search_fields = ('pk', 'username', 'visible_username', 'email',)
+	list_display = ('pk', 'username', 'visible_username', 'email')
 
 @admin.register(Profile)
 class ProfileAdmin(PassAdmin):
