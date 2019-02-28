@@ -141,7 +141,7 @@ VARS = {
 	'SEARCH': ['visible_username', 'first_name', 'last_name', 'email'],
 	'SORTEABLE': ['visible_username'],
 	'SERIALIZER': ('url_password','get_groups'),
-	'FORM': ('visible_username', 'first_name', 'last_name', 'email', 'is_active', 'groups', 'user_permissions', 'birthday', 'phone',),
+	'FORM': ('visible_username', 'first_name', 'last_name', 'email', 'is_active', 'groups', 'user_permissions', 'birthday', 'phone', 'can_change_password'),
 	'SELECTQ': {
 		'groups': {
 			'model': ['mirari', 'Profile'],
@@ -170,6 +170,7 @@ class User(AbstractUser, Model_base):
 	birthday = models.DateField('Fecha nacimiento', blank=True, null=True)
 	phone = models.CharField('Telefono de contacto', max_length=50, blank=True, null=True)
 	gender = models.CharField('Género', choices=GENDER, max_length=50, blank=True, null=True)
+	can_change_password = models.BooleanField('Puede cambiar su contraseña?', default=True, help_text='Un usuario puede cambiar su propio passwrod desde su cuenta?')
 	id_bckp = models.IntegerField()
 	VARS = VARS
 	class Meta(Model_base.Meta):

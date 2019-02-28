@@ -34,14 +34,16 @@
 				<div class="m-dropdown__content">
 					<ul class="m-nav m-nav--skin-light">
 						<li class="m-nav__separator m-nav__separator--fit"></li>
-						<li class="m-nav__item">
-							<a href="{{request.user.url_password}}" class="m-nav__link">
-								<i class="m-nav__link-icon la la-key"></i>
-								<span class="m-nav__link-text">
-									{%trans 'CAMBIAR MI CONTRASEÑA'%}
-								</span>
-							</a>
-						</li>
+                        {%if request.user.can_change_password%}
+                            <li class="m-nav__item">
+                                <a href="{{request.user.url_password}}" class="m-nav__link">
+                                    <i class="m-nav__link-icon la la-key"></i>
+                                    <span class="m-nav__link-text">
+                                        {%trans 'CAMBIAR MI CONTRASEÑA'%}
+                                    </span>
+                                </a>
+                            </li>
+                        {%endif%}
 						<li class="m-nav__separator m-nav__separator--fit"></li>
 						<li class="m-nav__item">
 							<a href="{%url 'mirari:logout__Organization__TemplateView'%}" class="btn m-btn--pill btn-danger m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
