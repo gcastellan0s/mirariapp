@@ -201,8 +201,13 @@ TEMPLATES = [
             # https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
             # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
             'loaders': [
-                'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader',
+                ('pypugjs.ext.django.Loader', (
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader',
+                ))
+            ],
+            'builtins': [
+                'pypugjs.ext.django.templatetags',
             ],
             # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             'context_processors': [

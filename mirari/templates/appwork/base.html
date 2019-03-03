@@ -19,9 +19,12 @@
 {%block base_styles%}
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/bootstrap-material.css' %}">
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/appwork-material.css' %}">
+    {%block theme%}
+        <link rel="stylesheet" href="{%static 'appwork-html/vendor/css/theme-gradient-material.css' %}">
+    {%endblock%}
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/colors-material.css' %}">
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/uikit.css' %}">
-	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/theme-gradient.css' %}">
+    <link rel="stylesheet" href="{%static 'appwork-html/assets/css/demo.css' %}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.25.0/sweetalert2.min.css" />
 	{%block styles%}{%endblock styles%}
 {%endblock base_styles%}
@@ -31,7 +34,15 @@
 {%endblock base_css%}
 
 {%block head_scripts%}
+    <script src="{%static 'appwork-html/vendor/js/material-ripple.js'%}"></script>
 	<script src="{%static 'appwork-html/vendor/js/layout-helpers.js'%}"></script>
+    <!-- This file MUST be included after core stylesheets and layout-helpers.js in the <head> section -->
+    
+    <!-- Core scripts -->
+    <script src="{%static 'appwork-html/assets/vendor/js/pace.js'%}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Libs -->
+    <link rel="stylesheet" href="{%static 'appwork-html/vendor/libs/perfect-scrollbar/perfect-scrollbar.css'%}">
 {%endblock head_scripts%}
 
 {%block body_content%}
@@ -43,19 +54,26 @@
 {%endblock body_content%} 
 
 {%block base_js%}
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="{%static 'appwork-html/vendor/libs/popper/popper.js'%}"></script>
 	<script src="{%static 'appwork-html/vendor/js/bootstrap.js'%}"></script>
 	<script src="{%static 'appwork-html/vendor/js/sidenav.js'%}"></script>
 	<script src="{%static 'appwork-html/vendor/libs/perfect-scrollbar/perfect-scrollbar.js'%}"></script>
 	<script src="{%static 'appwork-html/vendor/libs/block-ui/block-ui.js'%}"></script>
-	<script src="{%static 'appwork-html/vendor/js/material-ripple.js'%}"></script>
+    <script src="{%static 'appwork-html/assets/js/demo.js'%}"></script>
 	<script>
 		window.attachMaterialRippleOnLoad();
 	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.25.0/sweetalert2.min.js"></script>
 	{%block js%}{%endblock js%}
 {%endblock base_js%}
+
+{%block vue_vue%}
+    {%block vue%}{%endblock vue%}
+{%endblock vue_vue%}
+
+{%block vue_router%}
+    {%block router%}{%endblock router%}
+{%endblock vue_router%}
 
 {%block vue_data%} 
     {%block data%}{%endblock data%}
@@ -72,6 +90,14 @@
 {%block vue_mounted%}
     {%block mounted%}{%endblock mounted%}
 {%endblock vue_mounted%}
+
+{%block vue_watch%}
+	{%block watch%}{%endblock watch%}
+{%endblock vue_watch%}
+
+{%block vue_filters%}
+	{%block filters%}{%endblock filters%}
+{%endblock vue_filters%}
 
 {%block global_functions%}
     {%include 'generic/includes/global_functions.html'%}

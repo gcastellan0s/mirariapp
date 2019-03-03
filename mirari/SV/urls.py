@@ -5,5 +5,6 @@ from .vars import *
 app_name = APP
 
 urlpatterns = [
-    path('api/SetSellpointApiView/<slug:app>/<slug:action>/<slug:model>/', SetSellpoint__ApiView.as_view(), name='SetSellpoint__ApiView'),
+    path('sv/', sv__Sellpoint__TemplateView.as_view(), name='sv__Sellpoint__TemplateView'),
+    path('api/SellpointApiView/<slug:app>/<slug:action>/<slug:model>/', Sellpoint__ApiView.as_view(), name='Sellpoint__ApiView'),
 ]
