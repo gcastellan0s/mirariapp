@@ -61,11 +61,12 @@
     quantity: 'CANTIDAD',
     price: 'PRECIO',
     ticket: {
-        type: 'blank',
+        //type: 'blank',
         products: [],
         key: null,
-        datetime: null,
-        discount: 0,
+        date: null,
+        time: null,
+        //discount: 0,
     },
     tickets: [],
     total: 0,
@@ -101,9 +102,8 @@
         self.quantity += value
     },
     select_menu: function(menu) { self.active_menu = menu },
-    random_chars: function(length, type="letters_numbers") { 
+    randomChars: function(length, type="aplha_numbers") { 
         text = ""
-        letters_numbers = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         aplha_numbers = "abcdefghijklmnopqrstuvwxyz0123456789";
         numbers = "0123456789";
         if (type=='letters_numbers') possible = letters_numbers
@@ -139,6 +139,12 @@
         }
         self.quantity == 'CANTIDAD'
         self.price == 'PRECIO'
+    },
+    print_ticket: function() {
+        //Si tiene productos
+        self.ticket.key = self.randomChars(8, 'aplha_numbers')
+        self.ticket.date = moment().format('L')
+        self.ticket.time = moment().format('LTS')
     },
 {%endblock methods%}
 
