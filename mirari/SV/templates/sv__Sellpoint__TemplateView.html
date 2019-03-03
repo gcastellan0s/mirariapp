@@ -1,0 +1,166 @@
+{%extends 'appwork/layout-without-navbar.html'%}
+{%load static%}
+{%load i18n%}
+
+{%block css%}
+	<style>
+        .masonry-item {
+            width: 145px;
+            height: 130px;
+            float: left;
+            border-radius: 5px;
+            border: 1px solid;
+            border-color: #7b7b7b;
+        }
+        .w-30 {
+            width: 30% !important;
+        }
+        .sidenav-vertical, .sidenav-vertical .sidenav-block, .sidenav-vertical .sidenav-inner>.sidenav-item, .sidenav-vertical .sidenav-inner>.sidenav-header {
+            width: 9rem!important;
+        }
+        .print-botton{
+            border-radius:100px;
+        }
+    </style>
+{%endblock%}
+
+{%block content%}
+    <div v-if="$route.path === '/sellpoint'">
+        {%include 'Templete__sellpoint.pug'%}
+    </div>
+    <div v-else-if="$route.path === '/casher'">
+        {%include 'Template__casher.pug'%}
+    </div>
+{%endblock%}
+
+
+
+<script>
+{%block vue%}
+    const Home  = {
+        template: `<p>Hola mundo</p>`
+    }
+    const router = new VueRouter({
+        routes: [
+            { path: '/SV/sv/', component: Home },
+        ]
+    })
+{%endblock vue%}
+
+{%block router%}router,{%endblock router%}
+
+{%block data%}
+    {{block.super}}
+    sellpoints: null,
+    menus: null,
+    active_menu: {
+        color: '#7b7b7b',
+        id: 0,
+    },
+    productattributes: null,
+    quantity: 'CANTIDAD',
+    price: 'PRECIO',
+    ticket: {
+        type: 'blank',
+        products: [],
+        key: null,
+        datetime: null,
+        discount: 0,
+    },
+    tickets: [],
+    total: 0,
+    public_socket: io('http://tahona.mx:8002'),
+    local_socket: '',
+{%endblock data%}
+
+{%block mounted%}
+    {{block.super}}
+    Block();
+    Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}').then(function(json){
+        console.log(json.data)
+        self.sellpoints = json.data.sellpoints
+        self.menus = json.data.menus
+        self.productattributes = json.data.productattributes
+        UnBlock();
+    })
+    console.log(this.$route.path)
+    self.public_socket.emit('room', '{{request.user.organization.code}}');
+{%endblock mounted%}
+
+{%block methods%}
+    keyboard: function(value) {
+        if (self.quantity == 'CANTIDAD') self.quantity = ''
+        if (value == '.'){
+            if (self.quantity.indexOf(".") !=-1) return 0
+        } 
+        if (value == '<'){
+            self.quantity = self.quantity.substring(0, self.quantity.length - 1)
+            if (self.quantity.length == 0) self.quantity = 'CANTIDAD'
+            return 0
+        }
+        self.quantity += value
+    },
+    select_menu: function(menu) { self.active_menu = menu },
+    random_chars: function(length, type="letters_numbers") { 
+        text = ""
+        letters_numbers = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        aplha_numbers = "abcdefghijklmnopqrstuvwxyz0123456789";
+        numbers = "0123456789";
+        if (type=='letters_numbers') possible = letters_numbers
+        else if (type=='aplha_numbers') possible = aplha_numbers
+        else possible = numbers
+        for (var i = 0; i < l; i++) text += possible.charAt(Math.floor(Math.random() * possible.length))
+        return text
+    },
+    add_product: function(productattribute) {
+        if (self.price == 'PRECIO') price = productattribute.price
+        else price = self.price
+        if (self.quantity == 'CANTIDAD') quantity = 1
+        else quantity = parseInt(self.quantity)
+        productLineExist = self.ticket.products.find(function(productLine) {
+            return productLine.id == productattribute.id && productLine.price == productattribute.price;
+        });
+        if (!productLineExist){
+            productLine = {
+                alias: productattribute.alias,
+                name: productattribute.product.name,
+                id: productattribute.id,
+                ieps: productattribute.ieps,
+                iva: productattribute.iva,
+                product: productattribute.product,
+                sellpoint: productattribute.sellpoint,
+                price: price,
+                quantity: quantity
+            }
+            self.ticket.products.unshift(productLine)
+        }
+        else {
+            productLineExist.quantity += quantity
+        }
+        self.quantity == 'CANTIDAD'
+        self.price == 'PRECIO'
+    },
+{%endblock methods%}
+
+{%block filters%}
+    {{block.super}}
+    first_name_menu: function (value) {
+        if (!value) return ''
+        return value.toString().charAt(0).toUpperCase()
+    },
+    last_name_menu: function (value) {
+        if (!value) return ''
+        return value.toString().slice(1)
+    },
+    formatprice: function (value) {
+        let val = (value/1).toFixed(2)
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    },
+    ticketTotal: function (ticket) {
+        total = 0
+        ticket.products.forEach(function(productLine) { total += (productLine.price * productLine.quantity)});
+        return total
+    },
+{%endblock filters%}
+
+</script>

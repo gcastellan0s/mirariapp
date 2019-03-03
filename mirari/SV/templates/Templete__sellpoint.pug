@@ -1,0 +1,128 @@
+-load static
+-load i18n
+
+// Layout wrapper
+.layout-wrapper.layout-1
+    .layout-inner
+        // Layout container
+        .layout-container
+            // Layout sidenav
+            #layout-sidenav.layout-sidenav.sidenav.sidenav-vertical.bg-sidenav-theme
+                // Links
+                ul.sidenav-inner.py-1
+                    // Links
+                    li.sidenav-divider.mb-1
+                    | ${$route.path}
+                    li.sidenav-header.small.font-weight-semibold
+                    li.sidenav-item(v-for="menu in menus")
+                        a.sidenav-link.text-right.d-flex.justify-content-end.px-1(v-on:click="select_menu(menu)" :class="[ menu == active_menu ? 'bg-light' : '' ]")
+                            div
+                                strong.h4(:style="{ color: menu.color }")
+                                    ${menu.name|first_name_menu}
+                            strong.text-dark
+                                ${menu.name|last_name_menu}
+            // Layout content
+            .layout-content
+                // Content
+                .container-fluid.d-flex.align-items-stretch.flex-grow-1.p-0
+                    .flex-shrink-1.flex-grow-0.w-30.bg-light.px-1.py-1
+                        // Teclado
+                        .card.d-flex.w-100.mb-1
+                            .row.no-gutters.row-bordered.row-border-light.h-100
+                                .d-flex.col-sm-12.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.py-2
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder ${quantity}
+                            .row.no-gutters.row-bordered.row-border-light.h-100
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('1')")
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder 1
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('2')")
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder 2
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('3')")
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder 3
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('4')")
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder 4
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('5')")
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder 5
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('6')")
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder 6
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('7')")
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder 7
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('8')")
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder 8
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('9')")
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder 9
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="keyboard('<')")
+                                        span.media-body.d-block
+                                            span.fas.fa-backspace
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('0')")
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder 0
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('.')")
+                                        span.media-body.d-block
+                                            span.text-big.font-weight-bolder .
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-danger.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="keyboard('.')")
+                                        span.media-body.d-block
+                                            span.fas.fa-trash
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="keyboard('<')")
+                                        span.media-body.d-block
+                                            span.fas.fa-plus
+                                .d-flex.col-sm-4.align-items-center
+                                    button.btn.btn-primary.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="keyboard('.')")
+                                        span.media-body.d-block
+                                            span.fas.fa-print
+                        .card-body.d-flex.justify-content-between.py-1(v-for="line in ticket.products")
+                            .text-large ${line.quantity}
+                            .text-right.small
+                                | $ ${line.price|formatprice}
+                                br
+                                strong ${line.name}
+                    .flex-shrink-1.flex-grow-1.px-1.py-1
+                        // Layout footer
+                            h4.font-weight-bold.py-3.mb-4
+                                span.font-weight-bold.align-middle
+                                    span.text-muted.font-weight-light Layouts /
+                                    |  Without navbar (Flex)
+                                a.layout-sidenav-toggle.d-inline-block.text-muted.align-middle.ml-3(href='javascript:void(0)' style='font-size: 14px')
+                                    i.ion.ion-md-menu.text-large.align-middle
+                        div
+                            .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-for="productattribute in productattributes" v-on:click="add_product(productattribute)" v-if="productattribute.product.menu.includes(active_menu.id)" :style="{ borderColor: active_menu.color }")
+                                .text-big.m-2
+                                    strong $ ${productattribute.price|formatprice}
+                                p
+                                    | ${productattribute.product.name}
+                // Layout footer
+                nav.layout-footer.footer.bg-footer-theme
+                    .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
+                        .pt-3
+                            span.footer-text.font-weight-bolder.px-3.h4 $ ${ticket|ticketTotal|formatprice}
+                        .pt-3(v-if="total == 0")
+                            span.footer-text.font-weight-bolder.px-3(v-for="sellpoint in sellpoints") ${sellpoint.name}
+                                small ${sellpoint.id}
+                        .pt-3(v-if="total != 0")
+                            span.footer-text.font-weight-bolder.px-3(v-for="sellpoint in sellpoints")$ ${total|formatprice}
+                        include Component__footer_links.pug
+    .layout-overlay.layout-sidenav-toggle

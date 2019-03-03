@@ -34,16 +34,12 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
 			#a.save()
 		#import csv
 		#from mirari.INT.models import Team
-		#with open('temp/users_user.csv', newline='', encoding='utf-8') as f:
+		#with open('temp/mxf/users_user.csv', newline='', encoding='utf-8') as f:
 			#reader = csv.reader(f)
-			#local = Team.objects.get(code='Local')
-			#foraneo = Team.objects.get(code='Foraneo')
-			#operador = Team.objects.get(code='Operador')
-			#administrador = Team.objects.get(code='Administrador')
-			#p_local = Profile.objects.get(name='LOCAL')
-			#p_foraneo = Profile.objects.get(name='FORANEO')
-			#p_operador = Profile.objects.get(name='OPERADOR')
-			#p_administrador = Profile.objects.get(name='ADMINISTRADOR')
+			#p_local = Profile.objects.get(name=u.organization.code + '__LOCAL')
+			#p_foraneo = Profile.objects.get(name=u.organization.code + '__FORANEO')
+			#p_operador = Profile.objects.get(name=u.organization.code + '__OPERADOR')
+			#p_administrador = Profile.objects.get(name=u.organization.code + '__ADMINISTRADOR')
 			#for row in reader:
 				#if not User.objects.filter(username = u.organization.code + '__' + row[4]):
 					#user = User()
@@ -55,16 +51,12 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
 					#user.set_password(row[4])
 					#user.save()
 					#if row[11] == 'Operador':
-						#operador.members.add(user)
 						#user.groups.add(p_operador)
 					#elif row[11] == 'Tecnico foraneo':
-						#foraneo.members.add(user)
 						#user.groups.add(p_foraneo)
 					#elif row[11] == 'Tecnico local':
-						#local.members.add(user)
 						#user.groups.add(p_local)
 					#elif row[11] == 'Administrador':
-						#administrador.members.add(user)
 						#user.groups.add(p_administrador)
 		#with open('temp/users_empresa.csv', newline='', encoding='utf-8') as f:
 			#reader = csv.reader(f)
@@ -112,10 +104,10 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
 					#modelo.description = row[2]
 					#modelo.id_bckp = row[0]
 					#modelo.save()
-		#with open('temp/ordenes_orden.csv', newline='', encoding='utf-8') as f:
+		#with open('temp/mxf/ordenes_orden.csv', newline='', encoding='utf-8') as f:
 			#reader = csv.reader(f)
 			#for row in reader:
-				#if not OrderService.objects.filter(serial = row[1]):
+				#try:
 					#service_date = None
 					#buy_date = None
 					#delivery_date = None
@@ -127,10 +119,10 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
 						#delivery_date = datetime.datetime.strptime(row[9], '%d/%m/%Y')
 					#orderService = OrderService()
 					#orderService.serial = row[1]
-					#orderService.organization = request.user.organization
-					#orderService.creation_date = row[2]
-					#orderService.user = User.objects.get(id_bckp=row[34])
-					#orderService.technical = User.objects.get(id_bckp=row[35])
+					#orderService.organization = u.organization
+					#orderService.creation_date = datetime.datetime.strptime(row[2], '%d/%m/%Y %H:%M:%S.%f+00')
+					#orderService.user = User.objects.get(id_bckp=row[34], organization=u.organization)
+					#orderService.technical = User.objects.get(id_bckp=row[35], organization=u.organization)
 					#orderService.status = row[3]
 					#orderService.service = row[4]
 					#orderService.zone = row[5]
@@ -148,11 +140,11 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
 					#orderService.city = row[17]
 					#orderService.cp = row[18]
 					#orderService.address_reference = row[19] + ', ' +  row[20]
-					#orderService.company = Company.objects.filter(id_bckp=row[31]).first()
-					#orderService.store = Store.objects.filter(id_bckp=row[36]).first()
-					#orderService.brand = Brand.objects.filter(id_bckp=row[32]).first()
+					#orderService.company = Company.objects.filter(id_bckp=row[31], organization=u.organization).first()
+					#orderService.store = Store.objects.filter(id_bckp=row[36], company__organization=u.organization).first()
+					#orderService.brand = Brand.objects.filter(id_bckp=row[32], organization=u.organization).first()
 					#orderService.report_name = row[21]
-					#orderService.modelo = Modelo.objects.filter(id_bckp=row[33]).first()
+					#orderService.modelo = Modelo.objects.filter(id_bckp=row[33], brand__organization=u.organization).first()
 					#orderService.serial_number = row[22]
 					#orderService.hidden_notes = row[23]
 					#orderService.order_notes = row[24]
@@ -164,5 +156,7 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
 					#orderService.icon_cn = row[30]
 					#orderService.id_bckp = row[0]
 					#orderService.save()
+				#except:
+					#pass
 		return super().dispatch(request, *args, **kwargs)
 	
