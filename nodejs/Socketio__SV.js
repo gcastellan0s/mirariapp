@@ -1,5 +1,5 @@
 "use strict";
-var io = require('socket.io')(8002);
+let io = require('socket.io')(8002);
 io.on('connection', function (socket) {
     socket.on('room', function(data) { 
         socket.join(data); 
