@@ -1,0 +1,11 @@
+{
+  "name": "mirari",
+  "version": "1.0.0",
+  "description": "mirari",
+  "productName": "mirari",
+  "author": "g@gustavo-castellanos.com",
+  "private": true,
+  "engines": {
+    "npm": ">= 5.6.0"
+  }
+}
