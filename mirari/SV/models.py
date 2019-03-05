@@ -44,11 +44,14 @@ VARS = {
 		'vendors': {
 			'plugin': 'selectmultiple',
 		},
+		'orders': {
+			'plugin': 'selectmultiple',
+		},
 	},
 	'SEARCH': ['name'],
 	'SORTEABLE': ['name'],
 	'EXCLUDE_FORM': ['serial'],
-	'FORM': ('name','have_cashier','color','vendors','cashers','is_active','number_tickets','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
+	'FORM': ('name','have_cashier','color','vendors','cashers','orders','is_active','number_tickets','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
 }
 class Sellpoint(Model_base):
 	organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
@@ -67,6 +70,7 @@ class Sellpoint(Model_base):
 	is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactiva este punto de venta')
 	cashers = models.ManyToManyField('mirari.User', verbose_name='Cajeros', blank=True, related_name='+',)
 	vendors = models.ManyToManyField('mirari.User', verbose_name='Vendedores', blank=True, related_name='+',)
+	orders = models.ManyToManyField('mirari.User', verbose_name='Pedidos', blank=True, related_name='+',)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -78,8 +82,8 @@ class Sellpoint(Model_base):
 		return self.render_boolean(not self.have_cashier)
 	def get_color(self):
 		return self.render_color(self.color)
-	def get_folio(self):
-		return self.serial.serial
+	def get_serial(self):
+		return self.serial.get_serial()
 	def save(self, *args, **kwargs):
 		self.name = self.name.upper()
 		super().save()
@@ -350,7 +354,6 @@ VARS = {
 	'THIS':'este',
 	'APP':APP,
 	'EXCLUDE_PERMISSIONS': ['ALL'],
-	#'EXTEND_PERMISSIONS': [('Can_Change__ProductAttributesSuVenta', 'Modifica atributos de producto')],
 	'REDIRECT_MODEL':['SV','Product'],
 	'FORM': ('alias','price','bar_code','iva','ieps','is_dynamic','is_favorite','is_active',),
 	'RULES': """
@@ -378,7 +381,7 @@ class ProductAttributes(Model_base):
 	def __str__(self):
 		return '{0} | {1}'.format(self.sellpoint, self.product.name)
 	def my_organization(self):
-		return self.sellpoint.organization
+		return self.sellpoint.my_organization()
 	def check_is_active(self):
 		if not self.product.is_active:
 			return False
@@ -409,3 +412,108 @@ class ProductAttributes(Model_base):
 		return mark_safe(self.render_boolean_del('<span class="m--font-'+self.sellpoint.render_string_color(self.sellpoint.is_active)+'" style="color:'+self.sellpoint.color+'!important">'+self.sellpoint.name+'</span>', self.sellpoint.is_active))
 
 
+
+########################################################################################
+########################################################################################
+VARS = {
+	'NAME':'Ticket',
+	'PLURAL':'Tickets',
+	'MODEL':'Ticket',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS':'este',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS': ['ALL'],
+	'REDIRECT_MODEL':['SV','Product'],
+}
+class Ticket(models.Model):
+	STATUS_TICKET = (
+		('COBRADO','COBRADO'),
+		('PENDIENTE','PENDIENTE'),
+	)
+	sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
+	barcode = models.CharField(max_length=13, default="0000000000000")
+	key = models.CharField(max_length=12)
+	user = models.ForeignKey('mirari.User', null=True, blank=True, on_delete=models.SET_NULL)
+	username = models.CharField(max_length=250, null=True, blank=True)
+	status = models.CharField(choices=STATUS_TICKET, max_length=50, default="PENDIENTE")
+	date = models.DateTimeField(auto_now_add=True)
+	format_time = models.CharField(max_length=50, null=True, blank=True)
+	format_date = models.CharField(max_length=50, null=True, blank=True)
+	cut = models.ForeignKey('Cut', null=True, blank=True, on_delete=models.SET_NULL)
+	total = models.FloatField(default=0)
+	iva = models.FloatField(default=0)
+	ieps = models.FloatField(default=0)
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0} | {1}'.format(self.sellpoint, self.barcode)
+	def my_organization(self):
+		return self.sellpoint.my_organization()
+	def new(self, ticket):
+		return ticket
+
+
+
+VARS = {
+	'NAME':'Producto del ticket',
+	'PLURAL':'Productos del ticket',
+	'MODEL':'TicketProducts',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS':'este',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS': ['ALL'],
+}
+class TicketProducts(models.Model):
+	ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE)
+	product = models.ForeignKey('ProductAttributes', null=True, on_delete=models.SET_NULL)
+	productName = models.CharField(max_length=250)
+	alias = models.CharField(max_length=250)
+	quantity = models.FloatField()
+	price = models.FloatField()
+	total = models.FloatField()
+	iva = models.FloatField()
+	ieps = models.FloatField()
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0} | {1}'.format(self.product, self.ticket)
+	def my_organization(self):
+		return self.ticket.my_organization()
+
+
+
+VARS = {
+	'NAME':'Corte',
+	'PLURAL':'Cortes',
+	'MODEL':'Cut',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS':'este',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS': ['ALL'],
+}
+class Cut(models.Model):
+	sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
+	user = models.ForeignKey('mirari.User', null=True, blank=True, on_delete=models.SET_NULL)
+	initial_time = models.DateTimeField(auto_now_add=True)
+	final_time = models.DateTimeField(null=True, blank=True,)
+	ras = models.PositiveIntegerField(default=100)
+	serial = models.IntegerField(default=1, null=True, blank=True)
+	show = models.BooleanField(default=True)
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0}'.format(self.id)
+	def my_organization(self):
+		return self.sellpoint.my_organization()
