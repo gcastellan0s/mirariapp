@@ -127,7 +127,7 @@ class WalletCredit(Model_base):
 		return '{0}'.format(self.VARS['NAME'])
 	def get_plazo(self):
 		if self.plazo:
-			return '{0} meses'.format(self.plazo)
+			return '{0} meses'.format(int(self.plazo))
 		return '-'
 	def get_monto(self):
 		if self.monto:
