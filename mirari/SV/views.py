@@ -6,15 +6,25 @@ from .vars import *
 class SellpointSerializer(Base_Serializer):
 	class Meta(Basic_Serializer.Meta):
 		model = Sellpoint
+		
 class MenuSerializer(Base_Serializer):
 	class Meta(Basic_Serializer.Meta):
 		model = Menu
+
 class ProductSerializer(Base_Serializer):
 	class Meta(Basic_Serializer.Meta):
 		model = Product
+
 class ProductAttributesSerializer(Base_Serializer):
+	product = serializers.SerializerMethodField()
 	class Meta(Basic_Serializer.Meta):
 		model = ProductAttributes
+	def get_product(self, obj):
+
+		return ProductSerializer(obj.product, read_only=True).data
+class TicketSerializer(Base_Serializer):
+	class Meta(Basic_Serializer.Meta):
+		model = Ticket
 
 
 
@@ -24,39 +34,23 @@ class sv__Sellpoint__TemplateView(Generic__TemplateView):
 
 
 class Sellpoint__ApiView(Generic__ApiView):
-    permissions = False
-    def get_serializers(self, request):
-        class SellpointSerializer(Basic_Serializer):
-            class Meta(Basic_Serializer.Meta):
-                model = Sellpoint
-        sellpoints = Sellpoint.objects.filter(organization=request.user.organization, active=True, is_active=True)
-        sellpointserializer = SellpointSerializer( sellpoints , many=True ).data
-        class ProductSerializer(Basic_Serializer):
-            class Meta(Basic_Serializer.Meta):
-                model = Product
-        class MenuSerializer(Basic_Serializer):
-            class Meta(Basic_Serializer.Meta):
-                model = Menu
-        class ProductAttributesSerializer(Basic_Serializer):
-            product = serializers.SerializerMethodField()
-            #menu = serializers.SerializerMethodField()
-            class Meta(Basic_Serializer.Meta):
-                model = ProductAttributes
-            def get_product(self, obj):
-                return ProductSerializer(obj.product, read_only=True).data
-            #def get_menu(self, obj):
-                #return MenuSerializer(obj.product.menu, read_only=True, many=True).data
-        productattributes = ProductAttributes.objects.filter( sellpoint__in=sellpoints.all() )
-        productattributesserializer = ProductAttributesSerializer( productattributes, many=True ).data
-        menu = []
-        for productattribute in productattributes:
-            for pmenu in productattribute.product.menu.all():
-                if not pmenu.pk in menu:
-                    menu.append(pmenu.pk)
-        menus = Menu.objects.filter(pk__in = menu)
-        menuserializer = MenuSerializer( menus, many=True ).data
-        return JsonResponse({
-            'sellpoints':sellpointserializer,
-            'productattributes':productattributesserializer,
-            'menus':menuserializer,
-        }, safe=False)
+	permissions = False
+	def get_serializers(self, request):
+		if self.request.GET.get('api') == 'getStates':
+			sellpoints = Sellpoint.objects.filter(organization=request.user.organization, active=True, is_active=True)
+			productattributes = ProductAttributes.objects.filter( sellpoint__in=sellpoints.all() )
+			menu = []
+			for productattribute in productattributes:
+				for pmenu in productattribute.product.menu.all():
+					if not pmenu.pk in menu:
+						menu.append(pmenu.pk)
+			return JsonResponse({
+				'sellpoints': SellpointSerializer( sellpoints , many=True ).data,
+				'productattributes': ProductAttributesSerializer( productattributes, many=True ).data,
+				'menus': MenuSerializer( Menu.objects.filter(pk__in = menu), many=True ).data 
+			}, safe=False)
+		if self.request.GET.get('api') == 'printTicket':
+			ticket = Ticket().new(self.request.POST)
+			return JsonResponse({
+				'ticket':ticket,
+			}, safe=False)

@@ -91,7 +91,7 @@
                                         span.media-body.d-block
                                             span.fas.fa-plus
                                 .d-flex.col-sm-4.align-items-center
-                                    button.btn.btn-primary.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="keyboard('.')")
+                                    button.btn.btn-primary.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="printTicket()")
                                         span.media-body.d-block
                                             span.fas.fa-print
                         .card-body.d-flex.justify-content-between.py-1(v-for="line in ticket.products")
@@ -109,7 +109,7 @@
                                 a.layout-sidenav-toggle.d-inline-block.text-muted.align-middle.ml-3(href='javascript:void(0)' style='font-size: 14px')
                                     i.ion.ion-md-menu.text-large.align-middle
                         div
-                            .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-for="productattribute in productattributes" v-on:click="add_product(productattribute)" v-if="productattribute.product.menu.includes(active_menu.id)" :style="{ borderColor: active_menu.color }")
+                            .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-for="productattribute in productattributes" v-on:click="add_product(productattribute)" v-if="productattribute.product.menu.includes(active_menu.id) && productattribute.sellpoint == activeSellpoint.id" :style="{ borderColor: active_menu.color }")
                                 .text-big.m-2
                                     strong $ ${productattribute.price|formatprice}
                                 p
@@ -119,10 +119,8 @@
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
                         .pt-3
                             span.footer-text.font-weight-bolder.px-3.h4 $ ${ticket|ticketTotal|formatprice}
-                        .pt-3(v-if="total == 0")
-                            span.footer-text.font-weight-bolder.px-3(v-for="sellpoint in sellpoints") ${sellpoint.name}
-                                small ${sellpoint.id}
-                        .pt-3(v-if="total != 0")
-                            span.footer-text.font-weight-bolder.px-3(v-for="sellpoint in sellpoints")$ ${total|formatprice}
+                        .pt-3
+                            span.footer-text.font-weight-bolder.pl-1 ${activeSellpoint.name}
+                            small ${activeSellpoint.id}
                         include Component__footer_links.pug
     .layout-overlay.layout-sidenav-toggle
