@@ -112,11 +112,11 @@ class WalletCredit(Model_base):
 	producto = models.CharField('Producto', max_length=250, blank=True, null=True)
 	forma_pago = models.CharField('Forma de pago', max_length=250, choices=FORMA_PAGO, blank=True, null=True)
 	tipo_tasa = models.CharField('Tipo de tasa', max_length=250, choices=TIPO_TASA, blank=True, null=True)
-	tasa = models.FloatField('Tasa', max_length=250, blank=True, null=True)
+	tasa = models.FloatField('Tasa', blank=True, null=True)
 	fecha_otorgado = models.DateField('Fecha otorgado', blank=True, null=True)
 	fecha_vencimiento = models.DateField('Fecha vencimiento', blank=True, null=True)
-	plazo = models.IntegerField('Plazo', max_length=250, blank=True, null=True)
-	monto = models.FloatField('Monto', max_length=250, blank=True, null=True)
+	plazo = models.IntegerField('Plazo', blank=True, null=True)
+	monto = models.FloatField('Monto', blank=True, null=True)
 	fondeador = models.CharField('Fondeador', max_length=250, blank=True, null=True)
 	VARS = VARS
 	class Meta(Model_base.Meta):
