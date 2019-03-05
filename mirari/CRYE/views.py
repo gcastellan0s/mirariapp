@@ -87,8 +87,8 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 					walletCredit.tasa = None
 					walletCredit.fecha_otorgado = None
 					walletCredit.fecha_vencimiento = None
-					walletCredit.plazo = response3[1]
-					walletCredit.monto = response3[0]
+					walletCredit.plazo = int(response3[1])
+					walletCredit.monto = float(response3[0])
 					walletCredit.fondeador = None
 					walletCredit.save()
 
