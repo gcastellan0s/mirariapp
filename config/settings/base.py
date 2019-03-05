@@ -82,7 +82,6 @@ THIRD_PARTY_APPS = [
     'django_user_agents',
     'taggit',
     'watermarker',
-    'djmoney',
 ]
 LOCAL_APPS = [
     'mirari.mirari',
