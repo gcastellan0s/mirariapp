@@ -51,12 +51,12 @@ VARS = {
 				'title': 'RFC',
 			},
 			{
-				'field': 'plazo',
-				'title': 'property_get_Plazo',
+				'field': 'property_get_plazo',
+				'title': 'Plazo',
 			},
 			{
-				'field': 'monto',
-				'title': 'property_get_Monto',
+				'field': 'property_get_monto',
+				'title': 'Monto',
 			},
 		],
 	'SEARCH': ['nombre','rfc','obligacion'],
@@ -124,9 +124,9 @@ class WalletCredit(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return '{0}'.format(self.VARS['NAME'])
-	def get_Plazo(self):
+	def get_plazo(self):
 		return '{0} meses'.format(int(self.plazo))
-	def get_Monto(self):
+	def get_monto(self):
 		return Money(self.monto, 'MXN')
 
 
