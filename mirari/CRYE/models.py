@@ -109,7 +109,7 @@ VARS = {
 }
 class WalletCredit(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	numero = models.IntegerField('ID CLiente')
+	numero = models.IntegerField('ID CLiente', blank=True, null=True)
 	obligacion = models.CharField('Obligación', max_length=250, blank=True, null=True)
 	clasificacion = models.CharField('Clasificación', max_length=250, blank=True, null=True)
 	clasificacion_contable = models.CharField('Clasificación contable', max_length=250, choices=CLASIFICACION_CONTABLE, blank=True, null=True)
