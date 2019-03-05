@@ -55,7 +55,7 @@ VARS = {
 				'title': 'Plazo',
 			},
 			{
-				'field': 'property_get_monto',
+				'field': 'monto',
 				'title': 'Monto',
 			},
 		],
