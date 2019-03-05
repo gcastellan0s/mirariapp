@@ -125,9 +125,14 @@ class WalletCredit(Model_base):
 	def __str__(self):
 		return '{0}'.format(self.VARS['NAME'])
 	def get_plazo(self):
-		return '{0} meses'.format(int(self.plazo))
+		if self.plazo:
+			return '{0} meses'.format(int(self.plazo))
+		return '-'
 	def get_monto(self):
-		return Money(self.monto, 'MXN')
+		try:
+			return str(Money(amount=int(self.monto), currency='MXN'))
+		except:
+			return 'ERROR'
 
 
 
