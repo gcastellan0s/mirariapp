@@ -50,14 +50,18 @@ VARS = {
 				'field': 'rfc',
 				'title': 'RFC',
 			},
-			
 			{
-				'field': 'monto',
+				'field': 'property_get_plazo',
+				'title': 'Plazo',
+			},
+			{
+				'field': 'property_get_monto',
 				'title': 'Monto',
 			},
 		],
 	'SEARCH': ['nombre','rfc','obligacion'],
 	'SORTEABLE': ['nombre','fecha_otorgado','fecha_vencimiento'],
+	'SERIALIZER': ('get_plazo','get_monto',),
 	'FORM': [
 		Div(
 			Div('numero', css_class="col-md-3"),
@@ -124,6 +128,10 @@ class WalletCredit(Model_base):
 	def get_plazo(self):
 		if self.plazo:
 			return '{0} meses'.format(int(self.plazo))
+		return '-'
+	def get_monto(self):
+		if self.monto:
+			return '$ {0}'.format(self.monto)
 		return '-'
 
 
