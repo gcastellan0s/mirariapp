@@ -71,7 +71,7 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 					response4 = cursor.fetchall()
 					cursor.close()
 
-					walletCredit = WalletCredit.objects.filter(obligacion = request.POST.get('number'), organization = self.request.session.get('organization'))
+					walletCredit = WalletCredit.objects.filter(obligacion = request.POST.get('number'), organization = self.request.session.get('organization')).first()
 					if not walletCredit:
 						walletCredit = WalletCredit()
 					walletCredit.organization = Organization.objects.get(id=self.request.session.get('organization'))
