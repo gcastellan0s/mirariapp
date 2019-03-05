@@ -26,47 +26,6 @@ class SiebelUnblock(Model_base):
 
 
 VARS = {
-	'NAME':'Tabla de amortización',
-	'PLURAL':'Tablas de amortización',
-	'MODEL':'TablaAmortizacion',
-	'NEW':'NUEVO',
-	'NEW_GENDER': 'un nuevo',
-	'THIS': 'este',
-	'APP':APP,
-	'EXCLUDE_PERMISSIONS':['all'],
-}
-class TablaAmortizacion(Model_base):
-    VARS = VARS
-    class Meta(Model_base.Meta):
-        verbose_name = VARS['NAME']
-        verbose_name_plural = VARS['PLURAL']
-        permissions = permissions(VARS)
-    def __str__(self):
-        return '{0}'.format(self.VARS['NAME'])
-
-
-
-VARS = {
-	'NAME':'Tasa de interés',
-	'PLURAL':'Tasas de interés',
-	'MODEL':'TasasInteres',
-	'NEW':'NUEVO',
-	'NEW_GENDER': 'una nueva',
-	'THIS': 'esta',
-	'APP':APP,
-}
-class TasasInteres(Model_base):
-    VARS = VARS
-    class Meta(Model_base.Meta):
-        verbose_name = VARS['NAME']
-        verbose_name_plural = VARS['PLURAL']
-        permissions = permissions(VARS)
-    def __str__(self):
-        return '{0}'.format(self.VARS['NAME'])
-
-
-
-VARS = {
 	'NAME':'Cartera',
 	'PLURAL':'Carteras',
 	'MODEL':'WalletCredit',
@@ -151,19 +110,19 @@ VARS = {
 class WalletCredit(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
 	numero = models.IntegerField('ID CLiente')
-	obligacion = models.CharField('Obligación', max_length=250)
+	obligacion = models.CharField('Obligación', max_length=250, blank=True, null=True)
 	clasificacion = models.CharField('Clasificación', max_length=250, blank=True, null=True)
-	clasificacion_contable = models.CharField('Clasificación contable', max_length=250, choices=CLASIFICACION_CONTABLE)
-	nombre = models.CharField('Nombre', max_length=250)
+	clasificacion_contable = models.CharField('Clasificación contable', max_length=250, choices=CLASIFICACION_CONTABLE, blank=True, null=True)
+	nombre = models.CharField('Nombre', max_length=250, blank=True, null=True)
 	rfc = models.CharField('RFC', max_length=250, blank=True, null=True)
 	producto = models.CharField('Producto', max_length=250, blank=True, null=True)
-	forma_pago = models.CharField('Forma de pago', max_length=250, choices=FORMA_PAGO)
-	tipo_tasa = models.CharField('Tipo de tasa', max_length=250, choices=TIPO_TASA)
-	tasa = models.CharField('Tasa', max_length=250)
-	fecha_otorgado = models.DateField('Fecha otorgado')
-	fecha_vencimiento = models.DateField('Fecha vencimiento')
-	plazo = models.CharField('Plazo', max_length=250)
-	monto = models.CharField('Monto', max_length=250)
+	forma_pago = models.CharField('Forma de pago', max_length=250, choices=FORMA_PAGO, blank=True, null=True)
+	tipo_tasa = models.CharField('Tipo de tasa', max_length=250, choices=TIPO_TASA, blank=True, null=True)
+	tasa = models.CharField('Tasa', max_length=250, blank=True, null=True)
+	fecha_otorgado = models.DateField('Fecha otorgado', blank=True, null=True)
+	fecha_vencimiento = models.DateField('Fecha vencimiento', blank=True, null=True)
+	plazo = models.CharField('Plazo', max_length=250, blank=True, null=True)
+	monto = models.CharField('Monto', max_length=250, blank=True, null=True)
 	fondeador = models.CharField('Fondeador', max_length=250, blank=True, null=True)
 	VARS = VARS
 	class Meta(Model_base.Meta):
@@ -172,4 +131,49 @@ class WalletCredit(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return '{0}'.format(self.VARS['NAME'])
+
+
+
+VARS = {
+	'NAME':'Tabla de amortización',
+	'PLURAL':'Tablas de amortización',
+	'MODEL':'TablaAmortizacion',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS': 'este',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS':['all'],
+}
+class TablaAmortizacion(Model_base):
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return '{0}'.format(self.VARS['NAME'])
+
+
+
+VARS = {
+	'NAME':'Tasa de interés',
+	'PLURAL':'Tasas de interés',
+	'MODEL':'TasasInteres',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'una nueva',
+	'THIS': 'esta',
+	'APP':APP,
+}
+class TasasInteres(Model_base):
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return '{0}'.format(self.VARS['NAME'])
+
+
+
+
 		
