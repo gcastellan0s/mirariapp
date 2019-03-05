@@ -15,13 +15,13 @@ VARS = {
 	'EXCLUDE_PERMISSIONS':['create','update','delete',],
 }
 class SiebelUnblock(Model_base):
-    VARS = VARS
-    class Meta(Model_base.Meta):
-        verbose_name = VARS['NAME']
-        verbose_name_plural = VARS['PLURAL']
-        permissions = permissions(VARS)
-    def __str__(self):
-        return '{0}'.format(self.VARS['NAME'])
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0}'.format(self.VARS['NAME'])
 
 
 
@@ -114,6 +114,7 @@ class WalletCredit(Model_base):
 	clasificacion = models.CharField('Clasificación', max_length=250, blank=True, null=True)
 	clasificacion_contable = models.CharField('Clasificación contable', max_length=250, choices=CLASIFICACION_CONTABLE, blank=True, null=True)
 	nombre = models.CharField('Nombre', max_length=250, blank=True, null=True)
+	tipo = models.CharField('Tipo de persona', max_length=250, blank=True, null=True)
 	rfc = models.CharField('RFC', max_length=250, blank=True, null=True)
 	producto = models.CharField('Producto', max_length=250, blank=True, null=True)
 	forma_pago = models.CharField('Forma de pago', max_length=250, choices=FORMA_PAGO, blank=True, null=True)
@@ -145,13 +146,13 @@ VARS = {
 	'EXCLUDE_PERMISSIONS':['all'],
 }
 class TablaAmortizacion(Model_base):
-    VARS = VARS
-    class Meta(Model_base.Meta):
-        verbose_name = VARS['NAME']
-        verbose_name_plural = VARS['PLURAL']
-        permissions = permissions(VARS)
-    def __str__(self):
-        return '{0}'.format(self.VARS['NAME'])
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0}'.format(self.VARS['NAME'])
 
 
 
@@ -165,13 +166,13 @@ VARS = {
 	'APP':APP,
 }
 class TasasInteres(Model_base):
-    VARS = VARS
-    class Meta(Model_base.Meta):
-        verbose_name = VARS['NAME']
-        verbose_name_plural = VARS['PLURAL']
-        permissions = permissions(VARS)
-    def __str__(self):
-        return '{0}'.format(self.VARS['NAME'])
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0}'.format(self.VARS['NAME'])
 
 
 

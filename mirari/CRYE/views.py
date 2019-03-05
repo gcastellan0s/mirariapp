@@ -70,6 +70,27 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 					cursor.execute(query)
 					response4 = cursor.fetchall()
 					cursor.close()
+
+					walletCredit = WalletCredit.objects.filter(obligacion = request.POST.get('number'), organization = self.request.session.get('organization'))
+					if not walletCredit:
+						walletCredit = WalletCredit()
+					walletCredit.organization = self.request.session.get('organization')
+					walletCredit.obligacion = request.POST.get('number')
+					walletCredit.clasificacion = None
+					walletCredit.clasificacion_contable = None
+					walletCredit.tipo = response2[1]
+					walletCredit.nombre = response2[3]
+					walletCredit.rfc = response2[2]
+					walletCredit.producto = None
+					walletCredit.forma_pago = None
+					walletCredit.tipo_tasa = None
+					walletCredit.tasa = None
+					walletCredit.fecha_otorgado = None
+					walletCredit.fecha_vencimiento = None
+					walletCredit.plazo = response3[1]
+					walletCredit.monto = response3[0]
+					walletCredit.fondeador = None
+					walletCredit.save()
 					
 					return JsonResponse({'query':query, 'response1':response1, 'response2':response2, 'response3':response3, 'response4':response4})
 				except Exception as e:
