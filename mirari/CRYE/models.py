@@ -35,9 +35,9 @@ VARS = {
 	'APP':APP,
 	'LIST': [
 			{
-				'field': 'numero',
-				'title': '#',
-				'width': 20,
+				'field': 'obligacion',
+				'title': 'Obligación',
+				'width': 100,
 			},
 			{
 				'field': 'nombre',
@@ -48,22 +48,14 @@ VARS = {
 			{
 				'field': 'rfc',
 				'title': 'RFC',
-				'width': 80,
 			},
 			{
-				'field': 'obligacion',
-				'title': 'Obligación',
-				'width': 80,
+				'field': 'plazo',
+				'title': 'Plazo',
 			},
 			{
-				'field': 'fecha_otorgado',
-				'title': 'Otorgado',
-				'width': 80,
-			},
-			{
-				'field': 'fecha_vencimiento',
-				'title': 'Vencimiento',
-				'width': 80,
+				'field': 'monto',
+				'title': 'Monto',
 			},
 		],
 	'SEARCH': ['nombre','rfc','obligacion'],
@@ -109,7 +101,7 @@ VARS = {
 }
 class WalletCredit(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	numero = models.IntegerField('ID CLiente', blank=True, null=True)
+	numero = models.IntegerField('ID CLiente', blank=True, null=True	)
 	obligacion = models.CharField('Obligación', max_length=250, blank=True, null=True)
 	clasificacion = models.CharField('Clasificación', max_length=250, blank=True, null=True)
 	clasificacion_contable = models.CharField('Clasificación contable', max_length=250, choices=CLASIFICACION_CONTABLE, blank=True, null=True)
