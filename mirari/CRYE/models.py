@@ -57,7 +57,7 @@ VARS = {
 		],
 	'SEARCH': ['nombre','rfc','obligacion'],
 	'SORTEABLE': ['nombre','fecha_otorgado','fecha_vencimiento'],
-	'SERIALIZER': ('get_plazo','get_monto',),
+	'SERIALIZER': ('get_monto',),
 	'FORM': [
 		Div(
 			Div('numero', css_class="col-md-3"),
