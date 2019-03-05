@@ -63,6 +63,7 @@ VARS = {
 	'SORTEABLE': ['nombre','fecha_otorgado','fecha_vencimiento'],
 	'SERIALIZER': ('get_monto','get_plazo'),
 	'HIDE_CHECKBOX_LIST': True,
+	'HIDE_BUTTONS_LIST': True,
 	'FORM': [
 		Div(
 			Div('numero', css_class="col-md-3"),
