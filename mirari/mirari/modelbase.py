@@ -31,6 +31,8 @@ from imagekit.processors import ResizeToFill
 
 from itertools import chain
 
+from djmoney.money import Money
+
 from taggit.managers import TaggableManager
 
 import datetime

@@ -38,6 +38,7 @@ VARS = {
 				'field': 'obligacion',
 				'title': 'Obligación',
 				'width': 100,
+				'url': 'property_url_update',
 			},
 			{
 				'field': 'nombre',
@@ -51,11 +52,11 @@ VARS = {
 			},
 			{
 				'field': 'plazo',
-				'title': 'Plazo',
+				'title': 'property_get_Plazo',
 			},
 			{
 				'field': 'monto',
-				'title': 'Monto',
+				'title': 'property_get_Monto',
 			},
 		],
 	'SEARCH': ['nombre','rfc','obligacion'],
@@ -97,7 +98,6 @@ VARS = {
 			css_class="form-group m-form__group row"
 		),
 	],
-	'FORM_CLASS': 'small_form',
 }
 class WalletCredit(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
@@ -124,6 +124,10 @@ class WalletCredit(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return '{0}'.format(self.VARS['NAME'])
+	def get_Plazo(self):
+		return '{0} meses'.format(int(self.plazo))
+	def get_Monto(self):
+		return Money(self.monto, 'MXN')
 
 
 
