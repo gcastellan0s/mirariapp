@@ -50,10 +50,7 @@ VARS = {
 				'field': 'rfc',
 				'title': 'RFC',
 			},
-			{
-				'field': 'property_get_plazo',
-				'title': 'Plazo',
-			},
+			
 			{
 				'field': 'monto',
 				'title': 'Monto',
