@@ -55,7 +55,7 @@ VARS = {
 				'title': 'Plazo',
 			},
 			{
-				'field': 'property_get_monto',
+				'field': 'monto',
 				'title': 'Monto',
 			},
 		],
@@ -128,11 +128,6 @@ class WalletCredit(Model_base):
 		if self.plazo:
 			return '{0} meses'.format(int(self.plazo))
 		return '-'
-	def get_monto(self):
-		try:
-			return str(Money(amount=int(self.monto), currency='MXN'))
-		except:
-			return 'ERROR'
 
 
 
