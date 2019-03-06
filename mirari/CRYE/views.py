@@ -80,7 +80,6 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 				tablaamortizacion.renta = field[6]
 				tablaamortizacion.pagado = field[7]
 				tablaamortizacion.save()
-
 		#if request.method == 'POST':
 			#if request.GET.get('api') == 'getTablaAmortizacion':
 				#try:
@@ -113,4 +112,8 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 	###############################################################################################
 	def proccess_context(self, context):
 		context['object'] = self.model
+		context['response1'] = self.response1
+		context['response2'] = self.response2
+		context['response3'] = self.response3
+		context['response4'] = self.response4
 		return context
