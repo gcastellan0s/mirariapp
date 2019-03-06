@@ -66,10 +66,10 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 		self.response4 = cursor.fetchall()
 		cursor.close()
 		
-		#for field in response4:
-			#tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=walletcredit, numeroPago=field[0]).first()
-			#if not tablaamortizacion:
-				#tablaamortizacion = TablaAmortizacion()
+		for field in response4:
+			tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=walletcredit, numeroPago=field[0]).first()
+			if not tablaamortizacion:
+				tablaamortizacion = TablaAmortizacion()
 				#tablaamortizacion.walletcredit = walletcredit
 				#tablaamortizacion.numeroPago = field[0]
 				#tablaamortizacion.date = datetime.datetime.strptime(field[1], '%d/%m/%Y')
