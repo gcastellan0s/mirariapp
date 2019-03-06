@@ -42,7 +42,7 @@
 						<div class="m-form__content">
 							<div class="form-group">
 								<label for="tablaAmortizacion_id" class="form-control-label">
-									Ingresa ID
+									Ingresa ID {{ request.path }}
 								</label>
 								<input type="text" class="form-control" id="tablaAmortizacion_id" placeholder="Número de solicitud" v-model="tablaAmortizacion.number">
 							</div>
@@ -72,7 +72,7 @@
     getTablaAmortizacion: function (tablaAmortizacion) {
 		Block();
 		if (tablaAmortizacion.number){
-			Ax('post', '{%url "CRYE:TablaAmortizacion__TemplateView"%}?api=getTablaAmortizacion', tablaAmortizacion).then(function(json){
+			Ax('post', '{{ request.path }}?api=getTablaAmortizacion', tablaAmortizacion).then(function(json){
                 console.log(json)
 				UnBlock();
 			})
