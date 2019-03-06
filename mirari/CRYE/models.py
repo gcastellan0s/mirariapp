@@ -136,9 +136,12 @@ class WalletCredit(Model_base):
 			return '$ {0}'.format(self.monto)
 		return '-'
 	def url_add(self):
-		return None
-	#def url_update(self):
-		#return reverse('CRYE:TablaAmortizacion__TemplateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
+		return ''
+	def url_update(self):
+		try:
+			return reverse('CRYE:TablaAmortizacion__TemplateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
+		except:
+			return ''
 
 
 
