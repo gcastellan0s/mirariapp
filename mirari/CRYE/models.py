@@ -135,6 +135,8 @@ class WalletCredit(Model_base):
 		if self.monto:
 			return '$ {0}'.format(self.monto)
 		return '-'
+	def url_add(self):
+		return None
 
 
 
