@@ -104,7 +104,7 @@ VARS = {
 }
 class WalletCredit(Model_base):
 	organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-	numero = models.IntegerField('ID CLiente', blank=True, null=True	)
+	numero = models.IntegerField('ID CLiente', blank=True, null=True)
 	obligacion = models.CharField('Obligación', max_length=250, blank=True, null=True)
 	clasificacion = models.CharField('Clasificación', max_length=250, blank=True, null=True)
 	clasificacion_contable = models.CharField('Clasificación contable', max_length=250, choices=CLASIFICACION_CONTABLE, blank=True, null=True)
@@ -156,6 +156,18 @@ VARS = {
 	'EXCLUDE_PERMISSIONS':['all'],
 }
 class TablaAmortizacion(Model_base):
+	Estatus = (
+		('Facturado','Facturado'),
+		('Pendiente','Pendiente'),
+	)
+	numeroPago = models.IntegerField('ID CLiente', blank=True, null=True)
+	date = models.DateField('Fecha otorgado', blank=True, null=True)
+	estatus = models.CharField('Fondeador', max_length=250, choices=Estatus)
+	balanceInsoluto = models.FloatField('Balance Insoluto')
+	capital = models.FloatField('Capital')
+	intereses = models.FloatField('Intereses')
+	renta = models.FloatField('Renta')
+	pagado  = models.FloatField('Pagado')
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
