@@ -66,20 +66,20 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 		self.response4 = cursor.fetchall()
 		cursor.close()
 		
-		for field in response4:
-			tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=walletcredit, numeroPago=field[0]).first()
-			if not tablaamortizacion:
-				tablaamortizacion = TablaAmortizacion()
-				tablaamortizacion.walletcredit = walletcredit
-				tablaamortizacion.numeroPago = field[0]
-				tablaamortizacion.date = datetime.datetime.strptime(field[1], '%d/%m/%Y')
-				tablaamortizacion.estatus = field[2]
-				tablaamortizacion.balanceInsoluto = field[3]
-				tablaamortizacion.capital = field[4]
-				tablaamortizacion.intereses = field[5]
-				tablaamortizacion.renta = field[6]
-				tablaamortizacion.pagado = field[7]
-				tablaamortizacion.save()
+		#for field in response4:
+			#tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=walletcredit, numeroPago=field[0]).first()
+			#if not tablaamortizacion:
+				#tablaamortizacion = TablaAmortizacion()
+				#tablaamortizacion.walletcredit = walletcredit
+				#tablaamortizacion.numeroPago = field[0]
+				#tablaamortizacion.date = datetime.datetime.strptime(field[1], '%d/%m/%Y')
+				#tablaamortizacion.estatus = field[2]
+				#tablaamortizacion.balanceInsoluto = field[3]
+				#tablaamortizacion.capital = field[4]
+				#tablaamortizacion.intereses = field[5]
+				#tablaamortizacion.renta = field[6]
+				#tablaamortizacion.pagado = field[7]
+				#tablaamortizacion.save()
 		#if request.method == 'POST':
 			#if request.GET.get('api') == 'getTablaAmortizacion':
 				#try:
