@@ -15,16 +15,6 @@ MENU = {
                 'href': 'CRYE:SiebelUnblock__SiebelUnblock__TemplateView',
             },
             {
-                'title': 'TABLA AMORTIZACION',
-                'icon': 'flaticon-lifebuoy',
-                'text': 'Tabla amortizacion',
-                'subtext': 'Tabla amortizacion',
-                'apps': [APP, ],
-                'permission': 'Can_View',
-                'model': APP + '.TablaAmortizacion',
-                'href': 'CRYE:TablaAmortizacion__TemplateView',
-            },
-            {
                 'title': 'MESA DE CONTROL',
                 'icon': 'flaticon-time-1',
                 'text': 'PROXIMAMENTE',
