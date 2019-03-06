@@ -22,7 +22,7 @@
 
 {%block content%}
     <div class="row">
-		<div class="col-md-5">
+		<div class="col-md-12">
 			<div class="m-portlet m-portlet--tab">
 				<div class="m-portlet__head">
 					<div class="m-portlet__head-caption">
@@ -37,7 +37,9 @@
                                 {{response1}}<br/>
                                 {{response2}}<br/>
                                 {{response3}}<br/>
-                                {{response4}}
+                                {%for r in response4%}
+                                    {{r}}<br/>
+                                {%endfor%}
                             </p>
 						</div>
 					</div>
