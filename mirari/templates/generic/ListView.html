@@ -93,15 +93,17 @@
 						</div>
 					</div>
 					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
-						{%if 'Can_Create__'|prepend_perm:model.VARS|if_has_perm:request and not 'create' in model.VARS.EXCLUDE_PERMISSIONS%}
-							<a href="{{model.url_add}}" class="btn btn-brand m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-sm">
-								{{ model.add_text.0 }}
-								<br />
-								<small class="fs-9">
-									{{ model.add_text.2 }}
-								</small>
-							</a>
-						{%endif%}
+                        {%if model.url_add%}
+                            {%if 'Can_Create__'|prepend_perm:model.VARS|if_has_perm:request and not 'create' in model.VARS.EXCLUDE_PERMISSIONS%}
+                                <a href="{{model.url_add}}" class="btn btn-brand m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-sm">
+                                    {{ model.add_text.0 }}
+                                    <br />
+                                    <small class="fs-9">
+                                        {{ model.add_text.2 }}
+                                    </small>
+                                </a>
+                            {%endif%}
+                        {%endif%}
 						<div class="m-separator m-separator--dashed d-xl-none"></div>
 					</div>
 				</div>
