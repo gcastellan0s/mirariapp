@@ -60,7 +60,7 @@ VARS = {
 			},
 		],
 	'SEARCH': ['nombre','rfc','obligacion'],
-	'SORTEABLE': ['nombre','fecha_otorgado','fecha_vencimiento'],
+	'SORTEABLE': ['nombre','obligacion','fecha_vencimiento','fecha_otorgado'],
 	'SERIALIZER': ('get_monto','get_plazo'),
 	'HIDE_CHECKBOX_LIST': True,
 	'HIDE_BUTTONS_LIST': True,
@@ -137,6 +137,8 @@ class WalletCredit(Model_base):
 		return '-'
 	def url_add(self):
 		return None
+	def url_update(self):
+		return reverse('CRYE:TablaAmortizacion__TemplateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
 
 
 
