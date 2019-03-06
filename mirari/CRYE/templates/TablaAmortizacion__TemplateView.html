@@ -47,21 +47,36 @@
 				<!--begin::Form-->
 				<form id="form" method="post" enctype="multipart/form-data" class="m-form m-form--label-align-right" v-on:submit.prevent="getTablaAmortizacion(tablaAmortizacion)">{% csrf_token %}
 					<div class="m-portlet__body">
-						<div class="m-form__content">
-							<div class="form-group">
-								<label for="tablaAmortizacion_id" class="form-control-label">
-									Ingresa ID
-								</label>
-								<input type="text" class="form-control" id="tablaAmortizacion_id" placeholder="Número de solicitud" v-model="tablaAmortizacion.number">
-							</div>
-						</div>
-						<div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
-							<div class="m-form__actions">
-                                <button type="submit" class="btn btn-primary m--margin-right-15" name="save">
-                                    Obtener tabla
-                                </button>
-							</div>
-						</div>
+                        <!--begin: Datatable -->
+                            <table class="m-datatable" id="html_table" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th title="numeroPago" data-field="numeroPago">#</th>
+                                        <th title="date" data-field="date">Fecha</th>
+                                        <th title="estatus" data-field="estatus">Estatus</th>
+                                        <th title="balanceInsoluto" data-field="balanceInsoluto">Balance Insoluto</th>
+                                        <th title="capital" data-field="capital">Capital</th>
+                                        <th title="intereses" data-field="intereses">Intereses</th>
+                                        <th title="renta" data-field="renta">Renta</th>
+                                        <th title="pagado" data-field="pagado">Pagado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for tablaamortizacion in tablasamortizaciones%}
+                                        <tr>
+                                            <td>{{tablaAmortizacion.numeroPago}}</td>
+                                            <td>{{tablaAmortizacion.date}}</td>
+                                            <td>{{tablaAmortizacion.estatus}}</td>
+                                            <td>{{tablaAmortizacion.balanceInsoluto}}</td>
+                                            <td>{{tablaAmortizacion.capital}}</td>
+                                            <td>{{tablaAmortizacion.intereses}}</td>
+                                            <td>{{tablaAmortizacion.renta}}</td>
+                                            <td>{{tablaAmortizacion.pagado}}</td>
+                                        </tr>
+                                    {endfor%%}
+                                </tbody>
+                            </table>
+                        <!--end: Datatable -->
 					</div>
 				</form>
 				<!--end::Form-->

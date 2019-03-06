@@ -65,21 +65,20 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 		cursor.execute(query)
 		self.response4 = cursor.fetchall()
 		cursor.close()
-		
 		for field in self.response4:
-			tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=walletcredit, numeroPago=field[0]).first()
+			self.tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=walletcredit, numeroPago=field[0]).first()
 			if not tablaamortizacion:
-				tablaamortizacion = TablaAmortizacion()
-				tablaamortizacion.walletcredit = walletcredit
-				tablaamortizacion.numeroPago = field[0]
-				tablaamortizacion.date = datetime.datetime.strptime(field[1], '%d/%m/%Y')
-				tablaamortizacion.estatus = field[2]
-				tablaamortizacion.balanceInsoluto = field[3]
-				tablaamortizacion.capital = field[4]
-				tablaamortizacion.intereses = field[5]
-				tablaamortizacion.renta = field[6]
-				tablaamortizacion.pagado = field[7]
-				tablaamortizacion.save()
+				self.tablaamortizacion = TablaAmortizacion()
+				self.tablaamortizacion.walletcredit = walletcredit
+				self.tablaamortizacion.numeroPago = field[0]
+				self.tablaamortizacion.date = datetime.datetime.strptime(field[1], '%d/%m/%Y')
+				self.tablaamortizacion.estatus = field[2]
+				self.tablaamortizacion.balanceInsoluto = field[3]
+				self.tablaamortizacion.capital = field[4]
+				self.tablaamortizacion.intereses = field[5]
+				self.tablaamortizacion.renta = field[6]
+				self.tablaamortizacion.pagado = field[7]
+				self.tablaamortizacion.save()
 		#if request.method == 'POST':
 			#if request.GET.get('api') == 'getTablaAmortizacion':
 				#try:
@@ -112,8 +111,5 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 	###############################################################################################
 	def proccess_context(self, context):
 		context['object'] = self.model
-		context['response1'] = self.response1
-		context['response2'] = self.response2
-		context['response3'] = self.response3
-		context['response4'] = self.response4
+		context['tablasamortizaciones'] = TablaAmortizacion.objects.filter(walletcredit=walletcredit)
 		return context
