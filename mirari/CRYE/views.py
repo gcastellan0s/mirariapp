@@ -79,7 +79,7 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 				tablaamortizacion.intereses = field[5]
 				tablaamortizacion.renta = field[6]
 				tablaamortizacion.pagado = field[7]
-				#tablaamortizacion.save()
+				tablaamortizacion.save()
 		#if request.method == 'POST':
 			#if request.GET.get('api') == 'getTablaAmortizacion':
 				#try:
