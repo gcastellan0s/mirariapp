@@ -36,14 +36,14 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
-		walletcredit = WalletCredit.objects.get(id=kwargs['pk'])
+		self.object = WalletCredit.objects.get(id=kwargs['pk'])
 
 		import cx_Oracle
 		db = DBConnection.objects.filter(name='siebel', organization__pk=self.request.session.get('organization')).first()
 		con = cx_Oracle.connect(db.db_name+'/'+db.db_password+'@'+db.db_host+'/'+db.db_user, encoding = "UTF-8", nencoding = "UTF-8")
 		con.autocommit = True
 		cursor = con.cursor()
-		query = "SELECT ref_number_3,owner_accnt_id,PR_CON_ID, ROW_ID FROM siebline.S_ASSET WHERE asset_num='{0}'".format(walletcredit.obligacion)
+		query = "SELECT ref_number_3,owner_accnt_id,PR_CON_ID, ROW_ID FROM siebline.S_ASSET WHERE asset_num='{0}'".format(self.object.obligacion)
 		cursor.execute(query)
 		self.response1 = cursor.fetchone()
 		cursor.close()
@@ -111,5 +111,5 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 	###############################################################################################
 	def proccess_context(self, context):
 		context['object'] = self.model
-		context['tablasamortizaciones'] = TablaAmortizacion.objects.filter(walletcredit=walletcredit)
+		context['tablasamortizaciones'] = TablaAmortizacion.objects.filter(walletcredit=self.object)
 		return context
