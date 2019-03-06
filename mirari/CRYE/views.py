@@ -67,7 +67,7 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 		cursor.close()
 		for field in self.response4:
 			self.tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=walletcredit, numeroPago=field[0]).first()
-			if not tablaamortizacion:
+			if not self.tablaamortizacion:
 				self.tablaamortizacion = TablaAmortizacion()
 				self.tablaamortizacion.walletcredit = walletcredit
 				self.tablaamortizacion.numeroPago = field[0]
