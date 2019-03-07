@@ -9,6 +9,10 @@
     <div class="m-subheader">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+					<small>ID {{object.obligacion}}, <small>{{object.nombre}}<small/></small> 
+					<strong>{%if verbose_name_plural%}{{verbose_name_plural|upper}}{%else%}{{ model|verbose_name_plural|upper }}{%endif%}</strong>
+				</h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="/" class="m-nav__link m-nav__link--icon">
@@ -25,20 +29,8 @@
     <div class="row">
 		<div class="col-md-12">
 			<div class="m-portlet m-portlet--tab">
-				<div class="m-portlet__head">
-					<div class="m-portlet__head-caption">
-						<div class="m-portlet__head-title">
-							<span class="m-portlet__head-icon m--hide">
-								<i class="la la-gear"></i>
-							</span>
-							<h3 class="m-portlet__head-text">
-								TABLA DE AMORTIZACIÓN {{object.name}}
-							</h3>
-						</div>
-					</div>
-				</div>
                 <div class="m-portlet__body">
-                    <table class="table table-striped m-table table-sm m-table--head-bg-brand" id="m_table_1">
+                    <table class="table table-striped m-table table-sm m-table--head-bg-brand px-0 py-0" id="m_table_1">
                         <thead class="thead-inverse">
                             <tr>
                                 <th title="numeroPago" data-field="numeroPago">#</th>
