@@ -1,0 +1,85 @@
+{% extends "metronic/layout-5.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% endblock title %}
+
+{%block subheader%}
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="/" class="m-nav__link m-nav__link--icon">
+                            <strong> <i class="la la-home"></i> INICIO</strong>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{%endblock subheader%}
+
+{%block content%}
+    <div class="row">
+		<div class="col-md-12">
+			<div class="m-portlet m-portlet--tab">
+				<div class="m-portlet__head">
+					<div class="m-portlet__head-caption">
+						<div class="m-portlet__head-title">
+							<span class="m-portlet__head-icon m--hide">
+								<i class="la la-gear"></i>
+							</span>
+							<h3 class="m-portlet__head-text">
+								Obtener {{object}} id: ${tablaAmortizacion.number}
+							</h3>
+						</div>
+					</div>
+				</div>
+				<!--begin::Form-->
+				<form id="form" method="post" enctype="multipart/form-data" class="m-form m-form--label-align-right" v-on:submit.prevent="getTablaAmortizacion(tablaAmortizacion)">{% csrf_token %}
+					<div class="m-portlet__body">
+						<div class="m-form__content">
+							<div class="form-group">
+								<label for="tablaAmortizacion_id" class="form-control-label">
+									Ingresa ID
+								</label>
+								<input type="text" class="form-control" id="tablaAmortizacion_id" placeholder="Número de solicitud" v-model="tablaAmortizacion.number">
+							</div>
+						</div>
+						<div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
+							<div class="m-form__actions">
+                                <button type="submit" class="btn btn-primary m--margin-right-15" name="save">
+                                    Obtener tabla
+                                </button>
+							</div>
+						</div>
+					</div>
+				</form>
+				<!--end::Form-->
+			</div>
+		</div>
+	</div>
+{%endblock content%}
+
+{%block data%} 
+    tablaAmortizacion: {
+        number: '',
+    },
+{%endblock data%}
+
+{%block methods%}
+    getTablaAmortizacion: function (tablaAmortizacion) {
+		Block();
+		if (tablaAmortizacion.number){
+			Ax('post', '{{ request.path }}', tablaAmortizacion).then(function(json){
+                console.log(json)
+				UnBlock();
+			})
+		}
+		else {
+			UnBlock();
+			swal('Error!', 'Revisa el número de tu consulta', 'error')
+		}
+	},
+{%endblock methods%}
