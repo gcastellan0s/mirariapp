@@ -38,7 +38,7 @@
 					</div>
 				</div>
                 <div class="m-portlet__body">
-                    <table class="table table-striped m-table table-sm" id="m_table_1">
+                    <table class="table table-striped m-table table-sm m-table--head-bg-brand" id="m_table_1">
                         <thead class="thead-inverse">
                             <tr>
                                 <th title="numeroPago" data-field="numeroPago">#</th>
@@ -57,11 +57,11 @@
                                     <td>{{tablaamortizacion.numeroPago}}</td>
                                     <td>{{tablaamortizacion.date}}</td>
                                     <td>{{tablaamortizacion.estatus}}</td>
-                                    <td>$ {{tablaamortizacion.balanceInsoluto|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.capital|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.intereses|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.renta|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.pagado|intcomma}}</td>
+                                    <td>$ {{tablaamortizacion.balanceInsoluto|floatformat:2|intcomma}}</td>
+                                    <td>$ {{tablaamortizacion.capital|floatformat:2|intcomma}}</td>
+                                    <td>$ {{tablaamortizacion.intereses|floatformat:2|intcomma}}</td>
+                                    <td>$ {{tablaamortizacion.renta|floatformat:2|intcomma}}</td>
+                                    <td>$ {{tablaamortizacion.pagado|floatformat:2|intcomma}}</td>
                                 </tr>
                             {%endfor%}
                         </tbody>
