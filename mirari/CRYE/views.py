@@ -135,7 +135,7 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 	def dispatch(self, request, *args, **kwargs):
 		self.object = WalletCredit.objects.get(id=kwargs['pk'])
 		if request.method == 'POST':
-			if request.POST.get('api') == 'getTable':
+			if request.GET.get('api') == 'getTable':
 				return JsonResponse({
 					'walletcredit': WalletCreditSerializer(self.object).data,
 					'tablaamortizacion': TablaAmortizacionSerializer(TablaAmortizacion.objects.filter(walletcredit=self.object), many=True).data,

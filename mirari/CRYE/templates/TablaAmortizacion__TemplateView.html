@@ -186,26 +186,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {%for tablaamortizacion in tablasamortizaciones%}
-                                <tr>
-                                    <td>{{tablaamortizacion.numeroPago}}</td>
-                                    <td>{{tablaamortizacion.date}}</td>
-                                    <td class="{%if tablaamortizacion.estatus == 'Facturado'%}m--font-success{%else%}m--font-danger{%endif%}">{{tablaamortizacion.estatus}}</td>
-                                    <td>$ {{tablaamortizacion.balanceInsoluto|floatformat:2|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.capital|floatformat:2|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.intereses|floatformat:2|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.renta|floatformat:2|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.pagado|floatformat:2|intcomma}}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-brand m-btn btn-sm m-btn m-btn--icon m-btn--pill" style="line-height: .5;">
-                                            <span style="line-height: .5;">
-                                                <i class="la la-search" style="font-size:.8rem;"></i>
-                                                <span style="font-size:.8rem;">PAGOS</span>
-                                            </span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            {%endfor%}
+                            <tr v-for="tablaamortizacion in tablasamortizaciones">
+                                <td>$ {tablaamortizacion.numeroPago}</td>
+                                <td>$ {tablaamortizacion.date}</td>
+                                <td v-if="tablaamortizacion.estatus" class="m--font-success">${tablaamortizacion.estatus}</td>
+                                <td v-else="tablaamortizacion.estatus" class="m--font-danger">${tablaamortizacion.estatus}</td>
+                                <td>$ ${tablaamortizacion.balanceInsoluto}</td>
+                                <td>$ ${tablaamortizacion.capital}</td>
+                                <td>$ ${tablaamortizacion.intereses}</td>
+                                <td>$ ${tablaamortizacion.renta}</td>
+                                <td>$ ${tablaamortizacion.pagado}</td>
+                                <td>
+                                    <a href="#" class="btn btn-brand m-btn btn-sm m-btn m-btn--icon m-btn--pill" style="line-height: .5;">
+                                        <span style="line-height: .5;">
+                                            <i class="la la-search" style="font-size:.8rem;"></i>
+                                            <span style="font-size:.8rem;">PAGOS</span>
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
