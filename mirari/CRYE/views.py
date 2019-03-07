@@ -91,7 +91,7 @@ class WalletCredit__TemplateView(Generic__TemplateView):
 				walletCredit.monto = float(response3[0])
 				walletCredit.fondeador = None
 				walletCredit.save()
-				for field in self.response4:
+				for field in response4:
 					tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=walletCredit, numeroPago=field[0]).first()
 					if not tablaamortizacion:
 						tablaamortizacion = TablaAmortizacion()
