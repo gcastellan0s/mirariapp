@@ -37,6 +37,7 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		self.object = WalletCredit.objects.get(id=kwargs['pk'])
+		self.tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=self.object)
 
 		import cx_Oracle
 		db = DBConnection.objects.filter(name='siebel', organization__pk=self.request.session.get('organization')).first()
@@ -67,19 +68,19 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 		cursor.close()
 
 		for field in self.response4:
-			self.tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=self.object, numeroPago=field[0]).first()
-			if not self.tablaamortizacion:
-				self.tablaamortizacion = TablaAmortizacion()
-				self.tablaamortizacion.walletcredit = walletcredit
-				self.tablaamortizacion.numeroPago = field[0]
-				self.tablaamortizacion.date = datetime.datetime.strptime(field[1], '%d/%m/%Y')
-				self.tablaamortizacion.estatus = field[2]
-				self.tablaamortizacion.balanceInsoluto = field[3]
-				self.tablaamortizacion.capital = field[4]
-				self.tablaamortizacion.intereses = field[5]
-				self.tablaamortizacion.renta = field[6]
-				self.tablaamortizacion.pagado = field[7]
-				self.tablaamortizacion.save()
+			tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=self.object, numeroPago=field[0]).first()
+			if not tablaamortizacion:
+				tablaamortizacion = TablaAmortizacion()
+				tablaamortizacion.walletcredit = walletcredit
+				tablaamortizacion.numeroPago = field[0]
+				tablaamortizacion.date = datetime.datetime.strptime(field[1], '%d/%m/%Y')
+				tablaamortizacion.estatus = field[2]
+				tablaamortizacion.balanceInsoluto = field[3]
+				tablaamortizacion.capital = field[4]
+				tablaamortizacion.intereses = field[5]
+				tablaamortizacion.renta = field[6]
+				tablaamortizacion.pagado = field[7]
+				tablaamortizacion.save()
 		#if request.method == 'POST':
 			#if request.GET.get('api') == 'getTablaAmortizacion':
 				#try:
@@ -108,9 +109,9 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 				#except Exception as e:
 					#return JsonResponse({'message':str(e)})
 		return super().dispatch(request, *args, **kwargs)
-		
+
 	###############################################################################################
 	def proccess_context(self, context):
 		context['object'] = self.object
-		context['tablasamortizaciones'] = TablaAmortizacion.objects.filter(walletcredit=self.object)
+		context['tablasamortizaciones'] = self.tablaamortizacion
 		return context
