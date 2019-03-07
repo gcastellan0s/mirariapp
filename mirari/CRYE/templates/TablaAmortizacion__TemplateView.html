@@ -31,42 +31,40 @@
 								<i class="la la-gear"></i>
 							</span>
 							<h3 class="m-portlet__head-text">
-								TABLA DE AMORTIZACIÓN {{object}} {{tablasamortizaciones}}
+								TABLA DE AMORTIZACIÓN {{object.name}}
 							</h3>
 						</div>
 					</div>
 				</div>
                 <div class="m-portlet__body">
-                    <!--begin: Datatable -->
-                        <table class="m-datatable" id="html_table" width="100%">
-                            <thead>
+                    <table class="table table-striped- table-bordered table-hover table-checkable" id="m_table_1">
+                        <thead>
+                            <tr>
+                                <th title="numeroPago" data-field="numeroPago">#</th>
+                                <th title="date" data-field="date">Fecha</th>
+                                <th title="estatus" data-field="estatus">Estatus</th>
+                                <th title="balanceInsoluto" data-field="balanceInsoluto">Balance Insoluto</th>
+                                <th title="capital" data-field="capital">Capital</th>
+                                <th title="intereses" data-field="intereses">Intereses</th>
+                                <th title="renta" data-field="renta">Renta</th>
+                                <th title="pagado" data-field="pagado">Pagado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for tablaamortizacion in tablasamortizaciones%}
                                 <tr>
-                                    <th title="numeroPago" data-field="numeroPago">#</th>
-                                    <th title="date" data-field="date">Fecha</th>
-                                    <th title="estatus" data-field="estatus">Estatus</th>
-                                    <th title="balanceInsoluto" data-field="balanceInsoluto">Balance Insoluto</th>
-                                    <th title="capital" data-field="capital">Capital</th>
-                                    <th title="intereses" data-field="intereses">Intereses</th>
-                                    <th title="renta" data-field="renta">Renta</th>
-                                    <th title="pagado" data-field="pagado">Pagado</th>
+                                    <td>{{tablaamortizacion.numeroPago}}</td>
+                                    <td>{{tablaamortizacion.date}}</td>
+                                    <td>{{tablaamortizacion.estatus}}</td>
+                                    <td>{{tablaamortizacion.balanceInsoluto}}</td>
+                                    <td>{{tablaamortizacion.capital}}</td>
+                                    <td>{{tablaamortizacion.intereses}}</td>
+                                    <td>{{tablaamortizacion.renta}}</td>
+                                    <td>{{tablaamortizacion.pagado}}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {%for tablaamortizacion in tablasamortizaciones%}
-                                    <tr>
-                                        <td>{{tablaamortizacion.numeroPago}}</td>
-                                        <td>{{tablaamortizacion.date}}</td>
-                                        <td>{{tablaamortizacion.estatus}}</td>
-                                        <td>{{tablaamortizacion.balanceInsoluto}}</td>
-                                        <td>{{tablaamortizacion.capital}}</td>
-                                        <td>{{tablaamortizacion.intereses}}</td>
-                                        <td>{{tablaamortizacion.renta}}</td>
-                                        <td>{{tablaamortizacion.pagado}}</td>
-                                    </tr>
-                                {%endfor%}
-                            </tbody>
-                        </table>
-                    <!--end: Datatable -->
+                            {%endfor%}
+                        </tbody>
+                    </table>
                 </div>
 			</div>
 		</div>
