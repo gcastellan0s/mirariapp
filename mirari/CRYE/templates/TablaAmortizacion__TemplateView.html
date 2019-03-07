@@ -217,6 +217,7 @@
     walletcredit: {
         id: '{{object.id}}',
     },
+    tablasamortizaciones: {},
 {%endblock data%}
 
 {%block methods%}
@@ -224,6 +225,6 @@
 
 {%block mounted%}
     Ax('post', '{{ request.path }}?api=getTable', self.walletcredit).then(function(json){
-        console.log(json)
+        tablasamortizaciones = json.data.tablaamortizacion
     });
 {%endblock mounted%}
