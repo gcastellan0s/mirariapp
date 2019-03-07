@@ -31,7 +31,7 @@
 								<i class="la la-gear"></i>
 							</span>
 							<h3 class="m-portlet__head-text">
-								Obtener {{object}} id: ${tablaAmortizacion.number}
+								Obtener cartera
 							</h3>
 						</div>
 					</div>
@@ -75,6 +75,7 @@
 			Ax('post', '{{ request.path }}', tablaAmortizacion).then(function(json){
                 console.log(json)
 				UnBlock();
+                window.location.replace(json.data.redirect);
 			})
 		}
 		else {

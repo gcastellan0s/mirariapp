@@ -91,7 +91,7 @@ class WalletCredit__TemplateView(Generic__TemplateView):
 				walletCredit.monto = float(response3[0])
 				walletCredit.fondeador = None
 				walletCredit.save()
-				return JsonResponse({'query':query, 'response1':response1, 'response2':response2, 'response3':response3, 'response4':response4})
+				return JsonResponse({'redirect':walletCredit.url_update(), 'response1':response1, 'response2':response2, 'response3':response3, 'response4':response4})
 		except Exception as e:
 			return JsonResponse({'message':str(e)})
 		return super().dispatch(request, *args, **kwargs)
