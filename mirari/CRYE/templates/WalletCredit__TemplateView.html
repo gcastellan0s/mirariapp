@@ -31,7 +31,7 @@
 								<i class="la la-gear"></i>
 							</span>
 							<h3 class="m-portlet__head-text">
-								Obtener cartera
+								Agregar Tabla de amortización
 							</h3>
 						</div>
 					</div>
@@ -75,8 +75,7 @@
 			Ax('post', '{{ request.path }}', tablaAmortizacion).then(function(json){
                 console.log(json)
 				UnBlock();
-                console.log(window.location.hostname + json.data.redirec)
-                //window.location.replace(window.location.hostname + json.data.redirect);
+                window.location.replace(window.location.hostname + json.data.redirect);
 			})
 		}
 		else {
