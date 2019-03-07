@@ -37,7 +37,6 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		self.object = WalletCredit.objects.get(id=kwargs['pk'])
-
 		import cx_Oracle
 		db = DBConnection.objects.filter(name='siebel', organization__pk=self.request.session.get('organization')).first()
 		con = cx_Oracle.connect(db.db_name+'/'+db.db_password+'@'+db.db_host+'/'+db.db_user, encoding = "UTF-8", nencoding = "UTF-8")
@@ -106,10 +105,9 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 					#return JsonResponse({'query':query, 'response1':response1, 'response2':response2, 'response3':response3, 'response4':response4})
 				#except Exception as e:
 					#return JsonResponse({'message':str(e)})
-				
 		return super().dispatch(request, *args, **kwargs)
 	###############################################################################################
 	def proccess_context(self, context):
-		context['object'] = self.model
+		context['object'] = self.object
 		context['tablasamortizaciones'] = TablaAmortizacion.objects.filter(walletcredit=self.object)
 		return context
