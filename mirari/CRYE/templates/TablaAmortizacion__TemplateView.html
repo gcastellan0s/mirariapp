@@ -82,7 +82,7 @@
 {%endblock methods%}
 
 {%block mounted%}
-    Ax('post', '{{ request.path }}'?api=getTable, self.walletcredit).then(function(json){
+    Ax('post', '{{ request.path }}?api=getTable', self.walletcredit).then(function(json){
         console.log(json)
     });
 {%endblock mounted%}
