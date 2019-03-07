@@ -81,9 +81,9 @@
 {%block methods%}
 {%endblock methods%}
 
-{%block computed%}
+{%block mounted%}
     Ax('post', '{{ request.path }}'?api=getTable,).then(function(json){
         console.log(json)
     });
-    
-{%endblock computed%}
+
+{%endblock mounted%}
