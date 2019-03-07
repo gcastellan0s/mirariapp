@@ -35,7 +35,7 @@
                                 <th title="numeroPago" data-field="numeroPago">#</th>
                                 <th title="date" data-field="date">Fecha</th>
                                 <th title="estatus" data-field="estatus">Estatus</th>
-                                <th title="balanceInsoluto" data-field="balanceInsoluto">Balance Insoluto</th>
+                                <th title="balanceInsoluto" data-field="balanceInsoluto">Insoluto</th>
                                 <th title="capital" data-field="capital">Capital</th>
                                 <th title="intereses" data-field="intereses">Intereses</th>
                                 <th title="renta" data-field="renta">Renta</th>
@@ -47,7 +47,7 @@
                                 <tr>
                                     <td>{{tablaamortizacion.numeroPago}}</td>
                                     <td>{{tablaamortizacion.date}}</td>
-                                    <td>{{tablaamortizacion.estatus}}</td>
+                                    <td {%if tablaamortizacion.estatus == 'Facturado'%}m--font-success{%else%}m--font-danger{%endif%}>{{tablaamortizacion.estatus}}</td>
                                     <td>$ {{tablaamortizacion.balanceInsoluto|floatformat:2|intcomma}}</td>
                                     <td>$ {{tablaamortizacion.capital|floatformat:2|intcomma}}</td>
                                     <td>$ {{tablaamortizacion.intereses|floatformat:2|intcomma}}</td>
