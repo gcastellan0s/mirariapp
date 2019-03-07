@@ -74,7 +74,7 @@
 
 {%block data%}
     walletcredit: {
-        organization: '{{object.organization}}',
+        id: '{{object.id}}',
     },
 {%endblock data%}
 
@@ -82,8 +82,7 @@
 {%endblock methods%}
 
 {%block mounted%}
-    Ax('post', '{{ request.path }}'?api=getTable,).then(function(json){
+    Ax('post', '{{ request.path }}'?api=getTable, self.walletcredit).then(function(json){
         console.log(json)
     });
-
 {%endblock mounted%}
