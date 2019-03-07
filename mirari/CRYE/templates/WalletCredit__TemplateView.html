@@ -75,7 +75,7 @@
 			Ax('post', '{{ request.path }}', tablaAmortizacion).then(function(json){
                 console.log(json)
 				UnBlock();
-                window.location.replace(window.location.hostname + json.data.redirect);
+                window.location.replace('http://' + window.location.hostname + json.data.redirect);
 			})
 		}
 		else {
