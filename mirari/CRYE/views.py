@@ -95,11 +95,6 @@ class WalletCredit__TemplateView(Generic__TemplateView):
 		except Exception as e:
 			return JsonResponse({'message':str(e)})
 		return super().dispatch(request, *args, **kwargs)
-	###############################################################################################
-	def proccess_context(self, context):
-		context['object'] = self.object
-		context['tablasamortizaciones'] = self.tablaamortizacion
-		return context
 
 
 
