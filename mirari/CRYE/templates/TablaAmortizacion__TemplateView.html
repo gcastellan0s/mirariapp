@@ -28,6 +28,148 @@
     <div class="row">
 		<div class="col-md-12">
 			<div class="m-portlet m-portlet--tab">
+                <div class="m-portlet__body">
+                    <div class="row">
+		                <div class="col-md-4">
+                            <div class="m-form__content">
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        ID Organización:
+                                    </label>
+                                    <strong>{{object.organization|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Numero:
+                                    </label>
+                                    <strong>{{object.numero|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Obligación:
+                                    </label>
+                                    <strong>{{object.obligacion|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Clasificación:
+                                    </label>
+                                    <strong>{{object.clasificacion|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Clasificación Contable:
+                                    </label>
+                                    <strong>{{object.clasificacion_contable|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Nombre:
+                                    </label>
+                                    <strong>{{object.nombre|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Tipo:
+                                    </label>
+                                    <strong>{{object.tipo|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        RFC:
+                                    </label>
+                                    <strong>{{object.rfc|default:'-'}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="m-form__content">
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Forma de pago:
+                                    </label>
+                                    <strong>{{object.forma_pago|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Tipo de tasa:
+                                    </label>
+                                    <strong>{{object.tipo_tasa|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Tasa:
+                                    </label>
+                                    <strong>{{object.tasa|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Fecha de otorgado:
+                                    </label>
+                                    <strong>{{object.fecha_otorgado|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Fecha de vencimiento:
+                                    </label>
+                                    <strong>{{object.fecha_vencimiento|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Plazo:
+                                    </label>
+                                    <strong>{{object.plazo|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Monto:
+                                    </label>
+                                    <strong>{{object.monto|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Fondeador:
+                                    </label>
+                                    <strong>{{object.fondeador|default:'-'}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="m-form__content">
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        PAGOS REALIZADOS:
+                                    </label>
+                                    <strong>{{''|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        TOTAL PAGADO:
+                                    </label>
+                                    <strong>{{''|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        ÚLTIMO PAGO:
+                                    </label>
+                                    <strong>{{''|default:'-'}}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        ULTIMO USUARIO:
+                                    </label>
+                                    <strong>{{''|default:'-'}}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+    <div class="row">
+		<div class="col-md-12">
+			<div class="m-portlet m-portlet--tab">
                 <div class="m-portlet__body px-0 py-0">
                     <table class="table table-striped m-table m-table--head-bg-brand table-hover" id="m_table_1">
                         <thead class="thead-inverse">
@@ -44,26 +186,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {%for tablaamortizacion in tablasamortizaciones%}
-                                <tr>
-                                    <td>{{tablaamortizacion.numeroPago}}</td>
-                                    <td>{{tablaamortizacion.date}}</td>
-                                    <td class="{%if tablaamortizacion.estatus == 'Facturado'%}m--font-success{%else%}m--font-danger{%endif%}">{{tablaamortizacion.estatus}}</td>
-                                    <td>$ {{tablaamortizacion.balanceInsoluto|floatformat:2|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.capital|floatformat:2|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.intereses|floatformat:2|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.renta|floatformat:2|intcomma}}</td>
-                                    <td>$ {{tablaamortizacion.pagado|floatformat:2|intcomma}}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-brand m-btn btn-sm m-btn m-btn--icon m-btn--pill" style="line-height: .5;">
-                                            <span style="line-height: .5;">
-                                                <i class="la la-search" style="font-size:.8rem;"></i>
-                                                <span style="font-size:.8rem;">PAGOS</span>
-                                            </span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            {%endfor%}
+                            <tr v-for="tablaamortizacion in tablasamortizaciones">
+                                <td>$ {tablaamortizacion.numeroPago}</td>
+                                <td>$ {tablaamortizacion.date}</td>
+                                <td v-if="tablaamortizacion.estatus" class="m--font-success">${tablaamortizacion.estatus}</td>
+                                <td v-else="tablaamortizacion.estatus" class="m--font-danger">${tablaamortizacion.estatus}</td>
+                                <td>$ ${tablaamortizacion.balanceInsoluto}</td>
+                                <td>$ ${tablaamortizacion.capital}</td>
+                                <td>$ ${tablaamortizacion.intereses}</td>
+                                <td>$ ${tablaamortizacion.renta}</td>
+                                <td>$ ${tablaamortizacion.pagado}</td>
+                                <td>
+                                    <a href="#" class="btn btn-brand m-btn btn-sm m-btn m-btn--icon m-btn--pill" style="line-height: .5;">
+                                        <span style="line-height: .5;">
+                                            <i class="la la-search" style="font-size:.8rem;"></i>
+                                            <span style="font-size:.8rem;">PAGOS</span>
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
