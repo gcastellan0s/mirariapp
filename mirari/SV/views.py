@@ -20,8 +20,8 @@ class ProductAttributesSerializer(Base_Serializer):
 	class Meta(Basic_Serializer.Meta):
 		model = ProductAttributes
 	def get_product(self, obj):
-
 		return ProductSerializer(obj.product, read_only=True).data
+        
 class TicketSerializer(Base_Serializer):
 	class Meta(Basic_Serializer.Meta):
 		model = Ticket

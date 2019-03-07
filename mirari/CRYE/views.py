@@ -113,6 +113,16 @@ class WalletCredit__TemplateView(Generic__TemplateView):
 		return super().dispatch(request, *args, **kwargs)
 
 
+class WalletCreditSerializer(Base_Serializer):
+	class Meta(Basic_Serializer.Meta):
+		model = WalletCredit
+
+class TablaAmortizacionSerializer(Base_Serializer):
+	#product = serializers.SerializerMethodField()
+	class Meta(Basic_Serializer.Meta):
+		model = TablaAmortizacion
+	#def get_product(self, obj):
+		#return ProductSerializer(obj.product, read_only=True).data
 
 ###############################################################################################
 # TablaAmortizacion ###########################################################################
@@ -124,10 +134,14 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		self.object = WalletCredit.objects.get(id=kwargs['pk'])
-		self.tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=self.object)
+		if request.method == 'POST':
+			if request.POST.get('api') == 'getTable':
+				return JsonResponse({
+					'walletcredit': WalletCreditSerializer(self.object).data,
+					'tablaamortizacion': TablaAmortizacionSerializer(TablaAmortizacion.objects.filter(walletcredit=self.object), many=True).data,
+				})
 		return super().dispatch(request, *args, **kwargs)
 	###########################################################################################
 	def proccess_context(self, context):
 		context['object'] = self.object
-		context['tablasamortizaciones'] = self.tablaamortizacion
 		return context
