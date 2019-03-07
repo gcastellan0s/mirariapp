@@ -9,6 +9,7 @@ from .vars import *
 class SiebelUnblock__SiebelUnblock__TemplateView(Generic__TemplateView):
 	model = apps.get_model(APP, 'SiebelUnblock')
 	template_name = "SiebelUnblock__TemplateView.html"
+	###########################################################################################
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		message, api = 'Hay un error en tu consulta', 'error' 
@@ -28,7 +29,7 @@ class SiebelUnblock__SiebelUnblock__TemplateView(Generic__TemplateView):
 					message, api = str(e), 'error' 
 			return JsonResponse({'message':message,'api':api})
 		return super().dispatch(request, *args, **kwargs)
-	###############################################################################################
+	###########################################################################################
 	def proccess_context(self, context):
 		context['object'] = self.model
 		return context
@@ -40,6 +41,7 @@ class SiebelUnblock__SiebelUnblock__TemplateView(Generic__TemplateView):
 class WalletCredit__TemplateView(Generic__TemplateView):
 	model = apps.get_model(APP, 'WalletCredit')
 	template_name = "WalletCredit__TemplateView.html"
+	###########################################################################################
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		try:
@@ -118,14 +120,13 @@ class WalletCredit__TemplateView(Generic__TemplateView):
 class TablaAmortizacion__TemplateView(Generic__TemplateView):
 	model = apps.get_model(APP, 'TablaAmortizacion')
 	template_name = "TablaAmortizacion__TemplateView.html"
-
+	###########################################################################################
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
 		self.object = WalletCredit.objects.get(id=kwargs['pk'])
-		#self.tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=self.object)
+		self.tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit=self.object)
 		return super().dispatch(request, *args, **kwargs)
-
-	###############################################################################################
+	###########################################################################################
 	def proccess_context(self, context):
 		context['object'] = self.object
 		context['tablasamortizaciones'] = self.tablaamortizacion
