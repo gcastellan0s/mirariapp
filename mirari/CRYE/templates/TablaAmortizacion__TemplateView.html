@@ -5,6 +5,8 @@
 
 {% block title %}ID: {{object.obligacion}}{% endblock title %}
 
+
+
 {%block subheader%}
     <div class="m-subheader">
         <div class="d-flex align-items-center">
@@ -40,6 +42,7 @@
                                 <th title="intereses" data-field="intereses">Intereses</th>
                                 <th title="renta" data-field="renta">Renta</th>
                                 <th title="pagado" data-field="pagado">Pagado</th>
+                                <th title="extra" data-field="extra"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,8 +59,8 @@
                                     <td>
                                         <a href="#" class="btn btn-brand m-btn btn-sm m-btn m-btn--icon m-btn--pill">
                                             <span>
-                                                <i class="la la-search"></i>
-                                                <span>DETALLES</span>
+                                                <i class="la la-search" style="font-size:.8rem;"></i>
+                                                <span style="font-size:.8rem;">DETALLES</span>
                                             </span>
                                         </a>
                                     </td>
