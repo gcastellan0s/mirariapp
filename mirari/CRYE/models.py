@@ -127,6 +127,10 @@ class WalletCredit(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return '{0}'.format(self.VARS['NAME'])
+	def url_add(self):
+		return reverse('CRYE:WalletCredit__TemplateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})
+	def url_update(self):
+		return reverse('CRYE:TablaAmortizacion__TemplateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
 	def get_plazo(self):
 		if self.plazo:
 			return '{0} meses'.format(self.plazo)
@@ -135,12 +139,20 @@ class WalletCredit(Model_base):
 		if self.monto:
 			return '$ {0}'.format(self.monto)
 		return '-'
-	def url_add(self):
-		return reverse('CRYE:WalletCredit__TemplateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})
-	def url_update(self):
-		return reverse('CRYE:TablaAmortizacion__TemplateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
-
-
+	def payments(self):
+		return len(PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)))
+	def totalPayment(self):
+		total = 0
+		for pagoamortizacion in PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)):
+			total += pagoamortizacion.total()
+		return total
+	def lastPayment(self):
+		return PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)).first().fecha
+	def lastUser(self):
+		return PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)).first().user
+	
+	
+	
 
 VARS = {
 	'NAME':'Tabla de amortización',
@@ -173,6 +185,45 @@ class TablaAmortizacion(Model_base):
 		permissions = permissions(VARS)
 	def __str__(self):
 		return '{0}'.format(self.VARS['NAME'])
+
+
+
+VARS = {
+	'NAME':'Pago de amortizacion',
+	'PLURAL':'Pago de amortizacion',
+	'MODEL':'PagoAmortizacion',
+	'NEW':'NUEVO',
+	'NEW_GENDER': 'un nuevo',
+	'THIS': 'este',
+	'APP':APP,
+	'EXCLUDE_PERMISSIONS':['all'],
+}
+class PagoAmortizacion(Model_base):
+	fecha = models.DateField(auto_now_add=True)
+	user = models.ForeignKey('mirari.User', on_delete=models.CASCADE, related_name='+',)
+	tablaaAmortizacion = models.ForeignKey('TablaAmortizacion', on_delete=models.CASCADE, related_name='+',)
+	capital = models.FloatField('Intereses')
+	interesVigente = models.FloatField('Intereses')
+	intereVigenteNoPagado = models.FloatField('Intereses')
+	interesMoratorio = models.FloatField('Intereses')
+	gastosCobranza = models.FloatField('Intereses')
+	iva = models.FloatField('Intereses')
+	VARS = VARS
+	class Meta(Model_base.Meta):
+		verbose_name = VARS['NAME']
+		verbose_name_plural = VARS['PLURAL']
+		permissions = permissions(VARS)
+	def __str__(self):
+		return '{0}'.format(self.pk)
+	def total(self):
+		total = 0
+		total += self.capital
+		total += self.interesVigente
+		total += self.intereVigenteNoPagado
+		total += self.interesMoratorio
+		total += self.gastosCobranza
+		total += self.iva
+		return total
 
 
 

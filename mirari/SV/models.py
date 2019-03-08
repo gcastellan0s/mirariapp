@@ -454,6 +454,7 @@ class Ticket(models.Model):
 	def my_organization(self):
 		return self.sellpoint.my_organization()
 	def new(self, ticket):
+		
 		return ticket
 
 

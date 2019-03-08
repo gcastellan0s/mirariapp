@@ -36,49 +36,49 @@
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         ID Organización:
                                     </label>
-                                    <strong>{{object.organization|default:'-'}}</strong>
+                                    <strong>${walletcredit.organization}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Numero:
                                     </label>
-                                    <strong>{{object.numero|default:'-'}}</strong>
+                                    <strong>${walletcredit.numero}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Obligación:
                                     </label>
-                                    <strong>{{object.obligacion|default:'-'}}</strong>
+                                    <strong>${walletcredit.obligacion}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Clasificación:
                                     </label>
-                                    <strong>{{object.clasificacion|default:'-'}}</strong>
+                                    <strong>${walletcredit.clasificacion}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Clasificación Contable:
                                     </label>
-                                    <strong>{{object.clasificacion_contable|default:'-'}}</strong>
+                                    <strong>${walletcredit.clasificacion_contable}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Nombre:
                                     </label>
-                                    <strong>{{object.nombre|default:'-'}}</strong>
+                                    <strong>${walletcredit.nombre}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Tipo:
                                     </label>
-                                    <strong>{{object.tipo|default:'-'}}</strong>
+                                    <strong>${walletcredit.tipo}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         RFC:
                                     </label>
-                                    <strong>{{object.rfc|default:'-'}}</strong>
+                                    <strong>${walletcredit.rfc}</strong>
                                 </div>
                             </div>
                         </div>
@@ -88,49 +88,49 @@
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Forma de pago:
                                     </label>
-                                    <strong>{{object.forma_pago|default:'-'}}</strong>
+                                    <strong>${walletcredit.forma_pago}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Tipo de tasa:
                                     </label>
-                                    <strong>{{object.tipo_tasa|default:'-'}}</strong>
+                                    <strong>${walletcredit.tipo_tasa}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Tasa:
                                     </label>
-                                    <strong>{{object.tasa|default:'-'}}</strong>
+                                    <strong>${walletcredit.tasa}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Fecha de otorgado:
                                     </label>
-                                    <strong>{{object.fecha_otorgado|default:'-'}}</strong>
+                                    <strong>${walletcredit.fecha_otorgado}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Fecha de vencimiento:
                                     </label>
-                                    <strong>{{object.fecha_vencimiento|default:'-'}}</strong>
+                                    <strong>${walletcredit.fecha_vencimiento}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Plazo:
                                     </label>
-                                    <strong>{{object.plazo|default:'-'}}</strong>
+                                    <strong>${walletcredit.plazo}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Monto:
                                     </label>
-                                    <strong>{{object.monto|default:'-'}}</strong>
+                                    <strong>${walletcredit.monto}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Fondeador:
                                     </label>
-                                    <strong>{{object.fondeador|default:'-'}}</strong>
+                                    <strong>${walletcredit.fondeador}</strong>
                                 </div>
                             </div>
                         </div>
@@ -140,25 +140,25 @@
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         PAGOS REALIZADOS:
                                     </label>
-                                    <strong>{{''|default:'-'}}</strong>
+                                    <strong>{{object.payments|default:'-'}}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         TOTAL PAGADO:
                                     </label>
-                                    <strong>{{''|default:'-'}}</strong>
+                                    <strong>{{object.totalPayment|default:'-'}}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         ÚLTIMO PAGO:
                                     </label>
-                                    <strong>{{''|default:'-'}}</strong>
+                                    <strong>{{object.lastPayment|default:'-'}}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         ULTIMO USUARIO:
                                     </label>
-                                    <strong>{{''|default:'-'}}</strong>
+                                    <strong>{{object.lastUser|default:'-'}}</strong>
                                 </div>
                             </div>
                         </div>
@@ -187,17 +187,17 @@
                         </thead>
                         <tbody>
                             <tr v-for="tablaamortizacion in tablasamortizaciones">
-                                <td>$ {tablaamortizacion.numeroPago}</td>
-                                <td>$ {tablaamortizacion.date}</td>
-                                <td v-if="tablaamortizacion.estatus" class="m--font-success">${tablaamortizacion.estatus}</td>
-                                <td v-else="tablaamortizacion.estatus" class="m--font-danger">${tablaamortizacion.estatus}</td>
-                                <td>$ ${tablaamortizacion.balanceInsoluto}</td>
-                                <td>$ ${tablaamortizacion.capital}</td>
-                                <td>$ ${tablaamortizacion.intereses}</td>
-                                <td>$ ${tablaamortizacion.renta}</td>
-                                <td>$ ${tablaamortizacion.pagado}</td>
+                                <td>${tablaamortizacion.numeroPago}</td>
+                                <td>${tablaamortizacion.date}</td>
+                                <td v-if="tablaamortizacion.estatus == 'Facturado'" class="m--font-success">${tablaamortizacion.estatus}</td>
+                                <td v-else class="m--font-danger">${tablaamortizacion.estatus}</td>
+                                <td>$ ${tablaamortizacion.balanceInsoluto|formatprice}</td>
+                                <td>$ ${tablaamortizacion.capital|formatprice}</td>
+                                <td>$ ${tablaamortizacion.intereses|formatprice}</td>
+                                <td>$ ${tablaamortizacion.renta|formatprice}</td>
+                                <td>$ ${tablaamortizacion.pagado|formatprice}</td>
                                 <td>
-                                    <a href="#" class="btn btn-brand m-btn btn-sm m-btn m-btn--icon m-btn--pill" style="line-height: .5;">
+                                    <a href="javascript:void(0)" v-on:click="MostrarTablaPagos(tablaamortizacion)" class="btn btn-brand m-btn btn-sm m-btn m-btn--icon m-btn--pill" style="line-height: .5;">
                                         <span style="line-height: .5;">
                                             <i class="la la-search" style="font-size:.8rem;"></i>
                                             <span style="font-size:.8rem;">PAGOS</span>
@@ -211,20 +211,178 @@
 			</div>
 		</div>
 	</div>
+    <!--begin::Modal-->
+    <div class="modal fade" id="TablaPagos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="max-width: 1000px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"># de pago: ${pagoAmortizacion.tablaAmortizacionNumeroPago}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+		                <div class="col-md-4">
+                            <div class="form-group m-form__group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Capital</span>
+                                    </div>
+                                    <input type="number" v-model="pagoAmortizacion.capital" class="form-control m-input">
+                                </div>
+					        </div>
+                            <div class="form-group m-form__group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Interes Vigente</span>
+                                    </div>
+                                    <input type="number" v-model="pagoAmortizacion.interesVigente" class="form-control m-input">
+                                </div>
+					        </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group m-form__group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Int. Vig. no pagado</span>
+                                    </div>
+                                    <input type="number" v-model="pagoAmortizacion.intereVigenteNoPagado" class="form-control m-input">
+                                </div>
+					        </div>
+                            <div class="form-group m-form__group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Interes Moratorio</span>
+                                    </div>
+                                    <input type="number" v-model="pagoAmortizacion.interesMoratorio" class="form-control m-input">
+                                </div>
+					        </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group m-form__group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Gastos Cobranza</span>
+                                    </div>
+                                    <input type="number" v-model="pagoAmortizacion.gastosCobranza" class="form-control m-input">
+                                </div>
+					        </div>
+                            <div class="form-group m-form__group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">IVA</span>
+                                    </div>
+                                    <input type="number" v-model="pagoAmortizacion.iva" class="form-control m-input">
+                                </div>
+					        </div>
+                        </div>
+                        <div class="m-portlet__foot m-portlet__foot--fit mb-5">
+                            <div class="m-form__actions m-form__actions">
+                                <div class="row">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-6">
+                                        <button type="reset" class="btn btn-info" v-on:click="AddPayment">REGISTRAR NUEVO PAGO</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+                    <div class="row">
+		                <div class="col-md-12">
+                            <table class="table table-striped m-table m-table--head-bg-brand table-hover" id="m_table_1" v-if="pagosamortizacion.length">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th title="date" data-field="date">Fecha</th>
+                                        <th title="capital" data-field="capital">Capital</th>
+                                        <th title="interesVigente" data-field="interesVigente">Interes Vigente</th>
+                                        <th title="intereVigenteNoPagado" data-field="intereVigenteNoPagado">Interes Moratorio</th>
+                                        <th title="interesMoratorio" data-field="interesMoratorio">Interes Moratorio</th>
+                                        <th title="gastosCobranza" data-field="gastosCobranza">Gastos Cobranza</th>
+                                        <th title="iva" data-field="iva">IVA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="pago in pagosamortizacion">
+                                        <td>${pago.fecha}</td>
+                                        <td>$ ${pago.capital|formatprice}</td>
+                                        <td>$ ${pago.interesVigente|formatprice}</td>
+                                        <td>$ ${pago.intereVigenteNoPagado|formatprice}</td>
+                                        <td>$ ${pago.interesMoratorio|formatprice}</td>
+                                        <td>$ ${pago.gastosCobranza|formatprice}</td>
+                                        <td>$ ${pago.iva|formatprice}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h4 v-if="!(pagosamortizacion.length)">NO HAY PAGOS REGISTRADOS</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->
 {%endblock content%}
+
+<script>
+{%block vue%}
+    const pagoAmortizacion_ = {
+        tablaAmortizacion: 0,
+        tablaAmortizacionNumeroPago: 0,
+        capital: 0,
+        interesVigente: 0,
+        intereVigenteNoPagado: 0,
+        interesMoratorio: 0,
+        gastosCobranza: 0,
+        iva: 0,
+    };
+{%endblock vue%}
 
 {%block data%}
     walletcredit: {
         id: '{{object.id}}',
     },
     tablasamortizaciones: {},
+    pagoAmortizacion: pagoAmortizacion_,
+    pagosamortizacion: [],
 {%endblock data%}
 
 {%block methods%}
+    MostrarTablaPagos: ((tablaPagos) => {
+        self.pagoAmortizacion.tablaAmortizacion = tablaPagos.id
+        self.pagoAmortizacion.tablaAmortizacionNumeroPago = tablaPagos.numeroPago
+        Ax('post', '{{ request.path }}?api=getPagosAmortizacion', self.pagoAmortizacion)
+        .then(function(json){
+            self.pagosamortizacion = json.data.pagosamortizacion
+            $('#TablaPagos').modal('show');
+        });
+    }),
+    AddPayment:(() => {
+        Ax('post', '{{ request.path }}?api=addPayment', self.pagoAmortizacion)
+        .then(function(json){
+            self.walletcredit = json.data.walletcredit
+            self.tablasamortizaciones = json.data.tablasamortizaciones
+            self.pagosamortizacion = json.data.pagosamortizacion
+            self.pagoAmortizacion = pagoAmortizacion_
+        });
+    }),
 {%endblock methods%}
 
 {%block mounted%}
     Ax('post', '{{ request.path }}?api=getTable', self.walletcredit).then(function(json){
-        tablasamortizaciones = json.data.tablaamortizacion
+        self.tablasamortizaciones = json.data.tablasamortizaciones
+        self.walletcredit = json.data.walletcredit
     });
 {%endblock mounted%}
+
+{%block filters%}
+    {{block.super}}
+    formatprice: ((value) => {
+        let val = (value/1).toFixed(2)
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    }),
+{%endblock filters%}
+</script>

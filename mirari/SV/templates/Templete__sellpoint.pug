@@ -14,13 +14,13 @@
                     li.sidenav-divider.mb-1
                     | ${$route.path}
                     li.sidenav-header.small.font-weight-semibold
-                    li.sidenav-item(v-for="menu in menus")
-                        a.sidenav-link.text-right.d-flex.justify-content-end.px-1(v-on:click="select_menu(menu)" :class="[ menu == active_menu ? 'bg-light' : '' ]")
+                    li.sidenav-item(v-for="menu in Menus")
+                        a.sidenav-link.text-right.d-flex.justify-content-end.px-1(v-on:click="selectMenu(menu)" :class="[ menu == ActiveMenu ? 'bg-light' : '' ]")
                             div
                                 strong.h4(:style="{ color: menu.color }")
-                                    ${menu.name|first_name_menu}
+                                    ${menu.name|firstNameMenu}
                             strong.text-dark
-                                ${menu.name|last_name_menu}
+                                ${menu.name|lastNameMenu}
             // Layout content
             .layout-content
                 // Content
@@ -32,7 +32,7 @@
                                 .d-flex.col-sm-12.align-items-center
                                     button.btn.btn-default.card-body.align-items-center.text-dark.text-center.py-2
                                         span.media-body.d-block
-                                            span.text-big.font-weight-bolder ${quantity}
+                                            span.text-big.font-weight-bolder ${Quantity}
                             .row.no-gutters.row-bordered.row-border-light.h-100
                                 .d-flex.col-sm-4.align-items-center
                                     button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('1')")
@@ -94,10 +94,10 @@
                                     button.btn.btn-primary.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="printTicket()")
                                         span.media-body.d-block
                                             span.fas.fa-print
-                        .card-body.d-flex.justify-content-between.py-1(v-for="line in ticket.products")
+                        .card-body.d-flex.justify-content-between.py-1(v-for="line in Ticket.products")
                             .text-large ${line.quantity}
                             .text-right.small
-                                | $ ${line.price|formatprice}
+                                | $ ${line.price|formatPrice}
                                 br
                                 strong ${line.name}
                     .flex-shrink-1.flex-grow-1.px-1.py-1
@@ -109,18 +109,18 @@
                                 a.layout-sidenav-toggle.d-inline-block.text-muted.align-middle.ml-3(href='javascript:void(0)' style='font-size: 14px')
                                     i.ion.ion-md-menu.text-large.align-middle
                         div
-                            .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-for="productattribute in productattributes" v-on:click="add_product(productattribute)" v-if="productattribute.product.menu.includes(active_menu.id) && productattribute.sellpoint == activeSellpoint.id" :style="{ borderColor: active_menu.color }")
+                            .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.product.menu.includes(ActiveMenu.id) && productattribute.sellpoint == ActiveSellpoint.id" :style="{ borderColor: ActiveMenu.color }")
                                 .text-big.m-2
-                                    strong $ ${productattribute.price|formatprice}
+                                    strong $ ${productattribute.price|formatPrice}
                                 p
                                     | ${productattribute.product.name}
                 // Layout footer
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
                         .pt-3
-                            span.footer-text.font-weight-bolder.px-3.h4 $ ${ticket|ticketTotal|formatprice}
+                            span.footer-text.font-weight-bolder.px-3.h4 $ ${Ticket|ticketTotal|formatPrice}
                         .pt-3
-                            span.footer-text.font-weight-bolder.pl-1 ${activeSellpoint.name}
-                            small ${activeSellpoint.id}
+                            span.footer-text.font-weight-bolder.pl-1 ${ActiveSellpoint.name}
+                            small ${ActiveSellpoint.id}
                         include Component__footer_links.pug
     .layout-overlay.layout-sidenav-toggle
