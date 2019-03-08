@@ -105,7 +105,7 @@
         data = {}
         data.ActiveSellpoint = self.ActiveSellpoint
         //axios({method:'post', url:'{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=printTicket', data:data})
-        Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=printTicket', (self.ActiveSellpoint,self.Ticket))
+        Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=printTicket', self.Ticket)
         .then((json) => {
             //console.log(json)
             //PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', data)
