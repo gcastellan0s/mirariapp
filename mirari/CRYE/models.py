@@ -147,15 +147,15 @@ class WalletCredit(Model_base):
 			total += pagoamortizacion.total()
 		return total
 	def lastPayment(self):
-        try:
-		    return PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)).first().fecha
-        except:
-            pass
+		try:
+			return PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)).first().fecha
+		except:
+			pass
 	def lastUser(self):
-        try:
-		    return PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)).first().user
-        except:
-            pass
+		try:
+			return PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)).first().user
+		except:
+			pass
 	
 	
 	
