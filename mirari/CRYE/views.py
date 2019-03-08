@@ -124,6 +124,10 @@ class TablaAmortizacionSerializer(Base_Serializer):
 	#def get_product(self, obj):
 		#return ProductSerializer(obj.product, read_only=True).data
 
+class PagoAmortizacionSerializer(Base_Serializer):
+	class Meta(Basic_Serializer.Meta):
+		model = PagoAmortizacion
+
 ###############################################################################################
 # TablaAmortizacion ###########################################################################
 ###############################################################################################
@@ -135,10 +139,32 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 	def dispatch(self, request, *args, **kwargs):
 		self.object = WalletCredit.objects.get(id=kwargs['pk'])
 		if request.method == 'POST':
+			if request.GET.get('api') == 'addPayment':
+				tablaAmortizacion = TablaAmortizacion.objects.get(id=request.POST.get('tablaAmortizacion'))
+				pagoAmortizacion = PagoAmortizacion()
+				pagoAmortizacion.user = request.user
+				pagoAmortizacion.tablaaAmortizacion = tablaAmortizacion
+				pagoAmortizacion.capital = request.POST.get('capital', 0)
+				pagoAmortizacion.interesVigente = request.POST.get('interesVigente', 0)
+				pagoAmortizacion.intereVigenteNoPagado = request.POST.get('intereVigenteNoPagado', 0)
+				pagoAmortizacion.interesMoratorio = request.POST.get('interesMoratorio', 0)
+				pagoAmortizacion.gastosCobranza = request.POST.get('gastosCobranza', 0)
+				pagoAmortizacion.iva = request.POST.get('iva', 0)
+				pagoAmortizacion.save()
+				return JsonResponse({
+					'walletcredit': WalletCreditSerializer(self.object).data,
+					'tablasamortizaciones': TablaAmortizacionSerializer(TablaAmortizacion.objects.filter(walletcredit=self.object), many=True).data,
+					'pagosamortizacion': PagoAmortizacionSerializer(PagoAmortizacion.objects.filter(tablaaAmortizacion=tablaAmortizacion), many=True).data,
+				})
+			if request.GET.get('api') == 'getPagosAmortizacion':
+				tablaAmortizacion = TablaAmortizacion.objects.get(id=request.POST.get('tablaAmortizacion'))
+				return JsonResponse({
+					'pagosamortizacion': PagoAmortizacionSerializer(PagoAmortizacion.objects.filter(tablaaAmortizacion=tablaAmortizacion), many=True).data,
+				})
 			if request.GET.get('api') == 'getTable':
 				return JsonResponse({
 					'walletcredit': WalletCreditSerializer(self.object).data,
-					'tablaamortizacion': TablaAmortizacionSerializer(TablaAmortizacion.objects.filter(walletcredit=self.object), many=True).data,
+					'tablasamortizaciones': TablaAmortizacionSerializer(TablaAmortizacion.objects.filter(walletcredit=self.object), many=True).data,
 				})
 		return super().dispatch(request, *args, **kwargs)
 	###########################################################################################

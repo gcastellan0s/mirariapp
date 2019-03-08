@@ -112,6 +112,10 @@
 	{%block js%}{%endblock js%}
 {%endblock base_js%}
 
+{%block vue_vue%} 
+	{%block vue%}{%endblock vue%}
+{%endblock vue_vue%}
+
 {%block vue_data%} 
 	{%for key, modules in 'mirari'|get_menu%}
 		MENU__{{key}}:[

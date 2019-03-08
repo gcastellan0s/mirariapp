@@ -1,13 +1,13 @@
 div
-    router-link(to="/order" v-if="includes(activeSellpoint.orders, {{request.user.id}})")
+    router-link(to="/order" v-if="includes(ActiveSellpoint.orders, {{request.user.id}})")
         a.footer-link.pt-3.ml-4(href='javascript:void(0)') 
             i.fas.fa-folder.pr-2
             | PEDIDOS
-    router-link(to="/casher" v-if="includes(activeSellpoint.cashers, {{request.user.id}})")
+    router-link(to="/casher" v-if="includes(ActiveSellpoint.cashers, {{request.user.id}})")
         a.footer-link.pt-3.ml-4(href='javascript:void(0)')
             i.fas.fa-credit-card.pr-2
             | CAJERO
-    router-link(to="/sellpoint" v-if="includes(activeSellpoint.vendors, {{request.user.id}})")
+    router-link(to="/sellpoint" v-if="includes(ActiveSellpoint.vendors, {{request.user.id}})")
         a.footer-link.pt-3.ml-4(href='javascript:void(0)') 
             i.fas.fa-store.pr-2
             | PUNTO DE VENTA
