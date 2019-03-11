@@ -376,6 +376,8 @@ class OrderService(Model_base):
 	icon_on = models.CharField(max_length=250, blank=True)
 	icon_cn = models.CharField(max_length=250, blank=True)
 	id_bckp = models.IntegerField()
+	brandName = models.CharField(max_length=250, blank=True)
+	comments = models.TextField(blank=True, verbose_name="Comentarios")
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']

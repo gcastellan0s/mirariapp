@@ -11,6 +11,7 @@ var data = {
 	url: 'ws://'+ip.address().toString()+':'+variables.port.toString(),
 	name: variables.sellpoint,
 	organizationCode: variables.organizationCode
+	isServer: variables.isServer
 }
 
 let PrinterConection = () => {
@@ -20,27 +21,23 @@ let PrinterConection = () => {
 PrinterConection();
 setInterval(function(){
 	PrinterConection();
-}, 5000);
+}, 15000);
 
-
-
-
-
-//var io = require('socket.io')(variables.port);
-//io.on('connection', function (socket) {
-	//socket.on('print_ticket', function(data) {
-		//var pyshell = new PythonShell('print_ticket.py', {
-			//mode: 'json',
-			//pythonPath: '/usr/bin/python3',
-			//scriptPath: '/home/pi/mirari-printer',
-		//});
-		//pyshell.send(data).end(function (err) {
-			//if (err){
-				//console.log(err)
-				//return 0;
-			//}
-		//});
-	//});
+var io = require('socket.io')(variables.port);
+io.on('connection', function (socket) {
+	socket.on('Recibe_PrintTicket', function(data) {
+		var pyshell = new PythonShell('print_ticket.py', {
+			mode: 'json',
+			pythonPath: '/usr/bin/python3',
+			scriptPath: '/home/pi/mirari-printer',
+		});
+		pyshell.send(data).end(function (err) {
+			if (err){
+				console.log(err)
+				return 0;
+			}
+		});
+	});
 	//socket.on('make_cut', function (data) {
 		//var pyshell = new PythonShell('make_cut.py', {
 			//mode: 'json',
@@ -54,4 +51,4 @@ setInterval(function(){
 			//}
 		//});
 	//});
-//});
+});

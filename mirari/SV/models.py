@@ -29,7 +29,7 @@ VARS = {
 			'title': '# Tickets',
 		},
 		{
-			'field': 'property_get_folio',
+			'field': 'property_getSerialNumber',
 			'title': 'FOLIO',
 		},
 		{
@@ -51,7 +51,7 @@ VARS = {
 	'SEARCH': ['name'],
 	'SORTEABLE': ['name'],
 	'EXCLUDE_FORM': ['serial'],
-	'FORM': ('name','have_cashier','color','vendors','cashers','orders','is_active','number_tickets','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
+	'FORM': ('name','have_cashier','color','vendors','cashers','orders','is_active','number_tickets','printer','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
 }
 class Sellpoint(Model_base):
 	organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
@@ -90,6 +90,8 @@ class Sellpoint(Model_base):
 		if not cut:
 			cut = Cut().new(self)
 		return cut
+	def getSerialNumber(self):
+		return self.serial.serial
 	def save(self, *args, **kwargs):
 		self.name = self.name.upper()
 		super().save()

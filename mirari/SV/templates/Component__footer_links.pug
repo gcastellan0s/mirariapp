@@ -1,4 +1,4 @@
-div
+div(v-if="ActiveSellpoint")
     router-link(to="/order" v-if="includes(ActiveSellpoint.orders, {{request.user.id}})")
         a.footer-link.pt-3.ml-4(href='javascript:void(0)') 
             i.fas.fa-folder.pr-2
@@ -12,6 +12,6 @@ div
             i.fas.fa-store.pr-2
             | VENDEDOR
     router-link(to="/sellpoint" v-if="includes(ActiveSellpoint.vendors, {{request.user.id}})")
-        a.footer-link.pt-3.ml-4(href='javascript:void(0)') 
+        a.footer-link.pt-3.ml-4.text-primary(href='javascript:void(0)') 
             i.fas.fa-ellipsis-h.pr-2
             | MENU
