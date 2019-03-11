@@ -57,7 +57,6 @@
 	{%endblock data%}
 
 	{%block mounted%}
-		Block();
 		Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates').then(function(json){
 			self.Sellpoints = json.data.sellpoints
 			self.ActiveSellpoint = self.Sellpoints[0]
@@ -66,22 +65,15 @@
 			UnBlock();
 		})
 		PublicSocket.emit('room', '{{request.user.organization.code}}');
-		PublicSocket.on('Recibe_PrintTicket', (data) => {
-			self.Tickets.unshift(data)
-		});
-		PublicSocket.on('Recibe_PrinterConection', (data) => {
-			if(self.ActiveSellpoint.printer == data.name){
-				if (data.name != self.ActivePrinter.name){
-					self.ActivePrinter = data
-					console.log("Impresora agregada")
-				}
-			} 
+		PublicSocket.on('Recibe_Event', (event, data) => {
+			if (event == 'PrintTicket') self.recibePrintTicket(data);
+			if (event == 'PrinterConection') self.recibePrinterConection(data);
 		});
 	{%endblock mounted%}
 
 	{%block methods%}
 		selectMenu:((menu) => {self.ActiveMenu = menu}),
-		addProduct: function(productattribute) {
+		addProduct: ((productattribute) => {
 			if (self.Price == 'PRECIO') price = productattribute.price
 			else price = self.Price
 			if (self.Quantity == 'CANTIDAD') quantity = 1
@@ -113,7 +105,7 @@
 			}
 			self.Quantity == 'CANTIDAD'
 			self.Price == 'PRECIO'
-		},
+		}),
 		printTicket:(() => {
 			//Si tiene productos
 			self.Ticket.key = self.randomChars(8, 'aplha_numbers')
@@ -138,18 +130,6 @@
 			if (productLine.ieps) productLine.iepsTotal = (productLine.total / (IEPS + 1) * IEPS)
 			return productLine
 		}),
-		keyboard: ((value) => {
-			if (self.Quantity == 'CANTIDAD') self.Quantity = ''
-			if (value == '.'){
-				if (self.Quantity.indexOf(".") !=-1) return 0
-			} 
-			if (value == '<'){
-				self.Quantity = self.Quantity.substring(0, self.Quantity.length - 1)
-				if (self.Quantity.length == 0) self.Quantity = 'CANTIDAD'
-				return 0
-			}
-			self.Quantity += value
-		}),
 		initTicket: (() => {
 			self.Ticket = {
 				products: [],
@@ -161,6 +141,30 @@
 				username: null,
 				cut: null,
 			}
+		}),
+		/////SOCKETIO
+		recibePrinterConection: ((data) => {
+			if(self.ActiveSellpoint.printer == data.name){
+				if (data.name != self.ActivePrinter.name){
+					self.ActivePrinter = data
+				}
+			}
+		}),
+		recibePrintTicket: ((data) => {
+			self.Tickets.unshift(data);
+		}),
+		/////PLUGINS
+		keyboard: ((value) => {
+			if (self.Quantity == 'CANTIDAD') self.Quantity = ''
+			if (value == '.'){
+				if (self.Quantity.indexOf(".") !=-1) return 0
+			} 
+			if (value == '<'){
+				self.Quantity = self.Quantity.substring(0, self.Quantity.length - 1)
+				if (self.Quantity.length == 0) self.Quantity = 'CANTIDAD'
+				return 0
+			}
+			self.Quantity += value
 		}),
 		randomChars: function(length, type="aplha_numbers") { 
 			text = ""
@@ -191,9 +195,9 @@
 			let val = (value/1).toFixed(2)
 			return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
 		}),
-		ticketTotal: ((ticket) => {
+		ticketTotal: ((value) => {
 			total = 0
-			ticket.products.forEach(function(productLine){total+=productLine.total});
+			value.products.forEach(function(productLine){total+=productLine.total});
 			return total
 		}),
 		FormatTDate: ((value) => {
