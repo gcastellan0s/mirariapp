@@ -14,7 +14,7 @@ var data = {
 }
 
 let PrinterConection = () => {
-	PublicSocket.emit('Send_Event', 'PrinterConection', variables.organizationCode, data);
+	PublicSocket.emit('Send_Event', variables.organizationCode, 'PrinterConection', data);
 };
 
 PrinterConection();
