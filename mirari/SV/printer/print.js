@@ -9,17 +9,18 @@ PublicSocket.emit('room', variables.organizationCode);
 
 var data = {
 	url: 'ws://'+ip.address().toString()+':'+variables.port.toString(),
-	name: variables.sellpoint
+	name: variables.sellpoint,
+	organizationCode: variables.organizationCode
 }
 
 let PrinterConection = () => {
-	PublicSocket.emit('Send_PrinterConection',{organizationCode:variables.organizationCode, data:data});
+	PublicSocket.emit('Send_PrinterConection', variables.organizationCode, data);
 };
 
 PrinterConection();
 setInterval(function(){
 	PrinterConection();
-}, 15000);
+}, 5000);
 
 
 

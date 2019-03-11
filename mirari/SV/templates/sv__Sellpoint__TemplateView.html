@@ -56,6 +56,7 @@
 			cut: null,
 		},
 		Tickets: [],
+		Printers: [],
 	{%endblock data%}
 
 	{%block computed%}
@@ -74,8 +75,11 @@
 			UnBlock();
 		})
 		PublicSocket.emit('room', '{{request.user.organization.code}}');
-		PublicSocket.on('Recibe_PrintTicket', (ticket) => {
-			self.Tickets.unshift(ticket)
+		PublicSocket.on('Recibe_PrintTicket', (data) => {
+			self.Tickets.unshift(data)
+		});
+		PublicSocket.on('Recibe_PrinterConection', (data) => {
+			console.log(data)
 		});
 	{%endblock mounted%}
 
@@ -128,7 +132,6 @@
 			}, errorDialog=false).then((json) => {
 				PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', json.data.ticket)
 			}).catch((error) => {
-				
 				PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', json.data.ticket)
 			}).finally(() => { 
 				self.Ticket = {
