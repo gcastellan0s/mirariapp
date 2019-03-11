@@ -4,161 +4,214 @@
 
 {%block css%}
 	<style>
-        {%include 'sv__Sellpoint__TemplateView.css'%}
-    </style>
+		{%include 'sv__Sellpoint__TemplateView.css'%}
+	</style>
 {%endblock%}
 
 {%block content%}
-    <div v-if="$route.path === '/sellpoint'">{%include 'Templete__sellpoint.pug'%}</div>
-    <div v-else-if="$route.path === '/casher'">{%include 'Template__casher.pug'%}</div>
+	<div v-if="$route.path === '/sellpoint'">{%include 'Templete__sellpoint.pug'%}</div>
+	<div v-else-if="$route.path === '/casher'">{%include 'Template__casher.pug'%}</div>
 {%endblock%}
 
 {%block js%}
-    <script src="{%static 'appwork-html/vendor/libs/moment/moment.js'%}"></script>
+	<script src="{%static 'appwork-html/vendor/libs/moment/moment.js'%}"></script>
 {%endblock js%}
 
 <script>
-{%block vue%}
-    const router = new VueRouter({routes: [
-        { path: '/SV/sv/', component: {template: ``} },
-    ]});
-    const PublicSocket = io('http://localhost:8080');
-    const TicketInit = {
-        //type: 'blank',
-        products: [],
-        key: null,
-        date: null,
-        time: null,
-        //discount: 0,
-    };
-{%endblock vue%}
+	{%block constants%}
+		{{block.super}}
+		const router = new VueRouter({routes: [
+			{ path: '/SV/sv/', component: {template: ``} },
+		]});
+		const PublicSocket = io();
+		const IVA = 0.16;
+		const IEPS = 0.08;
+	{%endblock constants%}
 
-{%block router%}router,{%endblock router%}
+	{%block router%}router,{%endblock router%}
 
-{%block data%}
-    Sellpoints: null,
-    ActiveSellpoint: {
-        name: 'No Sellpoint',
-    },
-    Menus: null,
-    ActiveMenu: {
-        color: '#7b7b7b',
-        id: 0,
-    },
-    ProductAttributes: null,
-    Quantity: 'CANTIDAD',
-    Price: 'PRECIO',
-    Ticket: TicketInit,
-    Tickets: [],
-{%endblock data%}
+	{%block data%}
+		{{block.super}}
+		Sellpoints: null,
+		ActiveSellpoint: {
+			name: 'No Sellpoint',
+		},
+		Menus: null,
+		ActiveMenu: {
+			color: '#7b7b7b',
+			id: 0,
+		},
+		ProductAttributes: null,
+		Quantity: 'CANTIDAD',
+		Price: 'PRECIO',
+		Ticket: {
+			products: [],
+			key: null,
+			format_time: null,
+			format_date: null,
+			barcode: null,
+			user: '{{request.user.id}}',
+			username: null,
+			cut: null,
+		},
+		Tickets: [],
+	{%endblock data%}
 
-{%block mounted%}
-    Block();
-    Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates').then(function(json){
-        self.Sellpoints = json.data.sellpoints
-        self.ActiveSellpoint = self.Sellpoints[0]
-        self.Menus = json.data.menus
-        self.ProductAttributes = json.data.productAttributes
-        UnBlock();
-    })
-    PublicSocket.emit('room', '{{request.user.organization.code}}');
-    PublicSocket.on('Recibe_PrintTicket', (data) => {
-        self.Tickets.unshift(data.ticket)
-    });
-{%endblock mounted%}
+	{%block computed%}
+		{{block.super}}
+		self.initTicket()
+	{%endblock computed%}
 
-{%block methods%}
-    selectMenu:((menu) => {self.ActiveMenu = menu}),
-    addProduct: function(productattribute) {
-        if (self.Price == 'PRECIO') price = productattribute.price
-        else price = self.Price
-        if (self.Quantity == 'CANTIDAD') quantity = 1
-        else quantity = parseInt(self.Quantity)
-        productLineExist = self.Ticket.products.find(function(productLine) {
-            return productLine.id == productattribute.id && productLine.price == productattribute.price;
-        });
-        if (!productLineExist){
-            productLine = {
-                alias: productattribute.alias,
-                name: productattribute.product.name,
-                id: productattribute.id,
-                ieps: productattribute.ieps,
-                iva: productattribute.iva,
-                product: productattribute.product,
-                sellpoint: productattribute.sellpoint,
-                price: price,
-                quantity: quantity
-            }
-            self.Ticket.products.unshift(productLine)
-        }
-        else {
-            productLineExist.quantity += quantity
-        }
-        self.Quantity == 'CANTIDAD'
-        self.Price == 'PRECIO'
-    },
-    printTicket:(() => {
-        //Si tiene productos
-        self.Ticket.key = self.randomChars(8, 'aplha_numbers')
-        self.Ticket.date = moment().format('L')
-        self.Ticket.time = moment().format('LTS')
-        data = {}
-        data.ActiveSellpoint = self.ActiveSellpoint
-        //axios({method:'post', url:'{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=printTicket', data:data})
-        Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=printTicket', self.Ticket)
-        .then((json) => {
-            //console.log(json)
-            //PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', data)
-        }).catch((error) => {
-            //PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', data)
-        });
-    }),
-    keyboard: ((value) => {
-        if (self.Quantity == 'CANTIDAD') self.Quantity = ''
-        if (value == '.'){
-            if (self.Quantity.indexOf(".") !=-1) return 0
-        } 
-        if (value == '<'){
-            self.Quantity = self.Quantity.substring(0, self.Quantity.length - 1)
-            if (self.Quantity.length == 0) self.Quantity = 'CANTIDAD'
-            return 0
-        }
-        self.Quantity += value
-    }),
-    randomChars: function(length, type="aplha_numbers") { 
-        text = ""
-        aplha_numbers = "abcdefghijklmnopqrstuvwxyz0123456789";
-        numbers = "0123456789";
-        if (type=='letters_numbers') possible = letters_numbers
-        else if (type=='aplha_numbers') possible = aplha_numbers
-        else possible = numbers
-        for (var i = 0; i < length; i++) text += possible.charAt(Math.floor(Math.random() * possible.length))
-        return text
-    },
-    includes: ((object, element) => {
-        if (!object) return false
-        return object.includes(element)
-    }),
-{%endblock methods%}
+	{%block mounted%}
+		{{block.super}}
+		Block();
+		Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates').then(function(json){
+			self.Sellpoints = json.data.sellpoints
+			self.ActiveSellpoint = self.Sellpoints[0]
+			self.Menus = json.data.menus
+			self.ProductAttributes = json.data.productAttributes
+			UnBlock();
+		})
+		PublicSocket.emit('room', '{{request.user.organization.code}}');
+		PublicSocket.on('Recibe_PrintTicket', (ticket) => {
+			self.Tickets.unshift(ticket)
+		});
+	{%endblock mounted%}
 
-{%block filters%}
-    {{block.super}}
-    firstNameMenu: ((value) => {
-        if (!value) return ''
-        return value.toString().charAt(0).toUpperCase()
-    }),
-    lastNameMenu: ((value) => {
-        if (!value) return ''
-        return value.toString().slice(1)
-    }),
-    formatPrice: ((value) => {
-        let val = (value/1).toFixed(2)
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-    }),
-    ticketTotal: ((ticket) => {
-        total = 0
-        ticket.products.forEach(function(productLine){total+=(productLine.price*productLine.quantity)});
-        return total
-    }),
-{%endblock filters%}
+	{%block methods%}
+		{{block.super}}
+		selectMenu:((menu) => {self.ActiveMenu = menu}),
+		addProduct: function(productattribute) {
+			if (self.Price == 'PRECIO') price = productattribute.price
+			else price = self.Price
+			if (self.Quantity == 'CANTIDAD') quantity = 1
+			else quantity = parseInt(self.Quantity)
+			productLine = self.Ticket.products.find(function(productLine) {
+				return productLine.id == productattribute.id && productLine.price == productattribute.price;
+			});
+			if (!productLine){
+				productLine = {
+					alias: productattribute.product.name,
+					productName: productattribute.product.name,
+					id: productattribute.id,
+					ieps: productattribute.ieps,
+					iva: productattribute.iva,
+					product: productattribute.product,
+					sellpoint: productattribute.sellpoint,
+					price: price,
+					quantity: quantity,
+					total: 0,
+					ivaTotal: 0,
+					iepsTotal: 0,
+				}
+				self.updateTotal(productLine)
+				self.Ticket.products.unshift(productLine)
+			}
+			else {
+				productLine.quantity += quantity
+				self.updateTotal(productLine)
+			}
+			self.Quantity == 'CANTIDAD'
+			self.Price == 'PRECIO'
+		},
+		printTicket:(() => {
+			//Si tiene productos
+			self.Ticket.key = self.randomChars(8, 'aplha_numbers')
+			self.Ticket.format_time = moment().format('L')
+			self.Ticket.format_date = moment().format('LTS')
+			self.Ticket.status = 'PENDIENTE'
+			if (!self.ActiveSellpoint.have_cashier) self.Ticket.status = 'COBRADO'
+			Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=printTicket', {
+				activeSellpoint: JSON.stringify(self.ActiveSellpoint),
+				ticket: JSON.stringify(self.Ticket),
+			}).then((json) => {
+				PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', json.data.ticket)
+			}).catch((error) => {
+				PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', json.data.ticket)
+			}).finally(() => { 
+				self.Ticket = {
+					products: [],
+					key: null,
+					format_time: null,
+					format_date: null,
+					barcode: null,
+					user: '{{request.user.id}}',
+					username: null,
+					cut: null,
+				}
+			});
+		}),
+		updateTotal: ((productLine) => {
+			productLine.total = productLine.price * productLine.quantity
+			if (productLine.iva) productLine.ivaTotal = (productLine.total / (IVA + 1) * IVA)
+			if (productLine.ieps) productLine.iepsTotal = (productLine.total / (IEPS + 1) * IEPS)
+			return productLine
+		}),
+		keyboard: ((value) => {
+			if (self.Quantity == 'CANTIDAD') self.Quantity = ''
+			if (value == '.'){
+				if (self.Quantity.indexOf(".") !=-1) return 0
+			} 
+			if (value == '<'){
+				self.Quantity = self.Quantity.substring(0, self.Quantity.length - 1)
+				if (self.Quantity.length == 0) self.Quantity = 'CANTIDAD'
+				return 0
+			}
+			self.Quantity += value
+		}),
+		initTicket: (() => {
+			self.Ticket = {
+				products: [],
+				key: null,
+				format_time: null,
+				format_date: null,
+				barcode: null,
+				user: '{{request.user.id}}',
+				username: null,
+				cut: null,
+			}
+		}),
+		randomChars: function(length, type="aplha_numbers") { 
+			text = ""
+			aplha_numbers = "abcdefghijklmnopqrstuvwxyz0123456789";
+			numbers = "0123456789";
+			if (type=='letters_numbers') possible = letters_numbers
+			else if (type=='aplha_numbers') possible = aplha_numbers
+			else possible = numbers
+			for (var i = 0; i < length; i++) text += possible.charAt(Math.floor(Math.random() * possible.length))
+			return text
+		},
+		includes: ((object, element) => {
+			if (!object) return false
+			return object.includes(element)
+		}),
+	{%endblock methods%}
+
+	{%block filters%}
+		{{block.super}}
+		firstNameMenu: ((value) => {
+			if (!value) return ''
+			return value.toString().charAt(0).toUpperCase()
+		}),
+		lastNameMenu: ((value) => {
+			if (!value) return ''
+			return value.toString().slice(1)
+		}),
+		formatPrice: ((value) => {
+			let val = (value/1).toFixed(2)
+			return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+		}),
+		ticketTotal: ((ticket) => {
+			total = 0
+			ticket.products.forEach(function(productLine){total+=productLine.total});
+			return total
+		}),
+		FormatTDate: ((value) => {
+			moment.locale('es');
+			return moment(value).format('MMMM Do, h:mm:ss a')
+		}),
+		padStart13: ((value) => {
+			return value.padStart(13, "1000000000000"); 
+		}),
+	{%endblock filters%}
 </script>

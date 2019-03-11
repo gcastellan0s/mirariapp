@@ -22,17 +22,20 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.5.2/qs.js"></script>
-    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
 	{%block base_js%}{%endblock base_js%}
+	<script>
+		{%block vue_constants%}{%endblock vue_constants%}
+	</script>		
 	<script type="text/javascript" charset="utf-8">
-        {%block global_functions%}{%endblock global_functions%}
-        {%block vue_vue%}
-        {%endblock vue_vue%}
+		{%block global_functions%}{%endblock global_functions%}
+		{%block vue_vue%}
+		{%endblock vue_vue%}
 		new Vue({
 			el: '#app',
 			delimiters: ['${', '}'],
-            {%block vue_router%}{%endblock vue_router%}
+			{%block vue_router%}{%endblock vue_router%}
 			data: {
 				{%block vue_data%}{%endblock vue_data%}
 			},
@@ -49,9 +52,9 @@
 			watch: {
 				{%block vue_watch%}{%endblock vue_watch%}
 			},
-            filters: {
-                {%block vue_filters%}{%endblock vue_filters%}
-            }
+			filters: {
+				{%block vue_filters%}{%endblock vue_filters%}
+			}
 		});
 	</script>
 	{%block base_scripts%}{%endblock base_scripts%}

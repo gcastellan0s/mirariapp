@@ -84,6 +84,11 @@ class Sellpoint(Model_base):
 		return self.render_color(self.color)
 	def get_serial(self):
 		return self.serial.get_serial()
+	def getCut(self):
+		cut = Cut.objects.filter(sellpoint=self, final_time__isnull=True).first()
+		if not cut:
+			cut = Cut().new(self)
+		return cut
 	def save(self, *args, **kwargs):
 		self.name = self.name.upper()
 		super().save()
@@ -353,7 +358,7 @@ VARS = {
 	'NEW_GENDER': 'un nuevo',
 	'THIS':'este',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS': ['ALL'],
+	'EXCLUDE_PERMISSIONS': ['all'],
 	'REDIRECT_MODEL':['SV','Product'],
 	'FORM': ('alias','price','bar_code','iva','ieps','is_dynamic','is_favorite','is_active',),
 	'RULES': """
@@ -423,10 +428,10 @@ VARS = {
 	'NEW_GENDER': 'un nuevo',
 	'THIS':'este',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS': ['ALL'],
+	'EXCLUDE_PERMISSIONS': ['all'],
 	'REDIRECT_MODEL':['SV','Product'],
 }
-class Ticket(models.Model):
+class Ticket(Model_base):
 	STATUS_TICKET = (
 		('COBRADO','COBRADO'),
 		('PENDIENTE','PENDIENTE'),
@@ -453,9 +458,24 @@ class Ticket(models.Model):
 		return '{0} | {1}'.format(self.sellpoint, self.barcode)
 	def my_organization(self):
 		return self.sellpoint.my_organization()
-	def new(self, ticket):
-		
-		return ticket
+	def new(self, activeSellpoint, ticket):
+		self.sellpoint = Sellpoint.objects.get(id = activeSellpoint['id'])
+		self.barcode = self.sellpoint.get_serial()
+		self.key = ticket['key']
+		self.user = User.objects.get(id=ticket['user'])
+		self.username = self.user.visible_username
+		self.status = ticket['status']
+		self.format_time = ticket['format_time']
+		self.format_date = ticket['format_date']
+		self.cut = self.sellpoint.getCut()
+		self.save()
+		for product in ticket['products']:
+			total, iva, ieps = TicketProducts().addTicket(self, product)
+			self.total += total
+			self.iva += iva
+			self.ieps += ieps
+		self.save()
+		return self
 
 
 
@@ -467,18 +487,18 @@ VARS = {
 	'NEW_GENDER': 'un nuevo',
 	'THIS':'este',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS': ['ALL'],
+	'EXCLUDE_PERMISSIONS': ['all'],
 }
-class TicketProducts(models.Model):
+class TicketProducts(Model_base):
 	ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE)
 	product = models.ForeignKey('ProductAttributes', null=True, on_delete=models.SET_NULL)
-	productName = models.CharField(max_length=250)
-	alias = models.CharField(max_length=250)
-	quantity = models.FloatField()
-	price = models.FloatField()
-	total = models.FloatField()
-	iva = models.FloatField()
-	ieps = models.FloatField()
+	productName = models.CharField(max_length=250, null=True, blank=True)
+	alias = models.CharField(max_length=250, null=True, blank=True)
+	quantity = models.FloatField(default=0)
+	price = models.FloatField(default=0)
+	total = models.FloatField(default=0)
+	iva = models.FloatField(default=0)
+	ieps = models.FloatField(default=0)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -488,7 +508,18 @@ class TicketProducts(models.Model):
 		return '{0} | {1}'.format(self.product, self.ticket)
 	def my_organization(self):
 		return self.ticket.my_organization()
-
+	def addTicket(self, ticket, product):
+		self.ticket = ticket
+		self.product = ProductAttributes.objects.get(id=product['id'])
+		self.productName = product['productName']
+		self.alias = product['alias']
+		self.quantity = product['quantity']
+		self.price = product['price']
+		self.total = product['total']
+		self.iva = product['ivaTotal']
+		self.ieps = product['iepsTotal']
+		self.save()
+		return self.total, self.iva, self.ieps
 
 
 VARS = {
@@ -499,15 +530,49 @@ VARS = {
 	'NEW_GENDER': 'un nuevo',
 	'THIS':'este',
 	'APP':APP,
-	'EXCLUDE_PERMISSIONS': ['ALL'],
+	'EXCLUDE_PERMISSIONS': ['create','update','delete'],
+	'LIST': [
+		{
+			'field': 'serial',
+			'title': 'Serial',
+		},
+		{
+			'field': 'sellpoint',
+			'title': 'Punto de Venta',
+		},
+		{
+			'field': 'property_getFinal_time',
+			'title': 'Fecha/Hora',
+		},
+		{
+			'field': 'property_getIvaMoney',
+			'title': 'IVA',
+		},
+		{
+			'field': 'property_getIepsMoney',
+			'title': 'IEPS',
+		},
+		{
+			'field': 'property_getSubtotalMoney',
+			'title': 'Subtotal',
+		},
+		{
+			'field': 'property_getFaltanteMoney',
+			'title': 'Total Faltante',
+		},
+		{
+			'field': 'property_getTotalMoney',
+			'title': 'Total Corte',
+		},
+	],
+	'SERIALIZER': ['getTotalMoney','getIvaMoney','getIepsMoney','getSubtotalMoney','getFaltanteMoney','getFinal_time'],
 }
-class Cut(models.Model):
+class Cut(Model_base):
 	sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
-	user = models.ForeignKey('mirari.User', null=True, blank=True, on_delete=models.SET_NULL)
 	initial_time = models.DateTimeField(auto_now_add=True)
 	final_time = models.DateTimeField(null=True, blank=True,)
 	ras = models.PositiveIntegerField(default=100)
-	serial = models.IntegerField(default=1, null=True, blank=True)
+	serial = models.IntegerField(default=1)
 	show = models.BooleanField(default=True)
 	VARS = VARS
 	class Meta(Model_base.Meta):
@@ -518,3 +583,51 @@ class Cut(models.Model):
 		return '{0}'.format(self.id)
 	def my_organization(self):
 		return self.sellpoint.my_organization()
+	def new(self, sellpoint):
+		self.sellpoint = sellpoint
+		cut = Cut.objects.filter(sellpoint = self.sellpoint).first()
+		if cut:
+			self.serial = cut.serial + 1
+		self.save()
+		return self
+	def getFinal_time(self):
+		if self.final_time:
+			return render_datetime(self.final_time)
+		return '-'
+	def getTotal(self):
+		total = 0
+		for ticket in Ticket.objects.filter(cut=self, status='COBRADO'):
+			total += ticket.total
+		return "{0:.2f}".format(total)
+	def getIva(self):
+		total = 0
+		for ticket in Ticket.objects.filter(cut=self, status='COBRADO'):
+			total += ticket.iva
+		return "{0:.2f}".format(total)
+	def getIeps(self):
+		total = 0
+		for ticket in Ticket.objects.filter(cut=self, status='COBRADO'):
+			total += ticket.ieps
+		return "{0:.2f}".format(total)
+	def getSubtotal(self):
+		total = 0
+		for ticket in Ticket.objects.filter(cut=self, status='COBRADO'):
+			total += ticket.total - ticket.ieps - ticket.iva
+		return "{0:.2f}".format(total)
+	def getFaltante(self):
+		total = 0
+		for ticket in Ticket.objects.filter(cut=self, status='PENDIENTE'):
+			total += ticket.total
+		return "{0:.2f}".format(total)
+	def getTotalMoney(self):
+		return Money(self.getTotal(), Currency.MXN).format('es_MX')
+	def getIvaMoney(self):
+		return Money(self.getIva(), Currency.MXN).format('es_MX')
+	def getIepsMoney(self):
+		return Money(self.getIeps(), Currency.MXN).format('es_MX')
+	def getSubtotalMoney(self):
+		return Money(self.getSubtotal(), Currency.MXN).format('es_MX')
+	def getFaltanteMoney(self):
+		return Money(self.getFaltante(), Currency.MXN).format('es_MX')
+	def QUERY(self, view):
+		return Cut.objects.filter(sellpoint__organization__pk=view.request.session.get('organization'), active=True)

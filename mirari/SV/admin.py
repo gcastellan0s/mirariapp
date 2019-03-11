@@ -17,3 +17,15 @@ class ProductAdmin(PassAdmin):
 @admin.register(ProductAttributes)
 class ProductAttributesAdmin(PassAdmin):
 	pass
+
+@admin.register(Ticket)
+class TicketAdmin(PassAdmin):
+	pass
+
+@admin.register(TicketProducts)
+class TicketProductsAdmin(PassAdmin):
+	pass
+
+@admin.register(Cut)
+class CutAdmin(PassAdmin):
+	pass

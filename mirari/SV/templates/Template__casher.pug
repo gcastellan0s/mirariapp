@@ -14,10 +14,10 @@
                         table.table
                             tbody
                                 tr(v-for="lineTicket in Tickets")
-                                    td ${lineTicket.barcode}
+                                    td ${lineTicket.barcode|padStart13}
                                     td ${lineTicket.key}
-                                    td ${lineTicket.date}
-                                    td ${lineTicket|ticketTotal}
+                                    td ${lineTicket.date|FormatTDate}
+                                    td $ ${lineTicket.total|formatPrice}
                     .flex-shrink-1.flex-grow-0.w-30.bg-light.px-1.py-1
                         .input-group.input-group-lg.mt-3
                             .input-group-prepend

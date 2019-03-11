@@ -54,9 +54,6 @@ class Sellpoint__ApiView(Generic__ApiView):
 				'menus': MenuSerializer( Menu.objects.filter(pk__in = menu), many=True ).data 
 			}, safe=False)
 		if request.GET.get('api') == 'printTicket':
-			print(request.POST)
-			print(request.POST.get('ActiveSellpoint'))
-			ticket = Ticket().new(request.POST)
 			return JsonResponse({
-				'ticket': ticket#SellpointSerializer(ticket).data,,
+				'ticket': TicketSerializer(Ticket().new( activeSellpoint = json.loads(request.POST.get('activeSellpoint')), ticket = json.loads(request.POST.get('ticket')) )).data
 			}, safe=False)

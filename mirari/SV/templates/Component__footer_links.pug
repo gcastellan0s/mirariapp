@@ -10,4 +10,8 @@ div
     router-link(to="/sellpoint" v-if="includes(ActiveSellpoint.vendors, {{request.user.id}})")
         a.footer-link.pt-3.ml-4(href='javascript:void(0)') 
             i.fas.fa-store.pr-2
-            | PUNTO DE VENTA
+            | VENDEDOR
+    router-link(to="/sellpoint" v-if="includes(ActiveSellpoint.vendors, {{request.user.id}})")
+        a.footer-link.pt-3.ml-4(href='javascript:void(0)') 
+            i.fas.fa-ellipsis-h.pr-2
+            | MENU

@@ -335,7 +335,7 @@ class Serial(Model_base):
 	def __str__(self):
 		return '{0} ( {1} )'.format(self.name, self.serial)
 	def get_serial(self):
-		self.serial += 1
+		self.serial = self.serial + 1
 		self.save()
 		return self.serial
 
