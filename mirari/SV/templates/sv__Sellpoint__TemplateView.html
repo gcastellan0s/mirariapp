@@ -23,7 +23,7 @@
 		const router = new VueRouter({routes: [
 			{ path: '/SV/sv/', component: {template: ``} },
 		]});
-		const PublicSocket = io();
+		const PublicSocket = io.connect('ws://50.18.229.242:8002',{'forceNew':true});
 		const IVA = 0.16;
 		const IEPS = 0.08;
 	{%endblock constants%}
@@ -32,6 +32,7 @@
 
 	{%block data%}
 		{{block.super}}
+		ErrorText: null,
 		Sellpoints: null,
 		ActiveSellpoint: {
 			name: 'No Sellpoint',
@@ -124,9 +125,10 @@
 			Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=printTicket', {
 				activeSellpoint: JSON.stringify(self.ActiveSellpoint),
 				ticket: JSON.stringify(self.Ticket),
-			}).then((json) => {
+			}, errorDialog=false).then((json) => {
 				PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', json.data.ticket)
 			}).catch((error) => {
+				
 				PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', json.data.ticket)
 			}).finally(() => { 
 				self.Ticket = {
