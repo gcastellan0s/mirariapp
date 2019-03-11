@@ -4,6 +4,6 @@ io.on('connection', function (socket) {
         socket.join(data); 
     })
     socket.on('Send_Event', function (organizationCode, event, data) {
-        io.sockets.in(organizationCode).emit('Recibe_Event', data, event);
+        io.sockets.in(organizationCode).emit('Recibe_Event', event, data);
     });
 });
