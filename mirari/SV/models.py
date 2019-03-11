@@ -71,6 +71,7 @@ class Sellpoint(Model_base):
 	cashers = models.ManyToManyField('mirari.User', verbose_name='Cajeros', blank=True, related_name='+',)
 	vendors = models.ManyToManyField('mirari.User', verbose_name='Vendedores', blank=True, related_name='+',)
 	orders = models.ManyToManyField('mirari.User', verbose_name='Pedidos', blank=True, related_name='+',)
+	printer = models.CharField('Impresora ID', max_length=80, blank=True, null=True)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
@@ -478,7 +479,6 @@ class Ticket(Model_base):
 		return self
 
 
-
 VARS = {
 	'NAME':'Producto del ticket',
 	'PLURAL':'Productos del ticket',
@@ -522,6 +522,8 @@ class TicketProducts(Model_base):
 		return self.total, self.iva, self.ieps
 
 
+########################################################################################
+########################################################################################	
 VARS = {
 	'NAME':'Corte',
 	'PLURAL':'Cortes',
