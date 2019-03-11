@@ -606,7 +606,8 @@ class OrderServiceComment(Model_base):
 	orderservice = models.ForeignKey('OrderService', on_delete=models.CASCADE, related_name='+',)
 	user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
 	comment = models.TextField()
-	creation_date = models.DateTimeField(auto_now_add=True, editable=True)
+	creation_date = models.DateTimeField()
+	id_bckp = models.IntegerField()
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
