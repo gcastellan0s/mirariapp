@@ -1,43 +1,56 @@
 'use strict';
 const variables = require('./variables');
 const {PythonShell} = require("python-shell");
+const io = require('socket.io')
+const ip = require('ip');
 
-var ip = require('ip');
-var socket_client = require('socket.io-client')(variables.domain);
+var PublicSocket = require('socket.io-client')('ws://50.18.229.242:8002');
+PublicSocket.emit('room', variables.organizationCode);
 
-socket_client.emit('room', variables.code);
-socket_client.emit('printer_connected',{'company':variables.code,'port':variables.port,'name':variables.name,'ip':ip.address(),'url':'http://'+ip.address().toString()+':'+variables.port.toString()});
+var data = {
+	url: 'ws://'+ip.address().toString()+':'+variables.port.toString(),
+	name: variables.sellpoint
+}
 
+let PrinterConection = () => {
+	PublicSocket.emit('Send_PrinterConection',{organizationCode:variables.organizationCode, data:data});
+};
+
+PrinterConection();
 setInterval(function(){
-	socket_client.emit('printer_connected',{'company':variables.code,'port':variables.port,'name':variables.name,'ip':ip.address(),'url':'http://'+ip.address().toString()+':'+variables.port.toString()});
-}, 10000);
+	PrinterConection();
+}, 15000);
 
-var io = require('socket.io')(variables.port);
-io.on('connection', function (socket) {
-	socket.on('print_ticket', function(data) {
-		var pyshell = new PythonShell('print_ticket.py', {
-			mode: 'json',
-			pythonPath: '/usr/bin/python3',
-			scriptPath: '/home/pi/mirari-printer',
-		});
-		pyshell.send(data).end(function (err) {
-			if (err){
-				console.log(err)
-				return 0;
-			}
-		});
-	});
-	socket.on('make_cut', function (data) {
-		var pyshell = new PythonShell('make_cut.py', {
-			mode: 'json',
-			pythonPath: '/usr/bin/python3',
-			scriptPath: '/home/pi/mirari-printer',
-		});
-		pyshell.send(data).end(function (err) {
-			if (err) {
-				console.log(err)
-				return 0;
-			}
-		});
-	});
-});
+
+
+
+
+//var io = require('socket.io')(variables.port);
+//io.on('connection', function (socket) {
+	//socket.on('print_ticket', function(data) {
+		//var pyshell = new PythonShell('print_ticket.py', {
+			//mode: 'json',
+			//pythonPath: '/usr/bin/python3',
+			//scriptPath: '/home/pi/mirari-printer',
+		//});
+		//pyshell.send(data).end(function (err) {
+			//if (err){
+				//console.log(err)
+				//return 0;
+			//}
+		//});
+	//});
+	//socket.on('make_cut', function (data) {
+		//var pyshell = new PythonShell('make_cut.py', {
+			//mode: 'json',
+			//pythonPath: '/usr/bin/python3',
+			//scriptPath: '/home/pi/mirari-printer',
+		//});
+		//pyshell.send(data).end(function (err) {
+			//if (err) {
+				//console.log(err)
+				//return 0;
+			//}
+		//});
+	//});
+//});

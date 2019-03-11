@@ -99,7 +99,7 @@
                             .text-right.small
                                 | $ ${line.price|formatPrice}
                                 br
-                                strong ${line.name}
+                                strong ${line.productName}
                     .flex-shrink-1.flex-grow-1.px-1.py-1
                         // Layout footer
                             h4.font-weight-bold.py-3.mb-4
@@ -122,5 +122,6 @@
                         .pt-3
                             span.footer-text.font-weight-bolder.pl-1 ${ActiveSellpoint.name}
                             small ${ActiveSellpoint.id}
+                            small {{request.user.organization.code}}
                         include Component__footer_links.pug
     .layout-overlay.layout-sidenav-toggle
