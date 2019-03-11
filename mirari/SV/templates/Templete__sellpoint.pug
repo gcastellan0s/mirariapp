@@ -11,9 +11,9 @@
                 // Links
                 ul.sidenav-inner.py-1
                     // Links
-                    li.sidenav-divider.mb-1
-                    | ${$route.path}
-                    li.sidenav-header.small.font-weight-semibold
+                    // li.sidenav-divider.mb-1
+                    // | ${$route.path}
+                    // li.sidenav-header.small.font-weight-semibold
                     li.sidenav-item(v-for="menu in Menus")
                         a.sidenav-link.text-right.d-flex.justify-content-end.px-1(v-on:click="selectMenu(menu)" :class="[ menu == ActiveMenu ? 'bg-light' : '' ]")
                             div
@@ -83,7 +83,7 @@
                                         span.media-body.d-block
                                             span.text-big.font-weight-bolder .
                                 .d-flex.col-sm-4.align-items-center
-                                    button.btn.btn-danger.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="keyboard('.')")
+                                    button.btn.btn-danger.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="initTicket()")
                                         span.media-body.d-block
                                             span.fas.fa-trash
                                 .d-flex.col-sm-4.align-items-center

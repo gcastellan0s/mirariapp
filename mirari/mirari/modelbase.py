@@ -31,7 +31,8 @@ from imagekit.processors import ResizeToFill
 
 from itertools import chain
 
-from money import Money
+from money.money import Money
+from money.currency import Currency
 
 from taggit.managers import TaggableManager
 

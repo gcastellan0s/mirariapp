@@ -34,6 +34,16 @@ MENU = {
                 'model': APP + '.Product',
                 'url': 'Generic__ListView',
             },
+            {
+                'title': 'CORTE',
+                'icon': 'fa fa-cut',
+                'text': 'LISTADO DE CORTES',
+                'subtext': 'Listado de cortes en la organización',
+                'apps': [APP, ],
+                'permission': 'Can_View',
+                'model': APP + '.Cut',
+                'url': 'Generic__ListView',
+            },
         ]
     }
 }
