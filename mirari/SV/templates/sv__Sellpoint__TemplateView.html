@@ -125,9 +125,9 @@
 				activeSellpoint: JSON.stringify(self.ActiveSellpoint),
 				ticket: JSON.stringify(self.Ticket),
 			}, errorDialog=false).then((json) => {
-				PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', json.data.ticket)
+				PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'PrintTicket', json.data.ticket)
 			}).catch((error) => {
-				PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', json.data.ticket)
+				PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'PrintTicket', json.data.ticket)
 			}).finally(() => { 
 				self.initTicket();
 			});
