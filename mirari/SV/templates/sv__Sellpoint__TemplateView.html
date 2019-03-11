@@ -19,24 +19,18 @@
 
 <script>
 	{%block constants%}
-		{{block.super}}
-		const router = new VueRouter({routes: [
-			{ path: '/SV/sv/', component: {template: ``} },
-		]});
-		const PublicSocket = io.connect('ws://50.18.229.242:8002',{'forceNew':true});
+		const router = new VueRouter({routes:[{ path:'/SV/sv/',component:{template:``}}]});
 		const IVA = 0.16;
 		const IEPS = 0.08;
+		const PublicSocket = io.connect('ws://50.18.229.242:8002',{'forceNew':true});
 	{%endblock constants%}
 
 	{%block router%}router,{%endblock router%}
 
 	{%block data%}
-		{{block.super}}
 		ErrorText: null,
 		Sellpoints: null,
-		ActiveSellpoint: {
-			name: 'No Sellpoint',
-		},
+		ActiveSellpoint: null,
 		Menus: null,
 		ActiveMenu: {
 			color: '#7b7b7b',
@@ -57,15 +51,12 @@
 		},
 		Tickets: [],
 		Printers: [],
+		ActivePrinter: {
+			name: null,
+		},
 	{%endblock data%}
 
-	{%block computed%}
-		{{block.super}}
-		self.initTicket()
-	{%endblock computed%}
-
 	{%block mounted%}
-		{{block.super}}
 		Block();
 		Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates').then(function(json){
 			self.Sellpoints = json.data.sellpoints
@@ -79,12 +70,16 @@
 			self.Tickets.unshift(data)
 		});
 		PublicSocket.on('Recibe_PrinterConection', (data) => {
-			console.log(data)
+			if(self.ActiveSellpoint.printer == data.name){
+				if (data.name != self.ActivePrinter.name){
+					self.ActivePrinter = data
+					console.log("Impresora agregada")
+				}
+			} 
 		});
 	{%endblock mounted%}
 
 	{%block methods%}
-		{{block.super}}
 		selectMenu:((menu) => {self.ActiveMenu = menu}),
 		addProduct: function(productattribute) {
 			if (self.Price == 'PRECIO') price = productattribute.price
@@ -134,16 +129,7 @@
 			}).catch((error) => {
 				PublicSocket.emit('Send_PrintTicket', '{{request.user.organization.code}}', json.data.ticket)
 			}).finally(() => { 
-				self.Ticket = {
-					products: [],
-					key: null,
-					format_time: null,
-					format_date: null,
-					barcode: null,
-					user: '{{request.user.id}}',
-					username: null,
-					cut: null,
-				}
+				self.initTicket();
 			});
 		}),
 		updateTotal: ((productLine) => {
@@ -193,7 +179,6 @@
 	{%endblock methods%}
 
 	{%block filters%}
-		{{block.super}}
 		firstNameMenu: ((value) => {
 			if (!value) return ''
 			return value.toString().charAt(0).toUpperCase()

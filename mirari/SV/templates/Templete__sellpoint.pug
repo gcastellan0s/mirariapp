@@ -71,7 +71,7 @@
                                         span.media-body.d-block
                                             span.text-big.font-weight-bolder 9
                                 .d-flex.col-sm-4.align-items-center
-                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="keyboard('<')")
+                                    button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('<')")
                                         span.media-body.d-block
                                             span.fas.fa-backspace
                                 .d-flex.col-sm-4.align-items-center
@@ -83,23 +83,24 @@
                                         span.media-body.d-block
                                             span.text-big.font-weight-bolder .
                                 .d-flex.col-sm-4.align-items-center
-                                    button.btn.btn-danger.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="initTicket()")
+                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="initTicket()")
                                         span.media-body.d-block
-                                            span.fas.fa-trash
+                                            span.fas.fa-trash.text-danger
                                 .d-flex.col-sm-4.align-items-center
                                     button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="keyboard('<')")
                                         span.media-body.d-block
                                             span.fas.fa-plus
                                 .d-flex.col-sm-4.align-items-center
-                                    button.btn.btn-primary.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="printTicket()")
+                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="printTicket()")
                                         span.media-body.d-block
-                                            span.fas.fa-print
-                        .card-body.d-flex.justify-content-between.py-1(v-for="line in Ticket.products")
-                            .text-large ${line.quantity}
-                            .text-right.small
-                                | $ ${line.price|formatPrice}
-                                br
-                                strong ${line.productName}
+                                            span.fas.fa-print.text-primary
+                        div(v-if="Ticket")
+                            .card-body.d-flex.justify-content-between.py-1(v-for="line in Ticket.products")
+                                .text-large ${line.quantity}
+                                .text-right.small
+                                    | $ ${line.price|formatPrice}
+                                    br
+                                    strong ${line.productName}
                     .flex-shrink-1.flex-grow-1.px-1.py-1
                         // Layout footer
                             h4.font-weight-bold.py-3.mb-4
@@ -108,7 +109,7 @@
                                     |  Without navbar (Flex)
                                 a.layout-sidenav-toggle.d-inline-block.text-muted.align-middle.ml-3(href='javascript:void(0)' style='font-size: 14px')
                                     i.ion.ion-md-menu.text-large.align-middle
-                        div
+                        div(v-if="ActiveSellpoint && ActiveMenu")
                             .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.product.menu.includes(ActiveMenu.id) && productattribute.sellpoint == ActiveSellpoint.id" :style="{ borderColor: ActiveMenu.color }")
                                 .text-big.m-2
                                     strong $ ${productattribute.price|formatPrice}
@@ -117,11 +118,11 @@
                 // Layout footer
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
-                        .pt-3
+                        .pt-3(v-if="Ticket")
                             span.footer-text.font-weight-bolder.px-3.h4 $ ${Ticket|ticketTotal|formatPrice}
-                        .pt-3
-                            span.footer-text.font-weight-bolder.pl-1 ${ActiveSellpoint.name}
-                            small ${ActiveSellpoint.id}
-                            small {{request.user.organization.code}}
+                        .pt-3(v-if="ActivePrinter.name")
+                            span.footer-text.pl-1.text-success
+                                i.fas.fa-print.pr-2
+                                | ${ActivePrinter.name}
                         include Component__footer_links.pug
     .layout-overlay.layout-sidenav-toggle
