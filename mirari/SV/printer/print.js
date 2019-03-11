@@ -10,7 +10,7 @@ PublicSocket.emit('room', variables.organizationCode);
 var data = {
 	url: 'ws://'+ip.address().toString()+':'+variables.port.toString(),
 	name: variables.sellpoint,
-	organizationCode: variables.organizationCode
+	organizationCode: variables.organizationCode,
 	isServer: variables.isServer
 }
 
