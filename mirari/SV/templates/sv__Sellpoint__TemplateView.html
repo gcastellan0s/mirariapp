@@ -23,6 +23,7 @@
 		const IVA = 0.16;
 		const IEPS = 0.08;
 		const PublicSocket = io.connect('ws://50.18.229.242:8002',{'forceNew':true});
+		var PrivateSocket = null
 	{%endblock constants%}
 
 	{%block router%}router,{%endblock router%}
@@ -147,6 +148,8 @@
 			if(self.ActiveSellpoint.printer == data.name){
 				if (data.name != self.ActivePrinter.name){
 					self.ActivePrinter = data
+					PrivateSocket = io.connect(self.ActivePrinter,{'forceNew':true});
+					console.log(PrivateSocket)
 				}
 			}
 		}),
