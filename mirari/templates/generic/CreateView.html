@@ -7,59 +7,59 @@
 {% block title %}{{ model|verbose_name_plural|upper }} :: {{ G.ORGANIZATION.TITLE }}{% endblock title %}
 
 {%block styles%}
-	{{block.super}} 
-	<link href="{%static 'mirari/css/multi-select.css'%}" rel="stylesheet" type="text/css" />
-	{%block extra_styles%}
-	{%endblock extra_styles%}
+    {{block.super}} 
+    <link href="{%static 'mirari/css/multi-select.css'%}" rel="stylesheet" type="text/css" />
+    {%block extra_styles%}
+    {%endblock extra_styles%}
 {%endblock styles%}
 
 {%block css%}
-	{{block.super}} 
-	{%include 'generic/includes/create-update/selectmultiple.html'%}
-	{%if 'small_form' in model.VARS.FORM_CLASS%}
-		{%include 'generic/includes/create-update/small_form.css'%}
-	{%endif%}
-	{%block extra_css%}
-	{%endblock extra_css%}
+    {{block.super}} 
+    {%include 'generic/includes/create-update/selectmultiple.html'%}
+    {%if 'small_form' in model.VARS.FORM_CLASS%}
+        {%include 'generic/includes/create-update/small_form.css'%}
+    {%endif%}
+    {%block extra_css%}
+    {%endblock extra_css%}
 {%endblock css%}
 
 {%block subheader%}
     <div class="m-subheader m--padding-top-5">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-				<h3 class="m-subheader__title m-subheader__title--separator">
-					{%if not object%}
-						<small>CREAR</small> 
-						<strong>{{ model|verbose_name_singular|upper }}</strong>
-					{%else%}
-						<small>EDITAR</small> 
-						<strong>{{object}}</strong>
-					{%endif%}
-				</h3>
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    {%if not object%}
+                        <small>CREAR</small> 
+                        <strong>{{ model|verbose_name_singular|upper }}</strong>
+                    {%else%}
+                        <small>EDITAR</small> 
+                        <strong>{{object}}</strong>
+                    {%endif%}
+                </h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
                         <a href="/" class="m-nav__link m-nav__link--icon">
                             <strong> <i class="la la-home"></i> INICIO</strong>
                         </a>
                     </li>
-					{%if breadcrumbs%}
-						{{breadcrumbs|safe}}
-					{%else%}
-						<li class="m-nav__separator">
-							<strong>></strong>
-						</li>
-						<li class="m-nav__item m-nav__item--home">
-							{%if redirect_model%}
-								<a href="{{redirect_model.url_list}}" class="m-nav__link m-nav__link--icon">
-									Lista de {{ redirect_model|verbose_name_plural|upper }}
-								</a>
-							{%else%}
-								<a href="{{model.url_list}}" class="m-nav__link m-nav__link--icon">
-									Lista de {{ model|verbose_name_plural|upper }}
-								</a>
-							{%endif%}
-						</li>
-					{%endif%}
+                    {%if breadcrumbs%}
+                        {{breadcrumbs|safe}}
+                    {%else%}
+                        <li class="m-nav__separator">
+                            <strong>></strong>
+                        </li>
+                        <li class="m-nav__item m-nav__item--home">
+                            {%if redirect_model%}
+                                <a href="{{redirect_model.url_list}}" class="m-nav__link m-nav__link--icon">
+                                    Lista de {{ redirect_model|verbose_name_plural|upper }}
+                                </a>
+                            {%else%}
+                                <a href="{{model.url_list}}" class="m-nav__link m-nav__link--icon">
+                                    Lista de {{ model|verbose_name_plural|upper }}
+                                </a>
+                            {%endif%}
+                        </li>
+                    {%endif%}
                 </ul>
             </div>
         </div>
@@ -68,51 +68,51 @@
 
 {%block content%}
     <div class="row">
-		<div class="
-				{%if 'FORM_SIZE' in model.VARS%}
-					{%if model.VARS.FORM_SIZE|length > 1 %}
-						{%if not object%}
-							{{model.VARS.FORM_SIZE.0}}
-						{%else%}
-							{{model.VARS.FORM_SIZE.1}}
-						{%endif%}
-					{%else%}
-						{{model.VARS.FORM_SIZE}}
-					{%endif%}
-				{%else%}
-					col-xl-8 offset-xl-2
-				{%endif%}
+        <div class="
+                {%if 'FORM_SIZE' in model.VARS%}
+                    {%if model.VARS.FORM_SIZE|length > 1 %}
+                        {%if not object%}
+                            {{model.VARS.FORM_SIZE.0}}
+                        {%else%}
+                            {{model.VARS.FORM_SIZE.1}}
+                        {%endif%}
+                    {%else%}
+                        {{model.VARS.FORM_SIZE}}
+                    {%endif%}
+                {%else%}
+                    col-xl-8 offset-xl-2
+                {%endif%}
             ">
-			{% crispy form %}
-		</div>
-	</div>
+            {% crispy form %}
+        </div>
+    </div>
 {%endblock content%}
 
 {%block js%}
-	{{block.super}} 
-	<script src="{%static 'mirari/js/jquery.multi-select.js'%}" type="text/javascript"></script>
-	<script src="{%static 'mirari/js/quicksearch.js'%}" type="text/javascript"></script>
+    {{block.super}} 
+    <script src="{%static 'mirari/js/jquery.multi-select.js'%}" type="text/javascript"></script>
+    <script src="{%static 'mirari/js/quicksearch.js'%}" type="text/javascript"></script>
 {%endblock js%}
 
 {%block mounted%}
-	$('[name="color"]').attr('type','color');
+    $('[name="color"]').attr('type','color');
 
-	{%include 'generic/includes/create-update/switch.js'%}
+    {%include 'generic/includes/create-update/switch.js'%}
 
-	{%block select2%}
-		{%include 'generic/includes/create-update/select.js'%}
-	{%endblock select2%}
+    {%block select2%}
+        {%include 'generic/includes/create-update/select.js'%}
+    {%endblock select2%}
 
-	{%block extraselect2%}
-	{%endblock extraselect2%}
+    {%block extraselect2%}
+    {%endblock extraselect2%}
 
-	{%include 'generic/includes/create-update/datepicker.js'%}
-	{%include 'generic/includes/create-update/validate.js'%}
+    {%include 'generic/includes/create-update/datepicker.js'%}
+    {%include 'generic/includes/create-update/validate.js'%}
 
-	{%if 'SUMMERNOTE' in model.VARS%}
-		{%include 'generic/includes/create-update/summernote.js'%}
-	{%endif%}
-	
-	{%block extra_mounted%}
-	{%endblock extra_mounted%}
+    {%if 'SUMMERNOTE' in model.VARS%}
+        {%include 'generic/includes/create-update/summernote.js'%}
+    {%endif%}
+    
+    {%block extra_mounted%}
+    {%endblock extra_mounted%}
 {%endblock mounted%}

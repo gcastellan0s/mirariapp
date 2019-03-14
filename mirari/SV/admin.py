@@ -28,4 +28,8 @@ class TicketProductsAdmin(PassAdmin):
 
 @admin.register(Cut)
 class CutAdmin(PassAdmin):
+	list_display = ('sellpoint','getTotalMoney', 'getIvaMoney','getIepsMoney')
+
+@admin.register(Offer)
+class OfferAdmin(PassAdmin):
 	pass

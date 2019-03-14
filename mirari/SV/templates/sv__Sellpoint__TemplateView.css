@@ -15,3 +15,9 @@
 .print-botton{
     border-radius:100px;
 }
+.PENDIENTE{
+    background-color: #fbe4e4;
+}
+.COBRADO{
+    background-color: #ddece1;
+}

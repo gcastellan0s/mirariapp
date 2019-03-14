@@ -13,17 +13,20 @@
                     .flex-shrink-1.flex-grow-1.px-1.py-1
                         table.table
                             tbody
-                                tr(v-for="lineTicket in Tickets")
-                                    td ${lineTicket.barcode|padStart13}
-                                    td ${lineTicket.key}
-                                    td ${lineTicket.date|FormatTDate}
-                                    td $ ${lineTicket.total|formatPrice}
-                    .flex-shrink-1.flex-grow-0.w-30.bg-light.px-1.py-1
-                        .input-group.input-group-lg.mt-3
-                            .input-group-prepend
-                                span.input-group-text.ml-2
-                                    i.fas.fa-barcode.pr-2
-                            input.form-control(type='text' placeholder='INGRESE CODIGO DE TICKET')
+                                tr(v-for="ticket in Tickets" v-bind:class="ticket.status")
+                                    td ${ticket.barcode|padStart}
+                                    td ${ticket.key}
+                                    td(:style="{color:ticket.sellpoint.color}") ${ticket.sellpoint.name}
+                                    td ${ticket.date|FormatTDate}
+                                    td $ ${ticket.total|formatPrice}
+                    //
+                        .flex-shrink-1.flex-grow-0.w-30.bg-light.px-1.py-1
+                            form(method="post" autofocus="autofocus")
+                                .input-group.input-group-lg.mt-3
+                                    .input-group-prepend
+                                        span.input-group-text.ml-2
+                                            i.fas.fa-barcode.pr-2
+                                    input.form-control(type='text' placeholder='INGRESE CODIGO DE TICKET')
                 // Layout footer
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
