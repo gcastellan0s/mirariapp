@@ -35,6 +35,16 @@ MENU = {
                 'url': 'Generic__ListView',
             },
             {
+                'title': 'DESCUENTOS',
+                'icon': 'flaticon-price-tag',
+                'text': 'LISTADO DE DESCUENTOS',
+                'subtext': 'Listado de descuentos disponibles',
+                'apps': [APP, ],
+                'permission': 'Can_View',
+                'model': APP + '.Offer',
+                'url': 'Generic__ListView',
+            },
+            {
                 'title': 'CORTE',
                 'icon': 'fa fa-cut',
                 'text': 'LISTADO DE CORTES',

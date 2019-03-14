@@ -1,17 +1,27 @@
-div(v-if="ActiveSellpoint")
-    router-link(to="/order" v-if="includes(ActiveSellpoint.orders, {{request.user.id}})")
+div(v-if="Sellpoint")
+    router-link(to="/order" v-if="includes(Sellpoint.orders, {{request.user.id}})")
         a.footer-link.pt-3.ml-4(href='javascript:void(0)') 
             i.fas.fa-folder.pr-2
             | PEDIDOS
-    router-link(to="/casher" v-if="includes(ActiveSellpoint.cashers, {{request.user.id}})")
+    router-link(to="/casher" v-if="includes(Sellpoint.cashers, {{request.user.id}})")
         a.footer-link.pt-3.ml-4(href='javascript:void(0)')
             i.fas.fa-credit-card.pr-2
             | CAJERO
-    router-link(to="/sellpoint" v-if="includes(ActiveSellpoint.vendors, {{request.user.id}})")
+    router-link(to="/sellpoint" v-if="includes(Sellpoint.vendors, {{request.user.id}})")
         a.footer-link.pt-3.ml-4(href='javascript:void(0)') 
             i.fas.fa-store.pr-2
             | VENDEDOR
-    router-link(to="/sellpoint" v-if="includes(ActiveSellpoint.vendors, {{request.user.id}})")
-        a.footer-link.pt-3.ml-4.text-primary(href='javascript:void(0)') 
-            i.fas.fa-ellipsis-h.pr-2
-            | MENU
+    a.footer-link.pt-3.ml-4.text-primary(data-toggle="modal" data-target="#modals-slide")
+        i.fas.fa-ellipsis-h.pr-2
+        | MENU
+#modals-slide.modal.modal-slide.fade
+    .modal-dialog
+        form.modal-content
+            button.close(type='button', data-dismiss='modal', aria-label='Close') ×
+            .modal-body
+                button.btn.btn-lg.btn-brand.my-2(type='button' v-on:click="makeCut()")
+                    span.fas.fa-cut
+                    |   HACER CORTE
+                button.btn.btn-lg.btn-danger.mt-5(type='button')
+                    span.fas.fa-sign-out-alt
+                    |   SALIR DEL SISTEMA
