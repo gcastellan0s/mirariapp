@@ -23,8 +23,9 @@ setInterval(function(){
 }, 15000);
 
 var io = require('socket.io')(variables.port);
-io.on('connection', function (socket) {
-    socket.on('Send_Event', function(organizationCode, event, data) {
+io.on('connection', function (privateSocket) {
+    privateSocket.on('Send_Event', function(organizationCode, event, data) {
+        console.log(event)
         if (event == 'Print'){
             var pyshell = new PythonShell('pyprint.py', {
                 mode: 'json',

@@ -70,11 +70,12 @@
             self.Menus = json.data.menus
             self.ProductAttributes = json.data.productAttributes
             self.Offers = json.data.offers
+            self.Tickets = json.data.tickets
             UnBlock();
         })
         PublicSocket.emit('room', '{{request.user.organization.code}}');
         PublicSocket.on('Recibe_Event', (event, data) => {
-            if (event == 'PrintTicket') self.recibePrintTicket(data);
+            if (event == 'sendTicket') self.recibePrintTicket(data);
             if (event == 'PrinterConection') self.recibePrinterConection(data);
         });
     {%endblock mounted%}
@@ -146,13 +147,13 @@
             if(self.Ticket.products.length < 1){
                 return 0
             }
-            self.Ticket.key = self.randomChars(8, 'aplha_numbers')
+            self.Ticket.key = self.randomChars(12, 'aplha_numbers')
             self.Ticket.format_time = moment().format('L')
             self.Ticket.format_date = moment().format('LTS')
-            self.Ticket.status = 'PENDIENTE'
+            self.Ticket.status = 'COBRADO'
             self.Ticket.sellpoint = self.Sellpoint
-            self.Ticket.username = {{request.user.visible_username}}
-            if (!self.Sellpoint.have_cashier) self.Ticket.status = 'COBRADO'
+            self.Ticket.username = '{{request.user.visible_username}}'
+            if (self.Sellpoint.have_casher) self.Ticket.status = 'PENDIENTE'
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getBarCode', {
                 ticket: JSON.stringify(self.Ticket),
             }, errorDialog=false)
@@ -167,11 +168,13 @@
             });
         }),
         sendTicket: ((ticket) => {
-            PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'PrintTicket', ticket)
+            PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'sendTicket', ticket)
         }),
         printTicket: ((ticket) => {
-            
-            PrivateSocket.emit('Send_Event', '{{request.user.organization.code}}', 'Print', data)
+            if (PrivateSocket){
+                ticketFormat = [["image","tahona.png"],["qr","000000127671"],["set",["center", "A", "B", 1, 2]],["text", "Hola mundo"],["cut"],]
+                PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
+            }
         }),
         initTicket: (() => {
             self.Ticket = {
