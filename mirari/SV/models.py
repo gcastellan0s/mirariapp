@@ -21,7 +21,7 @@ VARS = {
             'url': 'property_url_update',
         },
         {
-            'field': 'property_get_have_cashier',
+            'field': 'property_get_have_casher',
             'title': 'Tiene caja?',
         },
         {
@@ -51,7 +51,7 @@ VARS = {
     'SEARCH': ['name'],
     'SORTEABLE': ['name'],
     'EXCLUDE_FORM': ['serial'],
-    'FORM': ('name','have_cashier','color','vendors','cashers','orders','is_active','number_tickets','printer','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
+    'FORM': ('name','have_casher','color','vendors','cashers','orders','is_active','number_tickets','printer','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
 }
 class Sellpoint(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
@@ -59,7 +59,7 @@ class Sellpoint(Model_base):
     serial = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    have_cashier = models.BooleanField('Cobran vendedores?', default=False, help_text='Tienes vendedores autorizados para cobrar en esta sucursal?')
+    have_casher = models.BooleanField('Tiene Caja?', default=False, help_text='Tienes vendedores autorizados para cobrar en esta sucursal?')
     color = models.CharField('Color del Punto de Venta', max_length=50, default='#191919')
     number_tickets = models.IntegerField('Numero de tickets que imprime', default=1)
     header_line_black_1 = models.CharField('Linea 1 del encabezado del ticket', max_length=80, blank=True, null=True)
@@ -79,8 +79,10 @@ class Sellpoint(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.name)
-    def get_have_cashier(self):
-        return self.render_boolean(not self.have_cashier)
+    def getMySellpoints(self, user):
+        return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(Q(cashers=user)|Q(vendors=user)|Q(orders=user))
+    def get_have_casher(self):
+        return self.render_boolean(not self.have_casher)
     def get_color(self):
         return self.render_color(self.color)
     def get_serial(self):
@@ -230,7 +232,7 @@ VARS = {
         }
     },
     'SERIALIZER': ['get_code','get_units','get_is_active','get_productattributes','get_menu','get_sellpoint'],
-    #'SELECTQ': {
+    'SELECTQ': {
         #'code': {
             #'model': ['mirari', 'ProductsServicesSAT'],
             #'query': 'NONE',
@@ -247,14 +249,14 @@ VARS = {
             #'limits': 50,
             #'placeholder': 'Elige una unidad o código de la unidad',
         #},
-        #'sellpoints': {
-            #'plugin': 'selectmultiple',
-        #},
-        #'menu': {
-            #'plugin': 'selectmultiple',
-        #},
-    #},
-    #'FORM': ('name','code','units','sellpoints','menu','is_active'),
+        'sellpoints': {
+            'plugin': 'selectmultiple',
+        },
+        'menu': {
+            'plugin': 'selectmultiple',
+        },
+    },
+    'FORM': ('name','code','units','sellpoints','menu','is_active'),
 }
 class Product(Model_base):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE)
@@ -480,6 +482,17 @@ class Ticket(Model_base):
             TicketProducts().addTicket(self, product)
         self.save()
         return self
+    def getLenOffers(self):
+        offers = []
+        for ticketProduct in TicketProducts.objects.filter(ticket = self, offers = None):
+            if not ticketProduct.offers in offers:
+                offers.append(ticketProduct.offers)
+        return len(offers)
+    def scanner(self):
+        if (self.status == 'PENDIENTE'):
+            self.status = 'COBRADO'
+            self.save()
+        return self
 
 
 VARS = {
@@ -542,10 +555,10 @@ VARS = {
     'LIST': [
         {
             'field': 'serial',
-            'title': 'Serial',
+            'title': 'Folio',
         },
         {
-            'field': 'sellpoint',
+            'field': 'property_getSellpoint',
             'title': 'Punto de Venta',
         },
         {
@@ -566,14 +579,17 @@ VARS = {
         },
         {
             'field': 'property_getFaltanteMoney',
-            'title': 'Total Faltante',
+            'title': 'Faltante',
+        },
+        {
+            'field': 'property_getOffersLen',
+            'title': 'Mayoreo',
         },
         {
             'field': 'property_getTotalMoney',
             'title': 'Total Corte',
         },
     ],
-    'SERIALIZER': ['getTotalMoney','getIvaMoney','getIepsMoney','getSubtotalMoney','getFaltanteMoney','getFinal_time'],
 }
 class Cut(Model_base):
     sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
@@ -598,9 +614,11 @@ class Cut(Model_base):
             self.serial = cut.serial + 1
         self.save()
         return self
+    def getSellpoint(self):
+        return self.sellpoint.name
     def getFinal_time(self):
         if self.final_time:
-            return render_datetime(self.final_time)
+            return self.render_datetime(self.final_time)
         return '-'
     def getTotal(self):
         total = 0
@@ -629,6 +647,11 @@ class Cut(Model_base):
         return "{0:.2f}".format(total)
     def getTickets(self):
         return Ticket.objects.filter(cut=self)
+    def getOffersLen(self):
+        total = 0
+        for ticket in Ticket.objects.filter(cut=self):
+            total += ticket.getLenOffers()
+        return total
     def makeCut(self):
         if self.getTickets():
             self.final_time = datetime.datetime.now()

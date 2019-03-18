@@ -41,7 +41,7 @@
                                 .d-flex.col-sm-4.align-items-center
                                     button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('<')")
                                         span.media-body.d-block
-                                            span.fas.fa-backspace
+                                            span.fas.fa-angle-left
                                 .d-flex.col-sm-4.align-items-center
                                     button.btn.btn-default.card-body.align-items-center.text-dark.text-center.waves-effect(v-on:click="keyboard('0')")
                                         span.media-body.d-block
@@ -57,11 +57,11 @@
                                 .d-flex.col-sm-4.align-items-center
                                     button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="keyboard('<')")
                                         span.media-body.d-block
-                                            span.fas.fa-plus
+                                            span.fas.fa-angle-up
                                 .d-flex.col-sm-4.align-items-center
                                     button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="getBarCode()" :disabled="Ticket.products.length<1 || Ticket.proccessing")
                                         span.media-body.d-block
-                                            span.fas.fa-print.text-primary
+                                            span.fas.fa-print
                         div(v-if="Ticket")
                             .card-body.d-flex.justify-content-between.py-1(v-for="line in Ticket.products")
                                 .text-large ${line.quantity}

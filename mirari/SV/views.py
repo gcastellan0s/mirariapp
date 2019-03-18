@@ -63,14 +63,23 @@ class sv__Sellpoint__TemplateView(Generic__TemplateView):
     template_name = "sv__Sellpoint__TemplateView.html"
 
 
-
 ########################################################
 ########################################################
 class Sellpoint__ApiView(Generic__ApiView):
     permissions = False
     def get_serializers(self, request):
+        if request.GET.get('api') == 'barcodeScanner':
+            message = 'Folio no encontrado.'
+            ticket = Ticket.objects.filter(key=request.POST.get('key')).first()
+            if ticket:
+                ticket.scanner()
+                message = 'Cobrado con éxito'
+            return JsonResponse({
+                'ticket': TicketSerializer(ticket).data,
+                'message': message,
+            }, safe=False)
         if request.GET.get('api') == 'getStates':
-            sellpoints = Sellpoint.objects.filter(organization=request.user.organization, active=True, is_active=True)
+            sellpoints = Sellpoint().getMySellpoints(request.user)
             productattributes = ProductAttributes.objects.filter( sellpoint__in=sellpoints.all(), active=True, is_active=True, product__menu__active=True, product__menu__is_active=True ).distinct()
             menu = []
             for productattribute in productattributes:
@@ -89,3 +98,9 @@ class Sellpoint__ApiView(Generic__ApiView):
         if request.GET.get('api') == 'makeCut':
             cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()
             return JsonResponse({'cut': CutSerializer(cut).data})
+
+
+########################################################
+########################################################
+class SVbarcodeScanner__TemplateView(Generic__TemplateView):
+    template_name = "SVbarcodeScanner__TemplateView.html"
