@@ -256,7 +256,7 @@ VARS = {
             'plugin': 'selectmultiple',
         },
     },
-    'FORM': ('name','code','units','sellpoints','menu','is_active'),
+    'FORM': ('name','sellpoints','menu','is_active'),
 }
 class Product(Model_base):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE)
