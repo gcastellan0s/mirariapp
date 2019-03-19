@@ -69,8 +69,6 @@
             self.Sellpoint = self.Sellpoints[0]
             self.Menus = json.data.menus
             self.ProductAttributes = json.data.productAttributes
-            self.Offers = json.data.offers
-            self.Tickets = json.data.tickets
             UnBlock();
         })
         PublicSocket.emit('room', '{{request.user.organization.code}}');
