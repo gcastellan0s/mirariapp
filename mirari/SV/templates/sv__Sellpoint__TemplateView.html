@@ -71,16 +71,18 @@
             self.ProductAttributes = json.data.productAttributes
             self.Offers = json.data.offers
             self.Tickets = json.data.tickets
-            UnBlock();
+            self.initializePublicSocket()
         })
-        PublicSocket.emit('room', '{{request.user.organization.code}}');
-        PublicSocket.on('Recibe_Event', (event, data) => {
-            if (event == 'sendTicket') self.recibePrintTicket(data);
-            if (event == 'PrinterConection') self.recibePrinterConection(data);
-        });
     {%endblock mounted%}
 
     {%block methods%}
+        initializePublicSocket: (() => {
+            PublicSocket.emit('room', '{{request.user.organization.code}}');
+            PublicSocket.on('Recibe_Event', (event, data) => {
+                if (event == 'sendTicket') self.recibePrintTicket(data);
+                if (event == 'PrinterConection') self.recibePrinterConection(data);
+            });
+        }),
         selectMenu:((menu) => {self.Menu = menu}),
         addProduct: ((productattribute) => {
             if (self.Price == 'PRECIO') price = productattribute.price
@@ -172,6 +174,7 @@
         }),
         printTicket: ((ticket) => {
             if (PrivateSocket){
+                PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 ticketFormat = []
                 ticketFormat.push(["image", "tahona.png"])
                 ticketFormat.push(["set",["center", "A", "B", 1, 1]])
@@ -202,8 +205,6 @@
                 ticketFormat.push(["qr",self.Ticket.key+'/'+self.Ticket.barcode+'/'+self.Ticket.total])
                 if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1 + '\n'])
                 ticketFormat.push(["cut"])
-                //ticketFormat = [["image","tahona.png"],["qr","000000127671"],["set",["center", "A", "B", 1, 2]],["text", "Hola mundo"],["cut"],]
-                PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
             }
         }),
         initTicket: (() => {
