@@ -172,7 +172,16 @@
         }),
         printTicket: ((ticket) => {
             if (PrivateSocket){
-                ticketFormat = [["image","tahona.png"],["qr","000000127671"],["set",["center", "A", "B", 1, 2]],["text", "Hola mundo"],["cut"],]
+                ticketFormat.push(["set",["center", "A", "B", 2, 2]])
+                ticketFormat.push(["image", "tahona.png"])
+                if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1])
+                if(self.Sellpoint.header_line_black_2) ticketFormat.push(["text", self.Sellpoint.header_line_black_2])
+                ticketFormat.push(["set",["center", "A", "B", 1, 2]])
+                if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1])
+                if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2])
+                if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1])
+                ticketFormat.push(["set",["left", "A", "B", 1, 1]])
+                //ticketFormat = [["image","tahona.png"],["qr","000000127671"],["set",["center", "A", "B", 1, 2]],["text", "Hola mundo"],["cut"],]
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
             }
         }),
