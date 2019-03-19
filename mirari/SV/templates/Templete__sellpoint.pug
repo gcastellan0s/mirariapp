@@ -9,7 +9,12 @@
             // Layout sidenav
             #layout-sidenav.layout-sidenav.sidenav.sidenav-vertical.bg-sidenav-theme
                 // Links
-               
+                ul.sidenav-inner.py-1
+                    // Links
+                    // li.sidenav-divider.mb-1
+                    // | ${$route.path}
+                    // li.sidenav-header.small.font-weight-semibold
+                    
             // Layout content
             .layout-content
                 // Content
@@ -69,11 +74,7 @@
                                 a.layout-sidenav-toggle.d-inline-block.text-muted.align-middle.ml-3(href='javascript:void(0)' style='font-size: 14px')
                                     i.ion.ion-md-menu.text-large.align-middle
                         div(v-if="Sellpoint && Menu")
-                            .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.product.menu.includes(Menu.id) && productattribute.sellpoint == Sellpoint.id" :style="{ borderColor: Menu.color }")
-                                .text-big.m-2
-                                    strong $ ${productattribute.price|formatPrice}
-                                p
-                                    | ${productattribute.product.name}
+                            
                 // Layout footer
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
