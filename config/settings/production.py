@@ -103,15 +103,15 @@ MEDIA_URL = 'https://s3.amazonaws.com/'+AWS_STORAGE_BUCKET_NAME+'/media/'
 # TEMPLATES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#templates
-#TEMPLATES[0]['OPTIONS']['loaders'] = [  # noqa F405
-    #(
-        #'django.template.loaders.cached.Loader',
-        #[
-            #'django.template.loaders.filesystem.Loader',
-            #'django.template.loaders.app_directories.Loader',
-        #]
-    #),
-#]
+TEMPLATES[0]['OPTIONS']['loaders'] += [  # noqa F405
+    (
+        'django.template.loaders.cached.Loader',
+        [
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        ]
+    ),
+]
 
 # EMAIL
 # ------------------------------------------------------------------------------
