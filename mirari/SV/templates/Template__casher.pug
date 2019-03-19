@@ -9,9 +9,9 @@
             // Layout content
             .layout-content
                 // Content
-                .container-fluid.d-flex.align-items-stretch.flex-grow-1.p-0
+                .container-fluid.d-flex.align-items-stretch.flex-grow-1.p-0(style="max-height:92vh")
                     .flex-shrink-1.flex-grow-1.px-1.py-1
-                        table.table
+                        table.table.mb-0
                             tbody
                                 tr(v-for="ticket in Tickets" v-bind:class="ticket.status")
                                     td ${ticket.key}
