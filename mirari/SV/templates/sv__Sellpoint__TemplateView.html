@@ -72,7 +72,6 @@
             self.Offers = json.data.offers
             self.Tickets = json.data.tickets
             UnBlock();
-            console.log(json)
         })
         PublicSocket.emit('room', '{{request.user.organization.code}}');
         PublicSocket.on('Recibe_Event', (event, data) => {

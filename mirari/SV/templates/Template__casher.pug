@@ -11,7 +11,7 @@
                 // Content
                 .container-fluid.d-flex.align-items-stretch.flex-grow-1.p-0
                     .flex-shrink-1.flex-grow-1.px-1.py-1
-                        table.table
+                        table.table(v-if="Tickets")
                             tbody
                                 tr(v-for="ticket in Tickets" v-bind:class="ticket.status")
                                     td ${ticket.key}
