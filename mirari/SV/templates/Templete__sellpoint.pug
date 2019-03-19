@@ -8,13 +8,7 @@
         .layout-container
             // Layout sidenav
             #layout-sidenav.layout-sidenav.sidenav.sidenav-vertical.bg-sidenav-theme
-                // Links
-                ul.sidenav-inner.py-1
-                    // Links
-                    // li.sidenav-divider.mb-1
-                    // | ${$route.path}
-                    // li.sidenav-header.small.font-weight-semibold
-                    
+                
             // Layout content
             .layout-content
                 // Content
@@ -65,16 +59,7 @@
                                     $ ${line.price|formatPrice}
                                     br
                                     strong ${line.productName}
-                    .flex-shrink-1.flex-grow-1.px-1.py-1
-                        // Layout footer
-                            h4.font-weight-bold.py-3.mb-4
-                                span.font-weight-bold.align-middle
-                                    span.text-muted.font-weight-light Layouts /
-                                    |  Without navbar (Flex)
-                                a.layout-sidenav-toggle.d-inline-block.text-muted.align-middle.ml-3(href='javascript:void(0)' style='font-size: 14px')
-                                    i.ion.ion-md-menu.text-large.align-middle
-                        div(v-if="Sellpoint && Menu")
-                            
+                    
                 // Layout footer
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
