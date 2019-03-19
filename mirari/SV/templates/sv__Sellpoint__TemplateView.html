@@ -173,15 +173,31 @@
         printTicket: ((ticket) => {
             if (PrivateSocket){
                 ticketFormat = []
-                ticketFormat.push(["set",["center", "A", "B", 2, 2]])
                 ticketFormat.push(["image", "tahona.png"])
-                if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1])
-                if(self.Sellpoint.header_line_black_2) ticketFormat.push(["text", self.Sellpoint.header_line_black_2])
-                ticketFormat.push(["set",["center", "A", "B", 1, 2]])
-                if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1])
-                if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2])
-                if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1])
-                ticketFormat.push(["set",["left", "A", "B", 1, 1]])
+                ticketFormat.push(["set",["center", "A", "B", 1, 1]])
+                if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", '\n'])
+                if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1 + '\n'])
+                if(self.Sellpoint.header_line_black_2) ticketFormat.push(["text", self.Sellpoint.header_line_black_2 + '\n'])
+                ticketFormat.push(["set",["center", "A", "", 1, 1]])
+                if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1 + '\n'])
+                if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2 + '\n'])
+                ticketFormat.push(["text", '-----------------------------------------------\n'])
+                ticketFormat.push(["set",["left", "A", "", 1, 1]])
+                self.Ticket.products.forEach(function(product){
+                    ticketFormat.push(["text", String(product.quantity) + ' '])
+                    ticketFormat.push(["text", product.productName + ' '])
+                    ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(product.total)) + '\n'])
+                });
+                ticketFormat.push(["set",["right", "A", "B", 1, 1]])
+                ticketFormat.push(["text", 'IVA: $' + self.$options.filters.formatPrice(String(self.Ticket.iva)) + '\n'])
+                ticketFormat.push(["set",["right", "A", "B", 1, 1]])
+                ticketFormat.push(["text", 'IEPS: $' + self.$options.filters.formatPrice(String(self.Ticket.ieps)) + '\n'])
+                ticketFormat.push(["set",["right", "A", "B", 1, 1]])
+                ticketFormat.push(["text", 'TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total)) + '\n'])
+                ticketFormat.push(["set",["center", "A", "B", 1, 1]])
+                ticketFormat.push(["qr",self.Ticket.key+'/'+self.Ticket.barcode+'/'+self.Ticket.total])
+                if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1 + '\n'])
+                ticketFormat.push(["cut"])
                 //ticketFormat = [["image","tahona.png"],["qr","000000127671"],["set",["center", "A", "B", 1, 2]],["text", "Hola mundo"],["cut"],]
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
             }
