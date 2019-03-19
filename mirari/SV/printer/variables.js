@@ -1,4 +1,4 @@
 exports.organizationCode = "mirari"
-exports.sellpoint = "CamMostrador"
+exports.sellpoint = "CAMINO PANADERIA"
 exports.port = "8081"
-exports.isServer = true
+exports.isServer = false
