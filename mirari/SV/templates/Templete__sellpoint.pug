@@ -9,18 +9,7 @@
             // Layout sidenav
             #layout-sidenav.layout-sidenav.sidenav.sidenav-vertical.bg-sidenav-theme
                 // Links
-                ul.sidenav-inner.py-1
-                    // Links
-                    // li.sidenav-divider.mb-1
-                    // | ${$route.path}
-                    // li.sidenav-header.small.font-weight-semibold
-                    li.sidenav-item(v-for="menu in Menus")
-                        a.sidenav-link.text-right.d-flex.justify-content-end.px-1(v-on:click="selectMenu(menu)" :class="[ menu == Menu ? 'bg-light' : '' ]")
-                            div
-                                strong.h4(:style="{ color: menu.color }")
-                                    ${menu.name|firstNameMenu}
-                            strong.text-dark
-                                ${menu.name|lastNameMenu}
+               
             // Layout content
             .layout-content
                 // Content
