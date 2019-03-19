@@ -182,6 +182,9 @@ LOGGING = {
             'formatter': 'verbose'
         }
     },
+    'builtins': [
+        'pypugjs.ext.django.templatetags',
+    ],
     'loggers': {
         'django.db.backends': {
             'level': 'ERROR',
@@ -203,6 +206,10 @@ LOGGING = {
             'handlers': ['console', 'sentry'],
             'propagate': False,
         },
+        ('pypugjs.ext.django.Loader', (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        ))
     },
 }
 
