@@ -171,7 +171,7 @@ class User(AbstractUser, Model_base):
 	phone = models.CharField('Telefono de contacto', max_length=50, blank=True, null=True)
 	gender = models.CharField('Género', choices=GENDER, max_length=50, blank=True, null=True)
 	can_change_password = models.BooleanField('Puede cambiar su contraseña?', default=True, help_text='Un usuario puede cambiar su propio passwrod desde su cuenta?')
-	id_bckp = models.IntegerField()
+	id_bckp = models.IntegerField(blank=True, null=True)
 	VARS = VARS
 	class Meta(Model_base.Meta):
 		verbose_name = VARS['NAME']
