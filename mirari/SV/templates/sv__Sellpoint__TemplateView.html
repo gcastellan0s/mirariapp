@@ -182,11 +182,15 @@
                 if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1 + '\n'])
                 if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2 + '\n'])
                 ticketFormat.push(["text", '-----------------------------------------------\n'])
-                ticketFormat.push(["set",["left", "A", "", 1, 1]])
                 self.Ticket.products.forEach(function(product){
+                    ticketFormat.push(["set",["left", "A", "", 1, 1]])
                     ticketFormat.push(["text", String(product.quantity) + ' '])
                     ticketFormat.push(["text", product.productName + ' '])
                     ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(product.total)) + '\n'])
+                    product.offers.forEach(function(offer){
+                        ticketFormat.push(["set",["right", "A", "", 1, 1]])
+                        ticketFormat.push(["text", offer.name + ' -' + offer.discountValue + '% \n'])
+                    });
                 });
                 ticketFormat.push(["set",["right", "A", "B", 1, 1]])
                 ticketFormat.push(["text", 'IVA: $' + self.$options.filters.formatPrice(String(self.Ticket.iva)) + '\n'])
