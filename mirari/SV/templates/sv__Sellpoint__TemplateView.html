@@ -172,6 +172,7 @@
         }),
         printTicket: ((ticket) => {
             if (PrivateSocket){
+                ticketFormat = []
                 ticketFormat.push(["set",["center", "A", "B", 2, 2]])
                 ticketFormat.push(["image", "tahona.png"])
                 if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1])
