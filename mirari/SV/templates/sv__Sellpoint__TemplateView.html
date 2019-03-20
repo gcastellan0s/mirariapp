@@ -269,9 +269,9 @@
         }),
         /////SOCKETIO
         recibePrinterConection: ((data) => {
+            console.log(data)
             if(self.Sellpoint.printer == data.name){
                 if (data.name != self.ActivePrinter.name){
-                    console.log(data)
                     self.ActivePrinter = data
                     PrivateSocket = io.connect(self.ActivePrinter.url, {'forceNew':true});
                 }
