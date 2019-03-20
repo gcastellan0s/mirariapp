@@ -175,7 +175,6 @@
         printTicket: ((ticket) => {
             if (PrivateSocket){
                 ticketFormat = []
-                ticketFormat.push(["image", "tahona.png"])
                 ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                 if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", '\n'])
                 if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1 + '\n'])
@@ -183,6 +182,7 @@
                 ticketFormat.push(["set",["center", "A", "", 1, 1]])
                 if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1 + '\n'])
                 if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2 + '\n'])
+                if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1 + '\n'])
                 ticketFormat.push(["text", '-----------------------------------------------\n'])
                 self.Ticket.products.forEach(function(product){
                     ticketFormat.push(["set",["left", "A", "", 1, 1]])
@@ -202,7 +202,8 @@
                 ticketFormat.push(["text", 'TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total)) + '\n'])
                 ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                 ticketFormat.push(["qr",self.Ticket.key])
-                if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1 + '\n'])
+                ticketFormat.push(["text", self.Ticket.barcode + '\n'])
+                ticketFormat.push(["text", self.Ticket.key + '\n'])
                 ticketFormat.push(["cut"])
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
             }
