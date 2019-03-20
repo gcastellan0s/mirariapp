@@ -174,7 +174,6 @@
         }),
         printTicket: ((ticket) => {
             if (PrivateSocket){
-                PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 ticketFormat = []
                 ticketFormat.push(["image", "tahona.png"])
                 ticketFormat.push(["set",["center", "A", "B", 1, 1]])
@@ -203,9 +202,9 @@
                 ticketFormat.push(["text", 'TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total)) + '\n'])
                 ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                 ticketFormat.push(["qr",self.Ticket.key])
-                console.log(self.Ticket.key)
                 if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1 + '\n'])
                 ticketFormat.push(["cut"])
+                PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
             }
         }),
         initTicket: (() => {
