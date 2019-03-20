@@ -28,23 +28,15 @@
     {%endblock data%}
 
     {%block mounted%}
-        
-        //PublicSocket.emit('room', '{{request.user.organization.code}}');
-        //PublicSocket.on('Recibe_Event', (event, data) => {
-            //if (event == 'sendTicket') self.recibePrintTicket(data);
-            //if (event == 'PrinterConection') self.recibePrinterConection(data);
-        //});
+        PublicSocket.emit('room', '{{request.user.organization.code}}');
     {%endblock mounted%}
 
     {%block methods%}
         onSubmit:((BarCode) => {
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=barcodeScanner').then(function(json){
-                
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=barcodeScanner',{BarCode:self.BarCode})
+            .then(function(json){
+                PublicSocket.emit('Send_Event','{{request.user.organization.code}}','scanTicket', json.ticket)
             })
         }),
-        //selectMenu:((menu) => {self.Menu = menu}),
-        //sendTicket: ((ticket) => {
-            //PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'sendTicket', ticket)
-        //}),
     {%endblock methods%}
 </script>

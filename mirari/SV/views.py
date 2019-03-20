@@ -69,14 +69,12 @@ class Sellpoint__ApiView(Generic__ApiView):
     permissions = False
     def get_serializers(self, request):
         if request.GET.get('api') == 'barcodeScanner':
-            message = 'Folio no encontrado.'
-            ticket = Ticket.objects.filter(key=request.POST.get('key')).first()
+            key = request.POST.get('BarCode')
+            ticket = Ticket.objects.filter(key=request.POST.get('key'), status='PENDIENTE').first()
             if ticket:
                 ticket.scanner()
-                message = 'Cobrado con éxito'
             return JsonResponse({
                 'ticket': TicketSerializer(ticket).data,
-                'message': message,
             }, safe=False)
         if request.GET.get('api') == 'getStates':
             sellpoints = Sellpoint().getMySellpoints(request.user)
