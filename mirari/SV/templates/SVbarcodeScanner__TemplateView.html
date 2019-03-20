@@ -10,7 +10,7 @@
         <div class="form-group">
             <input type="text" class="form-control" v-model="BarCode" autofocus="autofocus">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">{{code}}</button>
     </form>
 {%endblock%}
 
@@ -28,14 +28,14 @@
     {%endblock data%}
 
     {%block mounted%}
-        PublicSocket.emit('room', '{{request.user.organization.code}}');
+        PublicSocket.emit('room', '{{code}}');
     {%endblock mounted%}
 
     {%block methods%}
         onSubmit:((BarCode) => {
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=barcodeScanner',{BarCode:self.BarCode})
             .then(function(json){
-                PublicSocket.emit('Send_Event','{{request.user.organization.code}}','scanTicket', json.ticket)
+                PublicSocket.emit('Send_Event','{{code}}','scanTicket', json.ticket)
             })
         }),
     {%endblock methods%}
