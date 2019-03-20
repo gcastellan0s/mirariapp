@@ -33,11 +33,11 @@
 
     {%block methods%}
         onSubmit:((BarCode) => {
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=barcodeScanner',{BarCode:self.BarCode})
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=barcodeScanner',{barcode:self.BarCode, code:'{{code}}'})
             .then(function(json){
-                console.log(json)
-                PublicSocket.emit('Send_Event','{{code}}','scanTicket', json.ticket)
+                PublicSocket.emit('Send_Event','{{code}}','scanTicket', json.data.ticket)
             })
+            self.BarCode = ''
         }),
     {%endblock methods%}
 </script>
