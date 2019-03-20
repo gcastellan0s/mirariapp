@@ -80,7 +80,8 @@
             PublicSocket.emit('room', '{{request.user.organization.code}}');
             PublicSocket.on('Recibe_Event', (event, data) => {
                 if (event == 'sendTicket') self.recibePrintTicket(data);
-                if (event == 'PrinterConection') self.recibePrinterConection(data);
+                if (event == 'printerConection') self.recibePrinterConection(data);
+                if (event == 'scanTicket') self.recibescanTicket(data);
             });
         }),
         selectMenu:((menu) => {self.Menu = menu}),
@@ -207,6 +208,9 @@
                 ticketFormat.push(["cut"])
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
             }
+        }),
+        scanTicket: ((ticket) => {
+            console.log(ticket)
         }),
         initTicket: (() => {
             self.Ticket = {
