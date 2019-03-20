@@ -7,10 +7,10 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-whitelist": {
+    "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "mx.mirari.sv"
     },
-    "cordova-plugin-inappbrowser": {
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "mx.mirari.sv"
     }
   },

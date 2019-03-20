@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
 	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    {%block viewport%}<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">{%endblock viewport%}
 	<link href="{%if G.ORGANIZATION.ICO%}{{ G.ORGANIZATION.ICO.url }}{%endif%}" rel="icon" type="image/x-icon" />
 	<title>{%block title%}{{ G.ORGANIZATION.TITLE }} :: {{ G.ORGANIZATION.SLOGAN }}{%endblock title%}</title>
 	{%block font%}{%endblock font%}
