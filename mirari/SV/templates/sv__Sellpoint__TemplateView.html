@@ -61,6 +61,7 @@
         ActivePrinter: {
             name: null,
         },
+        LastTicketScan: null,
     {%endblock data%}
 
     {%block mounted%}
@@ -279,8 +280,16 @@
         recibePrintTicket: ((data) => {
             self.Tickets.unshift(data);
         }),
-        recibeScanTicket: ((ticket) => {
-            console.log(ticket)
+        recibeScanTicket: ((data) => {
+            updateTicket = self.Tickets.find(function(ticket) {
+                return ticket.key == data.key;
+            });
+            if (updateTicket){
+                updateTicket.status = data.status
+                updateTicket.barcode = data.barcode
+                updateTicket.cut = data.cut
+                self.LastTicketScan = data.barcode
+            }
         }),
         /////PLUGINS
         keyboard: ((value) => {
