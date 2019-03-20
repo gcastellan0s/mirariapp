@@ -102,3 +102,6 @@ class Sellpoint__ApiView(Generic__ApiView):
 ########################################################
 class SVbarcodeScanner__TemplateView(Generic__TemplateView):
     template_name = "SVbarcodeScanner__TemplateView.html"
+    def proccess_context(self, context):
+        context['code'] = request.GET.get('code')
+        return context

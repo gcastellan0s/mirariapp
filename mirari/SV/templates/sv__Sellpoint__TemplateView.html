@@ -183,7 +183,7 @@
                 if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1 + '\n'])
                 if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2 + '\n'])
                 if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1 + '\n'])
-                ticketFormat.push(["text", '-------------------------------------------------\n'])
+                ticketFormat.push(["text", '------------------------------------------------\n'])
                 self.Ticket.products.forEach(function(product){
                     ticketFormat.push(["set",["left", "A", "", 1, 1]])
                     ticketFormat.push(["text", String(product.quantity) + ' '])
