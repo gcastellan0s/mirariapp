@@ -81,7 +81,7 @@
             PublicSocket.on('Recibe_Event', (event, data) => {
                 if (event == 'sendTicket') self.recibePrintTicket(data);
                 if (event == 'printerConection') self.recibePrinterConection(data);
-                if (event == 'scanTicket') self.recibescanTicket(data);
+                if (event == 'scanTicket') self.recibeScanTicket(data);
             });
         }),
         selectMenu:((menu) => {self.Menu = menu}),
@@ -173,7 +173,7 @@
         sendTicket: ((ticket) => {
             PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'sendTicket', ticket)
         }),
-        printTicket: ((ticket) => {
+        printTicket: ((ticket) => { 
             if (PrivateSocket){
                 ticketFormat = []
                 ticketFormat.push(["set",["center", "A", "B", 1, 1]])
@@ -208,9 +208,6 @@
                 ticketFormat.push(["cut"])
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
             }
-        }),
-        scanTicket: ((ticket) => {
-            console.log(ticket)
         }),
         initTicket: (() => {
             self.Ticket = {
@@ -281,6 +278,9 @@
         }),
         recibePrintTicket: ((data) => {
             self.Tickets.unshift(data);
+        }),
+        recibeScanTicket: ((ticket) => {
+            console.log(ticket)
         }),
         /////PLUGINS
         keyboard: ((value) => {
