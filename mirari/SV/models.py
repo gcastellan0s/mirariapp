@@ -79,9 +79,11 @@ class Sellpoint(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.name)
-    def getMySellpoints(self, user):
+    def getMySellpointsVendor(self, user):
         #return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(Q(cashers=user)|Q(vendors=user)|Q(orders=user))
         return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(vendors=user)
+    def getMySellpointsCasher(self, user):
+        return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(cashers=user)
     def get_have_casher(self):
         return self.render_boolean(not self.have_casher)
     def get_color(self):

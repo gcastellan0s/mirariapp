@@ -74,7 +74,7 @@ class Sellpoint__ApiView(Generic__ApiView):
                 ticket = ticket.scanner()
             return JsonResponse({'ticket': TicketSerializer(ticket).data}, safe=False)
         if request.GET.get('api') == 'getStates':
-            sellpoints = Sellpoint().getMySellpoints(request.user)
+            sellpoints = Sellpoint().getMySellpointsVendor(request.user)
             productattributes = ProductAttributes.objects.filter( sellpoint__in=sellpoints.all(), active=True, is_active=True, product__menu__active=True, product__menu__is_active=True ).distinct()
             menu = []
             for productattribute in productattributes:
@@ -86,7 +86,7 @@ class Sellpoint__ApiView(Generic__ApiView):
                 'productAttributes': ProductAttributesSerializer( productattributes, many=True ).data,
                 'menus': MenuSerializer( Menu.objects.filter(pk__in = menu), many=True ).data ,
                 'offers': OfferSerializer( Offer.objects.filter( organization = request.user.organization, active=True, is_active=True ), many=True ).data,
-                'tickets': TicketSerializer(  Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=sellpoints.all() ), many=True ).data
+                'tickets': TicketSerializer(  Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all() ), many=True ).data
             }, safe=False)
         if request.GET.get('api') == 'getBarCode':
             return JsonResponse({'ticket': TicketSerializer(Ticket().new( ticket = json.loads(request.POST.get('ticket')) )).data}, safe=False)
