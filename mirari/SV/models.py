@@ -444,6 +444,10 @@ VARS = {
             'title': 'Folio',
         },
         {
+            'field': 'property_getCutSerial',
+            'title': 'Corte',
+        },
+        {
             'field': 'property_getSellpoint',
             'title': 'Punto de Venta',
         },
@@ -527,6 +531,8 @@ class Ticket(Model_base):
             self.status = 'COBRADO'
             self.save()
         return self
+    def getCutSerial(self):
+        return self.cut.serial
     def getSellpoint(self):
         return self.sellpoint.name
     def getTotal(self):
