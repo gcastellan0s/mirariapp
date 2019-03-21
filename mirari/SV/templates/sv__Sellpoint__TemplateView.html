@@ -22,8 +22,7 @@
         const router = new VueRouter({routes:[{ path:'/SV/sv/',component:{template:``}}]});
         const IVA = 0.16;
         const IEPS = 0.08;
-        const PublicSocket = io.connect('http://50.18.229.242:8002', {resource: 'PublicSocket/socket.io', 'force new connection': true});
-        let PrivateSocket = null
+        var PrivateSocket = null
     {%endblock constants%}
 
     {%block router%}router,{%endblock router%}
@@ -78,6 +77,7 @@
 
     {%block methods%}
         initializePublicSocket: (() => {
+            PublicSocket = io.connect('http://50.18.229.242:8002', {resource: 'PublicSocket/socket.io', 'force new connection': true});
             PublicSocket.emit('room', '{{request.user.organization.code}}');
             PublicSocket.on('Recibe_Event', (event, data) => {
                 if (event == 'sendTicket') self.recibePrintTicket(data);
@@ -272,7 +272,7 @@
             if(self.Sellpoint.printer == data.name){
                 if (data.name != self.ActivePrinter.name){
                     self.ActivePrinter = data
-                    PrivateSocket = io.connect(self.ActivePrinter.url, {resource: 'PrivateSocket/socket.io', 'force new connection': true});
+                    var PrivateSocket = io.connect(self.ActivePrinter.url, {resource: 'PrivateSocket/socket.io', 'force new connection': true});
                 }
             }
         }),
