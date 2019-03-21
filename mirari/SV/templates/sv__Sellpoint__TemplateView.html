@@ -22,8 +22,8 @@
         const router = new VueRouter({routes:[{ path:'/SV/sv/',component:{template:``}}]});
         const IVA = 0.16;
         const IEPS = 0.08;
-        const PublicSocket = io.connect('ws://50.18.229.242:8002',{'forceNew':true});
-        var PrivateSocket = null
+        //const PublicSocket = io.connect('ws://50.18.229.242:8002',{'forceNew':true});
+        //var PrivateSocket = null
     {%endblock constants%}
 
     {%block router%}router,{%endblock router%}
@@ -78,12 +78,12 @@
 
     {%block methods%}
         initializePublicSocket: (() => {
-            PublicSocket.emit('room', '{{request.user.organization.code}}');
-            PublicSocket.on('Recibe_Event', (event, data) => {
-                if (event == 'sendTicket') self.recibePrintTicket(data);
-                if (event == 'printerConection') self.recibePrinterConection(data);
-                if (event == 'scanTicket') self.recibeScanTicket(data);
-            });
+            //PublicSocket.emit('room', '{{request.user.organization.code}}');
+            //PublicSocket.on('Recibe_Event', (event, data) => {
+                //if (event == 'sendTicket') self.recibePrintTicket(data);
+                //if (event == 'printerConection') self.recibePrinterConection(data);
+                //if (event == 'scanTicket') self.recibeScanTicket(data);
+            //});
         }),
         selectMenu:((menu) => {self.Menu = menu}),
         addProduct: ((productattribute) => {
