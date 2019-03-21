@@ -541,6 +541,8 @@ class Ticket(Model_base):
         return Money(self.getIva(), Currency.MXN).format('es_MX')
     def getIepsMoney(self):
         return Money(self.getIeps(), Currency.MXN).format('es_MX')
+    def getProducts(self):
+        return TicketProducts.objects.filter(ticket=self)
 
 
 VARS = {
@@ -590,7 +592,26 @@ class TicketProducts(Model_base):
 
 
 ########################################################################################
-########################################################################################	
+########################################################################################
+class CutProduct():
+    product = ''
+    productName = ''
+    quantity = 0
+    price = 0
+    total = 0
+    iva = False
+    ieps = True
+    offers = []
+    def getQuantity(self):
+        return int(self.quantity)
+    def getPrice(self):
+        return Money("{0:.2f}".format(self.price), Currency.MXN).format('es_MX')
+    def getTotalMoney(self):
+        return Money("{0:.2f}".format(self.total), Currency.MXN).format('es_MX')
+    def getIvaMoney(self):
+        return Money("{0:.2f}".format(self.iva), Currency.MXN).format('es_MX')
+    def getIepsMoney(self):
+        return Money("{0:.2f}".format(self.ieps), Currency.MXN).format('es_MX')
 VARS = {
     'NAME':'Corte',
     'PLURAL':'Cortes',
@@ -736,6 +757,30 @@ class Cut(Model_base):
         return Money(self.getSubtotal(), Currency.MXN).format('es_MX')
     def getFaltanteMoney(self):
         return Money(self.getFaltante(), Currency.MXN).format('es_MX')
+    def getCutProducts(self):
+        products = []
+        for ticket in self.getTickets():
+            for product in ticket.getProducts():
+                cutProduct = CutProduct()
+                cutProduct.product = product.id
+                cutProduct.productName = product.productName
+                cutProduct.quantity = product.quantity
+                cutProduct.price = product.price
+                cutProduct.total = product.total
+                cutProduct.iva = product.iva
+                cutProduct.ieps = product.ieps
+                exist = False
+                for arrayCutProduct in products:
+                    if arrayCutProduct.productName == cutProduct.productName and arrayCutProduct.price == cutProduct.price:
+                        arrayCutProduct.quantity += cutProduct.quantity
+                        arrayCutProduct.total += cutProduct.total
+                        arrayCutProduct.iva += cutProduct.iva
+                        arrayCutProduct.ieps += cutProduct.ieps
+                        exist = True
+                        break
+                if not exist:
+                    products.append(cutProduct)
+        return products
     
 
 
