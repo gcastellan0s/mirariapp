@@ -239,7 +239,7 @@
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.propertyGetTotalMoney + '\n'])
                     ticketFormat.push(["text", 'FOLIO: ' + String(json.data.cut.serial) + '\n'])
                     ticketFormat.push(["text", moment(json.data.cut.final_time).format('MMMM D, h:mm:ss a') + '\n'])
-                    ticketFormat.push(["text", self.sellpoiont.name + '\n'])
+                    ticketFormat.push(["text", self.Sellpoint.name + '\n'])
                     ticketFormat.push(["text", '------------------------------------------\n'])
                     ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                     if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", '\n'])
