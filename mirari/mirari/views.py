@@ -77,11 +77,11 @@ class dashboard__Organization__TemplateView(Generic__TemplateView):
                 self.template_name = self.HTMLPage.folder + self.HTMLPage.index
             else:
                 return HttpResponseRedirect(reverse('mirari:login__Organization__TemplateView', args=[]))
-        if 'SV' in request.user.organization.get_modules_code():
-            if 'ven' in request.user.visible_username:
-                return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/sellpoint')
-            if 'caj' in request.user.visible_username:
-                return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/casher')
+        #if 'SV' in request.user.organization.get_modules_code():
+            #if 'ven' in request.user.visible_username:
+                #return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/sellpoint')
+            #if 'caj' in request.user.visible_username:
+                #return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/casher')
         return super().dispatch(request, *args, **kwargs)
 ################################################################################################
 ################################################################################################

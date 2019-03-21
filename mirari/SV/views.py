@@ -105,3 +105,8 @@ class SVbarcodeScanner__TemplateView(Generic__TemplateView):
     def proccess_context(self, context):
         context['code'] = self.request.GET.get('code')
         return context
+
+########################################################
+########################################################
+class Cut__DetailView(Generic__DetailView):
+    template_name = "Cut__DetailView.html"
