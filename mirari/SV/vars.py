@@ -35,10 +35,10 @@ MENU = {
                 'url': 'Generic__ListView',
             },
             {
-                'title': 'DESCUENTOS',
+                'title': 'MAYOREOS, CUPONES Y DESCUENTOS',
                 'icon': 'flaticon-price-tag',
-                'text': 'LISTADO DE DESCUENTOS',
-                'subtext': 'Listado de descuentos disponibles',
+                'text': 'LISTADO DE REGLAS PROGRAMADAS',
+                'subtext': 'Módulo inteligente de asignación de precios',
                 'apps': [APP, ],
                 'permission': 'Can_View',
                 'model': APP + '.Offer',

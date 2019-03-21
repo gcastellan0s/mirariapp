@@ -18,6 +18,7 @@ from django.utils.text import slugify
 from django.conf import settings
 from django.urls import reverse
 from django.apps import apps
+from django.utils import timezone
 
 from crispy_forms.layout import *
 from crispy_forms.bootstrap import *
@@ -174,9 +175,11 @@ class Model_base(models.Model):
 			#return '-'
 		#return str(self.attr)
 	def render_date(self, attr):
-		return attr.strftime('%d/%m/%Y')
+        mx = pytz.timezone('America/Mexico_City')
+		return attr.astimezone(mx).strftime('%d/%m/%Y')
 	def render_datetime(self, attr):
-		return attr.strftime('%d/%m/%Y %I:%M %p')
+        mx = pytz.timezone('America/Mexico_City')
+		return attr.astimezone(mx).strftime('%d/%m/%Y %I:%M %p')
 	#def get_select2(self):
 		#return self.name
 	#def max_string(self, field, value):
