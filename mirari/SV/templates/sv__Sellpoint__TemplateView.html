@@ -121,7 +121,7 @@
             self.makeTicketTotal()
             self.Quantity = 'CANTIDAD'
             self.Price = 'PRECIO'
-            return self.Ticket.total
+            return true
         }),
         updateproductLineTotal: ((productLine) => {
             productLine.total = productLine.price * productLine.quantity
@@ -169,6 +169,7 @@
                 self.printTicket(self.Ticket)
                 self.sendTicket(self.Ticket)
                 self.initTicket()
+                if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher')
             });
         }),
         sendTicket: ((ticket) => {
@@ -381,7 +382,7 @@
         }),
         FormatTDate: ((value) => {
             moment.locale('es');
-            return moment(value).format('MMMM Do, h:mm:ss a')
+            return moment(value).format('MMMM D, h:mm a')
         }),
         padStart: ((value) => {
             return value.padStart(13, "1000000000000")

@@ -13,12 +13,12 @@
                     .flex-shrink-1.flex-grow-1.px-1.py-1
                         table.table.mb-0
                             tbody
-                                tr(v-for="ticket in Tickets" v-bind:class="ticket.status")
+                                tr.h4(v-for="ticket in Tickets" v-bind:class="ticket.status")
                                     td ${ticket.key}
                                     td(:style="{color:ticket.sellpoint.color}") ${ticket.sellpoint.name}
                                     td ${ticket.date|FormatTDate}
                                     td 
-                                        strong ${ticket.barcode|padStart}
+                                        strong ${ticket.barcode}
                                     td $ ${ticket.total|formatPrice}
                 // Layout footer
                 nav.layout-footer.footer.bg-footer-theme

@@ -1,14 +1,14 @@
 div(v-if="Sellpoint")
     router-link(to="/order" v-if="includes(Sellpoint.orders, {{request.user.id}})")
-        a.footer-link.pt-3.ml-4.text-dark(href='javascript:void(0)') 
+        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-3rem")
             i.fas.fa-folder.pr-2
             | PEDIDOS
     router-link(to="/casher" v-if="includes(Sellpoint.cashers, {{request.user.id}})")
-        a.footer-link.pt-3.ml-4.text-dark(href='javascript:void(0)')
+        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-3rem")
             i.fas.fa-credit-card.pr-2
             | CAJERO
     router-link(to="/sellpoint" v-if="includes(Sellpoint.vendors, {{request.user.id}})")
-        a.footer-link.pt-3.ml-4.text-dark(href='javascript:void(0)') 
+        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-3rem")
             i.fas.fa-store.pr-2
             | VENDEDOR
     a.footer-link.pt-3.ml-5.text-dark(data-toggle="modal" data-target="#modals-slide")
