@@ -22,7 +22,7 @@
         const router = new VueRouter({routes:[{ path:'/SV/sv/',component:{template:``}}]});
         const IVA = 0.16;
         const IEPS = 0.08;
-        const PublicSocket = io.connect('ws://50.18.229.242:8002',{'forceNew':true});
+        const PublicSocket = io.connect('ws://50.18.229.242:8002');
         var PrivateSocket = null
     {%endblock constants%}
 
@@ -269,11 +269,10 @@
         }),
         /////SOCKETIO
         recibePrinterConection: ((data) => {
-            console.log(data)
             if(self.Sellpoint.printer == data.name){
                 if (data.name != self.ActivePrinter.name){
                     self.ActivePrinter = data
-                    PrivateSocket = io.connect(self.ActivePrinter.url, {'forceNew':true});
+                    PrivateSocket = io.connect(self.ActivePrinter.url);
                 }
             }
         }),
