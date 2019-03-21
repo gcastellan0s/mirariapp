@@ -1,6 +1,47 @@
 {% extends "metronic/layout-5.html" %}
 {% load static%}
+{% load i18n %}
+{% load mirari_tags %}
 
-{% block title %}{% endblock title %}
+{% block title %}{{ model|verbose_name_plural|upper }} :: {{ G.ORGANIZATION.TITLE }}{% endblock title %}
 
-{%block body%}TemplateView{%endblock body%}
+{%block subheader%}
+    <div class="m-subheader m--padding-top-5">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <strong>{%block object_name%}{{object}}{%endblock object_name%}</strong>
+                </h3>
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="/" class="m-nav__link m-nav__link--icon">
+                            <strong> <i class="la la-home"></i> INICIO</strong>
+                        </a>
+                    </li>
+                    {%if breadcrumbs%}
+                        {{breadcrumbs|safe}}
+                    {%else%}
+                        <li class="m-nav__separator">
+                            <strong>></strong>
+                        </li>
+                        <li class="m-nav__item m-nav__item--home">
+                            {%if redirect_model%}
+                                <a href="{{redirect_model.url_list}}" class="m-nav__link m-nav__link--icon">
+                                    Lista de {{ redirect_model|verbose_name_plural|upper }}
+                                </a>
+                            {%else%}
+                                <a href="{{model.url_list}}" class="m-nav__link m-nav__link--icon">
+                                    Lista de {{ model|verbose_name_plural|upper }}
+                                </a>
+                            {%endif%}
+                        </li>
+                    {%endif%}
+                </ul>
+            </div>
+        </div>
+    </div>
+{%endblock subheader%}
+
+
+{%block content%}
+{%endblock content%}

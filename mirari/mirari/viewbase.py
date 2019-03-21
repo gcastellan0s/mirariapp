@@ -294,12 +294,10 @@ class Base_Detail(object):
     def dispatch(self, request, *args, **kwargs):
         self.initialize(request, *args, **kwargs)
         return super().dispatch(request, *args, **kwargs)
-    def get_object(self):
-        return self.model.objects.filter(pk=kwargs['pk']).first()
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = self.proccess_context(context)
-        context['G'] = get_variables(self)
+        context['model'], context['G'] = self.model, get_variables(self)
         return context
     ############################################################################################################
     def initialize(self, request, *args, **kwargs):
@@ -307,11 +305,6 @@ class Base_Detail(object):
         return True
     def proccess_context(self, context):
         return context
-    def get_default_serializer(self):
-        class Serializer(Base_Serializer):
-            class Meta(Base_Serializer.Meta):
-                model = self.model
-        return Serializer
         
 
 ################################################################################################################

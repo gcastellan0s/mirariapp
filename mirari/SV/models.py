@@ -604,6 +604,7 @@ VARS = {
         {
             'field': 'serial',
             'title': 'Folio',
+            'url': 'property_url_detail',
         },
         {
             'field': 'property_getSellpoint',
@@ -637,6 +638,18 @@ VARS = {
             'field': 'property_getTotalMoney',
             'title': 'Total Corte',
         },
+        {
+            'field': 'id',
+            'title': '',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;">
+                    <strong>
+                        <i class="fa fa-search"></i> DETALLES
+                    </strong>
+                </a>
+            """,
+        },
     ],
 }
 class Cut(Model_base):
@@ -655,6 +668,10 @@ class Cut(Model_base):
         return '{0}'.format(self.id)
     def my_organization(self):
         return self.sellpoint.my_organization()
+    def QUERY(self, view):
+        return Cut.objects.filter(sellpoint__organization__pk=view.request.session.get('organization'), active=True)
+    def url_detail(self):
+        return reverse('SV:Cut__DetailView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
     def new(self, sellpoint):
         self.sellpoint = sellpoint
         cut = Cut.objects.filter(sellpoint = self.sellpoint).first()
@@ -695,6 +712,8 @@ class Cut(Model_base):
         return "{0:.2f}".format(total)
     def getTickets(self):
         return Ticket.objects.filter(cut=self)
+    def getLenTickets(self):
+        return len(self.getTickets())
     def getOffersLen(self):
         total = 0
         for ticket in Ticket.objects.filter(cut=self):
@@ -717,10 +736,7 @@ class Cut(Model_base):
         return Money(self.getSubtotal(), Currency.MXN).format('es_MX')
     def getFaltanteMoney(self):
         return Money(self.getFaltante(), Currency.MXN).format('es_MX')
-    def getLenTickets(self):
-        return len(self.getTickets())
-    def QUERY(self, view):
-        return Cut.objects.filter(sellpoint__organization__pk=view.request.session.get('organization'), active=True)
+    
 
 
 #########################################################################################
