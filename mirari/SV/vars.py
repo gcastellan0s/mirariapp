@@ -45,6 +45,16 @@ MENU = {
                 'url': 'Generic__ListView',
             },
             {
+                'title': 'TICKETS',
+                'icon': 'flaticon-list-2',
+                'text': 'LISTADO DE TICKETS',
+                'subtext': 'Listado de tickets en los modulos que tienes asignados',
+                'apps': [APP, ],
+                'permission': 'Can_View',
+                'model': APP + '.Ticket',
+                'url': 'Generic__ListView',
+            },
+            {
                 'title': 'CORTE',
                 'icon': 'fa fa-cut',
                 'text': 'LISTADO DE CORTES',
