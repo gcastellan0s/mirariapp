@@ -23,7 +23,7 @@
         const IVA = 0.16;
         const IEPS = 0.08;
         const PublicSocket = io.connect('http://50.18.229.242:8002', {resource: 'PublicSocket/socket.io', 'force new connection': true});
-        const PrivateSocket = false
+        let PrivateSocket = null
     {%endblock constants%}
 
     {%block router%}router,{%endblock router%}
