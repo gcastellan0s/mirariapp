@@ -185,7 +185,7 @@
                 if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1 + '\n'])
                 if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2 + '\n'])
                 if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1 + '\n'])
-                ticketFormat.push(["text", '------------------------------------------------\n'])
+                ticketFormat.push(["text", '------------------------------------------\n'])
                 self.Ticket.products.forEach(function(product){
                     ticketFormat.push(["set",["left", "A", "", 1, 1]])
                     ticketFormat.push(["text", String(product.quantity) + ' '])
@@ -233,7 +233,6 @@
             }, errorDialog=false)
             .then((json) => {
                 if (PrivateSocket){
-                    console.log(json)
                     ticketFormat = []
                     ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                     ticketFormat.push(["text", '\n'])
@@ -274,6 +273,7 @@
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.propertyGetTotalMoney + '\n'])
                     ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                     ticketFormat.push(["cut"])
+                    console.log(ticketFormat)
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 }
             }).catch((error) => {
