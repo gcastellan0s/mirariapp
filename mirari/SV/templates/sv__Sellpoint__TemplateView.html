@@ -232,8 +232,8 @@
                 sellpoint: JSON.stringify(self.Sellpoint),
             }, errorDialog=false)
             .then((json) => {
-                console.log(json)
                 if (PrivateSocket){
+                    console.log(json)
                     ticketFormat = []
                     ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                     ticketFormat.push(["text", '\n'])
