@@ -275,6 +275,8 @@
                     ticketFormat.push(["cut"])
                     console.log(ticketFormat)
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
+                }else{
+                    console.log("no socket")
                 }
             }).catch((error) => {
             }).finally(() => {
