@@ -94,8 +94,7 @@ class Sellpoint__ApiView(Generic__ApiView):
         if request.GET.get('api') == 'getBarCode':
             return JsonResponse({'ticket': TicketSerializer(Ticket().new( ticket = json.loads(request.POST.get('ticket')) )).data}, safe=False)
         if request.GET.get('api') == 'makeCut':
-            #cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()
-            cut = Cut.objects.get(id=2)
+            cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()
             return JsonResponse({'cut': CutSerializer(cut).data})
 
 
