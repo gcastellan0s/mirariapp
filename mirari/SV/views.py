@@ -37,8 +37,7 @@ class CutSerializer(Base_Serializer):
     propertyGetIepsMoney = serializers.ReadOnlyField(source='getIepsMoney')
     propertyGetSubtotalMoney = serializers.ReadOnlyField(source='getSubtotalMoney')
     propertyGetLenTickets = serializers.ReadOnlyField(source='getLenTickets')
-    propertyGetOffersLen = serializers.ReadOnlyField(source='getOffersLen')
-    propertyGetFaltante = serializers.ReadOnlyField(source='getFaltante')
+    propertyGetFaltanteMoney = serializers.ReadOnlyField(source='getFaltanteMoney')
     propertyGetLenFaltante = serializers.ReadOnlyField(source='getLenFaltante')
     class Meta(Basic_Serializer.Meta):
         model = Cut
