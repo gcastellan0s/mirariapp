@@ -780,6 +780,8 @@ class Cut(Model_base):
                 cutProduct.create(product)
                 exist = False
                 for arrayCutProduct in products:
+                    if product.offers:
+                        break
                     if arrayCutProduct.productName == product.productName and arrayCutProduct.price == product.price:
                         arrayCutProduct.update(product)
                         exist = True
