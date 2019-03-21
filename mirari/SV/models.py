@@ -602,6 +602,21 @@ class CutProduct():
     iva = False
     ieps = True
     offers = []
+    def create(self, product):
+        self.product = product.id
+        self.productName = product.productName
+        self.quantity = product.quantity
+        self.price = product.price
+        self.total = product.total
+        self.iva = product.iva
+        self.ieps = product.ieps
+        return self
+    def update(self, product):
+        self.quantity += product.quantity
+        self.total += product.total
+        self.iva += product.iva
+        self.ieps += product.ieps
+        return self
     def getQuantity(self):
         return int(self.quantity)
     def getPrice(self):
@@ -762,26 +777,16 @@ class Cut(Model_base):
         for ticket in self.getTickets():
             for product in ticket.getProducts():
                 cutProduct = CutProduct()
-                cutProduct.product = product.id
-                cutProduct.productName = product.productName
-                cutProduct.quantity = product.quantity
-                cutProduct.price = product.price
-                cutProduct.total = product.total
-                cutProduct.iva = product.iva
-                cutProduct.ieps = product.ieps
+                cutProduct.create(product)
                 exist = False
                 for arrayCutProduct in products:
-                    if arrayCutProduct.productName == cutProduct.productName and arrayCutProduct.price == cutProduct.price:
-                        arrayCutProduct.quantity += cutProduct.quantity
-                        arrayCutProduct.total += cutProduct.total
-                        arrayCutProduct.iva += cutProduct.iva
-                        arrayCutProduct.ieps += cutProduct.ieps
+                    if arrayCutProduct.productName == product.productName and arrayCutProduct.price == product.price:
+                        arrayCutProduct.update(product)
                         exist = True
                         break
                 if not exist:
                     products.append(cutProduct)
         return products
-    
 
 
 #########################################################################################
