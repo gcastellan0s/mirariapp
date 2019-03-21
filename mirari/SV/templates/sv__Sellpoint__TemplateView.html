@@ -83,6 +83,7 @@
                 if (event == 'sendTicket') self.recibePrintTicket(data);
                 if (event == 'printerConection') self.recibePrinterConection(data);
                 if (event == 'scanTicket') self.recibeScanTicket(data);
+                if (event == 'reloadSystem') self.recibeReloadSystem(data);
             });
         }),
         selectMenu:((menu) => {self.Menu = menu}),
@@ -315,6 +316,9 @@
                 }
             });
         }),
+        reloadSystem: (() => {
+            PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'reloadSystem', {})
+        }),
         /////SOCKETIO
         recibePrinterConection: ((data) => {
             if(self.Sellpoint.printer == data.name){
@@ -337,6 +341,9 @@
                 updateTicket.cut = data.cut
                 self.LastTicketScan = data.barcode
             }
+        }),
+        recibeReloadSystem: ((data) => {
+            location.reload();
         }),
         /////PLUGINS
         keyboard: ((value) => {
