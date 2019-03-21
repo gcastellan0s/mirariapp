@@ -272,7 +272,7 @@
             if(self.Sellpoint.printer == data.name){
                 if (data.name != self.ActivePrinter.name){
                     self.ActivePrinter = data
-                    PrivateSocket = io.connect(self.ActivePrinter.url, {resource: 'PrivateSocket/socket.io', 'force new connection': true});
+                    //PrivateSocket = io.connect(self.ActivePrinter.url, {resource: 'PrivateSocket/socket.io', 'force new connection': true});
                 }
             }
         }),
