@@ -437,8 +437,37 @@ VARS = {
     'NEW_GENDER': 'un nuevo',
     'THIS':'este',
     'APP':APP,
-    'EXCLUDE_PERMISSIONS': ['all'],
-    'REDIRECT_MODEL':['SV','Product'],
+    'EXCLUDE_PERMISSIONS': ['create','update'],
+    'LIST': [
+        {
+            'field': 'barcode',
+            'title': 'Folio',
+        },
+        {
+            'field': 'property_getSellpoint',
+            'title': 'Punto de Venta',
+        },
+        {
+            'field': 'username',
+            'title': 'Usuario',
+        },
+        {
+            'field': 'property_getTotalMoney',
+            'title': 'I.V.A.',
+        },
+        {
+            'field': 'property_getIvaMoney',
+            'title': 'IEPS',
+        },
+        {
+            'field': 'property_getIepsMoney',
+            'title': 'Total',
+        },
+        {
+            'field': 'status',
+            'title': 'Estatus',
+        },
+    ],
 }
 class Ticket(Model_base):
     STATUS_TICKET = (
@@ -465,6 +494,8 @@ class Ticket(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0} | {1}'.format(self.sellpoint, self.barcode)
+    def QUERY(self, view):
+        return Ticket.objects.filter(sellpoint__organization__pk=view.request.session.get('organization'), active=True)
     def my_organization(self):
         return self.sellpoint.my_organization()
     def new(self, ticket):
@@ -496,6 +527,20 @@ class Ticket(Model_base):
             self.status = 'COBRADO'
             self.save()
         return self
+    def getSellpoint(self):
+        return self.sellpoint.name
+    def getTotal(self):
+        return "{0:.2f}".format(self.total)
+    def getIva(self):
+        return "{0:.2f}".format(self.iva)
+    def getIeps(self):
+        return "{0:.2f}".format(self.ieps)
+    def getTotalMoney(self):
+        return Money(self.getTotal(), Currency.MXN).format('es_MX')
+    def getIvaMoney(self):
+        return Money(self.getIva(), Currency.MXN).format('es_MX')
+    def getIepsMoney(self):
+        return Money(self.getIeps(), Currency.MXN).format('es_MX')
 
 
 VARS = {
