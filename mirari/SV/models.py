@@ -786,7 +786,7 @@ class Cut(Model_base):
                         break
                 if not exist:
                     products.append(cutProduct)
-        return products
+        return  sorted(products, key=lambda x: x.quantity, reverse=True)
 
 
 #########################################################################################
