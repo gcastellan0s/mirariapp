@@ -655,6 +655,8 @@ class Cut(Model_base):
         for ticket in Ticket.objects.filter(cut=self):
             total += ticket.getLenOffers()
         return total
+    def getLenFaltante(self):
+        return len(Ticket.objects.filter(cut=self, status='PENDIENTE'))
     def makeCut(self):
         if self.getTickets():
             self.final_time = datetime.datetime.now()
