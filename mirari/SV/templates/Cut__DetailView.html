@@ -66,8 +66,8 @@
 											<thead>
 												<tr>
 													<th>PRODUCTO</th>
-													<th>CANTIDAD</th>
 													<th>PRECIO</th>
+													<th>CANTIDAD</th>
 													<th>IVA</th>
 													<th>IEPS</th>
 													<th>TOTAL</th>
@@ -77,8 +77,8 @@
 												{%for product in object.getCutProducts%}
 													<tr>
 														<td>{{product.productName}}</td>
-														<td>{{product.getQuantity}}</td>
 														<td>{{product.getPrice}}</td>
+														<td>{{product.getQuantity}}</td>
 														<td>{{product.getIvaMoney}}</td>
 														<td>{{product.getIepsMoney}}</td>
 														<td class="kt-font-danger"><strong>{{product.getTotalMoney}}</strong></td>
