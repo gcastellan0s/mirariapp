@@ -229,7 +229,7 @@
                 sellpoint: {},
             }
         }),
-        makeCut: (() => {
+        makeCut: ((cut) => {
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
                 sellpoint: JSON.stringify(self.Sellpoint),
             }, errorDialog=false)
@@ -275,8 +275,8 @@
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.propertyGetTotalMoney + '\n'])
                     ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                     ticketFormat.push(["cut"])
-                    console.log(ticketFormat)
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
+                    //PublicSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 }else{
                     console.log("no socket")
                 }
@@ -317,7 +317,7 @@
             });
         }),
         reloadSystem: (() => {
-            PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'reloadSystem', {})
+            location.reload();
         }),
         /////SOCKETIO
         recibePrinterConection: ((data) => {
@@ -343,7 +343,10 @@
             }
         }),
         recibeReloadSystem: ((data) => {
-            location.reload();
+            self.reloadSystem()
+        }),
+        emmitReloadSystem: (() => {
+            PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'reloadSystem', {})
         }),
         /////PLUGINS
         keyboard: ((value) => {

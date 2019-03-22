@@ -21,12 +21,13 @@ div(v-if="Sellpoint")
         form.modal-content
             button.close(type='button', data-dismiss='modal', aria-label='Close') ×
             .modal-body
-                button.btn.btn-lg.btn-info.my-2(type='button' v-on:click="reloadSystem()")
-                    span.fas.fa-cut
-                    |   REINICIAR SISTEMA
                 button.btn.btn-lg.btn-brand.my-2(type='button' v-on:click="makeCut()")
                     span.fas.fa-cut
                     |   HACER CORTE
+                hr
                 a.btn.btn-lg.btn-danger.mt-5(href="{%url 'mirari:logout__Organization__TemplateView'%}")
                     span.fas.fa-sign-out-alt
                     |   SALIR DEL SISTEMA
+                button.btn.btn-lg.btn-warning.mt-5(v-on:click="makeCut()")
+                    span.fas.fa-redo-alt
+                    |   REINICIAR SISTEMA
