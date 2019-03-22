@@ -186,12 +186,21 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
         message, api = 'Hay un error en tu consulta', 'error' 
         if request.method == 'POST':
             if request.GET.get('api') == 'unblock_siebel':
-                import cx_Oracle
-                dsnStr = cx_Oracle.makedsn("187.217.173.14", "1521", "CREDIPRO")
-                connection = cx_Oracle.connect(user="java_core", password="JAVA_CORE", dsn=dsnStr)
-                message = connection.version
-                connection.close()
-                message, api = message, 'success'
+                try:
+                    import cx_Oracle
+                    db = DBConnection.objects.filter(name='siebel', organization__pk=self.request.session.get('organization')).first()
+
+                    dsnStr = cx_Oracle.makedsn(db.db_host, "1521", db.db_name)
+                    con = cx_Oracle.connect(user=db.db_user, password=db.db_password, dsn=dsnStr, encoding = "UTF-8", nencoding = "UTF-8")
+                    con.autocommit = True
+
+                    query = "select ACCUM_VAL NUM_PAGO,to_char(END_DT,'DD/MM/YYYY') FECHA,X_ESTATUS_FACTURA STATUS,END_BALANCE INSOLUTO,CASH_SURRENDER_VAL CAPITAL,INTEREST_PAID INTERESES,FEE_PAID RENTA, HIGH_BALANCE PAGADO from S_FN_ACCNT_BAL where X_CLAVE_PH like '{0}%' order by ACCUM_VAL".format(response1[3])
+                    cursor = con.cursor()
+                    cursor.execute(query)
+                    response = cursor.fetchall()
+                    return JsonResponse({'response':response})
+                except Exception as e:
+                    message, api = str(e), 'error' 
             return JsonResponse({'message':message,'api':api})
         return super().dispatch(request, *args, **kwargs)
     ###########################################################################################
