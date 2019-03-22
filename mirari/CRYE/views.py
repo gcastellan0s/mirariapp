@@ -179,7 +179,7 @@ class TablaAmortizacion__TemplateView(Generic__TemplateView):
 ###############################################################################################
 class TablaAmortizacion2__TemplateView(Generic__TemplateView):
 	model = apps.get_model(APP, 'SiebelUnblock')
-	template_name = "SiebelUnblock__TemplateView.html"
+	template_name = "TablaAmortizacion2__TemplateView.html"
 	###########################################################################################
 	@method_decorator(csrf_exempt)
 	def dispatch(self, request, *args, **kwargs):
@@ -192,8 +192,8 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
 					con = cx_Oracle.connect(db.db_name+'/'+db.db_password+'@'+db.db_host+'/'+db.db_user, encoding = "UTF-8", nencoding = "UTF-8")
 					con.autocommit = True
 					cursor = con.cursor()
-					query = "update siebline.S_ASSET set status_cd='Análisis' where asset_num='{0}'".format(request.POST.get('unblock_number'))
-					cursor.execute(query)
+					#query = "update siebline.S_ASSET set status_cd='Análisis' where asset_num='{0}'".format(request.POST.get('unblock_number'))
+					#cursor.execute(query)
 					cursor.close()
 					message, api = 'Solicitud atendida', 'success' 
 				except Exception as e:
