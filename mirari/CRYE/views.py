@@ -186,19 +186,12 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
         message, api = 'Hay un error en tu consulta', 'error' 
         if request.method == 'POST':
             if request.GET.get('api') == 'unblock_siebel':
-                try:
-                    import cx_Oracle
-                    db = DBConnection.objects.filter(name='java_core', organization__pk=self.request.session.get('organization')).first()
-                    #con = cx_Oracle.connect(db.db_name+'/'+db.db_password+'@'+db.db_host+'/'+db.db_user, encoding = "UTF-8", nencoding = "UTF-8")
-                    connection = cx_Oracle.connect(db.db_user, db.db_password, cx_Oracle.makedsn(db.db_host,1821,db.db_name))
-                    con.autocommit = True
-                    cursor = con.cursor()
-                    #query = "update siebline.S_ASSET set status_cd='Análisis' where asset_num='{0}'".format(request.POST.get('unblock_number'))
-                    #cursor.execute(query)
-                    cursor.close()
-                    message, api = 'Solicitud atendida', 'success' 
-                except Exception as e:
-                    message, api = str(e), 'error' 
+                import cx_Oracle
+                dsnStr = cx_Oracle.makedsn("187.217.173.14", "1521", "CREDIPRO")
+                connection = cx_Oracle.connect(user="java_core", password="JAVA_CORE", dsn=dsnStr)
+                message = connection.version
+                connection.close()
+                message, api = message, 'success'
             return JsonResponse({'message':message,'api':api})
         return super().dispatch(request, *args, **kwargs)
     ###########################################################################################
