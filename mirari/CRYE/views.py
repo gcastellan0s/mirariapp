@@ -183,7 +183,6 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
     ###########################################################################################
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
-        message, api = 'Hay un error en tu consulta', 'error' 
         if request.method == 'POST':
             if request.GET.get('api') == 'unblock_siebel':
                 try:
@@ -192,6 +191,7 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
                     con = cx_Oracle.connect(user="java_core", password="JAVA_CORE", dsn=dsnStr)
                     message = con.version
                     con.close()
+                    return JsonResponse({'message':message,'api':'Success'})
                 except Exception as e:
                     message, api = str(e), 'error' 
             return JsonResponse({'message':message,'api':api})
