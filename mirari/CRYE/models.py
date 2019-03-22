@@ -47,9 +47,8 @@ VARS = {
                 'url': 'property_url_update',
             },
             {
-                'field': 'tipo',
+                'field': 'walletcredit_tipo',
                 'title': 'TIPO',
-                'width': 100,
                 'url': 'property_url_update',
             },
             {
