@@ -187,13 +187,12 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
         if request.method == 'POST':
             if request.GET.get('api') == 'unblock_siebel':
                 try:
+
                     import cx_Oracle
-                    db = DBConnection.objects.filter(name='siebel', organization__pk=self.request.session.get('organization')).first()
-
-                    dsnStr = cx_Oracle.makedsn(db.db_host, "1521", db.db_name)
-                    con = cx_Oracle.connect(user=db.db_user, password=db.db_password, dsn=dsnStr, encoding = "UTF-8", nencoding = "UTF-8")
+                    dsnStr = cx_Oracle.makedsn("187.217.173.14", "1521", "CREDIPRO")
+                    con = cx_Oracle.connect(user="java_core", password="JAVA_CORE", dsn=dsnStr)
                     con.autocommit = True
-
+                    message = con.version
                     query = """
 select SIEBPLINE.S_OPTY.ROW_ID as SOL_ID,
 SIEBPLINE.S_OPTY.NAME as SOLICITUD,
@@ -235,7 +234,8 @@ and SIEBPLINE.S_OPTY.PR_DEPT_OU_ID = SIEBPLINE.S_ORG_EXT.ROW_ID(+)"""
                     cursor = con.cursor()
                     cursor.execute(query)
                     response = cursor.fetchall()
-                    return JsonResponse({'response':response})
+                    con.close()
+                    return JsonResponse({'response':response,'message':message})
                 except Exception as e:
                     message, api = str(e), 'error' 
             return JsonResponse({'message':message,'api':api})
