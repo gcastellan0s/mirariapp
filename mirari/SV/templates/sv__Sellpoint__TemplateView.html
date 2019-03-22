@@ -229,7 +229,7 @@
                 sellpoint: {},
             }
         }),
-        makeCut: ((cut) => {
+        makeCut: (() => {
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
                 sellpoint: JSON.stringify(self.Sellpoint),
             }, errorDialog=false)
