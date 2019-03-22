@@ -48,7 +48,7 @@ VARS = {
             },
             {
                 'field': 'tipo',
-                'title': 'Obligación',
+                'title': 'TIPO',
                 'width': 100,
                 'url': 'property_url_update',
             },
@@ -65,6 +65,7 @@ VARS = {
                 'title': 'Monto',
             },
         ],
+    'SERIALIZER': ('get_monto','get_plazo'),
     'SEARCH': ['nombre','rfc','obligacion'],
     'SORTEABLE': ['nombre','obligacion','fecha_vencimiento','fecha_otorgado'],
     'HIDE_CHECKBOX_LIST': True,
