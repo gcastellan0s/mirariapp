@@ -78,7 +78,7 @@ class Sellpoint__ApiView(Generic__ApiView):
             return JsonResponse({'ticket': TicketSerializer(ticket).data}, safe=False)
         if request.GET.get('api') == 'getStates':
             sellpoints = Sellpoint().getMySellpointsVendor(request.user)
-            productattributes = ProductAttributes.objects.filter( sellpoint__in=sellpoints.all(), active=True, is_active=True, product__menu__active=True, product__menu__is_active=True ).distinct().order_by('-price')
+            productattributes = ProductAttributes.objects.filter( sellpoint__in=sellpoints.all(), active=True, is_active=True, product__menu__active=True, product__menu__is_active=True ).distinct().order_by('price')
             menu = []
             for productattribute in productattributes:
                 for pmenu in productattribute.product.menu.all():
