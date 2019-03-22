@@ -21,6 +21,9 @@ div(v-if="Sellpoint")
         form.modal-content
             button.close(type='button', data-dismiss='modal', aria-label='Close') ×
             .modal-body
+                button.btn.btn-lg.btn-info.my-2(type='button' v-on:click="reloadSystem()")
+                    span.fas.fa-cut
+                    |   REINICIAR SISTEMA
                 button.btn.btn-lg.btn-brand.my-2(type='button' v-on:click="makeCut()")
                     span.fas.fa-cut
                     |   HACER CORTE
