@@ -188,7 +188,7 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
 			if request.GET.get('api') == 'unblock_siebel':
 				try:
 					import cx_Oracle
-					db = DBConnection.objects.filter(name='siebel', organization__pk=self.request.session.get('organization')).first()
+					db = DBConnection.objects.filter(name='java_core', organization__pk=self.request.session.get('organization')).first()
 					con = cx_Oracle.connect(db.db_name+'/'+db.db_password+'@'+db.db_host+'/'+db.db_user, encoding = "UTF-8", nencoding = "UTF-8")
 					con.autocommit = True
 					cursor = con.cursor()
