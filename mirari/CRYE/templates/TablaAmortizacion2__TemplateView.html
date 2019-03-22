@@ -75,7 +75,7 @@
 				unblock_number
 			}
 			Ax('post', '{%url "CRYE:TablaAmortizacion2__TemplateView"%}?api=unblock_siebel', siebel).then(function(json){
-                console.log(json)
+                console.log(json.data)
 			})
 		}
 		else {
