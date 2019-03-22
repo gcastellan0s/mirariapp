@@ -186,12 +186,58 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
         message, api = 'Hay un error en tu consulta', 'error' 
         if request.method == 'POST':
             if request.GET.get('api') == 'unblock_siebel':
-                import cx_Oracle
-                dsnStr = cx_Oracle.makedsn("187.217.173.14", "1521", "CREDIPRO")
-                connection = cx_Oracle.connect(user="java_core", password="JAVA_CORE", dsn=dsnStr)
-                message = connection.version
-                connection.close()
-                message, api = message, 'success'
+                try:
+                    import cx_Oracle
+                    db = DBConnection.objects.filter(name='siebel', organization__pk=self.request.session.get('organization')).first()
+
+                    dsnStr = cx_Oracle.makedsn(db.db_host, "1521", db.db_name)
+                    con = cx_Oracle.connect(user=db.db_user, password=db.db_password, dsn=dsnStr, encoding = "UTF-8", nencoding = "UTF-8")
+                    con.autocommit = True
+
+                    query = """
+select SIEBPLINE.S_OPTY.ROW_ID as SOL_ID,
+SIEBPLINE.S_OPTY.NAME as SOLICITUD,
+decode(SIEBPLINE.S_OPTY.PR_DEPT_OU_ID,'No Match Row Id',SIEBPLINE.S_OPTY.PR_CON_ID,SIEBPLINE.S_OPTY.PR_DEPT_OU_ID) as IDCLIENTE,
+decode(SIEBPLINE.S_OPTY.PR_DEPT_OU_ID,'No Match Row Id','Persona Fisica','Persona Moral') as TIPO_PERSONA,
+decode(SIEBPLINE.S_OPTY.PR_DEPT_OU_ID,'No Match Row Id',SIEBPLINE.S_CONTACT.FST_NAME || ' ' || SIEBPLINE.S_CONTACT.LAST_NAME,SIEBPLINE.S_ORG_EXT.NAME) as TIPO_PERSONA1,
+SIEBPLINE.S_REVN.PROD_ID,
+SIEBPLINE.S_PROD_INT.PART_NUM as PRODUCTO, 
+SIEBPLINE.S_PROD_INT.DESC_TEXT as DATOS_EXTRA,
+SIEBPLINE.S_FN_OFFR_FEE.BASIS_PERCENT TASA_COMISIONES,
+SIEBPLINE.S_REVN.REVN_AMT as LIMITE_CREDITO,
+DECODE(SIEBPLINE.S_OPTY_PROD_FNX.FIXED_RATE_FLG,'Y',SIEBPLINE.S_OPTY_PROD_FNX.LN_APPR_INT_RATE,SIEBPLINE.S_FN_INDEX_RATE.INDEX_VAL + SIEBPLINE.S_OPTY_PROD_FNX.RATE_SPREAD) as INTERES_ORDINARIO,
+DECODE(SIEBPLINE.S_OPTY_PROD_FNX.FIXED_RATE_FLG,'Y',0, SIEBPLINE.S_OPTY_PROD_FNX.RATE_SPREAD) as PUNTOS_EXTRA,
+SIEBPLINE.S_PROD_INT_TNTX.CONSUMP_UOM_PP_NUM FACTOR_MORATORIOS,
+nvl(SIEBPLINE.S_OPTY_PROD1_FNX.AS_PAYFREQ_CD,'Días') as TIPO_PLAZO,
+decode(SIEBPLINE.S_REVN.PROD_ID,'1-2XFB',SIEBPLINE.S_OPTY_PROD_FNX.FST_PAYMNT_DT-SIEBPLINE.S_OPTY_PROD_FNX.INTRST_START_DT,
+'1-4YRV',SIEBPLINE.S_OPTY_PROD_FNX.FST_PAYMNT_DT-SIEBPLINE.S_OPTY_PROD_FNX.INTRST_START_DT,
+SIEBPLINE.S_OPTY_PROD_FNX.LN_AMORT_NUM_MTH) as PLAZO
+from SIEBPLINE.S_OPTY,
+SIEBPLINE.S_REVN,
+SIEBPLINE.S_PROD_INT,
+SIEBPLINE.S_PROD_INT_TNTX,
+SIEBPLINE.S_FN_OFFR_FEE, 
+SIEBPLINE.S_OPTY_PROD_FNX,
+SIEBPLINE.S_FN_INDEX_RATE,
+SIEBPLINE.S_OPTY_PROD1_FNX,
+SIEBPLINE.S_CONTACT,
+SIEBPLINE.S_ORG_EXT
+where SIEBPLINE.S_OPTY.ROW_ID = SIEBPLINE.S_REVN.OPTY_ID
+and SIEBPLINE.S_OPTY.PR_OPTYPRD_ID = SIEBPLINE.S_REVN.ROW_ID
+and SIEBPLINE.S_REVN.PROD_ID = SIEBPLINE.S_PROD_INT.ROW_ID
+and SIEBPLINE.S_PROD_INT.ROW_ID = SIEBPLINE.S_PROD_INT_TNTX.PAR_ROW_ID
+and SIEBPLINE.S_REVN.INDEX_RATE_ID=SIEBPLINE.S_FN_INDEX_RATE.ROW_ID(+)
+and SIEBPLINE.S_REVN.PR_LOAN_FEE_ID = SIEBPLINE.S_FN_OFFR_FEE.ROW_ID(+)
+and SIEBPLINE.S_OPTY.PR_OPTYPRD_ID = SIEBPLINE.S_OPTY_PROD_FNX.ROW_ID
+and SIEBPLINE.S_OPTY.PR_OPTYPRD_ID = SIEBPLINE.S_OPTY_PROD1_FNX.ROW_ID(+)
+and SIEBPLINE.S_OPTY.PR_CON_ID = SIEBPLINE.S_CONTACT.ROW_ID(+)
+and SIEBPLINE.S_OPTY.PR_DEPT_OU_ID = SIEBPLINE.S_ORG_EXT.ROW_ID(+)"""
+                    cursor = con.cursor()
+                    cursor.execute(query)
+                    response = cursor.fetchall()
+                    return JsonResponse({'response':response})
+                except Exception as e:
+                    message, api = str(e), 'error' 
             return JsonResponse({'message':message,'api':api})
         return super().dispatch(request, *args, **kwargs)
     ###########################################################################################
