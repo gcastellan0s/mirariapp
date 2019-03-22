@@ -70,7 +70,6 @@
 
 {%block methods%}
 	unblock_siebel: function (siebel) {
-		Block();
 		if (siebel.unblock_number){
 			data = {
 				unblock_number
@@ -80,7 +79,6 @@
 			})
 		}
 		else {
-			UnBlock();
 			swal('Error!', 'Revisa el número de tu consulta', 'error')
 		}
 	},
