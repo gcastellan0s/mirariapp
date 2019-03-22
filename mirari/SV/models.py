@@ -673,10 +673,6 @@ VARS = {
             'title': 'Faltante',
         },
         {
-            'field': 'property_getOffersLen',
-            'title': 'Mayoreo',
-        },
-        {
             'field': 'property_getTotalMoney',
             'title': 'Total Corte',
         },
