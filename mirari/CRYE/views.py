@@ -190,6 +190,8 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
                     dsnStr = cx_Oracle.makedsn("187.217.173.14", "1521", "CREDIPRO")
                     con = cx_Oracle.connect(user="java_core", password="JAVA_CORE", dsn=dsnStr)
                     message = con.version
+                    con.autocommit = True
+                    cursor = con.cursor()
                     con.close()
                     return JsonResponse({'message':message,'api':'Success'})
                 except Exception as e:
