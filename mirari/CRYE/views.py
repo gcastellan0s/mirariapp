@@ -188,7 +188,7 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
                 try:
                     import cx_Oracle
                     dsnStr = cx_Oracle.makedsn("187.217.173.14", "1521", "CREDIPRO")
-                    con = cx_Oracle.connect(user="java_core", password="JAVA_CORE", dsn=dsnStr)
+                    con = cx_Oracle.connect(user="java_core", password="JAVA_CORE", dsn=dsnStr, encoding = "UTF-8", nencoding = "UTF-8")
                     message = con.version
                     con.autocommit = True
                     cursor = con.cursor()
