@@ -31,21 +31,29 @@
 								<i class="la la-gear"></i>
 							</span>
 							<h3 class="m-portlet__head-text">
-								Agregar Tabla de amortización
+								AGREGAR SOLICITUD DE CREDITO
 							</h3>
 						</div>
 					</div>
 				</div>
 				<!--begin::Form-->
-				<form id="form" method="post" enctype="multipart/form-data" class="m-form m-form--label-align-right" v-on:submit.prevent="getTablaAmortizacion(tablaAmortizacion)">{% csrf_token %}
+				<form id="form" method="post" enctype="multipart/form-data" class="m-form m-form--label-align-right" v-on:submit.prevent="getData(WalletCredit)">{% csrf_token %}
 					<div class="m-portlet__body">
 						<div class="m-form__content">
 							<div class="form-group">
 								<label for="tablaAmortizacion_id" class="form-control-label">
-									Ingresa ID
+									# de solicitud
 								</label>
-								<input type="text" class="form-control" id="tablaAmortizacion_id" placeholder="Número de solicitud" v-model="tablaAmortizacion.number">
+								<input type="text" class="form-control" placeholder="Número de solicitud" v-model="WalletCredit.id">
 							</div>
+                            <div class="form-group">
+                                <label class="form-label">Tipo de credito</label>
+                                <select class="select custom-select">
+                                    <option v-for="option in WalletCredit.options">
+                                        ${option.text}
+                                    </option>
+                                </select>
+                            </div>
 						</div>
 						<div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
 							<div class="m-form__actions">
@@ -62,25 +70,37 @@
 	</div>
 {%endblock content%}
 
-{%block data%} 
-    tablaAmortizacion: {
-        number: '',
-    },
-{%endblock data%}
+<script>
+    {%block data%} 
+        WalletCredit: {
+            id: '',
+            type: 'CREDITO',
+            options: [
+                { text: 'CREDITO', value: 'CREDITO' },
+                { text: 'ARRENDAMIENTO', value: 'ARRENDAMIENTO' },
+            ]
+        },
+    {%endblock data%}
 
-{%block methods%}
-    getTablaAmortizacion: function (tablaAmortizacion) {
-		Block();
-		if (tablaAmortizacion.number){
-			Ax('post', '{{ request.path }}', tablaAmortizacion).then(function(json){
-                console.log(json)
-				UnBlock();
-                window.location.replace('http://' + window.location.hostname + json.data.redirect);
-			})
-		}
-		else {
-			UnBlock();
-			swal('Error!', 'Revisa el número de tu consulta', 'error')
-		}
-	},
-{%endblock methods%}
+    {%block methods%}
+        getData: function (WalletCredit) {
+            Block();
+            if (WalletCredit.id){
+                Ax('post', '{{ request.path }}', WalletCredit)
+                .then(function(json){
+                    if(json.message) swal('Error!', json.message, 'error')
+                    else window.location.replace('http://' + window.location.hostname + json.data.redirect);
+                })
+                .catch((error) => {
+                    swal('Error!', 'Revisa el número de tu consulta', 'error')
+                }).finally(() => {
+                    UnBlock();
+                });
+            }
+            else {
+                UnBlock();
+                swal('Error!', 'Revisa el número de tu consulta', 'error')
+            }
+        },
+    {%endblock methods%}
+</script>
