@@ -8,5 +8,5 @@ urlpatterns = [
     path('SiebelUnblock/', SiebelUnblock__SiebelUnblock__TemplateView.as_view(), name='SiebelUnblock__SiebelUnblock__TemplateView'),
     path('WalletCredit/<slug:app>/<slug:model>/', WalletCredit__TemplateView.as_view(), name='WalletCredit__TemplateView'),
     path('TablaAmortizacion/<slug:app>/<int:pk>/<slug:model>/', TablaAmortizacion__TemplateView.as_view(), name='TablaAmortizacion__TemplateView'),
-    path('TablaAmortizacion2/<slug:app>/<int:pk>/<slug:model>/', TablaAmortizacion2__TemplateView.as_view(), name='TablaAmortizacion2__TemplateView'),
+    path('TablaAmortizacion2/', TablaAmortizacion2__TemplateView.as_view(), name='TablaAmortizacion2__TemplateView'),
 ]
