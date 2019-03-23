@@ -177,8 +177,12 @@
             PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'sendTicket', ticket)
         }),
         printTicket: ((ticket) => { 
+            console.log(ticket)
             if (PrivateSocket){
                 ticketFormat = []
+                ticketFormat.push(["set",["center", "A", "B", 2, 2]])
+                ticketFormat.push(["text", '\n'])
+                ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total)) + '\n'])
                 ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                 if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", '\n'])
                 if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1 + '\n'])
@@ -186,7 +190,8 @@
                 ticketFormat.push(["set",["center", "A", "", 1, 1]])
                 if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1 + '\n'])
                 if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2 + '\n'])
-                if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1 + '\n'])
+                ticketFormat.push(["text", self.Ticket.format_date + ' '])
+                ticketFormat.push(["text", self.Ticket.format_time + '\n'])
                 ticketFormat.push(["text", '------------------------------------------\n'])
                 self.Ticket.products.forEach(function(product){
                     ticketFormat.push(["set",["left", "A", "", 1, 1]])
@@ -199,14 +204,14 @@
                     });
                 });
                 ticketFormat.push(["set",["right", "A", "B", 1, 1]])
-                ticketFormat.push(["text", 'IVA: $' + self.$options.filters.formatPrice(String(self.Ticket.iva)) + '\n'])
+                ticketFormat.push(["text", 'IVA: $' + self.$options.filters.formatPrice(String(self.Ticket.iva))])
                 ticketFormat.push(["set",["right", "A", "B", 1, 1]])
-                ticketFormat.push(["text", 'IEPS: $' + self.$options.filters.formatPrice(String(self.Ticket.ieps)) + '\n'])
+                ticketFormat.push(["text", ' IEPS: $' + self.$options.filters.formatPrice(String(self.Ticket.ieps))])
                 ticketFormat.push(["set",["right", "A", "B", 1, 1]])
-                ticketFormat.push(["text", 'TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total)) + '\n'])
+                ticketFormat.push(["text", ' TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total)) + '\n'])
                 ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                 ticketFormat.push(["qr",self.Ticket.key])
-                ticketFormat.push(["text", self.Ticket.barcode + '\n'])
+                ticketFormat.push(["text", self.Ticket.barcode + ' :: '])
                 ticketFormat.push(["text", self.Ticket.key + '\n'])
                 ticketFormat.push(["cut"])
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
@@ -237,9 +242,10 @@
                 console.log(json)
                 if (PrivateSocket){
                     ticketFormat = []
-                    ticketFormat.push(["set",["center", "A", "B", 1, 1]])
+                    ticketFormat.push(["set",["center", "A", "B", 2, 2]])
                     ticketFormat.push(["text", '\n'])
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.propertyGetTotalMoney + '\n'])
+                    ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                     ticketFormat.push(["text", 'FOLIO: ' + String(json.data.cut.serial) + '\n'])
                     ticketFormat.push(["text", moment(json.data.cut.final_time).format('MMMM D, h:mm:ss a') + '\n'])
                     ticketFormat.push(["text", self.Sellpoint.name + '\n'])
@@ -256,6 +262,7 @@
                     ticketFormat.push(["text", 'Total Faltante: ' + json.data.cut.propertyGetFaltanteMoney + '\n'])
                     ticketFormat.push(["text", 'No. faltante: $' + json.data.cut.propertyGetLenFaltante + '\n'])
                     ticketFormat.push(["text", 'No. de clientes: ' + json.data.cut.propertyGetLenTickets + '\n'])
+                    ticketFormat.push(["text", 'Fecha : ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a') + '\n'])
                     ticketFormat.push(["text", '1er ticket: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a') + '\n'])
                     ticketFormat.push(["text", '------------------------------------------\n'])
                     json.data.cut.products.forEach(function(product){
