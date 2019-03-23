@@ -120,7 +120,37 @@ class WalletCredit__TemplateView(Generic__TemplateView):
                     cursor.close()
                     for client in response1:
                         query = "select * from java_core.creditos where creditos.id_solicitud='{0}'".format(client[0])
+                        cursor = con.cursor()
+                        cursor.execute(query)
+                        response2 = cursor.fetchall()
+                        if len(response2) >= 1:
+                            walletCredit = WalletCredit.objects.filter(obligacion = response2[0], organization = self.request.session.get('organization')).first()
+                            if not walletCredit:
+                                walletCredit = WalletCredit()
+                            walletCredit.organization = Organization.objects.get(id=self.request.session.get('organization'))
+                            walletCredit.obligacion = request.POST.get('id')
+                            walletCredit.clasificacion = None
+                            walletCredit.clasificacion_contable = None
+                            walletCredit.tipo = response2[1]
+                            walletCredit.nombre = response2[3]
+                            walletCredit.rfc = response2[2]
+                            walletCredit.producto = None
+                            walletCredit.forma_pago = None
+                            walletCredit.tipo_tasa = None
+                            walletCredit.tasa = None
+                            walletCredit.fecha_otorgado = None
+                            walletCredit.fecha_vencimiento = None
+                            walletCredit.plazo = int(response3[1])
+                            walletCredit.monto = float(response3[0])
+                            walletCredit.fondeador = None
+                            walletCredit.save()
 
+                            query = "select * from amortizacion where ID_CREDITO='{0}'".format(request.POST.get('unblock_number'))
+                            cursor = con.cursor()
+                            cursor.execute(query)
+                            response2 = cursor.fetchall()
+
+                            
                     #query = "select SIEBPLINE.S_ORG_EXT.ROW_ID as CLIENTE, 'Persona Moral' as REGIMEN, REPLACE(REPLACE(SIEBPLINE.S_ORG_EXT.ALIAS_NAME,'-',''),' ','') as RFC, SIEBPLINE.S_ORG_EXT.NAME as RAZON_SOCIAL, SIEBPLINE.S_ORG_EXT.URL as GIRO, SIEBPLINE.S_ADDR_PER.ADDR as CALLE, SIEBPLINE.S_ADDR_PER.PROVINCE as COLONIA, '' as NUM_INT, '' as NUM_EXT, 'Persona Moral' as REGIMEN, 'Mexicana' as NACIONALIDAD, 'Mexicana' as TELCONTACTO, 'N/A' as NUMERO_INTERIOR, SIEBPLINE.S_ADDR_PER.ZIPCODE as CP, SIEBPLINE.S_ADDR_PER.COUNTY as MUNICIPIO, SIEBPLINE.S_ADDR_PER.CITY as CIUDAD, SIEBPLINE.S_ADDR_PER.STATE as ESTADO, SUBSTR(SIEBPLINE.S_ORG_EXT.MAIN_PH_NUM,4) as TELEFONO, SIEBPLINE.S_CONTACT.FST_NAME || ' ' || SIEBPLINE.S_CONTACT.LAST_NAME as NOMBRE_CONTACTO, SIEBPLINE.S_ADDR_PER.COUNTRY as PAIS from SIEBPLINE.S_ORG_EXT, SIEBPLINE.S_ADDR_PER, SIEBPLINE.S_ORG_EXT_FNX, SIEBPLINE.S_CONTACT where  SIEBPLINE.S_ORG_EXT.PR_ADDR_ID=SIEBPLINE.S_ADDR_PER.ROW_ID(+) and SIEBPLINE.S_ORG_EXT.ROW_ID = SIEBPLINE.S_ORG_EXT_FNX.PAR_ROW_ID and SIEBPLINE.S_ORG_EXT.PR_CON_ID = SIEBPLINE.S_CONTACT.PAR_ROW_ID(+) and  SIEBPLINE.S_ORG_EXT.ROW_ID='{0}'".format(request.POST.get('unblock_number'))
                     #query = "select SIEBPLINE.S_CONTACT.ROW_ID as IDCLIENTE, 'Persona Fisica' as REGIMEN, REPLACE(REPLACE(SIEBPLINE.S_CONTACT.ALIAS_NAME,'-',''),' ','') as RFC, SIEBPLINE.S_CONTACT.LAST_NAME as APELLIDOS, SIEBPLINE.S_CONTACT.FST_NAME as NOMBRE, SIEBPLINE.S_CONTACT_FNX.IDEN2_NUM as CURP, TO_CHAR(SIEBPLINE.S_CONTACT.BIRTH_DT,'YYYY-MM-DD') as FECHA_NACIMIENTO, SIEBPLINE.S_CONTACT.NATIONALITY as NACIONALIDAD, SIEBPLINE.S_CONTACT_X.ATTRIB_34 as GIRO, SIEBPLINE.S_CONTACT.PR_PER_ADDR_ID, SIEBPLINE.S_ADDR_PER.ADDR as CALLE, SIEBPLINE.S_ADDR_PER.PROVINCE as COLONIA, '' as NUM_INT, '' as NUM_EXT, SIEBPLINE.S_ADDR_PER.ZIPCODE as CP, SIEBPLINE.S_ADDR_PER.COUNTY as MUNICIPIO, SIEBPLINE.S_ADDR_PER.CITY as CIUDAD, SIEBPLINE.S_ADDR_PER.STATE as ESTADO, SUBSTR(SIEBPLINE.S_CONTACT.WORK_PH_NUM,4) as TELEFONO, SIEBPLINE.S_CONTACT.FST_NAME || ' ' || SIEBPLINE.S_CONTACT.LAST_NAME as NOMBRE_CONTACTO, SIEBPLINE.S_CONTACT.SEX_MF as SEXO, SIEBPLINE.S_CONTACT.MARITAL_STAT_CD as EDO_CIVIL, SIEBPLINE.S_CONTACT_FNX.BIRTH_PLACE as LUGAR_NACIMIENTO, SIEBPLINE.S_ADDR_PER.COUNTRY as PAIS, '' as FIEL, '' as NIE, SIEBPLINE.S_CONTACT.EMAIL_ADDR as CORREO from SIEBPLINE.S_CONTACT,  SIEBPLINE.S_CONTACT_X,  SIEBPLINE.S_ADDR_PER,  SIEBPLINE.S_CONTACT_FNX where SIEBPLINE.S_CONTACT.ROW_ID = SIEBPLINE.S_CONTACT_X.PAR_ROW_ID and SIEBPLINE.S_CONTACT.ROW_ID = SIEBPLINE.S_CONTACT_FNX.PAR_ROW_ID and SIEBPLINE.S_CONTACT.PR_PER_ADDR_ID = SIEBPLINE.S_ADDR_PER.ROW_ID(+) and SIEBPLINE.S_CONTACT.ROW_ID='{0}'".format(request.POST.get('unblock_number'))
                     #query = "select * from java_core.creditos where creditos.id_solicitud='{0}'".format(request.POST.get('unblock_number'))
@@ -212,7 +242,7 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
                     #query = "select SIEBPLINE.S_ORG_EXT.ROW_ID as CLIENTE, 'Persona Moral' as REGIMEN, REPLACE(REPLACE(SIEBPLINE.S_ORG_EXT.ALIAS_NAME,'-',''),' ','') as RFC, SIEBPLINE.S_ORG_EXT.NAME as RAZON_SOCIAL, SIEBPLINE.S_ORG_EXT.URL as GIRO, SIEBPLINE.S_ADDR_PER.ADDR as CALLE, SIEBPLINE.S_ADDR_PER.PROVINCE as COLONIA, '' as NUM_INT, '' as NUM_EXT, 'Persona Moral' as REGIMEN, 'Mexicana' as NACIONALIDAD, 'Mexicana' as TELCONTACTO, 'N/A' as NUMERO_INTERIOR, SIEBPLINE.S_ADDR_PER.ZIPCODE as CP, SIEBPLINE.S_ADDR_PER.COUNTY as MUNICIPIO, SIEBPLINE.S_ADDR_PER.CITY as CIUDAD, SIEBPLINE.S_ADDR_PER.STATE as ESTADO, SUBSTR(SIEBPLINE.S_ORG_EXT.MAIN_PH_NUM,4) as TELEFONO, SIEBPLINE.S_CONTACT.FST_NAME || ' ' || SIEBPLINE.S_CONTACT.LAST_NAME as NOMBRE_CONTACTO, SIEBPLINE.S_ADDR_PER.COUNTRY as PAIS from SIEBPLINE.S_ORG_EXT, SIEBPLINE.S_ADDR_PER, SIEBPLINE.S_ORG_EXT_FNX, SIEBPLINE.S_CONTACT where  SIEBPLINE.S_ORG_EXT.PR_ADDR_ID=SIEBPLINE.S_ADDR_PER.ROW_ID(+) and SIEBPLINE.S_ORG_EXT.ROW_ID = SIEBPLINE.S_ORG_EXT_FNX.PAR_ROW_ID and SIEBPLINE.S_ORG_EXT.PR_CON_ID = SIEBPLINE.S_CONTACT.PAR_ROW_ID(+) and  SIEBPLINE.S_ORG_EXT.ROW_ID='{0}'".format(request.POST.get('unblock_number'))
                     #query = "select SIEBPLINE.S_CONTACT.ROW_ID as IDCLIENTE, 'Persona Fisica' as REGIMEN, REPLACE(REPLACE(SIEBPLINE.S_CONTACT.ALIAS_NAME,'-',''),' ','') as RFC, SIEBPLINE.S_CONTACT.LAST_NAME as APELLIDOS, SIEBPLINE.S_CONTACT.FST_NAME as NOMBRE, SIEBPLINE.S_CONTACT_FNX.IDEN2_NUM as CURP, TO_CHAR(SIEBPLINE.S_CONTACT.BIRTH_DT,'YYYY-MM-DD') as FECHA_NACIMIENTO, SIEBPLINE.S_CONTACT.NATIONALITY as NACIONALIDAD, SIEBPLINE.S_CONTACT_X.ATTRIB_34 as GIRO, SIEBPLINE.S_CONTACT.PR_PER_ADDR_ID, SIEBPLINE.S_ADDR_PER.ADDR as CALLE, SIEBPLINE.S_ADDR_PER.PROVINCE as COLONIA, '' as NUM_INT, '' as NUM_EXT, SIEBPLINE.S_ADDR_PER.ZIPCODE as CP, SIEBPLINE.S_ADDR_PER.COUNTY as MUNICIPIO, SIEBPLINE.S_ADDR_PER.CITY as CIUDAD, SIEBPLINE.S_ADDR_PER.STATE as ESTADO, SUBSTR(SIEBPLINE.S_CONTACT.WORK_PH_NUM,4) as TELEFONO, SIEBPLINE.S_CONTACT.FST_NAME || ' ' || SIEBPLINE.S_CONTACT.LAST_NAME as NOMBRE_CONTACTO, SIEBPLINE.S_CONTACT.SEX_MF as SEXO, SIEBPLINE.S_CONTACT.MARITAL_STAT_CD as EDO_CIVIL, SIEBPLINE.S_CONTACT_FNX.BIRTH_PLACE as LUGAR_NACIMIENTO, SIEBPLINE.S_ADDR_PER.COUNTRY as PAIS, '' as FIEL, '' as NIE, SIEBPLINE.S_CONTACT.EMAIL_ADDR as CORREO from SIEBPLINE.S_CONTACT,  SIEBPLINE.S_CONTACT_X,  SIEBPLINE.S_ADDR_PER,  SIEBPLINE.S_CONTACT_FNX where SIEBPLINE.S_CONTACT.ROW_ID = SIEBPLINE.S_CONTACT_X.PAR_ROW_ID and SIEBPLINE.S_CONTACT.ROW_ID = SIEBPLINE.S_CONTACT_FNX.PAR_ROW_ID and SIEBPLINE.S_CONTACT.PR_PER_ADDR_ID = SIEBPLINE.S_ADDR_PER.ROW_ID(+) and SIEBPLINE.S_CONTACT.ROW_ID='{0}'".format(request.POST.get('unblock_number'))
                     #query = "select ID_CREDITO from java_core.creditos where creditos.id_solicitud='{0}'".format(request.POST.get('unblock_number'))
-                    query = "select * from amortizacion where ID_CREDITO='{0}'".format(request.POST.get('unblock_number'))
+                    #query = "select * from amortizacion where ID_CREDITO='{0}'".format(request.POST.get('unblock_number'))
                     cursor = con.cursor()
                     cursor.execute(query)
                     response = cursor.fetchall()
