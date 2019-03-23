@@ -13,7 +13,7 @@
                     .container-p-x.py-5.container-m--x.container-m--y.mb-0(style="min-height:91vh")
                         .row
                             .col-4
-                                .card.bg-success.border-0.text-white.mb-5
+                                .card.bg-success.border-0.text-white.mb-4
                                     .card-body.d-flex.justify-content-between.align-items-center.py-5
                                         div
                                             .text-xlarge VIDEO TUTORIALES
@@ -22,7 +22,7 @@
                             .col-4
                                 
                             .col-4
-                                .card.bg-primary.border-0.text-white.mb-5(v-on:click="makeCut()")
+                                .card.bg-primary.border-0.text-white.mb-4(v-on:click="makeCut()")
                                     .card-body.d-flex.justify-content-between.align-items-center.py-5
                                         div
                                             .text-xlarge HACER CORTE
@@ -30,21 +30,21 @@
                                         i.fas.fa-cut.text-xlarge.opacity-25
                         .row
                             .col-4
-                                .card.bg-warning.border-0.text-dark.mb-5
+                                .card.bg-warning.border-0.text-dark.mb-4
                                     .card-body.d-flex.justify-content-between.align-items-center.py-5
                                         div
                                             .text-xlarge AVISAR PROBLEMA
                                             .small.opacity-75 PROXIMAMENTE!
                                         i.fas.fa-info.text-xlarge.opacity-25
                             .col-4
-                                .card.bg-warning.border-0.text-dark.mb-5(v-on:click="reloadSystem()")
+                                .card.bg-warning.border-0.text-dark.mb-4(v-on:click="reloadSystem()")
                                     .card-body.d-flex.justify-content-between.align-items-center.py-5
                                         div
                                             .text-xlarge REINICIAR SISTEMA
                                             .small.opacity-75 REINICIA ESTE EQUIPO Y DATOS
                                         i.fas.fa-redo-alt.text-xlarge.opacity-25
                             .col-4
-                                .card.bg-danger.border-0.text-white.mb-5(v-on:click="redirect('{%url 'mirari:logout__Organization__TemplateView'%}')")
+                                .card.bg-danger.border-0.text-white.mb-4(v-on:click="redirect('{%url 'mirari:logout__Organization__TemplateView'%}')")
                                     .card-body.d-flex.justify-content-between.align-items-center.py-5
                                         div
                                             .text-xlarge SALIR
@@ -52,14 +52,14 @@
                                         i.fas.fa-sign-out-alt.text-xlarge.opacity-25
                         .row
                             .col-4
-                                .card.bg-success.border-0.text-white.mb-5
+                                .card.bg-success.border-0.text-white.mb-4
                                     .card-body.d-flex.justify-content-between.align-items-center.py-5
                                         div
                                             .text-xlarge {{request.user.visible_username}}
                                             .small.opacity-75 NOMBRE DE USUARIO
                                         i.fas.fa-user.text-xlarge.opacity-25
                             .col-4
-                                .card.bg-success.border-0.text-white.mb-5(v-if="ActivePrinter.name")
+                                .card.bg-success.border-0.text-white.mb-4(v-if="ActivePrinter.name")
                                     .card-body.d-flex.justify-content-between.align-items-center.py-5
                                         div
                                             .text-xlarge ${ActivePrinter.name}

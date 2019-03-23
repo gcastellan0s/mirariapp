@@ -329,7 +329,8 @@
         redirect: ((url) => {
             window.location.replace(url);
         }),
-        reloadSystem: (() => {
+        reloadSystem: ((text='Espere un momento...') => {
+            Block(text)
             location.reload();
         }),
         /////SOCKETIO
