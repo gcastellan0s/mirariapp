@@ -1,18 +1,18 @@
 div(v-if="Sellpoint")
     router-link(to="/order" v-if="includes(Sellpoint.orders, {{request.user.id}})")
-        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-3rem")
+        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem")
             i.fas.fa-folder.pr-2
             | PEDIDOS
-    router-link(to="/casher" v-if="includes(Sellpoint.cashers, {{request.user.id}})")
-        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-3rem")
+    router-link(to="/casher")
+        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem")
             i.fas.fa-credit-card.pr-2
             | CAJA
     router-link(to="/sellpoint" v-if="includes(Sellpoint.vendors, {{request.user.id}})")
-        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-3rem")
+        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem")
             i.fas.fa-store.pr-2
             | VENTA
     router-link(to="/dashboard")
-        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-3rem")
+        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem")
             strong
                 i.fas.fa-ellipsis-h.pr-2
                 | MENU
