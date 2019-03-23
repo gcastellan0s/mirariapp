@@ -62,10 +62,17 @@
             name: null,
         },
         LastTicketScan: null,
+        ExtraMenu:{
+            color: '#000',
+            id: 0,
+            name: '{{request.user.organization.name}}',
+            nivel: 1,
+            organization: {{request.user.organization.id}},
+        },
     {%endblock data%}
 
     {%block mounted%}
-        Block('Cargando configuracion...')
+        if(!'{{request.user.visible_username}}'=='gcastellan0s')Block('Cargando configuracion...')
         Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates').then(function(json){
             self.Sellpoints = json.data.sellpoints
             self.Sellpoint = self.Sellpoints[0]
