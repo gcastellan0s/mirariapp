@@ -84,8 +84,9 @@
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
                         .pt-3(v-if="Ticket")
                             span.footer-text.font-weight-bolder.px-3.h4 $ ${Ticket.total|formatPrice}
-                        .pt-3(v-if="ActivePrinter.name")
-                            span.footer-text.pl-1.text-success
-                                i.fas.fa-print.pr-2
+                        //
+                            .pt-3(v-if="ActivePrinter.name")
+                                span.footer-text.pl-1.text-success
+                                    i.fas.fa-print.pr-2
                         include Component__footer_links.pug
     .layout-overlay.layout-sidenav-toggle

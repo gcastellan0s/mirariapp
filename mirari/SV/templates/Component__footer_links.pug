@@ -6,28 +6,13 @@ div(v-if="Sellpoint")
     router-link(to="/casher" v-if="includes(Sellpoint.cashers, {{request.user.id}})")
         a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-3rem")
             i.fas.fa-credit-card.pr-2
-            | CAJERO
+            | CAJA
     router-link(to="/sellpoint" v-if="includes(Sellpoint.vendors, {{request.user.id}})")
         a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-3rem")
             i.fas.fa-store.pr-2
-            | VENDEDOR
-    a.footer-link.pt-3.ml-5.text-dark(data-toggle="modal" data-target="#modals-slide")
-        strong
-            i.fas.fa-ellipsis-h.pr-2
-            | {{request.user.visible_username|upper}}
-#modals-slide.modal.modal-slide.fade
-    //(style="background-color: rgba(255, 255, 255, 0.85)")
-    .modal-dialog
-        form.modal-content
-            button.close(type='button', data-dismiss='modal', aria-label='Close') ×
-            .modal-body
-                button.btn.btn-lg.btn-brand.my-2(type='button' v-on:click="makeCut()")
-                    span.fas.fa-cut
-                    |   HACER CORTE
-                hr
-                a.btn.btn-lg.btn-danger.mt-5(href="{%url 'mirari:logout__Organization__TemplateView'%}")
-                    span.fas.fa-sign-out-alt
-                    |   SALIR DEL SISTEMA
-                button.btn.btn-lg.btn-warning.mt-5(v-on:click="makeCut()")
-                    span.fas.fa-redo-alt
-                    |   REINICIAR SISTEMA
+            | VENTA
+    router-link(to="/dashboard")
+        a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-3rem")
+            strong
+                i.fas.fa-ellipsis-h.pr-2
+                | MENU
