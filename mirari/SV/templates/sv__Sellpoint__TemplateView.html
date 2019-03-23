@@ -234,6 +234,7 @@
                 sellpoint: JSON.stringify(self.Sellpoint),
             }, errorDialog=false)
             .then((json) => {
+                console.log(json)
                 if (PrivateSocket){
                     ticketFormat = []
                     ticketFormat.push(["set",["center", "A", "B", 1, 1]])
@@ -257,16 +258,17 @@
                     ticketFormat.push(["text", 'No. de clientes: ' + json.data.cut.propertyGetLenTickets + '\n'])
                     ticketFormat.push(["text", '1er ticket: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a') + '\n'])
                     ticketFormat.push(["text", '------------------------------------------\n'])
-                    //self.Ticket.products.forEach(function(product){
-                        //ticketFormat.push(["set",["left", "A", "", 1, 1]])
-                        //ticketFormat.push(["text", String(product.quantity) + ' '])
-                        //ticketFormat.push(["text", product.productName + ' '])
-                        //ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(product.total)) + '\n'])
+                    json.data.cut.products.forEach(function(product){
+                        ticketFormat.push(["set",["left", "A", "", 1, 1]])
+                        ticketFormat.push(["text", String(product.quantity) + ' '])
+                        ticketFormat.push(["text", product.productName + ' '])
+                        ticketFormat.push(["text", product.getPrice + ' '])
+                        ticketFormat.push(["text", product.getTotalMoney + '\n'])
                         //product.offers.forEach(function(offer){
                             //ticketFormat.push(["set",["right", "A", "", 1, 1]])
                             //ticketFormat.push(["text", offer.name + ' -' + offer.discountValue + '% \n'])
                         //});
-                    //});
+                    });
                     ticketFormat.push(["set",["right", "A", "B", 1, 1]])
                     ticketFormat.push(["text", 'IVA: ' + json.data.cut.propertyGetIvaMoney + '\n'])
                     ticketFormat.push(["set",["right", "A", "B", 1, 1]])

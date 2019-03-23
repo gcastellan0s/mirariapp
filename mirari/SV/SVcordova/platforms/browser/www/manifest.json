@@ -1,0 +1,11 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "SV",
+  "short_name": "SV",
+  "version": "mx.mirari.sv",
+  "description": "SV",
+  "author": "Gustavo Castellanos",
+  "icons": [],
+  "start_url": "index.html"
+}
