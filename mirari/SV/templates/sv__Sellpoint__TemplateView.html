@@ -64,6 +64,7 @@
     {%endblock data%}
 
     {%block mounted%}
+        Block('Cargando configuracion...')
         Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates').then(function(json){
             self.Sellpoints = json.data.sellpoints
             self.Sellpoint = self.Sellpoints[0]
@@ -72,6 +73,11 @@
             self.Offers = json.data.offers
             self.Tickets = json.data.tickets
             self.initializePublicSocket()
+            if(self.Menus) self.Menu = self.Menus[0]
+            if(!self.Sellpoint.printer) UnBlock()
+            setTimeout(function (){
+                UnBlock()
+            }, 30000);
         })
     {%endblock mounted%}
 
@@ -177,7 +183,6 @@
             PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'sendTicket', ticket)
         }),
         printTicket: ((ticket) => { 
-            console.log(ticket)
             if (PrivateSocket){
                 ticketFormat = []
                 ticketFormat.push(["set",["center", "A", "B", 2, 2]])
@@ -258,39 +263,35 @@
                     if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1 + '\n'])
                     if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2 + '\n'])
                     if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1 + '\n'])
-                    ticketFormat.push(["text", '------------------------------------------\n'])
-                    ticketFormat.push(["text", 'Total Faltante: ' + json.data.cut.propertyGetFaltanteMoney + '\n'])
-                    ticketFormat.push(["text", 'No. faltante: $' + json.data.cut.propertyGetLenFaltante + '\n'])
+                    ticketFormat.push(["text", 'No. faltantes: ' + json.data.cut.propertyGetLenFaltante + '\n'])
                     ticketFormat.push(["text", 'No. de clientes: ' + json.data.cut.propertyGetLenTickets + '\n'])
-                    ticketFormat.push(["text", 'Fecha : ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a') + '\n'])
                     ticketFormat.push(["text", '1er ticket: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a') + '\n'])
                     ticketFormat.push(["text", '------------------------------------------\n'])
                     json.data.cut.products.forEach(function(product){
                         ticketFormat.push(["set",["left", "A", "", 1, 1]])
                         ticketFormat.push(["text", String(product.quantity) + ' '])
                         ticketFormat.push(["text", product.productName + ' '])
-                        ticketFormat.push(["text", product.getPrice + ' '])
-                        ticketFormat.push(["text", product.getTotalMoney + '\n'])
-                        //product.offers.forEach(function(offer){
-                            //ticketFormat.push(["set",["right", "A", "", 1, 1]])
-                            //ticketFormat.push(["text", offer.name + ' -' + offer.discountValue + '% \n'])
-                        //});
+                        ticketFormat.push(["text", 'de ' + product.getPrice])
+                        ticketFormat.push(["text", ' --> ' + product.getTotalMoney + '\n'])
+                        product.offers.forEach(function(offer){
+                            ticketFormat.push(["set",["right", "A", "", 1, 1]])
+                            ticketFormat.push(["text", ' -' + offer.name + '\n'])
+                        });
                     });
+                    ticketFormat.push(["text", '------------------------------------------\n'])
                     ticketFormat.push(["set",["right", "A", "B", 1, 1]])
                     ticketFormat.push(["text", 'IVA: ' + json.data.cut.propertyGetIvaMoney + '\n'])
                     ticketFormat.push(["set",["right", "A", "B", 1, 1]])
                     ticketFormat.push(["text", 'IEPS: ' + json.data.cut.propertyGetIepsMoney + '\n'])
                     ticketFormat.push(["set",["right", "A", "B", 1, 1]])
+                    ticketFormat.push(["text", 'FALTANTE: ' + json.data.cut.propertyGetFaltanteMoney + '\n'])
+                    ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.propertyGetTotalMoney + '\n'])
                     ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                     ticketFormat.push(["cut"])
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
-                    //PublicSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
-                }else{
-                    console.log("no socket")
                 }
             }).catch((error) => {
-                console.log(error)
             }).finally(() => {
                 
             });
@@ -334,6 +335,7 @@
                 if (data.name != self.ActivePrinter.name){
                     self.ActivePrinter = data
                     PrivateSocket = io.connect(self.ActivePrinter.url, {resource: 'PrivateSocket/socket.io', 'force new connection': true});
+                    UnBlock()
                 }
             }
         }),
