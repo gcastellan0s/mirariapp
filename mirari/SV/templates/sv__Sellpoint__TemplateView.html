@@ -11,6 +11,7 @@
 {%block content%}
     <div v-if="$route.path === '/sellpoint'">{%include 'Templete__sellpoint.pug'%}</div>
     <div v-else-if="$route.path === '/casher'">{%include 'Template__casher.pug'%}</div>
+    <div v-else-if="$route.path === '/dashboard'">{%include 'Template__dashboard.pug'%}</div>
 {%endblock%}
 
 {%block js%}
@@ -64,7 +65,7 @@
     {%endblock data%}
 
     {%block mounted%}
-        Block('Cargando configuracion...')
+        //Block('Cargando configuracion...')
         Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates').then(function(json){
             self.Sellpoints = json.data.sellpoints
             self.Sellpoint = self.Sellpoints[0]
@@ -75,9 +76,7 @@
             self.initializePublicSocket()
             if(self.Menus) self.Menu = self.Menus[0]
             if(!self.Sellpoint.printer) UnBlock()
-            setTimeout(function (){
-                UnBlock()
-            }, 30000);
+            else setTimeout(function (){UnBlock()}, 30000);
         })
     {%endblock mounted%}
 
@@ -325,6 +324,10 @@
                     else productLine.offers.push(offer)
                 }
             });
+        }),
+        /////SYSTEM
+        redirect: ((url) => {
+            window.location.replace(url);
         }),
         reloadSystem: (() => {
             location.reload();
