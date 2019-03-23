@@ -10,7 +10,7 @@
             .layout-content
                 // Content
                 .container-fluid.flex-grow-1.container-p-y
-                    .container-p-x.py-5.container-m--x.container-m--y.mb-0(style="min-height:92vh")
+                    .container-p-x.py-5.container-m--x.container-m--y.mb-0(style="min-height:91vh")
                         .row
                             .col-4
                                 .card.bg-success.border-0.text-white.mb-5
@@ -28,12 +28,12 @@
                                             .text-xlarge HACER CORTE
                                             .small.opacity-75 CORTE Z EN ${Sellpoint.name}
                                         i.fas.fa-cut.text-xlarge.opacity-25
-                        .row.mt-5
+                        .row
                             .col-4
                                 .card.bg-warning.border-0.text-dark.mb-5
                                     .card-body.d-flex.justify-content-between.align-items-center.py-5
                                         div
-                                            .text-xlarge REPORTAR PROBLEMA
+                                            .text-xlarge AVISAR PROBLEMA
                                             .small.opacity-75 PROXIMAMENTE!
                                         i.fas.fa-info.text-xlarge.opacity-25
                             .col-4
@@ -50,11 +50,26 @@
                                             .text-xlarge SALIR
                                             .small.opacity-75 SALGA DEL PUNTO DE VENTA
                                         i.fas.fa-sign-out-alt.text-xlarge.opacity-25
+                        .row
+                            .col-4
+                                .card.bg-success.border-0.text-white.mb-5
+                                    .card-body.d-flex.justify-content-between.align-items-center.py-5
+                                        div
+                                            .text-xlarge {{request.user.visible_username}}
+                                            .small.opacity-75 NOMBRE DE USUARIO
+                                        i.fas.fa-user.text-xlarge.opacity-25
+                            .col-4
+                                .card.bg-success.border-0.text-white.mb-5(v-if="ActivePrinter.name")
+                                    .card-body.d-flex.justify-content-between.align-items-center.py-5
+                                        div
+                                            .text-xlarge ${ActivePrinter.name}
+                                            .small.opacity-75 NOMBRE DE IMPRESA
+                                        i.fas.fa-print.text-xlarge.opacity-25
                 // Layout footer
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
                         .pt-3
                             span.footer-text.font-weight-bolder.px-3.h4 
-                                span
+                                span(v-if="LastTicketScan") ${LastTicketScan|padStart}
                         include Component__footer_links.pug
 
