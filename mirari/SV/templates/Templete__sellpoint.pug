@@ -15,7 +15,6 @@
                         a.sidenav-link.text-right.d-flex.justify-content-end.py-4.px-1.text-dark(v-on:click="selectMenu(ExtraMenu)" :class="[ ExtraMenu == Menu ? 'bg-light' : '' ]")
                             strong.h4.mb-0(:style="{ color: ExtraMenu.color }") ${ExtraMenu.name|firstNameMenu}
                             small ${ExtraMenu.name|lastNameMenu}
-                    li.sidenav-divider.mb-1
                     li.sidenav-item(v-for="menu in Menus")
                         a.sidenav-link.text-right.d-flex.justify-content-end.py-4.px-1.text-dark(v-on:click="selectMenu(menu)" :class="[ menu == Menu ? 'bg-light' : '' ]")
                             strong.h4.mb-0(:style="{ color: menu.color }") ${menu.name|firstNameMenu}
