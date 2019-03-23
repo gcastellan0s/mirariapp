@@ -30,6 +30,30 @@ class TicketSerializer(Base_Serializer):
         model = Ticket
     def get_sellpoint(self, obj):
         return SellpointSerializer(obj.sellpoint, read_only=True).data
+class CutProductSerializer(serializers.Serializer):
+    product = serializers.IntegerField()
+    productName = serializers.CharField(max_length=250)
+    quantity = serializers.IntegerField()
+    price = serializers.FloatField()
+    total = serializers.FloatField()
+    iva = serializers.FloatField()
+    ieps = serializers.FloatField()
+    getQuantity = serializers.SerializerMethodField()
+    getPrice = serializers.SerializerMethodField()
+    getTotalMoney = serializers.SerializerMethodField()
+    getIvaMoney = serializers.SerializerMethodField()
+    getIepsMoney = serializers.SerializerMethodField()
+    def get_getQuantity(self, obj):
+        return obj.getQuantity()
+    def get_getPrice(self, obj):
+        return obj.getPrice()
+    def get_getTotalMoney(self, obj):
+        return obj.getTotalMoney()
+    def get_getIvaMoney(self, obj):
+        return obj.getIvaMoney()
+    def get_getIepsMoney(self, obj):
+        return obj.getIepsMoney()
+    
 ########################################################
 class CutSerializer(Base_Serializer):
     propertyGetTotalMoney = serializers.ReadOnlyField(source='getTotalMoney')
@@ -39,8 +63,11 @@ class CutSerializer(Base_Serializer):
     propertyGetLenTickets = serializers.ReadOnlyField(source='getLenTickets')
     propertyGetFaltanteMoney = serializers.ReadOnlyField(source='getFaltanteMoney')
     propertyGetLenFaltante = serializers.ReadOnlyField(source='getLenFaltante')
+    products = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):
         model = Cut
+    def get_products(self, obj):
+        return CutProductSerializer(obj.getCutProducts(), many=True, read_only=True).data
 ########################################################
 class OfferSerializer(Base_Serializer):
     mySellpoints = serializers.ReadOnlyField(source='get_sellpointsId')

@@ -608,7 +608,7 @@ class CutProduct():
     iva = False
     ieps = True
     offers = []
-    def create(self, product):
+    def __init__(self, product):
         self.product = product.id
         self.productName = product.productName
         self.quantity = product.quantity
@@ -616,15 +616,14 @@ class CutProduct():
         self.total = product.total
         self.iva = product.iva
         self.ieps = product.ieps
-        return self
     def update(self, product):
-        self.quantity += product.quantity
+        self.quantity += float(product.quantity)
         self.total += product.total
         self.iva += product.iva
         self.ieps += product.ieps
         return self
     def getQuantity(self):
-        return int(self.quantity)
+        return str(int(self.quantity))
     def getPrice(self):
         return Money("{0:.2f}".format(self.price), Currency.MXN).format('es_MX')
     def getTotalMoney(self):
@@ -633,6 +632,7 @@ class CutProduct():
         return Money("{0:.2f}".format(self.iva), Currency.MXN).format('es_MX')
     def getIepsMoney(self):
         return Money("{0:.2f}".format(self.ieps), Currency.MXN).format('es_MX')
+
 VARS = {
     'NAME':'Corte',
     'PLURAL':'Cortes',
@@ -778,8 +778,7 @@ class Cut(Model_base):
         products = []
         for ticket in self.getTickets():
             for product in ticket.getProducts():
-                cutProduct = CutProduct()
-                cutProduct.create(product)
+                cutProduct = CutProduct(product)
                 exist = False
                 for arrayCutProduct in products:
                     if arrayCutProduct.productName == product.productName and arrayCutProduct.price == product.price:

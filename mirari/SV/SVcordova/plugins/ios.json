@@ -7,10 +7,16 @@
     "files": {}
   },
   "installed_plugins": {
+    "cordova-plugin-battery-status": {
+      "PACKAGE_NAME": "mx.mirari.sv"
+    },
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "mx.mirari.sv"
     },
     "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "mx.mirari.sv"
+    },
+    "cordova-plugin-dialogs": {
       "PACKAGE_NAME": "mx.mirari.sv"
     }
   },
