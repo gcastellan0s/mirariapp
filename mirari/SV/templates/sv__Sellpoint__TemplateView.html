@@ -250,7 +250,6 @@
                 sellpoint: JSON.stringify(self.Sellpoint),
             }, errorDialog=false)
             .then((json) => {
-                console.log(json)
                 if (PrivateSocket){
                     ticketFormat = []
                     ticketFormat.push(["set",["center", "A", "B", 2, 2]])
