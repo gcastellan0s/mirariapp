@@ -72,7 +72,7 @@
     {%endblock data%}
 
     {%block mounted%}
-        Block('Cargando configuracion...')
+        //Block('Cargando configuracion...')
         Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates').then(function(json){
             self.Sellpoints = json.data.sellpoints
             self.Sellpoint = self.Sellpoints[0]
