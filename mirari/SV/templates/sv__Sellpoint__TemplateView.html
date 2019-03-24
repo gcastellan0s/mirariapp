@@ -165,8 +165,8 @@
                 return 0
             }
             self.Ticket.key = self.randomChars(12, 'aplha_numbers')
-            self.Ticket.format_time = moment().format('L')
-            self.Ticket.format_date = moment().format('LTS')
+            self.Ticket.format_time = String(moment().format('L'))
+            self.Ticket.format_date = String(moment().format('LTS'))
             self.Ticket.status = 'COBRADO'
             self.Ticket.sellpoint = self.Sellpoint
             self.Ticket.username = '{{request.user.visible_username}}'
