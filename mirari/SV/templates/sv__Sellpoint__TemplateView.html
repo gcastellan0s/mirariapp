@@ -72,7 +72,7 @@
     {%endblock data%}
 
     {%block mounted%}
-        //Block('Cargando configuracion...')
+        Block('Cargando configuracion...')
         Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates').then(function(json){
             self.Sellpoints = json.data.sellpoints
             self.Sellpoint = self.Sellpoints[0]
@@ -250,7 +250,6 @@
                 sellpoint: JSON.stringify(self.Sellpoint),
             }, errorDialog=false)
             .then((json) => {
-                console.log(json)
                 if (PrivateSocket){
                     ticketFormat = []
                     ticketFormat.push(["set",["center", "A", "B", 2, 2]])
@@ -293,11 +292,9 @@
                     ticketFormat.push(["text", 'IEPS: ' + json.data.cut.propertyGetIepsMoney + '\n'])
                     ticketFormat.push(["set",["right", "A", "B", 1, 1]])
                     ticketFormat.push(["text", 'FALTANTE: ' + json.data.cut.propertyGetFaltanteMoney + '\n'])
-                    ticketFormat.push(["set",["center", "A", "B", 1, 1]])
+                    ticketFormat.push(["set",["right", "A", "B", 1, 1]])
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.propertyGetTotalMoney + '\n'])
-                    ticketFormat.push(["set",["center", "A", "B", 1, 1]])
                     ticketFormat.push(["cut"])
-                    console.log(ticketFormat)
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 }
             }).catch((error) => {
