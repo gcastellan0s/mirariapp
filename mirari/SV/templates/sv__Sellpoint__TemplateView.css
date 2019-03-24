@@ -14,7 +14,7 @@
 }
 .layout-footer-fixed:not(.layout-collapsed) .layout-wrapper:not(.layout-without-sidenav) .layout-footer {
     left: 9rem;
-    background-color: #eaebeb80!important;
+    background-color: #eaebeb00!important;
 }
 .print-botton{
     border-radius:100px;
