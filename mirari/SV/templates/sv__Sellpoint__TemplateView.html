@@ -279,10 +279,12 @@
                         ticketFormat.push(["text", product.productName + ' '])
                         ticketFormat.push(["text", 'de ' + product.getPrice])
                         ticketFormat.push(["text", ' --> ' + product.getTotalMoney + '\n'])
-                        product.offers.forEach(function(offer){
-                            ticketFormat.push(["set",["right", "A", "", 1, 1]])
-                            ticketFormat.push(["text", ' -' + offer.name + '\n'])
-                        });
+                        if (product.offers){
+                            product.offers.forEach(function(offer){
+                                ticketFormat.push(["set",["right", "A", "", 1, 1]])
+                                ticketFormat.push(["text", ' -' + offer.name + '\n'])
+                            });
+                        }
                     });
                     ticketFormat.push(["text", '------------------------------------------\n'])
                     ticketFormat.push(["set",["right", "A", "B", 1, 1]])
