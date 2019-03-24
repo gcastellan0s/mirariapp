@@ -268,7 +268,7 @@
                     if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1 + '\n'])
                     if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2 + '\n'])
                     if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1 + '\n'])
-                    ticketFormat.push(["text", 'No. faltantes: ' + json.data.cut.propertyGetLenFaltante + '\n'])
+                    ticketFormat.push(["text", 'No. tickets faltantes: ' + json.data.cut.propertyGetLenFaltante + '\n'])
                     ticketFormat.push(["text", 'No. de clientes: ' + json.data.cut.propertyGetLenTickets + '\n'])
                     ticketFormat.push(["text", '1er ticket: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a') + '\n'])
                     ticketFormat.push(["text", '------------------------------------------\n'])
