@@ -12,6 +12,10 @@
 .sidenav-vertical, .sidenav-vertical .sidenav-block, .sidenav-vertical .sidenav-inner>.sidenav-item, .sidenav-vertical .sidenav-inner>.sidenav-header {
     width: 9rem!important;
 }
+.layout-footer-fixed:not(.layout-collapsed) .layout-wrapper:not(.layout-without-sidenav) .layout-footer {
+    left: 9rem;
+    background-color: #eaebeb80!important;
+}
 .print-botton{
     border-radius:100px;
 }
