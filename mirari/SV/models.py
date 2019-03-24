@@ -642,39 +642,92 @@ VARS = {
     'THIS':'este',
     'APP':APP,
     'EXCLUDE_PERMISSIONS': ['create','update','delete'],
+    'SERIALIZER': ('getColor',),
     'LIST': [
         {
             'field': 'serial',
             'title': 'Folio',
             'url': 'property_url_detail',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                    <strong>
+                        {{serial}}
+                    </strong>
+                </a>
+            """,
         },
         {
             'field': 'property_getSellpoint',
             'title': 'Punto de Venta',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                    <strong>
+                        {{property_getSellpoint}}
+                    </strong>
+                </a>
+            """,
         },
         {
             'field': 'property_getFinal_time',
             'title': 'Fecha/Hora',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                    {{property_getFinal_time}}
+                </a>
+            """,
         },
         {
             'field': 'property_getIvaMoney',
             'title': 'IVA',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                    {{property_getIvaMoney}}
+                </a>
+            """,
         },
         {
             'field': 'property_getIepsMoney',
             'title': 'IEPS',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                    {{property_getIepsMoney}}
+                </a>
+            """,
         },
         {
             'field': 'property_getSubtotalMoney',
             'title': 'Subtotal',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                    {{property_getSubtotalMoney}}
+                </a>
+            """,
         },
         {
             'field': 'property_getFaltanteMoney',
             'title': 'Faltante',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                    {{property_getFaltanteMoney}}
+                </a>
+            """,
         },
         {
             'field': 'property_getTotalMoney',
             'title': 'Total Corte',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                    {{property_getTotalMoney}}
+                </a>
+            """,
         },
         {
             'field': 'id',
@@ -774,6 +827,8 @@ class Cut(Model_base):
         return Money(self.getSubtotal(), Currency.MXN).format('es_MX')
     def getFaltanteMoney(self):
         return Money(self.getFaltante(), Currency.MXN).format('es_MX')
+    def getColor(self):
+        return self.sellpoint.color
     def getCutProducts(self):
         products = []
         for ticket in self.getTickets():
