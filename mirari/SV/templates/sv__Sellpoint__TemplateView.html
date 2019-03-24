@@ -299,6 +299,7 @@
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 }
             }).catch((error) => {
+                console.log(error)
             }).finally(() => {
                 
             });
