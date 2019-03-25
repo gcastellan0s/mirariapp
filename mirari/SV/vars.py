@@ -64,6 +64,16 @@ MENU = {
                 'model': APP + '.Cut',
                 'url': 'Generic__ListView',
             },
+            {
+                'title': 'CLIENTES',
+                'icon': 'fa fa-users',
+                'text': 'LISTADO DE CLIENTES',
+                'subtext': 'Listado de clientes del punto de venta',
+                'apps': [APP, ],
+                'permission': 'Can_View',
+                'model': APP + '.Client',
+                'url': 'Generic__ListView',
+            },
         ]
     }
 }
