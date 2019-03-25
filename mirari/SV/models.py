@@ -965,7 +965,7 @@ class Offer(Model_base):
         ('productValue','Valor fijo del producto'),
     )
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
-    sellpoints = models.ManyToManyField('Sellpoint', related_name='+', blank=True, verbose_name='Puntos de venta que afect', help_text='Si no eliges ninguno afecta a todas')
+    sellpoints = models.ManyToManyField('Sellpoint', related_name='+', blank=True, verbose_name='Puntos de venta que afecta', help_text='Si no eliges ninguno afecta a todas')
     name = models.CharField('Nombre del descuento', max_length=250)
     discountProducts = models.ManyToManyField('Product', verbose_name='Productos a los que afecta el descuento', blank=True, related_name='+',)
     discountMenus = models.ManyToManyField('Menu', verbose_name='Menus a los que afecta el descuento', blank=True, related_name='+',)
@@ -1043,7 +1043,7 @@ VARS = {
 }
 class Client(Model_base):
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, verbose_name="", blank=True, null=True)
-    sellpoint = models.ForeignKey('Sellpoint', verbose_name="Punto de venta" null=True, blank=True, on_delete=models.SET_NULL)
+    sellpoints = models.ManyToManyField('Sellpoint', related_name='+', blank=True, verbose_name='Puntos de venta en donde factura', help_text='Si no eliges ninguno afecta a todas')
     name = models.CharField('Nombre del descuento', max_length=250)
     contacto = models.CharField(verbose_name='Correo o teléfono de contacto', max_length=255, blank=True, null=True, help_text="Correo o teléfono de contacto")
     #rfc = MXRFCField(verbose_name="RFC", blank=True, null=True)
