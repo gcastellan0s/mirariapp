@@ -84,6 +84,10 @@ class OfferSerializer(Base_Serializer):
         #return ProductSerializer(obj.get_conditionProducts(), many=True).data
     #def get_allsellpoints(self, obj):
         #return SellpointSerializer(obj.get_sellpoints(), many=True).data
+########################################################
+class ClientSerializer(Base_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = Client
 
 
 
@@ -116,7 +120,8 @@ class Sellpoint__ApiView(Generic__ApiView):
                 'productAttributes': ProductAttributesSerializer( productattributes, many=True ).data,
                 'menus': MenuSerializer( Menu.objects.filter(pk__in = menu).order_by('name'), many=True ).data ,
                 'offers': OfferSerializer( Offer.objects.filter( organization = request.user.organization, active=True, is_active=True ), many=True ).data,
-                'tickets': TicketSerializer(  Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all() ), many=True ).data
+                'tickets': TicketSerializer( Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all() ), many=True ).data,
+                'clients': ClientSerializer( Client.objects.filter( organization = request.user.organization, active=True, is_active=True ), many=True ).data,
             }, safe=False)
         if request.GET.get('api') == 'getBarCode':
             return JsonResponse({'ticket': TicketSerializer(Ticket().new( ticket = json.loads(request.POST.get('ticket')) )).data}, safe=False)
