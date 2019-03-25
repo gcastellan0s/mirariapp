@@ -369,7 +369,7 @@
             }
         }),
         recibePrintTicket: ((data) => {
-            if(data.sellpoint.vendors.includes({{request.user.id}})) self.Tickets.unshift(data);
+            if(data.sellpoint.vendors.includes({{request.user.id}}) self.Tickets.unshift(data)
         }),
         recibeScanTicket: ((data) => {
             updateTicket = self.Tickets.find(function(ticket) {
