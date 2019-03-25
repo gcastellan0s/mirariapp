@@ -1039,16 +1039,36 @@ VARS = {
     'NEW_GENDER':'un nuevo',
     'THIS':'este',
     'APP':APP,
-    'FORM': ('sellpoint','name',),
+    'FORM': ('name','sellpoints'),
+    'SELECTQ': {
+        'sellpoints': {
+            'model': ['SV', 'Sellpoint'],
+            'plugin': 'selectmultiple',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                    ('active', 'True'),
+                ),
+            ],
+        },
+    },
+    'LIST': [
+        {
+            'field': 'name',
+            'title': 'Nombre',
+        },
+    ],
 }
 class Client(Model_base):
+    organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, verbose_name="", blank=True, null=True)
-    sellpoints = models.ManyToManyField('Sellpoint', related_name='+', blank=True, verbose_name='Puntos de venta en donde factura', help_text='Si no eliges ninguno afecta a todas')
-    name = models.CharField('Nombre del descuento', max_length=250)
+    sellpoints = models.ManyToManyField('Sellpoint', related_name='+', blank=True, verbose_name='Donde factura? ', help_text='Si no eliges ninguno afecta a todas')
+    name = models.CharField('Nombre del cliente', max_length=250)
     contacto = models.CharField(verbose_name='Correo o teléfono de contacto', max_length=255, blank=True, null=True, help_text="Correo o teléfono de contacto")
     #rfc = MXRFCField(verbose_name="RFC", blank=True, null=True)
     #razon_social = models.CharField(verbose_name='', max_length=255, blank=True, null=True, help_text="Razon social de persona Física o Moral")
     #is_client = models.BooleanField('Es cliente?', default=True, help_text='')
+    is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar Cliente?')
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -1056,3 +1076,5 @@ class Client(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.name)
+    def QUERY(self, view):
+        return Client.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
