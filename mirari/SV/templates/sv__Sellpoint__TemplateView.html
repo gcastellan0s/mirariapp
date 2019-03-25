@@ -171,7 +171,7 @@
                 self.printTicket(self.Ticket)
                 self.sendTicket(self.Ticket)
                 self.initTicket()
-                if (self.includes(self.Sellpoint.cashers, '{{request.user.id}}')) self.$router.push('/casher')
+                if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher')
             })
         }),
         getStates: ((postFunctions = false) => {
@@ -369,8 +369,7 @@
             }
         }),
         recibePrintTicket: ((data) => {
-            console.log(data)
-            self.Tickets.unshift(data);
+            if(data.sellpoint.vendors.includes({{request.user.id}})) self.Tickets.unshift(data);
         }),
         recibeScanTicket: ((data) => {
             updateTicket = self.Tickets.find(function(ticket) {
