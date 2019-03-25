@@ -1039,10 +1039,11 @@ VARS = {
     'NEW_GENDER':'un nuevo',
     'THIS':'este',
     'APP':APP,
+    'FORM': ('sellpoint','name',),
 }
 class Client(Model_base):
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, verbose_name="", blank=True, null=True)
-    sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
+    sellpoint = models.ForeignKey('Sellpoint', verbose_name="Punto de venta" null=True, blank=True, on_delete=models.SET_NULL)
     name = models.CharField('Nombre del descuento', max_length=250)
     contacto = models.CharField(verbose_name='Correo o teléfono de contacto', max_length=255, blank=True, null=True, help_text="Correo o teléfono de contacto")
     #rfc = MXRFCField(verbose_name="RFC", blank=True, null=True)
