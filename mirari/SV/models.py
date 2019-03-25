@@ -91,7 +91,7 @@ class Sellpoint(Model_base):
     def get_serial(self):
         return self.serial.get_serial()
     def getCut(self):
-        #return Cut.objects.get(id=34)
+        #return Cut.objects.get(id=34) #### Enviar corte
         cut = Cut.objects.filter(sellpoint=self, final_time__isnull=True).first()
         if not cut:
             cut = Cut().new(self)
@@ -492,6 +492,7 @@ class Ticket(Model_base):
     total = models.FloatField(default=0)
     iva = models.FloatField(default=0)
     ieps = models.FloatField(default=0)
+
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -648,7 +649,6 @@ VARS = {
         {
             'field': 'serial',
             'title': 'Folio',
-            'url': 'property_url_detail',
             'template': 
             """
                 <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
@@ -1026,3 +1026,32 @@ class Offer(Model_base):
         for product in self.get_conditionProducts():
             ids.append(product.id)
         return ids
+
+
+
+########################################################################################
+########################################################################################
+VARS = {
+    'NAME':'Cliente',
+    'PLURAL':'Clientes',
+    'MODEL':'Client',
+    'NEW':'NUEVO',
+    'NEW_GENDER':'un nuevo',
+    'THIS':'este',
+    'APP':APP,
+}
+class Client(Model_base):
+    user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, verbose_name="", blank=True, null=True)
+    sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
+    name = models.CharField('Nombre del descuento', max_length=250)
+    contacto = models.CharField(verbose_name='Correo o teléfono de contacto', max_length=255, blank=True, null=True, help_text="Correo o teléfono de contacto")
+    #rfc = MXRFCField(verbose_name="RFC", blank=True, null=True)
+    #razon_social = models.CharField(verbose_name='', max_length=255, blank=True, null=True, help_text="Razon social de persona Física o Moral")
+    #is_client = models.BooleanField('Es cliente?', default=True, help_text='')
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return '{0}'.format(self.name)
