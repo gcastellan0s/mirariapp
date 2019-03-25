@@ -3,9 +3,7 @@
 {%load i18n%}
 
 {%block css%}
-    <style>
-        {%include 'sv__Sellpoint__TemplateView.css'%}
-    </style>
+    <style>{%include 'sv__Sellpoint__TemplateView.css'%}</style>
 {%endblock%}
 
 {%block content%}
@@ -369,7 +367,8 @@
             }
         }),
         recibePrintTicket: ((data) => {
-            if(data.sellpoint.vendors.includes({{request.user.id}})) self.Tickets.unshift(data)
+            //if(data.sellpoint.vendors.includes({{request.user.id}})) 
+            self.Tickets.unshift(data)
         }),
         recibeScanTicket: ((data) => {
             updateTicket = self.Tickets.find(function(ticket) {
