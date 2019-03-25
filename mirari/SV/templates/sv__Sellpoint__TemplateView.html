@@ -246,6 +246,7 @@
             }
         }),
         makeCut: (() => {
+            Block(text="Haciendo corte...");
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
                 sellpoint: JSON.stringify(self.Sellpoint),
             }, errorDialog=false)
@@ -300,7 +301,8 @@
             }).catch((error) => {
                 console.log(error)
             }).finally(() => {
-                
+                unBlock();
+                self.emmitReloadSystem();
             });
         }),
         addOffers: ((productLine) => {
