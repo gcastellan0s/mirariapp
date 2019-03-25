@@ -72,19 +72,7 @@
     {%endblock data%}
 
     {%block mounted%}
-        Block('Cargando configuracion...')
-        Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates').then(function(json){
-            self.Sellpoints = json.data.sellpoints
-            self.Sellpoint = self.Sellpoints[0]
-            self.Menus = json.data.menus
-            self.ProductAttributes = json.data.productAttributes
-            self.Offers = json.data.offers
-            self.Tickets = json.data.tickets
-            self.initializePublicSocket()
-            if(self.Menus) self.Menu = self.Menus[0]
-            if(!self.Sellpoint.printer) UnBlock()
-            else setTimeout(function (){UnBlock()}, 30000);
-        })
+        getStates(postFunctions=true)
     {%endblock mounted%}
 
     {%block methods%}
@@ -96,6 +84,7 @@
                 if (event == 'printerConection') self.recibePrinterConection(data);
                 if (event == 'scanTicket') self.recibeScanTicket(data);
                 if (event == 'reloadSystem') self.recibeReloadSystem(data);
+                if (event == 'getStates') self.recibeGetStates(data);
             });
         }),
         selectMenu:((menu) => {self.Menu = menu}),
@@ -182,7 +171,30 @@
                 self.printTicket(self.Ticket)
                 self.sendTicket(self.Ticket)
                 self.initTicket()
-                if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher')
+                if (self.includes(self.Sellpoint.cashers, '{{request.user.id}}')) self.$router.push('/casher')
+            })
+        }),
+        getStates: ((postFunctions = false) => {
+            Block('Actualizando configuracion...')
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates')
+            .then(function(json){
+                self.Sellpoints = json.data.sellpoints
+                self.Sellpoint = self.Sellpoints[0]
+                self.Menus = json.data.menus
+                self.ProductAttributes = json.data.productAttributes
+                self.Offers = json.data.offers
+                self.Tickets = json.data.tickets
+                if(postFunctions){
+                    self.initializePublicSocket()
+                    if(self.Menus) self.Menu = self.Menus[0]
+                    if(!self.Sellpoint.printer) UnBlock()
+                }
+            }).catch((error) => {
+                UnBlock()
+            }).finally(() => {
+                if (!postFunctions){
+                    UnBlock()
+                }
             });
         }),
         sendTicket: ((ticket) => {
@@ -301,8 +313,8 @@
             }).catch((error) => {
                 console.log(error)
             }).finally(() => {
-                unBlock();
-                self.emmitReloadSystem();
+                UnBlock()
+                self.getStates()
             });
         }),
         addOffers: ((productLine) => {
@@ -343,6 +355,9 @@
             Block(text)
             location.reload();
         }),
+        reloadData: ((text='Espere un momento...') => {
+            
+        }),
         /////SOCKETIO
         recibePrinterConection: ((data) => {
             if(self.Sellpoint.printer == data.name){
@@ -370,8 +385,14 @@
         recibeReloadSystem: ((data) => {
             self.reloadSystem()
         }),
+        recibeGetStates: ((data) => {
+            self.getStates()
+        }),
         emmitReloadSystem: (() => {
             PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'reloadSystem', {})
+        }),
+        emmitGetStates: (() => {
+            PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'getStates', {})
         }),
         /////PLUGINS
         keyboard: ((value) => {
