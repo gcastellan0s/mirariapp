@@ -88,6 +88,9 @@ class OfferSerializer(Base_Serializer):
 class ClientSerializer(Base_Serializer):
     class Meta(Basic_Serializer.Meta):
         model = Client
+class ClientDetailsSerializer(Base_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = Client
 
 
 
@@ -128,6 +131,12 @@ class Sellpoint__ApiView(Generic__ApiView):
         if request.GET.get('api') == 'makeCut':
             cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()
             return JsonResponse({'cut': CutSerializer(cut).data})
+        if request.GET.get('api') == 'getClient':
+            print("######")
+            print(request.POST.get('ClientName'))
+            return JsonResponse({
+                'client': ClientDetailsSerializer(Client.objects.get(organization=request.user.organization, active=True, is_active=True, name=request.POST.get('ClientName'))).data 
+            }, safe=False)
 
 
 ########################################################
