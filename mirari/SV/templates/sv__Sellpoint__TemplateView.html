@@ -73,8 +73,9 @@
             nivel: 1,
             organization: {{request.user.organization.id}},
         },
-        Client:'',
+        ClientName:'',
         Clients:[],
+        Client: null,
     {%endblock data%}
 
     {%block mounted%}
@@ -116,7 +117,7 @@
                 source: substringMatcher(self.Clients),
             });
             $('#typeahead-input').on('typeahead:selected', function (e, datum) {
-                self.Client = datum
+                self.ClientName = datum
             });
         }),
         selectMenu:((menu) => {self.Menu = menu}),
@@ -381,6 +382,15 @@
                 }
             });
         }),
+        getClient: ((ClientName) => {
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClient', {ClientName: ClientName})
+            .then(function(json){
+                console.log(json)
+                self.Client = json.data.client
+            }).catch((error) => {
+            }).finally(() => {
+            });
+        }),
         /////SYSTEM
         redirect: ((url) => {
             window.location.replace(url);
@@ -456,11 +466,12 @@
             if (!object) return false
             return object.includes(element)
         }),
-        checkClient: ((Client) => {
+        checkClient: ((ClientName) => {
             checkclient = self.Clients.find(function(client) {
-                return client.name == Client
+                return client.name == ClientName
             });
             if(checkclient){
+                self.getClient(ClientName)
                 return true
             } 
             return false
@@ -490,8 +501,8 @@
     {%endblock filters%}
 
     {%block watch%}
-        Client: function (newData, oldData) {
-            console.log(newData)
-        }
+        //Client: function (newData, oldData) {
+            //console.log(newData)
+        //}
     {%endblock watch%}
 </script>
