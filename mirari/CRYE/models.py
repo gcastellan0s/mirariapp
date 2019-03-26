@@ -41,7 +41,7 @@ VARS = {
             'url': 'property_url_update',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                <a href="{{property_url_detail}}">
                     <strong>{{solicitud}}</strong><br />
                     <small>
                         <small>
@@ -70,11 +70,15 @@ VARS = {
             'field': 'property_get_plazo',
             'title': 'Plazo',
             'url': 'property_url_update',
-        },
-        {
-            'field': 'property_getLenTablaAmortizacion',
-            'title': 'Pagos',
-            'url': 'property_url_update',
+            'template': 
+            """
+                <a href="{{property_url_detail}}">
+                    <strong>{{property_url_update}}</strong><br />
+                    <small>
+                        PAGOS REGISTRADOS {{property_getLenTablaAmortizacion}}
+                    </small>
+                </a>
+            """,
         },
         #{
             #'field': 'property_get_monto',
