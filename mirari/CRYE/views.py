@@ -151,7 +151,7 @@ class WalletCredit__TemplateView(Generic__TemplateView):
                         if response1:
                             walletCredit.id_tabla = response1[0]
                         else:
-                            walletCredit.id_tabla = '-'
+                            walletCredit.id_tabla = 'x'
                         walletCredit.save()
                     return JsonResponse({'message':message,'api':'Success','response':response1})
                     #query = "select SIEBPLINE.S_ORG_EXT.ROW_ID as CLIENTE, 'Persona Moral' as REGIMEN, REPLACE(REPLACE(SIEBPLINE.S_ORG_EXT.ALIAS_NAME,'-',''),' ','') as RFC, SIEBPLINE.S_ORG_EXT.NAME as RAZON_SOCIAL, SIEBPLINE.S_ORG_EXT.URL as GIRO, SIEBPLINE.S_ADDR_PER.ADDR as CALLE, SIEBPLINE.S_ADDR_PER.PROVINCE as COLONIA, '' as NUM_INT, '' as NUM_EXT, 'Persona Moral' as REGIMEN, 'Mexicana' as NACIONALIDAD, 'Mexicana' as TELCONTACTO, 'N/A' as NUMERO_INTERIOR, SIEBPLINE.S_ADDR_PER.ZIPCODE as CP, SIEBPLINE.S_ADDR_PER.COUNTY as MUNICIPIO, SIEBPLINE.S_ADDR_PER.CITY as CIUDAD, SIEBPLINE.S_ADDR_PER.STATE as ESTADO, SUBSTR(SIEBPLINE.S_ORG_EXT.MAIN_PH_NUM,4) as TELEFONO, SIEBPLINE.S_CONTACT.FST_NAME || ' ' || SIEBPLINE.S_CONTACT.LAST_NAME as NOMBRE_CONTACTO, SIEBPLINE.S_ADDR_PER.COUNTRY as PAIS from SIEBPLINE.S_ORG_EXT, SIEBPLINE.S_ADDR_PER, SIEBPLINE.S_ORG_EXT_FNX, SIEBPLINE.S_CONTACT where  SIEBPLINE.S_ORG_EXT.PR_ADDR_ID=SIEBPLINE.S_ADDR_PER.ROW_ID(+) and SIEBPLINE.S_ORG_EXT.ROW_ID = SIEBPLINE.S_ORG_EXT_FNX.PAR_ROW_ID and SIEBPLINE.S_ORG_EXT.PR_CON_ID = SIEBPLINE.S_CONTACT.PAR_ROW_ID(+) and  SIEBPLINE.S_ORG_EXT.ROW_ID='{0}'".format(request.POST.get('unblock_number'))
