@@ -35,8 +35,8 @@ VARS = {
     'APP':APP,
     'LIST': [
             {
-                'field': 'obligacion',
-                'title': 'Obligación',
+                'field': 'id_solicitud',
+                'title': 'Solicitud',
                 'width': 100,
                 'url': 'property_url_update',
             },
@@ -51,18 +51,22 @@ VARS = {
                 'title': 'TIPO',
                 'url': 'property_url_update',
             },
-            {
-                'field': 'rfc',
-                'title': 'RFC',
-            },
+            #{
+                #'field': 'rfc',
+                #'title': 'RFC',
+            #},
             {
                 'field': 'property_get_plazo',
                 'title': 'Plazo',
             },
             {
-                'field': 'property_get_monto',
-                'title': 'Monto',
+                'field': 'id_tabla',
+                'title': 'ID Tabla',
             },
+            #{
+                #'field': 'property_get_monto',
+                #'title': 'Monto',
+            #},
         ],
     'SERIALIZER': ('get_monto','get_plazo'),
     'SEARCH': ['nombre','rfc','obligacion'],
