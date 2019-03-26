@@ -67,7 +67,7 @@ VARS = {
             'url': 'property_url_update',
         },
         {
-            'field': 'property_getTotalPayment',
+            'field': 'property_getLenTablaAmortizacion',
             'title': 'Total de pagos',
             'url': 'property_url_update',
         },
@@ -81,7 +81,7 @@ VARS = {
             #'title': 'Monto',
         #},
     ],
-    'SERIALIZER': ('get_plazo', 'getTotalPayment'),
+    'SERIALIZER': ('get_plazo', 'getLenTablaAmortizacion'),
     #'SEARCH': ['nombre','rfc','obligacion'],
     #'SORTEABLE': ['nombre','obligacion','fecha_vencimiento','fecha_otorgado'],
     'HIDE_CHECKBOX_LIST': True,
@@ -159,6 +159,8 @@ class WalletCredit(Model_base):
         return '-'
     def payments(self):
         return len(PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)))
+    def getLenTablaAmortizacion(self):
+        return(TablaAmortizacion.objects.filter(walletcredit=self))
     def getTotalPayment(self):
         total = 0
         for pagoamortizacion in PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)):
