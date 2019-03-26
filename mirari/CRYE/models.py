@@ -58,10 +58,12 @@ VARS = {
         {
             'field': 'property_get_plazo',
             'title': 'Plazo',
+            'url': 'property_url_update',
         },
         {
             'field': 'id_tabla',
             'title': 'ID Tabla',
+            'url': 'property_url_update',
         },
         #{
             #'field': 'property_get_monto',
