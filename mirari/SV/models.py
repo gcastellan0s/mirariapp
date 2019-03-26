@@ -651,7 +651,7 @@ VARS = {
             'title': 'Folio',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
                     <strong>
                         {{serial}}
                     </strong>
@@ -663,7 +663,7 @@ VARS = {
             'title': 'Punto de Venta',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
                     <strong>
                         {{property_getSellpoint}}
                     </strong>
@@ -675,7 +675,7 @@ VARS = {
             'title': 'Fecha/Hora',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
                     {{property_getFinal_time}}
                 </a>
             """,
@@ -685,7 +685,7 @@ VARS = {
             'title': 'IVA',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
                     {{property_getIvaMoney}}
                 </a>
             """,
@@ -695,7 +695,7 @@ VARS = {
             'title': 'IEPS',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
                     {{property_getIepsMoney}}
                 </a>
             """,
@@ -705,7 +705,7 @@ VARS = {
             'title': 'Subtotal',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
                     {{property_getSubtotalMoney}}
                 </a>
             """,
@@ -715,7 +715,7 @@ VARS = {
             'title': 'Faltante',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
                     {{property_getFaltanteMoney}}
                 </a>
             """,
@@ -725,7 +725,7 @@ VARS = {
             'title': 'Total Corte',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
                     {{property_getTotalMoney}}
                 </a>
             """,
