@@ -93,6 +93,7 @@
                     //else window.location.replace('http://' + window.location.hostname + json.data.redirect);
                 })
                 .catch((error) => {
+                    console.log(error)
                     swal('Error!', 'Revisa el número de tu consulta', 'error')
                 }).finally(() => {
                     UnBlock();
