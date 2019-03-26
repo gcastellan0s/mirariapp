@@ -54,7 +54,6 @@ VARS = {
         {
             'field': 'nombre',
             'title': 'Nombre',
-            'width': 300,
             'url': 'property_url_update',
         },
         {
