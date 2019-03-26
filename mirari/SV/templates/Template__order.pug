@@ -12,19 +12,28 @@
                 .container-fluid.flex-grow-1.container-p-y
                     .container-p-x.py-5.container-m--x.container-m--y.mb-0
                         .row
-                            
                             .col-12
                                 .card-body
                                     label.form-label INGRESA CLIENTE
                                     input#typeahead-input.form-control(type="text" autocomplete="off" v-model="ClientName" v-on:click="ClientName=''")
                             .col-4
-                                .card.bg-primary.border-0.text-white.mb-4
-                                    .card-body.d-flex.justify-content-between.align-items-center.py-3
-                                        div
-                                            .text-xlarge HACER REMISION
-                                            .small.opacity-75 ELIGE UN CLIENTE PARA LA VENTA
-                                        i.fas.fa-user-tag.text-xlarge.opacity-25
-                            .col-8
+                                router-link(to="/sellpoint?mode=order")
+                                    a(href="javascript:void(0)")
+                                        .card.bg-primary.border-0.text-white.mb-4
+                                            .card-body.d-flex.justify-content-between.align-items-center.py-3
+                                                div
+                                                    .text-xlarge HACER REMISION
+                                                    .small.opacity-75 ELIGE UN CLIENTE PARA LA VENTA
+                                                i.fas.fa-user-tag.text-xlarge.opacity-25
+                            //
+                                .col-4
+                                    .card.bg-primary.border-0.text-white.mb-4
+                                        .card-body.d-flex.justify-content-between.align-items-center.py-3
+                                            div
+                                                .text-xlarge BUSCAR REMISION
+                                                .small.opacity-75 MUESTRA LOS DETALLES SOBRE UNA REMISION
+                                            i.fas.fa-search.text-xlarge.opacity-25
+                            .col-4
                             .col-4(v-if="checkClient(ClientName)")
                                 .card.bg-success.border-0.text-white.mb-4
                                     .card-body.d-flex.justify-content-between.align-items-center.py-3
@@ -46,6 +55,16 @@
                                             .text-xlarge DEVOLUCION
                                             .small.opacity-75 ABONA UNA DEVOLUCIÓN AL CLIENTE
                                         i.fas.fa-exchange-alt.text-xlarge.opacity-25
+                            .col-12(v-if="checkClient(ClientName)")
+                                h4.media.align-items-center.font-weight-bold.py-3.mb-4
+                                    .media-body.ml-3
+                                        | ${Client.name}
+                                        .text-muted.text-tiny.mt-1
+                                        small.font-weight-normal
+                                            | Contacto: ${Client.contact}
+                                            br
+                                            | RFC: ${Client.rfc}
+
                 // Layout footer
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3

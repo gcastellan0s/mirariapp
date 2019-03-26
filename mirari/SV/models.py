@@ -1064,7 +1064,7 @@ class Client(Model_base):
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, verbose_name="", blank=True, null=True)
     sellpoints = models.ManyToManyField('Sellpoint', related_name='+', blank=True, verbose_name='Donde factura? ', help_text='Si no eliges ninguno afecta a todas')
     name = models.CharField('Nombre del cliente', max_length=250)
-    contacto = models.CharField(verbose_name='Correo o teléfono de contacto', max_length=255, blank=True, null=True, help_text="Correo o teléfono de contacto")
+    contact = models.CharField(verbose_name='Correo o teléfono de contacto', max_length=255, blank=True, null=True, help_text="Correo o teléfono de contacto")
     #rfc = MXRFCField(verbose_name="RFC", blank=True, null=True)
     #razon_social = models.CharField(verbose_name='', max_length=255, blank=True, null=True, help_text="Razon social de persona Física o Moral")
     #is_client = models.BooleanField('Es cliente?', default=True, help_text='')
