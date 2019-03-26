@@ -179,7 +179,7 @@ class TablaAmortizacion(Model_base):
     id_amortizacion = models.CharField('ID amortizacion', max_length=250, blank=True, null=True)
     walletcredit = models.ForeignKey('WalletCredit', on_delete=models.CASCADE, related_name='+',)
     numeroPago = models.IntegerField('ID CLiente', blank=True, null=True)
-    date = models.DateField('Fecha otorgado', blank=True, null=True)
+    date = models.CharField('Fecha', max_length=50, blank=True, null=True)
     saldo_insoluto = models.FloatField('Saldo Insoluto')
     capital = models.FloatField('Capital')
     intereses = models.FloatField('Intereses')
