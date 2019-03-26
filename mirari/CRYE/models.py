@@ -34,41 +34,41 @@ VARS = {
     'THIS': 'esta',
     'APP':APP,
     'LIST': [
-            {
-                'field': 'id_solicitud',
-                'title': 'Solicitud',
-                'width': 100,
-                'url': 'property_url_update',
-            },
-            {
-                'field': 'nombre',
-                'title': 'Nombre',
-                'width': 300,
-                'url': 'property_url_update',
-            },
-            {
-                'field': 'walletcredit_tipo',
-                'title': 'TIPO',
-                'url': 'property_url_update',
-            },
-            #{
-                #'field': 'rfc',
-                #'title': 'RFC',
-            #},
-            {
-                'field': 'property_get_plazo',
-                'title': 'Plazo',
-            },
-            {
-                'field': 'id_tabla',
-                'title': 'ID Tabla',
-            },
-            #{
-                #'field': 'property_get_monto',
-                #'title': 'Monto',
-            #},
-        ],
-    'SERIALIZER': ('get_monto','get_plazo'),
+        {
+            'field': 'id_solicitud',
+            'title': 'Solicitud',
+            'width': 100,
+            'url': 'property_url_update',
+        },
+        {
+            'field': 'nombre',
+            'title': 'Nombre',
+            'width': 300,
+            'url': 'property_url_update',
+        },
+        {
+            'field': 'walletcredit_tipo',
+            'title': 'TIPO',
+            'url': 'property_url_update',
+        },
+        #{
+            #'field': 'rfc',
+            #'title': 'RFC',
+        #},
+        {
+            'field': 'property_get_plazo',
+            'title': 'Plazo',
+        },
+        {
+            'field': 'id_tabla',
+            'title': 'ID Tabla',
+        },
+        #{
+            #'field': 'property_get_monto',
+            #'title': 'Monto',
+        #},
+    ],
+    'SERIALIZER': ('get_plazo'),
     #'SEARCH': ['nombre','rfc','obligacion'],
     #'SORTEABLE': ['nombre','obligacion','fecha_vencimiento','fecha_otorgado'],
     'HIDE_CHECKBOX_LIST': True,
