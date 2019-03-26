@@ -68,7 +68,7 @@ VARS = {
         },
         {
             'field': 'property_getLenTablaAmortizacion',
-            'title': 'Total de pagos',
+            'title': 'Pagos',
             'url': 'property_url_update',
         },
         {
@@ -82,7 +82,7 @@ VARS = {
         #},
     ],
     'SERIALIZER': ('get_plazo', 'getLenTablaAmortizacion'),
-    #'SEARCH': ['nombre','rfc','obligacion'],
+    'SEARCH': ['nombre','id_solicitud'],
     #'SORTEABLE': ['nombre','obligacion','fecha_vencimiento','fecha_otorgado'],
     'HIDE_CHECKBOX_LIST': True,
     'HIDE_BUTTONS_LIST': True,

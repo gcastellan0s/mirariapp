@@ -3,14 +3,14 @@
 {% load i18n %}
 {% load humanize %}
 
-{% block title %}ID: {{object.obligacion}}{% endblock title %}
+{% block title %}ID: {{object.solicitud}}{% endblock title %}
 
 {%block subheader%}
     <div class="m-subheader">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
                 <h3 class="m-subheader__title m-subheader__title--separator">
-					<small>ID <strong>{{object.obligacion}}</strong>, <small>{{object.nombre}}</small></small> 
+					<small>ID <strong>{{object.solicitud}}</strong>, <small>{{object.nombre}}</small></small> 
 				</h3>
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
@@ -30,7 +30,7 @@
 			<div class="m-portlet m-portlet--tab">
                 <div class="m-portlet__body">
                     <div class="row">
-		                <div class="col-md-4">
+                        <div class="col-md-4">
                             <div class="m-form__content">
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
@@ -40,45 +40,33 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Numero:
-                                    </label>
-                                    <strong>${walletcredit.numero}</strong>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Obligación:
-                                    </label>
-                                    <strong>${walletcredit.obligacion}</strong>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Clasificación:
-                                    </label>
-                                    <strong>${walletcredit.clasificacion}</strong>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Clasificación Contable:
-                                    </label>
-                                    <strong>${walletcredit.clasificacion_contable}</strong>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tablaAmortizacion_id" class="form-control-label">
                                         Nombre:
                                     </label>
                                     <strong>${walletcredit.nombre}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Tipo:
+                                        ID Solicitud:
+                                    </label>
+                                    <strong>${walletcredit.id_solicitud}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Solicitud:
+                                    </label>
+                                    <strong>${walletcredit.solicitud}</strong>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tablaAmortizacion_id" class="form-control-label">
+                                        Tipo de persona:
                                     </label>
                                     <strong>${walletcredit.tipo}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
-                                        RFC:
+                                        Producto:
                                     </label>
-                                    <strong>${walletcredit.rfc}</strong>
+                                    <strong>${walletcredit.producto}</strong>
                                 </div>
                             </div>
                         </div>
@@ -86,51 +74,27 @@
                             <div class="m-form__content">
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Forma de pago:
+                                        Limite de crédito:
                                     </label>
-                                    <strong>${walletcredit.forma_pago}</strong>
+                                    <strong>${walletcredit.limite_credito}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Tipo de tasa:
+                                        Interés ordinario:
                                     </label>
-                                    <strong>${walletcredit.tipo_tasa}</strong>
+                                    <strong>${walletcredit.interes_ordinario}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Tasa:
+                                        Tipo de plazo:
                                     </label>
-                                    <strong>${walletcredit.tasa}</strong>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Fecha de otorgado:
-                                    </label>
-                                    <strong>${walletcredit.fecha_otorgado}</strong>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Fecha de vencimiento:
-                                    </label>
-                                    <strong>${walletcredit.fecha_vencimiento}</strong>
+                                    <strong>${walletcredit.tipo_plazo}</strong>
                                 </div>
                                 <div class="form-group">
                                     <label for="tablaAmortizacion_id" class="form-control-label">
                                         Plazo:
                                     </label>
                                     <strong>${walletcredit.plazo}</strong>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Monto:
-                                    </label>
-                                    <strong>${walletcredit.monto}</strong>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tablaAmortizacion_id" class="form-control-label">
-                                        Fondeador:
-                                    </label>
-                                    <strong>${walletcredit.fondeador}</strong>
                                 </div>
                             </div>
                         </div>
@@ -176,12 +140,14 @@
                             <tr>
                                 <th title="numeroPago" data-field="numeroPago">#</th>
                                 <th title="date" data-field="date">Fecha</th>
-                                <th title="estatus" data-field="estatus">Estatus</th>
-                                <th title="balanceInsoluto" data-field="balanceInsoluto">Insoluto</th>
+                                <th title="pago" data-field="pago">Pagado?</th>
+                                <th title="saldoInsoluto" data-field="saldoInsoluto">SaldoIns</th>
                                 <th title="capital" data-field="capital">Capital</th>
                                 <th title="intereses" data-field="intereses">Intereses</th>
-                                <th title="renta" data-field="renta">Renta</th>
-                                <th title="pagado" data-field="pagado">Pagado</th>
+                                <th title="rentamensual" data-field="rentamensual">RentaMens</th>
+                                <th title="ivaCapital" data-field="ivaCapital">IvaCap</th>
+                                <th title="ivaInteres" data-field="ivaInteres">IvaInt</th>
+                                <th title="rentaTotal" data-field="rentaTotal">RentaTot</th>
                                 <th title="extra" data-field="extra"></th>
                             </tr>
                         </thead>
@@ -189,13 +155,15 @@
                             <tr v-for="tablaamortizacion in tablasamortizaciones">
                                 <td>${tablaamortizacion.numeroPago}</td>
                                 <td>${tablaamortizacion.date}</td>
-                                <td v-if="tablaamortizacion.estatus == 'Facturado'" class="m--font-success">${tablaamortizacion.estatus}</td>
-                                <td v-else class="m--font-danger">${tablaamortizacion.estatus}</td>
-                                <td>$ ${tablaamortizacion.balanceInsoluto|formatprice}</td>
+                                <td v-if="tablaamortizacion.pago == 'Y'" class="m--font-success">${tablaamortizacion.pago}</td>
+                                <td v-else class="m--font-danger">${tablaamortizacion.pago}</td>
+                                <td>$ ${tablaamortizacion.saldo_insoluto|formatprice}</td>
                                 <td>$ ${tablaamortizacion.capital|formatprice}</td>
                                 <td>$ ${tablaamortizacion.intereses|formatprice}</td>
-                                <td>$ ${tablaamortizacion.renta|formatprice}</td>
-                                <td>$ ${tablaamortizacion.pagado|formatprice}</td>
+                                <td>$ ${tablaamortizacion.renta_mensual|formatprice}</td>
+                                <td>$ ${tablaamortizacion.iva_capital|formatprice}</td>
+                                <td>$ ${tablaamortizacion.iva_interes|formatprice}</td>
+                                <td>$ ${tablaamortizacion.renta_total|formatprice}</td>
                                 <td>
                                     <a href="javascript:void(0)" v-on:click="MostrarTablaPagos(tablaamortizacion)" class="btn btn-brand m-btn btn-sm m-btn m-btn--icon m-btn--pill" style="line-height: .5;">
                                         <span style="line-height: .5;">
