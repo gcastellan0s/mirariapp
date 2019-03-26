@@ -154,7 +154,31 @@ class WalletCredit__TemplateView(Generic__TemplateView):
                             walletCredit.id_tabla = 'x'
                         walletCredit.save()
                     """
-                    walletCredits = WalletCredit.objects.filter(organization = self.request.session.get('organization'), id_tabla='x').delete()
+                    walletCredits = WalletCredit.objects.filter(organization = self.request.session.get('organization'))
+                    for walletCredit in walletCredits:
+                        query = "select * from amortizacion where ID_CREDITO='{0}'".format(walletCredit.id_tabla)
+                        cursor = con.cursor()
+                        cursor.execute(query)
+                        response1 = cursor.fetchall()
+                        cursor.close()
+                        for table in response1:
+                            tablaamortizacion = TablaAmortizacion.objects.filter(walletcredit = walletCredit, numeroPago=table[2]).first()
+                            if not tablaamortizacion:
+                                tablaamortizacion = TablaAmortizacion()
+                            tablaamortizacion.id_amortizacion = table[0]
+                            tablaamortizacion.walletcredit = walletCredit
+                            tablaamortizacion.numeroPago = table[2]
+                            tablaamortizacion.date = datetime.datetime.strptime(table[3], '%d/%m/%Y')
+                            tablaamortizacion.saldo_insoluto = table[4]
+                            tablaamortizacion.capital = table[5]
+                            tablaamortizacion.intereses = table[6]
+                            tablaamortizacion.renta_mensual = table[7]
+                            tablaamortizacion.iva_capital = table[8]
+                            tablaamortizacion.iva_interes = table[9]
+                            tablaamortizacion.renta_total = table[10]
+                            tablaamortizacion.dias_periodo = table[11]
+                            tablaamortizacion.pago = table[12]
+                            tablaamortizacion.save() 
                     return JsonResponse({'message':message,'api':'Success','response':response1})
                     #query = "select SIEBPLINE.S_ORG_EXT.ROW_ID as CLIENTE, 'Persona Moral' as REGIMEN, REPLACE(REPLACE(SIEBPLINE.S_ORG_EXT.ALIAS_NAME,'-',''),' ','') as RFC, SIEBPLINE.S_ORG_EXT.NAME as RAZON_SOCIAL, SIEBPLINE.S_ORG_EXT.URL as GIRO, SIEBPLINE.S_ADDR_PER.ADDR as CALLE, SIEBPLINE.S_ADDR_PER.PROVINCE as COLONIA, '' as NUM_INT, '' as NUM_EXT, 'Persona Moral' as REGIMEN, 'Mexicana' as NACIONALIDAD, 'Mexicana' as TELCONTACTO, 'N/A' as NUMERO_INTERIOR, SIEBPLINE.S_ADDR_PER.ZIPCODE as CP, SIEBPLINE.S_ADDR_PER.COUNTY as MUNICIPIO, SIEBPLINE.S_ADDR_PER.CITY as CIUDAD, SIEBPLINE.S_ADDR_PER.STATE as ESTADO, SUBSTR(SIEBPLINE.S_ORG_EXT.MAIN_PH_NUM,4) as TELEFONO, SIEBPLINE.S_CONTACT.FST_NAME || ' ' || SIEBPLINE.S_CONTACT.LAST_NAME as NOMBRE_CONTACTO, SIEBPLINE.S_ADDR_PER.COUNTRY as PAIS from SIEBPLINE.S_ORG_EXT, SIEBPLINE.S_ADDR_PER, SIEBPLINE.S_ORG_EXT_FNX, SIEBPLINE.S_CONTACT where  SIEBPLINE.S_ORG_EXT.PR_ADDR_ID=SIEBPLINE.S_ADDR_PER.ROW_ID(+) and SIEBPLINE.S_ORG_EXT.ROW_ID = SIEBPLINE.S_ORG_EXT_FNX.PAR_ROW_ID and SIEBPLINE.S_ORG_EXT.PR_CON_ID = SIEBPLINE.S_CONTACT.PAR_ROW_ID(+) and  SIEBPLINE.S_ORG_EXT.ROW_ID='{0}'".format(request.POST.get('unblock_number'))
                     #query = "select SIEBPLINE.S_CONTACT.ROW_ID as IDCLIENTE, 'Persona Fisica' as REGIMEN, REPLACE(REPLACE(SIEBPLINE.S_CONTACT.ALIAS_NAME,'-',''),' ','') as RFC, SIEBPLINE.S_CONTACT.LAST_NAME as APELLIDOS, SIEBPLINE.S_CONTACT.FST_NAME as NOMBRE, SIEBPLINE.S_CONTACT_FNX.IDEN2_NUM as CURP, TO_CHAR(SIEBPLINE.S_CONTACT.BIRTH_DT,'YYYY-MM-DD') as FECHA_NACIMIENTO, SIEBPLINE.S_CONTACT.NATIONALITY as NACIONALIDAD, SIEBPLINE.S_CONTACT_X.ATTRIB_34 as GIRO, SIEBPLINE.S_CONTACT.PR_PER_ADDR_ID, SIEBPLINE.S_ADDR_PER.ADDR as CALLE, SIEBPLINE.S_ADDR_PER.PROVINCE as COLONIA, '' as NUM_INT, '' as NUM_EXT, SIEBPLINE.S_ADDR_PER.ZIPCODE as CP, SIEBPLINE.S_ADDR_PER.COUNTY as MUNICIPIO, SIEBPLINE.S_ADDR_PER.CITY as CIUDAD, SIEBPLINE.S_ADDR_PER.STATE as ESTADO, SUBSTR(SIEBPLINE.S_CONTACT.WORK_PH_NUM,4) as TELEFONO, SIEBPLINE.S_CONTACT.FST_NAME || ' ' || SIEBPLINE.S_CONTACT.LAST_NAME as NOMBRE_CONTACTO, SIEBPLINE.S_CONTACT.SEX_MF as SEXO, SIEBPLINE.S_CONTACT.MARITAL_STAT_CD as EDO_CIVIL, SIEBPLINE.S_CONTACT_FNX.BIRTH_PLACE as LUGAR_NACIMIENTO, SIEBPLINE.S_ADDR_PER.COUNTRY as PAIS, '' as FIEL, '' as NIE, SIEBPLINE.S_CONTACT.EMAIL_ADDR as CORREO from SIEBPLINE.S_CONTACT,  SIEBPLINE.S_CONTACT_X,  SIEBPLINE.S_ADDR_PER,  SIEBPLINE.S_CONTACT_FNX where SIEBPLINE.S_CONTACT.ROW_ID = SIEBPLINE.S_CONTACT_X.PAR_ROW_ID and SIEBPLINE.S_CONTACT.ROW_ID = SIEBPLINE.S_CONTACT_FNX.PAR_ROW_ID and SIEBPLINE.S_CONTACT.PR_PER_ADDR_ID = SIEBPLINE.S_ADDR_PER.ROW_ID(+) and SIEBPLINE.S_CONTACT.ROW_ID='{0}'".format(request.POST.get('unblock_number'))
