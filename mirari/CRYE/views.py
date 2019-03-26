@@ -166,7 +166,7 @@ class WalletCredit__TemplateView(Generic__TemplateView):
                             tablaamortizacion.id_amortizacion = table[0]
                             tablaamortizacion.walletcredit = walletCredit
                             tablaamortizacion.numeroPago = table[2]
-                            tablaamortizacion.date = datetime.datetime.strptime(str(table[3]),"%Y-%m-%dT%H:%M:%S")
+                            tablaamortizacion.date = table[3]
                             tablaamortizacion.saldo_insoluto = table[4]
                             tablaamortizacion.capital = table[5]
                             tablaamortizacion.intereses = table[6]
