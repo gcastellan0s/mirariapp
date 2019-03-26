@@ -141,7 +141,7 @@ class WalletCredit__TemplateView(Generic__TemplateView):
                         walletCredit.save()
                     """
 
-                    walletCredits = WalletCredit.objects.filter(organization = self.request.session.get('organization'), id_tabla__isnull=True)
+                    walletCredits = WalletCredit.objects.filter(organization = self.request.session.get('organization'))
                     for walletCredit in walletCredits:
                         query = "select ID_CREDITO from java_core.creditos where creditos.id_solicitud='{0}'".format(walletCredit.id_solicitud)
                         cursor = con.cursor()
@@ -149,7 +149,7 @@ class WalletCredit__TemplateView(Generic__TemplateView):
                         response1 = cursor.fetchall()
                         cursor.close()
                         if response1:
-                            walletCredit.id_tabla = response1[0]
+                            walletCredit.id_tabla = response1[0][0]
                         else:
                             walletCredit.id_tabla = 'x'
                         walletCredit.save()
