@@ -111,21 +111,26 @@ class Sellpoint__ApiView(Generic__ApiView):
                 ticket = ticket.scanner()
             return JsonResponse({'ticket': TicketSerializer(ticket).data}, safe=False)
         if request.GET.get('api') == 'getStates':
-            sellpoints = Sellpoint().getMySellpointsVendor(request.user)
-            productattributes = ProductAttributes.objects.filter( sellpoint__in=sellpoints.all(), active=True, is_active=True, product__menu__active=True, product__menu__is_active=True ).distinct().order_by('price')
-            menu = []
-            for productattribute in productattributes:
-                for pmenu in productattribute.product.menu.all():
-                    if not pmenu.pk in menu:
-                        menu.append(pmenu.pk)
-            return JsonResponse({
-                'sellpoints': SellpointSerializer( sellpoints , many=True ).data,
-                'productAttributes': ProductAttributesSerializer( productattributes, many=True ).data,
-                'menus': MenuSerializer( Menu.objects.filter(pk__in = menu).order_by('name'), many=True ).data ,
-                'offers': OfferSerializer( Offer.objects.filter( organization = request.user.organization, active=True, is_active=True ), many=True ).data,
-                'tickets': TicketSerializer( Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all() ), many=True ).data,
-                'clients': ClientSerializer( Client.objects.filter( organization = request.user.organization, active=True, is_active=True ), many=True ).data,
-            }, safe=False)
+            try:
+                sellpoints = Sellpoint().getMySellpointsVendor(request.user)
+                productattributes = ProductAttributes.objects.filter( sellpoint__in=sellpoints.all(), active=True, is_active=True, product__menu__active=True, product__menu__is_active=True ).distinct().order_by('price')
+                menu = []
+                for productattribute in productattributes:
+                    for pmenu in productattribute.product.menu.all():
+                        if not pmenu.pk in menu:
+                            menu.append(pmenu.pk)
+                return JsonResponse({
+                    'sellpoints': SellpointSerializer( sellpoints , many=True ).data,
+                    'productAttributes': ProductAttributesSerializer( productattributes, many=True ).data,
+                    'menus': MenuSerializer( Menu.objects.filter(pk__in = menu).order_by('name'), many=True ).data ,
+                    'offers': OfferSerializer( Offer.objects.filter( organization = request.user.organization, active=True, is_active=True ), many=True ).data,
+                    'tickets': TicketSerializer( Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all() ), many=True ).data,
+                    'clients': ClientSerializer( Client.objects.filter( organization = request.user.organization, active=True, is_active=True ), many=True ).data,
+                }, safe=False)
+            except Exception as e:
+                return JsonResponse({
+                    'error':str(e),
+                }, safe=False)
         if request.GET.get('api') == 'getBarCode':
             return JsonResponse({'ticket': TicketSerializer(Ticket().new( ticket = json.loads(request.POST.get('ticket')) )).data}, safe=False)
         if request.GET.get('api') == 'makeCut':
