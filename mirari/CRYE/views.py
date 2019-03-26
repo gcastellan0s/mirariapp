@@ -152,7 +152,7 @@ class WalletCredit__TemplateView(Generic__TemplateView):
                             walletCredit.id_tabla = 'x'
                         walletCredit.save()
                     """
-                    walletCredits = WalletCredit.objects.filter(organization = self.request.session.get('organization'))[121:150]
+                    walletCredits = WalletCredit.objects.filter(organization = self.request.session.get('organization'))[151:200]
                     for walletCredit in walletCredits:
                         query = "select * from amortizacion where ID_CREDITO='{0}'".format(walletCredit.id_tabla)
                         cursor = con.cursor()
