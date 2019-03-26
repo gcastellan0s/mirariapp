@@ -176,15 +176,20 @@ class TablaAmortizacion(Model_base):
         ('Facturado','Facturado'),
         ('Pendiente','Pendiente'),
     )
+    id_amortizacion = models.CharField('ID amortizacion', max_length=250, blank=True, null=True)
     walletcredit = models.ForeignKey('WalletCredit', on_delete=models.CASCADE, related_name='+',)
     numeroPago = models.IntegerField('ID CLiente', blank=True, null=True)
     date = models.DateField('Fecha otorgado', blank=True, null=True)
-    estatus = models.CharField('Fondeador', max_length=250, choices=Estatus)
-    balanceInsoluto = models.FloatField('Balance Insoluto')
+    saldo_insoluto = models.FloatField('Saldo Insoluto')
     capital = models.FloatField('Capital')
     intereses = models.FloatField('Intereses')
-    renta = models.FloatField('Renta')
-    pagado  = models.FloatField('Pagado')
+    renta_mensual = models.FloatField('Renta Mensual')
+    iva_capital  = models.FloatField('Iva Capital')
+    iva_interes  = models.FloatField('Iva Interes')
+    renta_total  = models.FloatField('Renta Total')
+    dias_periodo  = models.IntegerField()
+    pago = models.CharField('Pago', max_length=15, blank=True, null=True)
+    activo = models.CharField('Activo', max_length=15, blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
