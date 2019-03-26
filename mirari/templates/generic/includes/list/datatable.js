@@ -13,6 +13,7 @@ var options = {
                 },
                 map: function(raw) {
                     var dataSet = raw;
+                    console.log(raw)
                     if (typeof raw.data !== 'undefined') {
                         dataSet = raw.data;
                     }
