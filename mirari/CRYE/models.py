@@ -160,7 +160,7 @@ class WalletCredit(Model_base):
     def payments(self):
         return len(PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)))
     def getLenTablaAmortizacion(self):
-        return(TablaAmortizacion.objects.filter(walletcredit=self))
+        return len(TablaAmortizacion.objects.filter(walletcredit=self))
     def getTotalPayment(self):
         total = 0
         for pagoamortizacion in PagoAmortizacion.objects.filter(tablaaAmortizacion__in = TablaAmortizacion.objects.filter(walletcredit = self)):
