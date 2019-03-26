@@ -69,8 +69,8 @@ VARS = {
             #},
         ],
     'SERIALIZER': ('get_monto','get_plazo'),
-    'SEARCH': ['nombre','rfc','obligacion'],
-    'SORTEABLE': ['nombre','obligacion','fecha_vencimiento','fecha_otorgado'],
+    #'SEARCH': ['nombre','rfc','obligacion'],
+    #'SORTEABLE': ['nombre','obligacion','fecha_vencimiento','fecha_otorgado'],
     'HIDE_CHECKBOX_LIST': True,
     'HIDE_BUTTONS_LIST': True,
     #'FORM': [
@@ -113,7 +113,7 @@ VARS = {
 }
 class WalletCredit(Model_base):
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-    walletcredit_tipo = models.CharField('Obligación', max_length=250, choices=WALLETCREDIT_TIPO, default="CREDITO")
+    walletcredit_tipo = models.CharField('Tipo de cartera', max_length=250, choices=WALLETCREDIT_TIPO, default="CREDITO")
     id_solicitud = models.CharField('ID solicitud', max_length=250, blank=True, null=True)
     solicitud = models.CharField('Solicitud', max_length=250, blank=True, null=True)
     id_cliente = models.CharField('ID Cliente', max_length=250, blank=True, null=True)
@@ -260,8 +260,3 @@ class TasasInteres(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.VARS['NAME'])
-
-
-
-
-        
