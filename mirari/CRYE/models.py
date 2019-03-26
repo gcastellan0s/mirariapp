@@ -36,21 +36,20 @@ VARS = {
     'LIST': [
         {
             'field': 'id',
-            'title': 'ID',
-            'width': 100,
+            'title': 'IDs',
+            'width': 200,
             'url': 'property_url_update',
-        },
-        {
-            'field': 'id_solicitud',
-            'title': 'ID Solicitud',
-            'width': 100,
-            'url': 'property_url_update',
-        },
-        {
-            'field': 'solicitud',
-            'title': 'Solicitud',
-            'width': 100,
-            'url': 'property_url_update',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}">
+                    <strong>{{solicitud}}</strong><br />
+                    <small>
+                        <small>
+                            ID {{id}} | IDSOL {{id_solicitud}} | IDTABLA {{id_tabla}}
+                        </small>
+                    </small>
+                </a>
+            """,
         },
         {
             'field': 'nombre',
@@ -75,11 +74,6 @@ VARS = {
         {
             'field': 'property_getLenTablaAmortizacion',
             'title': 'Pagos',
-            'url': 'property_url_update',
-        },
-        {
-            'field': 'id_tabla',
-            'title': 'ID Tabla',
             'url': 'property_url_update',
         },
         #{
