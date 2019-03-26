@@ -56,6 +56,10 @@
                                     button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="keyboard('<')")
                                         span.media-body.d-block
                                             span.fas.fa-angle-up
+                                .d-flex.col-sm-4.align-items-center(v-if="$route.path.query.mode=='order'")
+                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="getBarCode()" :disabled="Ticket.products.length<1 || Ticket.proccessing")
+                                        span.media-body.d-block
+                                            span.fas.fa-print
                                 .d-flex.col-sm-4.align-items-center
                                     button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="getBarCode()" :disabled="Ticket.products.length<1 || Ticket.proccessing")
                                         span.media-body.d-block
