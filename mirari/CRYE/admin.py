@@ -7,7 +7,6 @@ from .vars import *
 class WalletCreditAdmin(admin.ModelAdmin):
 	actions_on_top = True
 	actions_on_bottom = False
-	list_display = ('obligacion', 'nombre','rfc')
 
     
 @admin.register(TablaAmortizacion)

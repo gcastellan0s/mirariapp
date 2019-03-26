@@ -69,63 +69,57 @@ VARS = {
     'SORTEABLE': ['nombre','obligacion','fecha_vencimiento','fecha_otorgado'],
     'HIDE_CHECKBOX_LIST': True,
     'HIDE_BUTTONS_LIST': True,
-    'FORM': [
-        Div(
-            Div('numero', css_class="col-md-3"),
-            Div('nombre', css_class="col-md-9"),
-            
-            css_class="form-group m-form__group row"
-        ),
-        Div(
-            Div('obligacion', css_class="col-md-4"),
-            Div('clasificacion', css_class="col-md-4"),
-            Div('clasificacion_contable', css_class="col-md-4"),
-            css_class="form-group m-form__group row"
-        ),
-        Div(
-            Div('rfc', css_class="col-md-4"),
-            Div('producto', css_class="col-md-4"),
-            Div('forma_pago', css_class="col-md-4"),
-            css_class="form-group m-form__group row"
-        ),
-        Div(
-            Div('fecha_otorgado', css_class="col-md-6"),
-            Div('fecha_vencimiento', css_class="col-md-6"),
-            css_class="form-group m-form__group row"
-        ),
-        
-        Div(
-            Div('tipo_tasa', css_class="col-md-4"),
-            Div('tasa', css_class="col-md-4"),
-            css_class="form-group m-form__group row"
-        ),
-        Div(
-            Div('plazo', css_class="col-md-4"),
-            Div('monto', css_class="col-md-4"),
-            Div('fondeador', css_class="col-md-4"),
-            css_class="form-group m-form__group row"
-        ),
-    ],
+    #'FORM': [
+        #Div(
+            #Div('numero', css_class="col-md-3"),
+            #Div('nombre', css_class="col-md-9"),
+#            
+            #css_class="form-group m-form__group row"
+        #),
+        #Div(
+            #Div('obligacion', css_class="col-md-4"),
+            #Div('clasificacion', css_class="col-md-4"),
+            #Div('clasificacion_contable', css_class="col-md-4"),
+            #css_class="form-group m-form__group row"
+        #),
+        #Div(
+            #Div('rfc', css_class="col-md-4"),
+            #Div('producto', css_class="col-md-4"),
+            #Div('forma_pago', css_class="col-md-4"),
+            #css_class="form-group m-form__group row"
+        #),
+        #Div(
+            #Div('fecha_otorgado', css_class="col-md-6"),
+            #Div('fecha_vencimiento', css_class="col-md-6"),
+            #css_class="form-group m-form__group row"
+        #),
+#        
+        #Div(
+            #Div('tipo_tasa', css_class="col-md-4"),
+            #Div('tasa', css_class="col-md-4"),
+            #css_class="form-group m-form__group row"
+        #),
+        #Div(
+            #Div('plazo', css_class="col-md-4"),
+            #Div('monto', css_class="col-md-4"),
+            #Div('fondeador', css_class="col-md-4"),
+            #css_class="form-group m-form__group row"
+        #),
+    #],
 }
 class WalletCredit(Model_base):
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     walletcredit_tipo = models.CharField('Obligación', max_length=250, choices=WALLETCREDIT_TIPO, default="CREDITO")
-    numero = models.IntegerField('ID CLiente', blank=True, null=True)
-    obligacion = models.CharField('Obligación', max_length=250, blank=True, null=True)
-    clasificacion = models.CharField('Clasificación', max_length=250, blank=True, null=True)
-    clasificacion_contable = models.CharField('Clasificación contable', max_length=250, choices=CLASIFICACION_CONTABLE, blank=True, null=True)
-    nombre = models.CharField('Nombre', max_length=250, blank=True, null=True)
+    id_solicitud = models.CharField('ID solicitud', max_length=250, blank=True, null=True)
+    solicitud = models.CharField('Solicitud', max_length=250, blank=True, null=True)
+    id_cliente = models.CharField('ID Cliente', max_length=250, blank=True, null=True)
     tipo = models.CharField('Tipo de persona', max_length=250, blank=True, null=True)
-    rfc = models.CharField('RFC', max_length=250, blank=True, null=True)
+    nombre = models.CharField('Nombre', max_length=250, blank=True, null=True)
     producto = models.CharField('Producto', max_length=250, blank=True, null=True)
-    forma_pago = models.CharField('Forma de pago', max_length=250, choices=FORMA_PAGO, blank=True, null=True)
-    tipo_tasa = models.CharField('Tipo de tasa', max_length=250, choices=TIPO_TASA, blank=True, null=True)
-    tasa = models.FloatField('Tasa', blank=True, null=True)
-    fecha_otorgado = models.DateField('Fecha otorgado', blank=True, null=True)
-    fecha_vencimiento = models.DateField('Fecha vencimiento', blank=True, null=True)
+    limite_credito = models.FloatField('Limite de crédito', blank=True, null=True)
+    interes_ordinario = models.FloatField('Interés ordinario', blank=True, null=True)
+    tipo_plazo = models.CharField('Tipo de plazo', max_length=250, blank=True, null=True)
     plazo = models.IntegerField('Plazo', blank=True, null=True)
-    monto = models.FloatField('Monto', blank=True, null=True)
-    fondeador = models.CharField('Fondeador', max_length=250, blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
