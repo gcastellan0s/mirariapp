@@ -339,22 +339,20 @@ class Base_List(object):
     def dispatch(self, request, *args, **kwargs):
         self.initialize(request, *args, **kwargs)
         if request.GET.get('action') == 'list':
-            try:
-                query_list = self.query_list()
-                query = request.GET.get('query[generalSearch]')
-                if query:
-                    query_list = self.query_search(query_list, query)
-                query_list = self.query_filter(request, query_list)
-                field = request.GET.get('sort[field]')
-                sort = request.GET.get('sort[sort]')
-                if sort == 'desc' or sort == 'asc':
-                    query_list = self.sort(query_list, field, sort)
-                page = request.GET.get('pagination[page]', 1)
-                perpage = request.GET.get('pagination[perpage]', self.paginator_size)
-                paginator = Paginator(query_list, perpage)
-                return JsonResponse({'data': self.get_default_serializer()(paginator.page(page), many=True).data, 'meta': {'page': page, 'pages': paginator.num_pages, 'perpage': perpage, 'total': len(query_list), 'sort': sort, 'field': field, }})
-            except Exception, e:
-                return JsonResponse({'data': str(e)})
+            query_list = self.query_list()
+            query = request.GET.get('query[generalSearch]')
+            if query:
+                query_list = self.query_search(query_list, query)
+            query_list = self.query_filter(request, query_list)
+            field = request.GET.get('sort[field]')
+            sort = request.GET.get('sort[sort]')
+            if sort == 'desc' or sort == 'asc':
+                query_list = self.sort(query_list, field, sort)
+            page = request.GET.get('pagination[page]', 1)
+            perpage = request.GET.get('pagination[perpage]', self.paginator_size)
+            paginator = Paginator(query_list, perpage)
+            return JsonResponse({'data': self.get_default_serializer()(paginator.page(page), many=True).data, 'meta': {'page': page, 'pages': paginator.num_pages, 'perpage': perpage, 'total': len(query_list), 'sort': sort, 'field': field, }})
+            return JsonResponse({'data': str(e)})
         return super().dispatch(request, *args, **kwargs)
     def get_queryset(self):
         return None
