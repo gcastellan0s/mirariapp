@@ -42,6 +42,12 @@ VARS = {
         },
         {
             'field': 'id_solicitud',
+            'title': 'ID Solicitud',
+            'width': 100,
+            'url': 'property_url_update',
+        },
+        {
+            'field': 'solicitud',
             'title': 'Solicitud',
             'width': 100,
             'url': 'property_url_update',

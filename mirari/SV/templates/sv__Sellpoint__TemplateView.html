@@ -383,6 +383,7 @@
             });
         }),
         getClient: ((ClientName) => {
+            console.log(ClientName)
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClient', {ClientName: ClientName})
             .then(function(json){
                 console.log(json)
@@ -470,10 +471,7 @@
             checkclient = self.Clients.find(function(client) {
                 return client.name == ClientName
             });
-            if(checkclient){
-                self.getClient(ClientName)
-                return true
-            } 
+            if(checkclient) return true
             return false
         }),
     {%endblock methods%}
@@ -501,8 +499,8 @@
     {%endblock filters%}
 
     {%block watch%}
-        //Client: function (newData, oldData) {
-            //console.log(newData)
-        //}
+        ClientName: function (newData, oldData) {
+            if(self.checkClient(newData)) self.getClient(newData)
+        }
     {%endblock watch%}
 </script>
