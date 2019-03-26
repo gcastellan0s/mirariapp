@@ -42,14 +42,14 @@
 						<div class="m-form__content">
 							<div class="form-group">
 								<label for="tablaAmortizacion_id" class="form-control-label">
-									# de solicitud
+									# de solicitud ${WalletCredit.type}
 								</label>
 								<input type="text" class="form-control" placeholder="Número de solicitud" v-model="WalletCredit.id">
 							</div>
                             <div class="form-group">
                                 <label class="form-label">Tipo de credito</label>
-                                <select class="select custom-select">
-                                    <option v-for="option in WalletCredit.options">
+                                <select class="select custom-select" v-model="WalletCredit.type">
+                                    <option v-for="option in WalletCredit.options" v-bind:value="option.value">
                                         ${option.text}
                                     </option>
                                 </select>
