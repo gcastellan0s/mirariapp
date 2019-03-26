@@ -46,6 +46,8 @@ class WalletCredit__TemplateView(Generic__TemplateView):
     def dispatch(self, request, *args, **kwargs):
         try:
             if request.method == 'POST':
+                print(request.POST.get('id'))
+                print(request.POST.get('type'))
                 import cx_Oracle
                 if request.POST.get('type') == 'CREDITO':
                     db = DBConnection.objects.filter(name='siebel', organization__pk=self.request.session.get('organization')).first()
