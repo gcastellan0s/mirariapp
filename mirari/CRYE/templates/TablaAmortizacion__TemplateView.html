@@ -155,8 +155,8 @@
                             <tr v-for="tablaamortizacion in tablasamortizaciones">
                                 <td>${tablaamortizacion.numeroPago}</td>
                                 <td>${tablaamortizacion.date}</td>
-                                <td v-if="tablaamortizacion.pago == 'Y'" class="m--font-success">${tablaamortizacion.pago}</td>
-                                <td v-else class="m--font-danger">${tablaamortizacion.pago}</td>
+                                <td v-if="tablaamortizacion.pago == 'Y'" class="m--font-success"><i class="fas fa-circle"></i></td>
+                                <td v-else class="m--font-danger"><i class="fas fa-circle"></i></td>
                                 <td>$ ${tablaamortizacion.saldo_insoluto|formatprice}</td>
                                 <td>$ ${tablaamortizacion.capital|formatprice}</td>
                                 <td>$ ${tablaamortizacion.intereses|formatprice}</td>
