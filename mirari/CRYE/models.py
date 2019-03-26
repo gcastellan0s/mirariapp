@@ -120,6 +120,7 @@ class WalletCredit(Model_base):
     interes_ordinario = models.FloatField('Interés ordinario', blank=True, null=True)
     tipo_plazo = models.CharField('Tipo de plazo', max_length=250, blank=True, null=True)
     plazo = models.IntegerField('Plazo', blank=True, null=True)
+    id_tabla = models.CharField('id_plaza', max_length=250, blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
