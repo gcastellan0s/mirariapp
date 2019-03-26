@@ -88,8 +88,9 @@
             if (WalletCredit.id){
                 Ax('post', '{{ request.path }}', WalletCredit)
                 .then(function(json){
-                    if(json.message) swal('Error!', json.message, 'error')
-                    else window.location.replace('http://' + window.location.hostname + json.data.redirect);
+                    console.log(json)
+                    //if(json.message) swal('Error!', json.message, 'error')
+                    //else window.location.replace('http://' + window.location.hostname + json.data.redirect);
                 })
                 .catch((error) => {
                     swal('Error!', 'Revisa el número de tu consulta', 'error')
