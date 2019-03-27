@@ -7,7 +7,7 @@ div(v-if="Sellpoint")
         a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem")
             i.fas.fa-credit-card.pr-2
             | CAJA
-    router-link(to="/sellpoint" v-if="includes(Sellpoint.vendors, {{request.user.id}})")
+    router-link(:to="{path:'sellpoint', query:{sellpointMode:'sellpoint'}}")
         a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem")
             i.fas.fa-store.pr-2
             | VENTA

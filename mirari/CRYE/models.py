@@ -41,7 +41,7 @@ VARS = {
             'url': 'property_url_update',
             'template': 
             """
-                <a href="{{property_url_update}}">
+                <a href="{{property_url_detail}}">
                     <strong>{{solicitud}}</strong><br />
                     <small>
                         <small>
@@ -71,7 +71,7 @@ VARS = {
             'url': 'property_url_update',
             'template': 
             """
-                <a href="{{property_url_update}}">
+                <a href="{{property_url_detail}}">
                     <strong>{{property_get_plazo}}</strong><br />
                     <small>
                         PAGOS REGISTRADOS {{property_getLenTablaAmortizacion}}
