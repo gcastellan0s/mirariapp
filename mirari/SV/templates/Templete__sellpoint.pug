@@ -56,14 +56,16 @@
                                     button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="keyboard('<')")
                                         span.media-body.d-block
                                             span.fas.fa-angle-up
-                                .d-flex.col-sm-4.align-items-center(v-if="$route.path.query.mode=='order'")
-                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="getBarCode()" :disabled="Ticket.products.length<1 || Ticket.proccessing")
+                                .d-flex.col-sm-4.align-items-center(v-if="$route.query.sellpointMode=='order'")
+                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="getBarCode()" :disabled="Ticket.products.length<1")
                                         span.media-body.d-block
-                                            span.fas.fa-print
-                                .d-flex.col-sm-4.align-items-center
-                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="getBarCode()" :disabled="Ticket.products.length<1 || Ticket.proccessing")
+                                            span.fas.fa-receipt.text-primary
+                                .d-flex.col-sm-4.align-items-center(v-if="$route.query.sellpointMode=='sellpoint'")
+                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="getBarCode()" :disabled="Ticket.products.length<1")
                                         span.media-body.d-block
-                                            span.fas.fa-print
+                                            span.fas.fa-print.text-primary
+                                .d-flex.col-sm-12.align-items-center(v-if="$route.query.sellpointMode=='order' && ClientName")
+                                    h5 ${ClientName}
                         div(v-if="Ticket")
                             .card-body.d-flex.justify-content-between.py-1(v-for="line in Ticket.products")
                                 .text-large ${line.quantity}

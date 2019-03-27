@@ -17,7 +17,7 @@
                                     label.form-label INGRESA CLIENTE
                                     input#typeahead-input.form-control(type="text" autocomplete="off" v-model="ClientName" v-on:click="ClientName=''")
                             .col-4
-                                router-link(to="/sellpoint?mode=order")
+                                router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}")
                                     a(href="javascript:void(0)")
                                         .card.bg-primary.border-0.text-white.mb-4
                                             .card-body.d-flex.justify-content-between.align-items-center.py-3
