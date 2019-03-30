@@ -262,7 +262,7 @@
                 ticketFormat.push(["text", '------------------------------------------'])
                 self.Ticket.products.forEach(function(product){
                     ticketFormat.push(["set",["LT", "A", "bu", 1, 1]])
-                    ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' ' + '$' + self.$options.filters.formatPrice(String(product.total)) ])
+                    ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' ' + '$' + self.$options.filters.formatPrice(String(product.total))])
                     product.offers.forEach(function(offer){
                         ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                         ticketFormat.push(["text", offer.name + ' -' + offer.discountValue + '%'])
@@ -317,6 +317,7 @@
             .then((json) => {
                 if (PrivateSocket){
                     ticketFormat = []
+                    ticketFormat.push(["times",[1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.propertyGetTotalMoney])
                     ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
@@ -337,13 +338,7 @@
                     ticketFormat.push(["text", '------------------------------------------'])
                     json.data.cut.products.forEach(function(product){
                         ticketFormat.push(["set",["LT", "bu", "", 1, 1]])
-                        ticketFormat.push(["text", String(product.quantity) + product.productName + ' de ' + product.getPrice + ' --> ' + product.getTotalMoney])
-                        if (product.offers){
-                            product.offers.forEach(function(offer){
-                                ticketFormat.push(["set",["RT", "bu", "", 1, 1]])
-                                ticketFormat.push(["text", ' -' + offer.name])
-                            });
-                        }
+                        ticketFormat.push(["text", '-' + String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice + ' --> ' + product.getTotalMoney])
                     });
                     ticketFormat.push(["text", '------------------------------------------'])
                     ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
@@ -354,6 +349,7 @@
                     ticketFormat.push(["text", 'FALTANTE: ' + json.data.cut.propertyGetFaltanteMoney])
                     ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.propertyGetTotalMoney])
+                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                     ticketFormat.push(["cut"])
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 }
