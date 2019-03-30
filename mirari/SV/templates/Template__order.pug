@@ -11,11 +11,12 @@
                 // Content
                 .container-fluid.flex-grow-1.container-p-y
                     .container-p-x.py-5.container-m--x.container-m--y.mb-0
-                        .row
+                        .row(v-if="$route.query.orderMode=='selectOrder'")
                             .col-12
                                 .card-body
-                                    label.form-label INGRESA CLIENTE
+                                    label.form-label CLIENTE: NOMBRE, ID, CORREO O NÚMERO DE TELÉFONO
                                     input#typeahead-input.form-control(type="text" autocomplete="off" v-model="ClientName" v-on:click="ClientName=''")
+                                    small SI LO DEJAS EN BLANCO SE LE ASIGNARA UN ID ALEATORIO DE PUBLICO EN GENERAL.
                             .col-4
                                 router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}")
                                     a(href="javascript:void(0)")
@@ -34,7 +35,9 @@
                                                 .small.opacity-75 MUESTRA LOS DETALLES SOBRE UNA REMISION
                                             i.fas.fa-search.text-xlarge.opacity-25
                             .col-4
-                            .col-4(v-if="checkClient(ClientName)")
+                            .col-4
+                        .row(v-if="Client && $route.query.orderMode=='selectOrder'")
+                            .col-4(v-if="checkClient(ClientName) && Client.haveCredit")
                                 .card.bg-success.border-0.text-white.mb-4
                                     .card-body.d-flex.justify-content-between.align-items-center.py-3
                                         div
@@ -48,7 +51,7 @@
                                             .text-xlarge IMPRIMIR SALDO
                                             .small.opacity-75 IMPRIME EL SALDO ACTUAL
                                         i.fas.fa-print.text-xlarge.opacity-25
-                            .col-4(v-if="checkClient(ClientName)")
+                            .col-4(v-if="checkClient(ClientName) && Client.haveReturn")
                                 .card.bg-success.border-0.text-white.mb-4
                                     .card-body.d-flex.justify-content-between.align-items-center.py-3
                                         div
@@ -61,11 +64,120 @@
                                         | ${Client.name}
                                         .text-muted.text-tiny.mt-1
                                         small.font-weight-normal
-                                            | Contacto: ${Client.contact}
+                                            | CONTACTO: ${Client.phone}
+                                            br
+                                            | CORREO: ${Client.email}
                                             br
                                             | RFC: ${Client.rfc}
+                                h4 SALDOA ACTUAL $ -500.00
 
-                // Layout footer
+                                table.table.mb-0
+                                    tbody
+                                        tr.h4.COBRADO
+                                            td fl08753ibk4n
+                                            td(style='color: rgb(214, 0, 24);') CAMINO PANADERIA
+                                            td marzo 23, 1:46 pm
+                                            td
+                                                strong 161
+                                            td $ 1,500.00
+                                        tr.h4.PENDIENTE
+                                            td fl08753ibk4n
+                                            td(style='color: rgb(214, 0, 24);') CAMINO PANADERIA
+                                            td marzo 23, 1:46 pm
+                                            td
+                                                strong 160
+                                            td $ 2,000.00
+                                        tr.h4.COBRADO
+                                            td uw6uhuncdzny
+                                            td(style='color: rgb(214, 0, 24);') CAMINO PANADERIA
+                                            td marzo 23, 1:44 pm
+                                            td
+                                                strong 159
+                                            td $ 1,000.00
+                                        tr.h4.PENDIENTE
+                                            td fl08753ibk4n
+                                            td(style='color: rgb(214, 0, 24);') CAMINO PANADERIA
+                                            td marzo 23, 1:46 pm
+                                            td
+                                                strong 158
+                                            td $ 2,000.00
+
+                        .row(v-if="$route.query.orderMode=='finishOrder'")
+                            .col-3
+                                router-link(:to="{path:'order', query:{orderMode:'selectOrder'}}")
+                                    a(href="javascript:void(0)")
+                                        .card.bg-danger.border-0.text-white.mb-4
+                                            .card-body.d-flex.justify-content-between.align-items-center.py-3
+                                                div
+                                                    .text-xlarge CANCELAR 
+                                                    .small.opacity-75 CANCELA REMISIÓN
+                                                i.fas.fa-times.text-xlarge.opacity-25
+                            .col-3
+                                router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}")
+                                    a(href="javascript:void(0)")
+                                        .card.bg-primary.border-0.text-white.mb-4
+                                            .card-body.d-flex.justify-content-between.align-items-center.py-3
+                                                div
+                                                    .text-xlarge EDITAR
+                                                    .small.opacity-75 EDITAR PRODUCTOS
+                                                i.fas.fa-edit.text-xlarge.opacity-25
+                            .col-2
+                            .col-4
+                                router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}")
+                                    a(href="javascript:void(0)")
+                                        .card.bg-primary.border-0.text-white.mb-4
+                                            .card-body.d-flex.justify-content-between.align-items-center.py-3
+                                                div
+                                                    .text-xlarge IMPRIMIR
+                                                    .small.opacity-75 IMPRIME ESTA REMISIÓN
+                                                i.fas.fa-print.text-xlarge.opacity-25
+                        .row.mt-4(v-if="$route.query.orderMode=='finishOrder'")
+                            .col-4(v-if="Ticket")
+                                h3 $ ${Ticket.total|formatPrice}
+                                .card-body.d-flex.justify-content-between.py-1(v-for="line in Ticket.products")
+                                    .text-large ${line.quantity}
+                                    .text-right.small
+                                        .badge.badge-outline-danger(v-for="offer in line.offers")
+                                            | ${offer.name} -${offer.discountValue}%
+                                        $ ${line.price|formatPrice}
+                                        br
+                                        strong ${line.productName}
+                            .col-8
+                                .card-body.demo-vertical-spacing-sm
+                                    .input-group.input-group-lg
+                                        .input-group-prepend
+                                            .input-group-text A CUENTA
+                                        input.form-control(type="text" placeholder="CANTIDAD QUE DEJA A CUENTA")
+                                    .input-group.input-group-lg
+                                        .input-group-prepend
+                                            .input-group-text FECHA/HORA
+                                        input.form-control(type="text" placeholder="FECHA Y HORA DE ENTREGA" v-model="Ticket.datetimeOfDelivery")
+                                    .input-group.input-group-lg
+                                        .input-group-prepend
+                                            .input-group-text DESTINO
+                                        input.form-control(type="text" placeholder="DESTINO DE LA REMISIÓN" v-model="Ticket.destination")
+                                    .input-group.input-group-lg
+                                        .input-group-prepend
+                                            .input-group-text NOTAS
+                                        input.form-control(type="text" placeholder="INGRESA LOS DETALLES DE LA REMISIÓN" v-model="Ticket.notes")
+                                h3 CLIENTE
+                                .card-body.demo-vertical-spacing-sm
+                                    .input-group.input-group-lg
+                                        .input-group-prepend
+                                            .input-group-text NOMBRE
+                                        input.form-control(type="text" placeholder="NOMBRE O RAZON SOCIAL DEL CLIENTE" v-model="self.Client.name")
+                                    .input-group.input-group-lg
+                                        .input-group-prepend
+                                            .input-group-text CORREO
+                                        input.form-control(type="text" placeholder="CORREO DE CONTACTO" v-model="self.Client.email")
+                                    .input-group.input-group-lg
+                                        .input-group-prepend
+                                            .input-group-text TELÉFONO
+                                        input.form-control(type="text" placeholder="TELEFONO A 10 DIGITOS" v-model="self.Client.phone")
+                                    .input-group.input-group-lg
+                                        .input-group-prepend
+                                            .input-group-text RFC
+                                        input.form-control(type="text" placeholder="RFC DE FACTURACION" v-model="self.Client.rfc")
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
                         .pt-3

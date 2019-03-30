@@ -56,8 +56,19 @@
             iva: 0,
             ieps: 0,
             total: 0,
-            proccessing: false,
-            sellpoint: {},
+            sellpoint: 0,
+            client: {
+                id: 0,  
+                name: '',
+                phone: '',
+                rfc: '',
+                email: '',
+            },
+            data: {
+                datetimeOfDelivery: '',
+                destination: '',
+                notes: '',
+            },
         },
         Tickets: [],
         Printers: [],
@@ -181,18 +192,14 @@
                 });
             });
         }),
-        getBarCode: (() => {
-            self.Ticket.proccessing = true
-            if(self.Ticket.products.length < 1){
-                return 0
-            }
+        getBarCode: ((print=true, send=true, init=true) => {
             self.Ticket.key = self.randomChars(12, 'aplha_numbers')
             self.Ticket.format_time = String(moment().format('L'))
             self.Ticket.format_date = String(moment().format('LTS'))
             self.Ticket.status = 'COBRADO'
-            self.Ticket.sellpoint = self.Sellpoint
-            self.Ticket.username = '{{request.user.visible_username}}'
             if (self.Sellpoint.have_casher) self.Ticket.status = 'PENDIENTE'
+            self.Ticket.sellpoint = self.Sellpoint.id
+            self.Ticket.username = '{{request.user.visible_username}}'
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getBarCode', {
                 ticket: JSON.stringify(self.Ticket),
             }, errorDialog=false)
@@ -200,12 +207,16 @@
                 self.Ticket.barcode = json.data.ticket.barcode
                 self.Ticket.cut = json.data.ticket.cut
             }).catch((error) => {
+                
             }).finally(() => { 
-                self.printTicket(self.Ticket)
-                self.sendTicket(self.Ticket)
-                self.initTicket()
+                if (print) self.printTicket(self.Ticket)
+                if (send) self.sendTicket(self.Ticket)
+                if (init) self.initTicket()
                 if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher')
             })
+        }),
+        getDataOrder: (() => {
+            self.$router.push({path:'order', query:{orderMode:'finishOrder'}})
         }),
         getStates: ((postFunctions = false) => {
             //Block('Actualizando configuracion...')
@@ -238,40 +249,34 @@
         printTicket: ((ticket) => { 
             if (PrivateSocket){
                 ticketFormat = []
-                ticketFormat.push(["set",["center", "A", "B", 2, 2]])
-                ticketFormat.push(["text", '\n'])
-                ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total)) + '\n'])
-                ticketFormat.push(["set",["center", "A", "B", 1, 1]])
-                if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", '\n'])
-                if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1 + '\n'])
-                if(self.Sellpoint.header_line_black_2) ticketFormat.push(["text", self.Sellpoint.header_line_black_2 + '\n'])
-                ticketFormat.push(["set",["center", "A", "", 1, 1]])
-                if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1 + '\n'])
-                if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2 + '\n'])
-                ticketFormat.push(["text", self.Ticket.format_date + ' '])
-                ticketFormat.push(["text", self.Ticket.format_time + '\n'])
-                ticketFormat.push(["text", '------------------------------------------\n'])
+                ticketFormat.push(["times",[self.Sellpoint.number_tickets]])
+                ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
+                ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total))])
+                ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1])
+                if(self.Sellpoint.header_line_black_2) ticketFormat.push(["text", self.Sellpoint.header_line_black_2])
+                ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1])
+                if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2])
+                ticketFormat.push(["text", self.Ticket.format_date + ' ' + self.Ticket.format_time])
+                ticketFormat.push(["text", '------------------------------------------'])
                 self.Ticket.products.forEach(function(product){
-                    ticketFormat.push(["set",["left", "A", "", 1, 1]])
-                    ticketFormat.push(["text", String(product.quantity) + ' '])
-                    ticketFormat.push(["text", product.productName + ' '])
-                    ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(product.total)) + '\n'])
+                    ticketFormat.push(["set",["LT", "A", "bu", 1, 1]])
+                    ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' ' + '$' + self.$options.filters.formatPrice(String(product.total)) ])
                     product.offers.forEach(function(offer){
-                        ticketFormat.push(["set",["right", "A", "", 1, 1]])
-                        ticketFormat.push(["text", offer.name + ' -' + offer.discountValue + '% \n'])
+                        ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                        ticketFormat.push(["text", offer.name + ' -' + offer.discountValue + '%'])
                     });
                 });
-                ticketFormat.push(["set",["right", "A", "B", 1, 1]])
+                ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                 ticketFormat.push(["text", 'IVA: $' + self.$options.filters.formatPrice(String(self.Ticket.iva))])
-                ticketFormat.push(["set",["right", "A", "B", 1, 1]])
+                ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                 ticketFormat.push(["text", ' IEPS: $' + self.$options.filters.formatPrice(String(self.Ticket.ieps))])
-                ticketFormat.push(["set",["right", "A", "B", 1, 1]])
-                ticketFormat.push(["text", ' TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total)) + '\n'])
-                ticketFormat.push(["set",["center", "A", "B", 1, 1]])
+                ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                ticketFormat.push(["text", ' TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total))])
+                ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                ticketFormat.push(["text", self.Ticket.barcode + ' :: ' + self.Ticket.key])
                 ticketFormat.push(["qr",self.Ticket.key])
-                ticketFormat.push(["text", self.Ticket.barcode + ' :: '])
-                ticketFormat.push(["text", self.Ticket.key + '\n'])
-                ticketFormat.push(["cut"])
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
             }
         }),
@@ -289,7 +294,19 @@
                 ieps: 0,
                 total: 0,
                 proccessing: false,
-                sellpoint: {},
+                sellpoint: 0,
+                client: {
+                    id: 0,  
+                    name: '',
+                    phone: '',
+                    rfc: '',
+                    email: '',
+                },
+                data: {
+                    datetimeOfDelivery: '',
+                    destination: '',
+                    notes: '',
+                },
             }
         }),
         makeCut: (() => {
@@ -416,6 +433,7 @@
         recibePrintTicket: ((data) => {
             //if(data.sellpoint.vendors.includes({{request.user.id}})) 
             self.Tickets.unshift(data)
+            console.log(data)
         }),
         recibeScanTicket: ((data) => {
             updateTicket = self.Tickets.find(function(ticket) {
