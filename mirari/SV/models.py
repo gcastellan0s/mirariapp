@@ -493,6 +493,12 @@ class Ticket(Model_base):
     iva = models.FloatField(default=0)
     ieps = models.FloatField(default=0)
 
+    client = models.ForeignKey('Client', null=True, blank=True, on_delete=models.SET_NULL)
+    clientName = models.CharField(max_length=250, null=True, blank=True)
+    datetimeOfDelivery = models.DateTimeField(null=True, blank=True)
+    destination = models.CharField(max_length=250, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True) 
+
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -505,7 +511,7 @@ class Ticket(Model_base):
     def my_organization(self):
         return self.sellpoint.my_organization()
     def new(self, ticket):
-        self.sellpoint = Sellpoint.objects.get(id = ticket['sellpoint']['id'])
+        self.sellpoint = Sellpoint.objects.get(id = ticket['sellpoint'])
         self.barcode = self.sellpoint.get_serial()
         self.key = ticket['key']
         self.user = User.objects.get(id=ticket['user'])
@@ -1039,7 +1045,7 @@ VARS = {
     'NEW_GENDER':'un nuevo',
     'THIS':'este',
     'APP':APP,
-    'FORM': ('name','sellpoints'),
+    'FORM': ('name','email','rfc','phone','haveReturn','haveCredit','sellpoints'),
     'SELECTQ': {
         'sellpoints': {
             'model': ['SV', 'Sellpoint'],
@@ -1064,10 +1070,11 @@ class Client(Model_base):
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, verbose_name="", blank=True, null=True)
     sellpoints = models.ManyToManyField('Sellpoint', related_name='+', blank=True, verbose_name='Donde factura? ', help_text='Si no eliges ninguno afecta a todas')
     name = models.CharField('Nombre del cliente', max_length=250)
-    contact = models.CharField(verbose_name='Correo o teléfono de contacto', max_length=255, blank=True, null=True, help_text="Correo o teléfono de contacto")
-    #rfc = MXRFCField(verbose_name="RFC", blank=True, null=True)
-    #razon_social = models.CharField(verbose_name='', max_length=255, blank=True, null=True, help_text="Razon social de persona Física o Moral")
-    #is_client = models.BooleanField('Es cliente?', default=True, help_text='')
+    phone = models.CharField(verbose_name='Telefono', max_length=10, blank=True, null=True, help_text="Teléfono de contacto a 10 digitos")
+    rfc = models.CharField(verbose_name='RFC', max_length=15, blank=True, null=True, help_text="RFC de facturación")
+    email = models.EmailField(verbose_name='Correo', max_length=255, blank=True, null=True, help_text="Email de contacto")
+    haveReturn = models.BooleanField('Puede devolver?', default=True,)
+    haveCredit = models.BooleanField('Tiene crédito?', default=True,)
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar Cliente?')
     VARS = VARS
     class Meta(Model_base.Meta):

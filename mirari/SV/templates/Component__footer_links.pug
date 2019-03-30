@@ -1,17 +1,17 @@
 div(v-if="Sellpoint")
-    router-link(to="/order" v-if="includes(Sellpoint.orders, {{request.user.id}})")
+    router-link(:to="{path:'order', query:{orderMode:'selectOrder'}}" v-if="includes(Sellpoint.orders, {{request.user.id}}) && $route.path != '/order'")
         a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem")
             i.fas.fa-hand-holding-usd.mr-2
             | PEDIDO
-    router-link(to="/casher")
+    router-link(to="/casher"  v-if="$route.path != '/casher'")
         a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem")
             i.fas.fa-credit-card.pr-2
             | CAJA
-    router-link(:to="{path:'sellpoint', query:{sellpointMode:'sellpoint'}}")
+    router-link(:to="{path:'sellpoint', query:{sellpointMode:'sellpoint'}}" v-if="$route.path != '/sellpoint'")
         a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem")
             i.fas.fa-store.pr-2
             | VENTA
-    router-link(to="/dashboard")
+    router-link(to="/dashboard" v-if="$route.path != '/dashboard'")
         a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem")
             strong
                 i.fas.fa-ellipsis-h.pr-2

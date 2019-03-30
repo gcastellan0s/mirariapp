@@ -57,15 +57,16 @@
                                         span.media-body.d-block
                                             span.fas.fa-angle-up
                                 .d-flex.col-sm-4.align-items-center(v-if="$route.query.sellpointMode=='order'")
-                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="getBarCode()" :disabled="Ticket.products.length<1")
+                                    button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="getDataOrder()" :disabled="Ticket.products.length<1")
                                         span.media-body.d-block
-                                            span.fas.fa-receipt.text-primary
+                                            span.fas.fa-receipt.text-success
                                 .d-flex.col-sm-4.align-items-center(v-if="$route.query.sellpointMode=='sellpoint'")
                                     button.btn.btn-default.btn-xl.card-body.align-items-center.text-center.waves-effect(v-on:click="getBarCode()" :disabled="Ticket.products.length<1")
                                         span.media-body.d-block
                                             span.fas.fa-print.text-primary
                                 .d-flex.col-sm-12.align-items-center(v-if="$route.query.sellpointMode=='order' && ClientName")
-                                    h5 ${ClientName}
+                                    p.px-2.py-2.mb-0 
+                                        span ${ClientName}
                         div(v-if="Ticket")
                             .card-body.d-flex.justify-content-between.py-1(v-for="line in Ticket.products")
                                 .text-large ${line.quantity}
