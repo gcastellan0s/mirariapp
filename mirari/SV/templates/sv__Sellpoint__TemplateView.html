@@ -204,6 +204,7 @@
             if (self.Sellpoint.have_casher) self.Ticket.status = 'PENDIENTE'
             self.Ticket.sellpoint.id = self.Sellpoint.id
             self.Ticket.sellpoint.name = self.Sellpoint.name
+            self.Ticket.sellpoint.color = self.Sellpoint.color
             self.Ticket.username = '{{request.user.visible_username}}'
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getBarCode', {
                 ticket: JSON.stringify(self.Ticket),
