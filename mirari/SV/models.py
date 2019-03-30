@@ -511,7 +511,7 @@ class Ticket(Model_base):
     def my_organization(self):
         return self.sellpoint.my_organization()
     def new(self, ticket):
-        self.sellpoint = Sellpoint.objects.get(id = ticket['sellpoint'])
+        self.sellpoint = Sellpoint.objects.get(id = ticket['sellpoint']['id'])
         self.barcode = self.sellpoint.get_serial()
         self.key = ticket['key']
         self.user = User.objects.get(id=ticket['user'])
