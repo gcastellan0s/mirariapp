@@ -91,6 +91,9 @@
 
     {%block mounted%}
         self.getStates(postFunctions=true)
+        setInterval(function(){
+            self.getStates(postFunctions=false)
+        }, 600000);
     {%endblock mounted%}
 
     {%block methods%}
@@ -103,7 +106,7 @@
                 if (event == 'scanTicket') self.recibeScanTicket(data);
                 if (event == 'reloadSystem') self.recibeReloadSystem(data);
                 if (event == 'getStates') self.recibeGetStates(data);
-            });
+            });   
         }),
         inititTypehead: (() => {
             var substringMatcher = function(strs) {
