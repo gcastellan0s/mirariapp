@@ -119,6 +119,10 @@ class Sellpoint__ApiView(Generic__ApiView):
                     for pmenu in productattribute.product.menu.all():
                         if not pmenu.pk in menu:
                             menu.append(pmenu.pk)
+                if request.GET.get('get_object') == 'tickets':
+                    return JsonResponse({
+                        'tickets':TicketSerializer(Ticket.objects.filter(cut__final_time__isnull=True,sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all()),many=True).data,
+                    }, safe=False)
                 return JsonResponse({
                     'sellpoints': SellpointSerializer( sellpoints , many=True ).data,
                     'productAttributes': ProductAttributesSerializer( productattributes, many=True ).data,
