@@ -193,6 +193,7 @@
             });
         }),
         getBarCode: ((print=true, send=true, init=true) => {
+            Block('Generando...')
             self.Ticket.key = self.randomChars(12, 'aplha_numbers')
             self.Ticket.format_time = String(moment().format('L'))
             self.Ticket.format_date = String(moment().format('LTS'))
@@ -204,22 +205,25 @@
                 ticket: JSON.stringify(self.Ticket),
             }, errorDialog=false)
             .then((json) => {
+                Block('Imprimiendo...')
                 self.Ticket.barcode = json.data.ticket.barcode
                 self.Ticket.cut = json.data.ticket.cut
             }).catch((error) => {
-                
+                Block('Imprimiendo sin internet...')
             }).finally(() => { 
                 if (print) self.printTicket(self.Ticket)
                 if (send) self.sendTicket(self.Ticket)
                 if (init) self.initTicket()
+                UnBlock();
                 if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher')
             })
+
         }),
         getDataOrder: (() => {
             self.$router.push({path:'order', query:{orderMode:'finishOrder'}})
         }),
         getStates: ((postFunctions = false) => {
-            //Block('Actualizando configuracion...')
+            Block('Actualizando configuracion...')
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates')
             .then(function(json){
                 self.Sellpoints = json.data.sellpoints
