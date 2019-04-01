@@ -473,6 +473,27 @@ VARS = {
             'title': 'Estatus',
         },
     ],
+    'FILTERS': {
+        'status': {
+            'size':'4',
+            'label':'Filtrar estatus',
+            'list': [
+                ['COBRADO','Mostrar Cobrados'],
+                ['PENDIENTE','Mostrar Pendientes'],
+            ],
+        },
+        'sellpoint': {
+            'size':'4',
+            'label':'Punto de venta',
+            'model':['SV','Sellpoint'],
+            'query':[
+                (
+                    ('organization','Organization.objects.get(pk=self.request.session.get("organization"))'),
+                    ('active','True'),
+                )
+            ],
+        }
+    },
 }
 class Ticket(Model_base):
     STATUS_TICKET = (
@@ -749,6 +770,19 @@ VARS = {
             """,
         },
     ],
+    'FILTERS': {
+        'sellpoint': {
+            'size':'4',
+            'label':'Punto de venta',
+            'model':['SV','Sellpoint'],
+            'query':[
+                (
+                    ('organization','Organization.objects.get(pk=self.request.session.get("organization"))'),
+                    ('active','True'),
+                )
+            ],
+        }
+    },
 }
 class Cut(Model_base):
     sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)

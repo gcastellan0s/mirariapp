@@ -506,8 +506,8 @@ class Base_List(object):
         return btn_delete
     def filters(self):
         filters = []
-        if self.FILTERS:
-            for key, value in self.FILTERS.items():
+        if 'FILTERS' in self.model.VARS:
+            for key, value in self.model.VARS['FILTERS'].items():
                 options = []
                 if 'list' in value:
                     for object in value['list']:
