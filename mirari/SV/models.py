@@ -91,7 +91,7 @@ class Sellpoint(Model_base):
     def get_serial(self):
         return self.serial.get_serial()
     def getCut(self):
-        #return Cut.objects.get(id=59) #### Enviar corte
+        return Cut.objects.get(id=59) #### Enviar corte
         cut = Cut.objects.filter(sellpoint=self, final_time__isnull=True).first()
         if not cut:
             cut = Cut().new(self)
@@ -771,7 +771,7 @@ VARS = {
         },
     ],
     'FILTERS': {
-        'sellpoint': {
+            'sellpoint': {
             'size':'4',
             'label':'Punto de venta',
             'model':['SV','Sellpoint'],
@@ -1079,7 +1079,7 @@ VARS = {
     'NEW_GENDER':'un nuevo',
     'THIS':'este',
     'APP':APP,
-    'FORM': ('name','email','rfc','phone','haveReturn','haveCredit','sellpoints'),
+    'FORM': ('name','email','rfc','phone','sellpoints'),
     'SELECTQ': {
         'sellpoints': {
             'model': ['SV', 'Sellpoint'],
@@ -1107,8 +1107,6 @@ class Client(Model_base):
     phone = models.CharField(verbose_name='Telefono', max_length=10, blank=True, null=True, help_text="Teléfono de contacto a 10 digitos")
     rfc = models.CharField(verbose_name='RFC', max_length=15, blank=True, null=True, help_text="RFC de facturación")
     email = models.EmailField(verbose_name='Correo', max_length=255, blank=True, null=True, help_text="Email de contacto")
-    haveReturn = models.BooleanField('Puede devolver?', default=True,)
-    haveCredit = models.BooleanField('Tiene crédito?', default=True,)
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar Cliente?')
     VARS = VARS
     class Meta(Model_base.Meta):
