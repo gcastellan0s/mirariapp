@@ -74,6 +74,6 @@ MENU = {
                 'model': APP + '.Client',
                 'url': 'Generic__ListView',
             },
-        ]
-    }
+        ],
+    },
 }

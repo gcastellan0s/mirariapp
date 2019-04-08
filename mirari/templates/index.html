@@ -27,7 +27,10 @@
 	<script src="{%static 'mirari/js/socketio.js'%}"></script>
 	{%block base_js%}{%endblock base_js%}
 	<script>
-		{%block vue_constants%}{%endblock vue_constants%}
+		{%block js_constants%}{%endblock js_constants%}
+	</script>
+    <script>
+		{%block js_plugins%}{%endblock js_plugins%}
 	</script>		
 	<script type="text/javascript" charset="utf-8">
 		{%block global_functions%}{%endblock global_functions%}
@@ -37,6 +40,9 @@
 			el: '#app',
 			delimiters: ['${', '}'],
 			{%block vue_router%}{%endblock vue_router%}
+            components: {
+				{%block vue_components%}{%endblock vue_components%}
+			},
 			data: {
 				{%block vue_data%}{%endblock vue_data%}
 			},
@@ -57,6 +63,7 @@
 				{%block vue_filters%}{%endblock vue_filters%}
 			}
 		});
+        {%block vue_vuecomponents%}{%endblock vue_vuecomponents%}
 	</script>
 	{%block base_scripts%}{%endblock base_scripts%}
 </body> 
