@@ -19,7 +19,10 @@
                                     td ${ticket.date|FormatTDate}
                                     td 
                                         strong ${ticket.barcode}
-                                    td $ ${ticket.total|formatPrice}
+                                    td(v-if="ticket.onAccount") 
+                                        | $ ${ticket.onAccount|formatPrice}
+                                    td(v-if="!ticket.onAccount") 
+                                        | $ ${ticket.total|formatPrice}
                 // Layout footer
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
@@ -28,5 +31,4 @@
                                 span
                         include Component__footer_links.pug
     .layout-overlay.layout-sidenav-toggle
-
 

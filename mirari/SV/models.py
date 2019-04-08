@@ -2,9 +2,6 @@
 from mirari.mirari.models import *
 from .vars import *
 
-
-
-########################################################################################
 ########################################################################################
 VARS = {
     'NAME':'Punto de venta',
@@ -107,8 +104,6 @@ class Sellpoint(Model_base):
             self.serial = serial
             self.save()
 
-
-########################################################################################
 ########################################################################################
 VARS = {
     'NAME':'Menu',
@@ -171,8 +166,6 @@ class Menu(Model_base, MPTTModel):
     def get_products(self):
         return Product.objects.filter(menu = self, is_active=True)
 
-
-########################################################################################
 ########################################################################################
 VARS = {
     'NAME':'Producto',
@@ -357,8 +350,6 @@ def sellpoints_changed(sender, **kwargs):
             productAttributes.save()
 m2m_changed.connect(sellpoints_changed, sender=Product.sellpoints.through)
 
-
-########################################################################################
 ########################################################################################
 VARS = {
     'NAME':'Atributo de producto',
@@ -426,9 +417,6 @@ class ProductAttributes(Model_base):
     def get_sellpoint(self):
         return mark_safe(self.render_boolean_del('<span class="m--font-'+self.sellpoint.render_string_color(self.sellpoint.is_active)+'" style="color:'+self.sellpoint.color+'!important">'+self.sellpoint.name+'</span>', self.sellpoint.is_active))
 
-
-
-########################################################################################
 ########################################################################################
 VARS = {
     'NAME':'Ticket',
@@ -513,13 +501,18 @@ class Ticket(Model_base):
     total = models.FloatField(default=0)
     iva = models.FloatField(default=0)
     ieps = models.FloatField(default=0)
-
+    onAccount = models.FloatField(default=0)
     client = models.ForeignKey('Client', null=True, blank=True, on_delete=models.SET_NULL)
+    clientID = models.CharField(max_length=20, null=True, blank=True)
     clientName = models.CharField(max_length=250, null=True, blank=True)
     datetimeOfDelivery = models.DateTimeField(null=True, blank=True)
     destination = models.CharField(max_length=250, null=True, blank=True)
-    notes = models.TextField(null=True, blank=True) 
-
+    notes = models.TextField(null=True, blank=True)
+    email = models.CharField(max_length=250, null=True, blank=True)
+    phone = models.CharField(max_length=15, null=True, blank=True)
+    rfc = models.CharField(max_length=20, null=True, blank=True)
+    rasurado = models.BooleanField(default=False)
+    invoiced = models.BooleanField(default=False)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -543,6 +536,28 @@ class Ticket(Model_base):
         self.total = ticket['total']
         self.iva = ticket['iva']
         self.ieps = ticket['ieps']
+        if ticket['onAccount']:
+            self.onAccount = ticket['onAccount']
+        if ticket['clientID']:
+            self.client = Client.objects.filter(id=ticket['clientID']).first()
+            self.clientID = ticket['clientID']
+            if self.client:
+                self.client.balance -= float(self.total) - float(self.onAccount)
+                self.client.save()
+        if ticket['clientName']:
+            self.clientName = ticket['clientName']
+        if ticket['datetimeOfDelivery']:
+            self.datetimeOfDelivery = datetime.datetime.strptime(ticket['datetimeOfDelivery'], '%m/%d/%Y %H:%M:%S')
+        if ticket['destination']:
+            self.destination = ticket['destination']
+        if ticket['notes']:
+            self.notes = ticket['notes']
+        if ticket['email']:
+            self.email = ticket['email']
+        if ticket['phone']:
+            self.phone = ticket['phone']
+        if ticket['rfc']:
+            self.rfc = ticket['rfc']
         self.cut = self.sellpoint.getCut()
         self.save()
         for product in ticket['products']:
@@ -625,8 +640,6 @@ class TicketProducts(Model_base):
             self.offers.add(Offer.objects.get(id=offer['id']))
         return self
 
-
-########################################################################################
 ########################################################################################
 class CutProduct():
     product = ''
@@ -662,6 +675,7 @@ class CutProduct():
     def getIepsMoney(self):
         return Money("{0:.2f}".format(self.ieps), Currency.MXN).format('es_MX')
 
+########################################################################################
 VARS = {
     'NAME':'Corte',
     'PLURAL':'Cortes',
@@ -788,7 +802,7 @@ class Cut(Model_base):
     sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
     initial_time = models.DateTimeField(auto_now_add=True)
     final_time = models.DateTimeField(null=True, blank=True,)
-    ras = models.PositiveIntegerField(default=100)
+    rasurado = models.PositiveIntegerField(default=100)
     serial = models.IntegerField(default=1)
     show = models.BooleanField(default=True)
     VARS = VARS
@@ -819,31 +833,41 @@ class Cut(Model_base):
         return '-'
     def getTotal(self):
         total = 0
-        for ticket in Ticket.objects.filter(cut=self, status='COBRADO'):
+        for ticket in self.getTickets(status='COBRADO'):
             total += ticket.total
         return "{0:.2f}".format(total)
     def getIva(self):
         total = 0
-        for ticket in Ticket.objects.filter(cut=self, status='COBRADO'):
+        for ticket in self.getTickets(status='COBRADO'):
             total += ticket.iva
         return "{0:.2f}".format(total)
     def getIeps(self):
         total = 0
-        for ticket in Ticket.objects.filter(cut=self, status='COBRADO'):
+        for ticket in self.getTickets(status='COBRADO'):
             total += ticket.ieps
         return "{0:.2f}".format(total)
     def getSubtotal(self):
         total = 0
-        for ticket in Ticket.objects.filter(cut=self, status='COBRADO'):
+        for ticket in self.getTickets(status='COBRADO'):
             total += ticket.total - ticket.ieps - ticket.iva
         return "{0:.2f}".format(total)
+    def getLenFaltante(self):
+        return len(self.getTickets(status='PENDIENTE'))
     def getFaltante(self):
         total = 0
-        for ticket in Ticket.objects.filter(cut=self, status='PENDIENTE'):
+        for ticket in self.getTickets(status='PENDIENTE'):
             total += ticket.total
         return "{0:.2f}".format(total)
-    def getTickets(self):
-        return Ticket.objects.filter(cut=self)
+    def getTickets(self, status='all'):
+        if status=='all':
+            tickets = Ticket.objects.filter(cut=self).exclude(rasurado = True)
+        elif status=='PENDIENTE':
+            tickets = Ticket.objects.filter(cut=self, status='PENDIENTE').exclude(rasurado = True)
+        elif status=='COBRADO':
+            tickets = Ticket.objects.filter(cut=self, status='COBRADO').exclude(rasurado = True)
+        elif status=='100':
+            tickets = Ticket.objects.filter(cut=self)
+        return tickets
     def getLenTickets(self):
         return len(self.getTickets())
     def getOffersLen(self):
@@ -851,8 +875,6 @@ class Cut(Model_base):
         for ticket in Ticket.objects.filter(cut=self):
             total += ticket.getLenOffers()
         return total
-    def getLenFaltante(self):
-        return len(Ticket.objects.filter(cut=self, status='PENDIENTE'))
     def makeCut(self):
         if self.getTickets():
             self.final_time = datetime.datetime.now()
@@ -884,9 +906,24 @@ class Cut(Model_base):
                 if not exist:
                     products.append(cutProduct)
         return  sorted(products, key=lambda x: x.quantity, reverse=True)
+    def makeRasurado(self, value):
+        total = 0
+        self.getTickets(status='100').update(rasurado=False)
+        for ticket in self.getTickets(status='100'):
+            total += ticket.total
+        finaltotal = total * value / 100
+        print(finaltotal)
+        for ticket in self.getTickets(status='100').exclude(invoiced=True).order_by('-total'):
+            if total <= finaltotal:
+                break
+            else:
+                ticket.rasurado = True
+                ticket.save()
+                total -= ticket.total
+        self.rasurado = value
+        self.save()
+        return True
 
-
-#########################################################################################
 #########################################################################################
 VARS = {
     'NAME':'Descuento',
@@ -926,7 +963,8 @@ VARS = {
                 Div('initialDate'),
                 Div('finalDate'),
                 Div('sellpoints'),
-                css_class="col-md-2"
+                Div('clients'),
+                css_class="col-md-3"
             ),
             Div(
                 Div('discountType'),
@@ -940,13 +978,13 @@ VARS = {
                 Div('conditionValue'),
                 Div('conditionMenus'),
                 Div('conditionProducts'),
-                css_class="col-md-5"
+                css_class="col-md-4"
             ),
             css_class="form-group m-form__group row"
         ),
     ],
     'FORM_SIZE': ('col-xl-12','col-xl-12'),
-    'FORM_CLASS': 'm-form',
+    'FORM_CLASS': 'm-form small_form',
     'SELECTQ': {
         'discountProducts': {
             'model': ['SV', 'Product'],
@@ -993,6 +1031,17 @@ VARS = {
                 ),
             ],
         },
+        'clients': {
+            'model': ['SV', 'Client'],
+            'plugin': 'select2',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                    ('active', 'True'),
+                    ('is_active', 'True'),
+                ),
+            ],
+        },
     },
 }
 class Offer(Model_base):
@@ -1006,6 +1055,7 @@ class Offer(Model_base):
     )
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
     sellpoints = models.ManyToManyField('Sellpoint', related_name='+', blank=True, verbose_name='Puntos de venta que afecta', help_text='Si no eliges ninguno afecta a todas')
+    clients = models.ManyToManyField('Client', related_name='+', blank=True, verbose_name='Clientes a los que aplica')
     name = models.CharField('Nombre del descuento', max_length=250)
     discountProducts = models.ManyToManyField('Product', verbose_name='Productos a los que afecta el descuento', blank=True, related_name='+',)
     discountMenus = models.ManyToManyField('Menu', verbose_name='Menus a los que afecta el descuento', blank=True, related_name='+',)
@@ -1067,9 +1117,36 @@ class Offer(Model_base):
             ids.append(product.id)
         return ids
 
-
-
 ########################################################################################
+VARS = {
+    'NAME':'Perfil cliente',
+    'PLURAL':'Perfiles de cliente',
+    'MODEL':'ClientProfile',
+    'NEW':'NUEVO',
+    'NEW_GENDER':'un nuevo',
+    'THIS':'este',
+    'APP':APP,
+    'FORM': ('name',),
+    'LIST': [
+        {
+            'field': 'name',
+            'title': 'Nombre',
+        },
+    ],
+}
+class ClientProfile(Model_base):
+    organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
+    name = models.CharField('Nombre del perfil', max_length=250)
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return '{0}'.format(self.name)
+    def QUERY(self, view):
+        return ClientProfile.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
+
 ########################################################################################
 VARS = {
     'NAME':'Cliente',
@@ -1079,7 +1156,7 @@ VARS = {
     'NEW_GENDER':'un nuevo',
     'THIS':'este',
     'APP':APP,
-    'FORM': ('name','email','rfc','phone','sellpoints'),
+    'FORM': ('name','email','rfc','phone','sellpoints', 'clientProfile'),
     'SELECTQ': {
         'sellpoints': {
             'model': ['SV', 'Sellpoint'],
@@ -1106,8 +1183,10 @@ class Client(Model_base):
     name = models.CharField('Nombre del cliente', max_length=250)
     phone = models.CharField(verbose_name='Telefono', max_length=10, blank=True, null=True, help_text="Teléfono de contacto a 10 digitos")
     rfc = models.CharField(verbose_name='RFC', max_length=15, blank=True, null=True, help_text="RFC de facturación")
-    email = models.EmailField(verbose_name='Correo', max_length=255, blank=True, null=True, help_text="Email de contacto")
+    email = models.CharField(verbose_name='Correo', max_length=255, blank=True, null=True, help_text="Email de contacto")
+    clientProfile = models.ForeignKey('clientProfile', related_name='+', on_delete=models.SET_NULL, verbose_name="Perfil de cliente", blank=True, null=True)
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar Cliente?')
+    balance = models.FloatField(default=0, blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -1117,3 +1196,5 @@ class Client(Model_base):
         return '{0}'.format(self.name)
     def QUERY(self, view):
         return Client.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
+    def getTickets(self):
+        return Ticket.objects.filter(client=self)

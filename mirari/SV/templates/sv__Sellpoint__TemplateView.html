@@ -3,7 +3,7 @@
 {%load i18n%}
 
 {%block styles%}
-    <link rel="stylesheet" href="{%static 'appwork-html/vendor/libs/typeahead-js/typeahead.css'%}">
+    <link rel="stylesheet" href="{%static 'appwork-html/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css'%}">
 {%endblock styles%}
 
 {%block css%}
@@ -15,11 +15,12 @@
     <div v-else-if="$route.path === '/casher'">{%include 'Template__casher.pug'%}</div>
     <div v-else-if="$route.path === '/dashboard'">{%include 'Template__dashboard.pug'%}</div>
     <div v-else-if="$route.path === '/order'">{%include 'Template__order.pug'%}</div>
+    <div v-else-if="$route.path === '/client'">{%include 'Template__client.pug'%}</div>
 {%endblock%}
 
 {%block js%}
     <script src="{%static 'appwork-html/vendor/libs/moment/moment.js'%}"></script>
-    <script src="{%static 'appwork-html/vendor/libs/typeahead-js/typeahead.js'%}"></script>
+    <script src="{%static 'appwork-html/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js'%}"></script>
 {%endblock js%}
 
 <script>
@@ -29,6 +30,9 @@
         const IEPS = 0.08;
         var PrivateSocket = null
     {%endblock constants%}
+
+    {%block plugins%}
+    {%endblock plugins%}
 
     {%block router%}router,{%endblock router%}
 
@@ -57,18 +61,15 @@
             ieps: 0,
             total: 0,
             sellpoint: {},
-            client: {
-                id: 0,  
-                name: '',
-                phone: '',
-                rfc: '',
-                email: '',
-            },
-            data: {
-                datetimeOfDelivery: '',
-                destination: '',
-                notes: '',
-            },
+            onAccount: 0,
+            datetimeOfDelivery: null,
+            destination: null,
+            notes: null,
+            clientID: 0,
+            clientName: null,
+            email: null,
+            phone: null,
+            rfc: null,
         },
         Tickets: [],
         Printers: [],
@@ -84,9 +85,11 @@
             nivel: 1,
             organization: {{request.user.organization.id}},
         },
-        ClientName:'',
         Clients:[],
-        Client: null,
+        Client: {
+            id: 0,
+            name: '',
+        },
     {%endblock data%}
 
     {%block mounted%}
@@ -107,32 +110,6 @@
                 if (event == 'reloadSystem') self.recibeReloadSystem(data);
                 if (event == 'getStates') self.recibeGetStates(data);
             });   
-        }),
-        inititTypehead: (() => {
-            var substringMatcher = function(strs) {
-                return function findMatches(q, cb) {
-                    var matches, substringRegex;
-                    matches = [];
-                    substrRegex = new RegExp(q, 'i');
-                    $.each(strs, function(i, str) {
-                        if (substrRegex.test(str.name)) {
-                        matches.push(str.name);
-                        }
-                    });
-                    cb(matches);
-                };
-            };
-            $('#typeahead-input').typeahead({
-                highlight: true,
-                minLength: 1
-            },
-            {
-                name: 'clients',
-                source: substringMatcher(self.Clients),
-            });
-            $('#typeahead-input').on('typeahead:selected', function (e, datum) {
-                self.ClientName = datum
-            });
         }),
         selectMenu:((menu) => {self.Menu = menu}),
         addProduct: ((productattribute) => {
@@ -220,11 +197,25 @@
                 if (send) self.sendTicket(self.Ticket)
                 if (init) self.initTicket()
                 UnBlock();
-                if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher')
+                if (self.includes(self.Sellpoint.orders, {{request.user.id}})){
+                    self.resetOrder()
+                    self.$router.push({path:'order', query:{orderMode:'selectOrder'}})
+                } 
+                else if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher')
             })
-
         }),
         getDataOrder: (() => {
+            if(self.Client.id){
+                self.Ticket.clientID = self.Client.id
+            }
+            else{
+                self.Ticket.clientID = self.randomChars(6, 'aplha_numbers')
+            }
+            self.Ticket.onAccount = self.Ticket.total
+            self.Ticket.clientName = self.Client.name
+            self.Ticket.email = self.Client.email
+            self.Ticket.phone = self.Client.phone
+            self.Ticket.rfc = self.Client.rfc
             self.$router.push({path:'order', query:{orderMode:'finishOrder'}})
         }),
         getStates: ((postFunctions = false) => {
@@ -237,8 +228,6 @@
                 self.ProductAttributes = json.data.productAttributes
                 self.Offers = json.data.offers
                 self.Tickets = json.data.tickets
-                self.Clients = json.data.clients
-                self.inititTypehead()
                 if(postFunctions){
                     self.initializePublicSocket()
                     if(self.Menus) self.Menu = self.Menus[0]
@@ -260,7 +249,8 @@
                 ticketFormat = []
                 ticketFormat.push(["times",[self.Sellpoint.number_tickets]])
                 ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
-                ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total))])
+                if (self.Ticket.onAccount){ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
+                else {ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total))])}
                 ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                 if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1])
                 if(self.Sellpoint.header_line_black_2) ticketFormat.push(["text", self.Sellpoint.header_line_black_2])
@@ -268,6 +258,15 @@
                 if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1])
                 if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2])
                 ticketFormat.push(["text", self.Ticket.format_date + ' ' + self.Ticket.format_time])
+                if (self.Ticket.clientID) ticketFormat.push(["text", '------------------------------------------'])
+                if (self.Ticket.clientID) ticketFormat.push(["text", 'ID Cliente: ' + self.Ticket.clientID])
+                if (self.Ticket.clientName) ticketFormat.push(["text", 'Nombre: ' + self.Ticket.clientName])
+                if (self.Ticket.email) ticketFormat.push(["text", 'Email: ' + self.Ticket.email])
+                if (self.Ticket.phone) ticketFormat.push(["text", 'Teléfono: ' + self.Ticket.phone])
+                if (self.Ticket.rfc) ticketFormat.push(["text", 'RFC: ' + self.Ticket.rfc])
+                if (self.Ticket.datetimeOfDelivery) ticketFormat.push(["text", 'Fecha de entrega: ' + self.Ticket.datetimeOfDelivery])
+                if (self.Ticket.destination) ticketFormat.push(["text", 'Destino: ' + self.Ticket.destination])
+                if (self.Ticket.notes) ticketFormat.push(["text", 'Notas: ' + self.Ticket.notes])
                 ticketFormat.push(["text", '------------------------------------------'])
                 self.Ticket.products.forEach(function(product){
                     ticketFormat.push(["set",["LT", "A", "bu", 1, 1]])
@@ -279,10 +278,9 @@
                 });
                 ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                 ticketFormat.push(["text", 'IVA: $' + self.$options.filters.formatPrice(String(self.Ticket.iva))])
-                ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                ticketFormat.push(["text", ' IEPS: $' + self.$options.filters.formatPrice(String(self.Ticket.ieps))])
-                ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                ticketFormat.push(["text", ' TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total))])
+                ticketFormat.push(["text", 'IEPS: $' + self.$options.filters.formatPrice(String(self.Ticket.ieps))])
+                if (self.Ticket.onAccount){ticketFormat.push(["text", 'A CUENTA: $' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
+                ticketFormat.push(["text", 'TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total))])
                 ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                 ticketFormat.push(["text", self.Ticket.barcode + ' :: ' + self.Ticket.key])
                 ticketFormat.push(["qr",self.Ticket.key])
@@ -304,18 +302,15 @@
                 total: 0,
                 proccessing: false,
                 sellpoint: {},
-                client: {
-                    id: 0,  
-                    name: '',
-                    phone: '',
-                    rfc: '',
-                    email: '',
-                },
-                data: {
-                    datetimeOfDelivery: '',
-                    destination: '',
-                    notes: '',
-                },
+                onAccount: 0,
+                datetimeOfDelivery: null,
+                destination: null,
+                notes: null,
+                clientID: 0,
+                clientName: null,
+                email: null,
+                phone: null,
+                rfc: null,
             }
         }),
         makeCut: (() => {
@@ -399,15 +394,28 @@
                 }
             });
         }),
-        getClient: ((ClientName) => {
-            console.log(ClientName)
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClient', {ClientName: ClientName})
-            .then(function(json){
-                console.log(json)
-                self.Client = json.data.client
-            }).catch((error) => {
-            }).finally(() => {
-            });
+        getClient: ((client) => {
+            if(client.id){
+                Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClient', client)
+                .then(function(json){
+                    console.log(json)
+                    self.Client = json.data.client
+                }).catch((error) => {
+                    console.log(error)
+                });
+            }
+            else{
+                self.Client = client
+            }
+            self.$router.push({path:'order', query:{orderMode:'selectOrder'}})
+        }),
+        resetOrder: ((resetTicket=false)=>{
+            self.Clients = []
+            self.Client = {
+                id: 0,
+                name: ''
+            }
+            if(resetTicket) self.initTicket()
         }),
         /////SYSTEM
         redirect: ((url) => {
@@ -433,7 +441,6 @@
         recibePrintTicket: ((data) => {
             //if(data.sellpoint.vendors.includes({{request.user.id}})) 
             self.Tickets.unshift(data)
-            console.log(data)
         }),
         recibeScanTicket: ((data) => {
             updateTicket = self.Tickets.find(function(ticket) {
@@ -485,13 +492,6 @@
             if (!object) return false
             return object.includes(element)
         }),
-        checkClient: ((ClientName) => {
-            checkclient = self.Clients.find(function(client) {
-                return client.name == ClientName
-            });
-            if(checkclient) return true
-            return false
-        }),
     {%endblock methods%}
 
     {%block filters%}
@@ -509,7 +509,7 @@
         }),
         FormatTDate: ((value) => {
             moment.locale('es');
-            return moment(value).format('MMMM D, h:mm a')
+            return moment(value).format('DD/MM/YYYY h:mm:ss')
         }),
         padStart: ((value) => {
             return value.padStart(13, "1000000000000")
@@ -517,8 +517,30 @@
     {%endblock filters%}
 
     {%block watch%}
-        ClientName: function (newData, oldData) {
-            if(self.checkClient(newData)) self.getClient(newData)
+        'Client.name': function (newData, oldData) {
+            if(newData){
+                Ax('get', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClients&query='+newData)
+                .then(function(json){
+                    self.Clients = json.data.clients
+                }).catch((error) => {
+                    console.log(error)
+                });
+            }else{
+                self.resetOrder()
+            }
         }
     {%endblock watch%}
+
+    {%block vuecomponents%}
+        Vue.component('date-picker', {
+            mounted: function () {
+                $(this.$el).bootstrapMaterialDatePicker(
+                    {format : 'DD/MM/YYYY HH:mm',minDate : new Date(),lang: 'es-mx',cancelText: 'CANCELAR',switchOnClick : true}
+                ).on('change', function(e, date){
+                    self.Ticket.datetimeOfDelivery = self.$options.filters.FormatTDate(date.format()) 
+                });
+            },
+            template: '<input/>',
+        });
+    {%endblock vuecomponents%}
 </script>

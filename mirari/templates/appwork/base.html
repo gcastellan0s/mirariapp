@@ -69,9 +69,13 @@
 	{%block js%}{%endblock js%}
 {%endblock base_js%}
 
-{%block vue_constants%}
+{%block js_constants%}
 	{%block constants%}{%endblock constants%}
-{%endblock vue_constants%}
+{%endblock js_constants%}
+
+{%block js_plugins%}
+	{%block plugins%}{%endblock plugins%}
+{%endblock js_plugins%}
 
 {%block vue_vue%}
 	{%block vue%}{%endblock vue%}
@@ -80,6 +84,10 @@
 {%block vue_router%}
 	{%block router%}{%endblock router%}
 {%endblock vue_router%}
+
+{%block vue_components%}
+    {%block components%}{%endblock components%}
+{%endblock vue_components%}
 
 {%block vue_data%} 
 	{%block data%}{%endblock data%}
@@ -104,6 +112,10 @@
 {%block vue_filters%}
 	{%block filters%}{%endblock filters%}
 {%endblock vue_filters%}
+
+{%block vue_vuecomponents%}
+    {%block vuecomponents%}{%endblock vuecomponents%}
+{%endblock vue_vuecomponents%}
 
 {%block global_functions%}
 	{%include 'generic/includes/global_functions.html'%}

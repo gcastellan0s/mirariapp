@@ -34,6 +34,10 @@ class CutAdmin(PassAdmin):
 class OfferAdmin(PassAdmin):
 	pass
 
+@admin.register(ClientProfile)
+class ClientProfileAdmin(PassAdmin):
+	pass
+
 @admin.register(Client)
 class ClientAdmin(PassAdmin):
 	pass
