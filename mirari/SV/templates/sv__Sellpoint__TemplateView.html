@@ -216,7 +216,7 @@
                 self.Ticket.ieps += productLine.ieps
                 productLine.offers.forEach(function(offer){
                     if(offer.discountType == 'productValue'){
-                        discountValue = (offer.discountValue * 100 / productLine.price)
+                        discountValue = 100 - (offer.discountValue * 100 / productLine.price)
                         self.Ticket.total -= (productLine.total*(discountValue*.01))
                         self.Ticket.iva -= (productLine.iva*(discountValue*.01))
                         self.Ticket.ieps -= (productLine.ieps*(discountValue*.01))
