@@ -960,10 +960,6 @@ VARS = {
             'title': 'Nombre',
         },
         {
-            'field': 'property_getDiscountTypeName',
-            'title': 'Tipo de descuento',
-        },
-        {
             'field': 'discountValue',
             'title': 'Valor',
         },
@@ -974,6 +970,14 @@ VARS = {
         {
             'field': 'conditionValue',
             'title': 'Valor',
+        },
+        {
+            'field': 'property_getDiscountTypeName',
+            'title': 'Tipo de descuento',
+        },
+        {
+            'field': 'property_getIs_active',
+            'title': 'Activo?',
         },
     ],
     'FORM': [
@@ -1064,6 +1068,16 @@ VARS = {
             ],
         },
     },
+    'FILTERS': {
+        'is_active': {
+            'size':'4',
+            'label':'Mostrar activos?',
+            'list': [
+                [1,'Mostrar activos'],
+                [0,'Mostrar desactivados'],
+            ],
+        },
+    },
 }
 class Offer(Model_base):
     CONDITIONTYPE = (
@@ -1146,7 +1160,8 @@ class Offer(Model_base):
         return self.discountType
     def getDiscountValueName(self):
         return self.conditionType
-
+    def getIs_active(self):
+        return self.render_boolean(self.is_active)
 ########################################################################################
 VARS = {
     'NAME':'Perfil cliente',
