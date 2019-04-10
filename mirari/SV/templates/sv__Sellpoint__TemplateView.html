@@ -70,6 +70,7 @@
             email: null,
             phone: null,
             rfc: null,
+            ticketType: 'VENTA',
         },
         Tickets: [],
         Printers: [],
@@ -100,18 +101,40 @@
     {%endblock mounted%}
 
     {%block methods%}
+        getStates: ((postFunctions = false) => {
+            Block('Actualizando configuracion...')
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates')
+            .then(function(json){
+                self.Sellpoints = json.data.sellpoints
+                self.Sellpoint = self.Sellpoints[0]
+                self.Menus = json.data.menus
+                self.ProductAttributes = json.data.productAttributes
+                self.Offers = json.data.offers
+                self.Tickets = json.data.tickets
+                if(postFunctions){
+                    self.initializePublicSocket()
+                    if(self.Menus) self.Menu = self.Menus[0]
+                    if(!self.Sellpoint.printer) UnBlock()
+                }
+            }).catch((error) => {
+                UnBlock()
+            }).finally(() => {
+                if (!postFunctions){
+                    UnBlock()
+                }
+            });
+        }),
         initializePublicSocket: (() => {
             PublicSocket = io.connect('http://50.18.229.242:8002', {resource: 'PublicSocket/socket.io', 'force new connection': true});
             PublicSocket.emit('room', '{{request.user.organization.code}}');
             PublicSocket.on('Recibe_Event', (event, data) => {
-                if (event == 'sendTicket') self.recibePrintTicket(data);
+                if (event == 'getStates') self.recibeGetStates(data);
                 if (event == 'printerConection') self.recibePrinterConection(data);
+                if (event == 'sendTicket') self.recibePrintTicket(data);
                 if (event == 'scanTicket') self.recibeScanTicket(data);
                 if (event == 'reloadSystem') self.recibeReloadSystem(data);
-                if (event == 'getStates') self.recibeGetStates(data);
             });   
         }),
-        selectMenu:((menu) => {self.Menu = menu}),
         addProduct: ((productattribute) => {
             if (self.Price == 'PRECIO') price = productattribute.price
             else price = self.Price
@@ -149,13 +172,41 @@
             self.Price = 'PRECIO'
             return true
         }),
-        updateproductLineTotal: ((productLine) => {
-            productLine.total = productLine.price * productLine.quantity
-            if (productLine.iva) productLine.ivaTotal = (productLine.total / (IVA + 1) * IVA)
-            if (productLine.ieps) productLine.iepsTotal = (productLine.total / (IEPS + 1) * IEPS)
-            return productLine
+        addOffers: ((productLine) => {
+            self.Offers.filter(function(offer){return offer.mySellpoints.includes(self.Sellpoint.id)&&offer.myConditionProducts.includes(productLine.product.id)})
+            .forEach(function(element){
+                apply = true
+                if(element.clients.length>0){if(!element.clients.includes(self.Client.id))apply = false}
+                if(apply){
+                    productLinesConditionProducts = self.Ticket.products.filter(function(productLine){
+                        return element.myConditionProducts.includes(productLine.product.id)
+                    });
+                    productLinesDiscountProducts = self.Ticket.products.filter(function(productLine){
+                        return element.myDiscountProducts.includes(productLine.product.id)
+                    });
+                    if(element.conditionType == 'productQuantity') self.offerProductQuantity(element, productLinesConditionProducts, productLinesDiscountProducts)
+                }
+            });
         }),
-        makeTicketTotal: (() => {
+        offerProductQuantity: ((offer, productLinesConditionProducts, productLinesDiscountProducts) => {
+            ProductQuantity = 0
+            apply = false
+            productLinesConditionProducts.forEach(function(productLine){
+                ProductQuantity += productLine.quantity
+            });
+            if(ProductQuantity >= offer.conditionValue) apply = true
+            self.applyOrRemoveOffer(offer, productLinesConditionProducts, productLinesDiscountProducts, apply)
+        }),
+        applyOrRemoveOffer: ((offer, productLinesConditionProducts, prodproccessinguctLinesDiscountProducts, apply) => {
+            productLinesDiscountProducts.forEach(function(productLine){
+                if (apply == false){if(productLine.offers.length) productLine.offers = productLine.offers.filter(item => item !== offer)}
+                else{
+                    if(productLine.offers.length){if(!(productLine.offers.includes(offer))){productLine.offers.push(offer)}}
+                    else productLine.offers.push(offer)
+                }
+            });
+        }),
+        makeTicketTotal: (() => { ////// SE APLICAN LAS OFERTAS /////
             self.Ticket.total = 0
             self.Ticket.iva = 0
             self.Ticket.ieps = 0
@@ -164,85 +215,56 @@
                 self.Ticket.iva += productLine.iva
                 self.Ticket.ieps += productLine.ieps
                 productLine.offers.forEach(function(offer){
-                    if(offer.discountType == 'productPercent'){
+                    if(offer.discountType == 'productValue'){
+                        discountValue = (offer.discountValue * 100 / productLine.price)
+                        self.Ticket.total -= (productLine.total*(discountValue*.01))
+                        self.Ticket.iva -= (productLine.iva*(discountValue*.01))
+                        self.Ticket.ieps -= (productLine.ieps*(discountValue*.01))
+                        productLine.offerprice = productLine.price - (productLine.price*(discountValue*.01))
+                    }
+                    else if(offer.discountType == 'productPercent'){
                         self.Ticket.total -= (productLine.total*(offer.discountValue*.01))
                         self.Ticket.iva -= (productLine.iva*(offer.discountValue*.01))
                         self.Ticket.ieps -= (productLine.ieps*(offer.discountValue*.01))
+                        productLine.offerprice = productLine.price - (productLine.price*(offer.discountValue*.01))
                     }
                 });
             });
         }),
-        getBarCode: ((print=true, send=true, init=true) => {
+        updateproductLineTotal: ((productLine) => {
+            productLine.total = productLine.price * productLine.quantity
+            if (productLine.iva) productLine.ivaTotal = (productLine.total / (IVA + 1) * IVA)
+            if (productLine.ieps) productLine.iepsTotal = (productLine.total / (IEPS + 1) * IEPS)
+            return productLine
+        }),
+        getBarCode:((print=true, send=true, init=true) => {
             Block('Generando...')
             self.Ticket.key = self.randomChars(12, 'aplha_numbers')
-            self.Ticket.format_time = String(moment().format('L'))
-            self.Ticket.format_date = String(moment().format('LTS'))
+            self.Ticket.format_time = String(moment().format('LTS'))
+            self.Ticket.format_date = String(moment().format('L'))
             self.Ticket.status = 'COBRADO'
             if (self.Sellpoint.have_casher) self.Ticket.status = 'PENDIENTE'
             self.Ticket.sellpoint.id = self.Sellpoint.id
             self.Ticket.sellpoint.name = self.Sellpoint.name
             self.Ticket.sellpoint.color = self.Sellpoint.color
             self.Ticket.username = '{{request.user.visible_username}}'
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getBarCode', {
-                ticket: JSON.stringify(self.Ticket),
-            }, errorDialog=false)
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getBarCode',{ticket: JSON.stringify(self.Ticket)},errorDialog=false)
             .then((json) => {
                 Block('Imprimiendo...')
                 self.Ticket.barcode = json.data.ticket.barcode
                 self.Ticket.cut = json.data.ticket.cut
-            }).catch((error) => {
-                Block('Imprimiendo sin internet...')
+            }).catch((error) => { Block('Imprimiendo sin internet...')
             }).finally(() => { 
                 if (print) self.printTicket(self.Ticket)
-                if (send) self.sendTicket(self.Ticket)
+                if (send) self.emmitSendTicket(self.Ticket)
                 if (init) self.initTicket()
-                UnBlock();
                 if (self.includes(self.Sellpoint.orders, {{request.user.id}})){
                     self.resetOrder()
                     self.$router.push({path:'order', query:{orderMode:'selectOrder'}})
                 } 
                 else if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher')
-            })
-        }),
-        getDataOrder: (() => {
-            if(self.Client.id){
-                self.Ticket.clientID = self.Client.id
-            }
-            else{
-                self.Ticket.clientID = self.randomChars(6, 'aplha_numbers')
-            }
-            self.Ticket.onAccount = self.Ticket.total
-            self.Ticket.clientName = self.Client.name
-            self.Ticket.email = self.Client.email
-            self.Ticket.phone = self.Client.phone
-            self.Ticket.rfc = self.Client.rfc
-            self.$router.push({path:'order', query:{orderMode:'finishOrder'}})
-        }),
-        getStates: ((postFunctions = false) => {
-            Block('Actualizando configuracion...')
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates')
-            .then(function(json){
-                self.Sellpoints = json.data.sellpoints
-                self.Sellpoint = self.Sellpoints[0]
-                self.Menus = json.data.menus
-                self.ProductAttributes = json.data.productAttributes
-                self.Offers = json.data.offers
-                self.Tickets = json.data.tickets
-                if(postFunctions){
-                    self.initializePublicSocket()
-                    if(self.Menus) self.Menu = self.Menus[0]
-                    if(!self.Sellpoint.printer) UnBlock()
-                }
-            }).catch((error) => {
-                UnBlock()
-            }).finally(() => {
-                if (!postFunctions){
-                    UnBlock()
-                }
+                UnBlock();
             });
-        }),
-        sendTicket: ((ticket) => {
-            PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'sendTicket', ticket)
         }),
         printTicket: ((ticket) => { 
             if (PrivateSocket){
@@ -300,7 +322,6 @@
                 iva: 0,
                 ieps: 0,
                 total: 0,
-                proccessing: false,
                 sellpoint: {},
                 onAccount: 0,
                 datetimeOfDelivery: null,
@@ -311,13 +332,14 @@
                 email: null,
                 phone: null,
                 rfc: null,
+                ticketType: 'VENTA',
             }
         }),
         makeCut: (() => {
             Block(text="Haciendo corte...");
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
                 sellpoint: JSON.stringify(self.Sellpoint),
-            }, errorDialog=false)
+            })
             .then((json) => {
                 if (PrivateSocket){
                     ticketFormat = []
@@ -357,41 +379,9 @@
                     ticketFormat.push(["cut"])
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 }
-            }).catch((error) => {
-                console.log(error)
             }).finally(() => {
                 UnBlock()
                 self.emmitGetStates()
-            });
-        }),
-        addOffers: ((productLine) => {
-            self.Offers.filter(function(offer){return offer.mySellpoints.includes(self.Sellpoint.id)&&offer.myConditionProducts.includes(productLine.product.id)})
-            .forEach(function(element) {
-                productLinesConditionProducts = self.Ticket.products.filter(function(productLine){
-                    return element.myConditionProducts.includes(productLine.product.id)
-                });
-                productLinesDiscountProducts = self.Ticket.products.filter(function(productLine){
-                    return element.myDiscountProducts.includes(productLine.product.id)
-                });
-                if(element.conditionType == 'productQuantity') self.offerProductQuantity(element, productLinesConditionProducts, productLinesDiscountProducts)
-            });
-        }),
-        offerProductQuantity: ((offer, productLinesConditionProducts, productLinesDiscountProducts) => {
-            ProductQuantity = 0
-            apply = false
-            productLinesConditionProducts.forEach(function(productLine){
-                ProductQuantity += productLine.quantity
-            });
-            if(ProductQuantity >= offer.conditionValue) apply = true
-            self.applyOrRemoveOffer(offer, productLinesConditionProducts, productLinesDiscountProducts, apply)
-        }),
-        applyOrRemoveOffer: ((offer, productLinesConditionProducts, productLinesDiscountProducts, apply) => {
-            productLinesDiscountProducts.forEach(function(productLine){
-                if (apply == false){if(productLine.offers.length) productLine.offers = productLine.offers.filter(item => item !== offer)}
-                else{
-                    if(productLine.offers.length){if(!(productLine.offers.includes(offer))){productLine.offers.push(offer)}}
-                    else productLine.offers.push(offer)
-                }
             });
         }),
         getClient: ((client) => {
@@ -407,6 +397,7 @@
             else{
                 self.Client = client
             }
+            self.initTicket()
             self.$router.push({path:'order', query:{orderMode:'selectOrder'}})
         }),
         resetOrder: ((resetTicket=false)=>{
@@ -417,55 +408,32 @@
             }
             if(resetTicket) self.initTicket()
         }),
-        /////SYSTEM
-        redirect: ((url) => {
-            window.location.replace(url);
+        getDataOrder: (() => {
+            if(self.Client.id){self.Ticket.clientID=self.Client.id}
+            else{self.Ticket.clientID = self.randomChars(6, 'aplha_numbers')}
+            self.Ticket.onAccount = self.Ticket.total
+            self.Ticket.clientName = self.Client.name
+            self.Ticket.email = self.Client.email
+            self.Ticket.phone = self.Client.phone
+            self.Ticket.rfc = self.Client.rfc
+            self.$router.push({path:'order', query:{orderMode:'finishOrder'}})
         }),
+        /////SYSTEM
         reloadSystem: ((text='Espere un momento...') => {
             Block(text)
             location.reload();
         }),
-        reloadData: ((text='Espere un momento...') => {
-            
-        }),
-        /////SOCKETIO
-        recibePrinterConection: ((data) => {
-            if(self.Sellpoint.printer == data.name){
-                if (data.name != self.ActivePrinter.name){
-                    self.ActivePrinter = data
-                    PrivateSocket = io.connect(self.ActivePrinter.url, {resource: 'PrivateSocket/socket.io', 'force new connection': true});
-                    UnBlock()
-                }
-            }
-        }),
-        recibePrintTicket: ((data) => {
-            //if(data.sellpoint.vendors.includes({{request.user.id}})) 
-            self.Tickets.unshift(data)
-        }),
-        recibeScanTicket: ((data) => {
-            updateTicket = self.Tickets.find(function(ticket) {
-                return ticket.key == data.key;
-            });
-            if (updateTicket){
-                updateTicket.status = data.status
-                updateTicket.barcode = data.barcode
-                updateTicket.cut = data.cut
-                self.LastTicketScan = data.barcode
-            }
-        }),
-        recibeReloadSystem: ((data) => {
-            self.reloadSystem()
-        }),
-        recibeGetStates: ((data) => {
-            self.getStates()
-        }),
+        {%include 'Template__socketio.js'%}
+        /////PLUGINS
         emmitReloadSystem: (() => {
             PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'reloadSystem', {})
         }),
         emmitGetStates: (() => {
             PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'getStates', {})
         }),
-        /////PLUGINS
+        emmitSendTicket: ((ticket) => {
+            PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'sendTicket', ticket)
+        }),
         keyboard: ((value) => {
             if (self.Quantity == 'CANTIDAD') self.Quantity = ''
             if (value == '.'){
@@ -511,9 +479,6 @@
             moment.locale('es');
             return moment(value).format('DD/MM/YYYY h:mm:ss')
         }),
-        padStart: ((value) => {
-            return value.padStart(13, "1000000000000")
-        }),
     {%endblock filters%}
 
     {%block watch%}
@@ -532,15 +497,6 @@
     {%endblock watch%}
 
     {%block vuecomponents%}
-        Vue.component('date-picker', {
-            mounted: function () {
-                $(this.$el).bootstrapMaterialDatePicker(
-                    {format : 'DD/MM/YYYY HH:mm',minDate : new Date(),lang: 'es-mx',cancelText: 'CANCELAR',switchOnClick : true}
-                ).on('change', function(e, date){
-                    self.Ticket.datetimeOfDelivery = self.$options.filters.FormatTDate(date.format()) 
-                });
-            },
-            template: '<input/>',
-        });
+        {%include 'components/date-picker.js'%}
     {%endblock vuecomponents%}
 </script>

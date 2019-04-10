@@ -37,7 +37,7 @@
                                             span(v-if="Client.rfc") RFC: ${Client.rfc}
                             .col-4
                                 router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}")
-                                    a(href="javascript:void(0)")
+                                    a(href="javascript:void(0)" @click="Ticket.ticketType='REMISION'")
                                         .card.bg-primary.border-0.text-white.mb-4
                                             .card-body.d-flex.justify-content-between.align-items-center.py-3
                                                 div
@@ -56,7 +56,7 @@
                             .col-4
                         .row(v-if="Client.id != 0 && $route.query.orderMode=='selectOrder'")
                             .col-4
-                                .card.bg-success.border-0.text-white.mb-4
+                                .card.bg-success.border-0.text-white.mb-4(v-on:click="Ticket.ticketType='PAGO';  getDataOrder(); Ticket.onAccount=Math.abs(Client.balance);")
                                     .card-body.d-flex.justify-content-between.align-items-center.py-3
                                         div
                                             .text-xlarge REGISTRAR PAGO
@@ -80,18 +80,20 @@
                                                 i.fas.fa-exchange-alt.text-xlarge.opacity-25
                             .col-12(v-if="Client.id")
                                 hr
-                                h4 SALDOA ACTUAL $ ${Client.balance|formatPrice}
+                                h4(:class="[Client.balance < 0 ? 'text-danger':'text-dark']") SALDO ACTUAL $ ${Client.balance|formatPrice}
                                 table.table.mb-0
                                     thead
                                         td FOLIO / CORTE
                                         td FECHA
+                                        td TIPO
                                         td TOTAL
                                         td A CUENTA
                                         td FACTURACION
                                     tbody
-                                        tr.h4.COBRADO(v-for="ticket in Client.tickets")
+                                        tr.h4(v-for="ticket in Client.tickets" :class="[ticket.total<=ticket.onAccount ? 'COBRADO':'PENDIENTE']")
                                             td ${ticket.barcode} / ${ticket.cut}
                                             td ${ticket.format_time} ${ticket.format_date} 
+                                            td ${ticket.ticketType}  
                                             td ${ticket.total|formatPrice}
                                             td ${ticket.onAccount|formatPrice}
                                             td
@@ -104,10 +106,10 @@
                                             .card-body.d-flex.justify-content-between.align-items-center.py-3
                                                 div
                                                     .text-xlarge CANCELAR
-                                                    .small.opacity-75 CANCELA REMISIÓN
+                                                    .small.opacity-75 CANCELA ${Ticket.ticketType}
                                                 i.fas.fa-times.text-xlarge.opacity-25
                             .col-3
-                                router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}")
+                                router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}" v-if="Ticket.ticketType == 'REMISION'")
                                     a(href="javascript:void(0)")
                                         .card.bg-primary.border-0.text-white.mb-2
                                             .card-body.d-flex.justify-content-between.align-items-center.py-3
@@ -122,10 +124,10 @@
                                         .card-body.d-flex.justify-content-between.align-items-center.py-3
                                             div
                                                 .text-xlarge IMPRIMIR
-                                                .small.opacity-75 IMPRIME ESTA REMISIÓN
+                                                .small.opacity-75 IMPRIME ${Ticket.ticketType}
                                             i.fas.fa-print.text-xlarge.opacity-25
                         .row.mt-0(v-if="$route.query.orderMode=='finishOrder'")
-                            .col-4(v-if="Ticket")
+                            .col-4(v-if="Ticket.ticketType == 'REMISION'")
                                 h3 $ ${Ticket.total|formatPrice}
                                 .card-body.d-flex.justify-content-between.py-1(v-for="line in Ticket.products")
                                     .text-large ${line.quantity}
@@ -140,13 +142,13 @@
                                     .input-group.input-group-lg
                                         .input-group-prepend
                                             .input-group-text
-                                                strong $ A CUENTA
+                                                strong A CUENTA $
                                         input.form-control(type="text" placeholder="CANTIDAD QUE DEJA A CUENTA" v-model="Ticket.onAccount")
-                                    .input-group.input-group-lg
+                                    .input-group.input-group-lg(v-if="Ticket.ticketType == 'REMISION'")
                                         .input-group-prepend
                                             .input-group-text FECHA/HORA
                                         date-picker#b-m-dtp-datetime.form-control(type="text" placeholder="FECHA Y HORA DE ENTREGA" v-model="Ticket.datetimeOfDelivery")
-                                    .input-group.input-group-lg
+                                    .input-group.input-group-lg(v-if="Ticket.ticketType == 'REMISION'")
                                         .input-group-prepend
                                             .input-group-text DESTINO
                                         input.form-control(type="text" placeholder="DESTINO DE LA REMISIÓN" v-model="Ticket.destination")
@@ -154,7 +156,7 @@
                                         .input-group-prepend
                                             .input-group-text NOTAS
                                         input.form-control(type="text" placeholder="INGRESA LOS DETALLES DE LA REMISIÓN" v-model="Ticket.notes")
-                                h5 CLIENTE ID: ${Ticket.clientID}
+                                h5.mt-2 CLIENTE ID: ${Ticket.clientID}
                                 .card-body.demo-vertical-spacing-sm.py-1
                                     .input-group.input-group-lg
                                         .input-group-prepend
