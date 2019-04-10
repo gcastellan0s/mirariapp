@@ -19,7 +19,7 @@ VARS = {
         },
         {
             'field': 'property_get_have_casher',
-            'title': 'Tiene caja?',
+            'title': 'COBRA VENDEDOR?',
         },
         {
             'field': 'number_tickets',
