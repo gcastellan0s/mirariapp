@@ -88,7 +88,7 @@ class Sellpoint(Model_base):
     def get_serial(self):
         return self.serial.get_serial()
     def getCut(self):
-        #return Cut.objects.get(id=80) #### Enviar corte
+        #return Cut.objects.get(id=106) #### Enviar corte
         cut = Cut.objects.filter(sellpoint=self, final_time__isnull=True).first()
         if not cut:
             cut = Cut().new(self)
