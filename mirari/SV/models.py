@@ -432,29 +432,37 @@ VARS = {
             'field': 'barcode',
             'title': 'Folio',
         },
-        {
-            'field': 'property_getCutSerial',
-            'title': 'Corte',
-        },
+        #{
+            #'field': 'property_getCutSerial',
+            #'title': 'Corte',
+        #},
         {
             'field': 'property_getSellpoint',
             'title': 'Punto de Venta',
         },
+        #{
+            #'field': 'username',
+            #'title': 'Usuario',
+        #},
         {
-            'field': 'username',
-            'title': 'Usuario',
-        },
-        {
-            'field': 'property_getTotalMoney',
-            'title': 'I.V.A.',
-        },
-        {
-            'field': 'property_getIvaMoney',
-            'title': 'IEPS',
+            'field': 'ticketType',
+            'title': 'Tipo',
         },
         {
             'field': 'property_getIepsMoney',
+            'title': 'IEPS',
+        },
+        {
+            'field': 'property_getIvaMoney',
+            'title': 'I.V.A.',
+        },
+        {
+            'field': 'property_getTotalMoney',
             'title': 'Total',
+        },
+        {
+            'field': 'property_getOnAccountMoney',
+            'title': 'A cuenta',
         },
         {
             'field': 'status',
@@ -488,6 +496,12 @@ class Ticket(Model_base):
         ('COBRADO','COBRADO'),
         ('PENDIENTE','PENDIENTE'),
     )
+    TICKETTYPE = (
+        ('VENTA','VENTA'),
+        ('REMISION','REMISION'),
+        ('PAGO','PAGO'),
+        ('DEVOLUCION','DEVOLUCION'),
+    )
     sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
     barcode = models.CharField(max_length=13, default="0000000000000")
     key = models.CharField(max_length=12)
@@ -511,6 +525,7 @@ class Ticket(Model_base):
     email = models.CharField(max_length=250, null=True, blank=True)
     phone = models.CharField(max_length=15, null=True, blank=True)
     rfc = models.CharField(max_length=20, null=True, blank=True)
+    ticketType = models.CharField(choices=TICKETTYPE, max_length=100, default="VENTA")
     rasurado = models.BooleanField(default=False)
     invoiced = models.BooleanField(default=False)
     VARS = VARS
@@ -558,6 +573,8 @@ class Ticket(Model_base):
             self.phone = ticket['phone']
         if ticket['rfc']:
             self.rfc = ticket['rfc']
+        if ticket['ticketType']:
+            self.ticketType = ticket['ticketType']
         self.cut = self.sellpoint.getCut()
         self.save()
         for product in ticket['products']:
@@ -579,12 +596,16 @@ class Ticket(Model_base):
         return self.cut.serial
     def getSellpoint(self):
         return self.sellpoint.name
+    def getOnAccount(self):
+        return "{0:.2f}".format(self.onAccount)
     def getTotal(self):
         return "{0:.2f}".format(self.total)
     def getIva(self):
         return "{0:.2f}".format(self.iva)
     def getIeps(self):
         return "{0:.2f}".format(self.ieps)
+    def getOnAccountMoney(self):
+        return Money(self.getOnAccount(), Currency.MXN).format('es_MX')
     def getTotalMoney(self):
         return Money(self.getTotal(), Currency.MXN).format('es_MX')
     def getIvaMoney(self):
@@ -939,7 +960,7 @@ VARS = {
             'title': 'Nombre',
         },
         {
-            'field': 'discountType',
+            'field': 'property_getDiscountTypeName',
             'title': 'Tipo de descuento',
         },
         {
@@ -947,7 +968,7 @@ VARS = {
             'title': 'Valor',
         },
         {
-            'field': 'conditionType',
+            'field': 'property_getDiscountValueName',
             'title': 'Tipo de condición',
         },
         {
@@ -1060,9 +1081,9 @@ class Offer(Model_base):
     discountProducts = models.ManyToManyField('Product', verbose_name='Productos a los que afecta el descuento', blank=True, related_name='+',)
     discountMenus = models.ManyToManyField('Menu', verbose_name='Menus a los que afecta el descuento', blank=True, related_name='+',)
     discountType = models.CharField('Forma de aplicar el descuento', choices=DISCOUNNTTYPE, max_length=250, default="% del producto")
-    discountValue = models.PositiveIntegerField('Valor del descuento')
+    discountValue = models.FloatField('Valor del descuento')
     conditionType = models.CharField('Forma de generar el descuento', choices=CONDITIONTYPE, max_length=250, default="% del producto")
-    conditionValue = models.PositiveIntegerField('Valor del descuento')
+    conditionValue = models.FloatField('Valor del descuento')
     conditionProducts = models.ManyToManyField('Product', verbose_name='Productos que generan el descuento', blank=True, related_name='+', help_text='Si no eliges ninguno usa los mismos que afecta el descuento')
     conditionMenus = models.ManyToManyField('Menu', verbose_name='Menus que generan el descuento', blank=True, related_name='+', help_text='Si no eliges ninguno usa los mismos que afecta el descuento')
     initialDate = models.DateTimeField('Fecha inicial', null=True, blank=True, help_text="Fecha y hora del inicio")
@@ -1116,6 +1137,15 @@ class Offer(Model_base):
         for product in self.get_conditionProducts():
             ids.append(product.id)
         return ids
+    def get_conditionProductsId(self):
+        ids = []
+        for product in self.get_conditionProducts():
+            ids.append(product.id)
+        return ids
+    def getDiscountTypeName(self):
+        return self.discountType
+    def getDiscountValueName(self):
+        return self.conditionType
 
 ########################################################################################
 VARS = {
@@ -1197,4 +1227,4 @@ class Client(Model_base):
     def QUERY(self, view):
         return Client.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
     def getTickets(self):
-        return Ticket.objects.filter(client=self)
+        return Ticket.objects.filter(client=self)[0:100]

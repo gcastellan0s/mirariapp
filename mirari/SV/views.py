@@ -5,26 +5,31 @@ from .vars import *
 
 ########################################################
 ########################################################
-class SellpointSerializer(Base_Serializer):
+class SellpointSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
         model = Sellpoint
+        fields = None
+        exclude = ('active','creation_date','is_active','modified_date','serial')
 ########################################################	
-class MenuSerializer(Base_Serializer):
+class MenuSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
         model = Menu
+        fields = ('color','id','name',)
 ########################################################
-class ProductSerializer(Base_Serializer):
+class ProductSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
         model = Product
 ########################################################
-class ProductAttributesSerializer(Base_Serializer):
+class ProductAttributesSerializer(Basic_Serializer):
     product = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):
         model = ProductAttributes
+        fields = None
+        exclude = ('active',)
     def get_product(self, obj):
         return ProductSerializer(obj.product, read_only=True).data
 ########################################################
-class TicketSerializer(Base_Serializer):
+class TicketSerializer(Basic_Serializer):
     sellpoint = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):
         model = Ticket
@@ -55,7 +60,7 @@ class CutProductSerializer(serializers.Serializer):
     def get_getIepsMoney(self, obj):
         return obj.getIepsMoney()
 ########################################################
-class CutSerializer(Base_Serializer):
+class CutSerializer(Basic_Serializer):
     propertyGetTotalMoney = serializers.ReadOnlyField(source='getTotalMoney')
     propertyGetIvaMoney = serializers.ReadOnlyField(source='getIvaMoney')
     propertyGetIepsMoney = serializers.ReadOnlyField(source='getIepsMoney')
@@ -69,37 +74,30 @@ class CutSerializer(Base_Serializer):
     def get_products(self, obj):
         return CutProductSerializer(obj.getCutProducts(), many=True, read_only=True).data
 ########################################################
-class OfferSerializer(Base_Serializer):
+class OfferSerializer(Basic_Serializer):
     mySellpoints = serializers.ReadOnlyField(source='get_sellpointsId')
     myDiscountProducts = serializers.ReadOnlyField(source='get_discountProductsId')
     myConditionProducts = serializers.ReadOnlyField(source='get_conditionProductsId')
-    #allDiscountProducts = serializers.SerializerMethodField()
-    #allConditionProducts = serializers.SerializerMethodField()
-    #allsellpoints = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):
         model = Offer
-    #def get_allDiscountProducts(self, obj):
-        #return ProductSerializer(obj.get_discountProducts(), many=True).data
-    #def get_allConditionProducts(self, obj):
-        #return ProductSerializer(obj.get_conditionProducts(), many=True).data
-    #def get_allsellpoints(self, obj):
-        #return SellpointSerializer(obj.get_sellpoints(), many=True).data
+        fields = ('name','mySellpoints','myDiscountProducts','myConditionProducts','initialDate','id','finalDate','clients','discountType','conditionType','discountValue','conditionValue')
+        #exclude = ('active','conditionMenus','conditionProducts','conditionType','conditionValue','discountMenus','discountProducts','conditionMenus','discountType','discountValue','is_active',)
 ########################################################
-class ClientProfileSerializer(Base_Serializer):
+class ClientProfileSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
         model = ClientProfile
 ########################################################
-class ClientSerializer(Base_Serializer):
+class ClientSerializer(Basic_Serializer):
     clientProfile = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):
         model = Client
     def get_clientProfile(self, obj):
         return ClientProfileSerializer(obj.clientProfile, read_only=True).data
 ########################################################
-class TicketsSerializer(Base_Serializer):
+class TicketsSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
         model = Ticket
-class ClientDetailsSerializer(Base_Serializer):
+class ClientDetailsSerializer(Basic_Serializer):
     clientProfile = serializers.SerializerMethodField()
     tickets = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):
@@ -121,24 +119,24 @@ class Sellpoint__ApiView(Generic__ApiView):
     def get_serializers(self, request):
         #try:
             if request.GET.get('api') == 'barcodeScanner':
-                ticket = Ticket.objects.filter(key=request.POST.get('barcode'), sellpoint__organization__code=request.POST.get('code')).first()
+                ticket = Ticket.objects.filter(key=request.POST.get('barcode'),sellpoint__organization__code=request.POST.get('code')).first()
                 if ticket:
                     ticket = ticket.scanner()
                 return JsonResponse({'ticket': TicketSerializer(ticket).data}, safe=False)
             if request.GET.get('api') == 'getStates':
                 sellpoints = Sellpoint().getMySellpointsVendor(request.user)
-                productattributes = ProductAttributes.objects.filter( sellpoint__in=sellpoints.all(), active=True, is_active=True, product__menu__active=True, product__menu__is_active=True ).distinct().order_by('price')
+                productattributes = ProductAttributes.objects.filter(sellpoint__in=sellpoints.all(),active=True,is_active=True,product__menu__active=True,product__menu__is_active=True,product__is_active=True,product__active=True).distinct().order_by('price')
                 menu = []
                 for productattribute in productattributes:
                     for pmenu in productattribute.product.menu.all():
                         if not pmenu.pk in menu:
                             menu.append(pmenu.pk)
                 return JsonResponse({
-                    'sellpoints': SellpointSerializer( sellpoints , many=True ).data,
-                    'productAttributes': ProductAttributesSerializer( productattributes, many=True ).data,
-                    'menus': MenuSerializer( Menu.objects.filter(pk__in = menu).order_by('name'), many=True ).data ,
-                    'offers': OfferSerializer( Offer.objects.filter( organization = request.user.organization, active=True, is_active=True ), many=True ).data,
-                    'tickets': TicketSerializer( Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all() ), many=True ).data,
+                    'sellpoints':SellpointSerializer( sellpoints , many=True ).data,
+                    'productAttributes':ProductAttributesSerializer( productattributes, many=True ).data,
+                    'menus':MenuSerializer( Menu.objects.filter(pk__in = menu).order_by('name'), many=True ).data ,
+                    'offers':OfferSerializer( Offer.objects.filter( organization = request.user.organization, active=True, is_active=True ), many=True ).data,
+                    'tickets':TicketSerializer( Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all() ), many=True ).data,
                 }, safe=False)
             if request.GET.get('api') == 'getClients':
                 return JsonResponse({'clients': ClientSerializer(Client.objects.filter(organization=request.user.organization,active=True,is_active=True).filter(Q(name__icontains=request.GET.get('query'))|Q(phone__icontains=request.GET.get('query'))|Q(rfc__icontains=request.GET.get('query'))|Q(email__icontains=request.GET.get('query'))).distinct()[0:50], many=True ).data}, safe=False)

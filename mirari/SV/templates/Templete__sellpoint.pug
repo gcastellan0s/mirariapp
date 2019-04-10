@@ -12,11 +12,11 @@
                 ul.sidenav-inner.py-0
                     // Links
                     li.sidenav-item
-                        a.sidenav-link.text-right.d-flex.justify-content-end.py-4.px-1.text-dark(v-on:click="selectMenu(ExtraMenu)" :class="[ ExtraMenu == Menu ? 'bg-light' : '' ]")
+                        a.sidenav-link.text-right.d-flex.justify-content-end.py-4.px-1.text-dark(v-on:click="Menu=ExtraMenu" :class="[ ExtraMenu == Menu ? 'bg-light' : '' ]")
                             strong.h4.mb-0(:style="{ color: ExtraMenu.color }") ${ExtraMenu.name|firstNameMenu}
                             small ${ExtraMenu.name|lastNameMenu}
                     li.sidenav-item(v-for="menu in Menus")
-                        a.sidenav-link.text-right.d-flex.justify-content-end.py-4.px-1.text-dark(v-on:click="selectMenu(menu)" :class="[ menu == Menu ? 'bg-light' : '' ]")
+                        a.sidenav-link.text-right.d-flex.justify-content-end.py-4.px-1.text-dark(v-on:click="Menu=menu" :class="[ menu == Menu ? 'bg-light' : '' ]")
                             strong.h4.mb-0(:style="{ color: menu.color }") ${menu.name|firstNameMenu}
                             small ${menu.name|lastNameMenu}
             // Layout content
@@ -73,9 +73,10 @@
                             .card-body.d-flex.justify-content-between.py-1(v-for="line in Ticket.products")
                                 .text-large ${line.quantity}
                                 .text-right.small
-                                    .badge.badge-outline-danger(v-for="offer in line.offers")
-                                        | ${offer.name} -${offer.discountValue}%
-                                    $ ${line.price|formatPrice}
+                                    .badge.badge-outline-danger.mr-1(v-for="offer in line.offers")
+                                        | ${offer.name}
+                                    span.text-danger(v-if="line.offerprice") $ ${line.offerprice|formatPrice}
+                                    span(v-else) $ ${line.price|formatPrice}
                                     br
                                     strong ${line.productName}
                     .flex-shrink-1.flex-grow-1.px-1.py-1
