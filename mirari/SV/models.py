@@ -76,6 +76,9 @@ class Sellpoint(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.name)
+    def getMySellpoints(self, user):
+        #return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(Q(cashers=user)|Q(vendors=user)|Q(orders=user))
+        return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(Q(cashers=user)|Q(vendors=user)|Q(orders=user)).distinct()
     def getMySellpointsVendor(self, user):
         #return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(Q(cashers=user)|Q(vendors=user)|Q(orders=user))
         return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(vendors=user)
