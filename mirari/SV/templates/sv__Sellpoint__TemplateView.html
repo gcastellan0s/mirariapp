@@ -123,6 +123,7 @@
                     if(!self.Sellpoint.printer) UnBlock()
                 }
             }).catch((error) => {
+                console.log(error)
                 UnBlock()
             }).finally(() => {
                 if (!postFunctions){
