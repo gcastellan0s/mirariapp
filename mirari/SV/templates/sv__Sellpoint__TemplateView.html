@@ -101,19 +101,18 @@
         self.getStates(postFunctions=true)
         setInterval(function(){
             self.getStates(postFunctions=false)
-        }, 600000);
+        }, 1000000);
     {%endblock mounted%}
 
     {%block methods%}
         getStates: ((postFunctions = false) => {
             Block('Actualizando configuracion...')
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates',errorDialog=false)
-            .then(function(json){
-                console.log(json)
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates', errorDialog=false).then(function(json){
                 self.Sellpoints = json.data.sellpoints
-                self.Sellpoints.forEach(function(element){if(element.orders.includes({{request.user.id}})){self.Sellpoint=element;return 0}})
-                if(!self.Sellpoint){self.Sellpoints.forEach(function(element){if(element.cashers.includes({{request.user.id}})){self.Sellpoint=element;return 0}})}
-                if(!self.Sellpoint){self.Sellpoint = self.Sellpoints[0]}
+                //self.Sellpoints.forEach(function(element){if(element.orders.includes({{request.user.id}})){self.Sellpoint=element;return 0}})
+                //if(!self.Sellpoint){self.Sellpoints.forEach(function(element){if(element.cashers.includes({{request.user.id}})){self.Sellpoint=element;return 0}})}
+                //if(!self.Sellpoint){self.Sellpoint = self.Sellpoints[0]}
+                self.Sellpoint = self.Sellpoints[0]
                 self.Menus = json.data.menus
                 self.ProductAttributes = json.data.productAttributes
                 self.Offers = json.data.offers
@@ -124,7 +123,6 @@
                     if(!self.Sellpoint.printer) UnBlock()
                 }
             }).catch((error) => {
-                console.log(error)
                 UnBlock()
             }).finally(() => {
                 if (!postFunctions){
