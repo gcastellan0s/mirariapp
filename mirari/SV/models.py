@@ -614,6 +614,7 @@ class Ticket(Model_base):
     def getProducts(self):
         return TicketProducts.objects.filter(ticket=self)
 
+########################################################################################
 VARS = {
     'NAME':'Producto del ticket',
     'PLURAL':'Productos del ticket',
@@ -693,8 +694,6 @@ class CutProduct():
         return Money("{0:.2f}".format(self.iva), Currency.MXN).format('es_MX')
     def getIepsMoney(self):
         return Money("{0:.2f}".format(self.ieps), Currency.MXN).format('es_MX')
-
-########################################################################################
 VARS = {
     'NAME':'Corte',
     'PLURAL':'Cortes',
@@ -886,7 +885,7 @@ class Cut(Model_base):
             tickets = Ticket.objects.filter(cut=self, status='COBRADO').exclude(rasurado = True)
         elif status=='100':
             tickets = Ticket.objects.filter(cut=self)
-        return tickets
+        return tickets.filter(ticketType='VENTA')
     def getLenTickets(self):
         return len(self.getTickets())
     def getOffersLen(self):
