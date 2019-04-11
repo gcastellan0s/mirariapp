@@ -84,6 +84,8 @@ class dashboard__Organization__TemplateView(Generic__TemplateView):
                         return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/sellpoint?sellpointMode=sellpoint')
                     if 'caj' in request.user.visible_username:
                         return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/casher')
+                    if 'ped' in request.user.visible_username:
+                        return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/order?orderMode=selectOrder')
             except:
                 pass
         return super().dispatch(request, *args, **kwargs)

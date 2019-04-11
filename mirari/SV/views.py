@@ -111,13 +111,12 @@ class ClientDetailsSerializer(Basic_Serializer):
 ########################################################
 class sv__Sellpoint__TemplateView(Generic__TemplateView):
     template_name = "sv__Sellpoint__TemplateView.html"
-
 ########################################################
 ########################################################
 class Sellpoint__ApiView(Generic__ApiView):
     permissions = False
     def get_serializers(self, request):
-        try:
+        #try:
             if request.GET.get('api') == 'barcodeScanner':
                 ticket = Ticket.objects.filter(key=request.POST.get('barcode'),sellpoint__organization__code=request.POST.get('code')).first()
                 if ticket:
@@ -125,7 +124,7 @@ class Sellpoint__ApiView(Generic__ApiView):
                 return JsonResponse({'ticket': TicketSerializer(ticket).data}, safe=False)
             if request.GET.get('api') == 'getStates':
                 sellpoints = Sellpoint().getMySellpoints(request.user)
-                productattributes = ProductAttributes.objects.filter(sellpoint__in=sellpoints.all(),active=True,is_active=True,product__menu__active=True,product__menu__is_active=True,product__is_active=True,product__active=True).distinct().order_by('price')
+                productattributes = ProductAttributes.objects.filter(sellpoint__in=sellpoints.filter(vendors=request.user).all(),active=True,is_active=True,product__menu__active=True,product__menu__is_active=True,product__is_active=True,product__active=True).distinct().order_by('price')
                 menu = []
                 for productattribute in productattributes:
                     for pmenu in productattribute.product.menu.all():
@@ -139,21 +138,17 @@ class Sellpoint__ApiView(Generic__ApiView):
                     'tickets':TicketSerializer(Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all()),many=True).data,
                 }, safe=False)
             if request.GET.get('api') == 'getClients':
-                return JsonResponse({'clients': ClientSerializer(Client.objects.filter(organization=request.user.organization,active=True,is_active=True).filter(Q(name__icontains=request.GET.get('query'))|Q(phone__icontains=request.GET.get('query'))|Q(rfc__icontains=request.GET.get('query'))|Q(email__icontains=request.GET.get('query'))).distinct()[0:50], many=True ).data}, safe=False)
+                return JsonResponse({'clients':ClientSerializer(Client.objects.filter(organization=request.user.organization,active=True,is_active=True).filter(Q(name__icontains=request.GET.get('query'))|Q(phone__icontains=request.GET.get('query'))|Q(rfc__icontains=request.GET.get('query'))|Q(email__icontains=request.GET.get('query'))).distinct()[0:50],many=True).data},safe=False)
             if request.GET.get('api') == 'getClient':
-                client = Client.objects.get(organization=request.user.organization, active=True, is_active=True, id=request.POST.get('id'))
-                return JsonResponse({
-                    'client': ClientDetailsSerializer(client).data,
-                }, safe=False)
+                return JsonResponse({'client':ClientDetailsSerializer(Client.objects.get(organization=request.user.organization,active=True,is_active=True,id=request.POST.get('id'))).data,},safe=False)
             if request.GET.get('api') == 'getBarCode':
-                return JsonResponse({'ticket': TicketSerializer(Ticket().new( ticket = json.loads(request.POST.get('ticket')) )).data}, safe=False)
+                return JsonResponse({'ticket':TicketSerializer(Ticket().new(ticket=json.loads(request.POST.get('ticket')))).data}, safe=False)
             if request.GET.get('api') == 'makeCut':
                 cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()
                 return JsonResponse({'cut': CutSerializer(cut).data})
-        except Exception as e:
-            print(str(e))
-            return JsonResponse({'error':str(e)})
-
+        #except Exception as e:
+            #print(str(e))
+            #return JsonResponse({'error':str(e)})
 ########################################################
 ########################################################
 class SVbarcodeScanner__TemplateView(Generic__TemplateView):
@@ -161,7 +156,7 @@ class SVbarcodeScanner__TemplateView(Generic__TemplateView):
     def proccess_context(self, context):
         context['code'] = self.request.GET.get('code')
         return context
-
+########################################################
 ########################################################
 class Cut__DetailView(Generic__DetailView):
     template_name = "Cut__DetailView.html"
