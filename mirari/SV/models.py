@@ -957,10 +957,6 @@ VARS = {
             'title': 'Nombre',
         },
         {
-            'field': 'discountValue',
-            'title': 'Valor',
-        },
-        {
             'field': 'property_getDiscountValueName',
             'title': 'Tipo de condición',
         },
@@ -971,6 +967,10 @@ VARS = {
         {
             'field': 'property_getDiscountTypeName',
             'title': 'Tipo de descuento',
+        },
+        {
+            'field': 'discountValue',
+            'title': 'Valor',
         },
         {
             'field': 'property_getIs_active',
