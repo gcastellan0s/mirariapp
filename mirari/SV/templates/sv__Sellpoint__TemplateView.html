@@ -90,6 +90,10 @@
         Client: {
             id: 0,
             name: '',
+            ide: '',
+            clientProfile:{
+                code: null,
+            }
         },
     {%endblock data%}
 
@@ -103,10 +107,12 @@
     {%block methods%}
         getStates: ((postFunctions = false) => {
             Block('Actualizando configuracion...')
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates')
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates',errorDialog=false)
             .then(function(json){
                 self.Sellpoints = json.data.sellpoints
-                self.Sellpoint = self.Sellpoints[0]
+                self.Sellpoints.forEach(function(element){if(element.orders.includes({{request.user.id}})){self.Sellpoint=element;return 0}})
+                if(!self.Sellpoint){self.Sellpoints.forEach(function(element){if(element.cashers.includes({{request.user.id}})){self.Sellpoint=element;return 0}})}
+                if(!self.Sellpoint){self.Sellpoint = self.Sellpoints[0]}
                 self.Menus = json.data.menus
                 self.ProductAttributes = json.data.productAttributes
                 self.Offers = json.data.offers
@@ -261,7 +267,7 @@
                 if (self.includes(self.Sellpoint.orders, {{request.user.id}})){
                     self.resetOrder()
                     self.$router.push({path:'order', query:{orderMode:'selectOrder'}})
-                } 
+                }
                 else if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher')
                 UnBlock();
             });
@@ -388,11 +394,8 @@
             if(client.id){
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClient', client)
                 .then(function(json){
-                    console.log(json)
                     self.Client = json.data.client
-                }).catch((error) => {
-                    console.log(error)
-                });
+                }).catch((error) => {});
             }
             else{
                 self.Client = client
@@ -404,19 +407,23 @@
             self.Clients = []
             self.Client = {
                 id: 0,
-                name: ''
+                name: '',
+                ide: '',
+                clientProfile:{
+                    code: null,
+                },
             }
             if(resetTicket) self.initTicket()
         }),
         getDataOrder: (() => {
-            if(self.Client.id){self.Ticket.clientID=self.Client.id}
-            else{self.Ticket.clientID = self.randomChars(6, 'aplha_numbers')}
-            self.Ticket.onAccount = self.Ticket.total
+            if(self.Client.uid){self.Ticket.clientID = self.Client.uid}
+            else{self.Ticket.clientID = self.randomChars(6,'aplha_numbers')}
+            if(self.Client.clientProfile.code == 'PUBLICO GENERAL' || self.Client.clientProfile.code == null) self.Ticket.onAccount = self.Ticket.total
             self.Ticket.clientName = self.Client.name
             self.Ticket.email = self.Client.email
             self.Ticket.phone = self.Client.phone
             self.Ticket.rfc = self.Client.rfc
-            self.$router.push({path:'order', query:{orderMode:'finishOrder'}})
+            self.$router.push({path:'order',query:{orderMode:'finishOrder'}})
         }),
         /////SYSTEM
         reloadSystem: ((text='Espere un momento...') => {
@@ -477,7 +484,11 @@
         }),
         FormatTDate: ((value) => {
             moment.locale('es');
-            return moment(value).format('DD/MM/YYYY h:mm:ss')
+            return String(moment(value).format('DD/MM/YYYY h:mm:ss'))
+        }),
+        defaultV: ((value, defaultV) => {
+            if(value)return value
+            return defaultV
         }),
     {%endblock filters%}
 

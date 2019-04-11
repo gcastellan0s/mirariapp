@@ -35,7 +35,7 @@
                                 .table-responsive.ui-bordered
                                     table.clients-table.table.table-hover.m-0
                                         tbody
-                                            tr(@click="getClient({name:Client.name,id:0})")
+                                            tr(@click="getClient({name:Client.name,id:0,ide:'',clientProfile:{code:null}})")
                                                 td.align-middle.py-3
                                                     .media.align-items-center
                                                         .media-body.flex-basis-auto.pl-3
@@ -43,6 +43,8 @@
                                                                 span(v-if="Client.id == 0 && Client.name == ''") PUBLICO EN GENERAL
                                                                 span(v-else) ${Client.name}
                                                             .text-muted.small Publico en general para clientes no registrados
+                                                td.align-middle.py-3
+                                                    | -
                                                 td.align-middle.py-3
                                                     | Sin email registrado
                                                     br
@@ -58,13 +60,15 @@
                                                             div ${client.name}
                                                             .text-muted.small ID: ${client.id}
                                                 td.align-middle.py-3
-                                                    | ${client.email}
+                                                    | ${client.uid|defaultV('POR ASIGNAR')}
+                                                td.align-middle.py-3
+                                                    | ${client.email|defaultV('Sin email registrado')}
                                                     br
-                                                    | ${client.phone}
+                                                    | ${client.phone|defaultV('Sin teléfono registrado')}
                                                 td.align-middle.py-3
-                                                    | ${client.rfc}
+                                                    | ${client.rfc|defaultV('Sin RFC registrado')}
                                                 td.align-middle.py-3
-                                                    span.badge.badge-dark ${client.clientProfile.name}
+                                                    span.badge.badge-dark ${client.clientProfile.name|defaultV('NO REGISTRADO')}
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
                         .pt-3

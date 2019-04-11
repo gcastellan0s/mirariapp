@@ -77,13 +77,13 @@ class Sellpoint(Model_base):
     def __str__(self):
         return '{0}'.format(self.name)
     def getMySellpoints(self, user):
-        #return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(Q(cashers=user)|Q(vendors=user)|Q(orders=user))
         return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(Q(cashers=user)|Q(vendors=user)|Q(orders=user)).distinct()
     def getMySellpointsVendor(self, user):
-        #return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(Q(cashers=user)|Q(vendors=user)|Q(orders=user))
         return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(vendors=user)
     def getMySellpointsCasher(self, user):
         return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(cashers=user)
+    def getMySellpointsOrder(self, user):
+        return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(orders=user)
     def get_have_casher(self):
         return self.render_boolean(not self.have_casher)
     def get_color(self):
@@ -554,35 +554,31 @@ class Ticket(Model_base):
         self.total = ticket['total']
         self.iva = ticket['iva']
         self.ieps = ticket['ieps']
-        if ticket['onAccount']:
-            self.onAccount = ticket['onAccount']
+        self.ticketType = ticket['ticketType']
+        self.onAccount = ticket['onAccount']
         if ticket['clientID']:
-            self.client = Client.objects.filter(id=ticket['clientID']).first()
+            client = Client.objects.filter(uid=ticket['clientID']).filter(organization=self.sellpoint.organization).first()
+            if not client:
+                client = Client().createFromTicket(ticket, self.sellpoint)
+            self.client = client
             self.clientID = ticket['clientID']
-            if self.client:
-                self.client.balance -= float(self.total) - float(self.onAccount)
-                self.client.save()
-        if ticket['clientName']:
-            self.clientName = ticket['clientName']
-        if ticket['datetimeOfDelivery']:
-            self.datetimeOfDelivery = datetime.datetime.strptime(ticket['datetimeOfDelivery'], '%m/%d/%Y %H:%M:%S')
-        if ticket['destination']:
-            self.destination = ticket['destination']
-        if ticket['notes']:
-            self.notes = ticket['notes']
-        if ticket['email']:
-            self.email = ticket['email']
-        if ticket['phone']:
-            self.phone = ticket['phone']
-        if ticket['rfc']:
-            self.rfc = ticket['rfc']
-        if ticket['ticketType']:
-            self.ticketType = ticket['ticketType']
+            self.client.balance -= float(self.total) - float(self.onAccount)
+            self.client.save()
+            if ticket['clientName']:
+                self.clientName = ticket['clientName']
+            else:
+                self.clientName = ticket['clientID']
+            if ticket.get('datetimeOfDelivery'):
+                self.datetimeOfDelivery = datetime.datetime.strptime(ticket['datetimeOfDelivery'], '%m/%d/%Y %H:%M:%S')
+            self.destination = ticket.get('destination')
+            self.notes = ticket.get('notes')
+            self.email = ticket.get('email')
+            self.phone = ticket.get('phone')
+            self.rfc = ticket.get('rfc')
         self.cut = self.sellpoint.getCut()
         self.save()
         for product in ticket['products']:
             TicketProducts().addTicket(self, product)
-        self.save()
         return self
     def getLenOffers(self):
         offers = []
@@ -617,7 +613,6 @@ class Ticket(Model_base):
         return Money(self.getIeps(), Currency.MXN).format('es_MX')
     def getProducts(self):
         return TicketProducts.objects.filter(ticket=self)
-
 
 VARS = {
     'NAME':'Producto del ticket',
@@ -891,7 +886,7 @@ class Cut(Model_base):
             tickets = Ticket.objects.filter(cut=self, status='COBRADO').exclude(rasurado = True)
         elif status=='100':
             tickets = Ticket.objects.filter(cut=self)
-        return tickets
+        return tickets.exclude(ticketType = 'VENTA')
     def getLenTickets(self):
         return len(self.getTickets())
     def getOffersLen(self):
@@ -1165,6 +1160,7 @@ class Offer(Model_base):
         return self.conditionType
     def getIs_active(self):
         return self.render_boolean(self.is_active)
+
 ########################################################################################
 VARS = {
     'NAME':'Perfil cliente',
@@ -1180,10 +1176,15 @@ VARS = {
             'field': 'name',
             'title': 'Nombre',
         },
+        {
+            'field': 'code',
+            'title': 'Código',
+        },
     ],
 }
 class ClientProfile(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
+    code = models.CharField('Código del perfil', max_length=250)
     name = models.CharField('Nombre del perfil', max_length=250)
     VARS = VARS
     class Meta(Model_base.Meta):
@@ -1222,9 +1223,26 @@ VARS = {
             'field': 'name',
             'title': 'Nombre',
         },
+        {
+            'field': 'uid',
+            'title': 'ID',
+        },
+        {
+            'field': 'property_getEmail',
+            'title': 'Email',
+        },
+        {
+            'field': 'property_getClientProfile',
+            'title': 'Perfil',
+        },
+        {
+            'field': 'property_getBalance',
+            'title': 'Balance',
+        },
     ],
 }
 class Client(Model_base):
+    uid = models.CharField('Codigo de cliente', max_length=50, blank=True, null=True)
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, verbose_name="", blank=True, null=True)
     sellpoints = models.ManyToManyField('Sellpoint', related_name='+', blank=True, verbose_name='Donde factura? ', help_text='Si no eliges ninguno afecta a todas')
@@ -1242,7 +1260,40 @@ class Client(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.name)
+    def save(self, *args, **kwargs):
+        super().save()
+        if not self.uid:
+            self.uid = str(self.id)
+            self.save()
     def QUERY(self, view):
         return Client.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
     def getTickets(self):
         return Ticket.objects.filter(client=self)[0:100]
+    def getRFC(self):
+        return self.render_if(self.rfc)
+    def getEmail(self):
+        return self.render_if(self.email)
+    def getClientProfile(self):
+        if not self.clientProfile:
+            return '-'
+        return self.clientProfile.name
+    def getBalance(self):
+        money = Money("{0:.2f}".format(self.balance), Currency.MXN).format('es_MX')
+        if self.balance < 0:
+            return '<span class"m--font-danger">'+money+'</span>'
+        else:
+            return '<span class"m--font-success">'+money+'</span>'
+    def createFromTicket(self, ticket, sellpoint):
+        self.organization = sellpoint.organization
+        if ticket['clientName']:
+            self.name = ticket['clientName']
+        else:
+            self.name = ticket['clientID']
+        self.uid = ticket['clientID']
+        self.phone = ticket.get('phone')
+        self.rfc = ticket.get('rfc')
+        self.email = ticket.get('email')
+        self.clientProfile = ClientProfile.objects.filter(code='PUBLICO GENERAL', organization=sellpoint.organization).first()
+        self.save()
+        return self
+

@@ -56,28 +56,28 @@
                             .col-4
                         .row(v-if="Client.id != 0 && $route.query.orderMode=='selectOrder'")
                             .col-4
-                                .card.bg-success.border-0.text-white.mb-4(v-on:click="Ticket.ticketType='PAGO';  getDataOrder(); Ticket.onAccount=Math.abs(Client.balance);")
+                            .col-4
+                                .card.bg-success.border-0.text-white.mb-4(v-on:click="Ticket.ticketType='PAGO';getDataOrder();Ticket.onAccount=Math.abs(Client.balance);")
                                     .card-body.d-flex.justify-content-between.align-items-center.py-3
                                         div
                                             .text-xlarge REGISTRAR PAGO
                                             .small.opacity-75 AGREGA UN PAGO A ESTE CLIENTE
                                         i.fas.fa-receipt.text-xlarge.opacity-25
+                            //
+                                .col-4
+                                    .card.bg-success.border-0.text-white.mb-4
+                                        .card-body.d-flex.justify-content-between.align-items-center.py-3
+                                            div
+                                                .text-xlarge IMPRIMIR SALDO
+                                                .small.opacity-75 IMPRIME EL SALDO ACTUAL
+                                            i.fas.fa-print.text-xlarge.opacity-25
                             .col-4
-                                .card.bg-success.border-0.text-white.mb-4
+                                .card.bg-success.border-0.text-white.mb-4(v-on:click="Ticket.ticketType='DEVOLUCION';getDataOrder();Ticket.onAccount=0;")
                                     .card-body.d-flex.justify-content-between.align-items-center.py-3
                                         div
-                                            .text-xlarge IMPRIMIR SALDO
-                                            .small.opacity-75 IMPRIME EL SALDO ACTUAL
-                                        i.fas.fa-print.text-xlarge.opacity-25
-                            .col-4
-                                router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}")
-                                    a(href="javascript:void(0)")
-                                        .card.bg-success.border-0.text-white.mb-4
-                                            .card-body.d-flex.justify-content-between.align-items-center.py-3
-                                                div
-                                                    .text-xlarge DEVOLUCION
-                                                    .small.opacity-75 ABONA UNA DEVOLUCIÓN AL CLIENTE
-                                                i.fas.fa-exchange-alt.text-xlarge.opacity-25
+                                            .text-xlarge DEVOLUCION
+                                            .small.opacity-75 ABONA UNA DEVOLUCIÓN AL CLIENTE
+                                        i.fas.fa-exchange-alt.text-xlarge.opacity-25
                             .col-12(v-if="Client.id")
                                 hr
                                 h4(:class="[Client.balance < 0 ? 'text-danger':'text-dark']") SALDO ACTUAL $ ${Client.balance|formatPrice}
