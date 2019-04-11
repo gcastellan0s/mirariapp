@@ -886,7 +886,7 @@ class Cut(Model_base):
             tickets = Ticket.objects.filter(cut=self, status='COBRADO').exclude(rasurado = True)
         elif status=='100':
             tickets = Ticket.objects.filter(cut=self)
-        return tickets.exclude(ticketType = 'VENTA')
+        return tickets
     def getLenTickets(self):
         return len(self.getTickets())
     def getOffersLen(self):
