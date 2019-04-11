@@ -116,7 +116,7 @@ class sv__Sellpoint__TemplateView(Generic__TemplateView):
 class Sellpoint__ApiView(Generic__ApiView):
     permissions = False
     def get_serializers(self, request):
-        #try:
+        try:
             if request.GET.get('api') == 'barcodeScanner':
                 ticket = Ticket.objects.filter(key=request.POST.get('barcode'),sellpoint__organization__code=request.POST.get('code')).first()
                 if ticket:
@@ -146,9 +146,8 @@ class Sellpoint__ApiView(Generic__ApiView):
             if request.GET.get('api') == 'makeCut':
                 cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()
                 return JsonResponse({'cut': CutSerializer(cut).data})
-        #except Exception as e:
-            #print(str(e))
-            #return JsonResponse({'error':str(e)})
+        except Exception as e:
+            return JsonResponse({'error':str(e)})
 ########################################################
 ########################################################
 class SVbarcodeScanner__TemplateView(Generic__TemplateView):
