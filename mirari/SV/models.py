@@ -974,6 +974,7 @@ VARS = {
             'title': 'Activo?',
         },
     ],
+    'SEARCH': ['name'],
     'FORM': [
         Div(
             Div(
