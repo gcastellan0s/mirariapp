@@ -995,8 +995,8 @@ VARS = {
             Div(
                 Div('conditionType'),
                 Div('conditionValue'),
-                Div('conditionMenus'),
-                Div('conditionProducts'),
+                #Div('conditionMenus'),
+                #Div('conditionProducts'),
                 css_class="col-md-4"
             ),
             css_class="form-group m-form__group row"
@@ -1023,24 +1023,24 @@ VARS = {
                 ),
             ],
         },
-        'conditionProducts': {
-            'model': ['SV', 'Product'],
-            'plugin': 'selectmultiple',
-            'query': [
-                (
-                    ('organization__pk', 'self.request.session.get("organization")'),
-                ),
-            ],
-        },
-        'conditionMenus': {
-            'model': ['SV', 'Menu'],
-            'plugin': 'selectmultiple',
-            'query': [
-                (
-                    ('organization__pk', 'self.request.session.get("organization")'),
-                ),
-            ],
-        },
+        #'conditionProducts': {
+            #'model': ['SV', 'Product'],
+            #'plugin': 'selectmultiple',
+            #'query': [
+                #(
+                    #('organization__pk', 'self.request.session.get("organization")'),
+                #),
+            #],
+        #},
+        #'conditionMenus': {
+            #'model': ['SV', 'Menu'],
+            #'plugin': 'selectmultiple',
+            #'query': [
+                #(
+                    #('organization__pk', 'self.request.session.get("organization")'),
+                #),
+            #],
+        #},
         'sellpoints': {
             'model': ['SV', 'Sellpoint'],
             'plugin': 'select2',
