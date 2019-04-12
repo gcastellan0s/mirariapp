@@ -188,6 +188,11 @@ VARS = {
     },
     'LIST': [
         {
+            'field': 'code',
+            'title': 'Productos en sucursales',
+            'template': '{{property_get_productattributes}}',
+        },
+        {
             'field': 'name',
             'title': 'Información de producto',
             'template': 
@@ -201,11 +206,6 @@ VARS = {
                         </small>
                     </span>
                 """,
-        },
-        {
-            'field': 'code',
-            'title': 'Productos en sucursales',
-            'template': '{{property_get_productattributes}}',
         },
     ],
     'SEARCH': ['name'],
