@@ -981,7 +981,7 @@ VARS = {
                 Div('is_active'),
                 #Div('initialDate'),
                 #Div('finalDate'),
-                Div('sellpoints'),
+                #Div('sellpoints'),
                 Div('clients'),
                 css_class="col-md-3"
             ),
@@ -1041,15 +1041,15 @@ VARS = {
                 #),
             #],
         #},
-        'sellpoints': {
-            'model': ['SV', 'Sellpoint'],
-            'plugin': 'select2',
-            'query': [
-                (
-                    ('organization__pk', 'self.request.session.get("organization")'),
-                ),
-            ],
-        },
+        #'sellpoints': {
+            #'model': ['SV', 'Sellpoint'],
+            #'plugin': 'select2',
+            #'query': [
+                #(
+                    #('organization__pk', 'self.request.session.get("organization")'),
+                #),
+            #],
+        #},
         'clients': {
             'model': ['SV', 'Client'],
             'plugin': 'select2',
@@ -1088,9 +1088,9 @@ class Offer(Model_base):
     name = models.CharField('Nombre del descuento', max_length=250)
     discountProducts = models.ManyToManyField('Product', verbose_name='Productos a los que afecta el descuento', blank=True, related_name='+',)
     discountMenus = models.ManyToManyField('Menu', verbose_name='Menus a los que afecta el descuento', blank=True, related_name='+',)
-    discountType = models.CharField('Forma de aplicar el descuento', choices=DISCOUNNTTYPE, max_length=250, default="Valor fijo del producto")
+    discountType = models.CharField('Forma de aplicar el descuento', choices=DISCOUNNTTYPE, max_length=250, default="productValue")
     discountValue = models.FloatField('Valor del descuento')
-    conditionType = models.CharField('Forma de generar el descuento', choices=CONDITIONTYPE, max_length=250, default="Cantidad de productos mínima")
+    conditionType = models.CharField('Forma de generar el descuento', choices=CONDITIONTYPE, max_length=250, default="productQuantity")
     conditionValue = models.FloatField('Valor del descuento')
     conditionProducts = models.ManyToManyField('Product', verbose_name='Productos que generan el descuento', blank=True, related_name='+', help_text='Si no eliges ninguno usa los mismos que afecta el descuento')
     conditionMenus = models.ManyToManyField('Menu', verbose_name='Menus que generan el descuento', blank=True, related_name='+', help_text='Si no eliges ninguno usa los mismos que afecta el descuento')
