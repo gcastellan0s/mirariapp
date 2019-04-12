@@ -109,10 +109,12 @@
             Block('Actualizando configuracion...')
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates', errorDialog=false).then(function(json){
                 self.Sellpoints = json.data.sellpoints
+                
                 //self.Sellpoints.forEach(function(element){if(element.orders.includes({{request.user.id}})){self.Sellpoint=element;return 0}})
                 //if(!self.Sellpoint){self.Sellpoints.forEach(function(element){if(element.cashers.includes({{request.user.id}})){self.Sellpoint=element;return 0}})}
                 //if(!self.Sellpoint){self.Sellpoint = self.Sellpoints[0]}
                 self.Sellpoint = self.Sellpoints[0]
+                if({{request.user.id}}==327) self.Sellpoint = self.Sellpoints[1]
                 self.Menus = json.data.menus
                 self.ProductAttributes = json.data.productAttributes
                 self.Offers = json.data.offers
