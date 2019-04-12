@@ -312,9 +312,6 @@ class Product(Model_base):
                                         </a>
                                     </div>
                                     <div class="m-widget3__body">
-                                        <p class="m-widget3__text m--margin-bottom-5" style="font-size:11px;">
-                                            <strong>{0}</strong> <i class="fa fa-barcode m--margin-left-10" style="font-size:12px;"></i> <strong>{4}</strong>
-                                        </p>
                                         <p class="m-widget3__text" style="font-size:11px;">
                                             {2} {3} {7} {5} {6}
                                         </p>
