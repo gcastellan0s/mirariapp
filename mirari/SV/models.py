@@ -303,7 +303,7 @@ class Product(Model_base):
                                     <div class="m-widget3__header">
                                         <div class="m-widget3__info" style="padding-left: 0rem;">
                                             <span class="m-widget3__username">{8}</span>
-                                            <span class="m-widget3__time m--margin-left-5">
+                                            <span class="m-widget3__time m--margin-left-5 m--margin-bottom-2">
                                                 {1}
                                             </span>
                                         </div>
