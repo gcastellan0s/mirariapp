@@ -981,7 +981,7 @@ VARS = {
                 Div('is_active'),
                 #Div('initialDate'),
                 #Div('finalDate'),
-                #Div('sellpoints'),
+                Div('sellpoints'),
                 Div('clients'),
                 css_class="col-md-3"
             ),
