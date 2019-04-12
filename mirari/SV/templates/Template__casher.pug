@@ -16,6 +16,7 @@
                                 tr.h4(v-for="ticket in Tickets" v-bind:class="ticket.status")
                                     td ${ticket.key}
                                     td(:style="{color:ticket.sellpoint.color}") ${ticket.sellpoint.name}
+                                    td(:style="{color:ticket.sellpoint.color}") ${ticket.ticketType}
                                     td ${ticket.date|FormatTDate}
                                     td 
                                         strong ${ticket.barcode}
