@@ -275,7 +275,12 @@
         printTicket: ((ticket) => { 
             if (PrivateSocket){
                 ticketFormat = []
-                ticketFormat.push(["times",[self.Sellpoint.number_tickets]])
+                if(self.Ticket.ticketType=='VENTA'){ticketFormat.push(["times",[self.Sellpoint.number_tickets]])}
+                else if(self.Ticket.ticketType=='REMISION'){
+                    ticketFormat.push(["times",[4]])
+                }
+                else if(self.Ticket.ticketType=='PAGO'){ticketFormat.push(["times",[2]])}
+                else if(self.Ticket.ticketType=='DEVOLUCION'){ticketFormat.push(["times",[2]])}
                 ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                 if (self.Ticket.onAccount){ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
                 else {ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total))])}
