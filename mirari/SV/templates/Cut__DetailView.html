@@ -49,15 +49,16 @@
 												<span class="kt-invoice__desc">
 													{%if object.sellpoint.header_line_black_1%}<span>{{object.sellpoint.header_line_black_1}} </span></br>{%endif%}
 													{%if object.sellpoint.header_line_black_2%}<span>{{object.sellpoint.header_line_black_2}} </span></br>{%endif%}
-													{%if object.sellpoint.header_line_1%}<span>{{object.sellpoint.header_line_1}} </span></br>{%endif%}
+													{%if object.sellpoint.header_line_1%}<span>{{object.sellpoint.header_line_1}} </span></br>{%endif%} 
 													{%if object.sellpoint.header_line_2%}<span>{{object.sellpoint.header_line_2}} </span></br>{%endif%}
 												</span>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="m-invoice__body m-invoice__body--centered">
-									<div class="table-responsive">
+								<div class="m-invoice__body m-invoice__body--centered" v-if="CutDetail" >
+									<div class="table-responsive" v-for="cuttypes in CutTypes">
+                                        <h5>${cuttypes}</h5>
 										<table class="table">
 											<thead>
 												<tr>
@@ -70,16 +71,24 @@
 												</tr>
 											</thead>
 											<tbody>
-												{%for product in object.getCutProducts%}
-													<tr>
-														<td>{{product.productName}}</td>
-														<td>{{product.getPrice}}</td>
-														<td>{{product.quantity}}</td>
-														<td>{{product.getIvaMoney}}</td>
-														<td>{{product.getIepsMoney}}</td>
-														<td class="m-font-danger"><strong>{{product.getTotalMoney}}</strong></td>
-													</tr>
-												{%endfor%}
+                                                <tr v-for="product in CutDetail.ProductsDetail[cuttypes]">
+                                                    <td>${product.productName}</td>
+                                                    <td>${product.getPrice}</td>
+                                                    <td>${product.quantity}</td>
+                                                    <td>${product.getIvaMoney}</td>
+                                                    <td>${product.getIepsMoney}</td>
+                                                    <td><strong>${product.getTotalMoney}</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4"></td>
+                                                    <td>FALTANTE</td>
+                                                    <td><strong>${CutDetail.TotalDetail[cuttypes][3]}</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4"></td>
+                                                    <td>TOTAL</td>
+                                                    <td><strong>${CutDetail.TotalDetail[cuttypes][1]}</strong></td>
+                                                </tr>
 											</tbody>
 										</table>
 									</div>
@@ -118,4 +127,19 @@
 	</div>
 	<!-- end:: Content -->
 {%endblock content%}
-		
+
+<script>
+{%block data%}
+    CutTypes: [{%for ticketTypes in object.ticketTypes.all%}'{{ticketTypes}}',{%endfor%}],
+    CutDetail: null,
+{%endblock data%}
+
+{%block mounted%}
+    Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCut',{'cut':{{object.pk}}},errorDialog=false).then(function(json){
+        console.log(json)
+        self.CutDetail = json.data.cut
+    }).catch((error) => {
+        console.log(error)
+    }).finally(() => {});
+{%endblock mounted%}
+</script>

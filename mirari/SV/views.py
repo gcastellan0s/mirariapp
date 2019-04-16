@@ -61,18 +61,16 @@ class CutProductSerializer(serializers.Serializer):
         return obj.getIepsMoney()
 ########################################################
 class CutSerializer(Basic_Serializer):
-    propertyGetTotalMoney = serializers.ReadOnlyField(source='getTotalMoney')
-    propertyGetIvaMoney = serializers.ReadOnlyField(source='getIvaMoney')
-    propertyGetIepsMoney = serializers.ReadOnlyField(source='getIepsMoney')
-    propertyGetSubtotalMoney = serializers.ReadOnlyField(source='getSubtotalMoney')
-    propertyGetLenTickets = serializers.ReadOnlyField(source='getLenTickets')
-    propertyGetFaltanteMoney = serializers.ReadOnlyField(source='getFaltanteMoney')
-    propertyGetLenFaltante = serializers.ReadOnlyField(source='getLenFaltante')
-    products = serializers.SerializerMethodField()
+    TotalDetail = serializers.ReadOnlyField()
+    IvaDetail = serializers.ReadOnlyField()
+    IepsDetail = serializers.ReadOnlyField()
+    SubTotalDetail = serializers.ReadOnlyField()
+    ProductsDetail = serializers.ReadOnlyField()
+    getLenTickets = serializers.ReadOnlyField()
+    getLenFaltante = serializers.ReadOnlyField()
     class Meta(Basic_Serializer.Meta):
         model = Cut
-    def get_products(self, obj):
-        return CutProductSerializer(obj.getCutProducts(), many=True, read_only=True).data
+    
 ########################################################
 class OfferSerializer(Basic_Serializer):
     mySellpoints = serializers.ReadOnlyField(source='get_sellpointsId')
@@ -144,8 +142,15 @@ class Sellpoint__ApiView(Generic__ApiView):
             if request.GET.get('api') == 'getBarCode':
                 return JsonResponse({'ticket':TicketSerializer(Ticket().new(ticket=json.loads(request.POST.get('ticket')))).data}, safe=False)
             if request.GET.get('api') == 'makeCut':
-                cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()
-                return JsonResponse({'cut': CutSerializer(cut).data})
+                totalcut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()
+                cut = {}
+                for cutType in cut.cutTypes():
+                    cut[cutType] = CutSerializer(totalcut).data
+                return JsonResponse(cut)
+            if request.GET.get('api') == 'getCut':
+                return JsonResponse({
+                    'cut': CutSerializer(Cut.objects.get(id=request.POST.get('cut')), read_only=True).data
+                }, safe=False)
         except Exception as e:
             return JsonResponse({'error':str(e)})
 ########################################################
@@ -159,3 +164,7 @@ class SVbarcodeScanner__TemplateView(Generic__TemplateView):
 ########################################################
 class Cut__DetailView(Generic__DetailView):
     template_name = "Cut__DetailView.html"
+    def proccess_context(self, context):
+        #self.object.cutTypes()
+        context['CutSerializer'] = JsonResponse({'cut': CutSerializer(self.object, read_only=True).data}, safe=False)
+        return context

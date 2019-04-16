@@ -123,8 +123,8 @@
                     if(self.Menus) self.Menu = self.Menus[0]
                     if(!self.Sellpoint.printer) UnBlock()
                 }
-            }).catch((error) => {
-                UnBlock()
+            }).catch((error) => { 
+                UnBlock();
             }).finally(() => {
                 if (!postFunctions){
                     UnBlock()
@@ -357,7 +357,7 @@
                     ticketFormat = []
                     ticketFormat.push(["times",[1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
-                    ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.propertyGetTotalMoney])
+                    ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.TotalDetail['all'][1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", 'FOLIO: ' + String(json.data.cut.serial)])
                     ticketFormat.push(["text", moment(json.data.cut.final_time).format('MMMM D, h:mm:ss a')])
@@ -370,23 +370,23 @@
                     if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1])
                     if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2])
                     if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1])
-                    ticketFormat.push(["text", 'No. tickets faltantes: ' + json.data.cut.propertyGetLenFaltante])
-                    ticketFormat.push(["text", 'No. de clientes: ' + json.data.cut.propertyGetLenTickets])
+                    ticketFormat.push(["text", 'No. tickets faltantes: ' + json.data.cut.getLenFaltante])
+                    ticketFormat.push(["text", 'No. de clientes: ' + json.data.cut.getLenFaltante])
                     ticketFormat.push(["text", '1er ticket: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a')])
                     ticketFormat.push(["text", '------------------------------------------'])
-                    json.data.cut.products.forEach(function(product){
+                    json.data.cut.ProductsDetail['all'].forEach(function(product){
                         ticketFormat.push(["set",["LT", "bu", "", 1, 1]])
                         ticketFormat.push(["text", '-' + String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice + ' --> ' + product.getTotalMoney])
                     });
                     ticketFormat.push(["text", '------------------------------------------'])
                     ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                    ticketFormat.push(["text", 'IVA: ' + json.data.cut.propertyGetIvaMoney])
+                    ticketFormat.push(["text", 'IVA: ' + json.data.cut.IvaDetail['all'][1]])
                     ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                    ticketFormat.push(["text", 'IEPS: ' + json.data.cut.propertyGetIepsMoney])
+                    ticketFormat.push(["text", 'IEPS: ' + json.data.cut.IepsDetail['all'][1]])
                     ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                    ticketFormat.push(["text", 'FALTANTE: ' + json.data.cut.propertyGetFaltanteMoney])
+                    ticketFormat.push(["text", 'FALTANTE: ' + json.data.cut.TotalDetail['all'][3]])
                     ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                    ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.propertyGetTotalMoney])
+                    ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.TotalDetail['all'][1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                     ticketFormat.push(["cut"])
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
