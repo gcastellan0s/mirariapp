@@ -30,13 +30,13 @@
 														<span class="kt-invoice__subtitle">PRIMER TICKET</span>
 														<span class="kt-invoice__text"><strong>{{object.initial_time}}</strong></span>
 													</div>
-													<div class="kt-invoice__item m--align-right">
+													<div class="kt-invoice__item m--align-right" v-if="CutDetail">
 														<span class="kt-invoice__subtitle">TOTAL TICKETS</span>
-														<span class="kt-invoice__text"><strong>{{object.getLenTickets}}</strong> clientes / <strong>{{object.getTotalMoney}}</strong> </span>
+														<span class="kt-invoice__text"><strong>{{object.getLenTickets}}</strong> clientes / <strong>${CutDetail.TotalDetail['all'][1]}</strong> </span>
 													</div>
-													<div class="kt-invoice__item m--align-right">
+													<div class="kt-invoice__item m--align-right" v-if="CutDetail">
 														<span class="kt-invoice__subtitle">TOTAL FALTANTES</span>
-														<span class="kt-invoice__text"><strong>{{object.getLenFaltante}}</strong> clientes / <strong>{{object.getFaltanteMoney}}</strong> </span>
+														<span class="kt-invoice__text"><strong>{{object.getLenFaltante}}</strong> clientes / <strong>${CutDetail.TotalDetail['all'][3]}</strong> </span>
 													</div>
 												</div>
 											</div>

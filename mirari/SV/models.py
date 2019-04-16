@@ -790,16 +790,6 @@ VARS = {
             """,
         },
         {
-            'field': 'property_getFaltanteMoney',
-            'title': 'Faltante',
-            'template': 
-            """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    {{property_getFaltanteMoney}}
-                </a>
-            """,
-        },
-        {
             'field': 'property_getTotalMoney',
             'title': 'Total Corte',
             'template': 
