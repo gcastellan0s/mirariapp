@@ -38,7 +38,6 @@ from crispy_forms.layout import *
 import requests
 import json
 
-from rest_framework import serializers
 from validate_email import validate_email
 
 from .models import *

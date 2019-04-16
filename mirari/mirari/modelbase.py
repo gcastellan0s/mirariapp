@@ -36,6 +36,7 @@ from money.money import Money
 from money.currency import Currency
 
 from taggit.managers import TaggableManager
+from rest_framework import serializers
 
 import datetime
 import uuid
