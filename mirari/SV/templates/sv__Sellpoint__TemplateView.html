@@ -263,12 +263,13 @@
             }).catch((error) => { Block('Imprimiendo sin internet...')
             }).finally(() => { 
                 if (print) {
-                    times = 2
-                    '.'.repeat(times).split('').forEach(x => {
-                        setTimeout(function() {
-                            self.printTicket(self.Ticket)
-                        }, 2000);
-                    });
+                    self.printTicket(self.Ticket)
+                    //times = 2
+                    //'.'.repeat(times).split('').forEach(x => {
+                        //setTimeout(function() {
+//                            
+                        //}, 2000);
+                    //});
                 }
                 if (send) self.emmitSendTicket(self.Ticket)
                 if (init) self.initTicket()
