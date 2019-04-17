@@ -566,7 +566,7 @@ class Ticket(Model_base):
             else:
                 self.clientName = ticket['clientID']
             if ticket.get('datetimeOfDelivery'):
-                self.datetimeOfDelivery = datetime.datetime.strptime(ticket['datetimeOfDelivery'], '%m/%d/%Y %H:%M:%S')
+                self.datetimeOfDelivery = datetime.datetime.strptime(ticket['datetimeOfDelivery'], '%d/%m/%Y %H:%M:%S')
             self.destination = ticket.get('destination')
             self.notes = ticket.get('notes')
             self.email = ticket.get('email')
@@ -610,6 +610,8 @@ class Ticket(Model_base):
         return Money(self.getIeps(), Currency.MXN).format('es_MX')
     def getProducts(self):
         return TicketProducts.objects.filter(ticket=self)
+    def getTicketType(self):
+        return ", ".join(o.name for o in self.ticketType.all())
 
 ########################################################################################
 VARS = {

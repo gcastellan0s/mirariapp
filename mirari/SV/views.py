@@ -68,6 +68,7 @@ class CutSerializer(Basic_Serializer):
     ProductsDetail = serializers.ReadOnlyField()
     getLenTickets = serializers.ReadOnlyField()
     getLenFaltante = serializers.ReadOnlyField()
+    getTicketType = serializers.ReadOnlyField()
     class Meta(Basic_Serializer.Meta):
         model = Cut
     
@@ -142,7 +143,7 @@ class Sellpoint__ApiView(Generic__ApiView):
             if request.GET.get('api') == 'getBarCode':
                 return JsonResponse({'ticket':TicketSerializer(Ticket().new(ticket=json.loads(request.POST.get('ticket')))).data}, safe=False)
             if request.GET.get('api') == 'makeCut':
-                return JsonResponse({'cut': CutSerializer(Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()).data}, safe=False)
+                return JsonResponse({'cut': CutSerializer(Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut()).data}, safe=False)
             if request.GET.get('api') == 'getCut':
                 return JsonResponse({'cut': CutSerializer(Cut.objects.get(id=request.POST.get('cut')), read_only=True).data}, safe=False)
         except Exception as e:
