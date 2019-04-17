@@ -274,52 +274,55 @@
             });
         }),
         printTicket: ((ticket) => { 
-            if (PrivateSocket){
-                ticketFormat = []
-                if(self.Ticket.ticketType=='VENTA'){ticketFormat.push(["times",[self.Sellpoint.number_tickets]])}
-                else if(self.Ticket.ticketType=='REMISION'){
-                    ticketFormat.push(["times",[4]])
-                }
-                else if(self.Ticket.ticketType=='PAGO'){ticketFormat.push(["times",[2]])}
-                else if(self.Ticket.ticketType=='DEVOLUCION'){ticketFormat.push(["times",[2]])}
-                ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
-                if (self.Ticket.onAccount){ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
-                else {ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total))])}
-                ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1])
-                if(self.Sellpoint.header_line_black_2) ticketFormat.push(["text", self.Sellpoint.header_line_black_2])
-                ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1])
-                if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2])
-                ticketFormat.push(["text", self.Ticket.format_date + ' ' + self.Ticket.format_time])
-                if (self.Ticket.clientID) ticketFormat.push(["text", '------------------------------------------'])
-                if (self.Ticket.clientID) ticketFormat.push(["text", 'ID Cliente: ' + self.Ticket.clientID])
-                if (self.Ticket.clientName) ticketFormat.push(["text", 'Nombre: ' + self.Ticket.clientName])
-                if (self.Ticket.email) ticketFormat.push(["text", 'Email: ' + self.Ticket.email])
-                if (self.Ticket.phone) ticketFormat.push(["text", 'Teléfono: ' + self.Ticket.phone])
-                if (self.Ticket.rfc) ticketFormat.push(["text", 'RFC: ' + self.Ticket.rfc])
-                if (self.Ticket.datetimeOfDelivery) ticketFormat.push(["text", 'Fecha de entrega: ' + self.Ticket.datetimeOfDelivery])
-                if (self.Ticket.destination) ticketFormat.push(["text", 'Destino: ' + self.Ticket.destination])
-                if (self.Ticket.notes) ticketFormat.push(["text", 'Notas: ' + self.Ticket.notes])
-                ticketFormat.push(["text", '------------------------------------------'])
-                self.Ticket.products.forEach(function(product){
-                    ticketFormat.push(["set",["LT", "A", "bu", 1, 1]])
-                    ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' ' + '$' + self.$options.filters.formatPrice(String(product.total))])
-                    product.offers.forEach(function(offer){
+            if(self.Ticket.ticketType=='VENTA')times = 1
+            else if(self.Ticket.ticketType=='REMISION')times = 4
+            else if(self.Ticket.ticketType=='PAGO')times = 2
+            else if(self.Ticket.ticketType=='DEVOLUCION')times = 2
+            '.'.repeat(times).split('').forEach(x => {
+                setTimeout(function() {
+                    if (PrivateSocket){
+                        ticketFormat = []
+                        ticketFormat.push(["times",[self.Sellpoint.number_tickets]])
+                        ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
+                        if (self.Ticket.onAccount){ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
+                        else {ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total))])}
+                        ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                        if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1])
+                        if(self.Sellpoint.header_line_black_2) ticketFormat.push(["text", self.Sellpoint.header_line_black_2])
+                        ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                        if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1])
+                        if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2])
+                        ticketFormat.push(["text", self.Ticket.format_date + ' ' + self.Ticket.format_time])
+                        if (self.Ticket.clientID) ticketFormat.push(["text", '------------------------------------------'])
+                        if (self.Ticket.clientID) ticketFormat.push(["text", 'ID Cliente: ' + self.Ticket.clientID])
+                        if (self.Ticket.clientName) ticketFormat.push(["text", 'Nombre: ' + self.Ticket.clientName])
+                        if (self.Ticket.email) ticketFormat.push(["text", 'Email: ' + self.Ticket.email])
+                        if (self.Ticket.phone) ticketFormat.push(["text", 'Teléfono: ' + self.Ticket.phone])
+                        if (self.Ticket.rfc) ticketFormat.push(["text", 'RFC: ' + self.Ticket.rfc])
+                        if (self.Ticket.datetimeOfDelivery) ticketFormat.push(["text", 'Fecha de entrega: ' + self.Ticket.datetimeOfDelivery])
+                        if (self.Ticket.destination) ticketFormat.push(["text", 'Destino: ' + self.Ticket.destination])
+                        if (self.Ticket.notes) ticketFormat.push(["text", 'Notas: ' + self.Ticket.notes])
+                        ticketFormat.push(["text", '------------------------------------------'])
+                        self.Ticket.products.forEach(function(product){
+                            ticketFormat.push(["set",["LT", "A", "bu", 1, 1]])
+                            ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' ' + '$' + self.$options.filters.formatPrice(String(product.total))])
+                            product.offers.forEach(function(offer){
+                                ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                                ticketFormat.push(["text", offer.name + ' -' + offer.discountValue + '%'])
+                            });
+                        });
                         ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                        ticketFormat.push(["text", offer.name + ' -' + offer.discountValue + '%'])
-                    });
-                });
-                ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                ticketFormat.push(["text", 'IVA: $' + self.$options.filters.formatPrice(String(self.Ticket.iva))])
-                ticketFormat.push(["text", 'IEPS: $' + self.$options.filters.formatPrice(String(self.Ticket.ieps))])
-                if (self.Ticket.onAccount){ticketFormat.push(["text", 'A CUENTA: $' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
-                ticketFormat.push(["text", 'TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total))])
-                ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                ticketFormat.push(["text", self.Ticket.barcode + ' :: ' + self.Ticket.key])
-                ticketFormat.push(["qr",self.Ticket.key])
-                PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
-            }
+                        ticketFormat.push(["text", 'IVA: $' + self.$options.filters.formatPrice(String(self.Ticket.iva))])
+                        ticketFormat.push(["text", 'IEPS: $' + self.$options.filters.formatPrice(String(self.Ticket.ieps))])
+                        if (self.Ticket.onAccount){ticketFormat.push(["text", 'A CUENTA: $' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
+                        ticketFormat.push(["text", 'TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total))])
+                        ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                        ticketFormat.push(["text", self.Ticket.barcode + ' :: ' + self.Ticket.key])
+                        ticketFormat.push(["qr",self.Ticket.key])
+                        PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
+                    }
+                }, 2000);
+            });
         }),
         initTicket: (() => {
             self.Ticket = {
