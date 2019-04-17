@@ -142,15 +142,9 @@ class Sellpoint__ApiView(Generic__ApiView):
             if request.GET.get('api') == 'getBarCode':
                 return JsonResponse({'ticket':TicketSerializer(Ticket().new(ticket=json.loads(request.POST.get('ticket')))).data}, safe=False)
             if request.GET.get('api') == 'makeCut':
-                totalcut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()
-                cut = {}
-                for cutType in cut.cutTypes():
-                    cut[cutType] = CutSerializer(totalcut).data
-                return JsonResponse(cut)
+                return JsonResponse({'cut': CutSerializer(Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()).data}, safe=False)
             if request.GET.get('api') == 'getCut':
-                return JsonResponse({
-                    'cut': CutSerializer(Cut.objects.get(id=request.POST.get('cut')), read_only=True).data
-                }, safe=False)
+                return JsonResponse({'cut': CutSerializer(Cut.objects.get(id=request.POST.get('cut')), read_only=True).data}, safe=False)
         except Exception as e:
             return JsonResponse({'error':str(e)})
 ########################################################
