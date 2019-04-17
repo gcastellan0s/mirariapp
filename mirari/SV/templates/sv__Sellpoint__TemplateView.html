@@ -358,6 +358,7 @@
                 sellpoint: JSON.stringify(self.Sellpoint),
             })
             .then((json) => {
+                console.log(json)
                 if (PrivateSocket){
                     ticketFormat = []
                     ticketFormat.push(["times",[1]])
@@ -396,6 +397,7 @@
                     ticketFormat.push(["cut"])
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 }
+            }).catch((error) => { console.log(error)
             }).finally(() => {
                 UnBlock()
                 self.emmitGetStates()
