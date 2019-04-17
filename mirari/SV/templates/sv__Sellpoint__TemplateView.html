@@ -257,6 +257,7 @@
             self.Ticket.username = '{{request.user.visible_username}}'
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getBarCode',{ticket: JSON.stringify(self.Ticket)},errorDialog=false)
             .then((json) => {
+                console.log(json)
                 Block('Imprimiendo...')
                 self.Ticket.barcode = json.data.ticket.barcode
                 self.Ticket.cut = json.data.ticket.cut
@@ -379,11 +380,33 @@
                     ticketFormat.push(["text", 'No. tickets faltantes: ' + json.data.cut.getLenFaltante])
                     ticketFormat.push(["text", 'No. de clientes: ' + json.data.cut.getLenFaltante])
                     ticketFormat.push(["text", '1er ticket: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a')])
-                    ticketFormat.push(["text", '------------------------------------------'])
-                    json.data.cut.ProductsDetail['all'].forEach(function(product){
-                        ticketFormat.push(["set",["LT", "bu", "", 1, 1]])
-                        ticketFormat.push(["text", '-' + String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice + ' --> ' + product.getTotalMoney])
-                    });
+                    for (const prop in json.data.cut.ProductsDetail) {
+                        if (Object.keys(json.data.cut.ProductsDetail).length > 2 || prop=='all'){
+                            if (json.data.cut.TotalDetail[prop][0]!='0.00'){
+                                ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                                ticketFormat.push(["text", '------------------------------------------'])
+                                if (prop=='all') ticketFormat.push(["text", 'VENTA TOTAL'])
+                                else ticketFormat.push(["text", prop])
+                                ticketFormat.push(["text", '------------------------------------------'])
+                                json.data.cut.ProductsDetail[prop].forEach(function(product){
+                                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                                    ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice + ' --> ' + product.getTotalMoney])
+                                });
+                                ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                                ticketFormat.push(["text", 'FALTANTE: ' + json.data.cut.TotalDetail[prop][3]])
+                                ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.TotalDetail[prop][1]])
+                            }
+                        }
+                    }
+                    //json.data.cut.ProductsDetail.forEach(([tycketType, products]) => {
+                        //ticketFormat.push(["text", '------------------------------------------'])
+                        //ticketFormat.push(["text", tycketType])
+                        //ticketFormat.push(["text", '------------------------------------------'])
+                        //products.forEach(function(product){
+                            //ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                            //ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice + ' --> ' + product.getTotalMoney])
+                        //});
+                    //});
                     ticketFormat.push(["text", '------------------------------------------'])
                     ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", 'IVA: ' + json.data.cut.IvaDetail['all'][1]])
