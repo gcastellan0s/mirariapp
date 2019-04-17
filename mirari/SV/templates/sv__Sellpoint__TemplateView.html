@@ -271,7 +271,9 @@
                         //}, 2000);
                     //});
                 }
-                if (send) self.emmitSendTicket(self.Ticket)
+                if (send) {
+                    if(self.Ticket.ticketType=='VENTA' || self.Ticket.ticketType=='PAGO' ) self.emmitSendTicket(self.Ticket)
+                }
                 if (init) self.initTicket()
                 if (self.includes(self.Sellpoint.orders, {{request.user.id}})){
                     self.resetOrder()
