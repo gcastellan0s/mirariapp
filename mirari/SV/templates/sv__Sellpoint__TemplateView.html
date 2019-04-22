@@ -101,19 +101,19 @@
         self.getStates(postFunctions=true)
         setInterval(function(){
             self.getStates(postFunctions=false)
-        }, 1000000);
+        }, 600000);
+        setInterval(function(){
+            self.sendPendings()
+        }, 300000);
     {%endblock mounted%}
 
     {%block methods%}
         getStates: ((postFunctions = false) => {
             Block('Actualizando configuracion...')
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates', errorDialog=false).then(function(json){
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates',{},false,0).then(function(json){
                 self.Sellpoints = json.data.sellpoints
-                //self.Sellpoints.forEach(function(element){if(element.orders.includes({{request.user.id}})){self.Sellpoint=element;return 0}})
-                //if(!self.Sellpoint){self.Sellpoints.forEach(function(element){if(element.cashers.includes({{request.user.id}})){self.Sellpoint=element;return 0}})}
-                //if(!self.Sellpoint){self.Sellpoint = self.Sellpoints[0]}
                 self.Sellpoint = self.Sellpoints[0]
-                if({{request.user.id}}==327) self.Sellpoint = self.Sellpoints[1]
+                if({{request.user.id}}==327) self.Sellpoint = self.Sellpoints[1] //////// REVISAR ESTO
                 self.Menus = json.data.menus
                 self.ProductAttributes = json.data.productAttributes
                 self.Offers = json.data.offers
@@ -124,7 +124,7 @@
                     if(!self.Sellpoint.printer) UnBlock()
                 }
             }).catch((error) => { 
-                UnBlock();
+                UnBlock()
             }).finally(() => {
                 if (!postFunctions){
                     UnBlock()
@@ -132,7 +132,7 @@
             });
         }),
         initializePublicSocket: (() => {
-            PublicSocket = io.connect('http://50.18.229.242:8002', {resource: 'PublicSocket/socket.io', 'force new connection': true});
+            PublicSocket = io.connect('http://50.18.229.242:8002');
             PublicSocket.emit('room', '{{request.user.organization.code}}');
             PublicSocket.on('Recibe_Event', (event, data) => {
                 if (event == 'getStates') self.recibeGetStates(data);
@@ -255,23 +255,16 @@
             self.Ticket.sellpoint.name = self.Sellpoint.name
             self.Ticket.sellpoint.color = self.Sellpoint.color
             self.Ticket.username = '{{request.user.visible_username}}'
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getBarCode',{ticket: JSON.stringify(self.Ticket)},errorDialog=false)
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getBarCode',{ticket: JSON.stringify(self.Ticket)},errorDialog=false,timeout=3000)
             .then((json) => {
-                console.log(json)
                 Block('Imprimiendo...')
                 self.Ticket.barcode = json.data.ticket.barcode
                 self.Ticket.cut = json.data.ticket.cut
-            }).catch((error) => { Block('Imprimiendo sin internet...')
+            }).catch((error) => {
             }).finally(() => { 
-                if (print) {
-                    self.printTicket(self.Ticket)
-                    //times = 2
-                    //'.'.repeat(times).split('').forEach(x => {
-                        //setTimeout(function() {
-//                            
-                        //}, 2000);
-                    //});
-                }
+                if (print) self.printTicket(self.Ticket)
+                newTicket = self.Tickets.find(function(ticket){return ticket.key == self.Ticket.key;});
+                if(!newTicket) self.Tickets.unshift(self.Ticket)
                 if (send) {
                     if(self.Ticket.ticketType=='VENTA' || self.Ticket.ticketType=='PAGO' ) self.emmitSendTicket(self.Ticket)
                 }
@@ -283,6 +276,18 @@
                 else if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher')
                 UnBlock();
             });
+        }),
+        sendPendings: (() => {
+            (async () => {
+                pendingTickets = await self.Tickets.filter(function(ticket) {return (ticket.barcode == 0)})
+                await pendingTickets.forEach(ticket => {
+                    Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getBarCode',{ticket: JSON.stringify(ticket)},errorDialog=false,timeout=3000)
+                    .then((json) => {
+                        ticket.barcode = json.data.ticket.barcode
+                        ticket.cut = json.data.ticket.cut
+                    }).catch((error) => {}).finally(()=>{});
+                });
+            })();
         }),
         printTicket: ((ticket) => { 
             if (PrivateSocket){
@@ -359,10 +364,10 @@
                 sellpoint: JSON.stringify(self.Sellpoint),
             })
             .then((json) => {
-                console.log(json)
                 if (PrivateSocket){
                     ticketFormat = []
-                    ticketFormat.push(["times",[1]])
+                    if(self.Ticket.ticketType=='VENTA' || self.Ticket.ticketType=='PAGO' ) ticketFormat.push(["times",[1]])
+                    else ticketFormat.push(["times",[3]])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.TotalDetail['all'][1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
@@ -370,7 +375,6 @@
                     ticketFormat.push(["text", moment(json.data.cut.final_time).format('MMMM D, h:mm:ss a')])
                     ticketFormat.push(["text", self.Sellpoint.name])
                     ticketFormat.push(["text", '------------------------------------------'])
-                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                     if(self.Sellpoint.header_line_black_1) ticketFormat.push(["text", self.Sellpoint.header_line_black_1])
                     if(self.Sellpoint.header_line_black_2) ticketFormat.push(["text", self.Sellpoint.header_line_black_2])
                     ticketFormat.push(["set",["CT", "A", "", 1, 1]])
@@ -389,8 +393,7 @@
                                 else ticketFormat.push(["text", prop])
                                 ticketFormat.push(["text", '------------------------------------------'])
                                 json.data.cut.ProductsDetail[prop].forEach(function(product){
-                                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                                    ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice + ' --> ' + product.getTotalMoney])
+                                        ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice + ' --> ' + product.getTotalMoney])
                                 });
                                 ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                                 ticketFormat.push(["text", 'FALTANTE: ' + json.data.cut.TotalDetail[prop][3]])
@@ -398,29 +401,17 @@
                             }
                         }
                     }
-                    //json.data.cut.ProductsDetail.forEach(([tycketType, products]) => {
-                        //ticketFormat.push(["text", '------------------------------------------'])
-                        //ticketFormat.push(["text", tycketType])
-                        //ticketFormat.push(["text", '------------------------------------------'])
-                        //products.forEach(function(product){
-                            //ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                            //ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice + ' --> ' + product.getTotalMoney])
-                        //});
-                    //});
                     ticketFormat.push(["text", '------------------------------------------'])
                     ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", 'IVA: ' + json.data.cut.IvaDetail['all'][1]])
-                    ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", 'IEPS: ' + json.data.cut.IepsDetail['all'][1]])
-                    ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", 'FALTANTE: ' + json.data.cut.TotalDetail['all'][3]])
-                    ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.TotalDetail['all'][1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                     ticketFormat.push(["cut"])
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 }
-            }).catch((error) => { console.log(error)
+            }).catch((error) => {
             }).finally(() => {
                 UnBlock()
                 self.emmitGetStates()
@@ -466,7 +457,38 @@
             Block(text)
             location.reload();
         }),
-        {%include 'Template__socketio.js'%}
+        /////SOCKETIO
+        recibePrinterConection: ((data) => {
+            if(self.Sellpoint.printer == data.name){
+                if (data.name != self.ActivePrinter.name || data.url != self.ActivePrinter.url){
+                    if (PrivateSocket) PrivateSocket.close()
+                    self.ActivePrinter = data
+                    PrivateSocket = io.connect(self.ActivePrinter.url);
+                    UnBlock()
+                }
+            }
+        }),
+        recibePrintTicket: ((data) => {
+            newTicket = self.Tickets.find(function(ticket){return ticket.key == data.key});
+            if(!newTicket) self.Tickets.unshift(data)
+        }),
+        recibeScanTicket: ((data) => {
+            updateTicket = self.Tickets.find(function(ticket) {
+                return ticket.key == data.key;
+            });
+            if (updateTicket){
+                updateTicket.status = data.status
+                updateTicket.barcode = data.barcode
+                updateTicket.cut = data.cut
+                self.LastTicketScan = data.barcode
+            }
+        }),
+        recibeReloadSystem: ((data) => {
+            self.reloadSystem()
+        }),
+        recibeGetStates: ((data) => {
+            self.getStates()
+        }),
         /////PLUGINS
         emmitReloadSystem: (() => {
             PublicSocket.emit('Send_Event', '{{request.user.organization.code}}', 'reloadSystem', {})
@@ -534,12 +556,8 @@
                 Ax('get', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClients&query='+newData)
                 .then(function(json){
                     self.Clients = json.data.clients
-                }).catch((error) => {
-                    console.log(error)
-                });
-            }else{
-                self.resetOrder()
-            }
+                }).catch((error) => {});
+            }else{self.resetOrder()}
         }
     {%endblock watch%}
 
