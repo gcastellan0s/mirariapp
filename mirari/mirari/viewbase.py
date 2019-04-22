@@ -367,6 +367,8 @@ class Base_List(object):
         context['verbose_name'] = self.verbose_name
         context['verbose_name_plural'] = self.verbose_name_plural
         context = self.proccess_context(context)
+        if 'HTMLPageList' in self.model.VARS:
+            self.template_name = self.model.VARS['HTMLPageList']
         return context
     #############################################################################################################
     def get_default_serializer(self):

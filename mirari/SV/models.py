@@ -427,48 +427,107 @@ VARS = {
     'THIS':'este',
     'APP':APP,
     'EXCLUDE_PERMISSIONS': ['create','update'],
+    'SERIALIZER': ('getColor','getSellpoint','getIepsMoney','getIvaMoney','getTotalMoney','getOnAccountMoney',),
     'LIST': [
         {
             'field': 'barcode',
             'title': 'Folio',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
+                    <strong>
+                        {{barcode}}
+                    </strong>
+                </a>
+            """,
         },
-        #{
-            #'field': 'property_getCutSerial',
-            #'title': 'Corte',
-        #},
         {
             'field': 'property_getSellpoint',
             'title': 'Punto de Venta',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
+                    <strong>
+                        {{property_getSellpoint}}
+                    </strong>
+                </a>
+            """,
         },
-        #{
-            #'field': 'username',
-            #'title': 'Usuario',
-        #},
         {
             'field': 'ticketType',
             'title': 'Tipo',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
+                    <strong>
+                        {{ticketType}}
+                    </strong>
+                </a>
+            """,
         },
         {
             'field': 'property_getIepsMoney',
             'title': 'IEPS',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
+                    <strong>
+                        {{property_getIepsMoney}}
+                    </strong>
+                </a>
+            """,
         },
         {
             'field': 'property_getIvaMoney',
-            'title': 'I.V.A.',
-        },
-        {
-            'field': 'property_getTotalMoney',
-            'title': 'Total',
+            'title': 'IVA',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
+                    <strong>
+                        {{property_getIvaMoney}}
+                    </strong>
+                </a>
+            """,
         },
         {
             'field': 'property_getOnAccountMoney',
-            'title': 'A cuenta',
+            'title': 'A CUENTA',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
+                    <strong>
+                        {{property_getOnAccountMoney}}
+                    </strong>
+                </a>
+            """,
+        },
+        {
+            'field': 'property_getTotalMoney',
+            'title': 'TOTAL',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
+                    <strong>
+                        {{property_getTotalMoney}}
+                    </strong>
+                </a>
+            """,
         },
         {
             'field': 'status',
-            'title': 'Estatus',
+            'title': 'ESTATUS',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
+                    <strong>
+                        {{status}}
+                    </strong>
+                </a>
+            """,
         },
     ],
+    'HIDE_CHECKBOX_LIST': True,
+    'HIDE_BUTTONS_LIST': True,
     'FILTERS': {
         'status': {
             'size':'4',
@@ -490,6 +549,7 @@ VARS = {
             ],
         }
     },
+    #'HTMLPageList': 'sv__Ticket__ListView.html',
 }
 class Ticket(Model_base):
     STATUS_TICKET = (
@@ -541,6 +601,9 @@ class Ticket(Model_base):
         return self.sellpoint.my_organization()
     def new(self, ticket):
         self.sellpoint = Sellpoint.objects.get(id = ticket['sellpoint']['id'])
+        lastTicket = Ticket.objects.filter(key=ticket['key'],total=ticket['total'],sellpoint=self.sellpoint).first()
+        if lastTicket:
+            return lastTicket
         self.barcode = self.sellpoint.get_serial()
         self.key = ticket['key']
         self.user = User.objects.get(id=ticket['user'])
@@ -612,6 +675,8 @@ class Ticket(Model_base):
         return TicketProducts.objects.filter(ticket=self)
     def getTicketType(self):
         return ", ".join(o.name for o in self.ticketType.all())
+    def getColor(self):
+        return self.sellpoint.color
 
 ########################################################################################
 VARS = {
@@ -792,6 +857,16 @@ VARS = {
             """,
         },
         {
+            'field': 'property_getFaltanteMoney',
+            'title': 'Faltate',
+            'template': 
+            """
+                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
+                    {{property_getFaltanteMoney}}
+                </a>
+            """,
+        },
+        {
             'field': 'property_getTotalMoney',
             'title': 'Total Corte',
             'template': 
@@ -916,6 +991,11 @@ class Cut(Model_base):
         for ticket in self.getTickets(status=status, ticketType=ticketType):
             total += ticket.total - ticket.ieps - ticket.iva
         return "{0:.2f}".format(total)
+    def getFaltante(self, status='PENDIENTE', ticketType='all'):
+        total = 0
+        for ticket in self.getTickets(status=status, ticketType=ticketType):
+            total += ticket.total
+        return "{0:.2f}".format(total)
     def getTotalMoney(self, status='COBRADO', ticketType='all'):
         return Money(self.getTotal(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
     def getIepsMoney(self, status='COBRADO', ticketType='all'):
@@ -924,6 +1004,8 @@ class Cut(Model_base):
         return Money(self.getIva(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
     def getSubtotalMoney(self, status='COBRADO', ticketType='all'):
         return Money(self.getSubtotal(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
+    def getFaltanteMoney(self, status='PENDIENTE', ticketType='all'):
+        return Money(self.getFaltante(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
     def getOffersLen(self, status='COBRADO', ticketType='all'):
         total = 0
         for ticket in self.getTickets(status=status, ticketType=ticketType):
