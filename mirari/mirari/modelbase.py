@@ -6,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.core.exceptions import PermissionDenied
 from django.db import models, transaction
-from django.db.models import Q
+from django.db.models import Q, F
 from django.db.models.signals import m2m_changed, post_save
 from django.http import JsonResponse
 from django_countries.fields import CountryField

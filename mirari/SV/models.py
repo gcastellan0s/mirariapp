@@ -895,7 +895,7 @@ class Cut(Model_base):
     def __str__(self):
         return '{0}'.format(self.id)
     def QUERY(self, view):
-        return Cut.objects.filter(sellpoint__organization__pk=view.request.session.get('organization'), active=True)
+        return Cut.objects.filter(sellpoint__organization__pk=view.request.session.get('organization'), active=True).order_by('-final_time')
     def my_organization(self):
         return self.sellpoint.my_organization()
     def url_detail(self):
