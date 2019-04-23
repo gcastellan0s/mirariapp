@@ -790,7 +790,7 @@ VARS = {
     'THIS':'este',
     'APP':APP,
     'EXCLUDE_PERMISSIONS': ['create','update','delete'],
-    'SERIALIZER': ('getColor','getSellpoint','getIvaMoney','getSubtotalMoney','getIepsMoney','getLenFaltante','getLenTickets'),
+    'SERIALIZER': ('getColor','getSellpoint','getIvaMoney','getSubtotalMoney','getIepsMoney','getLenFaltante','getLenTickets','getTotalFaltanteMoney'),
     'LIST': [
         {
             'field': 'serial',
@@ -847,7 +847,8 @@ VARS = {
             """
                 <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
                     <strong>{{property_getTotalMoney}}</strong> <br />
-                    #{{property_getLenTickets}} clientes
+                    #{{property_getLenTickets}} clientes <br />
+                    <small>+Faltante:</small> {{property_getTotalFaltanteMoney}}<br />
                 </a>
             """,
         },
@@ -981,6 +982,8 @@ class Cut(Model_base):
         return Money(self.getSubtotal(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
     def getFaltanteMoney(self, status='PENDIENTE', ticketType='all'):
         return Money(self.getFaltante(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
+    def getTotalFaltanteMoney(self):
+        return Money("{0:.2f}".format( float(self.getTotal()) + float(self.getFaltante())), Currency.MXN).format('es_MX')
     def getOffersLen(self, status='COBRADO', ticketType='all'):
         total = 0
         for ticket in self.getTickets(status=status, ticketType=ticketType):
