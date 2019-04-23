@@ -313,7 +313,6 @@ VARS = {
 	},
 	'SORTEABLE': ['creation_date'],
 	'SUMMERNOTE': ['message'],
-	'DATE': ['datetime_expire'],
 }
 def path_Notification_file(self, filename):
 	upload_to = "companys/%s_%s/INT/Notification/%s" % (self.organization.id, self.organization.code, filename)
@@ -388,21 +387,24 @@ class Notification(Model_base):
 		connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
 		connection.open()
 		for target in self.get_targets():
-			if target.email:
-				context = {
-					'notification': self,
-					'destinatary': target
-				}
-				template = render_to_string('email/default/base_email.html', context)
-				msg = EmailMultiAlternatives(
-					subject=self.title,
-					body=template,
-					from_email=email_host.prefix +'<'+email_host.email+'>', 
-					to=[target.email],
-					connection=connection
-				)
-				msg.attach_alternative(template, "text/html")
-				msg.send(True)
+            try:
+                if target.email:
+                    context = {
+                        'notification': self,
+                        'destinatary': target
+                    }
+                    template = render_to_string('email/default/base_email.html', context)
+                    msg = EmailMultiAlternatives(
+                        subject=self.title,
+                        body=template,
+                        from_email=email_host.prefix +'<'+email_host.email+'>', 
+                        to=[target.email],
+                        connection=connection
+                    )
+                    msg.attach_alternative(template, "text/html")
+                    msg.send(True)
+            except:
+                pass
 		transaction.on_commit(
 			lambda: self.sended_to.add(*self.get_targets())
 		)
