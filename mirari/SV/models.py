@@ -836,7 +836,7 @@ VARS = {
             """
                 <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
                     <strong>{{property_getFaltanteMoney}}</strong> <br /> 
-                    #{{property_getLenFaltante}}
+                    #{{property_getLenFaltante}} tickets
                 </a>
             """,
         },
@@ -847,7 +847,7 @@ VARS = {
             """
                 <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
                     <strong>{{property_getTotalMoney}}</strong> <br />
-                    #{{property_getLenTickets}}
+                    #{{property_getLenTickets}} clientes
                 </a>
             """,
         },
