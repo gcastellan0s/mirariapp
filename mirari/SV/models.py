@@ -790,11 +790,12 @@ VARS = {
     'THIS':'este',
     'APP':APP,
     'EXCLUDE_PERMISSIONS': ['create','update','delete'],
-    'SERIALIZER': ('getColor',),
+    'SERIALIZER': ('getColor','getSellpoint','getIvaMoney','getSubtotalMoney','getIepsMoney','getLenFaltante','getLenTickets'),
     'LIST': [
         {
             'field': 'serial',
             'title': 'Folio',
+            'width': 100,
             'template': 
             """
                 <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
@@ -805,74 +806,48 @@ VARS = {
             """,
         },
         {
-            'field': 'property_getSellpoint',
-            'title': 'Punto de Venta',
-            'template': 
-            """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    <strong>
-                        {{property_getSellpoint}}
-                    </strong>
-                </a>
-            """,
-        },
-        {
             'field': 'property_getFinal_time',
             'title': 'Fecha/Hora',
             'template': 
             """
                 <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    {{property_getFinal_time}}
+                    <small>{{property_getFinal_time}}</small>
+                    <br />
+                    <small>{{property_getSellpoint}}</small>
                 </a>
             """,
         },
         {
             'field': 'property_getIvaMoney',
-            'title': 'IVA',
+            'title': 'IMPUESTOS',
             'template': 
             """
                 <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    {{property_getIvaMoney}}
-                </a>
-            """,
-        },
-        {
-            'field': 'property_getIepsMoney',
-            'title': 'IEPS',
-            'template': 
-            """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    {{property_getIepsMoney}}
-                </a>
-            """,
-        },
-        {
-            'field': 'property_getSubtotalMoney',
-            'title': 'Subtotal',
-            'template': 
-            """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    {{property_getSubtotalMoney}}
+                    IVA: {{property_getIvaMoney}} <br />
+                    IEPS: {{property_getIepsMoney}} <br />
+                    Subtotal: {{property_getSubtotalMoney}} <br />
                 </a>
             """,
         },
         {
             'field': 'property_getFaltanteMoney',
-            'title': 'Faltate',
+            'title': 'Faltates',
             'template': 
             """
                 <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    {{property_getFaltanteMoney}}
+                    <strong>{{property_getFaltanteMoney}}</strong> <br /> 
+                    #{{property_getLenFaltante}}
                 </a>
             """,
         },
         {
             'field': 'property_getTotalMoney',
-            'title': 'Total Corte',
+            'title': 'Totales',
             'template': 
             """
                 <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    {{property_getTotalMoney}}
+                    <strong>{{property_getTotalMoney}}</strong> <br />
+                    #{{property_getLenTickets}}
                 </a>
             """,
         },
