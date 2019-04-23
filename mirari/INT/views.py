@@ -3,9 +3,6 @@ from mirari.mirari.views import *
 from .models import *
 from .vars import *
 
-
-
-###############################################################################################
 ######### Notification ########################################################################
 class Notification__DetailView(Generic__DetailView):
 	template_name = 'Notification__DetailView.html'
@@ -28,9 +25,6 @@ class Notification__DetailView(Generic__DetailView):
 		return True
 	
 
-
-###############################################################################################
-###############################################################################################
 ######### Employee ############################################################################
 class EmployeDirectory__ListView(Generic__ListView):
 	model = apps.get_model('mirari', 'User')
@@ -60,10 +54,6 @@ class EmployeDirectory__ListView(Generic__ListView):
 			},
 		]
 
-
-
-###############################################################################################
-###############################################################################################
 ######### DASHBOARD ###########################################################################
 class InternalMailBox_Mail__CreateView(Generic__CreateView):
 	def initialize(self, request, *args, **kwargs):

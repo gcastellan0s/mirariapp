@@ -71,7 +71,6 @@ class CutSerializer(Basic_Serializer):
     getTicketType = serializers.ReadOnlyField()
     class Meta(Basic_Serializer.Meta):
         model = Cut
-    
 ########################################################
 class OfferSerializer(Basic_Serializer):
     mySellpoints = serializers.ReadOnlyField(source='get_sellpointsId')

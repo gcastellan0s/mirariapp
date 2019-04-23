@@ -147,33 +147,44 @@
             else price = self.Price
             if (self.Quantity == 'CANTIDAD') quantity = 1
             else quantity = parseInt(self.Quantity)
-            productLine = self.Ticket.products.find(function(productLine) {
-                return productLine.id == productattribute.id && productLine.price == productattribute.price;
-            });
-            if (!productLine){
-                productLine = {
-                    alias: productattribute.product.name,
-                    productName: productattribute.product.name,
-                    id: productattribute.id,
-                    ieps: productattribute.ieps,
-                    iva: productattribute.iva,
-                    product: productattribute.product,
-                    sellpoint: productattribute.sellpoint,
-                    price: price,
-                    quantity: quantity,
-                    total: 0,
-                    ivaTotal: 0,
-                    iepsTotal: 0,
-                    offers: [],
+            if (productattribute.id != 0){
+                productLine = self.Ticket.products.find(function(productLine) {
+                    return productLine.id == productattribute.id && productLine.price == productattribute.price;
+                });
+                if (!productLine){
+                    productLine = {
+                        alias: productattribute.product.name,
+                        productName: productattribute.product.name,
+                        id: productattribute.id,
+                        ieps: productattribute.ieps,
+                        iva: productattribute.iva,
+                        product: productattribute.product,
+                        sellpoint: productattribute.sellpoint,
+                        price: price,
+                        quantity: quantity,
+                        total: 0,
+                        ivaTotal: 0,
+                        iepsTotal: 0,
+                        offers: [],
+                    }
+                    self.updateproductLineTotal(productLine)
+                    self.Ticket.products.unshift(productLine)
                 }
-                self.updateproductLineTotal(productLine)
-                self.Ticket.products.unshift(productLine)
+                else {
+                    productLine.quantity += quantity
+                    self.updateproductLineTotal(productLine)
+                }
+                self.addOffers(productLine)
             }
-            else {
-                productLine.quantity += quantity
-                self.updateproductLineTotal(productLine)
+            else{
+                if(productattribute.name=='discount'){
+                    if (productattribute.discountValue == 0) productattribute.discountValue = quantity
+                    productattribute.name = 'Descuento'
+                    self.Ticket.products.forEach(function(product){
+                        self.pushOffer(product, productattribute) 
+                    });
+                }
             }
-            self.addOffers(productLine)
             self.makeTicketTotal()
             self.Quantity = 'CANTIDAD'
             self.Price = 'PRECIO'
@@ -209,9 +220,14 @@
                 if (apply == false){if(productLine.offers.length) productLine.offers = productLine.offers.filter(item => item !== offer)}
                 else{
                     if(productLine.offers.length){if(!(productLine.offers.includes(offer))){productLine.offers.push(offer)}}
-                    else productLine.offers.push(offer)
+                    else self.pushOffer(productLine, offer) 
                 }
             });
+        }),
+        pushOffer: ((product, offer) => {
+            if (product.offers.length < 1){
+                product.offers.push(offer)
+            }
         }),
         makeTicketTotal: (() => { ////// SE APLICAN LAS OFERTAS /////
             self.Ticket.total = 0
@@ -219,20 +235,20 @@
             self.Ticket.ieps = 0
             self.Ticket.products.forEach(function(productLine){
                 self.Ticket.total += productLine.total
-                self.Ticket.iva += productLine.iva
-                self.Ticket.ieps += productLine.ieps
+                self.Ticket.iva += productLine.ivaTotal
+                self.Ticket.ieps += productLine.iepsTotal
                 productLine.offers.forEach(function(offer){
                     if(offer.discountType == 'productValue'){
                         discountValue = 100 - (offer.discountValue * 100 / productLine.price)
                         self.Ticket.total -= (productLine.total*(discountValue*.01))
-                        self.Ticket.iva -= (productLine.iva*(discountValue*.01))
-                        self.Ticket.ieps -= (productLine.ieps*(discountValue*.01))
+                        self.Ticket.iva -= (productLine.ivaTotal*(discountValue*.01))
+                        self.Ticket.ieps -= (productLine.iepsTotal*(discountValue*.01))
                         productLine.offerprice = productLine.price - (productLine.price*(discountValue*.01))
                     }
                     else if(offer.discountType == 'productPercent'){
                         self.Ticket.total -= (productLine.total*(offer.discountValue*.01))
-                        self.Ticket.iva -= (productLine.iva*(offer.discountValue*.01))
-                        self.Ticket.ieps -= (productLine.ieps*(offer.discountValue*.01))
+                        self.Ticket.iva -= (productLine.ivaTotal*(offer.discountValue*.01))
+                        self.Ticket.ieps -= (productLine.iepsTotal*(offer.discountValue*.01))
                         productLine.offerprice = productLine.price - (productLine.price*(offer.discountValue*.01))
                     }
                 });
@@ -292,7 +308,10 @@
         printTicket: ((ticket) => { 
             if (PrivateSocket){
                 ticketFormat = []
-                ticketFormat.push(["times",[self.Sellpoint.number_tickets]])
+                if(self.Ticket.ticketType=='VENTA') ticketFormat.push(["times",[self.Sellpoint.number_tickets]])
+                else if(self.Ticket.ticketType=='REMISION') ticketFormat.push(["times",[3]])
+                else if(self.Ticket.ticketType=='PAGO') ticketFormat.push(["times",[3]])
+                else if(self.Ticket.ticketType=='DEVOLUCION') ticketFormat.push(["times",[3]])
                 ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                 if (self.Ticket.onAccount){ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
                 else {ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total))])}
@@ -366,8 +385,7 @@
             .then((json) => {
                 if (PrivateSocket){
                     ticketFormat = []
-                    if(self.Ticket.ticketType=='VENTA' || self.Ticket.ticketType=='PAGO' ) ticketFormat.push(["times",[1]])
-                    else ticketFormat.push(["times",[3]])
+                    ticketFormat.push(["times",[1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.TotalDetail['all'][1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
