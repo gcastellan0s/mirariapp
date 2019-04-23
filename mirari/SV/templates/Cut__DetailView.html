@@ -56,9 +56,10 @@
 										</div>
 									</div>
 								</div>
-								<div class="m-invoice__body m-invoice__body--centered" v-if="CutDetail" >
+								<div class="m-invoice__body m-invoice__body--centered" v-if="CutDetail">
 									<div class="table-responsive" v-for="cuttypes in CutTypes">
-                                        <h5>${cuttypes}</h5>
+                                        <h5 v-if="cuttypes=='all'">TOTAL</h5>
+                                        <h5 v-else>${cuttypes}</h5>
 										<table class="table">
 											<thead>
 												<tr>
@@ -130,7 +131,7 @@
 
 <script>
 {%block data%}
-    CutTypes: [{%for ticketTypes in object.ticketTypes.all%}'{{ticketTypes}}',{%endfor%}],
+    CutTypes: ['all',{%for ticketTypes in object.ticketTypes.all%}'{{ticketTypes}}',{%endfor%}],
     CutDetail: null,
 {%endblock data%}
 
