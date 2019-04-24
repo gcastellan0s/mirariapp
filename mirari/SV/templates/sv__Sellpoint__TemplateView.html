@@ -147,7 +147,7 @@
             else price = self.Price
             if (self.Quantity == 'CANTIDAD') quantity = 1
             else quantity = parseInt(self.Quantity)
-            if (productattribute.id != 0){
+            if (!productattribute.isOffer){
                 productLine = self.Ticket.products.find(function(productLine) {
                     return productLine.id == productattribute.id && productLine.price == productattribute.price;
                 });
@@ -177,9 +177,7 @@
                 self.addOffers(productLine)
             }
             else{
-                if(productattribute.name=='discount'){
-                    if (productattribute.discountValue == 0) productattribute.discountValue = quantity
-                    productattribute.name = 'Descuento'
+                if(productattribute.discountType=='totalPercent'){ /////Revisar la condicion aqui solo aplico el tipo de descuento
                     self.Ticket.products.forEach(function(product){
                         self.pushOffer(product, productattribute) 
                     });
@@ -245,7 +243,7 @@
                         self.Ticket.ieps -= (productLine.iepsTotal*(discountValue*.01))
                         productLine.offerprice = productLine.price - (productLine.price*(discountValue*.01))
                     }
-                    else if(offer.discountType == 'productPercent'){
+                    else if(offer.discountType == 'productPercent' || offer.discountType == 'totalPercent'){
                         self.Ticket.total -= (productLine.total*(offer.discountValue*.01))
                         self.Ticket.iva -= (productLine.ivaTotal*(offer.discountValue*.01))
                         self.Ticket.ieps -= (productLine.iepsTotal*(offer.discountValue*.01))
@@ -282,10 +280,13 @@
                 newTicket = self.Tickets.find(function(ticket){return ticket.key == self.Ticket.key;});
                 if(!newTicket) self.Tickets.unshift(self.Ticket)
                 if (send) {
-                    if(self.Ticket.ticketType=='VENTA' || self.Ticket.ticketType=='PAGO' ) self.emmitSendTicket(self.Ticket)
+                    if(self.Ticket.ticketType=='VENTA' || self.Ticket.ticketType=='PAGO' || self.Ticket.ticketType=='REMISION' ) self.emmitSendTicket(self.Ticket)
                 }
                 if (init) self.initTicket()
-                if (self.includes(self.Sellpoint.orders, {{request.user.id}})){
+                if (self.Ticket.ticketType == 'GASTO') {
+                    self.$router.push({path:'dashboard'})
+                }
+                else if (self.includes(self.Sellpoint.orders, {{request.user.id}})){
                     self.resetOrder()
                     self.$router.push({path:'order', query:{orderMode:'selectOrder'}})
                 }
@@ -337,7 +338,7 @@
                     ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' ' + '$' + self.$options.filters.formatPrice(String(product.total))])
                     product.offers.forEach(function(offer){
                         ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                        ticketFormat.push(["text", offer.name + ' -' + offer.discountValue + '%'])
+                        ticketFormat.push(["text", offer.name + ' -' + offer.discountValue + '%  $' + self.$options.filters.formatPrice(String(product.offerprice))])
                     });
                 });
                 ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
@@ -399,8 +400,8 @@
                     if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1])
                     if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2])
                     if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1])
-                    ticketFormat.push(["text", 'No. tickets faltantes: ' + json.data.cut.getLenFaltante])
-                    ticketFormat.push(["text", 'No. de clientes: ' + json.data.cut.getLenFaltante])
+                    ticketFormat.push(["text", '# faltantes: ' + json.data.cut.getLenFaltante])
+                    ticketFormat.push(["text", '# de clientes: ' + json.data.cut.getLenFaltante])
                     ticketFormat.push(["text", '1er ticket: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a')])
                     for (const prop in json.data.cut.ProductsDetail) {
                         if (Object.keys(json.data.cut.ProductsDetail).length > 2 || prop=='all'){
@@ -425,6 +426,7 @@
                     ticketFormat.push(["text", 'IEPS: ' + json.data.cut.IepsDetail['all'][1]])
                     ticketFormat.push(["text", 'FALTANTE: ' + json.data.cut.TotalDetail['all'][3]])
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.TotalDetail['all'][1]])
+                    ticketFormat.push(["text", '+FALTANTE: ' + json.data.cut.getTotalFaltanteMoney])
                     ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                     ticketFormat.push(["cut"])
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
@@ -468,6 +470,31 @@
             self.Ticket.email = self.Client.email
             self.Ticket.phone = self.Client.phone
             self.Ticket.rfc = self.Client.rfc
+            self.$router.push({path:'order',query:{orderMode:'finishOrder'}})
+        }),
+        deleteProductLine:((productLine) => {
+            Swal.fire({
+                title: productLine.productName,
+                text: "Estas segur@ de eliminar este producto?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#909090',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'SI, Eiminar!'
+            }).then((result) => {
+                if (result.value) {
+                    self.Ticket.products = self.Ticket.products.filter(function(product) { 
+                        return product !== productLine
+                    })
+                    self.makeTicketTotal()
+                }
+            })
+        }),
+        getDataExpenses:(() => {
+            self.initTicket()
+            self.resetOrder()
+            self.Ticket.ticketType='GASTO';
             self.$router.push({path:'order',query:{orderMode:'finishOrder'}})
         }),
         /////SYSTEM

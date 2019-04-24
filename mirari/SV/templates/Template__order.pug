@@ -99,8 +99,8 @@
                                             td
                                                 button.btn.rounded-pill.btn-secondary.btn-xs(type='button' v-if="ticket.rfc") HACER FACTURA
                         .row(v-if="$route.query.orderMode=='finishOrder'")
-                            .col-3
-                                router-link(:to="{path:'order', query:{orderMode:'selectOrder'}}")
+                            .col-4
+                                router-link(:to="{path:'order', query:{orderMode:'selectOrder'}}" v-if="Ticket.ticketType == 'REMISION'")
                                     a(href="javascript:void(0)" @click="resetOrder(resetTicket=true)")
                                         .card.bg-danger.border-0.text-white.mb-2
                                             .card-body.d-flex.justify-content-between.align-items-center.py-3
@@ -108,7 +108,7 @@
                                                     .text-xlarge CANCELAR
                                                     .small.opacity-75 CANCELA ${Ticket.ticketType}
                                                 i.fas.fa-times.text-xlarge.opacity-25
-                            .col-3
+                            .col-4
                                 router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}" v-if="Ticket.ticketType == 'REMISION'")
                                     a(href="javascript:void(0)")
                                         .card.bg-primary.border-0.text-white.mb-2
@@ -117,14 +117,13 @@
                                                     .text-xlarge EDITAR
                                                     .small.opacity-75 EDITAR PRODUCTOS
                                                 i.fas.fa-edit.text-xlarge.opacity-25
-                            .col-2
                             .col-4
                                 a(href="javascript:void(0)" @click="getBarCode();")
                                     .card.bg-primary.border-0.text-white.mb-2
                                         .card-body.d-flex.justify-content-between.align-items-center.py-3
                                             div
                                                 .text-xlarge IMPRIMIR
-                                                .small.opacity-75 IMPRIME ${Ticket.ticketType}
+                                                .small.opacity-75 IMPRIMIR ${Ticket.ticketType}
                                             i.fas.fa-print.text-xlarge.opacity-25
                         .row.mt-0(v-if="$route.query.orderMode=='finishOrder'")
                             .col-4(v-if="Ticket.ticketType == 'REMISION'")
@@ -143,7 +142,7 @@
                                         .input-group-prepend
                                             .input-group-text
                                                 strong A CUENTA $
-                                        input.form-control(type="text" placeholder="CANTIDAD QUE DEJA A CUENTA" v-model="Ticket.onAccount")
+                                        input.form-control(type="number" placeholder="CANTIDAD QUE DEJA A CUENTA" v-model="Ticket.onAccount")
                                     .input-group.input-group-lg(v-if="Ticket.ticketType == 'REMISION'")
                                         .input-group-prepend
                                             .input-group-text FECHA/HORA
@@ -155,8 +154,8 @@
                                     .input-group.input-group-lg
                                         .input-group-prepend
                                             .input-group-text NOTAS
-                                        input.form-control(type="text" placeholder="INGRESA LOS DETALLES DE LA REMISIÓN" v-model="Ticket.notes")
-                                h5.mt-2 CLIENTE ID: ${Ticket.clientID}
+                                        input.form-control(type="text" placeholder="INGRESA LOS DETALLES DEL TICKET" v-model="Ticket.notes")
+                                h5.mt-2(v-if="Ticket.clientID") CLIENTE ID: ${Ticket.clientID}
                                 .card-body.demo-vertical-spacing-sm.py-1
                                     .input-group.input-group-lg
                                         .input-group-prepend

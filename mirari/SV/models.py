@@ -48,7 +48,7 @@ VARS = {
     'SEARCH': ['name'],
     'SORTEABLE': ['name'],
     'EXCLUDE_FORM': ['serial'],
-    'FORM': ('name','have_casher','color','vendors','cashers','orders','is_active','number_tickets','printer','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
+    'FORM': ('name','have_casher','color','vendors','cashers','orders','is_active','number_tickets','printer','haveExpenses','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
 }
 class Sellpoint(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
@@ -69,6 +69,7 @@ class Sellpoint(Model_base):
     vendors = models.ManyToManyField('mirari.User', verbose_name='Vendedores', blank=True, related_name='+',)
     orders = models.ManyToManyField('mirari.User', verbose_name='Pedidos', blank=True, related_name='+',)
     printer = models.CharField('Impresora ID', max_length=80, blank=True, null=True)
+    haveExpenses = models.BooleanField('Crea Gastos?', default=True, help_text='Crea gastos esta sucursal?')
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -559,8 +560,8 @@ class Ticket(Model_base):
     TICKETTYPE = (
         ('VENTA','VENTA'),
         ('REMISION','REMISION'),
-        ('PAGO','PAGO'),
         ('DEVOLUCION','DEVOLUCION'),
+        ('GASTO','GASTO'),
     )
     sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
     barcode = models.CharField(max_length=13, default="0000000000000")
@@ -1218,6 +1219,7 @@ class Offer(Model_base):
     DISCOUNNTTYPE = (
         ('productPercent','Porcentaje del producto'),
         ('productValue','Valor fijo del producto'),
+        ('totalPercent','Descuento del total del ticket'),
     )
     CONDITIONTYPE = (
         ('productQuantity','Cantidad de productos mínima'),
@@ -1232,7 +1234,7 @@ class Offer(Model_base):
     discountType = models.CharField('Forma de aplicar el descuento', choices=DISCOUNNTTYPE, max_length=250, default="productValue")
     discountValue = models.FloatField('Valor del descuento')
     conditionType = models.CharField('Forma de generar el descuento', choices=CONDITIONTYPE, max_length=250, default="productQuantity")
-    conditionValue = models.FloatField('Valor del descuento')
+    conditionValue = models.FloatField('Valor del descuento', default=1)
     conditionProducts = models.ManyToManyField('Product', verbose_name='Productos que generan el descuento', blank=True, related_name='+', help_text='Si no eliges ninguno usa los mismos que afecta el descuento')
     conditionMenus = models.ManyToManyField('Menu', verbose_name='Menus que generan el descuento', blank=True, related_name='+', help_text='Si no eliges ninguno usa los mismos que afecta el descuento')
     initialDate = models.DateTimeField('Fecha inicial', null=True, blank=True, help_text="Fecha y hora del inicio")
