@@ -9,7 +9,7 @@ class SellpointSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
         model = Sellpoint
         fields = None
-        exclude = ('active','creation_date','is_active','modified_date','serial')
+        exclude = ('active','creation_date','is_active','modified_date','serial',)
 ########################################################	
 class MenuSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
@@ -69,6 +69,8 @@ class CutSerializer(Basic_Serializer):
     getLenTickets = serializers.ReadOnlyField()
     getLenFaltante = serializers.ReadOnlyField()
     getTicketType = serializers.ReadOnlyField()
+    getTicketType = serializers.ReadOnlyField()
+    getTotalFaltanteMoney = serializers.ReadOnlyField()
     class Meta(Basic_Serializer.Meta):
         model = Cut
 ########################################################
@@ -114,7 +116,7 @@ class sv__Sellpoint__TemplateView(Generic__TemplateView):
 class Sellpoint__ApiView(Generic__ApiView):
     permissions = False
     def get_serializers(self, request):
-        try:
+        #try:
             if request.GET.get('api') == 'barcodeScanner':
                 ticket = Ticket.objects.filter(key=request.POST.get('barcode'),sellpoint__organization__code=request.POST.get('code')).first()
                 if ticket:
@@ -142,11 +144,11 @@ class Sellpoint__ApiView(Generic__ApiView):
             if request.GET.get('api') == 'getBarCode':
                 return JsonResponse({'ticket':TicketSerializer(Ticket().new(ticket=json.loads(request.POST.get('ticket')))).data}, safe=False)
             if request.GET.get('api') == 'makeCut':
-                return JsonResponse({'cut': CutSerializer(Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()).data}, safe=False)
+                return JsonResponse({'cut': CutSerializer(Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut()).data}, safe=False)
             if request.GET.get('api') == 'getCut':
                 return JsonResponse({'cut': CutSerializer(Cut.objects.get(id=request.POST.get('cut')), read_only=True).data}, safe=False)
-        except Exception as e:
-            return JsonResponse({'error':str(e)})
+        #except Exception as e:
+            #return JsonResponse({'error':str(e)})
 ########################################################
 ########################################################
 class SVbarcodeScanner__TemplateView(Generic__TemplateView):

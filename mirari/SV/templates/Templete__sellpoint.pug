@@ -70,7 +70,7 @@
                                         span(v-else) ${Client.name}
                                         .text-muted.small ${Client.id}
                         div(v-if="Ticket")
-                            .card-body.d-flex.justify-content-between.py-1(v-for="line in Ticket.products")
+                            .card-body.d-flex.justify-content-between.py-1(v-for="line in Ticket.products" @click="deleteProductLine(line)")
                                 .text-large ${line.quantity}
                                 .text-right.small
                                     .badge.badge-outline-danger.mr-1(v-for="offer in line.offers")
@@ -94,16 +94,11 @@
                                 p
                                     | ${productattribute.product.name}
                             div(v-if="Menu.id == 0")
-                                .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-on:click="addProduct({id:0,name:'expense',value:0})" :style="{borderColor:Menu.color}")
+                                .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-on:click="offer.isOffer=true; addProduct(offer)" style="border-color: #862828;background-color:#862828;color:white;" v-for="offer in Offers" v-if="offer.discountType=='totalPercent'")
                                     .text-big.m-2
-                                        strong $
+                                        strong ${offer.discountValue} % 
                                     p
-                                        | GASTO
-                                .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-on:click="addProduct({discountType:'productPercent',discountValue:0,name:'discount',id:0})" :style="{borderColor:Menu.color}")
-                                    .text-big.m-2
-                                        strong %
-                                    p
-                                        | DESCUENTO
+                                        | ${offer.name}
                                 .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.is_favorite" :style="{ borderColor: Menu.color }")
                                     .text-big.m-2
                                         strong $ ${productattribute.price|formatPrice}
