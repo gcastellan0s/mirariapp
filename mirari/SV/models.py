@@ -273,10 +273,10 @@ class Product(Model_base):
     menu = models.ManyToManyField('Menu', related_name='+', verbose_name="", help_text="Elige el o los menus donde se vende este producto")
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar producto?')
 
-    price = models.FloatField('Precio en esta sucursal ',default=0 help_text='Graba IVA? (sugerido)')
+    price = models.FloatField('Precio en esta sucursal ', default=0, help_text='Graba IVA? (sugerido)')
     iva = models.BooleanField('I.V.A. ', default=True, help_text='Graba IVA? (sugerido)')
     ieps = models.BooleanField('IEPS. ', default=True, help_text='Graba IEPS? (sugerido)')
-    bar_code = models.CharField('Código de Barras ', max_length=250, blank=True, null=True help_text='(sugerido)')
+    bar_code = models.CharField('Código de Barras ', max_length=250, blank=True, null=True, help_text='(sugerido)')
     is_dynamic = models.BooleanField('Precio dinámico ', default=False, help_text='Este producto tiene precio variable? (sugerido)')
     is_favorite = models.BooleanField('Es favorito? ', default=False, help_text='Se muestra siempre este producto? (sugerido)')
 
@@ -356,6 +356,12 @@ def sellpoints_changed(sender, **kwargs):
         for sellpoint in instance.sellpoints.all():
             productAttributes = ProductAttributes.objects.get_or_create(product=instance,sellpoint=sellpoint)[0]
             productAttributes.active=True
+            productAttributes.price = instance.price
+            productAttributes.iva = instance.iva
+            productAttributes.ieps = instance.ieps
+            productAttributes.bar_code = instance.bar_code
+            productAttributes.is_dynamic = instance.is_dynamic
+            productAttributes.is_favorite = instance.is_favorite
             productAttributes.save()
     if action == 'pre_remove':
         for sellpoint in instance.sellpoints.all():
