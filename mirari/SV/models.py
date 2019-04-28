@@ -97,6 +97,11 @@ class Sellpoint(Model_base):
         if not cut:
             cut = Cut().new(self)
         return cut
+    def lastCut(self):
+        cut = Cut.objects.filter(sellpoint=self, final_time__isnull=False).first()
+        if not cut:
+            cut = Cut().new(self)
+        return cut
     def getSerialNumber(self):
         return self.serial.serial
     def save(self, *args, **kwargs):
@@ -257,7 +262,7 @@ VARS = {
             'plugin': 'selectmultiple',
         },
     },
-    'FORM': ('name','sellpoints','menu','is_active'),
+    'FORM': ('name','sellpoints','menu','is_active','price','iva','ieps','bar_code','is_dynamic','is_favorite'),
 }
 class Product(Model_base):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE)
@@ -267,6 +272,14 @@ class Product(Model_base):
     sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="", help_text="Se vende en estas sucursales")
     menu = models.ManyToManyField('Menu', related_name='+', verbose_name="", help_text="Elige el o los menus donde se vende este producto")
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar producto?')
+
+    price = models.FloatField('Precio en esta sucursal ',default=0 help_text='Graba IVA? (sugerido)')
+    iva = models.BooleanField('I.V.A. ', default=True, help_text='Graba IVA? (sugerido)')
+    ieps = models.BooleanField('IEPS. ', default=True, help_text='Graba IEPS? (sugerido)')
+    bar_code = models.CharField('Código de Barras ', max_length=250, blank=True, null=True help_text='(sugerido)')
+    is_dynamic = models.BooleanField('Precio dinámico ', default=False, help_text='Este producto tiene precio variable? (sugerido)')
+    is_favorite = models.BooleanField('Es favorito? ', default=False, help_text='Se muestra siempre este producto? (sugerido)')
+
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -691,12 +704,13 @@ VARS = {
     'EXCLUDE_PERMISSIONS': ['all'],
 }
 class TicketProducts(Model_base):
-    ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE)
+    ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE, null=True)
     product = models.ForeignKey('ProductAttributes', null=True, on_delete=models.SET_NULL)
     productName = models.CharField(max_length=250, null=True, blank=True)
     alias = models.CharField(max_length=250, null=True, blank=True)
     quantity = models.FloatField(default=0)
     price = models.FloatField(default=0)
+    offerprice = models.FloatField(default=0)
     total = models.FloatField(default=0)
     iva = models.FloatField(default=0)
     ieps = models.FloatField(default=0)
@@ -717,6 +731,7 @@ class TicketProducts(Model_base):
         self.alias = product['alias']
         self.quantity = product['quantity']
         self.price = product['price']
+        self.offerprice = product['offerprice']
         self.total = product['total']
         self.iva = product['ivaTotal']
         self.ieps = product['iepsTotal']
@@ -734,6 +749,9 @@ class CutProductSerializer(serializers.Serializer):
     total = serializers.FloatField()
     iva = serializers.FloatField()
     ieps = serializers.FloatField()
+    offerprice = serializers.FloatField()
+    offersTotal = serializers.FloatField()
+    offers = serializers.DictField()
     getQuantity = serializers.SerializerMethodField()
     getPrice = serializers.SerializerMethodField()
     getTotalMoney = serializers.SerializerMethodField()
@@ -749,6 +767,9 @@ class CutProductSerializer(serializers.Serializer):
         return obj.getIvaMoney()
     def get_getIepsMoney(self, obj):
         return obj.getIepsMoney()
+class CutOffer():
+    quantity = 0
+    offerName = ''
 class CutProduct():
     product = ''
     productName = ''
@@ -757,20 +778,36 @@ class CutProduct():
     total = 0
     iva = False
     ieps = True
-    offers = []
+    offerprice = 0
+    offersTotal = 0
+    offers = {}
     def __init__(self, product):
         self.product = product.id
         self.productName = product.productName
-        self.quantity = product.quantity
+        self.quantity = float(product.quantity)
         self.price = product.price
+        self.offerprice = product.offerprice
         self.total = product.total
         self.iva = product.iva
         self.ieps = product.ieps
+        self.offers = {}
     def update(self, product):
         self.quantity += float(product.quantity)
         self.total += product.total
         self.iva += product.iva
         self.ieps += product.ieps
+        return self
+    def addOffers(self, product):
+        if not product.price == product.offerprice:
+            self.offersTotal -= (float(product.quantity)*product.price) - (float(product.quantity)*product.offerprice)
+        for offer in product.offers.all():
+            if not offer.id in self.offers:
+                self.offers[offer.id] = {
+                    'quantity': 1,
+                    'offerName': offer.name
+                }
+            else:
+                self.offers[offer.id]['quantity'] += 1
         return self
     def getQuantity(self):
         return str(int(self.quantity))
@@ -936,23 +973,42 @@ class Cut(Model_base):
         return len(self.getTickets(status=status, ticketType=ticketType))
     def getCutProducts(self, status='all', ticketType='all'):
         products = []
+        expenses = ['GASTO',0,0]
         for ticket in self.getTickets(status=status, ticketType=ticketType):
+            if ticket.ticketType == 'GASTO':
+                expenses[1] += 1
+                expenses[2] += ticket.onAccount
             for product in ticket.getProducts():
                 cutProduct = CutProduct(product)
-                exist = False
+                exist = False    
                 for arrayCutProduct in products:
                     if arrayCutProduct.productName == product.productName and arrayCutProduct.price == product.price:
-                        arrayCutProduct.update(product)
+                        cutProduct = arrayCutProduct.update(product)
                         exist = True
                         break
+                cutProduct.addOffers(product)
                 if not exist:
                     products.append(cutProduct)
+        if expenses[1]:
+            product = TicketProducts()
+            product.productName = expenses[0]
+            product.quantity = expenses[1]
+            product.total = expenses[2]
+            cutProduct = CutProduct(product)
+            products.append(cutProduct)
         return  sorted(products, key=lambda x: x.quantity, reverse=True)
     def getTotal(self, status='COBRADO', ticketType='all'):
         total = 0
         for ticket in self.getTickets(status=status, ticketType=ticketType):
-            total += ticket.total
+            ticketTotal = ticket.total
+            if ticket.onAccount > 0:
+                ticketTotal = ticket.onAccount
+            if ticket.ticketType == 'DEVOLUCION' or ticket.ticketType == 'GASTO':
+                ticketTotal = ticketTotal * -1
+            total += ticketTotal
         return "{0:.2f}".format(total)
+    def getTotalMoney(self, status='COBRADO', ticketType='all'):
+        return Money(self.getTotal(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
     def getIeps(self, status='COBRADO', ticketType='all'):
         total = 0
         for ticket in self.getTickets(status=status, ticketType=ticketType):
@@ -973,8 +1029,6 @@ class Cut(Model_base):
         for ticket in self.getTickets(status=status, ticketType=ticketType):
             total += ticket.total
         return "{0:.2f}".format(total)
-    def getTotalMoney(self, status='COBRADO', ticketType='all'):
-        return Money(self.getTotal(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
     def getIepsMoney(self, status='COBRADO', ticketType='all'):
         return Money(self.getIeps(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
     def getIvaMoney(self, status='COBRADO', ticketType='all'):
