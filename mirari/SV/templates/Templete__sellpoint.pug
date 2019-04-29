@@ -75,7 +75,7 @@
                                 .text-right.small
                                     .badge.badge-outline-danger.mr-1(v-for="offer in line.offers")
                                         | ${offer.name}
-                                    span.text-danger(v-if="line.offerprice") $ ${line.offerprice|formatPrice}
+                                    span.text-danger(v-if="line.offerprice < line.price") $ ${line.offerprice|formatPrice}
                                     span(v-else) $ ${line.price|formatPrice}
                                     br
                                     strong ${line.productName}

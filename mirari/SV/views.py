@@ -138,13 +138,17 @@ class Sellpoint__ApiView(Generic__ApiView):
                     'tickets':TicketSerializer(Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all()),many=True).data,
                 }, safe=False)
             if request.GET.get('api') == 'getClients':
-                return JsonResponse({'clients':ClientSerializer(Client.objects.filter(organization=request.user.organization,active=True,is_active=True).filter(Q(name__icontains=request.GET.get('query'))|Q(phone__icontains=request.GET.get('query'))|Q(rfc__icontains=request.GET.get('query'))|Q(email__icontains=request.GET.get('query'))).distinct()[0:50],many=True).data},safe=False)
+                return JsonResponse({'clients':ClientSerializer(Client.objects.filter(organization=request.user.organization,active=True,is_active=True).filter(Q(name__icontains=request.GET.get('query'))|Q(phone__icontains=request.GET.get('query'))|Q(rfc__icontains=request.GET.get('query'))|Q(email__icontains=request.GET.get('query'))|Q(uid__icontains=request.GET.get('query'))).distinct()[0:50],many=True).data},safe=False)
             if request.GET.get('api') == 'getClient':
                 return JsonResponse({'client':ClientDetailsSerializer(Client.objects.get(organization=request.user.organization,active=True,is_active=True,id=request.POST.get('id'))).data,},safe=False)
             if request.GET.get('api') == 'getBarCode':
                 return JsonResponse({'ticket':TicketSerializer(Ticket().new(ticket=json.loads(request.POST.get('ticket')))).data}, safe=False)
             if request.GET.get('api') == 'makeCut':
-                return JsonResponse({'cut': CutSerializer(Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut().makeCut()).data}, safe=False)
+                cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut()
+                if cut.getLenTickets() > 0:
+                    return JsonResponse({'cut': CutSerializer(cut.makeCut()).data}, safe=False)
+                else:
+                    return JsonResponse({'cut': CutSerializer(Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).lastCut()).data}, safe=False)
             if request.GET.get('api') == 'getCut':
                 return JsonResponse({'cut': CutSerializer(Cut.objects.get(id=request.POST.get('cut')), read_only=True).data}, safe=False)
         #except Exception as e:
@@ -161,6 +165,5 @@ class SVbarcodeScanner__TemplateView(Generic__TemplateView):
 class Cut__DetailView(Generic__DetailView):
     template_name = "Cut__DetailView.html"
     def proccess_context(self, context):
-        #self.object.cutTypes()
-        context['CutSerializer'] = JsonResponse({'cut': CutSerializer(self.object, read_only=True).data}, safe=False)
+        context['tickets'] = self.object.getTickets()
         return context
