@@ -146,7 +146,7 @@ class Sellpoint__ApiView(Generic__ApiView):
             if request.GET.get('api') == 'makeCut':
                 cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut()
                 if cut.getLenTickets() > 0:
-                    return JsonResponse({'cut': CutSerializer(cut).data}, safe=False)
+                    return JsonResponse({'cut': CutSerializer(cut.makeCut()).data}, safe=False)
                 else:
                     return JsonResponse({'cut': CutSerializer(Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).lastCut()).data}, safe=False)
             if request.GET.get('api') == 'getCut':
