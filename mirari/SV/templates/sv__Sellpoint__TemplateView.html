@@ -123,9 +123,10 @@
                     if(self.Menus) self.Menu = self.Menus[0]
                     if(!self.Sellpoint.printer) UnBlock()
                 }
-            }).catch((error) => { 
+            }).catch((error) => {
                 UnBlock()
-            }).finally(() => {
+            })
+            .finally(() => {
                 if (!postFunctions){
                     UnBlock()
                 }
@@ -161,6 +162,7 @@
                         product: productattribute.product,
                         sellpoint: productattribute.sellpoint,
                         price: price,
+                        offerprice: price,
                         quantity: quantity,
                         total: 0,
                         ivaTotal: 0,
@@ -275,6 +277,7 @@
                 self.Ticket.barcode = json.data.ticket.barcode
                 self.Ticket.cut = json.data.ticket.cut
             }).catch((error) => {
+                console.log(error)
             }).finally(() => { 
                 if (print) self.printTicket(self.Ticket)
                 newTicket = self.Tickets.find(function(ticket){return ticket.key == self.Ticket.key;});
@@ -338,7 +341,7 @@
                     ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' ' + '$' + self.$options.filters.formatPrice(String(product.total))])
                     product.offers.forEach(function(offer){
                         ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                        ticketFormat.push(["text", offer.name + ' -' + offer.discountValue + '%  $' + self.$options.filters.formatPrice(String(product.offerprice))])
+                        ticketFormat.push(["text", offer.name + ' $' + self.$options.filters.formatPrice(String(product.offerprice))])
                     });
                 });
                 ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
@@ -382,7 +385,7 @@
             Block(text="Haciendo corte...");
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
                 sellpoint: JSON.stringify(self.Sellpoint),
-            })
+            },errorDialog=false, timeout=10000)
             .then((json) => {
                 if (PrivateSocket){
                     ticketFormat = []
@@ -420,6 +423,7 @@
                             }
                         }
                     }
+                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", '------------------------------------------'])
                     ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", 'IVA: ' + json.data.cut.IvaDetail['all'][1]])
@@ -432,6 +436,8 @@
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 }
             }).catch((error) => {
+                UnBlock()
+                swal('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
             }).finally(() => {
                 UnBlock()
                 self.emmitGetStates()
