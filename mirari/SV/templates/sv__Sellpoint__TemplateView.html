@@ -352,7 +352,8 @@
                 ticketFormat.push(["text", 'TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total))])
                 ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                 ticketFormat.push(["text", self.Ticket.barcode + ' :: ' + self.Ticket.key])
-                ticketFormat.push(["qr",self.Ticket.key])
+                if(self.Ticket.status=='PENDIENTE') ticketFormat.push(["cut"])
+                else ticketFormat.push(["qr",self.Ticket.key])
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
             }
         }),
