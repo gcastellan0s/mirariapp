@@ -405,9 +405,9 @@
                     if(self.Sellpoint.header_line_1) ticketFormat.push(["text", self.Sellpoint.header_line_1])
                     if(self.Sellpoint.header_line_2) ticketFormat.push(["text", self.Sellpoint.header_line_2])
                     if(self.Sellpoint.footer_line_1) ticketFormat.push(["text", self.Sellpoint.footer_line_1])
-                    ticketFormat.push(["text", '# faltantes: ' + json.data.cut.getLenFaltante])
-                    ticketFormat.push(["text", '# de clientes: ' + json.data.cut.getLenFaltante])
-                    ticketFormat.push(["text", '1er ticket: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a')])
+                    ticketFormat.push(["text", '# tickets faltantes: ' + json.data.cut.getLenFaltante])
+                    ticketFormat.push(["text", '# de clientes: ' + json.data.cut.getLenTickets])
+                    ticketFormat.push(["text", '1er venta: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a')])
                     for (const prop in json.data.cut.ProductsDetail) {
                         if (Object.keys(json.data.cut.ProductsDetail).length > 2 || prop=='all'){
                             if (json.data.cut.TotalDetail[prop][0]!='0.00'){

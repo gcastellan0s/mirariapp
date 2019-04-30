@@ -69,7 +69,6 @@ class CutSerializer(Basic_Serializer):
     getLenTickets = serializers.ReadOnlyField()
     getLenFaltante = serializers.ReadOnlyField()
     getTicketType = serializers.ReadOnlyField()
-    getTicketType = serializers.ReadOnlyField()
     getTotalFaltanteMoney = serializers.ReadOnlyField()
     class Meta(Basic_Serializer.Meta):
         model = Cut
