@@ -523,9 +523,11 @@
             }
         }),
         recibePrintTicket: ((data) => {
-            console.log(data)
-            newTicket = self.Tickets.find(function(ticket){return ticket.key == data.key});
-            if(!newTicket) self.Tickets.unshift(data)
+            haveSellpoint = self.Sellpoints.find(function(sellpoint){return sellpoint.id == data.sellpoint.id})
+            if(haveSellpoint){
+                newTicket = self.Tickets.find(function(ticket){return ticket.key == data.key})
+                if(!newTicket) self.Tickets.unshift(data)
+            }
         }),
         recibeScanTicket: ((data) => {
             updateTicket = self.Tickets.find(function(ticket) {
