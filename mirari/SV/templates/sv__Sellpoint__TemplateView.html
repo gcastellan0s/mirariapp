@@ -523,6 +523,7 @@
             }
         }),
         recibePrintTicket: ((data) => {
+            console.log(data)
             newTicket = self.Tickets.find(function(ticket){return ticket.key == data.key});
             if(!newTicket) self.Tickets.unshift(data)
         }),
