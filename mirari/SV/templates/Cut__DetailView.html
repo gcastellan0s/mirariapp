@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load mirari_tags %}
 
-{%block object_name%}{{object.sellpoint.name}} CORTE {{object.serial}} {%endblock object_name%}
+{%block object_name%}{{object.sellpoint.name}}{%endblock object_name%}
 
 {%block styles%}
     {{block.super}}
@@ -23,24 +23,24 @@
                                     <div class="kt-invoice__container kt-invoice__container--centered">
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <div class="kt-invoice__logo kt-align-right">
-                                                    <h1>CORTE {{object.serial}}</h1>
+                                                <div class="kt-invoice__logo pt-5 kt-align-right">
+                                                    <h1 class="kt-align-right">CORTE {{object.serial}}</h1>
                                                 </div>
-                                                <div class="kt-invoice__items kt-align-right">
-                                                    <div class="kt-invoice__item kt-align-right">
-                                                        <div v-if="CutDetail">
+                                                <div class="kt-invoice__items kt-align-right py-4">
+                                                    <div class="kt-invoice__item kt-align-right" v-if="CutDetail">
+                                                        <div >
                                                             <span class="kt-invoice__subtitle">FECHA DE CORTE</span>
                                                             <span class="kt-invoice__text"><strong>{{object.final_time|default:'Venta en curso'}}</strong></span>
                                                         </div>
-                                                        <div v-if="CutDetail">
+                                                        <div>
                                                             <span class="kt-invoice__subtitle">PRIMER TICKET</span>
                                                             <span class="kt-invoice__text"><strong>{{object.initial_time}}</strong></span>
                                                         </div>
-                                                        <div v-if="CutDetail">
+                                                        <div>
                                                             <span class="kt-invoice__subtitle">TOTAL TICKETS</span>
                                                             <span class="kt-invoice__text"><strong>{{object.getLenTickets}}</strong> clientes / <strong>${CutDetail.TotalDetail['all'][1]}</strong> </span>
                                                         </div>
-                                                        <div v-if="CutDetail">
+                                                        <div>
                                                             <span class="kt-invoice__subtitle">TOTAL FALTANTES</span>
                                                             <span class="kt-invoice__text"><strong>{{object.getLenFaltante}}</strong> clientes / <strong>${CutDetail.TotalDetail['all'][3]}</strong> </span>
                                                         </div>
@@ -48,15 +48,33 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
-                                                <div class="kt-invoice__logo">
+                                                <div class="kt-invoice__logo pt-5">
                                                     <h1>{{object.sellpoint.name}}</h1>
                                                 </div>
-                                                <span class="kt-invoice__desc">
-                                                    {%if object.sellpoint.header_line_black_1%}<span>{{object.sellpoint.header_line_black_1}} </span></br>{%endif%}
-                                                    {%if object.sellpoint.header_line_black_2%}<span>{{object.sellpoint.header_line_black_2}} </span></br>{%endif%}
-                                                    {%if object.sellpoint.header_line_1%}<span>{{object.sellpoint.header_line_1}} </span></br>{%endif%} 
-                                                    {%if object.sellpoint.header_line_2%}<span>{{object.sellpoint.header_line_2}} </span></br>{%endif%}
-                                                </span>
+                                                <div class="kt-invoice__items kt-align-right py-4">
+                                                    <div class="kt-invoice__item kt-align-left" v-if="CutDetail">
+                                                        {%if object.sellpoint.header_line_black_1%}
+                                                            <div>
+                                                                <span class="kt-invoice__subtitle"><small>{{object.sellpoint.header_line_black_1}}</small></span>
+                                                            </div>
+                                                        {%endif%}
+                                                        {%if object.sellpoint.header_line_black_2%}
+                                                            <div>
+                                                                <span class="kt-invoice__subtitle"><small>{{object.sellpoint.header_line_black_2}}</small></span>
+                                                            </div>
+                                                        {%endif%}
+                                                        {%if object.sellpoint.header_line_1%}
+                                                            <div>
+                                                                <span class="kt-invoice__subtitle"><small>{{object.sellpoint.header_line_1}}</small></span>
+                                                            </div>
+                                                        {%endif%} 
+                                                        {%if object.sellpoint.header_line_2%}
+                                                            <div>
+                                                                <span class="kt-invoice__subtitle"><small>{{object.sellpoint.header_line_2}}</small></span>
+                                                            </div>
+                                                        {%endif%}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -110,32 +128,27 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div class="kt-invoice__footer">
+                                <div class="kt-invoice__footer mt-0 pt-0">
                                     <div class="kt-invoice__table  kt-invoice__table--centered table-responsive">
                                         <table class="table">
-											<thead>
-												<tr>
-													<th class="kt--align-right"></th>
-												</tr>
-											</thead>
 											<tbody>
 												<tr>
-													<td class="kt-font-danger kt--align-right"><small>SUBTOTAL</small> <strong class="ml-2">{{object.getSubtotalMoney}}</strong></td>
+													<td class="kt--align-right"><small>SUBTOTAL</small> <strong class="ml-2">{{object.getSubtotalMoney}}</strong></td>
 												</tr>
 												<tr>
-													<td class="kt-font-danger kt--align-right"><small>IEPS</small> <strong class="ml-2">{{object.getIepsMoney}}</strong></td>
+													<td class="kt--align-right"><small>IEPS</small> <strong class="ml-2">{{object.getIepsMoney}}</strong></td>
 												</tr>
 												<tr>
-													<td class="kt-font-danger kt--align-right"><small>IVA</small> <strong class="ml-2">{{object.getIvaMoney}}</strong></td>
+													<td class="kt--align-right"><small>IVA</small> <strong class="ml-2">{{object.getIvaMoney}}</strong></td>
 												</tr>
                                                 <tr>
-													<td class="kt-font-danger kt--align-right"><small>FALTANTE</small> <strong class="ml-2">{{object.getFaltanteMoney}}</strong></td>
+													<td class="kt--align-right"><small>FALTANTE</small> <strong class="ml-2">{{object.getFaltanteMoney}}</strong></td>
 												</tr>
 												<tr>
-													<td class="kt-font-danger kt--align-right">GRAN TOTAL <strong class="ml-2">{{object.getTotalMoney}}</strong></td>
+													<td class="kt--align-right">GRAN TOTAL <strong class="ml-2">{{object.getTotalMoney}}</strong></td>
 												</tr>
                                                 <tr>
-													<td class="kt-font-danger kt--align-right"><small>+ FALTANTE</small> <strong class="ml-2">{{object.getTotalFaltanteMoney}}</strong></td>
+													<td class="kt--align-right"><small>+ FALTANTE</small> <strong class="ml-2">{{object.getTotalFaltanteMoney}}</strong></td>
 												</tr>
 											</tbody>
 										</table>
