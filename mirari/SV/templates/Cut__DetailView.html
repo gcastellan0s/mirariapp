@@ -167,7 +167,8 @@
 <script>
 {%block data%}
     {{block.super}}
-    CutTypes: ['all',{%for ticketTypes in object.ticketTypes.all%}'{{ticketTypes}}',{%endfor%}],
+    //CutTypes: ['all',{%for ticketTypes in object.ticketTypes.all%}'{{ticketTypes}}',{%endfor%}],
+    CutTypes: ['all',],
     CutDetail: null,
 {%endblock data%}
 
