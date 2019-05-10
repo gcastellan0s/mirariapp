@@ -11,6 +11,7 @@
 {%endblock font%}
 
 {%block icons%}
+    {{block.super}}
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/fonts/fontawesome.css'%}">
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/fonts/ionicons.css'%}">
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/fonts/linearicons.css'%}">
@@ -18,30 +19,23 @@
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/fonts/pe-icon-7-stroke.css'%}">
 {%endblock icons%}
 
-{%block base_styles%}
+{%block styles%}
+    {{block.super}}
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/bootstrap-material.css' %}">
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/appwork-material.css' %}">
 	{%block theme%}
 		<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/theme-gradient-material.css' %}">
-	{%endblock%}
+	{%endblock theme%}
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/colors-material.css' %}">
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/uikit.css' %}">
 	<link rel="stylesheet" href="{%static 'appwork-html/assets/css/demo.css' %}">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.25.0/sweetalert2.min.css" />
-	{%block styles%}{%endblock styles%}
-{%endblock base_styles%}
-
-{%block base_css%}
-	{%block css%}{%endblock css%} 
-{%endblock base_css%}
+{%endblock styles%}
 
 {%block head_scripts%}
+    {{block.super}}
 	<script src="{%static 'appwork-html/vendor/js/material-ripple.js'%}"></script>
 	<script src="{%static 'appwork-html/vendor/js/layout-helpers.js'%}"></script>
-	<!-- This file MUST be included after core stylesheets and layout-helpers.js in the <head> section -->
-	
-	<!-- Core scripts -->
-	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<!-- Libs -->
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/libs/perfect-scrollbar/perfect-scrollbar.css'%}">
@@ -55,7 +49,8 @@
 	{%endblock content%}
 {%endblock body_content%} 
 
-{%block base_js%}
+{%block js%}
+    {{block.super}}
 	<script src="{%static 'appwork-html/vendor/libs/popper/popper.js'%}"></script>
 	<script src="{%static 'appwork-html/vendor/js/bootstrap.js'%}"></script>
 	<script src="{%static 'appwork-html/vendor/js/sidenav.js'%}"></script>
@@ -66,63 +61,8 @@
 		window.attachMaterialRippleOnLoad();
 	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.25.0/sweetalert2.min.js"></script>
-	{%block js%}{%endblock js%}
-{%endblock base_js%}
-
-{%block js_constants%}
-	{%block constants%}{%endblock constants%}
-{%endblock js_constants%}
-
-{%block js_plugins%}
-	{%block plugins%}{%endblock plugins%}
-{%endblock js_plugins%}
-
-{%block vue_vue%}
-	{%block vue%}{%endblock vue%}
-{%endblock vue_vue%}
-
-{%block vue_router%}
-	{%block router%}{%endblock router%}
-{%endblock vue_router%}
-
-{%block vue_components%}
-    {%block components%}{%endblock components%}
-{%endblock vue_components%}
-
-{%block vue_data%} 
-	{%block data%}{%endblock data%}
-{%endblock vue_data%}
-
-{%block vue_created%}
-	{%block created%}{%endblock created%}
-{%endblock vue_created%}
-
-{%block vue_methods%}
-	{%block methods%}{%endblock methods%}
-{%endblock vue_methods%}
-
-{%block vue_mounted%}
-	{%block mounted%}{%endblock mounted%}
-{%endblock vue_mounted%}
-
-{%block vue_watch%}
-	{%block watch%}{%endblock watch%}
-{%endblock vue_watch%}
-
-{%block vue_filters%}
-	{%block filters%}{%endblock filters%}
-{%endblock vue_filters%}
-
-{%block vue_vuecomponents%}
-    {%block vuecomponents%}{%endblock vuecomponents%}
-{%endblock vue_vuecomponents%}
+{%endblock js%}
 
 {%block global_functions%}
 	{%include 'generic/includes/global_functions.html'%}
 {%endblock global_functions%}
-
-{%block base_scripts%}
-	<script type="text/javascript" charset="utf-8">
-		{%block scripts%}{%endblock scripts%}
-	</script>
-{%endblock base_scripts%}

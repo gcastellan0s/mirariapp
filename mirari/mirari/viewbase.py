@@ -1,4 +1,4 @@
-  # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -338,22 +338,24 @@ class Base_List(object):
     def dispatch(self, request, *args, **kwargs):
         self.initialize(request, *args, **kwargs)
         if request.GET.get('action') == 'list':
-            try:
+            #try:
                 query_list = self.query_list()
-                query = request.GET.get('query[generalSearch]')
+                iTotalRecords = len(query_list)
+                query = request.GET.get('search[value]')
                 if query:
                     query_list = self.query_search(query_list, query)
                 query_list = self.query_filter(request, query_list)
-                field = request.GET.get('sort[field]')
-                sort = request.GET.get('sort[sort]')
+                field = self.model.VARS['LIST'][0]['field']
+                sort = request.GET.get('order[0][dir]')
                 if sort == 'desc' or sort == 'asc':
                     query_list = self.sort(query_list, field, sort)
-                page = request.GET.get('pagination[page]', 1)
-                perpage = request.GET.get('pagination[perpage]', self.paginator_size)
+                perpage = int(request.GET.get('length', self.paginator_size))
+                page = (int(request.GET.get('start', 0))+perpage)/perpage
                 paginator = Paginator(query_list, perpage)
-                return JsonResponse({'data': self.get_default_serializer()(paginator.page(page), many=True).data, 'meta': {'page': page, 'pages': paginator.num_pages, 'perpage': perpage, 'total': len(query_list), 'sort': sort, 'field': field, }})
-            except Exception as e:
-                return JsonResponse({'data': str(e)})
+                return JsonResponse({'iTotalRecords':iTotalRecords, 'iTotalDisplayRecords':len(query_list), 'data':self.get_default_serializer()(paginator.page(page), many=True).data,})
+                #return JsonResponse({'data': self.get_default_serializer()(paginator.page(page), many=True).data, 'meta': {'page': page, 'pages': paginator.num_pages, 'perpage': perpage, 'total': len(query_list), 'sort': sort, 'field': field, }})
+            #except Exception as e:
+                #return JsonResponse({'error': str(e)})
         return super().dispatch(request, *args, **kwargs)
     def get_queryset(self):
         return None
@@ -454,8 +456,8 @@ class Base_List(object):
     def query_filter(self, request, query_list):
         filters = self.filters()
         for value in filters:
-            if request.GET.get('query['+value['key']+']'):
-                query_list = query_list.filter(**{value['key']: request.GET.get('query['+value['key']+']')})
+            if request.GET.get(value['key']):
+                query_list = query_list.filter(**{value['key']: request.GET.get(value['key'])})
         return query_list
     def sort(self, query_list, field, sort):
         if sort == 'asc':
@@ -465,7 +467,7 @@ class Base_List(object):
         dictionary_datatable = []
         if not 'HIDE_CHECKBOX_LIST' in self.model.VARS:
             if btn_checkbox and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Delete__'+self.model.VARS['MODEL']) and not 'delete' in self.model().exclude_permissions():
-                dictionary_datatable.append({'field': "property_url_delete", 'title': "#", 'locked': '{left: "xl"}','sortable': 'false', 'width': 40, 'selector': '{class: "m-checkbox--solid m-checkbox--brand"}'})
+                dictionary_datatable.append({'field': "property_url_delete", 'title': "#", 'width': 40, 'select':'true'})
         for item in self.LIST:
             item_dictionary = {}
             item_dictionary['field'] = item['field']
@@ -491,17 +493,17 @@ class Base_List(object):
         btn_delete = self.get_btn_delete(btn_delete)
         if not 'HIDE_BUTTONS_LIST' in self.model.VARS:
             if btn_update or btn_delete or extrabuttons:
-                dictionary_datatable.append({'field': '', 'title': '', 'width': 150, 'template': extrabuttons + btn_update + btn_delete})
+                dictionary_datatable.append({'field': '', 'title': '', 'width': 150, 'sortable':'false', 'template': extrabuttons + btn_update + btn_delete})
         return dictionary_datatable
     def get_btn_update(self, btn_update):
         if btn_update and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Update__'+self.model.VARS['MODEL']) and not 'update' in self.model().exclude_permissions():
-            btn_update = '<a href="{{'+btn_update+'}}" class="btn btn-outline-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill btn-sm m--margin-right-25" title="Editar"><i class="la la-edit"></i></a>'
+            btn_update = '<a href="{{'+btn_update+'}}" class="btn btn-outline-brand btn-elevate btn-circle btn-sm btn-icon mr-3" title="Editar"><i class="la la-edit"></i></a>'
         else:
             btn_update = ''
         return btn_update
     def get_btn_delete(self, btn_delete):
         if btn_delete and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Delete__'+self.model.VARS['MODEL']) and not 'delete' in self.model().exclude_permissions():
-            btn_delete = '<a href="" value="{{'+btn_delete+'}}" text="'+self.model().delete_text()[3]+'" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill btn-sm delete_row" title="Borrar"><i class="la la-trash"></i></a>'
+            btn_delete = '<a href="" value="{{'+btn_delete+'}}" text="'+self.model().delete_text()[3]+'" class="btn btn-outline-danger btn-elevate btn-circle btn-icon btn-sm delete_row" title="Borrar"><i class="la la-trash"></i></a>'
         else:
             btn_delete = ''
         return btn_delete

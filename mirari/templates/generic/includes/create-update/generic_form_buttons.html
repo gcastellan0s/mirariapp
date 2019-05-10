@@ -1,17 +1,72 @@
-<div class="m-portlet__head m-form__actions m-form__actions--solid">
-    <div class="m-portlet__head-wrapper">
-        <div class="m-portlet__head-caption">
-            <div class="m-portlet__head-title">
-                <a href="javascript:history.back(1)" class="btn btn-secondary m-btn m-btn--icon m-btn--wide m-btn--md m--margin-right-10">
-                    <span>
-                        <i class="la la-arrow-left"></i>
-                        <span>REGRESAR</span>
-                    </span>
+{% load mirari_tags %}
+
+<div class="kt-portlet__head kt-portlet__head--lg">
+    <div class="kt-portlet__head-label">
+        {%if model.VARS.SUBMIT_BUTTONS%}
+            {%include model.VARS.SUBMIT_BUTTONS%}
+        {%else%}
+            <div class="btn-group">
+                <a href="javascript:history.back(1)" class="btn btn-clean kt-margin-r-10">
+                    <i class="la la-arrow-left"></i>
+                    <span class="kt-hidden-mobile">REGRESAR</span>
                 </a>
+                <button type="submit" class="btn btn-brand" name="save">
+                    <i class="la la-check"></i>
+                    <span class="kt-hidden-mobile">
+                        {%if not object%}
+                            GUARDAR {{ model|verbose_name_singular|upper }}
+                        {%else%}
+                            ACTUALIZAR <small>{{ model|verbose_name_singular|upper }}</small>
+                        {%endif%}
+                    </span>
+                </button>
+                {%if not hide_extra_submmit%}
+                    <button type="button" class="btn btn-brand dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" style="padding: 0rem 0; min-width: 280px;">
+                        <ul class="kt-nav" style="padding: 0rem 0;">
+                            <li class="kt-nav__item">
+                                <button class="kt-nav__link" type="submit" name="save__edit" style="min-width: 100%; padding: 1rem 1.75rem; border-color: #fff #fff #fff!important;">
+                                    <i class="kt-nav__link-icon flaticon2-add-1"></i>
+                                    <span class="kt-nav__link-text mr-2" style="text-align:left;">
+                                        {%if not object%}
+                                            <small>GUARDAR y continuar editando.</small>
+                                        {%else%}
+                                            <small>ACTUALIZAR y continuar editando.</small>
+                                        {%endif%}
+                                    </span>
+                                </button>
+                            </li>
+                            {%if not object%}
+                                <li class="kt-nav__item">
+                                    <button class="kt-nav__link" type="submit" name="save__other" style="min-width: 100%; padding: 1rem 1.75rem; border-color: #fff #fff #fff!important;">
+                                        <i class="kt-nav__link-icon flaticon2-circular-arrow"></i>
+                                        <span class="kt-nav__link-text mr-2" style="text-align:left;">
+                                            <small>GUARDAR y crear otro.</small>
+                                        </span>
+                                    </button>
+                                </li>
+                            {%endif%}
+                            {%if object%}
+                                {%if not hide_delete_button%}
+                                    <li class="kt-nav__item">
+                                        <button class="kt-nav__link" type="submit" name="delete" style="min-width: 100%; padding: 1rem 1.75rem; border-color: #fff #fff #fff!important;">
+                                            <i class="kt-nav__link-icon flaticon2-trash"></i> 
+                                            <span class="kt-nav__link-text mr-2" style="text-align:left;">
+                                                ELIMINAR <small>{{ model|verbose_name_singular|upper }}</small>
+                                            </span>
+                                        </button>
+                                    </li>
+                                {%endif%}
+                            {%endif%}
+                        </ul>
+                    </div>
+                {%endif%}
             </div>
-        </div>
-        <div class="m-portlet__head-tools">
-            {%include 'generic/includes/create-update/submit_buttons.html'%}
-        </div>
+
+        {%endif%}
+    </div>
+    <div class="kt-portlet__head-toolbar">
+        
     </div>
 </div>

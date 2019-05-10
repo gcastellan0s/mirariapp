@@ -29,7 +29,7 @@ $("#form").validate({
     },
     invalidHandler: function(e, r) {
         var i = $("#form_msg");
-        i.removeClass("m--hide").show()
+        i.removeClass("kt-hide").show()
         mUtil.scrollTo(i, -200)
     },
     submitHandler: function(e) {

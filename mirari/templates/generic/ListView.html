@@ -5,119 +5,105 @@
 
 {% block title %}{%if verbose_name_plural%}{{verbose_name_plural|upper}}{%else%}{{ model|verbose_name_plural|upper }}{%endif%} :: {{ G.ORGANIZATION.TITLE }}{% endblock title %}
 
-{%block css%}
-	{{block.super}}
-    <style>
-		.m-table__row--danger td{
-			background: #f4516c!important;
-			color: #fff!important;
-			border-bottom: 0!important;
-			border-top: 0!important;
-		}
-		.m-table__row--danger {
-			background: #f4516c!important;
-			color: #fff!important;
-			border-bottom: 0!important;
-			border-top: 0!important;
-		}
-		.m-table__row--danger td span a {
-			color: #fff!important;
-		}
-		.m-table__row--danger td span i {
-			color: #fff!important;
-		}
-        tbody a {
-            color: inherit;
-            text-decoration: none!important;
+{%block styles%}
+    <link href="{%static 'metronic/dist/demo5/assets/vendors/custom/datatables/datatables.bundle.css'%}" rel="stylesheet" type="text/css" />
+    {{block.super}}
+{%endblock styles%}
+
+<style>
+    {%block css%}
+        {{block.super}}
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+            justify-content: flex-start;
         }
-	</style>
-{%endblock css%}
+        div.dataTables_wrapper div.dataTables_filter {
+            text-align: left;
+        }
+        .dataTable td {
+            color: #464648!important;
+        }
+    {%endblock css%}
+</style>
 
 {%block subheader%}
-    <div class="m-subheader">
-        <div class="d-flex align-items-center">
-			<div class="mr-auto">
-				<h3 class="m-subheader__title m-subheader__title--separator">
-					<small>LISTA DE</small> 
-					<strong>{%if verbose_name_plural%}{{verbose_name_plural|upper}}{%else%}{{ model|verbose_name_plural|upper }}{%endif%}</strong>
-				</h3>
-                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-                    <li class="m-nav__item m-nav__item--home">
-                        <a href="/" class="m-nav__link m-nav__link--icon">
-                            <strong> <i class="la la-home"></i> INICIO</strong>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+    <div class="kt-subheader__main">
+        <h3 class="kt-subheader__title kt-subheader__title--separator">
+            <small>LISTA DE</small> 
+			<strong>{%if verbose_name_plural%}{{verbose_name_plural|upper}}{%else%}{{ model|verbose_name_plural|upper }}{%endif%}</strong> 
+        </h3>
+        <span class="kt-subheader__separator kt-hidden"></span>
+        <div class="kt-subheader__breadcrumbs">
+            <a href="/" class="kt-subheader__breadcrumbs-link">
+                INICIO 
+            </a>
         </div>
     </div>
 {%endblock subheader%}
 
 {%block content%}
-    <div class="m-portlet m-portlet--mobile">
-		<div class="m-portlet__body">
-			<!--begin: Search Form -->
-			<div class="m-form m-form--label-align-right m--margin-top-0 m--margin-bottom-10">
-				<div class="row align-items-center">
-					<div class="col-xl-8 order-2 order-xl-1">
-						<div class="form-group m-form__group row align-items-center">
-							<div class="col-md-4">
-								<div class="m-input-icon m-input-icon--left">
-									<input type="text" class="form-control m-input m-input--solid" placeholder="Buscar..." id="generalSearch">
-									<span class="m-input-icon__icon m-input-icon__icon--left">
-										<span>
-											<i class="la la-search"></i>
-										</span>
-									</span>
-								</div>
-							</div>
-							{% for item in filters %}
-								<div class="col-md-{{item.size}}">
-									<div class="m-form__group m-form__group--inline">
-										<div class="m-form__label">
-											<label>
-											</label>
-										</div>
-										<div class="m-form__control">
-											<select class="form-control m-bootstrap-select" id="m_form_{{item.key}}">
-												<option value="">
-													{{item.label}}
-												</option>
-												{%for obj in item.options%}
-													<option value="{{obj.0}}">
-														{{obj.1}}
-													</option>
-												{% endfor %}
-											</select>
-										</div>
-									</div>
-									<div class="d-md-none m--margin-bottom-10"></div>
-								</div>
-							{% endfor %}
-						</div>
-					</div>
-					<div class="col-xl-4 order-1 order-xl-2 m--align-right">
+    <!-- begin:: Content -->
+    <div class="kt-portlet kt-portlet--mobile">
+        <div class="kt-portlet__body py-0">
+            <!--begin: Search Form -->
+            <div class="kt-form kt-form--label-right kt-margin-t-20 kt-margin-b-10">
+                <div class="row align-items-center">
+                    <div class="col-xl-8 order-2 order-xl-1">
+                        <div class="row align-items-center">
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-input-icon kt-input-icon--left">
+                                    <input type="text" class="form-control" placeholder="BUSCAR..." id="generalSearch">
+                                    <span class="kt-input-icon__icon kt-input-icon__icon--left">
+                                        <span><i class="la la-search"></i></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-9 kt-margin-b-20-tablet-and-mobile">
+                                <div class="row align-items-center">
+                                    {% for item in filters %}
+                                        <div class="col-md-{{item.size}} kt-margin-b-20-tablet-and-mobile">
+                                            <div class="kt-form__group kt-form__group--inline">
+                                                <div class="kt-form__label">
+                                                    <label></label>
+                                                </div>
+                                                <div class="kt-form__control">
+                                                    <select class="form-control bootstrap-select" id="m_form_{{item.key}}">
+                                                        <option value="">
+                                                            {{item.label}}
+                                                        </option>
+                                                        {%for obj in item.options%}
+                                                            <option value="{{obj.0}}">
+                                                                {{obj.1}}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 order-1 order-xl-2 kt-align-right">
                         {%if model.url_add%}
                             {%if 'Can_Create__'|prepend_perm:model.VARS|if_has_perm:request and not 'create' in model.VARS.EXCLUDE_PERMISSIONS%}
-                                <a href="{{model.url_add}}" class="btn btn-brand m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air btn-sm">
+                                <a href="{{model.url_add}}" class="btn btn-brand btn-elevate btn-icon-sm mb-2">
+                                    <i class="la la-plus"></i>
                                     {{ model.add_text.0 }}
-                                    <br />
-                                    <small class="fs-9">
-                                        {{ model.add_text.2 }}
-                                    </small>
                                 </a>
                             {%endif%}
                         {%endif%}
-						<div class="m-separator m-separator--dashed d-xl-none"></div>
-					</div>
-				</div>
-			</div>
+                    </div>
+                </div>
+            </div>
             <!--end: Search Form -->
-			<div class="row align-items-center" v-if="selected_items">
+        </div>
+        <div class="kt-portlet__body pt-0">
+            <div class="row align-items-center" v-if="selected_items">
 				<div class="col-xl-12">
-					<div class="m-form__group m-form__group--inline">
-						<div class="m-form__control">
-							<div class="btn-toolbar"  class="align-items-center">
+					<div class="kt-form__group kt-form__group--inline">
+						<div class="kt-form__control">
+							<div class="btn-toolbar" class="align-items-center">
 								{%if 'Can_Delete__'|prepend_perm:model.VARS|if_has_perm:request%}
 									<button class="btn btn-sm btn-danger" type="button" id="m_form_delete_rows">
 										ELIMINAR SELECCIÓN
@@ -125,20 +111,35 @@
 									<small>
 										&nbsp;&nbsp;&nbsp;
 										${selected_items} elementos marcados
-									<small>
+									</small>
 								{%endif%}
 							</div>
 						</div>
 					</div>
 				</div>
             </div>
-			<!--begin: Datatable -->
-			<div class="my_datatable m-table--border-brand m--margin-top-20" id="m_datatable{{model.VARS.MODEL}}"></div>
-			<!--end: Datatable -->
-		</div>
-	</div>
+            <!--begin: Datatable -->
+            <table class="table table-striped- table-hover table-checkable" id="kt_table_{{model.VARS.MODEL}}">
+                <thead>
+                    <tr>
+                        {% for field in list%}
+                            <th>{{field.title|upper}}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+            </table>
+            <!--end: Datatable -->
+        </div>
+    </div>
+    <!-- end:: Content -->
 {%endblock content%}
 
+{%block js%}
+	{{block.super}}
+	<script src="{%static 'metronic/dist/demo5/assets/vendors/custom/datatables/datatables.bundle.js'%}" type="text/javascript"></script>
+{%endblock js%}
+
+<script>
 {%block data%}
 	{{ block.super }}
 	selected_items: 0,
@@ -146,16 +147,15 @@
 
 {%block methods%}
 	{{ block.super }}
-	delete_row: function (row, alerts) {
-		$.post(row.attr('value'), {
+	delete_row: function (deleteRow, alerts) {
+		$.post(deleteRow.attr('delete'), {
 			'csrfmiddlewaretoken': '{{ csrf_token }}',
 		}).done(function( json ){
-			parent = row.parents('tr:first')
-			parent.addClass('m-table__row--danger')
-			parent.find('a').removeAttr( "href" )
-			parent.find('.m-checkbox.m-checkbox--single').hide()
-			parent.find('.m-btn--pill').hide()
-			parent.find('.delete_row').hide()
+			parent = deleteRow.parents('tr:first')
+            parent.addClass('table-danger')
+            parent.find('a').removeAttr( "href" )
+            parent.find('.kt-checkbox.kt-checkbox--single').remove()
+            parent.find('.btn').hide()
 			if(alerts){
 				swal('Éxito!','Se eliminó correctamente el registro.','success');
 			}
@@ -169,18 +169,12 @@
 
 {%block mounted%}
 	{{block.super}}
-	{% for item in filters %}
-		$("#m_form_{{item.key}}").selectpicker()
-		$("#m_form_{{item.key}}").on("change", function() {
-			datatable{{model.VARS.MODEL}}.search($(this).val(), "{{item.key}}")
-		})
-	{% endfor %}
 	{%include 'generic/includes/list/datatable.js'%}
-	$(document).on("click",".delete_row",function(event) {
-		event.preventDefault();
-		row = $(this)
-		swal({
-			title: row.attr('text'),
+	$(document).on("click", ".delete_row", function(event){
+        event.preventDefault();
+		var deleteRow = $(this)
+		swal.fire({
+			title: deleteRow.attr('text'),
 			text: "Los datos asociados, no se podrán recuperar.",
 			type: 'warning',
 			showCancelButton: true,
@@ -188,12 +182,12 @@
 			cancelButtonText: 'Cancelar',
 		}).then((result) => {
 			if(result.value==true){
-				self.delete_row(row, true)
+				self.delete_row(deleteRow, true)
 			}
 		})
 	});
 	$(document).on('click', '#m_form_delete_rows', function(event) {
-		swal({
+		swal.fire({
 			title: "Estas seguro de eliminar estos registros?",
 			text: "Los datos asociados, no se podrán recuperar.",
 			type: 'warning',
@@ -203,11 +197,12 @@
 		}).then((result) => {
 			if(result.value==true){
 				Block();
-				$.each( datatable{{model.VARS.MODEL}}.rows(".m-datatable__row--active").nodes().find('.m-checkbox--single>[type="checkbox"]'), function(key, row){
-					self.delete_row($(row), false);
+				$.each( $('#kt_table_{{model.VARS.MODEL}}').closest('table').find('.kt-checkable:checked'), function(key, deleteRow){
+					self.delete_row($(deleteRow), false);
 				});
 				UnBlock();
 			}
 		});
 	})
 {%endblock mounted%}
+</script>

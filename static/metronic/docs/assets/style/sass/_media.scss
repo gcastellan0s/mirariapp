@@ -1,4 +1,4 @@
-@media screen and (max-width: 1270px) {
+@media screen and (max-width: 1280px) {
 	.content {
 		width: 100%;
 
@@ -31,7 +31,6 @@
 	}
 	.contents__box { width: 100%; }
 	.contents__box--left { margin-right: 50px; }
-	.contents__box--right { margin-left: 50px; }
 }/* END */
 
 @media screen and (max-width: 992px){
@@ -99,6 +98,9 @@
 	.sidebar__navigation_icon { display: flex; }
 	.sidebar-hide { display: none; }
 	HEADER > .content{ padding-left: 12px; padding-right: 12px; }
+	.hamburger {
+		display: block;
+	}
 }/* END */
 
 @media screen and (max-width: 650px) {
