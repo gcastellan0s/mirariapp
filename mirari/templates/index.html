@@ -3,68 +3,70 @@
 <!DOCTYPE html>
 <html lang="{%block language%}es{%endblock language%}" class="{%block class_html%}{%endblock class_html%}">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
-	<meta name="description" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
     {%block viewport%}<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">{%endblock viewport%}
-	<link href="{%if G.ORGANIZATION.ICO%}{{ G.ORGANIZATION.ICO.url }}{%endif%}" rel="icon" type="image/x-icon" />
-	<title>{%block title%}{{ G.ORGANIZATION.TITLE }} :: {{ G.ORGANIZATION.SLOGAN }}{%endblock title%}</title>
-	{%block font%}{%endblock font%}
-	{%block icons%}{%endblock icons%}
-	{%block base_styles%}{%endblock base_styles%}
-	{%block base_css%}{%endblock base_css%}
-	{%block head_scripts%}{%endblock head_scripts%}
+    <link href="{%if G.ORGANIZATION.ICO%}{{ G.ORGANIZATION.ICO.url }}{%endif%}" rel="icon" type="image/x-icon" />
+    <title>{%block title%}{{ G.ORGANIZATION.TITLE }} :: {{ G.ORGANIZATION.SLOGAN }}{%endblock title%}</title>
+    {%block font%}{%endblock font%}
+    {%block icons%}{%endblock icons%}
+    {%block styles%}{%endblock styles%}
+    <style>
+        {%block css%}{%endblock css%}
+    </style>
+    {%block head_scripts%}{%endblock head_scripts%}
 </head>
 <body class="{%block body_class%}{%endblock body_class%}">
-	<div id="app">
-		{%block body_content%}
-		{%endblock body_content%}
-	</div>
-	<script src="{%static 'mirari/js/vue.js'%}"></script>
-	<script src="{%static 'mirari/js/axios.js'%}"></script>
-	<script src="{%static 'mirari/js/qs.js'%}"></script>
-	<script src="{%static 'mirari/js/vue-router.js'%}"></script>
-	<script src="{%static 'mirari/js/socketio.js'%}"></script>
-	{%block base_js%}{%endblock base_js%}
-	<script>
-		{%block js_constants%}{%endblock js_constants%}
-	</script>
+    <div id="app">
+        {%block body_content%}
+        {%endblock body_content%}
+    </div>
+    <script src="{%static 'mirari/js/vue.js'%}"></script>
+    <script src="{%static 'mirari/js/axios.js'%}"></script>
+    <script src="{%static 'mirari/js/qs.js'%}"></script>
+    <script src="{%static 'mirari/js/vue-router.js'%}"></script>
+    <script src="{%static 'mirari/js/socketio.js'%}"></script>
+    {%block js%}{%endblock js%}
     <script>
-		{%block js_plugins%}{%endblock js_plugins%}
-	</script>		
-	<script type="text/javascript" charset="utf-8">
-		{%block global_functions%}{%endblock global_functions%}
-		{%block vue_vue%}
-		{%endblock vue_vue%}
-		new Vue({
-			el: '#app',
-			delimiters: ['${', '}'],
-			{%block vue_router%}{%endblock vue_router%}
+        {%block constants%}{%endblock constants%}
+    </script>
+    <script>
+        {%block plugins%}{%endblock plugins%}
+    </script>		
+    <script type="text/javascript" charset="utf-8">
+        {%block global_functions%}{%endblock global_functions%}
+        new Vue({
+            el: '#app',
+            delimiters: ['${', '}'],
+            {%block router%}{%endblock router%}
             components: {
-				{%block vue_components%}{%endblock vue_components%}
-			},
-			data: {
-				{%block vue_data%}{%endblock vue_data%}
-			},
-			created:function(){
-				self = this
-				{%block vue_created%}{%endblock vue_created%}
-			},
-			methods: {
-				{%block vue_methods%}{%endblock vue_methods%}
-			},
-			mounted: function () {
-				{%block vue_mounted%}{%endblock vue_mounted%}
-			},
-			watch: {
-				{%block vue_watch%}{%endblock vue_watch%}
-			},
-			filters: {
-				{%block vue_filters%}{%endblock vue_filters%}
-			}
-		});
-        {%block vue_vuecomponents%}{%endblock vue_vuecomponents%}
-	</script>
-	{%block base_scripts%}{%endblock base_scripts%}
+                {%block components%}{%endblock components%}
+            },
+            data: {
+                {%block data%}{%endblock data%}
+            },
+            created:function(){
+                self = this
+                {%block created%}{%endblock created%}
+            },
+            methods: {
+                {%block methods%}{%endblock methods%}
+            },
+            mounted: function () {
+                {%block mounted%}{%endblock mounted%}
+            },
+            watch: {
+                {%block watch%}{%endblock watch%}
+            },
+            filters: {
+                {%block filters%}{%endblock filters%}
+            }
+        });
+        {%block vuecomponents%}{%endblock vuecomponents%}
+    </script>
+    <script type="text/javascript" charset="utf-8">
+        {%block scripts%}{%endblock scripts%}
+    </script>
 </body> 
 </html>

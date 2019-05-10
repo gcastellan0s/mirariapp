@@ -1,0 +1,15 @@
+{% extends "metronic/base.html" %} 
+{% load static %}
+
+{%block styles%}
+    <link href="{%static 'metronic/dist/demo5/assets/vendors/base/vendors.bundle.css'%}" rel="stylesheet" type="text/css" />
+    <link href="{%static 'metronic/dist/demo5/assets/demo/demo5/base/style.bundle.css'%}" rel="stylesheet" type="text/css" />
+    {{block.super}}   
+{%endblock styles%}
+
+{%block base_js%}
+    <script src="{%static 'metronic/dist/demo5/assets/vendors/base/vendors.bundle.js'%}" type="text/javascript"></script>
+    <script src="{%static 'metronic/dist/demo5/assets/demo/demo5/base/scripts.bundle.js'%}" type="text/javascript"></script>
+    <script src="{%static 'metronic/dist/demo5/assets/app/js/dashboard.js'%}" type="text/javascript"></script>
+    {{block.super}}
+{%endblock base_js%}

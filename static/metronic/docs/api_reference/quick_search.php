@@ -1,58 +1,58 @@
 <?php header('Access-Control-Allow-Origin: *'); ?>
-<div class="m-list-search__results">
-	<span class="m-list-search__result-message m--hide">
+<div class="kt-quick-search__result">
+	<div class="kt-quick-search__message kt-hidden">
 		No record found
-	</span>
+	</div>
 
-	<span class="m-list-search__result-category m-list-search__result-category--first">
+	<div class="kt-quick-search__category kt-quick-search__category--first">
 		Documents
-	</span>
-	<a href="#" class="m-list-search__result-item">
-		<span class="m-list-search__result-item-icon"><i class="flaticon-interface-3 m--font-warning"></i></span>
-		<span class="m-list-search__result-item-text">Annual finance report</span>
+	</div>
+	<a href="#" class="kt-quick-search__item">
+		<span class="kt-quick-search__item-icon"><i class="flaticon-interface-3 kt-font-warning"></i></span>
+		<span class="kt-quick-search__item-text">Annual finance report</span>
 	</a>
-	<a href="#" class="m-list-search__result-item">
-		<span class="m-list-search__result-item-icon"><i class="flaticon-share m--font-success"></i></span>
-		<span class="m-list-search__result-item-text">Company meeting schedule</span>
+	<a href="#" class="kt-quick-search__item">
+		<span class="kt-quick-search__item-icon"><i class="flaticon-share kt-font-success"></i></span>
+		<span class="kt-quick-search__item-text">Company meeting schedule</span>
 	</a>
-	<a href="#" class="m-list-search__result-item">
-		<span class="m-list-search__result-item-icon"><i class="flaticon-paper-plane m--font-info"></i></span>
-		<span class="m-list-search__result-item-text">Project quotations</span>
+	<a href="#" class="kt-quick-search__item">
+		<span class="kt-quick-search__item-icon"><i class="flaticon-paper-plane kt-font-info"></i></span>
+		<span class="kt-quick-search__item-text">Project quotations</span>
 	</a>
 	
-	<span class="m-list-search__result-category">
+	<div class="kt-quick-search__category">
 		Customers
-	</span>
-	<a href="#" class="m-list-search__result-item">
-		<span class="m-list-search__result-item-pic"><img class="m--img-rounded" src="assets/app/media/img/users/user1.jpg" title=""/></span>
-		<span class="m-list-search__result-item-text">Amanda Anderson</span>
+	</div>
+	<a href="#" class="kt-quick-search__item">
+		<span class="kt-quick-search__item-icon"><img src="assets/media/users/user1.jpg" title=""/></span>
+		<span class="kt-quick-search__item-text">Amanda Anderson</span>
 	</a>
-	<a href="#" class="m-list-search__result-item">
-		<span class="m-list-search__result-item-pic"><img class="m--img-rounded" src="assets/app/media/img/users/user2.jpg" title=""/></span>
-		<span class="m-list-search__result-item-text">Kennedy Lloyd</span>
+	<a href="#" class="kt-quick-search__item">
+		<span class="kt-quick-search__item-icon"><img src="assets/media/users/user2.jpg" title=""/></span>
+		<span class="kt-quick-search__item-text">Kennedy Lloyd</span>
 	</a>
-	<a href="#" class="m-list-search__result-item">
-		<span class="m-list-search__result-item-pic"><img class="m--img-rounded" src="assets/app/media/img/users/user3.jpg" title=""/></span>
-		<span class="m-list-search__result-item-text">Megan Weldon</span>
+	<a href="#" class="kt-quick-search__item">
+		<span class="kt-quick-search__item-icon"><img src="assets/media/users/user3.jpg" title=""/></span>
+		<span class="kt-quick-search__item-text">Megan Weldon</span>
 	</a>
-	<a href="#" class="m-list-search__result-item">
-		<span class="m-list-search__result-item-pic"><img class="m--img-rounded" src="assets/app/media/img/users/user4.jpg" title=""/></span>
-		<span class="m-list-search__result-item-text">Marc-André ter Stegen</span>
+	<a href="#" class="kt-quick-search__item">
+		<span class="kt-quick-search__item-icon"><img src="assets/media/users/user4.jpg" title=""/></span>
+		<span class="kt-quick-search__item-text">Marc-André ter Stegen</span>
 	</a>
 
-	<span class="m-list-search__result-category">
+	<div class="kt-quick-search__category">
 		Files
-	</span>
-	<a href="#" class="m-list-search__result-item">
-		<span class="m-list-search__result-item-icon"><i class="flaticon-lifebuoy m--font-warning"></i></span>
-		<span class="m-list-search__result-item-text">Revenue report</span>
+	</div>
+	<a href="#" class="kt-quick-search__item">
+		<span class="kt-quick-search__item-icon"><i class="flaticon-lifebuoy kt-font-warning"></i></span>
+		<span class="kt-quick-search__item-text">Revenue report</span>
 	</a>
-	<a href="#" class="m-list-search__result-item">
-		<span class="m-list-search__result-item-icon"><i class="flaticon-coins m--font-primary"></i></span>
-		<span class="m-list-search__result-item-text">Anual finance report</span>
+	<a href="#" class="kt-quick-search__item">
+		<span class="kt-quick-search__item-icon"><i class="flaticon-coins kt-font-primary"></i></span>
+		<span class="kt-quick-search__item-text">Anual finance report</span>
 	</a>
-	<a href="#" class="m-list-search__result-item">
-		<span class="m-list-search__result-item-icon"><i class="flaticon-calendar m--font-danger"></i></span>
-		<span class="m-list-search__result-item-text">Tax calculations</span>
+	<a href="#" class="kt-quick-search__item">
+		<span class="kt-quick-search__item-icon"><i class="flaticon-calendar kt-font-danger"></i></span>
+		<span class="kt-quick-search__item-text">Tax calculations</span>
 	</a>
 </div>

@@ -1,8 +1,8 @@
 $('#id_{{key}}').multiSelect({
-	selectableHeader: '<input type="text" class="form-control form-control-sm m-input search-input" autocomplete="off" placeholder="Filtrar...">',
-	selectionHeader: '<input type="text" class="form-control form-control-sm m-input search-input" autocomplete="off" placeholder="Filtrar...">',
-	selectableFooter: '<button type="button" class="btn btn-metal btn-block m--margin-top-5 btn-sm">QUITAR TODOS</button>',
-	selectionFooter: '<button type="button" class="btn btn-metal btn-block m--margin-top-5 btn-sm">AGREGAR TODOS</button>',
+	selectableHeader: '<input type="text" class="form-control form-control-sm kt-input search-input" autocomplete="off" placeholder="Filtrar...">',
+	selectionHeader: '<input type="text" class="form-control form-control-sm kt-input search-input" autocomplete="off" placeholder="Filtrar...">',
+	selectableFooter: '<button type="button" class="btn btn-secondary btn-block kt--margin-top-5 btn-sm">QUITAR TODOS</button>',
+	selectionFooter: '<button type="button" class="btn btn-secondary btn-block kt--margin-top-5 btn-sm">AGREGAR TODOS</button>',
 	afterInit: function(ms){
 		var that = this,
 		$selectableSearch = that.$selectableUl.prev(),
@@ -20,7 +20,7 @@ $('#id_{{key}}').multiSelect({
 		$deselectall.on('click', function(e){
 			that.$element.multiSelect('deselect_all');
 		});
-		that.$selectableUl.prev().wrap( '<div class="m-input-icon m-input-icon--left m--margin-bottom-5"></div>' ).after('<span class="m-input-icon__icon m-input-icon__icon--left"><span><i class="la la-search"></i></span></span>');
+		that.$selectableUl.prev().wrap( '<div class="kt-input-icon kt-input-icon--left kt--margin-bottom-5"></div>' ).after('<span class="kt-input-icon__icon kt-input-icon__icon--left"><span><i class="la la-search"></i></span></span>');
 		that.qs2 = $selectionSearch.quicksearch(selectionSearchString).on('keydown', function(e){
 			if (e.which == 40){
 				that.$selectionUl.focus();
@@ -30,7 +30,7 @@ $('#id_{{key}}').multiSelect({
 		$selectall.on('click', function(e){
 			that.$element.multiSelect('select_all');
 		});
-		that.$selectionUl.prev().wrap( '<div class="m-input-icon m-input-icon--left m--margin-bottom-5"></div>' ).after('<span class="m-input-icon__icon m-input-icon__icon--left"><span><i class="la la-search"></i></span></span>');
+		that.$selectionUl.prev().wrap( '<div class="kt-input-icon kt-input-icon--left kt--margin-bottom-5"></div>' ).after('<span class="kt-input-icon__icon kt-input-icon__icon--left"><span><i class="la la-search"></i></span></span>');
 	},
 	afterSelect: function(){
 		this.qs1.cache();

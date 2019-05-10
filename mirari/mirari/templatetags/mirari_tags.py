@@ -3,6 +3,7 @@ from django import template
 from mirari.mirari.vars import *
 from mirari.mirari.models import *
 from django.conf import settings
+import re
 
 register = template.Library()
 
@@ -68,8 +69,8 @@ def if_has_perm(perm, request):
 	return False
 
 @register.filter
-def datatableformat(obj):
-	return mark_safe(obj.replace("'true'", "true").replace("'false'", "false"))
+def renderDataTable(obj):
+	return mark_safe(obj.replace('{{','${row.').replace('}}','}'))
 
 @register.filter
 def get_session_organization(request):

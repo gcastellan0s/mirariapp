@@ -1,138 +1,113 @@
 {% load static %}
 {% load i18n %}
 {% load mirari_tags %}
-var options = {
-    data: {
-        type: 'remote',
-        source: {
-            read: {
+
+"use strict";
+var KTDatatablesDataSourceAjaxServer = function() {
+	var initTable1 = function() {
+		var table = $('#kt_table_{{model.VARS.MODEL}}');
+		table.DataTable({
+			responsive: true,
+			searchDelay: 500,
+			processing: true,
+			serverSide: true,
+            language: {
+                'url':'//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
+            },
+            searchDelay: 500,
+            ajax: {
                 url: '',
-                method: 'GET',
-                params: {
-                    action: 'list',
+                type: 'GET',
+                data: function (d) {
+                    d.action = 'list'
+                    {% for item in filters %}
+                        d.{{item.key}} = $("#m_form_{{item.key}}").val()
+                    {% endfor %}
                 },
-                map: function(raw) {
-                    var dataSet = raw;
-                    console.log(raw)
-                    if (typeof raw.data !== 'undefined') {
-                        dataSet = raw.data;
-                    }
-                    return dataSet;
-                },
-            }
-        },
-        pageSize: {{paginator_size}},
-        saveState: {
-            cookie: false,
-            webstorage: false
-        },
-        serverPaging: true,
-        serverFiltering: true,
-        serverSorting: true,
-    },
-    layout: {
-        theme: 'default',
-        class: 'm-datatable--brand',
-        scroll: false,
-        height: null,
-        footer: false,
-        header: true,
-        smoothScroll: {
-            scrollbarShown: true
-        },
-        spinner: {
-            overlayColor: '#000000',
-            opacity: 0,
-            type: 'loader',
-            state: 'brand',
-            message: true
-        },
-        icons: {
-            sort: {
-                asc: 'la la-arrow-up',
-                desc: 'la la-arrow-down'
             },
-            pagination: {
-                next: 'la la-angle-right',
-                prev: 'la la-angle-left',
-                first: 'la la-angle-double-left',
-                last: 'la la-angle-double-right',
-                more: 'la la-ellipsis-h'
-            },
-            rowDetail: {
-                expand: 'fa fa-caret-down',
-                collapse: 'fa fa-caret-right'
-            }
-        }
-    },
-    sortable: true,
-    pagination: true,
-    search: {
-        onEnter: false,
-        input: $('#generalSearch'),
-        delay: 400,
-    },
-    rows: {
-        callback: function() {},
-        autoHide: false,
-    },
-    columns: {{list | safe | datatableformat}},
-    toolbar: {
-        layout: ['pagination', 'info'],
-        placement: ['bottom'],
-        items: {
-            pagination: {
-                type: 'default',
-                pages: {
-                    desktop: {
-                        layout: 'default',
-                        pagesNumber: 6
-                    },
-                    tablet: {
-                        layout: 'default',
-                        pagesNumber: 3
-                    },
-                    mobile: {
-                        layout: 'compact'
-                    }
+            dom:
+				"<'row'<'col-sm-12'tr>>" +
+				"<'row'<'col-sm-12 col-md-4'p><'col-sm-12 col-md-2 mt-2'l><'col-sm-12 col-md-6'i>>",
+            {%if 'select' in list.0%}
+                headerCallback: function(thead, data, start, end, display) {
+                    thead.getElementsByTagName('th')[0].innerHTML = `
+                        <label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-checkbox--brand">
+                            <input type="checkbox" value="" class="kt-group-checkable">
+                            <span></span>
+                        </label>`;
                 },
-                navigation: {
-                    prev: true,
-                    next: true,
-                    first: true,
-                    last: true
-                },
-                pageSizeSelect: [10, 20, 30, 50, 100]
-            },
-            info: true
-        }
-    },
-    translate: {
-        records: {
-            processing: 'Espere ...',
-            noRecords: 'No se encontraron regsitros'
-        },
-        toolbar: {
-            pagination: {
-                items: {
-                    default: {
-                        first: 'Primero',
-                        prev: 'Anterior',
-                        next: 'Siguiente',
-                        last: 'Anterior',
-                        more: 'Más páginas',
-                        input: 'Numero',
-                        select: 'Registros por página'
-                    },
-                    {% verbatim %}
-                        info: 'Mostrando {{start}} a {{end}} de {{total}} registros'
-                    {% endverbatim %}
-                }
-            }
-        }
-    },
-}
-var datatable{{model.VARS.MODEL}} = $('#m_datatable{{model.VARS.MODEL}}').mDatatable(options);
-$("#m_datatable{{model.VARS.MODEL}}").on("change", function() {
-    self.selected_items = datatable{{model.VARS.MODEL}}.rows(".m-datatable__row--active").nodes().find('.m-checkbox--single > [type="checkbox"]').length
-})
+            {%endif%}
+			columnDefs: [
+                {% for field in list %}
+                    {%if 'select' in field%}
+                        {
+                            targets: {{forloop.counter0}},
+                            title: '{{field.title|upper}}',
+                            orderable: false,
+                            {%if field.width%}
+                                width: '{{field.width}}px',
+                            {%endif%}
+                            render: function(data, type, row, meta) {
+                                return `
+                                <label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-checkbox--brand">
+                                    <input type="checkbox" value="" delete="${row.property_url_delete}" class="kt-checkable">
+                                    <span></span>
+                                </label>`;
+                            },
+                        },
+                    {%else%}
+                        {
+                            targets: {{forloop.counter0}},
+                            title: '{{field.title|upper}}',
+                            data: '{{field.field}}',
+                            orderable: {%if field.sortable == 'false'%}false{%else%}true{%endif%},
+                            {%if field.width%}
+                                width: '{{field.width}}px',
+                            {%endif%}
+                            {%if field.className%}
+                                className: '{{field.className}}',
+                            {%endif%}
+                            {%if field.template%}
+                                render: function (data, type, row, meta) {
+                                    return `{{field.template|safe|renderDataTable}}`
+                                },
+                            {%endif%}
+                        },
+                    {%endif%}
+                {% endfor %}
+			],
+		});
+        $('#generalSearch').on('keyup',function(){$('#kt_table_{{model.VARS.MODEL}}').DataTable().search(this.value,).draw()});
+        {% for item in filters %}
+            $("#m_form_{{item.key}}").selectpicker()
+            $("#m_form_{{item.key}}").on("change", function() {
+                $('#kt_table_{{model.VARS.MODEL}}').DataTable().draw()
+            })
+        {% endfor %}
+        table.on('change', '.kt-group-checkable', function() {
+			var set = $(this).closest('table').find('.kt-checkable');
+			var checked = $(this).is(':checked');
+			$(set).each(function() {
+				if (checked) {
+					$(this).prop('checked', true);
+					//$('#kt_table_{{model.VARS.MODEL}}').DataTable().rows($(this).closest('tr')).select();
+				}
+				else {
+					$(this).prop('checked', false);
+					//$('#kt_table_{{model.VARS.MODEL}}').DataTable().rows($(this).closest('tr')).deselect();
+				}
+			});
+		});
+        $('#kt_table_{{model.VARS.MODEL}}').on("change", function() {
+            self.selected_items = $(this).closest('table').find('.kt-checkable:checked').length
+        })
+	};
+	return {
+		init: function() {
+			initTable1();
+		},
+	};
+}();
+jQuery(document).ready(function() {
+	KTDatatablesDataSourceAjaxServer.init();
+});

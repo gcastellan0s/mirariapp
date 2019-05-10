@@ -4,12 +4,9 @@
 {% load mirari_tags %}
 
 {%block menu_header%}
-    <li class="m-menu__item  m-menu__item--active "  aria-haspopup="true">
-        <a  href="?page=index" class="m-menu__link ">
-        <span class="m-menu__item-here"></span>
-        <span class="m-menu__link-text">
-            {%trans 'PANEL DE INICIO'%}
-        </span>
+    <li class="kt-menu__item  kt-menu__item--open kt-menu__item--here kt-menu__item--submenu kt-menu__item--rel kt-menu__item--open kt-menu__item--her kt-menu__item--active" data-ktmenu-submenu-toggle="click" aria-haspopup="true">
+        <a href="page=index" class="kt-menu__link kt-menu__toggle">
+            <span class="kt-menu__link-text">{%trans 'PANEL DE INICIO'%}</span>
         </a>
     </li>
 {%endblock menu_header%}
@@ -17,10 +14,7 @@
 {%block css%}
 	{{block.super}}
     <style>
-		.grid-item{
-			width: calc(33.3333% - 10px);
-		}
-		.m-portlet__head{
+		.kt-portlet__head{
 			background-color: #f7f7fb;
 		}
     </style> 
@@ -29,70 +23,65 @@
 {%block content%}
     <div class="row grid">
 		{%for key, modules in ''|get_menu%}
-			<div class="col-xl-4 grid-item" v-if="MENU__{{key}}.length > 0">
-				<div class="m-portlet m-portlet--full-height m-portlet--fit ">
-					<div class="m-portlet__head">
-						<div class="m-portlet__head-caption">
-							<div class="m-portlet__head-title">
-								<h3 class="m-portlet__head-text color-background">
-									{{modules.title}}
-								</h3>
-							</div>
-						</div>
+            <div class="col-xl-4 grid-item" v-if="MENU__{{key}}.length > 0">
+                <!--begin:: Widgets/Notifications-->
+                <div class="kt-portlet">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                {{modules.title}}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body p-0">
+                        <div class="tab-content">
+                            <div class="kt-notification">
+                                {%for module in modules.modules%}
+                                    {%if request|has_app:module.apps and request|has_permission:module%}
+                                        {%if not 'html' in module%}
+                                            <a href="{{module|get_url}}" class="kt-notification__item" key="{{module.keys}}">
+                                                <div class="kt-notification__item-icon">
+                                                    <i class="{{module.icon}}"></i>
+                                                </div>
+                                                <div class="kt-notification__item-details">
+                                                    <div class="kt-notification__item-title">
+                                                        {{module.title|upper}}
+                                                    </div>
+                                                    <div class="kt-notification__item-time">
+                                                        <small><strong>{{module.text}}</strong></small>
+                                                        <br />
+                                                        <small>{{module.subtext}}</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        {%else%}
+                                            {%if module.html%}
+                                                {%include module.html%}
+                                            {%endif%}
+                                        {%endif%}
+                                    {%endif%}
+                                {%endfor%}
+                            </div>
+                        </div>
 					</div>
-					<div class="m-portlet__body">
-						{%for module in modules.modules%}
-							{%if request|has_app:module.apps and request|has_permission:module%}
-								{%if not 'html' in module%}
-									<div class="m-widget4 m-widget4--chart-bottom">
-										<div class="m-widget4__item" key="{{module.keys}}">
-											<div class="m-widget4__ext">
-												<a href="{{module|get_url}}" class="m-widget4__icon m--font-brand">
-													<i class="{{module.icon}}"></i>
-												</a>
-											</div>
-											<div class="m-widget4__info">
-												<a href="{{module|get_url}}" class="m-widget4__icon m--font-brand">
-													<span class="m-widget4__title">
-														{{module.title|upper}}
-													</span>
-													<br>
-													<span class="m-widget4__sub">
-														<small>
-															<strong>
-																{{module.text}}
-															</strong>
-														</small>
-														<br />
-														<small>{{module.subtext}}</small>
-													</span>
-												</a>
-											</div>
-										</div>
-									</div>
-								{%else%}
-									{%if module.html%}
-										{%include module.html%}
-									{%endif%}
-								{%endif%}
-							{%endif%}
-						{%endfor%}
-					</div>
-				</div>
-			</div>
+                </div>
+                <!--end:: Widgets/Notifications-->
+            </div>
 		{%endfor%}
 	</div>
 {%endblock content%}
 
-{%block base_js%}
+{%block js%}
 	{{block.super}}
+    <script src="{%static 'metronic/dist/demo5/assets/app/custom/general/dashboard.js'%}" type="text/javascript"></script>
 	<script src="{%static 'mirari/js/masonry.js'%}" type="text/javascript"></script>
-{%endblock base_js%}
+{%endblock js%}
 
 {%block scripts%}
+    {{block.super}}
 	$('.grid').masonry({
 		itemSelector: '.grid-item',
 		columnWidth: '.grid-item',
-		gutter: 10
+		gutter: 0
 	});
 {%endblock scripts%}

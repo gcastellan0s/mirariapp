@@ -148,9 +148,9 @@ class Model_base(models.Model):
     ###########
     def render_boolean(self, field):
         if field:
-            return '<i class="la la-check m--font-success"></i>'
+            return '<i class="la la-check text-success"></i>'
         else:
-            return '<i class="la la-times m--font-danger"></i>'
+            return '<i class="la la-times text-danger"></i>'
     def render_color(self, field):
         return '<i class="fa fa-circle" style="color:'+field+'"></i>'
     def render_list(self, list, attr):

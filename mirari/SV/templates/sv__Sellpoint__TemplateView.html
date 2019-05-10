@@ -3,14 +3,17 @@
 {%load i18n%}
 
 {%block styles%}
+    {{block.super}}
     <link rel="stylesheet" href="{%static 'appwork-html/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css'%}">
 {%endblock styles%}
 
 {%block css%}
-    <style>{%include 'sv__Sellpoint__TemplateView.css'%}</style>
+    {{block.super}}
+    {%include 'sv__Sellpoint__TemplateView.css'%}
 {%endblock%}
 
 {%block content%}
+    {{block.super}}
     <div v-if="$route.path === '/sellpoint'">{%include 'Templete__sellpoint.pug'%}</div>
     <div v-else-if="$route.path === '/casher'">{%include 'Template__casher.pug'%}</div>
     <div v-else-if="$route.path === '/dashboard'">{%include 'Template__dashboard.pug'%}</div>
@@ -19,24 +22,24 @@
 {%endblock%}
 
 {%block js%}
+    {{block.super}}
     <script src="{%static 'appwork-html/vendor/libs/moment/moment.js'%}"></script>
     <script src="{%static 'appwork-html/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js'%}"></script>
 {%endblock js%}
 
 <script>
     {%block constants%}
+        {{block.super}}
         const router = new VueRouter({routes:[{ path:'/SV/sv/',component:{template:``}}]});
         const IVA = 0.16;
         const IEPS = 0.08;
         var PrivateSocket = null
     {%endblock constants%}
 
-    {%block plugins%}
-    {%endblock plugins%}
-
     {%block router%}router,{%endblock router%}
 
     {%block data%}
+        {{block.super}}
         ErrorText: null,
         Sellpoints: null,
         Sellpoint: null,
@@ -95,9 +98,11 @@
                 code: null,
             }
         },
+        BarCode:'',
     {%endblock data%}
 
     {%block mounted%}
+        {{block.super}}
         self.getStates(postFunctions=true)
         setInterval(function(){
             self.getStates(postFunctions=false)
@@ -108,6 +113,7 @@
     {%endblock mounted%}
 
     {%block methods%}
+        {{block.super}}
         getStates: ((postFunctions = false) => {
             Block('Actualizando configuracion...')
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates',{},false,0).then(function(json){
@@ -585,6 +591,7 @@
     {%endblock methods%}
 
     {%block filters%}
+        {{block.super}}
         firstNameMenu: ((value) => {
             if (!value) return ''
             return value.toString().charAt(0).toUpperCase()
@@ -608,6 +615,7 @@
     {%endblock filters%}
 
     {%block watch%}
+        {{block.super}}
         'Client.name': function (newData, oldData) {
             if(newData){
                 Ax('get', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClients&query='+newData)
@@ -619,6 +627,7 @@
     {%endblock watch%}
 
     {%block vuecomponents%}
+        {{block.super}}
         {%include 'components/date-picker.js'%}
     {%endblock vuecomponents%}
 </script>

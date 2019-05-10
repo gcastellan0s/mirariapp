@@ -3,7 +3,7 @@ a {
   color: inherit;
 }
 
-.m-modal__interior {  
+.kt-modal__interior {
   text-align: center;
   padding-top: 20rem;
 
@@ -16,7 +16,7 @@ a {
   text-decoration: none;
 }
 
-.m-modal__window {
+.kt-modal__window {
   position: fixed;  
   top: 0;
   right: 0;
@@ -28,12 +28,12 @@ a {
   transition: all 0.3s;
 }
 
-.m-modal__window:target {
+.kt-modal__window:target {
   opacity: 1;
   pointer-events: auto;
 }
 
-.m-modal__window>div {
+.kt-modal__window>div {
   width: 400px;
   position: relative;
   margin: 10% auto;
@@ -41,7 +41,7 @@ a {
   border: 1px solid red; 
 } 
 
-.m-modal__close {
+.kt-modal__close {
   color: #fff;
   background-color: red; 
   font-size: 80%;
