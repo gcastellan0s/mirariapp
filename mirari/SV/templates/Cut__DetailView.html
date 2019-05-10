@@ -28,26 +28,22 @@
                                                 </div>
                                                 <div class="kt-invoice__items kt-align-right">
                                                     <div class="kt-invoice__item kt-align-right">
-                                                        <span class="kt-invoice__subtitle">FECHA DE CORTE</span>
-                                                        <span class="kt-invoice__text"><strong>{{object.final_time|default:'Venta en curso'}}</strong></span>
-                                                    </div>
-                                                </div>
-                                                <div class="kt-invoice__items kt-align-right">
-                                                    <div class="kt-invoice__item kt-align-right">
-                                                        <span class="kt-invoice__subtitle">PRIMER TICKET</span>
-                                                        <span class="kt-invoice__text"><strong>{{object.initial_time}}</strong></span>
-                                                    </div>
-                                                </div>
-                                                <div class="kt-invoice__items kt-align-right">
-                                                    <div class="kt-invoice__item kt-align-right" v-if="CutDetail">
-                                                        <span class="kt-invoice__subtitle">TOTAL TICKETS</span>
-                                                        <span class="kt-invoice__text"><strong>{{object.getLenTickets}}</strong> clientes / <strong>${CutDetail.TotalDetail['all'][1]}</strong> </span>
-                                                    </div>
-                                                </div>
-                                                <div class="kt-invoice__items kt-align-right">
-                                                    <div class="kt-invoice__item kt-align-right" v-if="CutDetail">
-                                                        <span class="kt-invoice__subtitle">TOTAL FALTANTES</span>
-                                                        <span class="kt-invoice__text"><strong>{{object.getLenFaltante}}</strong> clientes / <strong>${CutDetail.TotalDetail['all'][3]}</strong> </span>
+                                                        <div v-if="CutDetail">
+                                                            <span class="kt-invoice__subtitle">FECHA DE CORTE</span>
+                                                            <span class="kt-invoice__text"><strong>{{object.final_time|default:'Venta en curso'}}</strong></span>
+                                                        </div>
+                                                        <div v-if="CutDetail">
+                                                            <span class="kt-invoice__subtitle">PRIMER TICKET</span>
+                                                            <span class="kt-invoice__text"><strong>{{object.initial_time}}</strong></span>
+                                                        </div>
+                                                        <div v-if="CutDetail">
+                                                            <span class="kt-invoice__subtitle">TOTAL TICKETS</span>
+                                                            <span class="kt-invoice__text"><strong>{{object.getLenTickets}}</strong> clientes / <strong>${CutDetail.TotalDetail['all'][1]}</strong> </span>
+                                                        </div>
+                                                        <div v-if="CutDetail">
+                                                            <span class="kt-invoice__subtitle">TOTAL FALTANTES</span>
+                                                            <span class="kt-invoice__text"><strong>{{object.getLenFaltante}}</strong> clientes / <strong>${CutDetail.TotalDetail['all'][3]}</strong> </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
