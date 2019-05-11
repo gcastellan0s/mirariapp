@@ -454,7 +454,6 @@ class Base_List(object):
             q.add(Q(**{attribute+'__icontains': query}), Q.OR)
         return query_list.filter(q)
     def query_filter(self, request, query_list):
-        return query_list
         filters = self.filters()
         for value in filters:
             if request.GET.get(value['key']):
