@@ -512,6 +512,15 @@
             self.Ticket.ticketType='GASTO';
             self.$router.push({path:'order',query:{orderMode:'finishOrder'}})
         }),
+        onSubmit:((BarCode) => {
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=barcodeScanner',{barcode:self.BarCode, code:'{{code}}'},false,0).then(function(json){
+                PublicSocket.emit('Send_Event','{{code}}','scanTicket', json.data.ticket)
+            }).catch((error) => {
+            })
+            .finally(() => {
+                self.BarCode = ''
+            });
+        }),
         /////SYSTEM
         reloadSystem: ((text='Espere un momento...') => {
             Block(text)
