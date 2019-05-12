@@ -513,7 +513,7 @@
             self.$router.push({path:'order',query:{orderMode:'finishOrder'}})
         }),
         onSubmit:((BarCode) => {
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=barcodeScanner',{barcode:self.BarCode, code:'{{code}}'},false,0).then(function(json){
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=barcodeScanner',{barcode:self.BarCode, code:'{{request.user.organization.code}}'}).then(function(json){
                 console.log(json)
                 PublicSocket.emit('Send_Event','{{code}}','scanTicket', json.data.ticket)
             }).catch((error) => {
