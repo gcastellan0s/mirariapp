@@ -239,6 +239,7 @@ VARS = {
         }
     },
     'SERIALIZER': ['get_code','get_units','get_is_active','get_productattributes','get_menu','get_sellpoint'],
+    'HIDE_CHECKBOX_LIST': True,
     'SELECTQ': {
         #'code': {
             #'model': ['mirari', 'ProductsServicesSAT'],
@@ -264,6 +265,7 @@ VARS = {
         },
     },
     'FORM': ('name','sellpoints','menu','is_active','price','iva','ieps','bar_code','is_dynamic','is_favorite'),
+
 }
 class Product(Model_base):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE)
@@ -311,31 +313,18 @@ class Product(Model_base):
         for sellpoint in self.sellpoints.all():
             productattributes = ProductAttributes.objects.get(product=self,sellpoint=sellpoint)
             string += """
-                    <div class="m-portlet m-portlet--full-height" style="border-style:solid;border-width:1px;color:#e6e6e6;margin-bottom: .5rem;">
-                        <div class="m-portlet__body m--padding-5 m--padding-right-10 m--padding-left-10 ">
-                            <div class="m-widget3">
-                                <div class="m-widget3__item">
-                                    <div class="m-widget3__header">
-                                        <div class="m-widget3__info" style="padding-left: 0rem;">
-                                            <span class="m-widget3__username">{8}</span>
-                                            <span class="m-widget3__time m--margin-left-5">
-                                                {1}
-                                            </span>
-                                        </div>
-                                        <a href="{9}" class="btn btn-outline-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill btn-sm m--margin-right-25 m--margin-top-5 m--pull-right" title="Editar" style="width: 20px;height: 20px;">
-                                            <i class="la la-edit" style="font-size:12px;"></i>
-                                        </a>
-                                    </div>
-                                    <div class="m-widget3__body mt-1">
-                                        <p class="m-widget3__text" style="font-size:11px;">
-                                            {2} {3} {7} {5} {6}
-                                        </p>
-                                    </div>
+                    <a href="{9}">
+                        <div class="kt-portlet" style="border: 1px solid {10};">
+                            <div class="kt-portlet__body py-2 px-3">
+                                    {8}
+                                <h5 class="text-dark">{1}</h5>
+                                <div class="kt-section__content kt-section__content--solid">
+                                    {2} {3} {7} {5} {6}
                                 </div>
                             </div>
                         </div>
-                    </div>
-            """.format(
+                    </a>
+                """.format(
                 productattributes.get_alias(),
                 productattributes.get_format_price(),
                 productattributes.get_badge_iva(),
@@ -346,10 +335,35 @@ class Product(Model_base):
                 productattributes.get_badge_is_active(),
                 productattributes.get_sellpoint(),
                 productattributes.url_update(),
+                productattributes.sellpoint.color,
             )
         if not string:
             string = '<strong>No hay puntos de venta asociados</strong>'
         return mark_safe(string)
+        #<div class="kt-portlet kt-portlet--full-height" style="border-style:solid;border-width:1px;color:#e6e6e6;margin-bottom: .5rem;">
+            #<div class="kt-portlet__body kt--padding-5 kt--padding-right-10 kt--padding-left-10 ">
+                #<div class="kt-widget3">
+                    #<div class="m-widget3__item">
+                        #<div class="kt-widget3__header">
+                            #<div class="m-widget3__info" style="padding-left: 0rem;">
+                                #<span class="kt-widget3__username">{8}</span>
+                                #<span class="kt-widget3__time kt--margin-left-5">
+                                    #{1}
+                                #</span>
+                            #</div>
+                            #<a href="{9}" class="btn btn-outline-brand kt-btn kt-btn--icon kt-btn--icon-only kt-btn--custom kt-btn--pill btn-sm kt--margin-right-25 kt--margin-top-5 kt--pull-right" title="Editar" style="width: 20px;height: 20px;">
+                                #<i class="la la-edit" style="font-size:12px;"></i>
+                            #</a>
+                        #</div>
+                        #<div class="kt-widget3__body mt-1">
+                            #<p class="m-widget3__text" style="font-size:11px;">
+                                #{2} {3} {7} {5} {6}
+                            #</p>
+                        #</div>
+                    #</div>
+                #</div>
+            #</div>
+        #</div>
 def sellpoints_changed(sender, **kwargs):
     action = kwargs.pop('action', None)
     instance = kwargs.pop('instance', None)
@@ -426,17 +440,17 @@ class ProductAttributes(Model_base):
     def get_bar_code(self):
         return self.render_if(self.bar_code)
     def get_badge_iva(self):
-        return mark_safe('<span class="m-badge m-badge--wide m-badge--rounded m-badge--'+self.render_string_color(self.iva)+' m-badge--wide">I.V.A.</span>')
+        return mark_safe('<span class="kt-badge kt-badge--'+self.render_string_color(self.iva)+' kt-badge--inline">I.V.A.</span>')
     def get_badge_ieps(self):
-        return mark_safe('<span class="m-badge m-badge--wide m-badge--rounded m-badge--'+self.render_string_color(self.ieps)+' m-badge--wide">IEPS</span>')
+        return mark_safe('<span class="kt-badge kt-badge--'+self.render_string_color(self.ieps)+' kt-badge--inline">IEPS</span>')
     def get_badge_is_dynamic(self):
-        return mark_safe('<span class="m-badge m-badge--wide m-badge--rounded m-badge--'+self.render_string_color(self.is_dynamic)+' m-badge--wide">Dinámico</span>')
+        return mark_safe('<span class="kt-badge kt-badge--'+self.render_string_color(self.is_dynamic)+' kt-badge--inline">Dinámico</span>')
     def get_badge_is_favorite(self):
-        return mark_safe('<span class="m-badge m-badge--wide m-badge--rounded m-badge--'+self.render_string_color(self.is_favorite)+' m-badge--wide">Favorito</span>')
+        return mark_safe('<span class="kt-badge kt-badge--'+self.render_string_color(self.is_favorite)+' kt-badge--inline">Favorito</span>')
     def get_badge_is_active(self):
-        return mark_safe('<span class="m-badge m-badge--wide m-badge--rounded m-badge--'+self.render_string_color(self.is_active)+' m-badge--wide">Activo</span>')
+        return mark_safe('<span class="kt-badge kt-badge--'+self.render_string_color(self.is_active)+' kt-badge--inline">Activo</span>')
     def get_sellpoint(self):
-        return mark_safe(self.render_boolean_del('<span class="m--font-'+self.sellpoint.render_string_color(self.sellpoint.is_active)+'" style="color:'+self.sellpoint.color+'!important">'+self.sellpoint.name+'</span>', self.sellpoint.is_active))
+        return mark_safe(self.render_boolean_del('<span class="kt--font-'+self.sellpoint.render_string_color(self.sellpoint.is_active)+'" style="color:'+self.sellpoint.color+'!important">'+self.sellpoint.name+'</span>', self.sellpoint.is_active))
 
 ########################################################################################
 VARS = {
