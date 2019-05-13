@@ -20,18 +20,22 @@ VARS = {
         {
             'field': 'property_get_have_casher',
             'title': 'COBRA VENDEDOR?',
+            'width': 100,
         },
         {
             'field': 'number_tickets',
             'title': '# Tickets',
+            'width': 100,
         },
         {
             'field': 'property_getSerialNumber',
             'title': 'FOLIO',
+            'width': 150,
         },
         {
             'field': 'property_get_color',
             'title': 'COLOR',
+            'width': 100,
         },
     ],
     'SELECTQ': {
