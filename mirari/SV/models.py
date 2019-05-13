@@ -18,24 +18,24 @@ VARS = {
             'url': 'property_url_update',
         },
         {
+            'field': 'property_get_haveExpenses',
+            'title': 'GASTOS',
+        },
+        {
             'field': 'property_get_have_casher',
             'title': 'COBRA VENDEDOR?',
-            'width': 100,
         },
         {
             'field': 'number_tickets',
             'title': '# Tickets',
-            'width': 100,
         },
         {
             'field': 'property_getSerialNumber',
             'title': 'FOLIO',
-            'width': 150,
         },
         {
             'field': 'property_get_color',
             'title': 'COLOR',
-            'width': 100,
         },
     ],
     'SELECTQ': {
@@ -92,6 +92,8 @@ class Sellpoint(Model_base):
         return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(orders=user)
     def get_have_casher(self):
         return self.render_boolean(not self.have_casher)
+    def get_haveExpenses(self):
+        return self.render_boolean(not self.haveExpenses)
     def get_color(self):
         return self.render_color(self.color)
     def get_serial(self):
