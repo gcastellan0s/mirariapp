@@ -314,7 +314,7 @@ class Product(Model_base):
             productattributes = ProductAttributes.objects.get(product=self,sellpoint=sellpoint)
             string += """
                     <a href="{9}">
-                        <div class="kt-portlet" style="border: 1px solid {10};">
+                        <div class="kt-portlet mb-1" style="border: 1px solid {10};">
                             <div class="kt-portlet__body py-2 px-3">
                                     {8}
                                 <h5 class="text-dark">{1}</h5>
