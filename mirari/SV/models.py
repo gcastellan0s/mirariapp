@@ -37,6 +37,10 @@ VARS = {
             'field': 'property_get_color',
             'title': 'COLOR',
         },
+        {
+            'field': 'printer',
+            'title': 'IMPRESORA',
+        },
     ],
     'SELECTQ': {
         'cashers': {
@@ -48,11 +52,14 @@ VARS = {
         'orders': {
             'plugin': 'selectmultiple',
         },
+        'supervisors': {
+            'plugin': 'selectmultiple',
+        },
     },
     'SEARCH': ['name'],
     'SORTEABLE': ['name'],
     'EXCLUDE_FORM': ['serial'],
-    'FORM': ('name','have_casher','color','vendors','cashers','orders','is_active','number_tickets','printer','barcode','haveExpenses','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
+    'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','number_tickets','printer','barcode','haveExpenses','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
 }
 class Sellpoint(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
@@ -71,6 +78,7 @@ class Sellpoint(Model_base):
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactiva este punto de venta')
     cashers = models.ManyToManyField('mirari.User', verbose_name='Cajeros', blank=True, related_name='+',)
     vendors = models.ManyToManyField('mirari.User', verbose_name='Vendedores', blank=True, related_name='+',)
+    supervisors = models.ManyToManyField('mirari.User', verbose_name='Supervisores', blank=True, related_name='+',)
     orders = models.ManyToManyField('mirari.User', verbose_name='Pedidos', blank=True, related_name='+',)
     printer = models.CharField('Impresora ID', max_length=80, blank=True, null=True)
     barcode = models.BooleanField('Muestra Escaner?', default=False, help_text='Activalo para conectar un escaner a una PC')
