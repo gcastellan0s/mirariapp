@@ -59,7 +59,7 @@ VARS = {
     'SEARCH': ['name'],
     'SORTEABLE': ['name'],
     'EXCLUDE_FORM': ['serial'],
-    'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','number_tickets','printer','barcode','haveExpenses','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
+    'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','printer','barcode','number_tickets','haveExpenses','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
 }
 class Sellpoint(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
@@ -90,6 +90,11 @@ class Sellpoint(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.name)
+    def QUERY(self, view):
+        sellpoints = Sellpoint.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
+        if not view.request.user.is_superuser:
+            sellpoints = sellpoints.filter(supervisors = view.request.user)
+        return sellpoints
     def getMySellpoints(self, user):
         return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(Q(cashers=user)|Q(vendors=user)|Q(orders=user)).distinct()
     def getMySellpointsVendor(self, user):
