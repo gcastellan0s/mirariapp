@@ -425,7 +425,6 @@ class Base_List(object):
         try: 
             return self.model().QUERY(self)
         except Exception as e:
-            print(str(e))
             if self.QUERY:
                 if self.QUERY['query'] == 'ALL':
                     query = self.model.objects.all()
