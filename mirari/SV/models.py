@@ -294,14 +294,12 @@ class Product(Model_base):
     sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="", help_text="Se vende en estas sucursales")
     menu = models.ManyToManyField('Menu', related_name='+', verbose_name="", help_text="Elige el o los menus donde se vende este producto")
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar producto?')
-
     price = models.FloatField('Precio en esta sucursal ', default=0, help_text='Graba IVA? (sugerido)')
     iva = models.BooleanField('I.V.A. ', default=True, help_text='Graba IVA? (sugerido)')
     ieps = models.BooleanField('IEPS. ', default=True, help_text='Graba IEPS? (sugerido)')
     bar_code = models.CharField('Código de Barras ', max_length=250, blank=True, null=True, help_text='(sugerido)')
     is_dynamic = models.BooleanField('Precio dinámico ', default=False, help_text='Este producto tiene precio variable? (sugerido)')
     is_favorite = models.BooleanField('Es favorito? ', default=False, help_text='Se muestra siempre este producto? (sugerido)')
-
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -359,30 +357,6 @@ class Product(Model_base):
         if not string:
             string = '<strong>No hay puntos de venta asociados</strong>'
         return mark_safe(string)
-        #<div class="kt-portlet kt-portlet--full-height" style="border-style:solid;border-width:1px;color:#e6e6e6;margin-bottom: .5rem;">
-            #<div class="kt-portlet__body kt--padding-5 kt--padding-right-10 kt--padding-left-10 ">
-                #<div class="kt-widget3">
-                    #<div class="m-widget3__item">
-                        #<div class="kt-widget3__header">
-                            #<div class="m-widget3__info" style="padding-left: 0rem;">
-                                #<span class="kt-widget3__username">{8}</span>
-                                #<span class="kt-widget3__time kt--margin-left-5">
-                                    #{1}
-                                #</span>
-                            #</div>
-                            #<a href="{9}" class="btn btn-outline-brand kt-btn kt-btn--icon kt-btn--icon-only kt-btn--custom kt-btn--pill btn-sm kt--margin-right-25 kt--margin-top-5 kt--pull-right" title="Editar" style="width: 20px;height: 20px;">
-                                #<i class="la la-edit" style="font-size:12px;"></i>
-                            #</a>
-                        #</div>
-                        #<div class="kt-widget3__body mt-1">
-                            #<p class="m-widget3__text" style="font-size:11px;">
-                                #{2} {3} {7} {5} {6}
-                            #</p>
-                        #</div>
-                    #</div>
-                #</div>
-            #</div>
-        #</div>
 def sellpoints_changed(sender, **kwargs):
     action = kwargs.pop('action', None)
     instance = kwargs.pop('instance', None)
