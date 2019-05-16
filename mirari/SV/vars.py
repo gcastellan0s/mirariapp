@@ -66,19 +66,19 @@ MENU = {
             },
         ],
     },
-    'SV__PEDIDOS': {
-        'title': 'PEDIDOS',
-        'modules': [
-            {
-                'title': 'CLIENTES',
-                'icon': 'fa fa-users',
-                'text': 'LISTADO DE CLIENTES',
-                'subtext': 'Listado de clientes del punto de venta',
-                'apps': [APP, ],
-                'permission': 'Can_View',
-                'model': APP + '.Client',
-                'url': 'Generic__ListView',
-            },
-        ],
-    },
+    #'SV__PEDIDOS': {
+        #'title': 'PEDIDOS',
+        #'modules': [
+            #{
+                #'title': 'CLIENTES',
+                #'icon': 'fa fa-users',
+                #'text': 'LISTADO DE CLIENTES',
+                #'subtext': 'Listado de clientes del punto de venta',
+                #'apps': [APP, ],
+                #'permission': 'Can_View',
+                #'model': APP + '.Client',
+                #'url': 'Generic__ListView',
+            #},
+        #],
+    #},
 }
