@@ -209,10 +209,7 @@ class Base_Form(Basic_Form):
                             query = query[0:value['limits']]
                         else:
                             query = query[0:50]
-                        try:
-                            query = query.filter(organization__pk=self.request.session.get('organization'))
-                        except:
-                            pass
+                        query = query.filter(organization__pk=self.request.session.get('organization'))
                         try:
                             query = query.filter(is_active=True)
                         except:
