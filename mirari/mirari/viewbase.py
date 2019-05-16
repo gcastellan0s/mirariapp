@@ -221,13 +221,13 @@ class Base_Form(Basic_Form):
                             query = query.filter(active=True)
                         except:
                             pass
-                        if self.request.method == 'POST':
-                            if self.request.POST.get(key):
-                                query = model.objects.filter(**{'pk': self.request.POST.get(key)}) | query
-                        try:
-                            query = model.objects.filter(**{'pk': getattr(self.object, key).pk}) | query
-                        except:
-                            pass
+                        #if self.request.method == 'POST':
+                            #if self.request.POST.get(key):
+                                #query = model.objects.filter(**{'pk': self.request.POST.get(key)}) | query
+                        #try:
+                            #query = model.objects.filter(**{'pk': getattr(self.object, key).pk}) | query
+                        #except:
+                            #pass
                         kwargs[key] = query
         return kwargs
 
