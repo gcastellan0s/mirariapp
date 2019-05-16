@@ -340,6 +340,7 @@ class Base_List(object):
         context['filters'] = self.filters()
         context['verbose_name'] = self.verbose_name
         context['verbose_name_plural'] = self.verbose_name_plural
+        context['SERCHABLE'] = self.SERCHABLE
         context = self.proccess_context(context)
         return context
     #############################################################################################################
@@ -358,6 +359,16 @@ class Base_List(object):
     def initialize(self, request, *args, **kwargs):
         if not self.model:
             self.model = apps.get_model(kwargs['app'], kwargs['model'])
+        self.SERCHABLE = []
+        if 'LIST' in self.model.VARS:
+            for field in self.model.VARS['LIST']:
+                if 'serchable' in field:
+                    if not field['field'] in self.SERCHABLE:
+                        self.SERCHABLE.apped(field['field'])
+        if 'SEARCH' in self.model.VARS:
+            for field in self.model.VARS['SEARCH']:
+                if not field in self.SERCHABLE:
+                    self.SERCHABLE.apped(field)
         return True
     def proccess_context(self, context):
         return context
@@ -402,10 +413,10 @@ class Base_List(object):
             except:
                 return self.model.objects.none()
     def query_search(self, query_list, query):
-        if not 'SEARCH' in self.model.VARS:
+        if not self.SERCHABLE:
             return query_list
         q = Q()
-        for attribute in self.model.VARS['SEARCH']:
+        for attribute in self.SERCHABLE:
             q.add(Q(**{attribute+'__icontains': query}), Q.OR)
         return query_list.filter(q)
     def query_filter(self, request, query_list):
