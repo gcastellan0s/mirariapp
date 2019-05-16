@@ -153,6 +153,11 @@ class Model_base(models.Model):
             return '<i class="la la-times text-danger"></i>'
     def render_color(self, field):
         return '<i class="fa fa-circle" style="color:'+field+'"></i>'
+    def render_string_color(self, field):
+        if field:
+            return 'success'
+        else:
+            return 'danger'
     def render_list(self, list, attr):
         string = ''
         if not list.all():

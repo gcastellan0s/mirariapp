@@ -144,22 +144,22 @@ VARS = {
         {
             'field': 'name',
             'title': 'Nombre',
+            'sorteable': True,
+            'serchable': True,
         },
         {
-            'field': 'property_get_parent',
+            'field': 'get_parent',
             'title': 'Depende de',
         },
         {
-            'field': 'property_get_color',
+            'field': 'get_color',
             'title': 'Color',
         },
         {
-            'field': 'property_get_is_active',
+            'field': 'get_is_active',
             'title': 'Activo?',
         },
     ],
-    'SEARCH': ['name'],
-    'SORTEABLE': ['name'],
     'FORM': ('name','color','parent','is_active'),
 }
 class Menu(Model_base, MPTTModel):
@@ -197,19 +197,13 @@ VARS = {
     'NEW_GENDER':'un nuevo',
     'THIS':'este',
     'APP':APP,
-    'QUERY':{
-        'query': [
-            (
-                ('menu__organization__in','Organization.objects.filter(pk=self.request.session.get("organization")).all()'),
-                ('active','True'),
-            )
-        ],
-    },
     'LIST': [
         {
-            'field': 'code',
+            'field': 'name',
             'title': 'Productos en sucursales',
-            'template': '{{property_get_productattributes}}',
+            'template': '{{get_productattributes}}',
+            'sorteable': True,
+            'serchable': True,
         },
         {
             'field': 'name',
@@ -217,18 +211,17 @@ VARS = {
             'template': 
                 """
                     <span>
-                        <strong class="mr-2">{{name}}</strong>{{property_get_is_active}}<br /> 
-                        {{property_get_menu}} <br />
+                        <strong class="mr-2">{{name}}</strong>{{get_is_active}}<br /> 
+                        {{get_menu}} <br />
                         <small>
-                            {{property_get_code}}<br /> 
-                            {{property_get_units}}
+                            {{get_code}}<br /> 
+                            {{get_units}}
                         </small>
                     </span>
                 """,
         },
     ],
-    'SEARCH': ['name'],
-    'SORTEABLE': ['name'],
+    'SERIALIZER': ['get_code','get_units','get_is_active','get_productattributes','get_menu','get_sellpoint'],
     'FILTERS': {
         'is_active': {
             'size':'4',
@@ -250,7 +243,6 @@ VARS = {
             ],
         }
     },
-    'SERIALIZER': ['get_code','get_units','get_is_active','get_productattributes','get_menu','get_sellpoint'],
     'HIDE_CHECKBOX_LIST': True,
     'SELECTQ': {
         #'code': {
@@ -284,8 +276,8 @@ class Product(Model_base):
     name = models.CharField('Nombre del producto', max_length=250)
     code = models.ForeignKey('mirari.ProductsServicesSAT', blank=True, null=True,on_delete=models.PROTECT, verbose_name="Código de producto en el SAT", help_text='Código de registro ante el SAT', related_name='+')
     units = models.ForeignKey('mirari.UnitsCodesSat', blank=True, null=True,on_delete=models.PROTECT, verbose_name="Código de unidad en el SAT", help_text="Unidad de medida para este producto", related_name='+')
-    sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="", help_text="Se vende en estas sucursales")
-    menu = models.ManyToManyField('Menu', related_name='+', verbose_name="", help_text="Elige el o los menus donde se vende este producto")
+    sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="Puntos de venta", help_text="Se vende en estas sucursales")
+    menu = models.ManyToManyField('Menu', related_name='+', verbose_name="Menus", help_text="Elige el o los menus donde se vende este producto")
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar producto?')
     price = models.FloatField('Precio en esta sucursal ', default=0, help_text='Graba IVA? (sugerido)')
     iva = models.BooleanField('I.V.A. ', default=True, help_text='Graba IVA? (sugerido)')
@@ -448,98 +440,49 @@ VARS = {
     'THIS':'este',
     'APP':APP,
     'EXCLUDE_PERMISSIONS': ['create','update'],
-    'SERIALIZER': ('getColor','getSellpoint','getIepsMoney','getIvaMoney','getTotalMoney','getOnAccountMoney',),
     'LIST': [
         {
             'field': 'barcode',
             'title': 'Folio',
-            'template': 
-            """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    <strong>
-                        {{barcode}}
-                    </strong>
-                </a>
-            """,
+            'url': 'url_detail',
+            'serchable': True,
         },
         {
-            'field': 'property_getSellpoint',
+            'field': 'getSellpoint',
             'title': 'Punto de Venta',
-            'template': 
-            """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    <strong>
-                        {{property_getSellpoint}}
-                    </strong>
-                </a>
-            """,
+            'url': 'url_detail'
         },
         {
             'field': 'ticketType',
             'title': 'Tipo',
-            'template': 
-            """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    <strong>
-                        {{ticketType}}
-                    </strong>
-                </a>
-            """,
+            'url': 'url_detail'
         },
         {
-            'field': 'property_getIepsMoney',
+            'field': 'getIepsMoney',
             'title': 'IEPS',
-            'template': 
-            """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    <strong>
-                        {{property_getIepsMoney}}
-                    </strong>
-                </a>
-            """,
+            'url': 'url_detail'
         },
         {
-            'field': 'property_getIvaMoney',
+            'field': 'getIvaMoney',
             'title': 'IVA',
-            'template': 
-            """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    <strong>
-                        {{property_getIvaMoney}}
-                    </strong>
-                </a>
-            """,
+            'url': 'url_detail'
         },
         {
-            'field': 'property_getOnAccountMoney',
+            'field': 'getOnAccountMoney',
             'title': 'A CUENTA',
-            'template': 
-            """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    <strong>
-                        {{property_getOnAccountMoney}}
-                    </strong>
-                </a>
-            """,
+            'url': 'url_detail'
         },
         {
-            'field': 'property_getTotalMoney',
+            'field': 'getTotalMoney',
             'title': 'TOTAL',
-            'template': 
-            """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    <strong>
-                        {{property_getTotalMoney}}
-                    </strong>
-                </a>
-            """,
+            'url': 'url_detail'
         },
         {
             'field': 'status',
             'title': 'ESTATUS',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
+                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
                     <strong>
                         {{status}}
                     </strong>
@@ -549,6 +492,7 @@ VARS = {
     ],
     'HIDE_CHECKBOX_LIST': True,
     'HIDE_BUTTONS_LIST': True,
+    'SERIALIZER': ['getColor'],
     'FILTERS': {
         'status': {
             'size':'4',
@@ -835,7 +779,7 @@ VARS = {
     'THIS':'este',
     'APP':APP,
     'EXCLUDE_PERMISSIONS': ['create','update','delete'],
-    'SERIALIZER': ('getColor','getSellpoint','getIvaMoney','getSubtotalMoney','getIepsMoney','getLenFaltante','getLenTickets','getTotalFaltanteMoney'),
+    'SERIALIZER': ('getColor','getSellpoint','getSubtotalMoney','getIepsMoney','getLenFaltante','getLenTickets','getTotalFaltanteMoney'),
     'LIST': [
         {
             'field': 'serial',
@@ -843,7 +787,7 @@ VARS = {
             'width': 100,
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
+                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
                     <strong>
                         {{serial}}
                     </strong>
@@ -851,49 +795,49 @@ VARS = {
             """,
         },
         {
-            'field': 'property_getFinal_time',
+            'field': 'getFinal_time',
             'title': 'Fecha/Hora',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    <small>{{property_getFinal_time}}</small>
+                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
+                    <small>{{getFinal_time}}</small>
                     <br />
-                    <small>{{property_getSellpoint}}</small>
+                    <small>{{getSellpoint}}</small>
                 </a>
             """,
         },
         {
-            'field': 'property_getIvaMoney',
+            'field': 'getIvaMoney',
             'title': 'IMPUESTOS',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    IVA: {{property_getIvaMoney}} <br />
-                    IEPS: {{property_getIepsMoney}} <br />
-                    Subtotal: {{property_getSubtotalMoney}} <br />
+                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
+                    IVA: {{getIvaMoney}} <br />
+                    IEPS: {{getIepsMoney}} <br />
+                    Subtotal: {{getSubtotalMoney}} <br />
                 </a>
             """,
         },
         {
-            'field': 'property_getFaltanteMoney',
+            'field': 'getFaltanteMoney',
             'title': 'Faltates',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    <strong>{{property_getFaltanteMoney}}</strong> <br /> 
-                    #{{property_getLenFaltante}} tickets
+                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
+                    <strong>{{getFaltanteMoney}}</strong> <br /> 
+                    #{{getLenFaltante}} tickets
                 </a>
             """,
         },
         {
-            'field': 'property_getTotalMoney',
+            'field': 'getTotalMoney',
             'title': 'Totales',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;color:{{property_getColor}}!important;">
-                    <strong>{{property_getTotalMoney}}</strong> <br />
-                    #{{property_getLenTickets}} clientes <br />
-                    <small>+Faltante:</small> {{property_getTotalFaltanteMoney}}<br />
+                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
+                    <strong>{{getTotalMoney}}</strong> <br />
+                    #{{getLenTickets}} clientes <br />
+                    <small>+Faltante:</small> {{getTotalFaltanteMoney}}<br />
                 </a>
             """,
         },
@@ -902,7 +846,7 @@ VARS = {
             'title': '',
             'template': 
             """
-                <a href="{{property_url_detail}}" style="text-decoration:none;">
+                <a href="{{url_detail}}" style="text-decoration:none;">
                     <strong>
                         <i class="fa fa-search"></i> DETALLES
                     </strong>
