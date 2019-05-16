@@ -24,7 +24,6 @@ class Module(Model_base):
     def __str__(self):
         return """[ {0} ] {1}""".format(self.code, self.name)
 
-
 ########################################################################################
 ########################################################################################
 VARS = {
@@ -59,7 +58,6 @@ VARS = {
         ],
         'FORM': ['name','code','default_mail','contact_mail', 'sites'],
     }
-
 def path_system(self, filename):
     upload_to = "companys/%s_%s/SYSTEM/%s" % (self.id, self.code, filename)
     return upload_to
@@ -107,7 +105,6 @@ class Organization(MPTTModel, Model_base):
         return self.sites.all().first()
     def get_modules_code(self):
         return self.modules.all().values_list('code', flat=True)
-
 
 ########################################################################################
 ########################################################################################
@@ -235,8 +232,6 @@ class User(AbstractUser, Model_base):
     def get_teams(self): ### ENTREGA LOS MODELOS
         return apps.get_model('INT','Team')().get_user_team(self)
 
-
-
 ########################################################################################
 ########################################################################################
 VARS = {
@@ -247,28 +242,20 @@ VARS = {
     'NEW_GENDER': 'un nuevo',
     'THIS': 'este',
     'APP': APP,
-    'QUERY': {
-        'query': [
-            (
-                ('organization', 'Organization.objects.get(pk=self.request.session.get("organization"))'),
-                ('active', 'True'),
-            )
-        ],
-    },
     'LIST': [
         {
             'field': 'visible_name',
             'title': 'Nombre',
+            'serchable': True,
+            'url': 'url_update',
         },
         {
-            'field': 'property_get_permissions',
+            'field': 'get_permissions',
             'title': 'Permisos',
             'width': 600,
-            'template': '<div class="m--regular-font-size-sm5" style="line-height:15px;">{{property_get_permissions}}</div>',
+            'url': 'url_update',
         },
     ],
-    'SEARCH': ['name'],
-    'SORTEABLE': ['name'],
     'SELECTQ': {
         'permissions': {
             'model': ['auth', 'Permission'],
@@ -276,7 +263,6 @@ VARS = {
             'plugin': 'selectmultiple',
             'query': [
                 (
-                    #('pk__in','self.request.user.get_available_permissions_pk()'),
                     ('content_type__app_label__in', 'Organization.objects.get(pk=self.request.session.get("organization")).get_modules_code()'),
                 ),
             ],
@@ -293,6 +279,8 @@ class Profile(Group, Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.visible_name)
+    def QUERY(self, view):
+        return Profile.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
     def save(self, *args, **kwargs):
         self.visible_name = self.visible_name.upper()
         self.name = self.organization.code +'__'+ self.visible_name
@@ -300,8 +288,6 @@ class Profile(Group, Model_base):
     def get_permissions(self):
         return self.render_list(self.permissions, 'name')
     
-
-
 ########################################################################################
 ########################################################################################
 VARS = {
@@ -341,7 +327,6 @@ class Serial(Model_base):
         self.save()
         return self.serial
 
-
 ########################################################################################
 ########################################################################################
 VARS = {
@@ -364,7 +349,6 @@ class ProductsServicesSAT(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{1} [{0}]'.format(self.code, self.name)
-
 
 ########################################################################################
 ########################################################################################
@@ -446,7 +430,6 @@ class HostEmail(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.module)
-
 
 ########################################################################################
 ########################################################################################
