@@ -49,16 +49,16 @@
                 <div class="row align-items-center">
                     <div class="col-xl-8 order-2 order-xl-1">
                         <div class="row align-items-center">
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                {%if SERCHABLE%}
+                            {%if SERCHABLE%}
+                                <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
                                     <div class="kt-input-icon kt-input-icon--left">
                                         <input type="text" class="form-control" placeholder="BUSCAR..." id="generalSearch">
                                         <span class="kt-input-icon__icon kt-input-icon__icon--left">
                                             <span><i class="la la-search"></i></span>
                                         </span>
                                     </div>
-                                {%endif%}
-                            </div>
+                                </div>
+                            {%endif%}
                             <div class="col-md-9 kt-margin-b-20-tablet-and-mobile">
                                 <div class="row align-items-center">
                                     {% for item in filters %}

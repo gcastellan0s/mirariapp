@@ -364,11 +364,11 @@ class Base_List(object):
             for field in self.model.VARS['LIST']:
                 if 'serchable' in field:
                     if not field['field'] in self.SERCHABLE:
-                        self.SERCHABLE.apped(field['field'])
+                        self.SERCHABLE.append(field['field'])
         if 'SEARCH' in self.model.VARS:
             for field in self.model.VARS['SEARCH']:
                 if not field in self.SERCHABLE:
-                    self.SERCHABLE.apped(field)
+                    self.SERCHABLE.append(field)
         return True
     def proccess_context(self, context):
         return context
