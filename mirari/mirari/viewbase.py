@@ -228,7 +228,7 @@ class Base_Form(Basic_Form):
                             #query = query[0:value['limits']]
                         #else:
                             #query = query[0:50]
-                        kwargs[key] = query.none()
+                        kwargs[key] = query
         return kwargs
 
 ################################################################################################################
