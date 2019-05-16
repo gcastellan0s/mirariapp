@@ -186,13 +186,13 @@ class User(AbstractUser, Model_base):
     def QUERY(self, view):
         return User.objects.filter(organization__pk=view.request.session.get('organization'), active=True).exclude(is_superuser=True)
     def url_list(self):
-		return reverse('mirari:User__ListView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})
-	def url_add(self):
-		return reverse('mirari:User__CreateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})
-	def url_update(self):
-		return reverse('mirari:User__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
-	def url_password(self):
-		return reverse('mirari:UserPassword__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
+        return reverse('mirari:User__ListView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})
+    def url_add(self):
+        return reverse('mirari:User__CreateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})
+    def url_update(self):
+        return reverse('mirari:User__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
+    def url_password(self):
+        return reverse('mirari:UserPassword__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
     def url_password(self):
         return reverse('mirari:UserPassword__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
     def my_organizations(self):
