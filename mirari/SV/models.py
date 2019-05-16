@@ -858,7 +858,7 @@ VARS = {
                 (
                     ('organization','Organization.objects.get(pk=self.request.session.get("organization"))'),
                     ('active','True'),
-                    ('sellpoint__supervisors','True'),
+                    ('supervisors','self.request.user'),
                 )
             ],
         }
