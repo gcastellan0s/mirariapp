@@ -15,14 +15,16 @@ VARS = {
         {
             'field': 'name',
             'title': 'Nombre',
-            'url': 'property_url_update',
+            'url': 'url_update',
+            'sorteable': True,
+            'serchable': True,
         },
         {
-            'field': 'property_get_haveExpenses',
+            'field': 'get_haveExpenses',
             'title': 'GASTOS',
         },
         {
-            'field': 'property_get_have_casher',
+            'field': 'get_have_casher',
             'title': 'COBRA VENDEDOR?',
         },
         {
@@ -30,11 +32,11 @@ VARS = {
             'title': '# Tickets',
         },
         {
-            'field': 'property_getSerialNumber',
+            'field': 'getSerialNumber',
             'title': 'FOLIO',
         },
         {
-            'field': 'property_get_color',
+            'field': 'get_color',
             'title': 'COLOR',
         },
         {
@@ -56,9 +58,6 @@ VARS = {
             'plugin': 'selectmultiple',
         },
     },
-    'SEARCH': ['name'],
-    'SORTEABLE': ['name'],
-    'EXCLUDE_FORM': ['serial'],
     'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','printer','barcode','number_tickets','haveExpenses','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
 }
 class Sellpoint(Model_base):
@@ -112,7 +111,6 @@ class Sellpoint(Model_base):
     def get_serial(self):
         return self.serial.get_serial()
     def getCut(self):
-        #return Cut.objects.get(id=213) #### Enviar corte
         cut = Cut.objects.filter(sellpoint=self, final_time__isnull=True).first()
         if not cut:
             cut = Cut().new(self)
@@ -162,11 +160,6 @@ VARS = {
     ],
     'SEARCH': ['name'],
     'SORTEABLE': ['name'],
-    'SELECTQ': {
-        'parent': {
-            'plugin': 'select2',
-        },
-    },
     'FORM': ('name','color','parent','is_active'),
 }
 class Menu(Model_base, MPTTModel):
@@ -174,7 +167,7 @@ class Menu(Model_base, MPTTModel):
     name = models.CharField('Nombre del menú', max_length=30)
     color = models.CharField('Color del menú', default='#3d3b56', max_length=100)
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactiva todos los productos de un menú')
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='+', db_index=True, on_delete=models.PROTECT, verbose_name='', help_text='Elige otro menú solo si este menú depende de otro')
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='+', db_index=True, on_delete=models.PROTECT, verbose_name='Depende de?', help_text='Elige otro menú solo si este menú depende de otro')
     nivel = models.PositiveIntegerField(default=1)
     VARS = VARS
     class Meta(Model_base.Meta):

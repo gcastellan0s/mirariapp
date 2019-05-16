@@ -43,7 +43,6 @@ from validate_email import validate_email
 from .models import *
 from .vars import *
 
-#raise ValueError('xxx')
 
 ################################################################################################################
 ######### BASES ################################################################################################
@@ -108,12 +107,12 @@ class Basic_Serializer(serializers.ModelSerializer):
         fields = ('__all__')
         exclude = ()
 class Base_Serializer(Basic_Serializer):
-    property_url_list = serializers.ReadOnlyField(source='url_list')
-    property_url_add = serializers.ReadOnlyField(source='url_add')
-    property_url_update = serializers.ReadOnlyField(source='url_update')
-    property_url_delete = serializers.ReadOnlyField(source='url_delete')
-    property_url_detail = serializers.ReadOnlyField(source='url_detail')
-    property_str_obj = serializers.ReadOnlyField(source='str_obj')
+    url_list = serializers.ReadOnlyField()
+    url_add = serializers.ReadOnlyField()
+    url_update = serializers.ReadOnlyField()
+    url_delete = serializers.ReadOnlyField()
+    url_detail = serializers.ReadOnlyField()
+    str_obj = serializers.ReadOnlyField()
     class Meta(Basic_Serializer.Meta):
         model = None
         fields = ('__all__')
@@ -180,11 +179,6 @@ class Base_Form(Basic_Form):
             if self.Meta.model.VARS['SELECTQ']:
                 for key, value in self.Meta.model.VARS['SELECTQ'].items():
                     fields_select.update({key: kwargs.pop(key)})
-                    #try:
-                        #getattr(self.Meta.model(), 'SELECTQ__' + key)()
-                        #fields_select.update({key: kwargs.pop(key)})
-                    #except Exception as e:
-                        #fields_select.update({key: kwargs.pop(key)})
         super().__init__(*args, **kwargs)
         if fields_select:
             for key, value in fields_select.items():
@@ -201,23 +195,10 @@ class Base_Form(Basic_Form):
                         else:
                             model = self.model._meta.get_field(key).remote_field.model
                         query = model.objects.all()
-                        if 'query' in value:
-                            if value['query'] == 'all':
-                                query = model.objects.all()
-                            elif value['query'] == 'none':
-                                query = model.objects.none()
-                            else:
-                                q = Q()
-                                for attributes in value['query']:
-                                    params = {}
-                                    for attribute in attributes:
-                                        params.update({attribute[0]: eval(attribute[1])})
-                                    q.add(Q(**params), Q.OR)
-                                query = model.objects.filter(q)
-                        if 'order_by' in value:
-                            query = query.order_by(value['order_by'])
                         if 'limits' in value:
                             query = query[0:value['limits']]
+                        else:
+                            query = query[0:50]
                         try:
                             query = query.filter(organization__pk=self.request.session.get('organization'))
                         except:
@@ -247,7 +228,6 @@ class Base_Template(object):
     template_name = 'generic/TemplateView.html'
     model= None
     permissions = None
-    HTMLPage=None
     ############################################################################################################
     #dispatch()
     #http_method_not_allowed()
@@ -258,7 +238,6 @@ class Base_Template(object):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = self.proccess_context(context)
-        context['HTMLPage'] = self.HTMLPage
         context['model'], context['G'] = self.model, get_variables(self)
         return context
     ############################################################################################################
@@ -338,150 +317,69 @@ class Base_List(object):
     def dispatch(self, request, *args, **kwargs):
         self.initialize(request, *args, **kwargs)
         if request.GET.get('action') == 'list':
-            #try:
-                query_list = self.query_list()
-                iTotalRecords = len(query_list)
-                query = request.GET.get('search[value]')
-                if query:
-                    query_list = self.query_search(query_list, query)
-                query_list = self.query_filter(request, query_list)
-                field = self.model.VARS['LIST'][0]['field']
-                sort = request.GET.get('order[0][dir]')
-                if sort == 'desc' or sort == 'asc':
-                    query_list = self.sort(query_list, field, sort)
-                perpage = int(request.GET.get('length', self.paginator_size))
-                page = (int(request.GET.get('start', 0))+perpage)/perpage
-                paginator = Paginator(query_list, perpage)
-                return JsonResponse({'iTotalRecords':iTotalRecords, 'iTotalDisplayRecords':len(query_list), 'data':self.get_default_serializer()(paginator.page(page), many=True).data,})
-                #return JsonResponse({'data': self.get_default_serializer()(paginator.page(page), many=True).data, 'meta': {'page': page, 'pages': paginator.num_pages, 'perpage': perpage, 'total': len(query_list), 'sort': sort, 'field': field, }})
-            #except Exception as e:
-                #return JsonResponse({'error': str(e)})
+            query_list = self.query_list()
+            iTotalRecords = len(query_list)
+            query = request.GET.get('search[value]')
+            if query:
+                query_list = self.query_search(query_list, query)
+            query_list = self.query_filter(request, query_list)
+            field = self.model.VARS['LIST'][0]['field']
+            sort = request.GET.get('order[0][dir]')
+            if sort == 'desc' or sort == 'asc':
+                query_list = self.sort(query_list, field, sort)
+            perpage = int(request.GET.get('length', self.paginator_size))
+            page = (int(request.GET.get('start', 0))+perpage)/perpage
+            paginator = Paginator(query_list, perpage)
+            return JsonResponse({'iTotalRecords':iTotalRecords, 'iTotalDisplayRecords':len(query_list), 'data':self.get_default_serializer()(paginator.page(page), many=True).data,})
         return super().dispatch(request, *args, **kwargs)
-    def get_queryset(self):
-        return None
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['model'], context['G'] = self.model, get_variables(self)
         context['paginator_size'] = self.paginator_size
         context['list'] = self.list()
-        context['q'] = self.request.GET.get('q')
         context['filters'] = self.filters()
         context['verbose_name'] = self.verbose_name
         context['verbose_name_plural'] = self.verbose_name_plural
         context = self.proccess_context(context)
-        if 'HTMLPageList' in self.model.VARS:
-            self.template_name = self.model.VARS['HTMLPageList']
         return context
     #############################################################################################################
     def get_default_serializer(self):
         class Serializer(Base_Serializer):
-            for field in self.LIST:
-                if field['field'][0:9] == 'property_':
-                    vars()[field['field']] = eval("serializers.ReadOnlyField(source='"+field['field'][9:len(field['field'])]+"')")
-            for field in self.SERIALIZER:
-                vars()['property_'+field] = eval("serializers.ReadOnlyField(source='"+field+"')")
+            if 'LIST' in self.model.VARS:
+                for field in self.model.VARS['LIST']:
+                    vars()[field['field']] = eval("serializers.ReadOnlyField()")
+            if 'SERIALIZER' in self.model.VARS:
+                for field in self.model.VARS['SERIALIZER']:
+                    vars()[field] = eval("serializers.ReadOnlyField()")
             class Meta(Base_Serializer.Meta):
                 model = self.model
         serializer = Serializer
-        if self.EXCLUDE_SERIALIZER:
-            serializer.Meta.fields = None
-            serializer.Meta.exclude = self.EXCLUDE_SERIALIZER
         return Serializer
     def initialize(self, request, *args, **kwargs):
         if not self.model:
-            try:
-                self.model = apps.get_model(kwargs['app'], kwargs['model'])
-            except:
-                pass
-        self.initialize_list(request, *args, **kwargs)
-        return True
-    def initialize_list(self, request, *args, **kwargs):
-        if not self.LIST:
-            if 'LIST' in self.model.VARS:
-                self.LIST = self.model.VARS['LIST']
-            else:
-                self.LIST = [{'field': 'property_str_obj', 'title': self.model.VARS['PLURAL'], 'url': 'property_url_update', },]
-        if not self.SERIALIZER:  
-            if 'SERIALIZER' in self.model.VARS:
-                self.SERIALIZER = self.model.VARS['SERIALIZER']
-        if not self.SEARCH:  
-            if 'SEARCH' in self.model.VARS:
-                self.SEARCH = self.model.VARS['SEARCH']
-        if not self.SORTEABLE:  
-            if 'SORTEABLE' in self.model.VARS:
-                self.SORTEABLE = self.model.VARS['SORTEABLE']
-        if not self.QUERY:  
-            if 'QUERY' in self.model.VARS:
-                self.QUERY = self.model.VARS['QUERY']
-        if not self.EXCLUDE_SERIALIZER:  
-            if 'EXCLUDE_SERIALIZER' in self.model.VARS:
-                self.EXCLUDE_SERIALIZER = self.model.VARS['EXCLUDE_SERIALIZER']
+            self.model = apps.get_model(kwargs['app'], kwargs['model'])
         return True
     def proccess_context(self, context):
         return context
     def list(self):
         return self.render_list()
-    def query_list(self):
-        try: 
-            return self.model().QUERY(self)
-        except Exception as e:
-            if self.QUERY:
-                if self.QUERY['query'] == 'ALL':
-                    query = self.model.objects.all()
-                elif self.QUERY['query'] == 'NONE':
-                    query = self.model.objects.none()
-                else:
-                    q = Q()
-                    for attributes in self.QUERY['query']:
-                        params = {}
-                        for attribute in attributes:
-                            params.update({attribute[0]: eval(attribute[1])})
-                        q.add(Q(**params), Q.OR)
-                    query = self.model.objects.filter(q)
-                if 'order_by' in self.QUERY:
-                    query = query.order_by(self.QUERY['order_by'])
-                return query.distinct()
-            else:
-                try:
-                    return self.model.objects.filter(organization__pk=self.request.session.get('organization'), active=True)
-                except:
-                    return self.model.objects.none()
-    def query_search(self, query_list, query):
-        if not self.SEARCH:
-            return query_list
-        q = Q()
-        for attribute in self.SEARCH:
-            q.add(Q(**{attribute+'__icontains': query}), Q.OR)
-        return query_list.filter(q)
-    def query_filter(self, request, query_list):
-        filters = self.filters()
-        for value in filters:
-            if request.GET.get(value['key']):
-                query_list = query_list.filter(**{value['key']: request.GET.get(value['key'])})
-        return query_list
-    def sort(self, query_list, field, sort):
-        if sort == 'asc':
-            field = '-' + field
-        return query_list.order_by(field)
-    def render_list(self, btn_update='property_url_update', btn_delete='property_url_delete', btn_checkbox=True, extrabuttons='',):
+    def render_list(self, btn_update='url_update', btn_delete='url_delete', btn_checkbox=True, extrabuttons='',):
         dictionary_datatable = []
         if not 'HIDE_CHECKBOX_LIST' in self.model.VARS:
             if btn_checkbox and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Delete__'+self.model.VARS['MODEL']) and not 'delete' in self.model().exclude_permissions():
-                dictionary_datatable.append({'field': "property_url_delete", 'title': "#", 'width': 40, 'select':'true'})
-        for item in self.LIST:
+                dictionary_datatable.append({'field': "url_delete", 'title': "#", 'width': 40, 'select':'true'})
+        for item in self.model.VARS['LIST']:
             item_dictionary = {}
             item_dictionary['field'] = item['field']
             item_dictionary['title'] = item['title'].upper()
-            if not item['field'] in self.SORTEABLE:
-                item_dictionary['sortable'] = 'false'
-            if 'sortable' in item:
-                item_dictionary['sortable'] = item['sortable']
+            if 'sorteable' in item:
+                item_dictionary['sortable'] = item['sorteable']
             if 'template' in item:
                 item_dictionary['template'] = item['template']
             else:
                 item_dictionary['template'] = '{{'+item['field']+'}}'
             if 'url' in item:
-                if item['url'] == 'property_url_update':
+                if item['url'] == 'url_update':
                     if self.request.user.has_perm(self.model.VARS['APP']+'.Can_Update__'+self.model.VARS['MODEL']):
                         item_dictionary['template'] = '<a href="{{'+item['url']+'}}" class="a-no">'+item_dictionary['template']+'</a>'
                 else:
@@ -495,6 +393,31 @@ class Base_List(object):
             if btn_update or btn_delete or extrabuttons:
                 dictionary_datatable.append({'field': '', 'title': '', 'width': 150, 'sortable':'false', 'template': extrabuttons + btn_update + btn_delete})
         return dictionary_datatable
+    def query_list(self):
+        try: 
+            return self.model().QUERY(self)
+        except Exception as e:
+            try:
+                return self.model.objects.filter(organization__pk=self.request.session.get('organization'), active=True)
+            except:
+                return self.model.objects.none()
+    def query_search(self, query_list, query):
+        if not 'SEARCH' in self.model.VARS:
+            return query_list
+        q = Q()
+        for attribute in self.model.VARS['SEARCH']:
+            q.add(Q(**{attribute+'__icontains': query}), Q.OR)
+        return query_list.filter(q)
+    def query_filter(self, request, query_list):
+        filters = self.filters()
+        for value in filters:
+            if request.GET.get(value['key']):
+                query_list = query_list.filter(**{value['key']: request.GET.get(value['key'])})
+        return query_list
+    def sort(self, query_list, field, sort):
+        if sort == 'asc':
+            field = '-' + field
+        return query_list.order_by(field)
     def get_btn_update(self, btn_update):
         if btn_update and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Update__'+self.model.VARS['MODEL']) and not 'update' in self.model().exclude_permissions():
             btn_update = '<a href="{{'+btn_update+'}}" class="btn btn-outline-brand btn-elevate btn-circle btn-sm btn-icon mr-3" title="Editar"><i class="la la-edit"></i></a>'
@@ -591,9 +514,9 @@ class Base_Create(object):
     ############################################################################################################
     def initialize(self, request, *args, **kwargs):
         self.model = apps.get_model(kwargs['app'], kwargs['model'])
-        if 'TEMPLATE_NAME' in self.model.VARS:
-            if 'CREATEVIEW' in self.model.VARS['TEMPLATE_NAME']:
-                self.template_name = self.model.VARS['TEMPLATE_NAME']['CREATEVIEW']
+        #if 'TEMPLATE_NAME' in self.model.VARS:
+            #if 'CREATEVIEW' in self.model.VARS['TEMPLATE_NAME']:
+                #self.template_name = self.model.VARS['TEMPLATE_NAME']['CREATEVIEW']
         return True
     def get_success_url(self):
         if 'save' in self.request.POST:
@@ -638,15 +561,11 @@ class Base_Create(object):
                 self.helper = FormHelper()
                 self.helper.layout = Layout()
                 self.helper.layout.append(HTML(FORMTEMPLATE1))
-                if 'FORM_ID' in self._meta.model.VARS:
-                    self.helper.form_id = self._meta.model.VARS['FORM_ID']
-                else:	
-                    self.helper.form_id = 'form'
                 if 'FORM_CLASS' in self._meta.model.VARS:
                     self.helper.form_class = self._meta.model.VARS['FORM_CLASS']
                 else:
-                    self.helper.form_class = 'm-form m-form--label-align-left- m-form--state- form-horizontal'
-                div = Div(css_class="form-group m-form__group")
+                    self.helper.form_class = 'kt-form kt-form--fit kt-form--label-right form-horizontal'
+                div = Div(css_class="form-group kt-form__group")
                 if 'FORM' in self._meta.model.VARS:
                     is_crispy_helper = False
                     for field in self._meta.model.VARS['FORM']:

@@ -164,29 +164,13 @@ class Model_base(models.Model):
         if not attr:
             return '-'
         return attr
-    def render_string_color(self, field):
-        if field:
-            return 'success'
-        else:
-            return 'danger'
     def render_boolean_del(self, text, attr):
         if not attr:
             return '<s>{0}</s>'.format(text)
         return text
-    #def render_ifnot_link(self, attr):
-        #if not attr:
-            #return '-'
-        #return str(self.attr)
     def render_date(self, attr):
         mx = pytz.timezone('America/Mexico_City')
         return attr.astimezone(mx).strftime('%d/%m/%Y')
     def render_datetime(self, attr):
         mx = pytz.timezone('America/Mexico_City')
         return attr.astimezone(mx).strftime('%d/%m/%Y %I:%M %p')
-    #def get_select2(self):
-        #return self.name
-    #def max_string(self, field, value):
-        #string = getattr(self, field)[0:value]
-        #if len(getattr(self, field)) > value:
-            #string += '...'
-        #return string

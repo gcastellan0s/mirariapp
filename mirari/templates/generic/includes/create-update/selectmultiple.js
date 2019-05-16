@@ -1,8 +1,8 @@
 $('#id_{{key}}').multiSelect({
 	selectableHeader: '<input type="text" class="form-control form-control-sm kt-input search-input" autocomplete="off" placeholder="Filtrar...">',
 	selectionHeader: '<input type="text" class="form-control form-control-sm kt-input search-input" autocomplete="off" placeholder="Filtrar...">',
-	selectableFooter: '<button type="button" class="btn btn-secondary btn-block kt--margin-top-5 btn-sm">QUITAR TODOS</button>',
-	selectionFooter: '<button type="button" class="btn btn-secondary btn-block kt--margin-top-5 btn-sm">AGREGAR TODOS</button>',
+	selectableFooter: '<button type="button" class="btn btn-secondary btn-block kt--margin-top-5 btn-sm" style="background-color: #f7f7f7;border:1px solid #b9b9b9;">QUITAR TODOS</button>',
+	selectionFooter: '<button type="button" class="btn btn-secondary btn-block kt--margin-top-5 btn-sm" style="background-color: #f7f7f7;border:1px solid #b9b9b9;">AGREGAR TODOS</button>',
 	afterInit: function(ms){
 		var that = this,
 		$selectableSearch = that.$selectableUl.prev(),

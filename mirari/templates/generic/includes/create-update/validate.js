@@ -22,7 +22,7 @@ $.extend($.validator.messages, {
     cifES: "Por favor, escribe un CIF válido."
 });
 
-$("#form").validate({
+$(".kt-form").validate({
     rules: {
         {{rules|safe}}
         {{model.VARS.RULES}}
@@ -30,7 +30,7 @@ $("#form").validate({
     invalidHandler: function(e, r) {
         var i = $("#form_msg");
         i.removeClass("kt-hide").show()
-        mUtil.scrollTo(i, -200)
+        KTUtil.scrollTo(i, -200)
     },
     submitHandler: function(e) {
         Block();

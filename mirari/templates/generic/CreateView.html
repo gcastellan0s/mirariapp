@@ -13,7 +13,6 @@
 
 {%block css%}
     {{block.super}} 
-    {%include 'generic/includes/create-update/selectmultiple.html'%}
     {%if 'small_form' in model.VARS.FORM_CLASS%}
         {%include 'generic/includes/create-update/small_form.css'%}
     {%endif%}
@@ -85,7 +84,6 @@
 {%block mounted%}
     {{block.super}} 
     $('[name="color"]').attr('type','color');
-    {%include 'generic/includes/create-update/switch.js'%}
     {%include 'generic/includes/create-update/select.js'%}
     {%include 'generic/includes/create-update/datepicker.js'%}
     {%include 'generic/includes/create-update/validate.js'%}
