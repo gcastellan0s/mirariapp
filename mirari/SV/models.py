@@ -881,8 +881,8 @@ class Cut(Model_base):
         return '{0}'.format(self.id)
     def QUERY(self, view):
         cuts = Cut.objects.filter(sellpoint__organization__pk=view.request.session.get('organization'), active=True)
-        #if not view.request.user.is_superuser:
-        cuts = cuts.filter(sellpoint__supervisors = view.request.user)
+        if not view.request.user.is_superuser:
+            cuts = cuts.filter(sellpoint__supervisors = view.request.user)
         return cuts.order_by('-final_time')
     def my_organization(self):
         return self.sellpoint.my_organization()
