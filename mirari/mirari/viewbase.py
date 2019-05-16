@@ -228,7 +228,7 @@ class Base_Form(Basic_Form):
                             #query = model.objects.filter(**{'pk': getattr(self.object, key).pk}) | query
                         #except:
                             #pass
-                        kwargs[key] = query
+                        kwargs[key] = query.none()
         return kwargs
 
 ################################################################################################################
