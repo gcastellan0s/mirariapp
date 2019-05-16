@@ -205,11 +205,10 @@ class Base_Form(Basic_Form):
                         else:
                             model = self.model._meta.get_field(key).remote_field.model
                         query = model.objects.all()
-                        if 'limits' in value:
-                            query = query[0:value['limits']]
-                        else:
-                            query = query[0:50]
-                        query = query.filter(organization__pk=self.request.session.get('organization'))
+                        try:
+                            query = query.filter(organization__pk=self.request.session.get('organization'))
+                        except:
+                            pass
                         try:
                             query = query.filter(is_active=True)
                         except:
@@ -225,6 +224,10 @@ class Base_Form(Basic_Form):
                             #query = model.objects.filter(**{'pk': getattr(self.object, key).pk}) | query
                         #except:
                             #pass
+                        #if 'limits' in value:
+                            #query = query[0:value['limits']]
+                        #else:
+                            #query = query[0:50]
                         kwargs[key] = query.none()
         return kwargs
 
