@@ -96,7 +96,7 @@ class User__ListView(Generic__ListView):
     def list(self):
         extrabuttons = ''
         if self.request.user.has_perm('mirari.Can_Change__Password'):
-            extrabuttons = '<a href="{{property_url_password}}" class="btn btn-outline-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill btn-sm m--margin-right-10" title="Cambiar contraseña"><i class="la la-key"></i></a>'
+            extrabuttons = '<a href="{{url_password}}" class="btn btn-outline-primary btn-elevate btn-circle btn-icon btn-sm" title="Cambiar contraseña"><i class="la la-key"></i></a>'
         return self.render_list(extrabuttons = extrabuttons)
 ################################################################################################
 ################################################################################################
