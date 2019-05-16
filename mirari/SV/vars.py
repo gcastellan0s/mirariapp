@@ -35,16 +35,6 @@ MENU = {
                 'url': 'Generic__ListView',
             },
             {
-                'title': 'MAYOREOS, CUPONES Y DESCUENTOS',
-                'icon': 'flaticon-price-tag',
-                'text': 'LISTADO DE REGLAS PROGRAMADAS',
-                'subtext': 'Módulo inteligente de asignación de precios',
-                'apps': [APP, ],
-                'permission': 'Can_View',
-                'model': APP + '.Offer',
-                'url': 'Generic__ListView',
-            },
-            {
                 'title': 'TICKETS',
                 'icon': 'flaticon-list-2',
                 'text': 'LISTADO DE TICKETS',
@@ -62,6 +52,16 @@ MENU = {
                 'apps': [APP, ],
                 'permission': 'Can_View',
                 'model': APP + '.Cut',
+                'url': 'Generic__ListView',
+            },
+            {
+                'title': 'MAYOREOS, CUPONES Y DESCUENTOS',
+                'icon': 'flaticon-price-tag',
+                'text': 'LISTADO DE REGLAS PROGRAMADAS',
+                'subtext': 'Módulo inteligente de asignación de precios',
+                'apps': [APP, ],
+                'permission': 'Can_View',
+                'model': APP + '.Offer',
                 'url': 'Generic__ListView',
             },
             {

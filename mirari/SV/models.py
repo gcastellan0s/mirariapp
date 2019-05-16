@@ -109,6 +109,8 @@ class Sellpoint(Model_base):
         return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(cashers=user)
     def getMySellpointsOrder(self, user):
         return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(orders=user)
+    def getMySellpointsSupervisor(self, user):
+        return Sellpoint.objects.filter(organization=user.organization, active=True, is_active=True).filter(supervisors=user)
     def get_have_casher(self):
         return self.render_boolean(not self.have_casher)
     def get_haveExpenses(self):
@@ -303,6 +305,8 @@ class Product(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.name)
+    def QUERY(self, view):
+        return Product.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
     def get_is_active(self):
         return self.render_boolean(self.is_active)
     def get_code(self):
@@ -519,6 +523,8 @@ VARS = {
                 (
                     ('organization','Organization.objects.get(pk=self.request.session.get("organization"))'),
                     ('active','True'),
+                    ('is_active','True'),
+                    ('supervisors','self.request.user'),
                 )
             ],
         }
@@ -788,7 +794,6 @@ VARS = {
     'THIS':'este',
     'APP':APP,
     'EXCLUDE_PERMISSIONS': ['create','update','delete'],
-    'SERIALIZER': ('getColor','getSellpoint','getSubtotalMoney','getIepsMoney','getLenFaltante','getLenTickets','getTotalFaltanteMoney'),
     'LIST': [
         {
             'field': 'serial',
@@ -849,6 +854,7 @@ VARS = {
             """,
         },
     ],
+    'SERIALIZER': ('getColor','getSellpoint','getSubtotalMoney','getIepsMoney','getLenFaltante','getLenTickets','getTotalFaltanteMoney'),
     'FILTERS': {
             'sellpoint': {
             'size':'4',
@@ -857,6 +863,7 @@ VARS = {
             'query':[
                 (
                     ('organization','Organization.objects.get(pk=self.request.session.get("organization"))'),
+                    ('is_active','True'),
                     ('active','True'),
                     ('supervisors','self.request.user'),
                 )
