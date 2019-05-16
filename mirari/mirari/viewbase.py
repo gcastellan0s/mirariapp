@@ -148,10 +148,20 @@ def Select2Serializer(self):
                 q.add(Q(**{element: self.request.GET.get('search')}), Q.OR)
             query = query.filter(q)
     query = self.select2filter(query)
+    
+    try:
+        query = query.filter(organization__pk=self.request.session.get('organization'))
+    except:
+        pass
+    try:
+        query = query.filter(is_active=True)
+    except:
+        pass
     try:
         query = query.filter(active=True)
     except:
-        query = query.none()
+        pass
+    
     if 'order_by' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
         query = query.order_by(self.model.VARS['SELECTQ'][self.request.GET.get('field')]['order_by'])
     if 'limits' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
