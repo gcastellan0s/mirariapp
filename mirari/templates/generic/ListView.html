@@ -22,6 +22,10 @@
         .dataTable td {
             color: #464648!important;
         }
+        .a-no{
+            text-decoration:none;
+            color: inherit!important;
+        }
     {%endblock css%}
 </style>
 
@@ -150,22 +154,17 @@
 {%block methods%}
 	{{ block.super }}
 	delete_row: function (deleteRow, alerts) {
-		$.post(deleteRow.attr('delete'), {
-			'csrfmiddlewaretoken': '{{ csrf_token }}',
-		}).done(function( json ){
-			parent = deleteRow.parents('tr:first')
+        Ax('post', deleteRow.attr('delete'), {}, errorDialog=true, timeout=0)
+        .then((json) => {
+            parent = deleteRow.parents('tr:first')
             parent.addClass('table-danger')
             parent.find('a').removeAttr( "href" )
             parent.find('.kt-checkbox.kt-checkbox--single').remove()
             parent.find('.btn').hide()
 			if(alerts){
-				swal('Éxito!','Se eliminó correctamente el registro.','success');
+				swal.fire('Éxito!','Se eliminó correctamente el registro.','success');
 			}
-		}).fail(function(){
-			if(alerts){
-				swal('Error','Ocurrio un error al eliminar el registro.','error');
-			}
-		});
+        });
 	},
 {%endblock methods%}
 
@@ -198,11 +197,9 @@
 			cancelButtonText: 'Cancelar',
 		}).then((result) => {
 			if(result.value==true){
-				Block();
 				$.each( $('#kt_table_{{model.VARS.MODEL}}').closest('table').find('.kt-checkable:checked'), function(key, deleteRow){
 					self.delete_row($(deleteRow), false);
 				});
-				UnBlock();
 			}
 		});
 	})

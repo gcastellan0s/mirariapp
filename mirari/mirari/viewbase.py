@@ -341,6 +341,7 @@ class Base_List(object):
         context['verbose_name'] = self.verbose_name
         context['verbose_name_plural'] = self.verbose_name_plural
         context['SERCHABLE'] = self.SERCHABLE
+        context['SORTEABLE'] = self.SORTEABLE
         context = self.proccess_context(context)
         return context
     #############################################################################################################
@@ -369,6 +370,12 @@ class Base_List(object):
             for field in self.model.VARS['SEARCH']:
                 if not field in self.SERCHABLE:
                     self.SERCHABLE.append(field)
+        self.SORTEABLE = []
+        if 'LIST' in self.model.VARS:
+            for field in self.model.VARS['LIST']:
+                if 'sorteable' in field:
+                    if not field['field'] in self.SORTEABLE:
+                        self.SORTEABLE.append(field['field'])
         return True
     def proccess_context(self, context):
         return context
@@ -398,7 +405,10 @@ class Base_List(object):
             if 'width' in item:
                 item_dictionary['width'] = item['width']
             dictionary_datatable.append(item_dictionary)
-        btn_update = self.get_btn_update(btn_update)
+        if not 'HIDE_BUTTONS_UPDATE' in self.model.VARS:
+            btn_update = self.get_btn_update(btn_update)
+        else:
+            btn_update = ''
         btn_delete = self.get_btn_delete(btn_delete)
         if not 'HIDE_BUTTONS_LIST' in self.model.VARS:
             if btn_update or btn_delete or extrabuttons:
@@ -437,7 +447,7 @@ class Base_List(object):
         return btn_update
     def get_btn_delete(self, btn_delete):
         if btn_delete and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Delete__'+self.model.VARS['MODEL']) and not 'delete' in self.model().exclude_permissions():
-            btn_delete = '<a href="" value="{{'+btn_delete+'}}" text="'+self.model().delete_text()[3]+'" class="btn btn-outline-danger btn-elevate btn-circle btn-icon btn-sm delete_row" title="Borrar"><i class="la la-trash"></i></a>'
+            btn_delete = '<a href="" delete="{{'+btn_delete+'}}" text="'+self.model().delete_text()[3]+'" class="btn btn-outline-danger btn-elevate btn-circle btn-icon btn-sm delete_row" title="Borrar"><i class="la la-trash"></i></a>'
         else:
             btn_delete = ''
         return btn_delete

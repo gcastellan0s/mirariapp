@@ -11,7 +11,9 @@ var KTDatatablesDataSourceAjaxServer = function() {
 			searchDelay: 500,
 			processing: true,
 			serverSide: true,
-            {%if not SORTEABLE in model.VARS%}
+            {%if SORTEABLE%}
+                ordering: true,
+            {%else%}
                 ordering: false,
             {%endif%}
             language: {
@@ -52,7 +54,7 @@ var KTDatatablesDataSourceAjaxServer = function() {
                             render: function(data, type, row, meta) {
                                 return `
                                 <label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-checkbox--brand">
-                                    <input type="checkbox" value="" delete="${row.property_url_delete}" class="kt-checkable">
+                                    <input type="checkbox" value="" delete="${row.url_delete}" class="kt-checkable">
                                     <span></span>
                                 </label>`;
                             },
@@ -62,7 +64,7 @@ var KTDatatablesDataSourceAjaxServer = function() {
                             targets: {{forloop.counter0}},
                             title: '{{field.title|upper}}',
                             data: '{{field.field}}',
-                            orderable: {%if field.sortable == 'false'%}false{%else%}true{%endif%},
+                            orderable: {%if field.field in SORTEABLE%}true{%else%}false{%endif%},
                             {%if field.width%}
                                 width: '{{field.width}}px',
                             {%endif%}

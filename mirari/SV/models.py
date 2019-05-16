@@ -22,28 +22,35 @@ VARS = {
         {
             'field': 'get_haveExpenses',
             'title': 'GASTOS',
+            'url': 'url_update',
         },
         {
             'field': 'get_have_casher',
             'title': 'COBRA VENDEDOR?',
+            'url': 'url_update',
         },
         {
             'field': 'number_tickets',
             'title': '# Tickets',
+            'url': 'url_update',
         },
         {
             'field': 'getSerialNumber',
             'title': 'FOLIO',
+            'url': 'url_update',
         },
         {
             'field': 'get_color',
             'title': 'COLOR',
+            'url': 'url_update',
         },
         {
             'field': 'printer',
             'title': 'IMPRESORA',
+            'url': 'url_update',
         },
     ],
+    'HIDE_BUTTONS_UPDATE': True,
     'SELECTQ': {
         'cashers': {
             'plugin': 'selectmultiple',
@@ -146,20 +153,25 @@ VARS = {
             'title': 'Nombre',
             'sorteable': True,
             'serchable': True,
+            'url': 'url_update',
         },
         {
             'field': 'get_parent',
             'title': 'Depende de',
+            'url': 'url_update',
         },
         {
             'field': 'get_color',
             'title': 'Color',
+            'url': 'url_update',
         },
         {
             'field': 'get_is_active',
             'title': 'Activo?',
+            'url': 'url_update',
         },
     ],
+    'HIDE_BUTTONS_UPDATE': True,
     'FORM': ('name','color','parent','is_active'),
 }
 class Menu(Model_base, MPTTModel):
@@ -202,7 +214,6 @@ VARS = {
             'field': 'name',
             'title': 'Productos en sucursales',
             'template': '{{get_productattributes}}',
-            'sorteable': True,
             'serchable': True,
         },
         {
@@ -316,7 +327,7 @@ class Product(Model_base):
             productattributes = ProductAttributes.objects.get(product=self,sellpoint=sellpoint)
             string += """
                     <a href="{9}">
-                        <div class="kt-portlet mb-1" style="border: 1px solid {10};">
+                        <div class="kt-portlet mb-1" style="border: 1px solid {10};background-color: #f1f1f1;">
                             <div class="kt-portlet__body py-2 px-3">
                                     {8}
                                 <h5 class="text-dark">{1}</h5>
@@ -483,9 +494,7 @@ VARS = {
             'template': 
             """
                 <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
-                    <strong>
-                        {{status}}
-                    </strong>
+                    {{status}}
                 </a>
             """,
         },
@@ -788,9 +797,7 @@ VARS = {
             'template': 
             """
                 <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
-                    <strong>
-                        {{serial}}
-                    </strong>
+                    {{serial}}
                 </a>
             """,
         },
@@ -800,7 +807,7 @@ VARS = {
             'template': 
             """
                 <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
-                    <small>{{getFinal_time}}</small>
+                    <strong>{{getFinal_time}}</strong>
                     <br />
                     <small>{{getSellpoint}}</small>
                 </a>
@@ -838,18 +845,6 @@ VARS = {
                     <strong>{{getTotalMoney}}</strong> <br />
                     #{{getLenTickets}} clientes <br />
                     <small>+Faltante:</small> {{getTotalFaltanteMoney}}<br />
-                </a>
-            """,
-        },
-        {
-            'field': 'id',
-            'title': '',
-            'template': 
-            """
-                <a href="{{url_detail}}" style="text-decoration:none;">
-                    <strong>
-                        <i class="fa fa-search"></i> DETALLES
-                    </strong>
                 </a>
             """,
         },
