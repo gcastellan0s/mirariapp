@@ -2,8 +2,6 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% endblock title %}
-
 {%block subheader%}
     <div class="m-subheader">
         <div class="d-flex align-items-center">
@@ -63,12 +61,14 @@
 {%endblock content%}
 
 {%block data%} 
+    {{block.super}}
 	siebel: {
 		unblock_number: '',
 	},
 {%endblock data%}
 
 {%block methods%}
+    {{block.super}}
 	unblock_siebel: function (siebel) {
 		Block();
 		if (siebel.unblock_number){
