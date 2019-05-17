@@ -217,17 +217,20 @@ class Base_Form(Basic_Form):
                             query = query.filter(active=True)
                         except:
                             pass
-                        #if self.request.method == 'POST':
-                            #if self.request.POST.get(key):
-                                #query = model.objects.filter(**{'pk': self.request.POST.get(key)}) | query
-                        #try:
-                            #query = model.objects.filter(**{'pk': getattr(self.object, key).pk}) | query
-                        #except:
-                            #pass
-                        #if 'limits' in value:
-                            #query = query[0:value['limits']]
-                        #else:
-                            #query = query[0:50]
+                        if self.request.method == 'POST':
+                            if self.request.POST.get(key):
+                                query = model.objects.filter(**{'pk': self.request.POST.get(key)}) | query
+
+                        try:
+                            query = model.objects.filter(**{'pk': getattr(self.object, key).pk}) | query
+                        except:
+                            pass
+
+
+                        if 'limits' in value:
+                            query = query[0:value['limits']]
+                        else:
+                            query = query[0:50]
                         kwargs[key] = query
         return kwargs
 
@@ -238,6 +241,7 @@ class Base_Template(object):
     template_name = 'generic/TemplateView.html'
     model= None
     permissions = None
+    HTMLPage=None
     ############################################################################################################
     #dispatch()
     #http_method_not_allowed()
@@ -249,6 +253,7 @@ class Base_Template(object):
         context = super().get_context_data(**kwargs)
         context = self.proccess_context(context)
         context['model'], context['G'] = self.model, get_variables(self)
+        context['HTMLPage'] = self.HTMLPage
         return context
     ############################################################################################################
     def proccess_context(self, context):
