@@ -21,16 +21,16 @@ VARS = {
 			#'url': 'property_url_update'
 		#},
 		{
-			'field': 'name',
+			'field': 'get_name_with_color',
 			'title': 'Nombre',
-			'template': '{{property_get_name_with_color}}',
+			'template': '{{get_name_with_color}}',
 			'sortable': 'desc',
-			'url': 'property_url_update'
+			'url': 'url_update'
 		},
 		{
 			'field': 'description',
 			'title': 'Descripción',
-			'template': '<div class="m--regular-font-size-sm5" style="line-height:15px;">{{property_get_description}}</div>',
+			'template': '<div class="kt-regular-font-size-sm5" style="line-height:15px;">{{property_get_description}}</div>',
 		},
 	],
 	'SERIALIZER': ('get_description','get_name_with_color'),
@@ -83,21 +83,20 @@ VARS = {
 			'title': 'Nombre',
 			'url': 'property_url_update',
 			'width':'200',
+            'sorteable': True,
+            'serchable': True,
 		},
 		{
-			'field': 'property_get_code',
+			'field': 'get_code',
 			'title': 'Código',
 			'width':'200',
 		},
 		{
-			'field': 'property_get_members',
+			'field': 'get_members',
 			'title': 'Miebros',
-			'template': '<div class="m--regular-font-size-sm5" style="line-height:15px;">{{property_get_members}}</div>',
+			'template': '<div class="kt-regular-font-size-sm5" style="line-height:15px;">{{get_members}}</div>',
 		},
 	],
-	'SERIALIZER': ('get_members',),
-	'SEARCH': ['name'],
-	'SORTEABLE': ['name'],
 	'SELECTQ': {
 		'members': {
 			'plugin': 'select2',
@@ -136,30 +135,29 @@ VARS = {
 	'APP':APP,
 	'LIST': [
 		{
-			'field': 'name',
+			'field': 'get_name_with_color',
 			'title': 'Nombre',
 			'template': 
 				"""
 					<a href="{{file}}" target="_blank">
-						{{property_get_name_with_color}}
+						{{get_name_with_color}}
 					</a>
 				""",
+            'sorteable': True,
+            'serchable': True,
 		},
 		{
-			'field': 'notes',
+			'field': 'get_notes',
 			'title': 'Notas',
 			'template': 
 				"""
-						<small>
-							{{property_get_notes}}
-						</small>
+                    <small>
+                        {{get_notes}}
+                    </small>
 				""",
 		},
 	],
-	'SEARCH': ['name'],
-	'SORTEABLE': ['name'],
 	'SUMMERNOTE': ['notes'],
-	'SERIALIZER': ['get_notes','get_name_with_color'],
 }
 def path_Handbook_file(self, filename):
 	upload_to = "companys/%s_%s/INT/Handbook/%s" % (self.organization.id, self.organization.code, filename)

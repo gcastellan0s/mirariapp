@@ -226,7 +226,6 @@ class Base_Form(Basic_Form):
                         except:
                             pass
 
-
                         if 'limits' in value:
                             query = query[0:value['limits']]
                         else:
