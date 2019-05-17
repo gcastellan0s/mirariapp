@@ -3,11 +3,18 @@
 {% load i18n %}
 
 {%block subheader%}
-    <div class="m-subheader">
+    <div class="kt-subheader__main">
+        <div class="kt-subheader__breadcrumbs">
+            <a href="/" class="kt-subheader__breadcrumbs-link">
+                INICIO 
+            </a>
+        </div>
+    </div>
+    <div class="kt-subheader">
         <div class="d-flex align-items-center">
             <div class="mr-auto">
-                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-                    <li class="m-nav__item m-nav__item--home">
+                <ul class="kt-subheader__breadcrumbs kt-nav kt-nav--inline">
+                    <li class="kt-nav__item kt-nav__item--home">
                         <a href="/" class="m-nav__link m-nav__link--icon">
                             <strong> <i class="la la-home"></i> INICIO</strong>
                         </a>
@@ -21,23 +28,23 @@
 {%block content%}
     <div class="row">
 		<div class="col-md-5">
-			<div class="m-portlet m-portlet--tab">
-				<div class="m-portlet__head">
-					<div class="m-portlet__head-caption">
-						<div class="m-portlet__head-title">
-							<span class="m-portlet__head-icon m--hide">
+			<div class="kt-portlet kt-portlet--tab">
+				<div class="kt-portlet__head">
+					<div class="kt-portlet__head-caption">
+						<div class="kt-portlet__head-title">
+							<span class="kt-portlet__head-icon kt--hide">
 								<i class="la la-gear"></i>
 							</span>
-							<h3 class="m-portlet__head-text">
+							<h3 class="kt-portlet__head-text">
 								{{object}}
 							</h3>
 						</div>
 					</div>
 				</div>
 				<!--begin::Form-->
-                    <form id="form" method="post" enctype="multipart/form-data" class="m-form m-form--label-align-right" v-on:submit.prevent="unblock_siebel(siebel)">{% csrf_token %}
-                        <div class="m-portlet__body">
-                            <div class="m-form__content">
+                    <form id="form" method="post" enctype="multipart/form-data" class="kt-form kt-forkt--label-align-right" v-on:submit.prevent="unblock_siebel(siebel)">{% csrf_token %}
+                        <div class="kt-portlet__body">
+                            <div class="kt-form__content">
                                 <div class="form-group">
                                     <label for="unblock_number" class="form-control-label">
                                         Ingresa el número de solicitud
@@ -45,9 +52,9 @@
                                     <input type="text" class="form-control" id="unblock_number" placeholder="Número de solicitud" v-model="siebel.unblock_number">
                                 </div>
                             </div>
-                            <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
-                                <div class="m-form__actions">
-                                    <button type="submit" class="btn btn-primary m--margin-right-15" name="save">
+                            <div class="kt-portlet__foot kt-portlet__foot--fit kt--margin-top-40">
+                                <div class="kt-form__actions">
+                                    <button type="submit" class="btn btn-primary kt--margin-right-15" name="save">
                                         Desbloquear
                                     </button>
                                 </div>
@@ -75,19 +82,18 @@
 			data = {
 				unblock_number
 			}
-			Ax('post', '{%url "CRYE:SiebelUnblock__SiebelUnblock__TemplateView"%}?api=unblock_siebel', siebel).then(function(json){
+			Ax('post', '{%url "CRYE:SiebelUnblock__SiebelUnblock__TemplateView"%}?api=unblock_siebel', siebel, errorDialog=true, timeout=0).then(function(json){
 				if (json.data.message){
 					self.siebel.unblock_number = ''
-					swal('Exito!', json.data.message, 'success')
+					swal.fire('Exito!', json.data.message, 'success')
 				}
-				else 
-					swal('Error!', json.data.message, 'error') 
+				else swal.fire('Error!', json.data.message, 'error') 
 				UnBlock();
 			})
 		}
 		else {
 			UnBlock();
-			swal('Error!', 'Revisa el número de tu consulta', 'error')
+			swal.fire('Error!', 'Revisa el número de tu consulta', 'error')
 		}
 	},
 {%endblock methods%}
