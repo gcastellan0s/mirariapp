@@ -19,6 +19,7 @@ var KTDatatablesDataSourceAjaxServer = function() {
             language: {
                 'url':'//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
             },
+            pageLength: 50,
             ajax: {
                 url: '',
                 type: 'GET',

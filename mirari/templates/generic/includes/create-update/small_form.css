@@ -1,3 +1,4 @@
+{%comment%}
 <style>
     .alert.kt-alert--icon {
         display: table;
@@ -91,3 +92,4 @@
         height: 5rem;
     }
 </style>
+{%endcomment%}

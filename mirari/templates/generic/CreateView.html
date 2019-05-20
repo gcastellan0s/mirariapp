@@ -55,21 +55,7 @@
 
 {%block content%}
     <div class="row">
-        <div class="
-                {%if 'FORM_SIZE' in model.VARS%}
-                    {%if model.VARS.FORM_SIZE|length > 1 %}
-                        {%if not object%}
-                            {{model.VARS.FORM_SIZE.0}}
-                        {%else%}
-                            {{model.VARS.FORM_SIZE.1}}
-                        {%endif%}
-                    {%else%}
-                        {{model.VARS.FORM_SIZE}}
-                    {%endif%}
-                {%else%}
-                    col-xl-8 offset-xl-2
-                {%endif%}
-            ">
+        <div class="{%if 'FORM_SIZE' in model.VARS%}{{model.VARS.FORM_SIZE}}{%else%}col-xl-12{%endif%}">
             {% crispy form %}
         </div>
     </div>

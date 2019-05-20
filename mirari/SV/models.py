@@ -281,8 +281,29 @@ VARS = {
             'plugin': 'selectmultiple',
         },
     },
-    'FORM': ('name','sellpoints','menu','is_active','price','iva','ieps','bar_code','is_dynamic','is_favorite'),
-
+    #'FORM': ('name','sellpoints','menu','is_active','price','iva','ieps','bar_code','is_dynamic','is_favorite'),
+    'FORM': [
+        Div(
+            Div(
+                HTML('<h3 class="kt-section__title">INFORMACIÓN GENERAL</h3>'),
+                Div('name'),
+                Div('sellpoints'),
+                Div('menu'),
+                Div('is_active'),
+            css_class="col-md-8"),
+            Div(
+                HTML('<h3 class="kt-section__title">DATOS SUGERIDOS</h3>'),
+                Div('price'),
+                Div('iva'),
+                Div('ieps'),
+                #Div('bar_code'),
+                Div('is_dynamic'),
+                Div('is_favorite'),
+            css_class="col-md-4"),
+        css_class="form-group m-form__group row"),
+    ],
+    'FORM_CLASS': 'small_form',
+    'FORM_SIZE': ('col-xl-12'),
 }
 class Product(Model_base):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE)
@@ -292,12 +313,12 @@ class Product(Model_base):
     sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="Puntos de venta", help_text="Se vende en estas sucursales")
     menu = models.ManyToManyField('Menu', related_name='+', verbose_name="Menus", help_text="Elige el o los menus donde se vende este producto")
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar producto?')
-    price = models.FloatField('Precio en esta sucursal ', default=0, help_text='Graba IVA? (sugerido)')
-    iva = models.BooleanField('I.V.A. ', default=True, help_text='Graba IVA? (sugerido)')
-    ieps = models.BooleanField('IEPS. ', default=True, help_text='Graba IEPS? (sugerido)')
-    bar_code = models.CharField('Código de Barras ', max_length=250, blank=True, null=True, help_text='(sugerido)')
-    is_dynamic = models.BooleanField('Precio dinámico ', default=False, help_text='Este producto tiene precio variable? (sugerido)')
-    is_favorite = models.BooleanField('Es favorito? ', default=False, help_text='Se muestra siempre este producto? (sugerido)')
+    price = models.FloatField('Precio en esta sucursal ', default=0, help_text='Precio para todas las sucursales (sugerido)')
+    iva = models.BooleanField('I.V.A. ', default=True, help_text='Este producto graba IVA? (sugerido)')
+    ieps = models.BooleanField('IEPS. ', default=True, help_text='Este producto graba IEPS? (sugerido)')
+    bar_code = models.CharField('Código de Barras ', max_length=250, blank=True, null=True, help_text='')
+    is_dynamic = models.BooleanField('Precio dinámico ', default=False, help_text='El precio es dinámico? (sugerido)')
+    is_favorite = models.BooleanField('Es favorito? ', default=False, help_text='Este producto es favorito? (sugerido)')
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -459,45 +480,80 @@ VARS = {
         {
             'field': 'barcode',
             'title': 'Folio',
-            'url': 'url_detail',
             'serchable': True,
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                    {{barcode}}
+                </a>
+            """,
         },
         {
             'field': 'getSellpoint',
             'title': 'Punto de Venta',
-            'url': 'url_detail'
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;color:{{getColor}}!important;" class="a-no">
+                    {{getSellpoint}}
+                </a>
+            """,
         },
         {
             'field': 'ticketType',
             'title': 'Tipo',
-            'url': 'url_detail'
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                    {{ticketType}}
+                </a>
+            """,
         },
         {
             'field': 'getIepsMoney',
             'title': 'IEPS',
-            'url': 'url_detail'
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                    {{getIepsMoney}}
+                </a>
+            """,
         },
         {
             'field': 'getIvaMoney',
             'title': 'IVA',
-            'url': 'url_detail'
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                    {{getIvaMoney}}
+                </a>
+            """,
         },
         {
             'field': 'getOnAccountMoney',
             'title': 'A CUENTA',
-            'url': 'url_detail'
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                    {{getOnAccountMoney}}
+                </a>
+            """,
         },
         {
             'field': 'getTotalMoney',
             'title': 'TOTAL',
-            'url': 'url_detail'
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                    {{getTotalMoney}}
+                </a>
+            """,
         },
         {
             'field': 'status',
             'title': 'ESTATUS',
             'template': 
             """
-                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
                     {{status}}
                 </a>
             """,
