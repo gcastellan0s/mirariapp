@@ -139,7 +139,7 @@ VARS = {
             'title': 'Nombre',
             'template': 
                 """
-                    <a href="{{file}}" target="_blank">
+                    <a href="{{file}}" target="_blank class="a-no">
                         {{name}}
                     </a>
                 """,
