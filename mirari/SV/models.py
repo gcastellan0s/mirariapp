@@ -316,7 +316,7 @@ class Product(Model_base):
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar producto?')
     price = models.FloatField('Precio en esta sucursal ', default=0, help_text='Precio para todas las sucursales (sugerido)')
     iva = models.BooleanField('I.V.A. ', default=True, help_text='Este producto graba IVA? (sugerido)')
-    ieps = models.BooleanField('IEPS. ', default=True, help_text='Este producto graba IEPS? (sugerido)')
+    ieps = models.BooleanField('IEPS. ', default=False, help_text='Este producto graba IEPS? (sugerido)')
     bar_code = models.CharField('Código de Barras ', max_length=250, blank=True, null=True, help_text='')
     is_dynamic = models.BooleanField('Precio dinámico ', default=False, help_text='El precio es dinámico? (sugerido)')
     is_favorite = models.BooleanField('Es favorito? ', default=False, help_text='Este producto es favorito? (sugerido)')
