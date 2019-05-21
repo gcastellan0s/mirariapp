@@ -1,0 +1,88 @@
+{% extends "generic/ListView.html" %}
+{% load static %}
+{% load i18n %}
+
+{%block content%}
+    {{block.super}}
+    <!--begin::Modal-->
+    <div class="modal fade" id="kt_modal_ticket" tabindex="-1" role="dialog" aria-labelledby="TicketDetails" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-body" v-if="Ticket">
+                    <h3 class="text-center mb-1">TOTAL: $<span v-if="Ticket.onAccount">${Ticket.onAccount|formatPrice}</span><span v-else>${Ticket.total|formatPrice}</span></h3>
+                    <h5 class="text-center mb-0">FOLIO ${Ticket.barcode}</h5>
+                    <p class="text-center mb-0">${Ticket.format_date} ${Ticket.format_time}</p>
+                    <p class="text-center mb-0">${Ticket.sellpoint.name}</p>
+                    <hr />
+                    <small>
+                        <p class="text-center mb-0" v-if="Ticket.sellpoint.header_line_black_1">${Ticket.sellpoint.header_line_black_1}</p>
+                        <p class="text-center mb-0" v-if="Ticket.sellpoint.header_line_black_2">${Ticket.sellpoint.header_line_black_2}</p>
+                        <p class="text-center mb-0" v-if="Ticket.sellpoint.header_line_1">${Ticket.sellpoint.header_line_1}</p>
+                        <p class="text-center mb-0" v-if="Ticket.sellpoint.header_line_2">${Ticket.sellpoint.header_line_2}</p>
+                        <hr v-if="Ticket.clientID"/>
+                        <p class="text-center mb-0" v-if="Ticket.clientID">ID Cliente: ${Ticket.clientID}</p>
+                        <p class="text-center mb-0" v-if="Ticket.clientName">Nombre: ${Ticket.clientName}</p>
+                        <p class="text-center mb-0" v-if="Ticket.email">Email: ${Ticket.email}</p>
+                        <p class="text-center mb-0" v-if="Ticket.phone">Teléfono: ${Ticket.phone}</p>
+                        <p class="text-center mb-0" v-if="Ticket.rfc">RFC: ${Ticket.rfc}</p>
+                        <p class="text-center mb-0" v-if="Ticket.datetimeOfDelivery">Fecha de entrega: ${Ticket.datetimeOfDelivery}</p>
+                        <p class="text-center mb-0" v-if="Ticket.destination">Destino: ${Ticket.destination}</p>
+                        <p class="text-center mb-0" v-if="Ticket.notes">Notas: ${Ticket.notes}</p>
+                    </small>
+                    <hr v-if="Ticket.products.length > 0"/>
+                    <div v-for="product in Ticket.products">
+                        <p class="text-left mb-0"><strong>${product.quantity} ${product.productName} <span>$${product.total|formatPrice}</span></strong></p>
+                        <div v-for="offer in product.offers">
+                            <p class="text-right mb-0"><small>${offer.name} $${product.offerprice|formatPrice}</small></p>
+                        </div>
+                    </div>
+                    <hr />
+                    <p class="text-right mb-0">IVA: $${Ticket.iva|formatPrice}</p>
+                    <p class="text-right mb-0">IEPS: $${Ticket.ieps|formatPrice}</p>
+                    <p class="text-right mb-0" v-if="Ticket.onAccount">A CUENTA: $${Ticket.onAccount|formatPrice}</p>
+                    <p class="text-right mb-0" v-else><strong>TOTAL: $${Ticket.total|formatPrice}</strong></p>
+                    <p class="text-center mb-0"><small>${Ticket.barcode} :: ${Ticket.key}</small></p>
+                    <hr />
+                    <h5 class="text-center mb-0">${Ticket.status}</h5>
+                    <h5 class="text-center mb-0">${Ticket.ticketType}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Modal-->
+{%endblock content%}
+
+<script>
+{%block data%}
+    {{block.super}}
+    Ticket: null,
+{%endblock data%}
+
+{%block mounted%}
+    {{block.super}}
+    $(document).on('click','.getTicket',function(){
+        Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getTicket', {'ticket': $(this).attr('ticket')}, false, 3000).then(function(json){
+            self.Ticket = json.data.ticket
+            $('#kt_modal_ticket').modal('show')
+        }).catch((error) => {
+        }).finally(() => {
+        });
+    });
+{%endblock mounted%}
+
+{%block methods%}
+    {{block.super}}
+{%endblock methods%}
+
+{%block filters%}
+    {{block.super}}
+    formatPrice: ((value) => {
+        let val = (value/1).toFixed(2)
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    }),
+    FormatTDate: ((value) => {
+        moment.locale('es');
+        return String(moment(value).format('DD/MM/YYYY h:mm:ss'))
+    }),
+{%endblock filters%}
+</script>

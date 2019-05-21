@@ -257,31 +257,6 @@ VARS = {
         }
     },
     'HIDE_CHECKBOX_LIST': True,
-    'SELECTQ': {
-        #'code': {
-            #'model': ['mirari', 'ProductsServicesSAT'],
-            #'query': 'NONE',
-            #'plugin': 'select2',
-            #'sercheable': ['code__icontains', 'name__icontains'],
-            #'limits': 50,
-            #'placeholder': 'Elige un producto o código del producto',
-        #},
-        #'units': {
-            #'model': ['mirari', 'UnitsCodesSat'],
-            #'query': 'NONE',
-            #'plugin': 'select2',
-            #'sercheable': ['code__icontains', 'name__icontains'],
-            #'limits': 50,
-            #'placeholder': 'Elige una unidad o código de la unidad',
-        #},
-        'sellpoints': {
-            'plugin': 'selectmultiple',
-        },
-        'menu': {
-            'plugin': 'selectmultiple',
-        },
-    },
-    #'FORM': ('name','sellpoints','menu','is_active','price','iva','ieps','bar_code','is_dynamic','is_favorite'),
     'FORM': [
         Div(
             Div(
@@ -294,16 +269,42 @@ VARS = {
             Div(
                 HTML('<h3 class="kt-section__title">DATOS SUGERIDOS</h3>'),
                 Div('price'),
-                Div('iva'),
-                Div('ieps'),
-                #Div('bar_code'),
-                Div('is_dynamic'),
-                Div('is_favorite'),
+                Div(
+                    Div('iva', css_class="col-md-6"),
+                    Div('ieps', css_class="col-md-6"),
+                    Div('is_dynamic', css_class="col-md-6"),
+                    Div('is_favorite', css_class="col-md-6"),
+                    HTML('<h3 class="kt-section__title mt-4">FACTURACIÓN</h3>'),
+                    Div('code', css_class="col-md-12"),
+                    Div('units', css_class="col-md-12"),
+                css_class="row"),
             css_class="col-md-4"),
         css_class="form-group m-form__group row"),
     ],
     'FORM_CLASS': 'small_form',
     'FORM_SIZE': ('col-xl-12'),
+    'SELECTQ': {
+        'code': {
+            'model': ['mirari', 'ProductsServicesSAT'],
+            'plugin': 'select2',
+            'sercheable': ['code__icontains', 'name__icontains'],
+            'limits': 50,
+            'placeholder': 'Elige un producto o código del producto',
+        },
+        'units': {
+            'model': ['mirari', 'UnitsCodesSat'],
+            'plugin': 'select2',
+            'sercheable': ['code__icontains', 'name__icontains'],
+            'limits': 50,
+            'placeholder': 'Elige una unidad o código de la unidad',
+        },
+        'sellpoints': {
+            'plugin': 'selectmultiple',
+        },
+        'menu': {
+            'plugin': 'selectmultiple',
+        },
+    },
 }
 class Product(Model_base):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE)
@@ -483,7 +484,7 @@ VARS = {
             'serchable': True,
             'template': 
             """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
                     {{barcode}}
                 </a>
             """,
@@ -493,7 +494,7 @@ VARS = {
             'title': 'Punto de Venta',
             'template': 
             """
-                <a href="#" ticket={{id}} style="text-decoration:none;color:{{getColor}}!important;" class="a-no">
+                <a href="#" ticket={{id}} style="text-decoration:none;color:{{getColor}}!important;" class="a-no getTicket">
                     {{getSellpoint}}
                 </a>
             """,
@@ -503,7 +504,7 @@ VARS = {
             'title': 'Tipo',
             'template': 
             """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
                     {{ticketType}}
                 </a>
             """,
@@ -513,7 +514,7 @@ VARS = {
             'title': 'IEPS',
             'template': 
             """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
                     {{getIepsMoney}}
                 </a>
             """,
@@ -523,7 +524,7 @@ VARS = {
             'title': 'IVA',
             'template': 
             """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
                     {{getIvaMoney}}
                 </a>
             """,
@@ -533,7 +534,7 @@ VARS = {
             'title': 'A CUENTA',
             'template': 
             """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
                     {{getOnAccountMoney}}
                 </a>
             """,
@@ -543,7 +544,7 @@ VARS = {
             'title': 'TOTAL',
             'template': 
             """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
                     {{getTotalMoney}}
                 </a>
             """,
@@ -553,12 +554,13 @@ VARS = {
             'title': 'ESTATUS',
             'template': 
             """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no">
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
                     {{status}}
                 </a>
             """,
         },
     ],
+    'PAGELENGTH': 50,
     'HIDE_CHECKBOX_LIST': True,
     'HIDE_BUTTONS_LIST': True,
     'SERIALIZER': ['getColor'],
@@ -585,7 +587,7 @@ VARS = {
             ],
         }
     },
-    #'HTMLPageList': 'sv__Ticket__ListView.html',
+    'PAGEList': 'sv__Ticket__ListView.html',
 }
 class Ticket(Model_base):
     STATUS_TICKET = (

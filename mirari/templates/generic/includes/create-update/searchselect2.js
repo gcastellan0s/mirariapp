@@ -1,6 +1,6 @@
 $('#id_{{key}}').select2({
     ajax: {
-        url: {%block select2url%}window.location.pathname{%endblock select2url%},
+        url: window.location.pathname,
         dataType: 'json',
         data: function (params) {
             return {

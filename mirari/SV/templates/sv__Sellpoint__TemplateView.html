@@ -300,8 +300,8 @@
                     self.resetOrder()
                     self.$router.push({path:'order', query:{orderMode:'selectOrder'}})
                 }
-                else if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher')
-                UnBlock();
+                else if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) self.$router.push('/casher');
+                UnBlock()
             });
         }),
         sendPendings: (() => {
@@ -521,6 +521,9 @@
             .finally(() => {
                 self.BarCode = ''
             });
+        }),
+        focusBarCode:(() => {
+            self.$refs.BarCodeInput.focus()
         }),
         /////SYSTEM
         reloadSystem: ((text='Espere un momento...') => {

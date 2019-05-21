@@ -148,7 +148,6 @@ def Select2Serializer(self):
                 q.add(Q(**{element: self.request.GET.get('search')}), Q.OR)
             query = query.filter(q)
     query = self.select2filter(query)
-    
     try:
         query = query.filter(organization__pk=self.request.session.get('organization'))
     except:
@@ -390,6 +389,8 @@ class Base_List(object):
                 if 'sorteable' in field:
                     if not field['field'] in self.SORTEABLE:
                         self.SORTEABLE.append(field['field'])
+        if 'PAGEList' in self.model.VARS:
+            self.template_name = self.model.VARS['PAGEList']
         return True
     def proccess_context(self, context):
         return context
