@@ -219,12 +219,10 @@ class Base_Form(Basic_Form):
                         if self.request.method == 'POST':
                             if self.request.POST.get(key):
                                 query = model.objects.filter(**{'pk': self.request.POST.get(key)}) | query
-
                         try:
                             query = model.objects.filter(**{'pk': getattr(self.object, key).pk}) | query
                         except:
                             pass
-
                         if 'limits' in value:
                             query = query[0:value['limits']]
                         else:
@@ -550,9 +548,6 @@ class Base_Create(object):
     ############################################################################################################
     def initialize(self, request, *args, **kwargs):
         self.model = apps.get_model(kwargs['app'], kwargs['model'])
-        #if 'TEMPLATE_NAME' in self.model.VARS:
-            #if 'CREATEVIEW' in self.model.VARS['TEMPLATE_NAME']:
-                #self.template_name = self.model.VARS['TEMPLATE_NAME']['CREATEVIEW']
         return True
     def get_success_url(self):
         if 'save' in self.request.POST:

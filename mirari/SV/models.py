@@ -257,47 +257,45 @@ VARS = {
         }
     },
     'HIDE_CHECKBOX_LIST': True,
-    'FORM': [
-        Div(
-            Div(
-                HTML('<h3 class="kt-section__title">INFORMACIÓN GENERAL</h3>'),
-                Div('name'),
-                Div('sellpoints'),
-                Div('menu'),
-                Div('is_active'),
-            css_class="col-md-8"),
-            Div(
-                HTML('<h3 class="kt-section__title">DATOS SUGERIDOS</h3>'),
-                Div('price'),
-                Div(
-                    Div('iva', css_class="col-md-6"),
-                    Div('ieps', css_class="col-md-6"),
-                    Div('is_dynamic', css_class="col-md-6"),
-                    Div('is_favorite', css_class="col-md-6"),
-                    HTML('<h3 class="kt-section__title mt-4">FACTURACIÓN</h3>'),
-                    Div('code', css_class="col-md-12"),
-                    Div('units', css_class="col-md-12"),
-                css_class="row"),
-            css_class="col-md-4"),
-        css_class="form-group m-form__group row"),
-    ],
-    'FORM_CLASS': 'small_form',
-    'FORM_SIZE': ('col-xl-12'),
+    #'FORM': [
+        #Div(
+            #Div(
+                #HTML('<h3 class="kt-section__title">INFORMACIÓN GENERAL</h3>'),
+                #Div('name'),
+                #Div('sellpoints'),
+                #Div('menu'),
+                #Div('is_active'),
+            #css_class="col-md-8"),
+            #Div(
+                #HTML('<h3 class="kt-section__title">DATOS SUGERIDOS</h3>'),
+                #Div('price'),
+                #Div(
+                    #Div('iva', css_class="col-md-6"),
+                    #Div('ieps', css_class="col-md-6"),
+                    #Div('is_dynamic', css_class="col-md-6"),
+                    #Div('is_favorite', css_class="col-md-6"),
+#si                css_class="row"),
+            #css_class="col-md-4"),
+        #css_class="form-group m-form__group row"),
+    #],
+    'FORM': ('name','sellpoints','menu','is_active','price','iva','ieps','bar_code','is_dynamic','is_favorite'),
     'SELECTQ': {
-        'code': {
-            'model': ['mirari', 'ProductsServicesSAT'],
-            'plugin': 'select2',
-            'sercheable': ['code__icontains', 'name__icontains'],
-            'limits': 50,
-            'placeholder': 'Elige un producto o código del producto',
-        },
-        'units': {
-            'model': ['mirari', 'UnitsCodesSat'],
-            'plugin': 'select2',
-            'sercheable': ['code__icontains', 'name__icontains'],
-            'limits': 50,
-            'placeholder': 'Elige una unidad o código de la unidad',
-        },
+        #'code': {
+            #'model': ['mirari', 'ProductsServicesSAT'],
+            #'query': 'NONE',
+            #'plugin': 'select2',
+            #'sercheable': ['code__icontains', 'name__icontains'],
+            #'limits': 50,
+            #'placeholder': 'Elige un producto o código del producto',
+        #},
+        #'units': {
+            #'model': ['mirari', 'UnitsCodesSat'],
+            #'query': 'NONE',
+            #'plugin': 'select2',
+            #'sercheable': ['code__icontains', 'name__icontains'],
+            #'limits': 50,
+            #'placeholder': 'Elige una unidad o código de la unidad',
+        #},
         'sellpoints': {
             'plugin': 'selectmultiple',
         },
