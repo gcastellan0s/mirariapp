@@ -143,6 +143,7 @@ VARS = {
                         {{name}}
                     </a>
                 """,
+            'url': 'url_update',
             'sorteable': True,
             'serchable': True,
         },
@@ -155,8 +156,10 @@ VARS = {
                         {{get_notes}}
                     </small>
                 """,
+            'url': 'url_update',
         },
     ],
+    'HIDE_BUTTONS_UPDATE': True,
     'SUMMERNOTE': ['notes'],
 }
 def path_Handbook_file(self, filename):
