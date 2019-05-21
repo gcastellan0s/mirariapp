@@ -81,7 +81,6 @@ class Sellpoint(Model_base):
     header_line_1 = models.CharField('Linea 1 del texto del ticket', max_length=80, blank=True, null=True)
     header_line_2 = models.CharField('Linea 2 del texto del ticket', max_length=80, blank=True, null=True)
     footer_line_1 = models.CharField('Linea 1 del pie del ticket', max_length=80, blank=True, null=True)
-    have_credit = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactiva este punto de venta')
     cashers = models.ManyToManyField('mirari.User', verbose_name='Cajeros', blank=True, related_name='+',)
     vendors = models.ManyToManyField('mirari.User', verbose_name='Vendedores', blank=True, related_name='+',)
