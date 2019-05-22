@@ -160,7 +160,7 @@ def Select2Serializer(self):
     try:
         query = query.filter(active=True)
     except:
-        query = query.none()
+        pass
     if 'order_by' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
         query = query.order_by(self.model.VARS['SELECTQ'][self.request.GET.get('field')]['order_by'])
     if 'limits' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:

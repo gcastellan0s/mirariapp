@@ -184,6 +184,11 @@ VARS = {
     ],
     'HIDE_BUTTONS_UPDATE': True,
     'FORM': ('name','color','parent','is_active'),
+    'SELECTQ': {
+        'parent': {
+            'plugin': 'select2',
+        },
+    },
 }
 class Menu(Model_base, MPTTModel):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE)
