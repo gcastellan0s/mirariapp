@@ -98,6 +98,7 @@ def check_permissions(class_view):
                     raise PermissionDenied
     return True
 
+
 ################################################################################################################
 #########  SERIALIZER  #########################################################################################
 ################################################################################################################
@@ -159,16 +160,13 @@ def Select2Serializer(self):
     try:
         query = query.filter(active=True)
     except:
-        pass
-    
+        query = query.none()
     if 'order_by' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
         query = query.order_by(self.model.VARS['SELECTQ'][self.request.GET.get('field')]['order_by'])
     if 'limits' in self.model.VARS['SELECTQ'][self.request.GET.get('field')]:
         query = query[0:self.model.VARS['SELECTQ'][self.request.GET.get('field')]['limits']]
     SerializerSelect2.Meta.model = model
     return SerializerSelect2(query, many=True).data
-
-
 
 ################################################################################################################
 #########  FORM  ###############################################################################################
@@ -188,6 +186,11 @@ class Base_Form(Basic_Form):
             if self.Meta.model.VARS['SELECTQ']:
                 for key, value in self.Meta.model.VARS['SELECTQ'].items():
                     fields_select.update({key: kwargs.pop(key)})
+                    #try:
+                        #getattr(self.Meta.model(), 'SELECTQ__' + key)()
+                        #fields_select.update({key: kwargs.pop(key)})
+                    #except Exception as e:
+                        #fields_select.update({key: kwargs.pop(key)})
         super().__init__(*args, **kwargs)
         if fields_select:
             for key, value in fields_select.items():
@@ -204,6 +207,23 @@ class Base_Form(Basic_Form):
                         else:
                             model = self.model._meta.get_field(key).remote_field.model
                         query = model.objects.all()
+                        if 'query' in value:
+                            if value['query'] == 'all':
+                                query = model.objects.all()
+                            elif value['query'] == 'none':
+                                query = model.objects.none()
+                            else:
+                                q = Q()
+                                for attributes in value['query']:
+                                    params = {}
+                                    for attribute in attributes:
+                                        params.update({attribute[0]: eval(attribute[1])})
+                                    q.add(Q(**params), Q.OR)
+                                query = model.objects.filter(q)
+                        if 'order_by' in value:
+                            query = query.order_by(value['order_by'])
+                        if 'limits' in value:
+                            query = query[0:value['limits']]
                         try:
                             query = query.filter(organization__pk=self.request.session.get('organization'))
                         except:
@@ -223,12 +243,10 @@ class Base_Form(Basic_Form):
                             query = model.objects.filter(**{'pk': getattr(self.object, key).pk}) | query
                         except:
                             pass
-                        if 'limits' in value:
-                            query = query[0:value['limits']]
-                        else:
-                            query = query[0:50]
                         kwargs[key] = query
         return kwargs
+
+
 
 ################################################################################################################
 ######### TEMPLATE #############################################################################################
@@ -491,7 +509,6 @@ class Base_List(object):
         return filters
 
 
-
 ################################################################################################################
 ######### CREATE ###############################################################################################
 ################################################################################################################
@@ -548,6 +565,9 @@ class Base_Create(object):
     ############################################################################################################
     def initialize(self, request, *args, **kwargs):
         self.model = apps.get_model(kwargs['app'], kwargs['model'])
+        #if 'TEMPLATE_NAME' in self.model.VARS:
+            #if 'CREATEVIEW' in self.model.VARS['TEMPLATE_NAME']:
+                #self.template_name = self.model.VARS['TEMPLATE_NAME']['CREATEVIEW']
         return True
     def get_success_url(self):
         if 'save' in self.request.POST:
@@ -595,7 +615,8 @@ class Base_Create(object):
                 if 'FORM_CLASS' in self._meta.model.VARS:
                     self.helper.form_class = self._meta.model.VARS['FORM_CLASS']
                 else:
-                    self.helper.form_class = 'kt-form kt-form--fit kt-form--label-right form-horizontal'
+                    self.helper.form_class = 'kt-form--label-right form-horizontal'
+                self.helper.form_class = 'kt-form kt-form--fit ' + self.helper.form_class
                 div = Div(css_class="form-group kt-form__group")
                 if 'FORM' in self._meta.model.VARS:
                     is_crispy_helper = False

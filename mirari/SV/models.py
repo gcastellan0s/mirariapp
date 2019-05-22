@@ -81,7 +81,6 @@ class Sellpoint(Model_base):
     header_line_1 = models.CharField('Linea 1 del texto del ticket', max_length=80, blank=True, null=True)
     header_line_2 = models.CharField('Linea 2 del texto del ticket', max_length=80, blank=True, null=True)
     footer_line_1 = models.CharField('Linea 1 del pie del ticket', max_length=80, blank=True, null=True)
-    have_credit = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactiva este punto de venta')
     cashers = models.ManyToManyField('mirari.User', verbose_name='Cajeros', blank=True, related_name='+',)
     vendors = models.ManyToManyField('mirari.User', verbose_name='Vendedores', blank=True, related_name='+',)
@@ -90,6 +89,15 @@ class Sellpoint(Model_base):
     printer = models.CharField('Impresora ID', max_length=80, blank=True, null=True)
     barcode = models.BooleanField('Muestra Escaner?', default=False, help_text='Activalo para conectar un escaner a una PC')
     haveExpenses = models.BooleanField('Crea Gastos?', default=True, help_text='Crea gastos esta sucursal?')
+
+
+    have_credit = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
+    have_credit_cards = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
+    have_disscounts = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
+    have_expenses = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
+    have_orders = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
+    priority = models.IntegerField('Numero de tickets que imprime', default=0)
+
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -258,45 +266,49 @@ VARS = {
         }
     },
     'HIDE_CHECKBOX_LIST': True,
-    #'FORM': [
-        #Div(
-            #Div(
-                #HTML('<h3 class="kt-section__title">INFORMACIÓN GENERAL</h3>'),
-                #Div('name'),
-                #Div('sellpoints'),
-                #Div('menu'),
-                #Div('is_active'),
-            #css_class="col-md-8"),
-            #Div(
-                #HTML('<h3 class="kt-section__title">DATOS SUGERIDOS</h3>'),
-                #Div('price'),
-                #Div(
-                    #Div('iva', css_class="col-md-6"),
-                    #Div('ieps', css_class="col-md-6"),
-                    #Div('is_dynamic', css_class="col-md-6"),
-                    #Div('is_favorite', css_class="col-md-6"),
-#si                css_class="row"),
-            #css_class="col-md-4"),
-        #css_class="form-group m-form__group row"),
-    #],
-    'FORM': ('name','sellpoints','menu','is_active','price','iva','ieps','bar_code','is_dynamic','is_favorite'),
+    'FORM': [
+        Div(
+            Div(
+                HTML('<h3 class="kt-section__title">INFORMACIÓN GENERAL</h3>'),
+                Div('name'),
+                Div('sellpoints'),
+                Div('menu'),
+                Div('is_active'),
+            css_class="col-md-8"),
+            Div(
+                HTML('<h3 class="kt-section__title">DATOS SUGERIDOS</h3>'),
+                Div('price'),
+                Div(
+                    Div('iva', css_class="col-md-6"),
+                    Div('ieps', css_class="col-md-6"),
+                    Div('is_dynamic', css_class="col-md-6"),
+                    Div('is_favorite', css_class="col-md-6"),
+                css_class="row"),
+                HTML('<h3 class="kt-section__title">FACTURACIÓN</h3>'),
+                Div('code'),
+                Div('units'),
+            css_class="col-md-4"),
+        css_class="form-group m-form__group row"),
+    ],
+    'FORM_SIZE': 'col-xl-12',
+    'FORM_CLASS': 'small_form',
     'SELECTQ': {
-        #'code': {
-            #'model': ['mirari', 'ProductsServicesSAT'],
-            #'query': 'NONE',
-            #'plugin': 'select2',
-            #'sercheable': ['code__icontains', 'name__icontains'],
-            #'limits': 50,
-            #'placeholder': 'Elige un producto o código del producto',
-        #},
-        #'units': {
-            #'model': ['mirari', 'UnitsCodesSat'],
-            #'query': 'NONE',
-            #'plugin': 'select2',
-            #'sercheable': ['code__icontains', 'name__icontains'],
-            #'limits': 50,
-            #'placeholder': 'Elige una unidad o código de la unidad',
-        #},
+        'code': {
+            'model': ['mirari', 'ProductsServicesSAT'],
+            'query': 'none',
+            'plugin': 'select2',
+            'sercheable': ['code__icontains', 'name__icontains'],
+            'limits': 50,
+            'placeholder': 'Elige un producto o código del producto',
+        },
+        'units': {
+            'model': ['mirari', 'UnitsCodesSat'],
+            'query': 'none',
+            'plugin': 'select2',
+            'sercheable': ['code__icontains', 'name__icontains'],
+            'limits': 50,
+            'placeholder': 'Elige una unidad o código de la unidad',
+        },
         'sellpoints': {
             'plugin': 'selectmultiple',
         },
