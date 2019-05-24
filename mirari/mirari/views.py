@@ -89,7 +89,7 @@ class dashboard__Organization__TemplateView(Generic__TemplateView):
             msg.attach_alternative(template, "text/html")
             msg.send(True)
             connection.close()
-            return JsonResponse({'OK':'OK'})
+            return JsonResponse({'MENSAJE':'GRACIAS TU MENSAJE SE ENVIO CON EXITO'})
         if not request.user.is_authenticated:
             organization = get_variables(self)['ORGANIZATION']
             if HTMLPage.objects.filter(organization=organization):
