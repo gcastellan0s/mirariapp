@@ -12,9 +12,15 @@ class SellpointSerializer(Basic_Serializer):
         exclude = ('active','creation_date','is_active','modified_date','serial',)
 ########################################################	
 class MenuSerializer(Basic_Serializer):
+    childrens = serializers.SerializerMethodField()
+    descendants = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):
         model = Menu
-        fields = ('color','id','name',)
+        fields = ('color','id','name','is_root_node','is_leaf_node','is_child_node','childrens','descendants')
+    def get_childrens(self, obj):
+        return MenuSerializer(obj.get_children(), many=True).data
+    def get_descendants(self, obj):
+        return MenuSerializer(obj.get_descendants(include_self=False), many=True).data
 ########################################################
 class ProductSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
@@ -138,8 +144,9 @@ class Sellpoint__ApiView(Generic__ApiView):
             menu = []
             for productattribute in productattributes:
                 for pmenu in productattribute.product.menu.all():
-                    if not pmenu.pk in menu:
-                        menu.append(pmenu.pk)
+                    for menuAncestors in pmenu.get_ancestors(ascending=False, include_self=True):
+                        if not menuAncestors.pk in menu:
+                            menu.append(pmenu.pk)
             return JsonResponse({
                 'sellpoints':SellpointSerializer(sellpoints,many=True).data,
                 'productAttributes':ProductAttributesSerializer(productattributes,many=True).data,

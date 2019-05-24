@@ -82,13 +82,6 @@
             name: null,
         },
         LastTicketScan: null,
-        ExtraMenu:{
-            color: '#000',
-            id: 0,
-            name: '{{request.user.organization.name}}',
-            nivel: 1,
-            organization: {{request.user.organization.id}},
-        },
         Clients:[],
         Client: {
             id: 0,
@@ -105,9 +98,6 @@
         {{block.super}}
         self.getStates(postFunctions=true)
         setInterval(function(){
-            self.getStates(postFunctions=false)
-        }, 600000);
-        setInterval(function(){
             self.sendPendings()
         }, 300000);
     {%endblock mounted%}
@@ -120,7 +110,20 @@
                 self.Sellpoints = json.data.sellpoints
                 self.Sellpoint = self.Sellpoints[0]
                 if({{request.user.id}}==327) self.Sellpoint = self.Sellpoints[1] //////// REVISAR ESTO
-                self.Menus = json.data.menus
+                self.Menus = [{
+                    name: 'FAVORITOS',
+                    childrens: [],
+                    color: '#000',
+                    descendants: [],
+                    get_descendant_count: 0,
+                    id: 0,
+                    is_child_node: false,
+                    is_leaf_node: false,
+                    is_root_node: true,
+                }]
+                json.data.menus.forEach(function(menu){
+                    self.Menus.push(menu)
+                })
                 self.ProductAttributes = json.data.productAttributes
                 self.Offers = json.data.offers
                 self.Tickets = json.data.tickets
@@ -641,6 +644,38 @@
 
     {%block vuecomponents%}
         {{block.super}}
+        Vue.component('componentMenu', {
+            delimiters: ['!{', '}'],
+            props:{
+                menu: Object,
+                menus: Object,
+            },
+            mounted: function () {
+                //console.log(this.menu.descendants.some(r=>this.menus.includes(r)))
+            },
+            template: `
+                <li class="sidenav-item py-0">
+                    <a class="sidenav-link text-right d-flex justify-content-end py-4 px-1 text-dark" v-on:click="self.Menu=menu" :class="[{'sidenav-toggle px-3':menu.childrens.length>0}, menu==self.Menu?'bg-light':'']">
+                        <strong class="h4 mb-0" :style="{color:menu.color}">!{menu.name|firstNameMenu}</strong>
+                        <small class="">!{menu.name|lastNameMenu}</small>
+                    </a>
+                    <ul class="sidenav-menu">
+                        <component-menu v-for="children in menu.childrens" :menu="children" :menus="menus"/>
+                    </ul>
+                </li>
+            `,
+            filters: {
+                firstNameMenu: ((value) => {
+                    if (!value) return ''
+                    return value.toString().charAt(0).toUpperCase()
+                }),
+                lastNameMenu: ((value) => {
+                    if (!value) return ''
+                    return value.toString().slice(1)
+                }),
+            }
+        });
         {%include 'components/date-picker.js'%}
     {%endblock vuecomponents%}
+    <menu-child v-if="menu.get_descendant_count > 0" :menu="menu" />
 </script>

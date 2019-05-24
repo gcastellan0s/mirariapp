@@ -360,7 +360,7 @@ class Product(Model_base):
     def get_menu(self):
         string_menu = ''
         for menu in self.menu.all():
-            string_menu += mark_safe(self.render_boolean_del('<small class="m--font-'+menu.render_string_color(menu.is_active)+'" style="color:'+menu.color+'!important">'+menu.name+'</small>', menu.is_active))
+            string_menu += mark_safe(self.render_boolean_del('<small class="m--font-'+menu.render_string_color(menu.is_active)+'"><i class="fa fa-circle" style="color:'+menu.color+'!important"></i>'+menu.name+'</small>', menu.is_active))
             string_menu += ', '
         return string_menu[0:len(string_menu)-2]
     def get_productattributes(self):
