@@ -70,6 +70,26 @@ class logout__Organization__TemplateView(Generic__TemplateView):
 class dashboard__Organization__TemplateView(Generic__TemplateView):
     template_name = "app/dashboard.html"
     def dispatch(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            email_host = HostEmail.objects.get(id=1)
+            connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
+            connection.open()
+            context = {
+                'notification': 'Prueba',
+                'destinatary': 'gustavo.castellanos@credipyme.com.mx'
+            }
+            template = render_to_string('email/default/base_email.html', context)
+            msg = EmailMultiAlternatives(
+                subject='CONTACTO CREDIPyME',
+                body=template,
+                from_email=email_host.prefix +'<'+email_host.email+'>', 
+                to=['gustavo.castellanos@credipyme.com.mx'],
+                connection=connection
+            )
+            msg.attach_alternative(template, "text/html")
+            msg.send(True)
+            connection.close()
+            return JsonResponse({'OK':'OK'})
         if not request.user.is_authenticated:
             organization = get_variables(self)['ORGANIZATION']
             if HTMLPage.objects.filter(organization=organization):
