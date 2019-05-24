@@ -966,7 +966,7 @@
 		<div class="card-block">
 
 		  <form id="form" method="post" enctype="multipart/form-data" class="m-t">{% csrf_token %}
-			<fieldset>
+			<fieldset id="formContent">
 			  <div class="form-group">
 				<label for="inputName" class="col-md-2 control-label">NOMBRE</label>
 				<div class="col-md-9">
@@ -1672,8 +1672,7 @@
 		  </h3>
 		</div>
 		<div class="modal-body">
-
-		  <form method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+		  <form method="post" enctype="multipart/form-data" class="form form-horizontal">{% csrf_token %}
 			<fieldset>
 			  <div class="form-group">
 				<label for="inputName" class="col-md-2 control-label">NOMBRE
@@ -1731,6 +1730,21 @@
   <script src="{%static HTMLPage.static%}js/plugins.min.js"></script>
   <script src="{%static HTMLPage.static%}js/app.min.js"></script>
   <script type="text/javascript" charset="utf-8" async defer>
+    $("#form").submit(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: '',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#form').serialize(),
+            success: function(json) {
+                console.log(json)
+                $("#formContent").empty();
+                $("#formContent").append('<h3 class="text-center mt-5">GRACIAS, NOS PONDREMOS EN CONTACTO PRONTO!</h3>')
+            },
+        });
+    });
+    
 	$(".open_modal").click(function (event) {
 	  event.preventDefault();
 	  open_modal = $(this).attr('modal')
@@ -1816,8 +1830,7 @@
 
   </script>
   <script
-	src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDu5qGCk7QUMr14He1Xu99CnkonzgbG9nc&signed_in=true&callback=initMap"
-	defer></script>
+	src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDu5qGCk7QUMr14He1Xu99CnkonzgbG9nc&signed_in=true&callback=initMap" defer></script>
 </body>
 
 </html>
