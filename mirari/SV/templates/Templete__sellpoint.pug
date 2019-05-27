@@ -72,19 +72,14 @@
                                     br
                                     strong ${line.productName}
                     .flex-shrink-1.flex-grow-1.px-1.py-1
-                        // Layout footer
-                            h4.font-weight-bold.py-3.mb-4
-                                span.font-weight-bold.align-middle
-                                    span.text-muted.font-weight-light Layouts /
-                                    |  Without navbar (Flex)
-                                a.layout-sidenav-toggle.d-inline-block.text-muted.align-middle.ml-3(href='javascript:void(0)' style='font-size: 14px')
-                                    i.ion.ion-md-menu.text-large.align-middle
                         div(v-if="Sellpoint && Menu")
                             .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="activeProduct(productattribute)" :style="{ borderColor: Menu.color }")
                                 .text-big
                                     strong $ ${productattribute.price|formatPrice}
-                                p.text-center
+                                p.text-center.mb-0
                                     | ${productattribute.product.name}
+                                p.text-center.mb-0(v-if="productattribute.product.description")
+                                    small ${productattribute.product.description}
                             div(v-if="Menu.id == 0")
                                 .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.masonry-item(v-on:click="offer.isOffer=true; addProduct(offer)" style="border-color: #862828;background-color:#862828;color:white;" v-for="offer in Offers" v-if="offer.discountType=='totalPercent'")
                                     .text-big
@@ -101,9 +96,5 @@
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
                         .pt-3(v-if="Ticket")
                             span.footer-text.font-weight-bolder.px-3.h4 $ ${Ticket.total|formatPrice}
-                        //
-                            .pt-3(v-if="ActivePrinter.name")
-                                span.footer-text.pl-1.text-success
-                                    i.fas.fa-print.pr-2
                         include Component__footer_links.pug
     .layout-overlay.layout-sidenav-toggle

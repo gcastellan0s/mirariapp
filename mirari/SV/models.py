@@ -276,6 +276,7 @@ VARS = {
             Div(
                 HTML('<h3 class="kt-section__title">INFORMACIÓN GENERAL</h3>'),
                 Div('name'),
+                Div('description'),
                 Div('sellpoints'),
                 Div('menu'),
                 Div('is_active'),
@@ -325,6 +326,7 @@ VARS = {
 class Product(Model_base):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE)
     name = models.CharField('Nombre del producto', max_length=250)
+    description = models.CharField('Atributo o descripción', max_length=250, blank=True, null=True, help_text='Muy breve descripción del producto.')
     code = models.ForeignKey('mirari.ProductsServicesSAT', blank=True, null=True,on_delete=models.PROTECT, verbose_name="Código de producto en el SAT", help_text='Código de registro ante el SAT', related_name='+')
     units = models.ForeignKey('mirari.UnitsCodesSat', blank=True, null=True,on_delete=models.PROTECT, verbose_name="Código de unidad en el SAT", help_text="Unidad de medida para este producto", related_name='+')
     sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="Puntos de venta", help_text="Se vende en estas sucursales")
