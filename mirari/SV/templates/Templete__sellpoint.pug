@@ -80,7 +80,7 @@
                                 a.layout-sidenav-toggle.d-inline-block.text-muted.align-middle.ml-3(href='javascript:void(0)' style='font-size: 14px')
                                     i.ion.ion-md-menu.text-large.align-middle
                         div(v-if="Sellpoint && Menu")
-                            .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.product.menu.includes(Menu.id) && productattribute.sellpoint == Sellpoint.id"  :style="{ borderColor: Menu.color }")
+                            .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="activeProduct(productattribute)" :style="{ borderColor: Menu.color }")
                                 .text-big
                                     strong $ ${productattribute.price|formatPrice}
                                 p.text-center

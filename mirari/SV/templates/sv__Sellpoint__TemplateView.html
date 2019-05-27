@@ -528,6 +528,15 @@
         focusBarCode:(() => {
             self.$refs.BarCodeInput.focus()
         }),
+        activeProduct:((productattribute) => {
+            ifActive = productattribute.product.menu.filter((menu) => {
+                isDescendant = self.Menu.descendants.filter((descendant) => {
+                    return descendant.id == menu
+                })
+                return menu == self.Menu.id || isDescendant.length>0
+            })
+            return ifActive.length>0 && productattribute.sellpoint==self.Sellpoint.id
+        }),
         /////SYSTEM
         reloadSystem: ((text='Espere un momento...') => {
             Block(text)
