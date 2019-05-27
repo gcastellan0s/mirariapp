@@ -233,12 +233,12 @@ VARS = {
             'serchable': True,
         },
         {
-            'field': 'name',
+            'field': 'get_name',
             'title': 'Información de producto',
             'template': 
                 """
                     <span>
-                        <strong class="mr-2">{{name}}</strong>{{get_is_active}}<br /> 
+                        <strong class="mr-2">{{get_name}}</strong>{{get_is_active}}<br /> 
                         {{get_menu}} <br />
                         <small>
                             {{get_code}}<br /> 
@@ -359,6 +359,11 @@ class Product(Model_base):
             return self.units.str_obj()
         else:
             return '-'
+    def get_name(self):
+        name = self.name
+        if self.description:
+            name += ' <small>' + self.description + '</small>'
+        return name
     def get_menu(self):
         string_menu = ''
         for menu in self.menu.all():
@@ -467,9 +472,10 @@ class ProductAttributes(Model_base):
     def get_format_price(self):
         return '${:20,.2f}'.format(self.price)
     def get_alias(self):
-        if self.alias:
-            return self.alias
-        return self.product.name
+        name = self.product.name
+        if self.product.description:
+            name += self.product.description
+        return name
     def get_bar_code(self):
         return self.render_if(self.bar_code)
     def get_badge_iva(self):
