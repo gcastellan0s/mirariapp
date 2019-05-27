@@ -1,0 +1,59 @@
+-load staticfiles i18n
+-load user_agents
+doctype html
+html(lang="{%block language%}es{%endblock language%}" class="{%block class_html%}{%endblock class_html%}")
+head
+    title GRUPO GIMPSA
+    script(src='{%static HTMLPage.static%}vendor/js/material-ripple.js')
+    meta(charset='utf-8' http-equiv='x-ua-compatible', content='IE=edge,chrome=1')
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0')
+    link(rel='icon', type='image/x-icon', href='{%static HTMLPage.static%}favicon.ico')
+    link(href='https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900', rel='stylesheet')
+    link(href='https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i', rel='stylesheet')
+    link(rel='stylesheet', href='{%static HTMLPage.static%}vendor/fonts/ionicons.css')
+    link(rel='stylesheet', href='{%static HTMLPage.static%}vendor/fonts/linearicons.css')
+    link.theme-settings-bootstrap-css(rel='stylesheet', href='{%static HTMLPage.static%}vendor/css/rtl/bootstrap.css')
+    link.theme-settings-appwork-css(rel='stylesheet', href='{%static HTMLPage.static%}vendor/css/rtl/appwork.css')
+    link.theme-settings-theme-css(rel='stylesheet', href='{%static HTMLPage.static%}vendor/css/rtl/theme-corporate.css')
+    link.theme-settings-colors-css(rel='stylesheet', href='{%static HTMLPage.static%}vendor/css/rtl/colors.css')
+    link(rel='stylesheet', href='{%static HTMLPage.static%}vendor/css/rtl/uikit.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    link(rel='stylesheet', href='{%static HTMLPage.static%}css/coming-soon.css')
+body
+    .d-flex.align-items-stretch.w-100.ui-mh-100vh.ui-bg-cover.ui-bg-overlay-container(style='background-image: url({%static HTMLPage.static%}img/bg/30.jpg);')
+        .row.no-gutters.w-100
+            .ui-bg-overlay.bg-dark.opacity-50
+            .d-flex.col.flex-column.text-white.px-4.px-sm-5
+                .d-flex.align-items-center.mt-5
+                    .text-large.ml-3 GIMPSA
+                .py-5.my-auto
+                    .display-4.text-expanded.mb-2 COMPRA ORO, PROTEGE TU INVERSIÓN!
+                    h1.display-2.font-weight-bolder.text-expanded PROXIMAMENTE
+                    p.text-big Te podemos eviar un correo cuando el portal de compra este disponible.
+                    .coming-soon-subscribe.pt-5.mt-2.mb-auto
+                        .form-row
+                            .col
+                                input.form-control.form-control-lg.form-control-inverted.font-secondary(type='text', placeholder='Tu email...')
+                            .col-sm-3.mt-2.mt-sm-0
+                                button.btn.btn-primary.btn-lg.btn-block.font-secondary.text-expanded.px-0(type='button')
+                                    small.font-weight-bold NOTIFICAME
+            .d-flex.col-lg-5.col-xl-4.align-items-center.bg-white.py-5.px-4.px-sm-5
+                .flex-shrink-1
+                    h5.font-weight-bold.mb-4 QUIENES 
+                        span.text-primary SOMOS?
+                    p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum fringilla justo, ac consectetur orci pulvinar sit amet. Pellentesque eget egestas sapien. Integer luctus rhoncus dolor, in egestas velit ultrices a. Ut eu urna sodales, ultrices urna imperdiet, sagittis quam.
+                    h5.font-weight-bold.mt-5.mb-4 CONTACTO 
+                    p
+                        i.ion.ion-ios-mail.ui-w-40.text-center.text-lightest.text-big.align-middle
+                        a.align-middle(href='mailto:#') contacto@gimpsa.com.mx
+                    p
+                        i.ion.ion-ios-call.ui-w-40.text-center.text-lightest.text-big.align-middle
+                        span.align-middle (01-800) 022-0499
+                    div
+                        a.btn.icon-btn.borderless.btn-outline-twitter.rounded-pill(href='#')
+                            span.ion.ion-logo-twitter
+                        a.btn.icon-btn.borderless.btn-outline-facebook.rounded-pill(href='#')
+                            span.ion.ion-logo-facebook
+    script(src='{%static HTMLPage.static%}vendor/libs/popper/popper.js')
+    script(src='{%static HTMLPage.static%}vendor/js/bootstrap.js')
