@@ -80,19 +80,19 @@
                                 a.layout-sidenav-toggle.d-inline-block.text-muted.align-middle.ml-3(href='javascript:void(0)' style='font-size: 14px')
                                     i.ion.ion-md-menu.text-large.align-middle
                         div(v-if="Sellpoint && Menu")
-                            .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.product.menu.includes(Menu.id)"  :style="{ borderColor: Menu.color }")
-                                .text-big.m-2
+                            .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.product.menu.includes(Menu.id) && productattribute.sellpoint == Sellpoint.id"  :style="{ borderColor: Menu.color }")
+                                .text-big
                                     strong $ ${productattribute.price|formatPrice}
-                                p
+                                p.text-center
                                     | ${productattribute.product.name}
                             div(v-if="Menu.id == 0")
-                                .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-on:click="offer.isOffer=true; addProduct(offer)" style="border-color: #862828;background-color:#862828;color:white;" v-for="offer in Offers" v-if="offer.discountType=='totalPercent'")
-                                    .text-big.m-2
+                                .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.masonry-item(v-on:click="offer.isOffer=true; addProduct(offer)" style="border-color: #862828;background-color:#862828;color:white;" v-for="offer in Offers" v-if="offer.discountType=='totalPercent'")
+                                    .text-big
                                         strong ${offer.discountValue} % 
                                     p
                                         | ${offer.name}
-                                .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.px-3.px-md-0.pt-md-4.pb-4.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.is_favorite" :style="{ borderColor: Menu.color }")
-                                    .text-big.m-2
+                                .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.is_favorite" :style="{ borderColor: Menu.color }")
+                                    .text-big
                                         strong $ ${productattribute.price|formatPrice}
                                     p
                                         | ${productattribute.product.name}
