@@ -146,8 +146,7 @@ class Sellpoint__ApiView(Generic__ApiView):
                 for pmenu in productattribute.product.menu.all():
                     for menuAncestors in pmenu.get_ancestors(ascending=False, include_self=True):
                         if not menuAncestors.pk in menu:
-                            menu.append(pmenu.pk)
-                            
+                            menu.append(menuAncestors.pk)
             return JsonResponse({
                 'sellpoints':SellpointSerializer(sellpoints,many=True).data,
                 'productAttributes':ProductAttributesSerializer(productattributes,many=True).data,
