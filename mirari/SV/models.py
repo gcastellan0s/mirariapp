@@ -160,15 +160,8 @@ VARS = {
     'APP':APP,
     'LIST': [
         {
-            'field': 'name',
+            'field': 'get_name',
             'title': 'Nombre',
-            'sorteable': True,
-            'serchable': True,
-            'url': 'url_update',
-        },
-        {
-            'field': 'get_parent',
-            'title': 'Depende de',
             'url': 'url_update',
         },
         {
@@ -189,6 +182,7 @@ VARS = {
             'plugin': 'select2',
         },
     },
+    'SEARCH': ['name'],
 }
 class Menu(Model_base, MPTTModel):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE)
@@ -204,6 +198,9 @@ class Menu(Model_base, MPTTModel):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.name)
+    def get_name(self):
+        deep = '---' * len(self.get_ancestors(ascending=False, include_self=False))
+        return deep+' '+self.name
     def get_color(self):
         return self.render_color(self.color)
     def get_is_active(self):

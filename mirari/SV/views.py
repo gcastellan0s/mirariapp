@@ -150,7 +150,7 @@ class Sellpoint__ApiView(Generic__ApiView):
             return JsonResponse({
                 'sellpoints':SellpointSerializer(sellpoints,many=True).data,
                 'productAttributes':ProductAttributesSerializer(productattributes,many=True).data,
-                'menus':MenuSerializer(Menu.objects.filter(pk__in=menu).order_by('name'),many=True).data ,
+                'menus':MenuSerializer(Menu.objects.filter(pk__in=menu).order_by('tree_id', 'level'),many=True).data ,
                 'offers':OfferSerializer(Offer.objects.filter(organization=request.user.organization,active=True,is_active=True),many=True).data,
                 'tickets':TicketSerializer(Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all()),many=True).data,
             }, safe=False)
