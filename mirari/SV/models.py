@@ -497,7 +497,7 @@ VARS = {
     'NEW_GENDER': 'un nuevo',
     'THIS':'este',
     'APP':APP,
-    'EXCLUDE_PERMISSIONS': ['create','update'],
+    'EXCLUDE_PERMISSIONS': ['create','delete'],
     'LIST': [
         {
             'field': 'barcode',
@@ -575,7 +575,7 @@ VARS = {
             'title': 'ESTATUS',
             'template': 
             """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
+                <a href="#" ticket={{id}} id ="statusTicket{{id}}" style="text-decoration:none;" class="a-no getTicket">
                     {{status}}
                 </a>
             """,
@@ -614,6 +614,7 @@ class Ticket(Model_base):
     STATUS_TICKET = (
         ('COBRADO','COBRADO'),
         ('PENDIENTE','PENDIENTE'),
+        ('CANCELADO','CANCELADO'),
     )
     TICKETTYPE = (
         ('VENTA','VENTA'),

@@ -155,7 +155,7 @@ class Sellpoint__ApiView(Generic__ApiView):
                 'tickets':TicketSerializer(Ticket.objects.filter(cut__final_time__isnull=True, sellpoint__in=Sellpoint().getMySellpointsCasher(request.user).all()),many=True).data,
             }, safe=False)
         if request.GET.get('api') == 'getTicket':
-            return JsonResponse({'ticket': TicketSerializer(Ticket.objects.get(id=request.POST.get('ticket')), read_only=True).data}, safe=False)
+            return JsonResponse({'ticket':TicketSerializer(Ticket.objects.get(id=request.POST.get('ticket')), read_only=True).data}, safe=False)
         if request.GET.get('api') == 'makeCut':
             cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut()
             if cut.getLenTickets() > 0:
@@ -168,6 +168,11 @@ class Sellpoint__ApiView(Generic__ApiView):
             return JsonResponse({'clients':ClientSerializer(Client.objects.filter(organization=request.user.organization,active=True,is_active=True).filter(Q(name__icontains=request.GET.get('query'))|Q(phone__icontains=request.GET.get('query'))|Q(rfc__icontains=request.GET.get('query'))|Q(email__icontains=request.GET.get('query'))|Q(uid__icontains=request.GET.get('query'))).distinct()[0:50],many=True).data},safe=False)
         if request.GET.get('api') == 'getClient':
             return JsonResponse({'client':ClientDetailsSerializer(Client.objects.get(organization=request.user.organization,active=True,is_active=True,id=request.POST.get('id'))).data,},safe=False)
+        if request.GET.get('api') == 'changeStatusTicket':
+            ticket = Ticket.objects.get(id=request.POST.get('id'))
+            ticket.status = request.POST.get('status')
+            ticket.save()
+            return JsonResponse({'ticket':TicketSerializer(ticket, read_only=True).data},safe=False)
 
 ########################################################
 ########################################################

@@ -8,7 +8,6 @@ $(".select").each(function(i) {
 
 $('.m-select2').select2({
     placeholder: "Elige 1 opción",
-    minimumResultsForSearch: -1
 });
 
 {%for key, value in model.VARS.SELECTQ.items%}

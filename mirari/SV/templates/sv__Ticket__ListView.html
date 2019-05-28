@@ -1,6 +1,7 @@
 {% extends "generic/ListView.html" %}
 {% load static %}
 {% load i18n %}
+{% load mirari_tags %}
 
 {%block content%}
     {{block.super}}
@@ -45,6 +46,17 @@
                     <hr />
                     <h5 class="text-center mb-0">${Ticket.status}</h5>
                     <h5 class="text-center mb-0">${Ticket.ticketType}</h5>
+                    {%if 'Can_Update__'|prepend_perm:model.VARS|if_has_perm:request%}
+                        <hr />
+                        <div class="form-group">
+                            <label for="Ticket">ESTATUS DEL TICKET</label>
+                            <select class="form-control kt-select2" v-model="Ticket.status">
+                                <option v-for="option in StatusTicket" v-bind:value="option.value">
+                                    ${ option.text }
+                                </option>
+                            </select>
+                        </div>
+                    {%endif%}
                 </div>
             </div>
         </div>
@@ -56,16 +68,19 @@
 {%block data%}
     {{block.super}}
     Ticket: null,
+    ActiveTicket: null,
+    StatusTicket: [
+        {%for option in model.STATUS_TICKET%}{text:'{{option.1}}',value:'{{option.0}}'},{%endfor%}
+    ],
 {%endblock data%}
 
 {%block mounted%}
     {{block.super}}
     $(document).on('click','.getTicket',function(){
+        self.ActiveTicket = $(this)
         Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getTicket', {'ticket': $(this).attr('ticket')}, false, 3000).then(function(json){
             self.Ticket = json.data.ticket
             $('#kt_modal_ticket').modal('show')
-        }).catch((error) => {
-        }).finally(() => {
         });
     });
 {%endblock mounted%}
@@ -85,4 +100,15 @@
         return String(moment(value).format('DD/MM/YYYY h:mm:ss'))
     }),
 {%endblock filters%}
+
+{%block watch%}
+    {{block.super}}
+    'Ticket.status': function (newData, oldData) {
+        Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=changeStatusTicket',self.Ticket,false,0).then(function(json){
+            self.Ticket.status = json.data.ticket.status
+        }).finally(() => {
+            $('#statusTicket'+self.Ticket.id).text(self.Ticket.status)
+        });
+    }
+{%endblock watch%}
 </script>
