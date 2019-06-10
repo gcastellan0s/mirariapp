@@ -1138,7 +1138,7 @@ class Cut(Model_base):
         cobrado = float(self.getSubtotal(status='COBRADO'))
         pendiente = float(self.getSubtotal(status='PENDIENTE'))
         cancelado = float(self.getSubtotal(status='CANCELADO'))
-        total = float(cobrado + pendiente)
+        total = cobrado + pendiente
         result = {'__ALL':{
             'COBRADO': {
                 'NUMBER': cobrado,
@@ -1154,7 +1154,7 @@ class Cut(Model_base):
             },
             'TOTAL': {
                 'NUMBER': total,
-                'MXN': Money(str(total), Currency.MXN).format('es_MX'),
+                'MXN': '0',
             },
         }}
         if len(self.ticketTypes.all()) > 1:
