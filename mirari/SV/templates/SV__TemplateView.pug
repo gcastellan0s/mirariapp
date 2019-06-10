@@ -305,8 +305,8 @@ script.
                     self.$router.push({path:'order', query:{orderMode:'selectOrder'}})
                 }
                 else if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) {
-                    self.$router.push('/casher');
-                    self.focusBarCode()
+                    //self.$router.push('/casher');
+                    //self.focusBarCode()
                 }
                 UnBlock()
             });
@@ -572,7 +572,7 @@ script.
             });
         }),
         focusBarCode:(() => {
-            if (self.Sellpoint.barcode) $("#BarCodeInput").focus()
+            if (self.Sellpoint.barcode) self.$refs.BarCodeInput.focus()
         }),
         activeProduct:((productattribute) => {
             ifActive = productattribute.product.menu.filter((menu) => {

@@ -52,7 +52,7 @@ script.
 
     {%block mounted%}
         {{block.super}}
-        if ($cookies.get('SaveUsers')) self.SaveUsers = $cookies.get('SaveUsers').split(',')
+        if ($cookies.get('SaveUsers')) self.SaveUsers = $cookies.get('SaveUsers').split(',').slice(0, 2)
     {%endblock mounted%}
 
     {%block methods%}
@@ -60,7 +60,7 @@ script.
             Block();
             Ax('post', '', credentials).then(function(json){
                 if (!json.data.message && self.credentials.remember){
-                    if(self.SaveUsers.filter(username => username==credentials.username).length == 0) self.SaveUsers.push(credentials.username)
+                    if(self.SaveUsers.filter(username => username==credentials.username).length == 0) self.SaveUsers.unshift(credentials.username)
                     $cookies.set('SaveUsers', self.SaveUsers, "3y")
                 } 
                 if (!json.data.message) location.reload();
