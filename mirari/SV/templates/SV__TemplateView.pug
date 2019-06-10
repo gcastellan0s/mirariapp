@@ -285,12 +285,10 @@ script.
             self.Ticket.username = '{{request.user.visible_username}}'
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getBarCode',{ticket: JSON.stringify(self.Ticket)},errorDialog=false,timeout=3000)
             .then((json) => {
-                console.log(json)
                 Block('Imprimiendo...')
                 self.Ticket.barcode = json.data.ticket.barcode
                 self.Ticket.cut = json.data.ticket.cut
             }).catch((error) => {
-                console.log(error)
             }).finally(() => { 
                 if (print) self.printTicket(self.Ticket)
                 newTicket = self.Tickets.find(function(ticket){return ticket.key == self.Ticket.key;});
@@ -406,7 +404,6 @@ script.
             },errorDialog=false, timeout=10000)
             .then((json) => {
                 if (PrivateSocket){
-                    console.log(json)
                     ticketFormat = []
                     ticketFormat.push(["times",[1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
@@ -493,7 +490,6 @@ script.
                     ticketFormat.push(["text", 'TOTAL + FALTANTE: ' + json.data.cut.getTotalDetail['__ALL']['TOTAL']['MXN']])
                     ticketFormat.push(["cut"])
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
-                    console.log(ticketFormat)
                 }
             })
             .catch((error) => {
@@ -576,7 +572,7 @@ script.
             });
         }),
         focusBarCode:(() => {
-            if (self.Sellpoint.barcode) self.$refs.BarCodeInput.focus()
+            if (self.Sellpoint.barcode) $("#BarCodeInput").focus()
         }),
         activeProduct:((productattribute) => {
             ifActive = productattribute.product.menu.filter((menu) => {

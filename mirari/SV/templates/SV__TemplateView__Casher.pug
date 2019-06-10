@@ -12,7 +12,7 @@
                 .card.mb-12(v-if="Sellpoint.barcode")
                     .card-body(style="padding:.5rem 1.5rem;")
                         form(v-on:submit.prevent="onSubmit(BarCode)")
-                            input.form-control(type='text' placeholder='CODIGO QR' v-model='BarCode' ref='BarCodeInput' autofocus="autofocus")
+                            input.form-control(type='text' placeholder='CODIGO QR' v-model='BarCode' id='BarCodeInput')
                 .container-fluid.d-flex.align-items-stretch.flex-grow-1.p-0
                     .flex-shrink-1.flex-grow-1.px-1.py-1
                         table.table.mb-0

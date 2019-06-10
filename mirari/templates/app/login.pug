@@ -1,0 +1,76 @@
+extends 'appwork/layout-without-navbar.html'
+-load static
+-load i18n
+
+block styles
+    {{block.super}} 
+    link(rel='stylesheet', href="{%static 'appwork-html/vendor/css/pages/authentication.css'%}")
+
+block content
+    .authentication-wrapper.authentication-1.px-4
+        .authentication-inner.py-5
+            .d-flex.justify-content-center.align-items-center
+                .ui-w-60
+                    .w-100.position-relative(style='padding-bottom: 54%')
+                img(src='{{G.MEDIA}}{{ G.ORGANIZATION.LOGO_BG }}', style='max-width: 300px;')
+            form.my-3(v-on:submit.prevent='login(credentials)')
+                .form-group
+                    label.form-label {% trans 'Usuario o Email'%}
+                    input.form-control(type='text', v-model='credentials.username')
+                .form-group
+                    label.form-label.d-flex.justify-content-between.align-items-end
+                        div Contraseña
+                        a.d-block.small(href='javascript:void(0)') {% trans 'Olvidaste tu contraseña?'%}
+                    input.form-control(type='password', v-model='credentials.password' ref='password')
+                .d-flex.justify-content-between.align-items-center.m-0
+                    label.custom-control.custom-checkbox.m-0
+                        input.custom-control-input(type='checkbox' v-model='credentials.remember')
+                        span.custom-control-label {% trans 'Recuerdame'%}
+                    button.btn.btn-primary(type='submit') {% trans 'Entrar'%}
+            .text-center.text-muted
+                a(href='javascript:void(0)') {% trans 'Registrate'%}
+            a(v-if="SaveUsers" v-for="user in SaveUsers" @click="changeUser(user)" href="javascript:void(0)")
+                .media.align-items-center.mt-3.p-2(style="background-color:#efefef;")
+                    .media-body.ml-3
+                        .text-light.small.font-weight-semibold.line-height-1.mb-1 ENTRAR COMO
+                        .font-weight-bolder.line-height-1.text-dark ${user}
+
+block js
+    {{block.super}}
+    script(src="https://unpkg.com/vue-cookies@1.5.12/vue-cookies.js")
+
+script.
+    {%block data%}
+        credentials: {
+            username: '',
+            password: '',
+            code: '{{ G.ORGANIZATION.code }}',
+            remember: true,
+        },
+        SaveUsers:[],
+    {%endblock data%}
+
+    {%block mounted%}
+        {{block.super}}
+        if ($cookies.get('SaveUsers')) self.SaveUsers = $cookies.get('SaveUsers').split(',')
+    {%endblock mounted%}
+
+    {%block methods%}
+        login: function (credentials) {
+            Block();
+            Ax('post', '', credentials).then(function(json){
+                if (!json.data.message && self.credentials.remember){
+                    if(self.SaveUsers.filter(username => username==credentials.username).length == 0) self.SaveUsers.push(credentials.username)
+                    $cookies.set('SaveUsers', self.SaveUsers, "3y")
+                } 
+                if (!json.data.message) location.reload();
+                else swal('Error!', json.data.message, 'error') 
+            }).finally(() => {
+                UnBlock();
+            });
+        },
+        changeUser: ((user) => {
+            self.credentials.username = user
+            self.$refs.password.focus();
+        }),
+    {%endblock methods%}

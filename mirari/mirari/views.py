@@ -30,7 +30,7 @@ class Generic__ApiView(Base_Api, APIView):
 ###############################################################################################
 ######### AUTH ################################################################################
 class login__Organization__TemplateView(Generic__TemplateView):
-    template_name = "app/login.html"
+    template_name = "app/login.pug"
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
