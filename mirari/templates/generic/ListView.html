@@ -105,25 +105,29 @@
             <!--end: Search Form -->
         </div>
         <div class="kt-portlet__body pt-0">
-            <div class="row align-items-center" v-if="selected_items">
-				<div class="col-xl-12">
-					<div class="kt-form__group kt-form__group--inline">
-						<div class="kt-form__control">
-							<div class="btn-toolbar" class="align-items-center">
-								{%if 'Can_Delete__'|prepend_perm:model.VARS|if_has_perm:request%}
-									<button class="btn btn-sm btn-danger" type="button" id="m_form_delete_rows">
-										ELIMINAR SELECCIÓN
-									</button>
-									<small>
-										&nbsp;&nbsp;&nbsp;
-										${selected_items} elementos marcados
-									</small>
-								{%endif%}
-							</div>
-						</div>
-					</div>
-				</div>
-            </div>
+            {%if 'Can_Delete__'|prepend_perm:model.VARS|if_has_perm:request and not 'delete' in model.VARS.EXCLUDE_PERMISSIONS%}
+                <div class="row align-items-center" v-if="selected_items">
+                    <div class="col-xl-12">
+                        <div class="kt-form__group kt-form__group--inline">
+                            <div class="kt-form__control">
+                                <div class="btn-toolbar" class="align-items-center">
+                                    {%if 'Can_Delete__'|prepend_perm:model.VARS|if_has_perm:request%}
+                                        <button class="btn btn-sm btn-danger" type="button" id="m_form_delete_rows">
+                                            ELIMINAR SELECCIÓN
+                                        </button>
+                                        <small>
+                                            &nbsp;&nbsp;&nbsp;
+                                            ${selected_items} elementos marcados
+                                        </small>
+                                    {%endif%}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {%endif%}
+            {%block extraActions%}
+            {%endblock extraActions%}
             <!--begin: Datatable -->
             <table class="table table-striped- table-hover table-checkable" id="kt_table_{{model.VARS.MODEL}}">
                 <thead>

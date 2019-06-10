@@ -68,7 +68,7 @@ class logout__Organization__TemplateView(Generic__TemplateView):
 ###############################################################################################
 ######### DASHBOARD ###########################################################################
 class dashboard__Organization__TemplateView(Generic__TemplateView):
-    template_name = "app/dashboard.html"
+    template_name = "app/dashboard.pug"
     def dispatch(self, request, *args, **kwargs):
         if request.method == 'POST':
             email_host = HostEmail.objects.get(id=1)

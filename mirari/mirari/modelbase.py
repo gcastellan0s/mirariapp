@@ -7,7 +7,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.core.exceptions import PermissionDenied
 from django.db import models, transaction
 from django.db.models import Q, F
-from django.db.models.signals import m2m_changed, post_save
+from django.db.models.signals import m2m_changed, post_save, pre_save
 from django.http import JsonResponse
 from django_countries.fields import CountryField
 from django.template.loader import get_template, render_to_string
@@ -132,7 +132,7 @@ class Model_base(models.Model):
     def url_detail(self):
         try:
             return reverse('mirari:Generic__DetailView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
-        except:
+        except Exception as e:
             return None
     def str_obj(self):
         return str(self)

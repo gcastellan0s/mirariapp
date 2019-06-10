@@ -60,6 +60,18 @@
                 {%block watch%}{%endblock watch%}
             },
             filters: {
+                formatPrice: ((value) => {
+                    let val = (value/1).toFixed(2)
+                    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                }),
+                formatDate: ((value) => {
+                    moment.locale('es');
+                    return String(moment(value).format('DD/MM/YYYY h:mm:ss'))
+                }),
+                defaultValue: ((value, defaultV) => {
+                    if(value)return value
+                    return defaultV
+                }),
                 {%block filters%}{%endblock filters%}
             }
         });

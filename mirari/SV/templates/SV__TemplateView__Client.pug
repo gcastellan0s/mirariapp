@@ -1,0 +1,77 @@
+-load static
+-load i18n
+
+// Layout wrapper
+.layout-wrapper.layout-1
+    .layout-inner
+        // Layout container
+        .layout-container
+            // Layout content
+            .layout-content
+                // Content
+                .container-fluid.flex-grow-1.container-p-y
+                    .container-p-x.py-5.container-m--x.container-m--y.mb-0
+                        .row
+                            .col-8
+                                .form-group
+                                    .input-group
+                                        span.input-group-prepend
+                                            button.btn.btn-dark(type='button' @click="resetOrder")
+                                                i.fa.fa-eraser.px-1
+                                                | BORRAR
+                                        input.form-control.form-control-lg(type='text' placeholder='NOMBRE DEL CLIENTE, TELÉFONO, CORREO o RFC' v-model="Client.name")
+                            //
+                                .col-4
+                                    router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}")
+                                        a(href="javascript:void(0)")
+                                            .card.bg-dark.border-0.text-white.mb-4
+                                                .card-body.d-flex.justify-content-between.align-items-center.py-3
+                                                    div
+                                                        .text-xlarge ELEGIR CLIENTE
+                                                        .small.opacity-75 ELIGE UN CLIENTE PARA LA REMISIÓN
+                                                    i.fas.fa-user-tag.text-xlarge.opacity-25
+                        .row
+                            .col-12
+                                .table-responsive.ui-bordered
+                                    table.clients-table.table.table-hover.m-0
+                                        tbody
+                                            tr(@click="getClient({name:Client.name,id:0,ide:'',clientProfile:{code:null}})")
+                                                td.align-middle.py-3
+                                                    .media.align-items-center
+                                                        .media-body.flex-basis-auto.pl-3
+                                                            div 
+                                                                span(v-if="Client.id == 0 && Client.name == ''") PUBLICO EN GENERAL
+                                                                span(v-else) ${Client.name}
+                                                            .text-muted.small Publico en general para clientes no registrados
+                                                td.align-middle.py-3
+                                                    | -
+                                                td.align-middle.py-3
+                                                    | Sin email registrado
+                                                    br
+                                                    | Sin teléfono registrado
+                                                td.align-middle.py-3
+                                                    | Sin RFC registrado
+                                                td.align-middle.py-3
+                                                    span.badge.badge-warning PUBLICO GENERAL
+                                            tr(v-for="client in Clients" @click="getClient(client)")
+                                                td.align-middle.py-3
+                                                    .media.align-items-center
+                                                        .media-body.flex-basis-auto.pl-3
+                                                            div ${client.name}
+                                                            .text-muted.small ID: ${client.id}
+                                                td.align-middle.py-3
+                                                    | ${client.uid|defaultV('POR ASIGNAR')}
+                                                td.align-middle.py-3
+                                                    | ${client.email|defaultV('Sin email registrado')}
+                                                    br
+                                                    | ${client.phone|defaultV('Sin teléfono registrado')}
+                                                td.align-middle.py-3
+                                                    | ${client.rfc|defaultV('Sin RFC registrado')}
+                                                td.align-middle.py-3
+                                                    span.badge.badge-dark ${client.clientProfile.name|defaultV('NO REGISTRADO')}
+                nav.layout-footer.footer.bg-footer-theme
+                    .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
+                        .pt-3
+                            span.footer-text.font-weight-bolder.px-3.h4 
+                                span
+                        include SV__TemplateView__Footer.pug

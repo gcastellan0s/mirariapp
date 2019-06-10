@@ -59,11 +59,14 @@ MENU = {
 MMENU = {}
 MMENU.update(MENU)
 
+from mirari.INT.vars import MENU as INTMENU
+MMENU.update(INTMENU)
+
 from mirari.SV.vars import MENU as SVMENU
 MMENU.update(SVMENU)
 
-from mirari.INT.vars import MENU as INTMENU
-MMENU.update(INTMENU)
+from mirari.INV.vars import MENU as INV
+MMENU.update(INV)
 
 from mirari.CRYE.vars import MENU as CRYEMENU
 MMENU.update(CRYEMENU)
@@ -74,5 +77,3 @@ MMENU.update(TCS)
 from mirari.SIEBEL.vars import MENU as SIEBEL
 MMENU.update(SIEBEL)
 
-from mirari.PHOTO.vars import MENU as PHOTO
-MMENU.update(PHOTO)

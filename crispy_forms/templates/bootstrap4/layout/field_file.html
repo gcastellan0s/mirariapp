@@ -1,6 +1,6 @@
 {% load crispy_forms_field %}
 
-<div class="custom-file {{ field_class }}">
+<div class="custom-file{% if 'form-horizontal' in form_class %} col-xl-8 col-lg-8{%if object%} pt-5{%endif%}{% endif %} {{ field_class }}"{%if object%} style="padding-bottom:1rem; margin-bottom:5rem;"{%endif%}>
     {% crispy_field field 'class' 'custom-file-input' %}
-    <label class="custom-file-label" for="{{ field.id_for_label }}">Choose file</label>
+    <label class="custom-file-label text-left" for="{{ field.id_for_label }}">Choose file</label>
 </div>

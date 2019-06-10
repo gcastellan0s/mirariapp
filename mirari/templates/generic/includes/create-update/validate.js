@@ -33,7 +33,8 @@ $(".kt-form").validate({
         KTUtil.scrollTo(i, -200)
     },
     submitHandler: function(e) {
-        Block();
+        Block('Enviando...');
         e.submit();
+        UnBlock();
     }
 })

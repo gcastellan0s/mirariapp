@@ -25,8 +25,6 @@ CACHES = {
 # https://docs.djangoproject.com/en/dev/ref/settings/#templates
 TEMPLATES[0]['OPTIONS']['debug'] = DEBUG  # noqa F405
 
-MEDIA_URL = 'https://s3.amazonaws.com/'+env('DJANGO_AWS_STORAGE_BUCKET_NAME')+'/media/'
-
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend

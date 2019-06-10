@@ -1,0 +1,81 @@
+-load static
+-load i18n
+
+// Layout wrapper
+.layout-wrapper.layout-1
+    .layout-inner
+        // Layout container
+        .layout-container
+            // Layout content
+            .layout-content
+                // Content
+                .container-fluid.flex-grow-1.container-p-y
+                    .container-p-x.py-5.container-m--x.container-m--y.mb-0(style="max-height:91vh")
+                        .row
+                            .col-4
+                                .card.bg-success.border-0.text-white.mb-4
+                                    .card-body.d-flex.justify-content-between.align-items-center.py-4
+                                        div
+                                            .text-xlarge VIDEO TUTORIALES
+                                            .small.opacity-75 PROXIMAMENTE!
+                                        i.ion.ion-md-time.text-xlarge.opacity-25
+                            .col-4
+                            .col-4
+                                .card.bg-primary.border-0.text-white.mb-4(v-on:click="makeCut()")
+                                    .card-body.d-flex.justify-content-between.align-items-center.py-4
+                                        div
+                                            .text-xlarge HACER CORTE
+                                            .small.opacity-75 CORTE Z EN ${Sellpoint.name}
+                                        i.fas.fa-cut.text-xlarge.opacity-25
+                        .row
+                            .col-4
+                                .card.bg-warning.border-0.text-dark.mb-4
+                                    .card-body.d-flex.justify-content-between.align-items-center.py-4
+                                        div
+                                            .text-xlarge AVISAR PROBLEMA
+                                            .small.opacity-75 PROXIMAMENTE!
+                                        i.fas.fa-info.text-xlarge.opacity-25
+                            .col-4
+                                .card.bg-warning.border-0.text-dark.mb-4(v-on:click="reloadSystem()")
+                                    .card-body.d-flex.justify-content-between.align-items-center.py-4
+                                        div
+                                            .text-xlarge REINICIAR SISTEMA
+                                            .small.opacity-75 REINICIA ESTE EQUIPO Y DATOS
+                                        i.fas.fa-redo-alt.text-xlarge.opacity-25
+                            .col-4
+                                .card.bg-danger.border-0.text-white.mb-4(v-on:click="window.location.replace('{%url 'mirari:logout__Organization__TemplateView'%}')")
+                                    .card-body.d-flex.justify-content-between.align-items-center.py-4
+                                        div
+                                            .text-xlarge SALIR
+                                            .small.opacity-75 SALGA DEL PUNTO DE VENTA
+                                        i.fas.fa-sign-out-alt.text-xlarge.opacity-25
+                        .row
+                            .col-4
+                                .card.bg-success.border-0.text-white.mb-4(v-if="Sellpoint")
+                                    .card-body.d-flex.justify-content-between.align-items-center.py-4
+                                        div
+                                            .text-xlarge {{request.user.visible_username}}
+                                            .small.opacity-75 ${Sellpoint.name}
+                                        i.fas.fa-user.text-xlarge.opacity-25
+                            .col-4
+                                .card.bg-success.border-0.text-white.mb-4(v-if="ActivePrinter.name")
+                                    .card-body.d-flex.justify-content-between.align-items-center.py-4
+                                        div
+                                            .text-xlarge ${ActivePrinter.name}
+                                            .small.opacity-75 ${ActivePrinter.url}
+                                        i.fas.fa-print.text-xlarge.opacity-25
+                            .col-4
+                                .card.bg-primary.border-0.text-white.mb-4(v-if="Sellpoint.haveExpenses" @click="getDataExpenses()")
+                                    .card-body.d-flex.justify-content-between.align-items-center.py-4
+                                        div
+                                            .text-xlarge MARCAR GASTO
+                                            .small.opacity-75 CREA UN GASTO EN EL PUNTO DE VENTA
+                                        i.fas.fa-coins.text-xlarge.opacity-25
+                // Layout footer
+                nav.layout-footer.footer.bg-footer-theme
+                    .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
+                        .pt-3
+                            span.footer-text.font-weight-bolder.px-3.h4 
+                                span
+                        include SV__TemplateView__Footer.pug
+

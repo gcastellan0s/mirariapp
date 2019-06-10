@@ -309,6 +309,8 @@ class Base_Detail(object):
     ############################################################################################################
     def initialize(self, request, *args, **kwargs):
         self.model = apps.get_model(kwargs['app'], kwargs['model'])
+        if 'PAGEDetail' in self.model.VARS:
+            self.template_name = self.model.VARS['PAGEDetail']
         return True
     def proccess_context(self, context):
         return context
@@ -414,28 +416,33 @@ class Base_List(object):
         return self.render_list()
     def render_list(self, btn_update='url_update', btn_delete='url_delete', btn_checkbox=True, extrabuttons='',):
         dictionary_datatable = []
-        if not 'HIDE_CHECKBOX_LIST' in self.model.VARS:
-            if btn_checkbox and self.request.user.has_perm(self.model.VARS['APP']+'.Can_Delete__'+self.model.VARS['MODEL']) and not 'delete' in self.model().exclude_permissions():
-                dictionary_datatable.append({'field': "url_delete", 'title': "#", 'width': 40, 'select':'true'})
         for item in self.model.VARS['LIST']:
             item_dictionary = {}
-            item_dictionary['field'] = item['field']
-            item_dictionary['title'] = item['title'].upper()
-            if 'sorteable' in item:
-                item_dictionary['sortable'] = item['sorteable']
-            if 'template' in item:
-                item_dictionary['template'] = item['template']
-            else:
-                item_dictionary['template'] = '{{'+item['field']+'}}'
-            if 'url' in item:
-                if item['url'] == 'url_update':
-                    if self.request.user.has_perm(self.model.VARS['APP']+'.Can_Update__'+self.model.VARS['MODEL']):
-                        item_dictionary['template'] = '<a href="{{'+item['url']+'}}" class="a-no">'+item_dictionary['template']+'</a>'
+            permission = True
+            if 'permission' in item:
+                for perm in item['permission']:
+                    if not self.request.user.has_perm(self.model.VARS['APP']+'.'+perm):
+                        permission = False
+            if permission:
+                item_dictionary['field'] = item['field']
+                item_dictionary['title'] = item['title'].upper()
+                if 'sorteable' in item:
+                    item_dictionary['sortable'] = item['sorteable']
+                if 'template' in item:
+                    item_dictionary['template'] = item['template']
                 else:
-                    item_dictionary['template'] = '<a href="{{'+item['url']+'}}" class="a-no">'+item_dictionary['template']+'</a>'
-            if 'width' in item:
-                item_dictionary['width'] = item['width']
-            dictionary_datatable.append(item_dictionary)
+                    item_dictionary['template'] = '{{'+item['field']+'}}'
+                if 'url' in item:
+                    if item['url'] == 'url_update':
+                        if self.request.user.has_perm(self.model.VARS['APP']+'.Can_Update__'+self.model.VARS['MODEL']):
+                            item_dictionary['template'] = '<a href="{{'+item['url']+'}}" class="a-no">'+item_dictionary['template']+'</a>'
+                    else:
+                        item_dictionary['template'] = '<a href="{{'+item['url']+'}}" class="a-no">'+item_dictionary['template']+'</a>'
+                if 'width' in item:
+                    item_dictionary['width'] = item['width']
+                if 'select' in item:
+                    item_dictionary['select'] = item['select']
+                dictionary_datatable.append(item_dictionary)
         if not 'HIDE_BUTTONS_UPDATE' in self.model.VARS:
             btn_update = self.get_btn_update(btn_update)
         else:
@@ -565,9 +572,6 @@ class Base_Create(object):
     ############################################################################################################
     def initialize(self, request, *args, **kwargs):
         self.model = apps.get_model(kwargs['app'], kwargs['model'])
-        #if 'TEMPLATE_NAME' in self.model.VARS:
-            #if 'CREATEVIEW' in self.model.VARS['TEMPLATE_NAME']:
-                #self.template_name = self.model.VARS['TEMPLATE_NAME']['CREATEVIEW']
         return True
     def get_success_url(self):
         if 'save' in self.request.POST:

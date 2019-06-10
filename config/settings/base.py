@@ -90,7 +90,7 @@ LOCAL_APPS = [
     'mirari.CRYE',
     'mirari.SIEBEL',
     'mirari.TCS',
-    'mirari.PHOTO',
+    'mirari.INV',
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -298,3 +298,11 @@ STATICFILES_FINDERS += ['compressor.finders.CompressorFinder']
 PAGINATOR_SIZE = 10
 CORS_ORIGIN_ALLOW_ALL = True
 DEFAULT_DOMAIN = 'mirari.xyz'
+
+# FINKOK
+# ------------------------------------------------------------------------------
+FINKOK = {
+    'USER': env('FINKOK_USER', default='g@gustavo-castellanos.com'),
+    'PASSWORD': env('FINKOK_PASSWORD', default='Password1*'),
+    'URL': env('FINKOK_URL', default='https://demo-facturacion.finkok.com/servicios/soap/'),
+}

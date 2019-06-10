@@ -28,6 +28,7 @@ urlpatterns = [
 
 	path('glist/<slug:app>/<slug:model>/', login_required(Generic__ListView.as_view()), name='Generic__ListView'),
 	path('gcreate/<slug:app>/<slug:model>/', login_required(Generic__CreateView.as_view()), name='Generic__CreateView'),
+    path('gdetail/<slug:app>/<int:pk>/<slug:model>/', login_required(Generic__DetailView.as_view()), name='Generic__DetailView'),
 	path('gupdate/<slug:app>/<int:pk>/<slug:model>/', login_required(Generic__UpdateView.as_view()), name='Generic__UpdateView'),
 	path('gdelete/<slug:app>/<int:pk>/<slug:model>/', login_required(Generic__DeleteView.as_view()), name='Generic__DeleteView'),
 	path('gapi/<slug:app>/<slug:action>/<slug:model>/', login_required(Generic__ApiView.as_view()), name='Generic__ApiView'),

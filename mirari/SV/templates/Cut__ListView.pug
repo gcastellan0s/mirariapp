@@ -1,0 +1,64 @@
+extends "generic/ListView.html"
+-load static
+-load i18n
+-load mirari_tags
+
+block extraActions
+    .row.align-items-center.mt-3(v-if='selected_items')
+        .col-xl-4
+            .form-group
+                form.kt-form.kt-form--label-right(v-on:submit.prevent='changeRasurado(rasurado)')
+                    label
+                        strong Rasurado de cortes
+                    .input-group
+                        .input-group-prepend
+                            button.btn.btn-secondary(type='submit') Aplicar %
+                        input.form-control(type='number', placeholder='Ingresa el porcentaje a rasurar', v-model='rasurado', min='1', max='100')
+
+script.
+    {%block data%}
+        {{block.super}}
+        rasurado: 100,
+    {%endblock data%}
+
+    {%block mounted%}
+        {{block.super}} 
+    {%endblock mounted%}
+
+    {%block methods%}
+        {{block.super}}
+        changeRasurado: function (rasurado) {
+            Block();
+            if (self.selected_items && self.rasurado >= 1 && self.rasurado <= 100){
+                cuts = []
+                $.each($('#kt_table_{{model.VARS.MODEL}}').closest('table').find('.kt-checkable:checked'),function(key, row){
+                    cuts.push($(row).attr('id'))
+                });
+                Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=changeRasuradoCut',{cutsIds:JSON.stringify(cuts),rasurado:self.rasurado},true,0)
+                .then(function(json){
+                    self.selected_items = 0
+                    self.rasurado = 100
+                    $('#kt_table_{{model.VARS.MODEL}}').DataTable().draw();
+                    UnBlock();
+                    swal.fire({
+                        title: 'Exito!',
+                        text: "Se actualizaron los cortes",
+                        type: 'success',
+                        confirmButtonText: 'Actualizar cantidades!',
+                    });
+                }).finally(() => {
+                    UnBlock();
+                });
+            }
+            else{
+                UnBlock();
+                swal.fire({
+                    title: 'Oops!',
+                    text: "Corrige los datos para poder rasurar",
+                    type: 'error',
+                    confirmButtonText: 'Ok',
+                });
+            }
+        },
+    {%endblock methods%}
+.

@@ -20,7 +20,7 @@ class ProductAttributesAdmin(PassAdmin):
 
 @admin.register(Ticket)
 class TicketAdmin(PassAdmin):
-	pass
+	list_display = ('sellpoint','barcode', 'key','rasurado','total')
 
 @admin.register(TicketProducts)
 class TicketProductsAdmin(PassAdmin):
@@ -28,7 +28,7 @@ class TicketProductsAdmin(PassAdmin):
 
 @admin.register(Cut)
 class CutAdmin(PassAdmin):
-	list_display = ('sellpoint','getTotalMoney', 'getIvaMoney','getIepsMoney')
+	list_display = ('sellpoint',)
 
 @admin.register(Offer)
 class OfferAdmin(PassAdmin):

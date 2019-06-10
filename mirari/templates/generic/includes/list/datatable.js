@@ -51,15 +51,14 @@ var KTDatatablesDataSourceAjaxServer = function() {
                     {%if 'select' in field%}
                         {
                             targets: {{forloop.counter0}},
+                            select: true,
                             title: '{{field.title|upper}}',
                             orderable: false,
-                            {%if field.width%}
-                                width: '{{field.width}}px',
-                            {%endif%}
+                            width: '40px',
                             render: function(data, type, row, meta) {
                                 return `
                                 <label class="kt-checkbox kt-checkbox--single kt-checkbox--solid kt-checkbox--brand">
-                                    <input type="checkbox" value="" delete="${row.url_delete}" class="kt-checkable">
+                                    <input type="checkbox" id="${row.id}" {%if field.field%}value="${row.{{field.field}}}"{%endif%} delete="${row.url_delete}" class="kt-checkable">
                                     <span></span>
                                 </label>`;
                             },

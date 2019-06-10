@@ -1,0 +1,39 @@
+-load static
+-load i18n
+
+// Layout wrapper
+.layout-wrapper.layout-1
+    .layout-inner
+        // Layout container
+        .layout-container
+            // Layout content
+            .layout-content(v-if="Sellpoint")
+                // Content
+                .card.mb-12(v-if="Sellpoint.barcode")
+                    .card-body(style="padding:.5rem 1.5rem;")
+                        form(v-on:submit.prevent="onSubmit(BarCode)")
+                            input.form-control(type='text' placeholder='CODIGO QR' v-model='BarCode' ref='BarCodeInput' autofocus="autofocus")
+                .container-fluid.d-flex.align-items-stretch.flex-grow-1.p-0
+                    .flex-shrink-1.flex-grow-1.px-1.py-1
+                        table.table.mb-0
+                            tbody
+                                tr.h4(v-for="ticket in Tickets" v-bind:class="ticket.status")
+                                    td ${ticket.key}
+                                    td(:style="{color:ticket.sellpoint.color}") ${ticket.sellpoint.name}
+                                    td(:style="{color:ticket.sellpoint.color}") ${ticket.ticketType}
+                                    td ${ticket.date|formatDate}
+                                    td 
+                                        strong ${ticket.barcode}
+                                    td(v-if="ticket.onAccount") 
+                                        | $ ${ticket.onAccount|formatPrice}
+                                    td(v-if="!ticket.onAccount") 
+                                        | $ ${ticket.total|formatPrice}
+                // Layout footer
+                nav.layout-footer.footer.bg-footer-theme
+                    .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
+                        .pt-3
+                            span.footer-text.font-weight-bolder.px-3.h4 
+                                span
+                        include SV__TemplateView__Footer.pug
+    .layout-overlay.layout-sidenav-toggle
+

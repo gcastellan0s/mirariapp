@@ -2,6 +2,8 @@
 from mirari.mirari.models import *
 from .vars import *
 
+from mirari.mirari.viewbase import Basic_Serializer
+
 ########################################################################################
 VARS = {
     'NAME':'Punto de venta',
@@ -45,7 +47,7 @@ VARS = {
             'url': 'url_update',
         },
         {
-            'field': 'printer',
+            'field': 'getPrinter',
             'title': 'IMPRESORA',
             'url': 'url_update',
         },
@@ -90,7 +92,6 @@ class Sellpoint(Model_base):
     barcode = models.BooleanField('Muestra Escaner?', default=False, help_text='Activalo para conectar un escaner a una PC')
     haveExpenses = models.BooleanField('Crea Gastos?', default=True, help_text='Crea gastos esta sucursal?')
 
-
     have_credit = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     have_credit_cards = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     have_disscounts = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
@@ -128,6 +129,8 @@ class Sellpoint(Model_base):
         return self.render_color(self.color)
     def get_serial(self):
         return self.serial.get_serial()
+    def getPrinter(self):
+        return self.render_if(self.printer)
     def getCut(self):
         cut = Cut.objects.filter(sellpoint=self, final_time__isnull=True).first()
         if not cut:
@@ -148,6 +151,11 @@ class Sellpoint(Model_base):
             serial = Serial.objects.create(organization=self.organization, name=self.name.lower(), content_type=content_type)
             self.serial = serial
             self.save()
+class SellpointSerializer(Basic_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = Sellpoint
+        fields = None
+        exclude = ('active','creation_date','is_active','modified_date','serial',)
 
 ########################################################################################
 VARS = {
@@ -212,6 +220,16 @@ class Menu(Model_base, MPTTModel):
             return self.render_if(self.parent)
     def get_products(self):
         return Product.objects.filter(menu = self, is_active=True)
+class MenuSerializer(Basic_Serializer):
+    childrens = serializers.SerializerMethodField()
+    descendants = serializers.SerializerMethodField()
+    class Meta(Basic_Serializer.Meta):
+        model = Menu
+        fields = ('color','id','name','is_root_node','is_leaf_node','is_child_node','childrens','descendants')
+    def get_childrens(self, obj):
+        return MenuSerializer(obj.get_children(), many=True).data
+    def get_descendants(self, obj):
+        return MenuSerializer(obj.get_descendants(include_self=False), many=True).data
 
 ########################################################################################
 VARS = {
@@ -419,6 +437,9 @@ def sellpoints_changed(sender, **kwargs):
             productAttributes.active=False
             productAttributes.save()
 m2m_changed.connect(sellpoints_changed, sender=Product.sellpoints.through)
+class ProductSerializer(Basic_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = Product
 
 ########################################################################################
 VARS = {
@@ -487,6 +508,14 @@ class ProductAttributes(Model_base):
         return mark_safe('<span class="kt-badge kt-badge--'+self.render_string_color(self.is_active)+' kt-badge--inline">Activo</span>')
     def get_sellpoint(self):
         return mark_safe(self.render_boolean_del('<span class="kt--font-'+self.sellpoint.render_string_color(self.sellpoint.is_active)+'" style="color:'+self.sellpoint.color+'!important">'+self.sellpoint.name+'</span>', self.sellpoint.is_active))
+class ProductAttributesSerializer(Basic_Serializer):
+    product = serializers.SerializerMethodField()
+    class Meta(Basic_Serializer.Meta):
+        model = ProductAttributes
+        fields = None
+        exclude = ('active',)
+    def get_product(self, obj):
+        return ProductSerializer(obj.product, read_only=True).data
 
 ########################################################################################
 VARS = {
@@ -608,7 +637,7 @@ VARS = {
             ],
         }
     },
-    'PAGEList': 'sv__Ticket__ListView.html',
+    'PAGEList': 'Ticket__ListView.pug',
 }
 class Ticket(Model_base):
     STATUS_TICKET = (
@@ -737,6 +766,15 @@ class Ticket(Model_base):
         return ", ".join(o.name for o in self.ticketType.all())
     def getColor(self):
         return self.sellpoint.color
+class TicketSerializer(Basic_Serializer):
+    sellpoint = serializers.SerializerMethodField()
+    products = serializers.SerializerMethodField()
+    class Meta(Basic_Serializer.Meta):
+        model = Ticket
+    def get_sellpoint(self, obj):
+        return SellpointSerializer(obj.sellpoint, read_only=True).data
+    def get_products(self, obj):
+        return TicketProductsSerializer(TicketProducts.objects.filter(ticket=obj), many=True).data
 
 ########################################################################################
 VARS = {
@@ -785,37 +823,478 @@ class TicketProducts(Model_base):
         for offer in product['offers']:
             self.offers.add(Offer.objects.get(id=offer['id']))
         return self
+class TicketProductsSerializer(Basic_Serializer):
+    offers = serializers.SerializerMethodField()
+    class Meta(Basic_Serializer.Meta):
+        model = TicketProducts
+    def get_offers(self, obj):
+        return OfferSerializer(obj.offers.all(), many=True).data
 
 ########################################################################################
-class CutProductSerializer(serializers.Serializer):
-    product = serializers.IntegerField()
-    productName = serializers.CharField(max_length=250)
-    quantity = serializers.IntegerField()
-    price = serializers.FloatField()
-    total = serializers.FloatField()
-    iva = serializers.FloatField()
-    ieps = serializers.FloatField()
-    offerprice = serializers.FloatField()
-    offersTotal = serializers.FloatField()
-    offers = serializers.DictField()
-    getQuantity = serializers.SerializerMethodField()
-    getPrice = serializers.SerializerMethodField()
-    getTotalMoney = serializers.SerializerMethodField()
-    getIvaMoney = serializers.SerializerMethodField()
-    getIepsMoney = serializers.SerializerMethodField()
-    def get_getQuantity(self, obj):
-        return obj.getQuantity()
-    def get_getPrice(self, obj):
-        return obj.getPrice()
-    def get_getTotalMoney(self, obj):
-        return obj.getTotalMoney()
-    def get_getIvaMoney(self, obj):
-        return obj.getIvaMoney()
-    def get_getIepsMoney(self, obj):
-        return obj.getIepsMoney()
-class CutOffer():
-    quantity = 0
-    offerName = ''
+VARS = {
+    'NAME':'Corte',
+    'PLURAL':'Cortes',
+    'MODEL':'Cut',
+    'NEW':'NUEVO',
+    'NEW_GENDER': 'un nuevo',
+    'THIS':'este',
+    'APP':APP,
+    'EXCLUDE_PERMISSIONS': ['create','update','delete'],
+    'EXTEND_PERMISSIONS': [('Can_Change__Cuts', 'Modifica cortes'),],
+    'PAGEList': 'Cut__ListView.pug',
+    'PAGEDetail': 'Cut__DetailView.pug',
+    'LIST': [
+        {
+            'field':"url_delete", 
+            'title':"#", 
+            'width':40, 
+            'select':'true', 
+            'permission': ('Can_Change__Cuts',),
+        },
+        {
+            'field': 'serial',
+            'title': 'Folio',
+            'width': 100,
+            'template': 
+            """
+                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
+                    {{serial}}
+                </a>
+            """,
+        },
+        {
+            'field': 'getFinal_time',
+            'title': 'Fecha/Hora',
+            'template': 
+            """
+                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
+                    <strong>{{getFinal_time}}</strong>
+                    <br />
+                    <small>{{getSellpoint}}</small>
+                </a>
+            """,
+        },
+        {
+            'field': 'id',
+            'title': 'IMPUESTOS',
+            'template': 
+            """
+                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
+                    IVA: {{getIvaDetail.__ALL.COBRADO.MXN}} <br />
+                    IEPS: {{getIepsDetail.__ALL.COBRADO.MXN}} <br />
+                    Subtotal: {{getSubTotalDetail.__ALL.COBRADO.MXN}} <br />
+                </a>
+            """,
+        },
+        {
+            'field': 'getLens',
+            'title': 'Faltates',
+            'template': 
+            """
+                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
+                    <strong>{{getTotalDetail.__ALL.PENDIENTE.MXN}}</strong> <br /> 
+                    #{{getLens.__ALL.PENDIENTE}} tickets
+                </a>
+            """,
+        },
+        {
+            'field': 'id',
+            'title': 'Totales',
+            'template': 
+            """
+                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
+                    <strong>{{getTotalDetail.__ALL.COBRADO.MXN}}</strong> <br />
+                    #{{getLens.__ALL.TOTAL}} clientes <br />
+                    <small>+Faltante:</small> {{getTotalDetail.__ALL.TOTAL.MXN}}<br />
+                </a>
+            """,
+        },
+        {
+            'field': 'rasurado',
+            'title': 'Rasurado',
+            'permission': ('Can_Change__Cuts',),
+        },
+    ],
+    'SERIALIZER': ('getColor','getSellpoint','getIvaDetail','getIepsDetail','getSubTotalDetail','getTotalDetail'),
+    'FILTERS': {
+            'sellpoint': {
+            'size':'4',
+            'label':'Punto de venta',
+            'model':['SV','Sellpoint'],
+            'query':[
+                (
+                    ('organization','Organization.objects.get(pk=self.request.session.get("organization"))'),
+                    ('is_active','True'),
+                    ('active','True'),
+                    ('supervisors','self.request.user'),
+                )
+            ],
+        }
+    },
+}
+negativeTicketTypes = ('DEVOLUCION','GASTO')
+class Cut(Model_base):
+    sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
+    initial_time = models.DateTimeField(auto_now_add=True)
+    final_time = models.DateTimeField(null=True, blank=True,)
+    rasurado = models.PositiveIntegerField(default=100)
+    serial = models.IntegerField(default=1)
+    show = models.BooleanField(default=True)
+    ticketTypes = TaggableManager()
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return '{0}'.format(self.id)
+    def QUERY(self, view):
+        cuts = Cut.objects.filter(sellpoint__organization__pk=view.request.session.get('organization'), active=True)
+        if not view.request.user.is_superuser:
+            cuts = cuts.filter(sellpoint__supervisors = view.request.user)
+        return cuts.order_by('-final_time')
+    def my_organization(self):
+        return self.sellpoint.my_organization()
+    ########
+    def new(self, sellpoint):
+        self.sellpoint = sellpoint
+        cut = Cut.objects.filter(sellpoint = self.sellpoint).first()
+        if cut:
+            self.serial = cut.serial + 1
+        self.save()
+        return self
+    def makeCut(self):
+        if self.getLens()['__ALL']['TOTAL']:
+            self.final_time = datetime.datetime.now()
+            self.save()
+        else:
+            return False
+        return self
+    def makeRasurado(self, value):
+        total = 0
+        value = int(value)
+        tickets = self.getTickets(hideRasurado=False)
+        tickets.update(rasurado=False)
+        for ticket in tickets:
+            total += ticket.total
+        finaltotal = total * value / 100
+        for ticket in tickets.exclude(invoiced=True).order_by('-total'):
+            if total <= finaltotal:
+                break
+            else:
+                ticket.rasurado = True
+                ticket.save()
+                total -= ticket.total
+        self.rasurado = value
+        self.save()
+        return True
+    def getTickets(self, status='', ticketType='', hideRasurado=True):
+        tickets = Ticket.objects.filter(cut=self)
+        if status:
+            tickets = tickets.filter(status=status)
+        if ticketType:
+            tickets = tickets.filter(ticketType=ticketType)
+        if hideRasurado:
+            tickets = tickets.exclude(rasurado=True)
+        return tickets
+    def getIva(self, status='', ticketType=''):
+        iva = 0
+        for ticket in self.getTickets(status=status, ticketType=ticketType):
+            iva += ticket.iva
+        return "{0:.2f}".format(iva)
+    def getIeps(self, status='', ticketType=''):
+        ieps = 0
+        for ticket in self.getTickets(status=status, ticketType=ticketType):
+            ieps += ticket.ieps
+        return "{0:.2f}".format(ieps)
+    def getSubtotal(self, status='', ticketType=''):
+        total = 0
+        for ticket in self.getTickets(status=status, ticketType=ticketType):
+            total += ticket.total - ticket.ieps - ticket.iva
+        return "{0:.2f}".format(total)
+    def getTotal(self, status='', ticketType=''):
+        total = 0
+        for ticket in self.getTickets(status=status, ticketType=ticketType):
+            ticketTotal = ticket.total
+            if ticket.onAccount > 0:
+                ticketTotal = ticket.onAccount
+            if ticket.ticketType in negativeTicketTypes:
+                ticketTotal = ticketTotal * -1
+            total += ticketTotal
+        return "{0:.2f}".format(total)
+    def getCutProducts(self, status='', ticketType=''):
+        products = []
+        for ticket in self.getTickets(status=status, ticketType=ticketType):
+            for product in ticket.getProducts():
+                cutProduct = CutProduct(product)
+                exist = False    
+                for cutproduct in products:
+                    if cutproduct.productName == product.productName and cutproduct.price == product.price:
+                        cutProduct = cutproduct.update(product)
+                        exist = True
+                        break
+                cutProduct.addOffers(product)
+                if not exist:
+                    products.append(cutProduct)
+        return sorted(products, key=lambda x: x.quantity, reverse=True)
+    ########
+    def getIvaDetail(self):
+        cobrado = float(self.getIva(status='COBRADO'))
+        pendiente = float(self.getIva(status='PENDIENTE'))
+        cancelado = float(self.getIva(status='CANCELADO'))
+        total = cobrado + pendiente
+        result = {'__ALL':{
+            'COBRADO': {
+                'NUMBER': cobrado,
+                'MXN': Money(str(cobrado), Currency.MXN).format('es_MX'),
+            },
+            'PENDIENTE': {
+                'NUMBER': pendiente,
+                'MXN': Money(str(pendiente), Currency.MXN).format('es_MX'),
+            },
+            'CANCELADO': {
+                'NUMBER': cancelado,
+                'MXN': Money(str(cancelado), Currency.MXN).format('es_MX'),
+            },
+            'TOTAL': {
+                'NUMBER': total,
+                'MXN': Money(str(total), Currency.MXN).format('es_MX'),
+            },
+        }}
+        if len(self.ticketTypes.all()) > 1:
+            for ttype in self.ticketTypes.all():
+                cobrado = float(self.getIva(status='COBRADO', ticketType=ttype))
+                pendiente = float(self.getIva(status='PENDIENTE', ticketType=ttype))
+                cancelado = float(self.getIva(status='CANCELADO', ticketType=ttype))
+                total = cobrado + pendiente
+                result[str(ttype)]={
+                    'COBRADO': {
+                        'NUMBER': cobrado,
+                        'MXN': Money(str(cobrado), Currency.MXN).format('es_MX'),
+                    },
+                    'PENDIENTE': {
+                        'NUMBER': pendiente,
+                        'MXN': Money(str(pendiente), Currency.MXN).format('es_MX'),
+                    },
+                    'CANCELADO': {
+                        'NUMBER': cancelado,
+                        'MXN': Money(str(cancelado), Currency.MXN).format('es_MX'),
+                    },
+                    'TOTAL': {
+                        'NUMBER': total,
+                        'MXN': Money(str(total), Currency.MXN).format('es_MX'),
+                    },
+                }
+        return result
+    def getIepsDetail(self):
+        cobrado = float(self.getIeps(status='COBRADO'))
+        pendiente = float(self.getIeps(status='PENDIENTE'))
+        cancelado = float(self.getIeps(status='CANCELADO'))
+        total = cobrado + pendiente
+        result = {'__ALL':{
+            'COBRADO': {
+                'NUMBER': cobrado,
+                'MXN': Money(str(cobrado), Currency.MXN).format('es_MX'),
+            },
+            'PENDIENTE': {
+                'NUMBER': pendiente,
+                'MXN': Money(str(pendiente), Currency.MXN).format('es_MX'),
+            },
+            'CANCELADO': {
+                'NUMBER': cancelado,
+                'MXN': Money(str(cancelado), Currency.MXN).format('es_MX'),
+            },
+            'TOTAL': {
+                'NUMBER': total,
+                'MXN': Money(str(total), Currency.MXN).format('es_MX'),
+            },
+        }}
+        if len(self.ticketTypes.all()) > 1:
+            for ttype in self.ticketTypes.all():
+                cobrado = float(self.getIeps(status='COBRADO', ticketType=ttype))
+                pendiente = float(self.getIeps(status='PENDIENTE', ticketType=ttype))
+                cancelado = float(self.getIeps(status='CANCELADO', ticketType=ttype))
+                total = cobrado + pendiente
+                result[str(ttype)]={
+                    'COBRADO': {
+                        'NUMBER': cobrado,
+                        'MXN': Money(str(cobrado), Currency.MXN).format('es_MX'),
+                    },
+                    'PENDIENTE': {
+                        'NUMBER': pendiente,
+                        'MXN': Money(str(pendiente), Currency.MXN).format('es_MX'),
+                    },
+                    'CANCELADO': {
+                        'NUMBER': cancelado,
+                        'MXN': Money(str(cancelado), Currency.MXN).format('es_MX'),
+                    },
+                    'TOTAL': {
+                        'NUMBER': total,
+                        'MXN': Money(str(total), Currency.MXN).format('es_MX'),
+                    },
+                }
+        return result
+    def getSubTotalDetail(self):
+        cobrado = float(self.getSubtotal(status='COBRADO'))
+        pendiente = float(self.getSubtotal(status='PENDIENTE'))
+        cancelado = float(self.getSubtotal(status='CANCELADO'))
+        total = cobrado + pendiente
+        result = {'__ALL':{
+            'COBRADO': {
+                'NUMBER': cobrado,
+                'MXN': Money(str(cobrado), Currency.MXN).format('es_MX'),
+            },
+            'PENDIENTE': {
+                'NUMBER': pendiente,
+                'MXN': Money(str(pendiente), Currency.MXN).format('es_MX'),
+            },
+            'CANCELADO': {
+                'NUMBER': cancelado,
+                'MXN': Money(str(cancelado), Currency.MXN).format('es_MX'),
+            },
+            'TOTAL': {
+                'NUMBER': total,
+                'MXN': Money(str(total), Currency.MXN).format('es_MX'),
+            },
+        }}
+        if len(self.ticketTypes.all()) > 1:
+            for ttype in self.ticketTypes.all():
+                cobrado = float(self.getSubtotal(status='COBRADO', ticketType=ttype))
+                pendiente = float(self.getSubtotal(status='PENDIENTE', ticketType=ttype))
+                cancelado = float(self.getSubtotal(status='CANCELADO', ticketType=ttype))
+                total = cobrado + pendiente
+                result[str(ttype)]={
+                    'COBRADO': {
+                        'NUMBER': cobrado,
+                        'MXN': Money(str(cobrado), Currency.MXN).format('es_MX'),
+                    },
+                    'PENDIENTE': {
+                        'NUMBER': pendiente,
+                        'MXN': Money(str(pendiente), Currency.MXN).format('es_MX'),
+                    },
+                    'CANCELADO': {
+                        'NUMBER': cancelado,
+                        'MXN': Money(str(cancelado), Currency.MXN).format('es_MX'),
+                    },
+                    'TOTAL': {
+                        'NUMBER': total,
+                        'MXN': Money(str(total), Currency.MXN).format('es_MX'),
+                    },
+                }
+        return result
+    def getTotalDetail(self):
+        cobrado = float(self.getTotal(status='COBRADO'))
+        pendiente = float(self.getTotal(status='PENDIENTE'))
+        cancelado = float(self.getTotal(status='CANCELADO'))
+        total = cobrado + pendiente
+        result = {'__ALL':{
+            'COBRADO': {
+                'NUMBER': cobrado,
+                'MXN': Money(str(cobrado), Currency.MXN).format('es_MX'),
+            },
+            'PENDIENTE': {
+                'NUMBER': pendiente,
+                'MXN': Money(str(pendiente), Currency.MXN).format('es_MX'),
+            },
+            'CANCELADO': {
+                'NUMBER': cancelado,
+                'MXN': Money(str(cancelado), Currency.MXN).format('es_MX'),
+            },
+            'TOTAL': {
+                'NUMBER': total,
+                'MXN': Money(str(total), Currency.MXN).format('es_MX'),
+            },
+        }}
+        if len(self.ticketTypes.all()) > 1:
+            for ttype in self.ticketTypes.all():
+                cobrado = float(self.getTotal(status='COBRADO', ticketType=ttype))
+                pendiente = float(self.getTotal(status='PENDIENTE', ticketType=ttype))
+                cancelado = float(self.getTotal(status='CANCELADO', ticketType=ttype))
+                total = cobrado + pendiente
+                result[str(ttype)]={
+                    'COBRADO': {
+                        'NUMBER': cobrado,
+                        'MXN': Money(str(cobrado), Currency.MXN).format('es_MX'),
+                    },
+                    'PENDIENTE': {
+                        'NUMBER': pendiente,
+                        'MXN': Money(str(pendiente), Currency.MXN).format('es_MX'),
+                    },
+                    'CANCELADO': {
+                        'NUMBER': cancelado,
+                        'MXN': Money(str(cancelado), Currency.MXN).format('es_MX'),
+                    },
+                    'TOTAL': {
+                        'NUMBER': total,
+                        'MXN': Money(str(total), Currency.MXN).format('es_MX'),
+                    },
+                }
+        return result
+    def getLens(self):
+        cobrado = len(self.getTickets(status='COBRADO'))
+        pendiente = len(self.getTickets(status='PENDIENTE'))
+        cancelado = len(self.getTickets(status='CANCELADO'))
+        total = cobrado + pendiente
+        result = {'__ALL':{
+            'COBRADO': cobrado,
+            'PENDIENTE': pendiente,
+            'CANCELADO': cancelado,
+            'TOTAL': total,
+        }}
+        if len(self.ticketTypes.all()) > 1:
+            for ttype in self.ticketTypes.all():
+                cobrado = len(self.getTickets(status='COBRADO', ticketType=ttype))
+                pendiente = len(self.getTickets(status='PENDIENTE', ticketType=ttype))
+                cancelado = len(self.getTickets(status='CANCELADO', ticketType=ttype))
+                total = cobrado + pendiente
+                result[str(ttype)]={
+                    'COBRADO': cobrado,
+                    'PENDIENTE': pendiente,
+                    'CANCELADO': cancelado,
+                    'TOTAL': total,
+                }
+        return result
+    def getTicketTypes(self):
+        ticketType = ['__ALL']
+        for ttype in self.ticketTypes.all():
+            ticketType.append(str(ttype))
+        return ticketType
+    def getProductsDetail(self):
+        result = {'__ALL':{
+            'COBRADO': CutProductSerializer(self.getCutProducts(status='COBRADO'), many=True).data,
+            'PENDIENTE': CutProductSerializer(self.getCutProducts(status='PENDIENTE'), many=True).data,
+            'CANCELADO': CutProductSerializer(self.getCutProducts(status='CANCELADO'), many=True).data,
+        }}
+        if len(self.ticketTypes.all()) > 1:
+            for ttype in self.ticketTypes.all():
+                result[str(ttype)]={
+                    'COBRADO': CutProductSerializer(self.getCutProducts(status='COBRADO', ticketType=ttype), many=True).data,
+                    'PENDIENTE': CutProductSerializer(self.getCutProducts(status='PENDIENTE', ticketType=ttype), many=True).data,
+                    'CANCELADO': CutProductSerializer(self.getCutProducts(status='CANCELADO', ticketType=ttype), many=True).data,
+                }
+        return result
+    ########
+    def getSellpoint(self):
+        return self.sellpoint.name
+    def getFinal_time(self):
+        if self.final_time:
+            return self.render_datetime(self.final_time)
+        return '-'
+    def getColor(self):
+        return self.sellpoint.color
+class CutSerializer(Basic_Serializer):
+    getIvaDetail = serializers.ReadOnlyField()
+    getIepsDetail = serializers.ReadOnlyField()
+    getSubTotalDetail = serializers.ReadOnlyField()
+    getTotalDetail = serializers.ReadOnlyField()
+    getLens = serializers.ReadOnlyField()
+    getTicketTypes = serializers.ReadOnlyField()
+    SellpointDetail = serializers.SerializerMethodField()
+    getProductsDetail = serializers.ReadOnlyField()
+    class Meta(Basic_Serializer.Meta):
+        model = Cut
+    def get_SellpointDetail(self, obj):
+        return SellpointSerializer(obj.sellpoint, read_only=True).data
 class CutProduct():
     product = ''
     productName = ''
@@ -855,321 +1334,41 @@ class CutProduct():
             else:
                 self.offers[offer.id]['quantity'] += 1
         return self
-    def getQuantity(self):
-        return str(int(self.quantity))
     def getPrice(self):
-        return Money("{0:.2f}".format(self.price), Currency.MXN).format('es_MX')
-    def getTotalMoney(self):
-        return Money("{0:.2f}".format(self.total), Currency.MXN).format('es_MX')
-    def getIvaMoney(self):
-        return Money("{0:.2f}".format(self.iva), Currency.MXN).format('es_MX')
-    def getIepsMoney(self):
-        return Money("{0:.2f}".format(self.ieps), Currency.MXN).format('es_MX')
-VARS = {
-    'NAME':'Corte',
-    'PLURAL':'Cortes',
-    'MODEL':'Cut',
-    'NEW':'NUEVO',
-    'NEW_GENDER': 'un nuevo',
-    'THIS':'este',
-    'APP':APP,
-    'EXCLUDE_PERMISSIONS': ['create','update','delete'],
-    'LIST': [
-        {
-            'field': 'serial',
-            'title': 'Folio',
-            'width': 100,
-            'template': 
-            """
-                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
-                    {{serial}}
-                </a>
-            """,
-        },
-        {
-            'field': 'getFinal_time',
-            'title': 'Fecha/Hora',
-            'template': 
-            """
-                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
-                    <strong>{{getFinal_time}}</strong>
-                    <br />
-                    <small>{{getSellpoint}}</small>
-                </a>
-            """,
-        },
-        {
-            'field': 'getIvaMoney',
-            'title': 'IMPUESTOS',
-            'template': 
-            """
-                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
-                    IVA: {{getIvaMoney}} <br />
-                    IEPS: {{getIepsMoney}} <br />
-                    Subtotal: {{getSubtotalMoney}} <br />
-                </a>
-            """,
-        },
-        {
-            'field': 'getFaltanteMoney',
-            'title': 'Faltates',
-            'template': 
-            """
-                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
-                    <strong>{{getFaltanteMoney}}</strong> <br /> 
-                    #{{getLenFaltante}} tickets
-                </a>
-            """,
-        },
-        {
-            'field': 'getTotalMoney',
-            'title': 'Totales',
-            'template': 
-            """
-                <a href="{{url_detail}}" style="text-decoration:none;color:{{getColor}}!important;">
-                    <strong>{{getTotalMoney}}</strong> <br />
-                    #{{getLenTickets}} clientes <br />
-                    <small>+Faltante:</small> {{getTotalFaltanteMoney}}<br />
-                </a>
-            """,
-        },
-    ],
-    'SERIALIZER': ('getColor','getSellpoint','getSubtotalMoney','getIepsMoney','getLenFaltante','getLenTickets','getTotalFaltanteMoney'),
-    'FILTERS': {
-            'sellpoint': {
-            'size':'4',
-            'label':'Punto de venta',
-            'model':['SV','Sellpoint'],
-            'query':[
-                (
-                    ('organization','Organization.objects.get(pk=self.request.session.get("organization"))'),
-                    ('is_active','True'),
-                    ('active','True'),
-                    ('supervisors','self.request.user'),
-                )
-            ],
+        return {
+            'NUMBER': self.price,
+            'MXN': Money("{0:.2f}".format(self.price), Currency.MXN).format('es_MX'),
         }
-    },
-}
-class Cut(Model_base):
-    sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
-    initial_time = models.DateTimeField(auto_now_add=True)
-    final_time = models.DateTimeField(null=True, blank=True,)
-    rasurado = models.PositiveIntegerField(default=100)
-    serial = models.IntegerField(default=1)
-    show = models.BooleanField(default=True)
-    ticketTypes = TaggableManager()
-    VARS = VARS
-    class Meta(Model_base.Meta):
-        verbose_name = VARS['NAME']
-        verbose_name_plural = VARS['PLURAL']
-        permissions = permissions(VARS)
-    def __str__(self):
-        return '{0}'.format(self.id)
-    def QUERY(self, view):
-        cuts = Cut.objects.filter(sellpoint__organization__pk=view.request.session.get('organization'), active=True)
-        if not view.request.user.is_superuser:
-            cuts = cuts.filter(sellpoint__supervisors = view.request.user)
-        return cuts.order_by('-final_time')
-    def my_organization(self):
-        return self.sellpoint.my_organization()
-    def url_detail(self):
-        return reverse('SV:Cut__DetailView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
-    def new(self, sellpoint):
-        self.sellpoint = sellpoint
-        cut = Cut.objects.filter(sellpoint = self.sellpoint).first()
-        if cut:
-            self.serial = cut.serial + 1
-        self.save()
-        return self
-    def makeCut(self):
-        if self.getLenTickets():
-            self.final_time = datetime.datetime.now()
-        self.save()
-        return self
-    def cutTypes(self):
-        ticketType = ['all']
-        for ticket in self.getTickets(status='all', ticketType='all'):
-            if not ticket.ticketType in ticketType:
-                ticketType.append(ticket.ticketType)
-                self.ticketTypes.add(ticket.ticketType)
-        return self.ticketTypes
-    def getTickets(self, status='all', ticketType='all', rasurado=False):
-        if status=='all':
-            tickets = Ticket.objects.filter(cut=self)
-        else:
-            tickets = Ticket.objects.filter(cut=self, status=status)
-        if not ticketType == 'all':
-            tickets = tickets.filter(ticketType = ticketType)
-        if rasurado:
-            tickets = tickets.exclude(rasurado = True)
-        return tickets.exclude(rasurado = True)
-    def getLenTickets(self, status='all', ticketType='all'):
-        return len(self.getTickets(status=status, ticketType=ticketType))
-    def getLenFaltante(self, status='PENDIENTE', ticketType='all'):
-        return len(self.getTickets(status=status, ticketType=ticketType))
-    def getCutProducts(self, status='all', ticketType='all'):
-        products = []
-        expenses = ['GASTO',0,0]
-        for ticket in self.getTickets(status=status, ticketType=ticketType):
-            if ticket.ticketType == 'GASTO':
-                expenses[1] += 1
-                expenses[2] += ticket.onAccount
-            for product in ticket.getProducts():
-                cutProduct = CutProduct(product)
-                exist = False    
-                for arrayCutProduct in products:
-                    if arrayCutProduct.productName == product.productName and arrayCutProduct.price == product.price:
-                        cutProduct = arrayCutProduct.update(product)
-                        exist = True
-                        break
-                cutProduct.addOffers(product)
-                if not exist:
-                    products.append(cutProduct)
-        if expenses[1]:
-            product = TicketProducts()
-            product.productName = expenses[0]
-            product.quantity = expenses[1]
-            product.total = expenses[2]
-            cutProduct = CutProduct(product)
-            products.append(cutProduct)
-        return  sorted(products, key=lambda x: x.quantity, reverse=True)
-    def getTotal(self, status='COBRADO', ticketType='all'):
-        total = 0
-        for ticket in self.getTickets(status=status, ticketType=ticketType):
-            ticketTotal = ticket.total
-            if ticket.onAccount > 0:
-                ticketTotal = ticket.onAccount
-            if ticket.ticketType == 'DEVOLUCION' or ticket.ticketType == 'GASTO':
-                ticketTotal = ticketTotal * -1
-            total += ticketTotal
-        return "{0:.2f}".format(total)
-    def getTotalMoney(self, status='COBRADO', ticketType='all'):
-        return Money(self.getTotal(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
-    def getIeps(self, status='COBRADO', ticketType='all'):
-        total = 0
-        for ticket in self.getTickets(status=status, ticketType=ticketType):
-            total += ticket.ieps
-        return "{0:.2f}".format(total)
-    def getIva(self, status='COBRADO', ticketType='all'):
-        total = 0
-        for ticket in self.getTickets(status=status, ticketType=ticketType):
-            total += ticket.iva
-        return "{0:.2f}".format(total)
-    def getSubtotal(self, status='COBRADO', ticketType='all'):
-        total = 0
-        for ticket in self.getTickets(status=status, ticketType=ticketType):
-            total += ticket.total - ticket.ieps - ticket.iva
-        return "{0:.2f}".format(total)
-    def getFaltante(self, status='PENDIENTE', ticketType='all'):
-        total = 0
-        for ticket in self.getTickets(status=status, ticketType=ticketType):
-            total += ticket.total
-        return "{0:.2f}".format(total)
-    def getIepsMoney(self, status='COBRADO', ticketType='all'):
-        return Money(self.getIeps(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
-    def getIvaMoney(self, status='COBRADO', ticketType='all'):
-        return Money(self.getIva(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
-    def getSubtotalMoney(self, status='COBRADO', ticketType='all'):
-        return Money(self.getSubtotal(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
-    def getFaltanteMoney(self, status='PENDIENTE', ticketType='all'):
-        return Money(self.getFaltante(status=status, ticketType=ticketType), Currency.MXN).format('es_MX')
-    def getTotalFaltanteMoney(self):
-        return Money("{0:.2f}".format( float(self.getTotal()) + float(self.getFaltante())), Currency.MXN).format('es_MX')
-    def getOffersLen(self, status='COBRADO', ticketType='all'):
-        total = 0
-        for ticket in self.getTickets(status=status, ticketType=ticketType):
-            total += ticket.getLenOffers()
-        return total
-    #def makeRasurado(self, value):
-        #total = 0
-        #self.getTickets(status='100').update(rasurado=False)
-        #for ticket in self.getTickets(status='100'):
-            #total += ticket.total
-        #finaltotal = total * value / 100
-        #for ticket in self.getTickets(status='100').exclude(invoiced=True).order_by('-total'):
-            #if total <= finaltotal:
-                #break
-            #else:
-                #ticket.rasurado = True
-                #ticket.save()
-                #total -= ticket.total
-        #self.rasurado = value
-        #self.save()
-        #return True
-    def getSellpoint(self):
-        return self.sellpoint.name
-    def getFinal_time(self):
-        if self.final_time:
-            return self.render_datetime(self.final_time)
-        return '-'
-    def getColor(self):
-        return self.sellpoint.color
-    def TotalDetail(self):
-        result = {'all':(
-            self.getTotal(),
-            self.getTotalMoney(),
-            self.getTotal(status='PENDIENTE'),
-            self.getTotalMoney(status='PENDIENTE'),
-        )}
-        for ttype in self.ticketTypes.all():
-            result[str(ttype)]=(
-                self.getTotal(ticketType=ttype), 
-                self.getTotalMoney(ticketType=ttype),
-                self.getTotal(status='PENDIENTE',ticketType=ttype),
-                self.getTotalMoney(status='PENDIENTE',ticketType=ttype),
-            )
-        return result
-    def IvaDetail(self):
-        result = {'all':(
-            self.getIva(),
-            self.getIvaMoney(),
-            self.getIva(status='PENDIENTE'),
-            self.getIvaMoney(status='PENDIENTE'),
-        )}
-        for ttype in self.ticketTypes.all():
-            result[str(ttype)]=(
-                self.getIva(ticketType=ttype), 
-                self.getIvaMoney(ticketType=ttype),
-                self.getIva(status='PENDIENTE',ticketType=ttype),
-                self.getIvaMoney(status='PENDIENTE',ticketType=ttype),
-            )
-        return result
-    def IepsDetail(self):
-        result = {'all':(
-            self.getIeps(),
-            self.getIepsMoney(),
-            self.getIeps(status='PENDIENTE'),
-            self.getIepsMoney(status='PENDIENTE'),
-        )}
-        for ttype in self.ticketTypes.all():
-            result[str(ttype)]=(
-                self.getIeps(ticketType=ttype), 
-                self.getIepsMoney(ticketType=ttype),
-                self.getIeps(status='PENDIENTE',ticketType=ttype),
-                self.getIepsMoney(status='PENDIENTE',ticketType=ttype),
-            )
-        return result
-    def SubTotalDetail(self):
-        result = {'all':(
-            self.getSubtotal(),
-            self.getSubtotalMoney(),
-            self.getSubtotal(status='PENDIENTE'),
-            self.getSubtotalMoney(status='PENDIENTE'),
-        )}
-        for ttype in self.ticketTypes.all():
-            result[str(ttype)]=(
-                self.getSubtotal(ticketType=ttype), 
-                self.getSubtotalMoney(ticketType=ttype),
-                self.getSubtotal(status='PENDIENTE',ticketType=ttype),
-                self.getSubtotalMoney(status='PENDIENTE',ticketType=ttype),
-            )
-        return result
-    def ProductsDetail(self):
-        result = {'all':CutProductSerializer(self.getCutProducts(), many=True, read_only=True).data}
-        for ttype in self.ticketTypes.all():
-            result[str(ttype)] = CutProductSerializer(self.getCutProducts(ticketType=ttype), many=True, read_only=True).data
-        return result
+    def getTotal(self):
+        return {
+            'NUMBER': self.total,
+            'MXN': Money("{0:.2f}".format(self.total), Currency.MXN).format('es_MX'),
+        }
+    def getIva(self):
+        return {
+            'NUMBER': self.iva,
+            'MXN': Money("{0:.2f}".format(self.iva), Currency.MXN).format('es_MX'),
+        }
+    def getIeps(self):
+        return {
+            'NUMBER': self.ieps,
+            'MXN': Money("{0:.2f}".format(self.ieps), Currency.MXN).format('es_MX'),
+        }
+    def getOffersTotal(self):
+        return {
+            'NUMBER': self.offersTotal,
+            'MXN': Money("{0:.2f}".format(self.offersTotal), Currency.MXN).format('es_MX'),
+        }
+class CutProductSerializer(serializers.Serializer):
+    product = serializers.IntegerField()
+    productName = serializers.CharField(max_length=250)
+    quantity = serializers.FloatField()
+    getPrice = serializers.ReadOnlyField()
+    getTotal = serializers.ReadOnlyField()
+    getIva = serializers.ReadOnlyField()
+    getIeps = serializers.ReadOnlyField()
+    getOffersTotal = serializers.ReadOnlyField()
+    offers = serializers.DictField()
 
 #########################################################################################
 VARS = {
@@ -1186,7 +1385,7 @@ VARS = {
             'title': 'Nombre',
         },
         {
-            'field': 'property_getDiscountValueName',
+            'field': 'getDiscountValueName',
             'title': 'Tipo de condición',
         },
         {
@@ -1194,7 +1393,7 @@ VARS = {
             'title': 'Valor',
         },
         {
-            'field': 'property_getDiscountTypeName',
+            'field': 'getDiscountTypeName',
             'title': 'Tipo de descuento',
         },
         {
@@ -1202,7 +1401,7 @@ VARS = {
             'title': 'Valor',
         },
         {
-            'field': 'property_getIs_active',
+            'field': 'getIs_active',
             'title': 'Activo?',
         },
     ],
@@ -1212,9 +1411,7 @@ VARS = {
             Div(
                 Div('name'),
                 Div('is_active'),
-                #Div('initialDate'),
-                #Div('finalDate'),
-                #Div('sellpoints'),
+                Div('sellpoints'),
                 Div('clients'),
                 css_class="col-md-3"
             ),
@@ -1228,14 +1425,12 @@ VARS = {
             Div(
                 Div('conditionType'),
                 Div('conditionValue'),
-                #Div('conditionMenus'),
-                #Div('conditionProducts'),
                 css_class="col-md-4"
             ),
             css_class="form-group m-form__group row"
         ),
     ],
-    'FORM_SIZE': ('col-xl-12','col-xl-12'),
+    'FORM_SIZE': 'col-md-12',
     'FORM_CLASS': 'm-form small_form',
     'SELECTQ': {
         'discountProducts': {
@@ -1256,33 +1451,17 @@ VARS = {
                 ),
             ],
         },
-        #'conditionProducts': {
-            #'model': ['SV', 'Product'],
-            #'plugin': 'selectmultiple',
-            #'query': [
-                #(
-                    #('organization__pk', 'self.request.session.get("organization")'),
-                #),
-            #],
-        #},
-        #'conditionMenus': {
-            #'model': ['SV', 'Menu'],
-            #'plugin': 'selectmultiple',
-            #'query': [
-                #(
-                    #('organization__pk', 'self.request.session.get("organization")'),
-                #),
-            #],
-        #},
-        #'sellpoints': {
-            #'model': ['SV', 'Sellpoint'],
-            #'plugin': 'select2',
-            #'query': [
-                #(
-                    #('organization__pk', 'self.request.session.get("organization")'),
-                #),
-            #],
-        #},
+        'sellpoints': {
+            'model': ['SV', 'Sellpoint'],
+            'plugin': 'select2',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                    ('active', 'True'),
+                    ('is_active', 'True'),
+                ),
+            ],
+        },
         'clients': {
             'model': ['SV', 'Client'],
             'plugin': 'select2',
@@ -1385,11 +1564,18 @@ class Offer(Model_base):
             ids.append(product.id)
         return ids
     def getDiscountTypeName(self):
-        return self.discountType
+        return self.get_discountType_display()
     def getDiscountValueName(self):
-        return self.conditionType
+        return self.get_conditionType_display()
     def getIs_active(self):
         return self.render_boolean(self.is_active)
+class OfferSerializer(Basic_Serializer):
+    mySellpoints = serializers.ReadOnlyField(source='get_sellpointsId')
+    myDiscountProducts = serializers.ReadOnlyField(source='get_discountProductsId')
+    myConditionProducts = serializers.ReadOnlyField(source='get_conditionProductsId')
+    class Meta(Basic_Serializer.Meta):
+        model = Offer
+        fields = ('name','mySellpoints','myDiscountProducts','myConditionProducts','initialDate','id','finalDate','clients','discountType','conditionType','discountValue','conditionValue')
 
 ########################################################################################
 VARS = {
@@ -1526,4 +1712,21 @@ class Client(Model_base):
         self.clientProfile = ClientProfile.objects.filter(code='PUBLICO GENERAL', organization=sellpoint.organization).first()
         self.save()
         return self
-
+class ClientSerializer(Basic_Serializer):
+    clientProfile = serializers.SerializerMethodField()
+    class Meta(Basic_Serializer.Meta):
+        model = Client
+    def get_clientProfile(self, obj):
+        return ClientProfileSerializer(obj.clientProfile, read_only=True).data
+class ClientProfileSerializer(Basic_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = ClientProfile
+class ClientDetailsSerializer(Basic_Serializer):
+    clientProfile = serializers.SerializerMethodField()
+    tickets = serializers.SerializerMethodField()
+    class Meta(Basic_Serializer.Meta):
+        model = Client
+    def get_clientProfile(self, obj):
+        return ClientProfileSerializer(obj.clientProfile, read_only=True).data
+    def get_tickets(self, obj):
+        return TicketsSerializer(obj.getTickets(), many=True).data

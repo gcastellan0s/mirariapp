@@ -1,0 +1,5 @@
+{
+    "AudioToolbox.framework": 1,
+    "CoreBluetooth.framework": 1,
+    "ExternalAccessory.framework": 1
+}
