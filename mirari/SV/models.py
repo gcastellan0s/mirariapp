@@ -1138,7 +1138,7 @@ class Cut(Model_base):
         cobrado = float(self.getSubtotal(status='COBRADO'))
         pendiente = float(self.getSubtotal(status='PENDIENTE'))
         cancelado = float(self.getSubtotal(status='CANCELADO'))
-        total = cobrado + pendiente
+        total = float(cobrado + pendiente)
         result = {'__ALL':{
             'COBRADO': {
                 'NUMBER': cobrado,
