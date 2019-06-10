@@ -1042,7 +1042,7 @@ class Cut(Model_base):
         cobrado = float(self.getIva(status='COBRADO'))
         pendiente = float(self.getIva(status='PENDIENTE'))
         cancelado = float(self.getIva(status='CANCELADO'))
-        total = cobrado + pendiente
+        total = float("{0:.2f}".format(cobrado + pendiente))
         result = {'__ALL':{
             'COBRADO': {
                 'NUMBER': cobrado,
@@ -1066,7 +1066,7 @@ class Cut(Model_base):
                 cobrado = float(self.getIva(status='COBRADO', ticketType=ttype))
                 pendiente = float(self.getIva(status='PENDIENTE', ticketType=ttype))
                 cancelado = float(self.getIva(status='CANCELADO', ticketType=ttype))
-                total = cobrado + pendiente
+                total = float("{0:.2f}".format(cobrado + pendiente))
                 result[str(ttype)]={
                     'COBRADO': {
                         'NUMBER': cobrado,
@@ -1090,7 +1090,7 @@ class Cut(Model_base):
         cobrado = float(self.getIeps(status='COBRADO'))
         pendiente = float(self.getIeps(status='PENDIENTE'))
         cancelado = float(self.getIeps(status='CANCELADO'))
-        total = cobrado + pendiente
+        total = float("{0:.2f}".format(cobrado + pendiente))
         result = {'__ALL':{
             'COBRADO': {
                 'NUMBER': cobrado,
@@ -1114,7 +1114,7 @@ class Cut(Model_base):
                 cobrado = float(self.getIeps(status='COBRADO', ticketType=ttype))
                 pendiente = float(self.getIeps(status='PENDIENTE', ticketType=ttype))
                 cancelado = float(self.getIeps(status='CANCELADO', ticketType=ttype))
-                total = cobrado + pendiente
+                total = float("{0:.2f}".format(cobrado + pendiente))
                 result[str(ttype)]={
                     'COBRADO': {
                         'NUMBER': cobrado,
@@ -1138,7 +1138,7 @@ class Cut(Model_base):
         cobrado = float(self.getSubtotal(status='COBRADO'))
         pendiente = float(self.getSubtotal(status='PENDIENTE'))
         cancelado = float(self.getSubtotal(status='CANCELADO'))
-        total = cobrado + pendiente
+        total = float("{0:.2f}".format(cobrado + pendiente))
         result = {'__ALL':{
             'COBRADO': {
                 'NUMBER': cobrado,
@@ -1154,7 +1154,7 @@ class Cut(Model_base):
             },
             'TOTAL': {
                 'NUMBER': total,
-                'MXN': '0',
+                'MXN': Money(str(total), Currency.MXN).format('es_MX'),
             },
         }}
         if len(self.ticketTypes.all()) > 1:
@@ -1162,7 +1162,7 @@ class Cut(Model_base):
                 cobrado = float(self.getSubtotal(status='COBRADO', ticketType=ttype))
                 pendiente = float(self.getSubtotal(status='PENDIENTE', ticketType=ttype))
                 cancelado = float(self.getSubtotal(status='CANCELADO', ticketType=ttype))
-                total = cobrado + pendiente
+                total = float("{0:.2f}".format(cobrado + pendiente))
                 result[str(ttype)]={
                     'COBRADO': {
                         'NUMBER': cobrado,
@@ -1186,7 +1186,7 @@ class Cut(Model_base):
         cobrado = float(self.getTotal(status='COBRADO'))
         pendiente = float(self.getTotal(status='PENDIENTE'))
         cancelado = float(self.getTotal(status='CANCELADO'))
-        total = cobrado + pendiente
+        total = float("{0:.2f}".format(cobrado + pendiente))
         result = {'__ALL':{
             'COBRADO': {
                 'NUMBER': cobrado,
@@ -1210,7 +1210,7 @@ class Cut(Model_base):
                 cobrado = float(self.getTotal(status='COBRADO', ticketType=ttype))
                 pendiente = float(self.getTotal(status='PENDIENTE', ticketType=ttype))
                 cancelado = float(self.getTotal(status='CANCELADO', ticketType=ttype))
-                total = cobrado + pendiente
+                total = float("{0:.2f}".format(cobrado + pendiente))
                 result[str(ttype)]={
                     'COBRADO': {
                         'NUMBER': cobrado,
