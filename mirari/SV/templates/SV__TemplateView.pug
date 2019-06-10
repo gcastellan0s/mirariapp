@@ -406,6 +406,7 @@ script.
             },errorDialog=false, timeout=10000)
             .then((json) => {
                 if (PrivateSocket){
+                    console.log(json)
                     ticketFormat = []
                     ticketFormat.push(["times",[1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
@@ -492,6 +493,7 @@ script.
                     ticketFormat.push(["text", 'TOTAL + FALTANTE: ' + json.data.cut.getTotalDetail['__ALL']['TOTAL']['MXN']])
                     ticketFormat.push(["cut"])
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
+                    console.log(ticketFormat)
                 }
             })
             .catch((error) => {
