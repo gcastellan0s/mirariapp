@@ -505,9 +505,9 @@ script.
         printCuts: ((init=0,final=0) => {
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCuts', {organization:'{{request.user.organization.code}}', init:init,final:final}, errorDialog=false, timeout=10000)
             .then((json) => {
-                for (cut in json.data.cuts) {
-                    console.log(cut)
-                }
+                json.data.cuts.forEach(function(cut) {
+                    console.log(cut);
+                });
             })
             .catch((error) => {
                 swal('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
