@@ -45,6 +45,7 @@ class Sellpoint__ApiView(Generic__ApiView):
         if Action == 'getTicket':
             return JsonResponse({'ticket':TicketSerializer(Ticket.objects.get(id=request.POST.get('ticket')), read_only=True).data}, safe=False)
         if Action == 'makeCut':
+            return JsonResponse({'cut': CutSerializer(Cut.objects.get(id=2540)).data}, safe=False)
             if request.POST.get('cutID'):
                 return JsonResponse({'cut': CutSerializer(Cut.objects.get(id=request.POST.get('cutID'))).data}, safe=False)
             cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut()
@@ -56,7 +57,7 @@ class Sellpoint__ApiView(Generic__ApiView):
         if Action == 'getRangeCuts':
             cuts = Cut.objects.filter(sellpoint__organization__code=request.POST.get('organization'), id__range=(request.POST.get('init'), request.POST.get('final'))).order_by('sellpoint')
             return JsonResponse({'cuts': CutIDSerializer(cuts, many=True).data}, safe=False)
-        if request.GET.get('api') == 'getCut':
+        if Action == 'getCut':
             return JsonResponse({'cut': CutSerializer(Cut.objects.get(id=request.POST.get('cut')), read_only=True).data}, safe=False)
         if Action == 'getClients':
             return JsonResponse({'clients':ClientSerializer(Client.objects.filter(organization=request.user.organization,active=True,is_active=True).filter(Q(name__icontains=request.GET.get('query'))|Q(phone__icontains=request.GET.get('query'))|Q(rfc__icontains=request.GET.get('query'))|Q(email__icontains=request.GET.get('query'))|Q(uid__icontains=request.GET.get('query'))).distinct()[0:50],many=True).data},safe=False)

@@ -30,7 +30,7 @@ block content
             .text-center.text-muted
                 a(href='javascript:void(0)') {% trans 'Registrate'%}
             a(v-if="SaveUsers" v-for="user in SaveUsers" @click="changeUser(user)" href="javascript:void(0)")
-                .media.align-items-center.mt-3.p-2(style="background-color:#efefef;")
+                .media.align-items-center.mt-2.p-2(style="background-color:#efefef;")
                     .media-body.ml-3
                         .text-light.small.font-weight-semibold.line-height-1.mb-1 ENTRAR COMO
                         .font-weight-bolder.line-height-1.text-dark ${user}
