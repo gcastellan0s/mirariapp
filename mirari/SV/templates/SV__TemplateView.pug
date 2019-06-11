@@ -397,7 +397,7 @@ script.
                 ticketType: 'VENTA',
             }
         }),
-        makeCut: ((cutID=0) => {
+        makeCut: ((cutID=false) => {
             Block(text="Haciendo corte...");
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
                 sellpoint: JSON.stringify(self.Sellpoint),
@@ -499,7 +499,7 @@ script.
             })
             .finally(() => {
                 UnBlock()
-                self.emmitGetStates()
+                if(cutID) self.emmitGetStates()
             });
         }),
         printCuts: ((init=0,final=0) => {
