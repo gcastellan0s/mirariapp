@@ -490,7 +490,6 @@ script.
                     ticketFormat.push(["text", '-------------------------'])
                     ticketFormat.push(["text", 'TOTAL + FALTANTE: ' + json.data.cut.getTotalDetail['__ALL']['TOTAL']['MXN']])
                     ticketFormat.push(["cut"])
-                    console.log(ticketFormat)
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 }
             })
@@ -503,18 +502,17 @@ script.
                 self.emmitGetStates()
             });
         }),
-        printCuts: (() => {
-            Block(text="Imprimiendo cortes");
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCuts', {organization:'{{request.user.organization.code}}', init:71,final:489}, errorDialog=false, timeout=10000)
+        printCuts: ((init=0,final=0) => {
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCuts', {organization:'{{request.user.organization.code}}', init:init,final:final}, errorDialog=false, timeout=10000)
             .then((json) => {
-                console.log(json)
+                for (cut in json.data.cuts) {
+                    console.log(cut)
+                }
             })
             .catch((error) => {
-                UnBlock()
                 swal('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
             })
             .finally(() => {
-                UnBlock()
             });
         }),
         getClient: ((client) => {
