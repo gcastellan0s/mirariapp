@@ -47,7 +47,7 @@ class Sellpoint__ApiView(Generic__ApiView):
         if Action == 'makeCut':
             cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut()
             #cut = cut.makeCut()
-            cut = Cut.objects.get(id=2535)
+            cut = Cut.objects.get(id=2539)
             if cut:
                 return JsonResponse({'cut': CutSerializer(cut).data}, safe=False)
             else:
