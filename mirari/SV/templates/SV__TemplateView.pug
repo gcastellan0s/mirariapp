@@ -490,6 +490,7 @@ script.
                     ticketFormat.push(["text", '-------------------------'])
                     ticketFormat.push(["text", 'TOTAL + FALTANTE: ' + json.data.cut.getTotalDetail['__ALL']['TOTAL']['MXN']])
                     ticketFormat.push(["cut"])
+                    console.log(ticketFormat)
                     PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                 }
             })
