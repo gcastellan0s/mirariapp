@@ -501,6 +501,20 @@ script.
                 self.emmitGetStates()
             });
         }),
+        printCuts: (() => {
+            Block(text="Imprimiendo cortes");
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCuts', {organization:'{{request.user.organization.code}}', init:71,final:489}, errorDialog=false, timeout=10000)
+            .then((json) => {
+                console.log(json)
+            })
+            .catch((error) => {
+                UnBlock()
+                swal('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
+            })
+            .finally(() => {
+                UnBlock()
+            });
+        }),
         getClient: ((client) => {
             if(client.id){
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClient', client)
@@ -659,6 +673,7 @@ script.
             if (!object) return false
             return object.includes(element)
         }),
+        
     {%endblock methods%}
 
     {%block filters%}

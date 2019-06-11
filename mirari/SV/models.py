@@ -1295,6 +1295,9 @@ class CutSerializer(Basic_Serializer):
         model = Cut
     def get_SellpointDetail(self, obj):
         return SellpointSerializer(obj.sellpoint, read_only=True).data
+class CutIDSerializer(Basic_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = Cut
 class CutProduct():
     product = ''
     productName = ''
