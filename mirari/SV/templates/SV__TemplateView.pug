@@ -508,7 +508,7 @@ script.
                 json.data.cuts.forEach(function(cut, index) {
                     setTimeout(function() {
                         self.makeCut(cutID=cut.id)
-                    }, 1000 * index)
+                    }, 2000 * index)
                 });
             })
             .catch((error) => {
