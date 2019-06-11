@@ -397,10 +397,11 @@ script.
                 ticketType: 'VENTA',
             }
         }),
-        makeCut: (() => {
+        makeCut: ((cutID=0) => {
             Block(text="Haciendo corte...");
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
                 sellpoint: JSON.stringify(self.Sellpoint),
+                cutID:cutID,
             },errorDialog=false, timeout=10000)
             .then((json) => {
                 if (PrivateSocket){
