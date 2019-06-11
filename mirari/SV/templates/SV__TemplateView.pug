@@ -503,7 +503,7 @@ script.
             });
         }),
         printCuts: ((init=0,final=0) => {
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCuts', {organization:'{{request.user.organization.code}}', init:init,final:final}, errorDialog=false, timeout=10000)
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getRangeCuts', {organization:'{{request.user.organization.code}}', init:init,final:final}, errorDialog=false, timeout=10000)
             .then((json) => {
                 json.data.cuts.forEach(function(cut, index) {
                     setTimeout(function() {
