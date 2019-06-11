@@ -25,7 +25,7 @@ VARS = {
             'url': 'url_update',
         },
         {
-            'field': 'razon_social',
+            'field': 'razonSocial',
             'title': 'Razón Social',
             'url': 'url_update',
         },
@@ -45,7 +45,7 @@ VARS = {
             Div(
                 HTML('<h5 class="kt-section__title ml-2 mb-4">DATOS FISCALES</h5>'),
                 Div('rfc'),
-                Div('razon_social'),
+                Div('razonSocial'),
                 Div('persona'),
                 Div('curp'),
                 HTML('<h5 class="kt-section__title ml-2 mb-4">DATOS DE CONTACTO</h5>'),
@@ -115,7 +115,7 @@ class FiscalMX(Model_base):
     )
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
     rfc = MXRFCField(verbose_name="RFC")
-    razon_social = models.CharField('Razón social', max_length=255, help_text="Razón social de persona Física o Moral")
+    razonSocial = models.CharField('Razón social', max_length=255, help_text="Razón social de persona Física o Moral")
     persona = models.CharField('Tipo de persona', choices=PERSONA, max_length=100, default='Física')
     curp = MXCURPField('C.U.R.P.', blank=True, null=True)
     contactEmail = models.EmailField('Email contacto', max_length=100, help_text="Correo donde llegarán las notificaciones sobre facturación")
@@ -138,10 +138,8 @@ class FiscalMX(Model_base):
         verbose_name = VARS['NAME']
         verbose_name_plural = VARS['PLURAL']
         permissions = permissions(VARS)
-
     def __str__(self):
-        return '{0}'.format(self.id)
-    
+        return '{0}'.format(self.rfc)
     def getStatus(self):
         if self.noCer:
             return mark_safe('<i class="flaticon2-hexagonal text-success"></i>')
@@ -219,10 +217,179 @@ VARS = {
 }
 class Invoice(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
+
+    xml = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    stampedDate = models.DateTimeField(null=True, blank=True)
+    isCanceled = models.BooleanField(default=False)
+    uuid = models.CharField(max_length=250, blank=True, null=True)
+    sello = models.CharField(max_length=250, blank=True, null=True)
+
+    serie = models.CharField(max_length=20, blank=True, null=True)
+    folio = models.CharField(max_length=100, blank=True, null=True)
+    noCertificado = models.CharField(max_length=250, blank=True, null=True)
+    moneda = models.CharField(max_length=250, blank=True, null=True)
+    formaPago = models.CharField(max_length=250, blank=True, null=True)
+    tipoDeComprobante = models.CharField(max_length=250, blank=True, null=True)
+    condicionesDePago = models.CharField(max_length=250, blank=True, null=True)
+    metodoPago = models.CharField(max_length=250, blank=True, null=True)
+    tipoCambio = models.CharField(max_length=250, blank=True, null=True)
+    lugarExpedicion = models.CharField(max_length=250, blank=True, null=True)
+
+    cfdiEmisorRfc = models.CharField(max_length=250, blank=True, null=True)
+    cfdiEmisorNombre = models.CharField(max_length=250, blank=True, null=True)
+    cfdiEmisorRegimenFiscal = models.CharField(max_length=250, blank=True, null=True)
+
+    CfdiReceptorRfc = models.CharField(max_length=250, blank=True, null=True)
+    CfdiReceptorNombre = models.CharField(max_length=250, blank=True, null=True)
+    CfdiReceptorRegimenFiscal = models.CharField(max_length=250, blank=True, null=True)
+
+    subTotal = models.FloatField()
+    total = models.FloatField()
+
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
         verbose_name_plural = VARS['PLURAL']
         permissions = permissions(VARS)
     def __str__(self):
-        return '{0}'.format(self.id)
+        return '{0}'.format(self.rfc)
+    
+    def make_xml(self, dataInvoice):
+        nscfdi = 'http://www.sat.gob.mx/cfd/3'
+        nsxsi = 'http://www.w3.org/2001/XMLSchema-instance'
+        nsmap = {
+            'cfdi': nscfdi,
+            'xsi': nsxsi,
+        }
+        Comprobante = Element('{%s}Comprobante' % nscfdi, nsmap=nsmap, attrib={"{%s}schemaLocation" % nsxsi: "http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd"},
+            Version='3.3',
+            Serie=dataInvoice['serie'],
+            Folio=dataInvoice['folio'],
+            Fecha=dataInvoice['fecha'],
+            Sello='',
+            NoCertificado=dataInvoice['noCertificado'],
+            Certificado='',
+            SubTotal=dataInvoice['subTotal'],
+            Moneda=dataInvoice['moneda'],
+            Total=dataInvoice['total'],
+            TipoDeComprobante=dataInvoice['tipoDeComprobante'],
+            CondicionesDePago=dataInvoice['condicionesDePago'],
+            LugarExpedicion=dataInvoice['lugarExpedicion'],
+            MetodoPago=dataInvoice['metodoPago'],
+            FormaPago=dataInvoice['formaPago'],
+        )
+        CfdiEmisor = SubElement(Comprobante, '{%s}Emisor' % nscfdi, 
+            Rfc=data['emisor_rfc'],
+            Nombre=data['emisor_nombre'],
+            RegimenFiscal=data['emisor_regimenfiscal'],
+        )
+        CfdiReceptor = SubElement(Comprobante, '{%s}Receptor' % nscfdi, 
+            Rfc=data['receptor_rfc'],
+            Nombre=data['receptor_nombre'],
+            UsoCFDI=data['receptor_usocfdi'],
+        )
+
+
+        CfdiConceptos = SubElement(Comprobante, '{%s}Conceptos' % nscfdi,
+        )
+        transladados = {}
+        total_transladados = 0
+        for concepto in data['conceptos']:
+            CfdiConcepto = SubElement(CfdiConceptos, '{%s}Concepto' % nscfdi,
+                ClaveProdServ = concepto['claveProdServ'],
+                ClaveUnidad = concepto['claveUnidad'],
+                Unidad = concepto['unidad'],
+                Cantidad = concepto['cantidad'],
+                NoIdentificacion = concepto['noIdentificacion'],
+                Descripcion = concepto['descripcion'],
+                ValorUnitario = concepto['valorUnitario'],
+                Importe = concepto['importe'],
+                #Descuento = concepto['descuento'],
+            )
+            if concepto['impuestos_transladados']:
+                CfdiImpuestos = SubElement(CfdiConcepto, '{%s}Impuestos' % nscfdi,
+                )
+                CfdiTraslados = SubElement(CfdiImpuestos, '{%s}Traslados' % nscfdi,
+                )
+                for impuesto in concepto['impuestos_transladados']:
+                    CfdiTraslado = SubElement(CfdiTraslados, '{%s}Traslado' % nscfdi,
+                        Base = impuesto['base'],
+                        Impuesto = impuesto['impuesto'],
+                        TipoFactor = impuesto['tipofactor'],
+                        TasaOCuota = impuesto['tasaocuota'],
+                        Importe = impuesto['importe'],
+                    )
+                    if not impuesto['impuesto'] in transladados:
+                        transladados.update({
+                            impuesto['impuesto']:{
+                                'Impuesto': impuesto['impuesto'],
+                                'TipoFactor': impuesto['tipofactor'],
+                                'TasaOCuota': impuesto['tasaocuota'],
+                                'Importe': '0.00',
+                            }
+                        })
+                    transladados[impuesto['impuesto']]['Importe'] = float(transladados[impuesto['impuesto']]['Importe']) + float(impuesto['importe'])
+                    total_transladados = total_transladados + float(impuesto['importe'])
+        if transladados:
+            Cfdi_impuestos_Impuestos = SubElement(Comprobante, '{%s}Impuestos' % nscfdi,
+                TotalImpuestosTrasladados = '{0:.2f}'.format(total_transladados)
+            )
+            Cfdi_impuestos_Traslados = SubElement(Cfdi_impuestos_Impuestos, '{%s}Traslados' % nscfdi,
+            )
+            for k, transladado in transladados.items():
+                Cfdi_impuestos_Traslado = SubElement(Cfdi_impuestos_Traslados, '{%s}Traslado' % nscfdi,
+                    Impuesto = transladado['Impuesto'],
+                    TipoFactor = transladado['TipoFactor'],
+                    TasaOCuota = transladado['TasaOCuota'],
+                    Importe = '{0:.2f}'.format(transladado['Importe']),
+                )
+
+
+
+        client = zeep.Client(wsdl='https://facturacion.finkok.com/servicios/soap/stamp.wsdl')
+        response = client.service.sign_stamp( 
+            username = settings.VAR_PRODUCTION['INVOICE_USER'], 
+            password = settings.VAR_PRODUCTION['INVOICE_PASSWORD'], 
+            xml = tostring(Comprobante), 
+        )
+        #return response, Comprobante
+        self.company = data['company']
+        self.xml = response['xml']
+        self.uuid = response['UUID']
+        self.serial = data['serie']
+        self.satseal = response['SatSeal']
+        self.folio = data['folio']
+        self.nocertificadosat = response['NoCertificadoSAT']
+        self.fecha = response['Fecha']
+        self.save()
+        invoice = self
+        self.make_pdf(xml = invoice.xml, data = data, invoice = invoice)
+        html_content = get_template('email.html').render()
+        plaintext = get_template('email.txt').render()
+        msg = EmailMultiAlternatives(
+            subject="Facturación Estrella",
+            body=plaintext,
+            from_email='pasteleriaslaestrella@gmail.com',
+            to=(data['email'],),
+        )
+        msg.attach_file('cfdi.xml')
+        msg.attach_file('cfdi.pdf')
+        msg.attach_alternative(html_content, "text/html")
+        msg.send(False)
+
+        html_content = get_template('email.html').render()
+        plaintext = get_template('email.txt').render()
+        msg = EmailMultiAlternatives(
+            subject="Facturación Estrella",
+            body=plaintext,
+            from_email='pasteleriaslaestrella@gmail.com',
+            to=('contabilidad.laestrella@gmail.com',),
+        )
+        msg.attach_file('cfdi.xml')
+        msg.attach_file('cfdi.pdf')
+        msg.attach_alternative(html_content, "text/html")
+        msg.send(False)
+        return {'xml': self.xml, 'uuid': self.uuid, 'pdf': 'response_pdf'}
+
+

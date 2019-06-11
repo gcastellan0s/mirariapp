@@ -34,7 +34,7 @@ script.
         const router = new VueRouter({routes:[{ path:'/SV/sv/',component:{template:``}}]});
         const IVA = 0.16;
         const IEPS = 0.08;
-        var PrivateSocket = null
+        var PrivateSocket = null;
     {%endblock constants%}
 
     {%block router%}router,{%endblock router%}
@@ -99,17 +99,30 @@ script.
 
     {%block mounted%}
         {{block.super}}
+        //GET STATES
         self.getStates(postFunctions=true)
+        //SEND PENDINGS
         setInterval(function(){
             self.sendPendings()
         }, 300000);
+        //FOCUS BarCodeInput
+        router.afterEach((to, from) => {
+            if(to.path=='/casher'){
+                if (self.Sellpoint.barcode){
+                    setTimeout(function() {
+                        self.$refs.BarCodeInput.focus()
+                    }, 200)
+                }
+            }
+        })
     {%endblock mounted%}
 
     {%block methods%}
         {{block.super}}
         getStates: ((postFunctions = false) => {
-            Block('Actualizando configuracion...')
+            if (postFunctions) Block('Actualizando configuracion...')
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates',{},false,0).then(function(json){
+                if (!postFunctions) Block('Actualizando configuracion...')
                 self.Sellpoints = json.data.sellpoints
                 self.Sellpoint = self.Sellpoints[0]
                 if({{request.user.id}}==327) self.Sellpoint = self.Sellpoints[1] //////// REVISAR ESTO
@@ -305,8 +318,7 @@ script.
                     self.$router.push({path:'order', query:{orderMode:'selectOrder'}})
                 }
                 else if (self.includes(self.Sellpoint.cashers, {{request.user.id}})) {
-                    //self.$router.push('/casher');
-                    //self.focusBarCode()
+                    self.$router.push('/casher');
                 }
                 UnBlock()
             });
@@ -586,9 +598,6 @@ script.
             .finally(() => {
                 self.BarCode = ''
             });
-        }),
-        focusBarCode:(() => {
-            if (self.Sellpoint.barcode) self.$refs.BarCodeInput.focus()
         }),
         activeProduct:((productattribute) => {
             ifActive = productattribute.product.menu.filter((menu) => {

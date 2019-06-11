@@ -13,6 +13,7 @@ VARS = {
     'NEW_GENDER': 'un nuevo',
     'THIS': 'este',
     'APP':APP,
+    'PAGEDetail': 'Sellpoint__CreateView.pug',
     'LIST': [
         {
             'field': 'name',
@@ -67,7 +68,7 @@ VARS = {
             'plugin': 'selectmultiple',
         },
     },
-    'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','printer','barcode','number_tickets','haveExpenses','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1'),
+    'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','printer','barcode','number_tickets','haveExpenses','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1', 'fiscalDataTickets', 'fiscalDataCuts'),
 }
 class Sellpoint(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
@@ -98,6 +99,9 @@ class Sellpoint(Model_base):
     have_expenses = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     have_orders = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     priority = models.IntegerField('Numero de tickets que imprime', default=0)
+
+    fiscalDataTickets = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL)
+    fiscalDataCuts = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL)
 
     VARS = VARS
     class Meta(Model_base.Meta):
@@ -766,6 +770,91 @@ class Ticket(Model_base):
         return ", ".join(o.name for o in self.ticketType.all())
     def getColor(self):
         return self.sellpoint.color
+    def StampTicketMX(self, ReceptorRfc, ReceptorRazonSocial):
+
+        fecha = str(datetime.datetime.now().isoformat())[:19]
+        serie = 'SuVenta'
+        folio = self.barcode
+        noCertificado = self.sellpoint.fiscalDataTickets.nocertificado
+        moneda = 'MXN'
+        
+        formaPago = '01'
+        tipoDeComprobante = 'I'
+        condicionesDePago = 'CONDICIONES'
+        metodoPago = 'PUE'
+        tipoCambio = '1'
+        lugarExpedicion = self.sellpoint.fiscalDataTickets.zipcode
+
+        cfdiEmisorRfc =  self.sellpoint.fiscalDataTickets.rfc
+        cfdiEmisorNombre = self.sellpoint.fiscalDataTickets.razonSocial
+        cfdiEmisorRegimenFiscal = '601'
+
+        cfdiEmisorStreet = self.sellpoint.fiscalDataTickets.street
+        cfdiEmisorExtNumber = self.sellpoint.fiscalDataTickets.extNumber
+        cfdiEmisorIntNumber = self.sellpoint.fiscalDataTickets.intNumber
+        cfdiEmisorRegion = self.sellpoint.fiscalDataTickets.region
+        cfdiEmisorProvince = self.sellpoint.fiscalDataTickets.province
+        cfdiEmisorState = self.sellpoint.fiscalDataTickets.state
+        cfdiEmisorZipcode = self.sellpoint.fiscalDataTickets.zipcode
+        cfdiEmisorCountry = self.sellpoint.fiscalDataTickets.country
+
+        CfdiReceptorRfc = ReceptorRfc.upper()
+        CfdiReceptorNombre = ReceptorRazonSocial
+        CfdiReceptorUsocfdi = 'G03'
+
+        #conceptos = []
+        #for concepto in self.getProducts():
+            #importe = concepto.total
+            #if concepto.iva:
+                #importe = importe - concepto.iva
+            #if concepto.ieps:
+                #importe = importe - concepto.ieps
+            #try:
+                #claveprodserv = concepto.product.product.code.codigo
+            #except:
+                #claveprodserv = '50181900'
+            #try:
+                #claveunidad = concepto.product.product.units.codigo
+                #unitsnombre = concepto.product.product.units.nombre
+            #except:
+                #claveunidad = 'H87'
+                #unitsnombre = 'Pieza'
+            #c = {
+                #'claveprodserv':claveprodserv,
+                #'claveunidad':claveunidad,
+                #'cantidad':str(concepto.quantity),
+                #'unidad': unitsnombre,
+                #'noidentificacion':'01',
+                #'descripcion':concepto.product.alias,
+                #'valorunitario':'{0:.2f}'.format(importe/concepto.quantity),
+                #'importe':'{0:.2f}'.format(importe),
+                #'impuestos_transladados':[],
+                #'descuento':'0.00'
+            #}
+            #if concepto.iva:
+                #c['impuestos_transladados'].append({
+                    #'base':'{0:.2f}'.format(importe),
+                    #'impuesto':'002',
+                    #'tipofactor':'Tasa',
+                    #'tasaocuota':'0.160000',
+                    #'importe':'{0:.2f}'.format(concepto.iva),
+                #})
+            #if concepto.ieps:
+                #c['impuestos_transladados'].append({
+                    #'base':'{0:.2f}'.format(importe),
+                    #'impuesto':'003',
+                    #'tipofactor':'Tasa',
+                    #'tasaocuota':'0.080000',
+                    #'importe':'{0:.2f}'.format(concepto.ieps),
+                #})
+            #conceptos.append(c)
+#        
+        #subtotal = '{0:.2f}'.format(self.total - self.iva - self.ieps)
+        #total = '{0:.2f}'.format(self.total)
+
+        locals()
+
+
 class TicketSerializer(Basic_Serializer):
     sellpoint = serializers.SerializerMethodField()
     products = serializers.SerializerMethodField()

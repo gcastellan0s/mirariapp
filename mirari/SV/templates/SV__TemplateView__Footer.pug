@@ -3,7 +3,7 @@ div(v-if="Sellpoint")
         a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem" @click="resetOrder(resetTicket=true)")
             i.fas.fa-hand-holding-usd.mr-2
             | PEDIDO
-    router-link(to="/casher"  v-if="$route.path != '/casher'" @click.native="focusBarCode")
+    router-link(to="/casher"  v-if="$route.path != '/casher'")
         a.footer-link.ml-4.mb-0.text-dark.h3.btn.btn-xl.btn-default(href='javascript:void(0)' style="margin-top:-1rem")
             i.fas.fa-credit-card.pr-2
             | CAJA
