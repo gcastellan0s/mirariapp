@@ -507,9 +507,7 @@ script.
             .then((json) => {
                 json.data.cuts.forEach(function(cut, index) {
                     setTimeout(function() {
-                        (async () => {
-                            await self.makeCut(cutID=cut.id)
-                        })();
+                        self.makeCut(cutID=cut.id)
                     }, 1000 * index)
                 });
             })
