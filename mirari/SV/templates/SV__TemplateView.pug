@@ -521,11 +521,11 @@ script.
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getRangeCuts', {organization:'{{request.user.organization.code}}', init:init,final:final}, errorDialog=false, timeout=10000)
             .then((json) => {
                 console.log(json)
-                //json.data.cuts.forEach(function(cut, index) {
-                    //setTimeout(function() {
-                        //self.makeCut(cutID=cut.id)
-                    //}, 2000 * index)
-                //});
+                json.data.cuts.forEach(function(cut, index) {
+                    setTimeout(function() {
+                        self.makeCut(cutID=cut.id)
+                    }, 2000 * index)
+                });
             })
             .catch((error) => {
                 swal('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
