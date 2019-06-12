@@ -47,8 +47,8 @@ class Sellpoint__ApiView(Generic__ApiView):
             return JsonResponse({'ticket':TicketSerializer(Ticket.objects.get(id=request.POST.get('ticket')), read_only=True).data}, safe=False)
         if Action == 'makeCut':
             #return JsonResponse({'cut': CutSerializer(Cut.objects.get(id=2540)).data}, safe=False)
-            #if request.POST.get('cutID'):
-                #return JsonResponse({'cut': CutSerializer(Cut.objects.get(id=request.POST.get('cutID'))).data}, safe=False)
+            if not request.POST.get('cutID') == 'Actual':
+                return JsonResponse({'cut': CutSerializer(Cut.objects.get(id=request.POST.get('cutID'))).data}, safe=False)
             cut = Sellpoint.objects.get(id=json.loads(request.POST.get('sellpoint'))['id']).getCut()
             cut = cut.makeCut()
             if cut:
