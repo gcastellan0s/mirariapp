@@ -523,7 +523,7 @@ script.
                 json.data.cuts.forEach(function(cut, index) {
                     setTimeout(function() {
                         self.makeCut(cutID=cut.id)
-                    }, 2000 * index)
+                    }, 5000 * index)
                 });
             })
             .catch((error) => {
