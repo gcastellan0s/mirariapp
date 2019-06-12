@@ -10,7 +10,7 @@ block content
         .modal-dialog.modal-sm(role='document')
             .modal-content
                 .modal-body(v-if='Ticket')
-                    h3.text-center.mb-1
+                    h3.text-center.mb-1 TOTAL $ ${Ticket.total|formatPrice}
                     h5.text-center.mb-0 FOLIO ${Ticket.barcode}
                     p.text-center.mb-0 ${Ticket.format_date} ${Ticket.format_time}
                     p.text-center.mb-0 ${Ticket.sellpoint.name}
@@ -26,15 +26,15 @@ block content
                         p.text-center.mb-0(v-if='Ticket.email') Email: ${Ticket.email}
                         p.text-center.mb-0(v-if='Ticket.phone') Tel&eacute;fono: ${Ticket.phone}
                         p.text-center.mb-0(v-if='Ticket.rfc') RFC: ${Ticket.rfc}
-                        p.text-center.mb-0(v-if='Ticket.datetimeOfDelivery') Fecha de entrega: ${Ticket.datetimeOfDelivery}
+                        p.text-center.mb-0(v-if='Ticket.datetimeOfDelivery') Fecha de entrega: ${Ticket.datetimeOfDelivery|FormatTDate}
                         p.text-center.mb-0(v-if='Ticket.destination') Destino: ${Ticket.destination}
                         p.text-center.mb-0(v-if='Ticket.notes') Notas: ${Ticket.notes}
                     hr(v-if='Ticket.products.length > 0')
                     div(v-for='product in Ticket.products')
-                        p.text-left.mb-0
-                            strong
+                        p.text-center.mb-0 ${product.quantity} ${product.productName}
+                            strong.text-center.ml-4 $ ${product.total|formatPrice}
                         div(v-for='offer in product.offers')
-                            p.text-right.mb-0
+                            p.text-right.mb-0 ${offer.name}
                     hr
                     p.text-right.mb-0(v-else='')
                     p.text-center.mb-0

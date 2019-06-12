@@ -110,6 +110,14 @@ class Sellpoint(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.name)
+    def save(self, *args, **kwargs):
+        self.name = self.name.upper()
+        super().save()
+        if not self.serial:
+            content_type = ContentType.objects.get(app_label=APP, model=self.VARS['MODEL'].lower())
+            serial = Serial.objects.create(organization=self.organization, name=self.name.lower(), content_type=content_type)
+            self.serial = serial
+            self.save()
     def QUERY(self, view):
         sellpoints = Sellpoint.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
         if not view.request.user.is_superuser:
@@ -147,14 +155,12 @@ class Sellpoint(Model_base):
         return cut
     def getSerialNumber(self):
         return self.serial.serial
-    def save(self, *args, **kwargs):
-        self.name = self.name.upper()
-        super().save()
-        if not self.serial:
-            content_type = ContentType.objects.get(app_label=APP, model=self.VARS['MODEL'].lower())
-            serial = Serial.objects.create(organization=self.organization, name=self.name.lower(), content_type=content_type)
-            self.serial = serial
-            self.save()
+    def canStampTickets(self):
+        if not self.fiscalDataTickets:
+            return False
+        if not self.fiscalDataTickets.noCer:
+            return False
+        return True
 class SellpointSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
         model = Sellpoint
@@ -613,6 +619,10 @@ VARS = {
                 </a>
             """,
         },
+        {
+            'field': 'getLenOffers',
+            'title': 'ESTATUS',
+        },
     ],
     'PAGELENGTH': 50,
     'HIDE_CHECKBOX_LIST': True,
@@ -770,91 +780,79 @@ class Ticket(Model_base):
         return ", ".join(o.name for o in self.ticketType.all())
     def getColor(self):
         return self.sellpoint.color
-    def StampTicketMX(self, ReceptorRfc, ReceptorRazonSocial):
-
-        fecha = str(datetime.datetime.now().isoformat())[:19]
-        serie = 'SuVenta'
-        folio = self.barcode
-        noCertificado = self.sellpoint.fiscalDataTickets.nocertificado
-        moneda = 'MXN'
-        
-        formaPago = '01'
-        tipoDeComprobante = 'I'
-        condicionesDePago = 'CONDICIONES'
-        metodoPago = 'PUE'
-        tipoCambio = '1'
-        lugarExpedicion = self.sellpoint.fiscalDataTickets.zipcode
-
-        cfdiEmisorRfc =  self.sellpoint.fiscalDataTickets.rfc
-        cfdiEmisorNombre = self.sellpoint.fiscalDataTickets.razonSocial
-        cfdiEmisorRegimenFiscal = '601'
-
-        cfdiEmisorStreet = self.sellpoint.fiscalDataTickets.street
-        cfdiEmisorExtNumber = self.sellpoint.fiscalDataTickets.extNumber
-        cfdiEmisorIntNumber = self.sellpoint.fiscalDataTickets.intNumber
-        cfdiEmisorRegion = self.sellpoint.fiscalDataTickets.region
-        cfdiEmisorProvince = self.sellpoint.fiscalDataTickets.province
-        cfdiEmisorState = self.sellpoint.fiscalDataTickets.state
-        cfdiEmisorZipcode = self.sellpoint.fiscalDataTickets.zipcode
-        cfdiEmisorCountry = self.sellpoint.fiscalDataTickets.country
-
-        CfdiReceptorRfc = ReceptorRfc.upper()
-        CfdiReceptorNombre = ReceptorRazonSocial
-        CfdiReceptorUsocfdi = 'G03'
-
-        #conceptos = []
-        #for concepto in self.getProducts():
-            #importe = concepto.total
-            #if concepto.iva:
-                #importe = importe - concepto.iva
-            #if concepto.ieps:
-                #importe = importe - concepto.ieps
-            #try:
-                #claveprodserv = concepto.product.product.code.codigo
-            #except:
-                #claveprodserv = '50181900'
-            #try:
-                #claveunidad = concepto.product.product.units.codigo
-                #unitsnombre = concepto.product.product.units.nombre
-            #except:
-                #claveunidad = 'H87'
-                #unitsnombre = 'Pieza'
-            #c = {
-                #'claveprodserv':claveprodserv,
-                #'claveunidad':claveunidad,
-                #'cantidad':str(concepto.quantity),
-                #'unidad': unitsnombre,
-                #'noidentificacion':'01',
-                #'descripcion':concepto.product.alias,
-                #'valorunitario':'{0:.2f}'.format(importe/concepto.quantity),
-                #'importe':'{0:.2f}'.format(importe),
-                #'impuestos_transladados':[],
-                #'descuento':'0.00'
-            #}
-            #if concepto.iva:
-                #c['impuestos_transladados'].append({
-                    #'base':'{0:.2f}'.format(importe),
-                    #'impuesto':'002',
-                    #'tipofactor':'Tasa',
-                    #'tasaocuota':'0.160000',
-                    #'importe':'{0:.2f}'.format(concepto.iva),
-                #})
-            #if concepto.ieps:
-                #c['impuestos_transladados'].append({
-                    #'base':'{0:.2f}'.format(importe),
-                    #'impuesto':'003',
-                    #'tipofactor':'Tasa',
-                    #'tasaocuota':'0.080000',
-                    #'importe':'{0:.2f}'.format(concepto.ieps),
-                #})
-            #conceptos.append(c)
-#        
-        #subtotal = '{0:.2f}'.format(self.total - self.iva - self.ieps)
-        #total = '{0:.2f}'.format(self.total)
-
-        locals()
-
-
+    def stampTicket(self, receptorRfc='', receptorRazonSocial=''):
+        #if self.sellpoint.canStampTickets():
+            #INV = False
+            #return INV
+        INV = {}
+        INV['fecha'] = str(datetime.datetime.now().isoformat())[:19]
+        INV['serie'] = 'SuVenta'
+        INV['folio'] = self.barcode
+        INV['noCertificado'] = self.sellpoint.fiscalDataTickets.noCer
+        INV['moneda'] = 'MXN'
+        INV['formaPago'] = '01'
+        INV['tipoDeComprobante'] = 'I'
+        INV['condicionesDePago'] = 'CONDICIONES'
+        INV['metodoPago'] = 'PUE'
+        INV['tipoCambio'] = '1'
+        INV['lugarExpedicion'] = self.sellpoint.fiscalDataTickets.zipcode
+        INV['cfdiEmisorRfc'] =  self.sellpoint.fiscalDataTickets.rfc
+        INV['cfdiEmisorNombre'] = self.sellpoint.fiscalDataTickets.razonSocial
+        INV['cfdiEmisorRegimenFiscal'] = '601'
+        INV['cfdiEmisorStreet'] = self.sellpoint.fiscalDataTickets.street
+        INV['cfdiEmisorExtNumber'] = self.sellpoint.fiscalDataTickets.extNumber
+        INV['cfdiEmisorIntNumber'] = self.sellpoint.fiscalDataTickets.intNumber
+        INV['cfdiEmisorRegion'] = self.sellpoint.fiscalDataTickets.region
+        INV['cfdiEmisorProvince'] = self.sellpoint.fiscalDataTickets.province
+        INV['cfdiEmisorState'] = self.sellpoint.fiscalDataTickets.state
+        INV['cfdiEmisorZipcode'] = self.sellpoint.fiscalDataTickets.zipcode
+        INV['cfdiEmisorCountry'] = self.sellpoint.fiscalDataTickets.country
+        INV['cfdiReceptorRfc'] = receptorRfc.upper()
+        INV['cfdiReceptorNombre'] = receptorRazonSocial
+        INV['cfdiReceptorUsocfdi'] = 'G03'
+        conceptos = []
+        for ticketProduct in self.getProducts():
+            try:
+                claveProdServ = ticketProduct.product.code.code
+                claveUnidad = ticketProduct.product.product.units.codigo
+                nombreUnidad = ticketProduct.product.product.units.nombre
+            except:
+                claveProdServ = '50181900'
+                claveUnidad = 'H87'
+                nombreUnidad = 'Pieza'
+            c = {
+                'claveProdServ':claveProdServ,
+                'claveUnidad':claveUnidad,
+                'unidad': nombreUnidad,
+                'cantidad': str(ticketProduct.quantity),
+                'noIdentificacion':'01',
+                'descripcion':ticketProduct.productName,
+                'valorUnitario':'{0:.2f}'.format(ticketProduct.price),
+                'importe':'{0:.2f}'.format(ticketProduct.total),
+                'impuestosTransladados':[],
+                'descuento':'0.00'
+            }
+            if ticketProduct.iva:
+                c['impuestosTransladados'].append({
+                    'base':'{0:.2f}'.format(ticketProduct.total),
+                    'impuesto':'002',
+                    'tipofactor':'Tasa',
+                    'tasaocuota':'0.16',
+                    'importe':'{0:.2f}'.format(ticketProduct.iva),
+                })
+            if ticketProduct.ieps:
+                c['impuestosTransladados'].append({
+                    'base':'{0:.2f}'.format(ticketProduct.total),
+                    'impuesto':'003',
+                    'tipofactor':'Tasa',
+                    'tasaocuota':'0.08',
+                    'importe':'{0:.2f}'.format(ticketProduct.ieps),
+                })
+            conceptos.append(c)
+        INV['conceptos'] = conceptos
+        INV['subtotal'] = '{0:.2f}'.format(self.total-self.iva-self.ieps)
+        INV['total'] = '{0:.2f}'.format(self.total)
+        return INV
 class TicketSerializer(Basic_Serializer):
     sellpoint = serializers.SerializerMethodField()
     products = serializers.SerializerMethodField()

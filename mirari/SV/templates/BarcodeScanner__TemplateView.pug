@@ -1,23 +1,19 @@
-{%extends 'appwork/layout-without-navbar.html'%}
-{%load static%}
-{%load i18n%}
+extends "appwork/layout-without-navbar.html"
+-load static
+-load i18n
+-load mirari_tags
 
-{%block theme%}
-{%endblock theme%}
+block theme
 
-{%block content%}
-    <form v-on:submit.prevent="onSubmit(BarCode)">
-        <div class="form-group">
-            <input type="text" class="form-control" v-model="BarCode" id="idBarCode" autofocus="autofocus">
-        </div>
-        <button type="submit" class="btn btn-default">{{code}}</button>
-    </form>
-{%endblock%}
+block content
+    form(v-on:submit.prevent='onSubmit(BarCode)')
+        .form-group
+            input#idBarCode.form-control(type='text', v-model='BarCode', autofocus='autofocus')
+        button.btn.btn-default(type='submit') {{code}}
+    pre {{ticket.stampTicket| pprint}}
+block js
 
-{%block js%}
-{%endblock js%}
-
-<script>
+script.
     {%block constants%}
         const PublicSocket = io.connect('ws://50.18.229.242:8002',{'forceNew':true});
         var PrivateSocket = null
@@ -43,4 +39,4 @@
             self.BarCode = ''
         }),
     {%endblock methods%}
-</script>
+.
