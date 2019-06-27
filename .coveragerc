@@ -1,4 +1,0 @@
-[run]
-include = mirari/*
-omit = *migrations*, *tests*
-plugins = django_coverage_plugin

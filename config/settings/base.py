@@ -306,3 +306,7 @@ FINKOK = {
     'PASSWORD': env('FINKOK_PASSWORD', default='Password1*'),
     'URL': env('FINKOK_URL', default='https://demo-facturacion.finkok.com/servicios/soap/'),
 }
+
+#INV
+IVA=0.16
+IEPS=0.08

@@ -1,0 +1,18 @@
+extends 'appwork/layout-without-navbar.html'
+-load static
+-load i18n
+
+block styles
+    {{block.super}} 
+    link(rel='stylesheet', href="{%static 'appwork-html/vendor/css/pages/authentication.css'%}")
+
+block content
+    .authentication-wrapper.authentication-1
+        .authentication-inner(style='max-width: 400px;')
+            form
+                p Función no esta disponible en este dispositivo. :(
+
+script.
+    {%block created%}
+        location.replace("{%url 'SV:TicketInvoiceMX__TemplateView'%}")
+    {%endblock created%}

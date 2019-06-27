@@ -1,0 +1,186 @@
+-load mirari_tags
+-load INV_tags
+-load humanize
+doctype html
+head
+    title  
+    meta(charset='utf-8')
+    meta(http-equiv='x-ua-compatible', content='IE=edge,chrome=1')
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0')
+    link(href='https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900', rel='stylesheet')
+    link(rel='stylesheet', href='{{static}}appwork-html/assets/vendor/fonts/fontawesome.css')
+    link(rel='stylesheet', href='{{static}}appwork-html/assets/vendor/fonts/ionicons.css')
+    link(rel='stylesheet', href='{{static}}appwork-html/assets/vendor/fonts/linearicons.css')
+    link(rel='stylesheet', href='{{static}}appwork-html/assets/vendor/fonts/open-iconic.css')
+    link(rel='stylesheet', href='{{static}}appwork-html/assets/vendor/fonts/pe-icon-7-stroke.css')
+    link.theme-settings-bootstrap-css(rel='stylesheet', href='{{static}}appwork-html/assets/vendor/css/rtl/bootstrap.css')
+    link.theme-settings-appwork-css(rel='stylesheet', href='{{static}}appwork-html/assets/vendor/css/rtl/appwork.css')
+    link.theme-settings-theme-css(rel='stylesheet', href='{{static}}appwork-html/assets/vendor/css/rtl/theme-corporate.css')
+    link.theme-settings-colors-css(rel='stylesheet', href='{{static}}appwork-html/assets/vendor/css/rtl/colors.css')
+    link(rel='stylesheet', href='{{static}}appwork-html/assets/vendor/css/rtl/uikit.css')
+    script(src='{{static}}appwork-html/assets/vendor/js/material-ripple.js')
+    script(src='{{static}}appwork-html/assets/vendor/js/layout-helpers.js')
+    script(src='{{static}}appwork-html/assets/vendor/js/theme-settings.js')
+    script.
+        window.themeSettings = new ThemeSettings({
+        cssPath: '{{static}}appwork-html/assets/vendor/css/rtl/',
+        themesPath: '{{static}}appwork-html/assets/vendor/css/rtl/'
+        });
+    script(src='{{static}}appwork-html/assets/vendor/js/pace.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    link(rel='stylesheet', href='{{static}}appwork-html/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')
+    style.
+        html,
+        body {
+            background: #fff !important;
+        }
+        body> :not(.invoice-print) {
+            display: none !important;
+        }
+        .invoice-print {
+            min-width: 768px !important;
+            font-size: 15px !important;
+        }
+        .invoice-print * {
+            border-color: #aaa !important;
+            color: #000 !important;
+        }
+.invoice-print.p-1
+    .row
+        .col-6.mb-2
+            .media.align-items-center
+                .ui-w-40
+                    .w-100.position-relative(style='padding-bottom: 54%')
+                        img(src='{{media}}{{ invoice.organization.LOGO_BG }}', style='max-width: 100px;max-height: 50px;')
+            .media-body.text-big.font-weight-bold 
+                strong {{cfdi|K:'cfdi:Emisor'|K:'@Nombre'}}
+            .mb-1 RFC: 
+                strong {{cfdi|K:'cfdi:Emisor'|K:'@Rfc'}}
+            .mb-1 REGIMEN FISCAL: {{cfdi|K:'cfdi:Emisor'|K:'@RegimenFiscal'}}
+        .col-6.mb-2.text-right
+            div.mb-1 SERIE: 
+                strong {{cfdi|K:'@Folio'}}
+            div.mb-1 FOLIO: 
+                strong {{cfdi|K:'@Serie'}}
+            div.mb-1 FECHA DE EMISIÓN: 
+                strong {{cfdi|K:'@Fecha'}}
+            div.mb-1 FECHA DE CERTIFICACIÓN: 
+                strong {{cfdi|K:'cfdi:Complemento'|K:'tfd:TimbreFiscalDigital'|K:'@FechaTimbrado'}} 
+    hr.my-2
+    .row.mb-2
+        .col-6
+            .font-weight-bold.mb-2 FACTURADO A:
+            div.mb-1
+                strong {{cfdi|K:'cfdi:Receptor'|K:'@Nombre'}}
+            div.mb-1 RFC: 
+                strong {{cfdi|K:'cfdi:Receptor'|K:'@Rfc'}}
+            div.mb-1 USO CFDI: 
+                strong {{cfdi|K:'cfdi:Receptor'|K:'@UsoCFDI'}}
+        .col-6
+            .font-weight-bold.mb-2 CERTIFICACIÓN
+            div.mb-1 FOLIO FISCAL: 
+                strong {{cfdi|K:'cfdi:Complemento'|K:'tfd:TimbreFiscalDigital'|K:'@UUID'}} 
+            div.mb-1 NO. CERTIFICADO DIGITAL: 
+                strong {{cfdi|K:'@NoCertificado'}} 
+            div.mb-1 NO SERIE CERTIFICADO SAT: 
+                strong {{cfdi|K:'cfdi:Complemento'|K:'tfd:TimbreFiscalDigital'|K:'@NoCertificadoSAT'}} 
+    .table-responsive
+        table.table.m-0
+            thead
+                tr(style="background-color:#e4e4e4;font-size:11px!important;")
+                    th.p-0 CANTIDAD
+                    th.p-0 UNIDAD
+                    th.p-0 DESCRIPCIÓN
+                    th.p-0 PRECIO
+                    th.p-0 IMPORTE
+            tbody
+                {%with conceptos=cfdi|K:'cfdi:Conceptos'|Klist:'cfdi:Concepto'%}
+                {%for concepto in conceptos%}
+                tr.p-0
+                    td.p-0.font-weight-semibold {{concepto|K:'@Cantidad'}}
+                    td.p-0.font-weight-semibold {{concepto|K:'@ClaveUnidad'}} {{concepto|K:'@Unidad'}}
+                    td.p-0.font-weight-semibold [{{concepto|K:'@ClaveProdServ'}}] {{concepto|K:'@Descripcion'}}
+                    td.p-0.font-weight-bold {{concepto|K:'@ValorUnitario'|MoneyMXN}}
+                    td.p-0.font-weight-bold {{concepto|K:'@Importe'|MoneyMXN}}
+                {%if concepto|K:'cfdi:Impuestos'%}
+                tr(style="font-size:11px!important")
+                    td.p-0
+                    td.p-0(colspan="4")
+                        table.table.m-0
+                            thead
+                                tr(style="background-color:#dcd9d9;")
+                                    th.p-0 BASE
+                                    th.p-0 IMPUESTO
+                                    th.p-0 TIPO FACTOR
+                                    th.p-0 TASA O CUOTA
+                                    th.p-0 IMPORTE
+                            tbody
+                                {%with traslados=concepto|K:'cfdi:Impuestos'|K:'cfdi:Traslados'|Klist:'cfdi:Traslado'%}
+                                {%for traslado in traslados%}
+                                tr.p-0(style="background-color:#e4e4e4;")
+                                    td.p-0.font-weight-semibold {{traslado|K:'@Base'|MoneyMXN}}
+                                    td.p-0.font-weight-semibold {{traslado|K:'@Impuesto'}}
+                                    td.p-0.font-weight-semibold {{traslado|K:'@TipoFactor'}}
+                                    td.p-0.font-weight-bold {{traslado|K:'@TasaOCuota'}}
+                                    td.p-0.font-weight-bold {{traslado|K:'@Importe'|MoneyMXN}}
+                                {%endfor%}
+                                {%endwith%}
+                {%endif%}
+                {%endfor%}
+                {%endwith%}
+    hr.my-1
+    .row
+        .col-8
+            .font-weight-bold.mb-2 DETALLES DE PAGO:
+            table
+                tr
+                    td.pr-3 FORMA DE PAGO:
+                    td {{cfdi|K:'@FormaPago'}}
+                tr
+                    td.pr-3 CONDICIONES DE PAGO:
+                    td {{cfdi|K:'@CondicionesDePago'}}
+                tr
+                    td.pr-3 IMPORTE CON LETRA:
+                    td.p-0.font-weight-bold {{cfdi|K:'@Total'|numbertostring}}
+                tr
+                    td.pr-3 MONEDA:
+                    td.p-0.font-weight-bold {{cfdi|K:'@Moneda'}}
+                tr
+                    td.pr-3 LUGAR DE EXPEDICIÓN:
+                    td.p-0.font-weight-bold {{cfdi|K:'@LugarExpedicion'}}
+        .col-4
+            table
+                {% with traslados=cfdi|K:'cfdi:Impuestos'|K:'cfdi:Traslados'|K:'cfdi:Traslado'%}
+                {%for traslado in traslados%}
+                tr
+                    td.pr-3 [{{traslado|K:'@Impuesto'}}] {{traslado|K:'@TasaOCuota'}}%
+                    td.text-rigth.p-0.font-weight-bold {{traslado|K:'@Importe'|MoneyMXN}}
+                {%endfor%}
+                {%endwith%}
+                tr
+                    td.pr-3 SUBTOTAL:
+                    td.text-rigth.p-0.font-weight-bold {{cfdi|K:'@SubTotal'|MoneyMXN}}
+                tr
+                    td.pr-3 TOTAL:
+                    td.text-rigth.p-0.font-weight-bold {{cfdi|K:'@Total'|MoneyMXN}}
+    hr.mt-1.mb-3
+    {% with C=cfdi|K:'cfdi:Complemento'|K:'tfd:TimbreFiscalDigital' %}
+    .text-muted.pb-1(style="font-size:11px!important;")
+        {% with Version=C|K:'@Version' SelloCFD=C|K:'@SelloCFD' NoCertificadoSAT=C|K:'@NoCertificadoSAT' RfcProvCertif=C|K:'@RfcProvCertif' UUID=C|K:'@UUID' FechaTimbrado=C|K:'@FechaTimbrado' SelloSAT=C|K:'@SelloSAT' %}
+        | CADENA ORIGINAL DEL COMPLEMENTO DE CERTIFICACIÓN DIGITAL DEL SAT: 
+        pre ||{{Version|iCat:UUID|iCat:FechaTimbrado|iCat:RfcProvCertif|iCat:SelloCFD|iCat:NoCertificadoSAT|addLinebreaks:155|safe}}||
+        {% endwith %}
+    .row
+        .col-3
+            <img src="http://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?re={{cfdi|K:'cfdi:Emisor'|K:'@Rfc'}}&rr={{cfdi|K:'cfdi:Receptor'|K:'@Rfc'}}&tt={{cfdi|K:'@Total'|intcomma}}&id={{C|K:'@UUID'}}"/>
+        .col-9(style="font-size:11px!important;")
+            | SELLO DIGITAL DEL CFDI: 
+            pre ||{{C|K:'@SelloCFD'|addLinebreaks:110|safe}}||
+            | SELO DIGITAL DEL SAT: 
+            pre ||{{C|K:'@SelloSAT'|addLinebreaks:110|safe}}||
+    {% endwith %}
+script(src='{{static}}appwork-html/assets/vendor/libs/popper/popper.js')
+script(src='{{static}}appwork-html/assets/vendor/js/bootstrap.js')
+script(src='{{static}}appwork-html/assets/vendor/js/sidenav.js')
+script(src='{{static}}appwork-html/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')

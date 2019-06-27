@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="mx.mirari.sv" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>SV</name>
+<widget id="xyz.mirari.suventa" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>SUVENTA</name>
     <description>
-        SV
+        SUVENTA
     </description>
-    <author email="g@gustavo-castellanos.com" href="http://cordova.io">
+    <author email="g@gustavo-castellanos.com" href="http://gustavo-castellanos.com">
         Gustavo Castellanos
     </author>
     <content src="index.html" />
@@ -15,4 +15,5 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
 </widget>

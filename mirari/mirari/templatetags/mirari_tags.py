@@ -75,3 +75,20 @@ def renderDataTable(obj):
 @register.filter
 def get_session_organization(request):
 	return Organization.objects.filter(pk=request.session['organization']).first()
+
+@register.filter
+def K(Dict, key):
+    if key in Dict:
+        return Dict[key]
+    else:
+        return {}
+
+@register.filter
+def Klist(Dict, key):
+    if key in Dict:
+        if type(Dict[key]) == list:
+            return Dict[key]
+        else:
+            return [Dict[key]]
+    else:
+        return [{}]

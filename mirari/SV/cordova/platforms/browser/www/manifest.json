@@ -1,10 +1,10 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "SV",
-  "short_name": "SV",
-  "version": "mx.mirari.sv",
-  "description": "SV",
+  "name": "SUVENTA",
+  "short_name": "SUVENTA",
+  "version": "xyz.mirari.suventa",
+  "description": "SUVENTA",
   "author": "Gustavo Castellanos",
   "icons": [],
   "start_url": "index.html"

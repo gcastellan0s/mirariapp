@@ -81,6 +81,8 @@ class Organization(MPTTModel, Model_base):
     LOGO_WHITE = ProcessedImageField(upload_to=path_system, blank=True, null=True, options={'quality': 100}, help_text="Logo 600x600")
     LOGO_BG = ProcessedImageField(upload_to=path_system, blank=True, null=True)
     LOGO_BG_WHITE = ProcessedImageField(upload_to=path_system, blank=True, null=True)
+    ######SV
+    ticketInvoiceLoginButton = models.BooleanField('Botón de facturacón de tickets en el login', default=False)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -105,6 +107,8 @@ class Organization(MPTTModel, Model_base):
         return self.sites.all().first()
     def get_modules_code(self):
         return self.modules.all().values_list('code', flat=True)
+
+    
 
 ########################################################################################
 ########################################################################################

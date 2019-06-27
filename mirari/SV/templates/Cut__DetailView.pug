@@ -23,25 +23,30 @@ block content
                                 .kt-invoice__items.kt-align-right.py-4
                                     .kt-invoice__item.kt-align-right
                                         div
-                                            span.kt-invoice__subtitle FECHA DE CORTE
-                                            span.kt-invoice__text
+                                            span.kt-invoice__subtitle FECHA DE CORTE 
+                                            span.kt-invoice__text ${CutDetail.initial_time|formatDate} 
                                         div
-                                            span.kt-invoice__subtitle PRIMER TICKET
-                                            span.kt-invoice__text
+                                            span.kt-invoice__subtitle PRIMER TICKET 
+                                            span.kt-invoice__text(v-if="CutDetail.final_time") ${CutDetail.final_time|formatDate} 
+                                            span.kt-invoice__text(v-else) 
+                                                strong CORTE EN CURSO
                                         div
-                                            span.kt-invoice__subtitle TOTAL TICKETS
+                                            span.kt-invoice__subtitle TOTAL 
+                                                strong ${CutDetail.getLens.__ALL.TOTAL} 
+                                                | TICKETS 
                                             span.kt-invoice__text
-                                                strong ${CutDetail.getLens.__ALL.TOTAL}
                                                 strong ${CutDetail.getTotalDetail.__ALL.TOTAL.MXN}
                                         div
-                                            span.kt-invoice__subtitle TOTAL FALTANTES
+                                            span.kt-invoice__subtitle TOTAL 
+                                                strong ${CutDetail.getLens.__ALL.PENDIENTE} 
+                                                | FALTANTES 
                                             span.kt-invoice__text
-                                                strong ${CutDetail.getLens.__ALL.PENDIENTE}
                                                 strong ${CutDetail.getTotalDetail.__ALL.PENDIENTE.MXN}
                                         div
-                                            span.kt-invoice__subtitle TOTAL CANCELADOS
+                                            span.kt-invoice__subtitle TOTAL 
+                                                strong ${CutDetail.getLens.__ALL.CANCELADO} 
+                                                | CANCELADOS 
                                             span.kt-invoice__text
-                                                strong ${CutDetail.getLens.__ALL.CANCELADO}
                                                 strong ${CutDetail.getTotalDetail.__ALL.CANCELADO.MXN}
                             .col-lg-6
                                 .kt-invoice__logo.pt-5
@@ -97,17 +102,17 @@ block content
                                         td(colspan='4')
                                         td FALTANTE
                                         td
-                                            strong ${CutDetail.getTotalDetail[key][&apos;PENDIENTE&apos;].MXN}
+                                            strong ${CutDetail.getTotalDetail[key]['PENDIENTE'].MXN}
                                     tr
                                         td(colspan='4')
                                         td CANCELADO
                                         td
-                                            strong ${CutDetail.getTotalDetail[key][&apos;CANCELADO&apos;].MXN}
+                                            strong ${CutDetail.getTotalDetail[key]['CANCELADO'].MXN}
                                     tr
                                         td(colspan='4')
                                         td(:style='{color:CutDetail.SellpointDetail.color}') TOTAL
                                         td
-                                            strong ${CutDetail.getTotalDetail[key][&apos;COBRADO&apos;].MXN}
+                                            strong ${CutDetail.getTotalDetail[key]['COBRADO'].MXN}
                     .kt-invoice__footer.mt-0.pt-0
                         .kt-invoice__table.kt-invoice__table--centered.table-responsive
                             table.table
@@ -147,7 +152,6 @@ script.
         {{block.super}}
         Block(text="Calculando corte...");
         Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCut',{'cut':{{object.pk}}},errorDialog=false).then(function(json){
-            console.log(json)
             self.CutDetail = json.data.cut
         }).catch((error) => {
             swal('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')

@@ -1,39 +1,80 @@
-<!DOCTYPE html>
-<html lang="es" class="default-style">
+<!DOCTYPE html class="material-style layout-footer-fixed">
+<html>
 <head>
-	<title>SV</title>
-	<meta charset="utf-8">
-	<meta name="format-detection" content="telephone=no" />
-	<meta name="msapplication-tap-highlight" content="no" />
-	<meta name="viewport" content="user -scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-	<meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
-	<meta name="description" content="">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet">
-	<link rel="stylesheet" href="assets/vendor/fonts/fontawesome.css">
-	<link rel="stylesheet" href="assets/vendor/css/rtl/bootstrap.css" class="theme-settings-bootstrap-css">
-	<link rel="stylesheet" href="assets/vendor/css/rtl/appwork.css" class="theme-settings-appwork-css">
-	<link rel="stylesheet" href="assets/vendor/css/rtl/theme-corporate.css" class="theme-settings-theme-css">
-	<link rel="stylesheet" href="assets/vendor/css/rtl/colors.css" class="theme-settings-colors-css">
-	<link rel="stylesheet" href="assets/vendor/css/rtl/uikit.css">
-	</head>
-	<body>
-		<div class="app" id="app">
-			<!-- Content -->
-			<h4 class="font-weight-bold">
-				<div class="demo-paragraph-spacing mt-3">
-					<p>
-						<button type="button" class="btn btn-xl btn-default ml-5" v-on:click="reload()">{{REINICIAR}}</button>
-						<p>
-							Es posible que no tengas conexión a internet, porfavor espera un momento y reinicia la aplicación.
-						</p>
-					</p>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user -scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900" rel="stylesheet">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome.css">
+    <link rel="stylesheet" href="assets/vendor/css/bootstrap-material.css" class="theme-settings-bootstrap-css">
+    <link rel="stylesheet" href="assets/vendor/css/appwork-material.css" class="theme-settings-appwork-css">
+    <link rel="stylesheet" href="assets/vendor/css/theme-corporate-material.css" class="theme-settings-theme-css">
+    <link rel="stylesheet" href="assets/vendor/css/colors-material.css" class="theme-settings-colors-css">
+    <link rel="stylesheet" href="assets/vendor/css/uikit.css">
+    <link rel="stylesheet" href="assets/vendor/css/pages/authentication.css">
+    <script src="assets/vendor/js/material-ripple.js"></script>
+	<script src="assets/vendor/js/layout-helpers.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="css/sweetalert.css">
+    <title>SUVENTA</title>
+</head>
+<body>
+    <div class="app" id="app" style="background-color:transparent;">
+        <div v-if="$route.path === '/'">
+            <div class="authentication-wrapper authentication-1">
+                <div class="authentication-inner" style="max-width: 400px;">
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <img src="img/logoBG.png" style="max-width: 300px;"/>
+                    </div>
+                    <form>
+                        <p>
+                            Es posible que no tengas conexión a internet, porfavor espera un momento y reinicia la aplicación. :(
+                        </p>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-block" v-on:click="location.reload()">{{REINICIAR}}</button>
+                        </div>
+                    </form>
                 </div>
-			</h4>
-		</div>
-		<script type="text/javascript" src="cordova.js"></script>
-		<script type="text/javascript" src="js/vue.js"></script>
-        
-		<script type="text/javascript" src="js/index.js"></script>
-	</body>
-	</html>
-	
+            </div>
+        </div>
+        <div v-if="$route.path === '/getCode'">
+            <div class="authentication-wrapper authentication-1 px-4">
+                <div class="authentication-inner py-5">
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <img src="img/logoBG.png" style="max-width: 300px;"/>
+                    </div>
+                    <form class="my-3" v-on:submit.prevent="getCode(code)">
+                        <div class="form-group">
+                            <label class="form-label d-flex justify-content-between align-items-end">
+                                CÓDIGO DE EMPRESA
+                            </label>
+                            <input type="text" class="form-control" v-model="code" required/>
+                            <small>Solo se pide una sola vez.</small>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">ENTRAR</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="p-5" v-if="$route.path === '/QR'" style="background-color:transparent;">
+            <button type="button" class="btn btn-ligth btn-xl" v-on:click="destroyQR()">REGRESAR</button>
+        </div>
+    </div>
+    <script src="assets/vendor/libs/popper/popper.js"></script>
+	<script src="assets/vendor/js/bootstrap.js"></script>
+	<script src="assets/vendor/js/sidenav.js"></script>
+	<script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+	<script src="assets/vendor/libs/block-ui/block-ui.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript" src="js/vue-router.js"></script>
+    <script type="text/javascript" src="js/axios.js"></script>
+    <script type="text/javascript" src="js/vue-cookies.js"></script>
+    <script type="text/javascript" src="js/qs.js"></script>
+    <script type="text/javascript" src="js/sweetalert.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>

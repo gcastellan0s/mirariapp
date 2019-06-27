@@ -7,23 +7,20 @@
     "files": {}
   },
   "installed_plugins": {
+    "cordova-plugin-fullscreen": {
+      "PACKAGE_NAME": "xyz.mirari.suventa"
+    },
     "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "mx.mirari.sv"
+      "PACKAGE_NAME": "xyz.mirari.suventa"
+    },
+    "cordova-plugin-qrscanner": {
+      "PACKAGE_NAME": "xyz.mirari.suventa"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "xyz.mirari.suventa"
     },
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "mx.mirari.sv"
-    },
-    "cordova-plugin-battery-status": {
-      "PACKAGE_NAME": "mx.mirari.sv"
-    },
-    "cordova-plugin-dialogs": {
-      "PACKAGE_NAME": "mx.mirari.sv"
-    },
-    "cordova-plugin-starprnt": {
-      "PACKAGE_NAME": "mx.mirari.sv"
-    },
-    "cordova-plugin-networkinterface": {
-      "PACKAGE_NAME": "mx.mirari.sv"
+      "PACKAGE_NAME": "xyz.mirari.suventa"
     }
   },
   "dependent_plugins": {}

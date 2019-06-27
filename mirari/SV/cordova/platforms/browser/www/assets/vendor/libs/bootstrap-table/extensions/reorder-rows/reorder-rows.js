@@ -1,1 +1,119 @@
-!function(o,t){var e=function(o){var t={};function e(r){if(t[r])return t[r].exports;var n=t[r]={i:r,l:!1,exports:{}};return o[r].call(n.exports,n,n.exports,e),n.l=!0,n.exports}return e.m=o,e.c=t,e.d=function(o,t,r){e.o(o,t)||Object.defineProperty(o,t,{enumerable:!0,get:r})},e.r=function(o){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(o,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(o,"__esModule",{value:!0})},e.t=function(o,t){if(1&t&&(o=e(o)),8&t)return o;if(4&t&&"object"==typeof o&&o&&o.__esModule)return o;var r=Object.create(null);if(e.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:o}),2&t&&"string"!=typeof o)for(var n in o)e.d(r,n,function(t){return o[t]}.bind(null,n));return r},e.n=function(o){var t=o&&o.__esModule?function(){return o.default}:function(){return o};return e.d(t,"a",t),t},e.o=function(o,t){return Object.prototype.hasOwnProperty.call(o,t)},e.p="",e(e.s=332)}({332:function(o,t,e){e(333)},333:function(o,t){!function(o){"use strict";var t=function(o,t){return{id:"customId_"+t}};o.extend(o.fn.bootstrapTable.defaults,{reorderableRows:!1,onDragStyle:null,onDropStyle:null,onDragClass:"reorder_rows_onDragClass",dragHandle:null,useRowAttrFunc:!1,onReorderRowsDrag:function(o,t){return!1},onReorderRowsDrop:function(o,t){return!1},onReorderRow:function(o){return!1}}),o.extend(o.fn.bootstrapTable.Constructor.EVENTS,{"reorder-row.bs.table":"onReorderRow"});var e=o.fn.bootstrapTable.Constructor,r=e.prototype.init,n=e.prototype.initSearch;e.prototype.init=function(){if(this.options.reorderableRows){var o=this;this.options.useRowAttrFunc&&(this.options.rowAttributes=t);var e=this.options.onPostBody;this.options.onPostBody=function(){setTimeout(function(){o.makeRowsReorderable(),e.apply()},1)},r.apply(this,Array.prototype.slice.apply(arguments))}else r.apply(this,Array.prototype.slice.apply(arguments))},e.prototype.initSearch=function(){n.apply(this,Array.prototype.slice.apply(arguments)),this.options.reorderableRows},e.prototype.makeRowsReorderable=function(){this.options.cardView||this.$el.tableDnD({onDragStyle:this.options.onDragStyle,onDropStyle:this.options.onDropStyle,onDragClass:this.options.onDragClass,onDrop:this.onDrop,onDragStart:this.options.onReorderRowsDrag,dragHandle:this.options.dragHandle})},e.prototype.onDrop=function(t,e){for(var r=o(t),n=r.data("bootstrap.table"),a=r.data("bootstrap.table").options,i=null,s=[],p=0;p<t.tBodies[0].rows.length;p++)i=o(t.tBodies[0].rows[p]),s.push(a.data[i.data("index")]),i.data("index",p).attr("data-index",p);a.data=a.data.slice(0,n.pageFrom-1).concat(s).concat(a.data.slice(n.pageTo)),a.onReorderRowsDrop.apply(t,[t,e]),n.trigger("reorder-row",s)}}(jQuery)}});if("object"==typeof e){var r=["object"==typeof module&&"object"==typeof module.exports?module.exports:null,"undefined"!=typeof window?window:null,o&&o!==window?o:null];for(var n in e)r[0]&&(r[0][n]=e[n]),r[1]&&"__esModule"!==n&&(r[1][n]=e[n]),r[2]&&(r[2][n]=e[n])}}(this);
+
+(function(r,f) {
+	var a=f();
+	if(typeof a!=='object')return;
+	var e=[typeof module==='object'&&typeof module.exports==='object'?module.exports:null,typeof window!=='undefined'?window:null,r&&r!==window?r:null];
+	for(var i in a){e[0]&&(e[0][i]=a[i]);e[1]&&i!=='__esModule'&&(e[1][i] = a[i]);e[2]&&(e[2][i]=a[i]);}
+})(this,function(){
+	return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./libs/bootstrap-table/extensions/reorder-rows/reorder-rows.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./libs/bootstrap-table/extensions/reorder-rows/reorder-rows.js":
+/*!**********************************************************************!*\
+  !*** ./libs/bootstrap-table/extensions/reorder-rows/reorder-rows.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("__webpack_require__(/*! ../../../../node_modules/bootstrap-table/src/extensions/reorder-rows/bootstrap-table-reorder-rows.js */ \"./node_modules/bootstrap-table/src/extensions/reorder-rows/bootstrap-table-reorder-rows.js\");\n\n//# sourceURL=webpack:///./libs/bootstrap-table/extensions/reorder-rows/reorder-rows.js?");
+
+/***/ }),
+
+/***/ "./node_modules/bootstrap-table/src/extensions/reorder-rows/bootstrap-table-reorder-rows.js":
+/*!**************************************************************************************************!*\
+  !*** ./node_modules/bootstrap-table/src/extensions/reorder-rows/bootstrap-table-reorder-rows.js ***!
+  \**************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("/**\n * @author: Dennis Hernández\n * @webSite: http://djhvscf.github.io/Blog\n * @version: v1.0.1\n */\n(function ($) {\n  'use strict';\n\n  var isSearch = false;\n\n  var rowAttr = function rowAttr(row, index) {\n    return {\n      id: 'customId_' + index\n    };\n  };\n\n  $.extend($.fn.bootstrapTable.defaults, {\n    reorderableRows: false,\n    onDragStyle: null,\n    onDropStyle: null,\n    onDragClass: \"reorder_rows_onDragClass\",\n    dragHandle: null,\n    useRowAttrFunc: false,\n    onReorderRowsDrag: function onReorderRowsDrag(table, row) {\n      return false;\n    },\n    onReorderRowsDrop: function onReorderRowsDrop(table, row) {\n      return false;\n    },\n    onReorderRow: function onReorderRow(newData) {\n      return false;\n    }\n  });\n  $.extend($.fn.bootstrapTable.Constructor.EVENTS, {\n    'reorder-row.bs.table': 'onReorderRow'\n  });\n  var BootstrapTable = $.fn.bootstrapTable.Constructor,\n      _init = BootstrapTable.prototype.init,\n      _initSearch = BootstrapTable.prototype.initSearch;\n\n  BootstrapTable.prototype.init = function () {\n    if (!this.options.reorderableRows) {\n      _init.apply(this, Array.prototype.slice.apply(arguments));\n\n      return;\n    }\n\n    var that = this;\n\n    if (this.options.useRowAttrFunc) {\n      this.options.rowAttributes = rowAttr;\n    }\n\n    var onPostBody = this.options.onPostBody;\n\n    this.options.onPostBody = function () {\n      setTimeout(function () {\n        that.makeRowsReorderable();\n        onPostBody.apply();\n      }, 1);\n    };\n\n    _init.apply(this, Array.prototype.slice.apply(arguments));\n  };\n\n  BootstrapTable.prototype.initSearch = function () {\n    _initSearch.apply(this, Array.prototype.slice.apply(arguments));\n\n    if (!this.options.reorderableRows) {\n      return;\n    } //Known issue after search if you reorder the rows the data is not display properly\n    //isSearch = true;\n\n  };\n\n  BootstrapTable.prototype.makeRowsReorderable = function () {\n    if (this.options.cardView) {\n      return;\n    }\n\n    var that = this;\n    this.$el.tableDnD({\n      onDragStyle: that.options.onDragStyle,\n      onDropStyle: that.options.onDropStyle,\n      onDragClass: that.options.onDragClass,\n      onDrop: that.onDrop,\n      onDragStart: that.options.onReorderRowsDrag,\n      dragHandle: that.options.dragHandle\n    });\n  };\n\n  BootstrapTable.prototype.onDrop = function (table, droppedRow) {\n    var tableBs = $(table),\n        tableBsData = tableBs.data('bootstrap.table'),\n        tableBsOptions = tableBs.data('bootstrap.table').options,\n        row = null,\n        newData = [];\n\n    for (var i = 0; i < table.tBodies[0].rows.length; i++) {\n      row = $(table.tBodies[0].rows[i]);\n      newData.push(tableBsOptions.data[row.data('index')]);\n      row.data('index', i).attr('data-index', i);\n    }\n\n    tableBsOptions.data = tableBsOptions.data.slice(0, tableBsData.pageFrom - 1).concat(newData).concat(tableBsOptions.data.slice(tableBsData.pageTo)); //Call the user defined function\n\n    tableBsOptions.onReorderRowsDrop.apply(table, [table, droppedRow]); //Call the event reorder-row\n\n    tableBsData.trigger('reorder-row', newData);\n  };\n})(jQuery);\n\n//# sourceURL=webpack:///./node_modules/bootstrap-table/src/extensions/reorder-rows/bootstrap-table-reorder-rows.js?");
+
+/***/ })
+
+/******/ });
+});;

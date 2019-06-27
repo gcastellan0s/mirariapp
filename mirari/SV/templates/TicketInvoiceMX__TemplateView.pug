@@ -1,0 +1,88 @@
+extends 'appwork/layout-without-navbar.html'
+-load static
+-load i18n
+
+block styles
+    {{block.super}} 
+    link(rel='stylesheet', href="{%static 'appwork-html/vendor/css/pages/authentication.css'%}")
+
+block content
+    .authentication-wrapper.authentication-1.px-4
+        .authentication-inner.py-5
+            form.my-3(v-on:submit.prevent='ticketInvoice(invoice)')
+                .d-flex.justify-content-between.align-items-center.mb-3
+                    button.btn.btn-default(v-on:click.prevent='clearTicket()') {% trans 'LIMPIAR'%}
+                .form-group
+                    label.form-label.d-flex.justify-content-between.align-items-end
+                        div {% trans 'KEY del Ticket'%}
+                        a.d-block.small
+                            button.btn.btn-primary(v-on:click.prevent="getTicketQR()" style="margin-top:-3rem;")
+                                i.fas.fa-camera.mr-2 
+                                | {% trans 'ESCANEAR QR'%}
+                    input.form-control(type='text', v-model='invoice.ticket' minlength=12 maxlength=12 required autofocus="autofocus")
+                .form-group
+                    label.form-label.d-flex.justify-content-between.align-items-end
+                        div {% trans 'RFC'%}
+                    input.form-control(type='text', v-model='invoice.rfc' minlength=12 maxlength=13 required)
+                .form-group
+                    label.form-label.d-flex.justify-content-between.align-items-end
+                        div {% trans 'Razón Social'%}
+                    input.form-control(type='text', v-model='invoice.razonSocial' required)
+                .form-group
+                    label.form-label.d-flex.justify-content-between.align-items-end
+                        div {% trans 'Email'%}
+                    input.form-control(type='email', v-model='invoice.email' required)
+                .form-group
+                    button.btn.btn-primary.btn-block(type='submit') {% trans 'GENERAR FACTURA'%}
+            .text-center.text-muted
+                a(href='javascript:void(0)' style="color:inherit") {% trans 'Regresar al inicio'%}
+            a.btn.btn-primary.btn-block.mt-2(href="{%url 'mirari:login__Organization__TemplateView'%}") 
+                i.fas.fa-arrow-left.mr-2  
+                | {% trans 'REGRESAR'%}
+
+block js
+    {{block.super}}
+    script(src="{%static 'mirari/js/vue-cookies.js'%}")        
+
+script.
+    {%block data%}
+        invoice: {
+            ticket: '{%if request.GET.barCode%}{{request.GET.barCode}}{%endif%}',
+            rfc: '',
+            razonSocial: '',
+            email: '',
+        },
+    {%endblock data%}
+
+    {%block mounted%}
+        {{block.super}}
+        if ($cookies.get('InvoiceRfc')) self.invoice.rfc = $cookies.get('InvoiceRfc')
+        if ($cookies.get('InvoiceInvoice')) self.invoice.razonSocial = $cookies.get('InvoiceInvoice')
+        if ($cookies.get('InvoiceEmail')) self.invoice.email = $cookies.get('InvoiceEmail')
+    {%endblock mounted%}
+
+    {%block methods%}
+        getTicketQR: (() => {
+            $cookies.set('InvoiceRfc', self.invoice.rfc, "2MIN")
+            $cookies.set('InvoiceInvoice', self.invoice.razonSocial, "2MIN")
+            $cookies.set('InvoiceEmail', self.invoice.email, "2MIN")
+            window.location.replace("{%url 'SV:GetTicketQR__TemplateView'%}")
+        }),
+        clearTicket: (() => {
+            self.invoice.ticket = ''
+            self.invoice.rfc = ''
+            self.invoice.razonSocial = ''
+            self.invoice.email = ''
+        }),
+        ticketInvoice: ((invoice) => {
+            Block('Generando factura...');
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeInvoiceTicket', invoice).then(function(json){
+                swal('Exito!', json.data.message, 'success')
+            }).catch((error) => {
+                swal('Oops!', error.response.data.message, 'error')
+            })
+            .finally(() => {
+                UnBlock();
+            });
+        }),
+    {%endblock methods%}

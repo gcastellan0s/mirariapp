@@ -2,8 +2,12 @@
 from mirari.mirari.models import *
 from .vars import *
 
+from lxml.etree import Element, SubElement, QName, tostring, XML, XMLParser, fromstring
+
 import zeep
 import boto3
+import xmltodict
+import pdfkit
 import os
 
 ########################################################################################
@@ -48,17 +52,17 @@ VARS = {
                 Div('razonSocial'),
                 Div('persona'),
                 Div('curp'),
-                HTML('<h5 class="kt-section__title ml-2 mb-4">DATOS DE CONTACTO</h5>'),
-                Div('phone'),
-                Div('contactName'),
-                Div('contactEmail'),
-                css_class="col-md-7"
-            ),
-            Div(
                 HTML('<h5 class="kt-section__title ml-2 mb-4">CERTIFICADOS</h5>'),
                 Div('cer'),
                 Div('key'),
                 Div('password'),
+                css_class="col-md-7"
+            ),
+            Div(
+                HTML('<h5 class="kt-section__title ml-2 mb-4">DATOS DE CONTACTO</h5>'),
+                Div('zipcode'),
+                Div('contactName'),
+                Div('contactEmail'),
                 HTML('<h5 class="kt-section__title ml-2 mb-4">DIRECCIÓN</h5>'),
                 Div('street'),
                 Div('extNumber'),
@@ -66,7 +70,6 @@ VARS = {
                 Div('region'),
                 Div('province'),
                 Div('state'),
-                Div('zipcode'),
                 css_class="col-md-5"
             ),
             css_class="form-group m-form__group row"
@@ -118,16 +121,15 @@ class FiscalMX(Model_base):
     razonSocial = models.CharField('Razón social', max_length=255, help_text="Razón social de persona Física o Moral")
     persona = models.CharField('Tipo de persona', choices=PERSONA, max_length=100, default='Física')
     curp = MXCURPField('C.U.R.P.', blank=True, null=True)
-    contactEmail = models.EmailField('Email contacto', max_length=100, help_text="Correo donde llegarán las notificaciones sobre facturación")
-    phone = models.CharField('Teléfono contacto', max_length=100, blank=True, null=True)
-    contactName = models.CharField('Nombre contacto', max_length=255, blank=True, null=True)
+    contactEmail = models.EmailField('Email contacto', max_length=100, help_text="Correo donde llegarán las notificaciones de facturación")
+    contactName = models.CharField('Nombre contacto', max_length=255, help_text="Como identifican tus clientes a tu negocio?")
     street = models.CharField('Calle', max_length=255, blank=True, null=True)
     extNumber = models.CharField('No. EXT', max_length=150, blank=True, null=True)
     intNumber = models.CharField('No. INT', max_length=150, blank=True, null=True)
     region = models.CharField('Colonia', max_length=255, blank=True, null=True)
     province = models.CharField('Municipio o Delegación', max_length=150, blank=True, null=True)
     state = models.CharField('Estado', choices=STATES, max_length=100, blank=True, null=True)
-    zipcode = MXZipCodeField('CP.', blank=True, null=True)
+    zipcode = MXZipCodeField('CP.')
     country = models.CharField('País', max_length=100, default='México')
     cer = models.FileField('CERTIFICADO', blank=True, null=True, upload_to=path_FiscalMX)
     key = models.FileField('LLAVE', blank=True, null=True, upload_to=path_FiscalMX)
@@ -145,6 +147,10 @@ class FiscalMX(Model_base):
             return mark_safe('<i class="flaticon2-hexagonal text-success"></i>')
         else:
             return mark_safe('<i class="flaticon2-hexagonal text-danger"></i>')
+    def makeInvoice(self, data=None):
+        return Invoice().makeInvoice(data)
+    def get_serial(self):
+        return self.serial.get_serial()
 @receiver(post_save, sender=FiscalMX)
 def post_saveFiscalMX(sender, **kwargs):
     instance = kwargs.pop('instance', None)
@@ -207,55 +213,90 @@ VARS = {
     'APP':APP,
     'LIST': [
         {
-            'field': 'id',
+            'field': 'uuid',
             'title': 'ID',
-            'url': 'url_update',
-            'sorteable': True,
+            'url': 'url_detail',
             'serchable': True,
         },
+        {
+            'field': 'cfdiReceptorRfc',
+            'title': 'RFC',
+            'url': 'url_detail',
+            'serchable': True,
+        },
+        {
+            'field': 'cfdiReceptorNombre',
+            'title': 'Razon Social',
+            'url': 'url_detail',
+            'serchable': True,
+        },
+        {
+            'field': 'getTotal',
+            'title': 'TOTAL',
+            'url': 'url_detail',
+            'template': 
+                """
+                    <a href="{{url_detail}}" class="a-no">
+                        {{getTotal.MXN}}
+                    </a>
+                """,
+        },
+        {
+            'field': 'hasError',
+            'title': 'Completada?',
+            'url': 'url_detail',
+        },
     ],
+    'HIDE_BUTTONS_LIST': True,
 }
 class Invoice(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
-
-    xml = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     stampedDate = models.DateTimeField(null=True, blank=True)
-    isCanceled = models.BooleanField(default=False)
     uuid = models.CharField(max_length=250, blank=True, null=True)
-    sello = models.CharField(max_length=250, blank=True, null=True)
-
+    sello = models.TextField(blank=True, null=True)
     serie = models.CharField(max_length=20, blank=True, null=True)
     folio = models.CharField(max_length=100, blank=True, null=True)
+    noCertificadoSAT = models.TextField(blank=True, null=True)
     noCertificado = models.CharField(max_length=250, blank=True, null=True)
     moneda = models.CharField(max_length=250, blank=True, null=True)
     formaPago = models.CharField(max_length=250, blank=True, null=True)
     tipoDeComprobante = models.CharField(max_length=250, blank=True, null=True)
     condicionesDePago = models.CharField(max_length=250, blank=True, null=True)
     metodoPago = models.CharField(max_length=250, blank=True, null=True)
-    tipoCambio = models.CharField(max_length=250, blank=True, null=True)
     lugarExpedicion = models.CharField(max_length=250, blank=True, null=True)
-
     cfdiEmisorRfc = models.CharField(max_length=250, blank=True, null=True)
     cfdiEmisorNombre = models.CharField(max_length=250, blank=True, null=True)
     cfdiEmisorRegimenFiscal = models.CharField(max_length=250, blank=True, null=True)
-
-    CfdiReceptorRfc = models.CharField(max_length=250, blank=True, null=True)
-    CfdiReceptorNombre = models.CharField(max_length=250, blank=True, null=True)
-    CfdiReceptorRegimenFiscal = models.CharField(max_length=250, blank=True, null=True)
-
-    subTotal = models.FloatField()
-    total = models.FloatField()
-
+    cfdiReceptorRfc = models.CharField(max_length=250, blank=True, null=True)
+    cfdiReceptorNombre = models.CharField(max_length=250, blank=True, null=True)
+    cfdiReceptorUsocfdi = models.CharField(max_length=250, blank=True, null=True)
+    subTotal = models.FloatField(default=0)
+    total = models.FloatField(default=0)
+    xml = models.TextField(blank=True, null=True)
+    incidencias = models.TextField(blank=True, null=True)
+    isCanceled = models.BooleanField(default=False)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
         verbose_name_plural = VARS['PLURAL']
         permissions = permissions(VARS)
     def __str__(self):
-        return '{0}'.format(self.rfc)
-    
-    def make_xml(self, dataInvoice):
+        return '{0}'.format(self.id)
+    def hasError(self):
+        if self.incidencias:
+            return self.render_boolean(False)
+        else:
+            return self.render_boolean(True)
+    def getTotal(self):
+        return {
+            'INT':self.total,
+            'MXN':Money( "{0:.2f}".format(self.total), Currency.MXN).format('es_MX'),
+        }
+    def makeInvoice(self, data):
+        self.organization = data['organization']
+        self.rfc = data['cfdiReceptorRfc']
+        self.folio = data['folio']
         nscfdi = 'http://www.sat.gob.mx/cfd/3'
         nsxsi = 'http://www.w3.org/2001/XMLSchema-instance'
         nsmap = {
@@ -264,37 +305,34 @@ class Invoice(Model_base):
         }
         Comprobante = Element('{%s}Comprobante' % nscfdi, nsmap=nsmap, attrib={"{%s}schemaLocation" % nsxsi: "http://www.sat.gob.mx/cfd/3 http://www.sat.gob.mx/sitio_internet/cfd/3/cfdv33.xsd"},
             Version='3.3',
-            Serie=dataInvoice['serie'],
-            Folio=dataInvoice['folio'],
-            Fecha=dataInvoice['fecha'],
+            Serie=data['serie'],
+            Folio=data['folio'],
+            Fecha=data['fecha'],
             Sello='',
-            NoCertificado=dataInvoice['noCertificado'],
+            NoCertificado=data['noCertificado'],
             Certificado='',
-            SubTotal=dataInvoice['subTotal'],
-            Moneda=dataInvoice['moneda'],
-            Total=dataInvoice['total'],
-            TipoDeComprobante=dataInvoice['tipoDeComprobante'],
-            CondicionesDePago=dataInvoice['condicionesDePago'],
-            LugarExpedicion=dataInvoice['lugarExpedicion'],
-            MetodoPago=dataInvoice['metodoPago'],
-            FormaPago=dataInvoice['formaPago'],
+            Moneda=data['moneda'],
+            TipoDeComprobante=data['tipoDeComprobante'],
+            CondicionesDePago=data['condicionesDePago'],
+            LugarExpedicion=data['lugarExpedicion'],
+            MetodoPago=data['metodoPago'],
+            FormaPago=data['formaPago'],
+            SubTotal=data['subTotal'],
+            Total=data['total'],
         )
         CfdiEmisor = SubElement(Comprobante, '{%s}Emisor' % nscfdi, 
-            Rfc=data['emisor_rfc'],
-            Nombre=data['emisor_nombre'],
-            RegimenFiscal=data['emisor_regimenfiscal'],
+            Rfc=data['cfdiEmisorRfc'],
+            Nombre=data['cfdiEmisorNombre'],
+            RegimenFiscal=data['cfdiEmisorRegimenFiscal'],
         )
         CfdiReceptor = SubElement(Comprobante, '{%s}Receptor' % nscfdi, 
-            Rfc=data['receptor_rfc'],
-            Nombre=data['receptor_nombre'],
-            UsoCFDI=data['receptor_usocfdi'],
+            Rfc=data['cfdiReceptorRfc'],
+            Nombre=data['cfdiReceptorNombre'],
+            UsoCFDI=data['cfdiReceptorUsocfdi'],
         )
-
-
-        CfdiConceptos = SubElement(Comprobante, '{%s}Conceptos' % nscfdi,
-        )
+        CfdiConceptos = SubElement(Comprobante, '{%s}Conceptos' % nscfdi,)
         transladados = {}
-        total_transladados = 0
+        totalTransladados = 0
         for concepto in data['conceptos']:
             CfdiConcepto = SubElement(CfdiConceptos, '{%s}Concepto' % nscfdi,
                 ClaveProdServ = concepto['claveProdServ'],
@@ -307,33 +345,31 @@ class Invoice(Model_base):
                 Importe = concepto['importe'],
                 #Descuento = concepto['descuento'],
             )
-            if concepto['impuestos_transladados']:
-                CfdiImpuestos = SubElement(CfdiConcepto, '{%s}Impuestos' % nscfdi,
-                )
-                CfdiTraslados = SubElement(CfdiImpuestos, '{%s}Traslados' % nscfdi,
-                )
-                for impuesto in concepto['impuestos_transladados']:
+            if concepto['impuestosTransladados']:
+                CfdiImpuestos = SubElement(CfdiConcepto, '{%s}Impuestos' % nscfdi,)
+                CfdiTraslados = SubElement(CfdiImpuestos, '{%s}Traslados' % nscfdi,)
+                for impuesto in concepto['impuestosTransladados']:
                     CfdiTraslado = SubElement(CfdiTraslados, '{%s}Traslado' % nscfdi,
                         Base = impuesto['base'],
                         Impuesto = impuesto['impuesto'],
-                        TipoFactor = impuesto['tipofactor'],
-                        TasaOCuota = impuesto['tasaocuota'],
+                        TipoFactor = impuesto['tipoFactor'],
+                        TasaOCuota = impuesto['tasaoCuota'],
                         Importe = impuesto['importe'],
                     )
                     if not impuesto['impuesto'] in transladados:
                         transladados.update({
                             impuesto['impuesto']:{
                                 'Impuesto': impuesto['impuesto'],
-                                'TipoFactor': impuesto['tipofactor'],
-                                'TasaOCuota': impuesto['tasaocuota'],
+                                'TipoFactor': impuesto['tipoFactor'],
+                                'TasaOCuota': impuesto['tasaoCuota'],
                                 'Importe': '0.00',
                             }
                         })
-                    transladados[impuesto['impuesto']]['Importe'] = float(transladados[impuesto['impuesto']]['Importe']) + float(impuesto['importe'])
-                    total_transladados = total_transladados + float(impuesto['importe'])
+                    transladados[impuesto['impuesto']]['Importe'] = '{0:.2f}'.format(float(transladados[impuesto['impuesto']]['Importe']) + float(impuesto['importe']))
+                    totalTransladados += float(impuesto['importe'])
         if transladados:
             Cfdi_impuestos_Impuestos = SubElement(Comprobante, '{%s}Impuestos' % nscfdi,
-                TotalImpuestosTrasladados = '{0:.2f}'.format(total_transladados)
+                TotalImpuestosTrasladados = '{0:.2f}'.format(totalTransladados)
             )
             Cfdi_impuestos_Traslados = SubElement(Cfdi_impuestos_Impuestos, '{%s}Traslados' % nscfdi,
             )
@@ -342,54 +378,55 @@ class Invoice(Model_base):
                     Impuesto = transladado['Impuesto'],
                     TipoFactor = transladado['TipoFactor'],
                     TasaOCuota = transladado['TasaOCuota'],
-                    Importe = '{0:.2f}'.format(transladado['Importe']),
+                    Importe = transladado['Importe'],
                 )
-
-
-
-        client = zeep.Client(wsdl='https://facturacion.finkok.com/servicios/soap/stamp.wsdl')
+        client = zeep.Client(wsdl=settings.FINKOK['URL']+'stamp.wsdl')
         response = client.service.sign_stamp( 
-            username = settings.VAR_PRODUCTION['INVOICE_USER'], 
-            password = settings.VAR_PRODUCTION['INVOICE_PASSWORD'], 
+            username = settings.FINKOK['USER'],
+            password = settings.FINKOK['PASSWORD'],
             xml = tostring(Comprobante), 
         )
-        #return response, Comprobante
-        self.company = data['company']
+        if response['Incidencias']:
+            self.incidencias = response['Incidencias']
+            self.save()
+            return False
         self.xml = response['xml']
+        self.stampedDate = data['fecha']
         self.uuid = response['UUID']
-        self.serial = data['serie']
-        self.satseal = response['SatSeal']
+        self.sello = response['SatSeal']
+        self.noCertificadoSAT = response['NoCertificadoSAT']
+        self.serie = data['serie']
         self.folio = data['folio']
-        self.nocertificadosat = response['NoCertificadoSAT']
-        self.fecha = response['Fecha']
+        self.noCertificado = data['noCertificado']
+        self.moneda = data['moneda']
+        self.formaPago = data['formaPago']
+        self.tipoDeComprobante = data['tipoDeComprobante']
+        self.condicionesDePago = data['condicionesDePago']
+        self.metodoPago = data['metodoPago']
+        self.lugarExpedicion = data['lugarExpedicion']
+        self.cfdiEmisorRfc = data['cfdiEmisorRfc']
+        self.cfdiEmisorNombre = data['cfdiEmisorNombre']
+        self.cfdiEmisorRegimenFiscal = data['cfdiEmisorRegimenFiscal']
+        self.cfdiReceptorRfc = data['cfdiReceptorRfc']
+        self.cfdiReceptorNombre = data['cfdiReceptorNombre']
+        self.cfdiReceptorUsocfdi = data['cfdiReceptorUsocfdi']
+        self.subTotal = data['subTotal']
+        self.total = data['total']
         self.save()
-        invoice = self
-        self.make_pdf(xml = invoice.xml, data = data, invoice = invoice)
-        html_content = get_template('email.html').render()
-        plaintext = get_template('email.txt').render()
-        msg = EmailMultiAlternatives(
-            subject="Facturación Estrella",
-            body=plaintext,
-            from_email='pasteleriaslaestrella@gmail.com',
-            to=(data['email'],),
-        )
-        msg.attach_file('cfdi.xml')
-        msg.attach_file('cfdi.pdf')
-        msg.attach_alternative(html_content, "text/html")
-        msg.send(False)
-
-        html_content = get_template('email.html').render()
-        plaintext = get_template('email.txt').render()
-        msg = EmailMultiAlternatives(
-            subject="Facturación Estrella",
-            body=plaintext,
-            from_email='pasteleriaslaestrella@gmail.com',
-            to=('contabilidad.laestrella@gmail.com',),
-        )
-        msg.attach_file('cfdi.xml')
-        msg.attach_file('cfdi.pdf')
-        msg.attach_alternative(html_content, "text/html")
-        msg.send(False)
-        return {'xml': self.xml, 'uuid': self.uuid, 'pdf': 'response_pdf'}
-
-
+        return self.makePDFAndXML(xml=self.xml, invoice=self, name=self.uuid)
+    def makePDFAndXML(self, xml, invoice=None, name='NoName'):
+        f = open('temp/'+name+'.xml','w')
+        f.write(xml)
+        f.close()
+        html = render_to_string('cfdi/cfdi.pug',{
+            'cfdi':xmltodict.parse(xml.encode('utf-8'))['cfdi:Comprobante'],
+            'invoice':invoice,
+            'static':'https://mirariapp.s3.amazonaws.com/static/',
+            'media':'https://mirariapp.s3.amazonaws.com/media/'
+        })
+        df = pdfkit.from_string(html,'temp/'+name+'.pdf',{
+            'page-size': 'Letter',
+            'encoding': "UTF-8",
+            'dpi': 300,
+        })
+        return 'temp/'+name

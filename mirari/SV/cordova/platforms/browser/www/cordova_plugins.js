@@ -1,6 +1,14 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/cordova-plugin-fullscreen/www/AndroidFullScreen.js",
+        "id": "cordova-plugin-fullscreen.AndroidFullScreen",
+        "pluginId": "cordova-plugin-fullscreen",
+        "clobbers": [
+            "AndroidFullScreen"
+        ]
+    },
+    {
         "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
         "id": "cordova-plugin-inappbrowser.inappbrowser",
         "pluginId": "cordova-plugin-inappbrowser",
@@ -16,67 +24,42 @@ module.exports = [
         "runs": true
     },
     {
-        "file": "plugins/cordova-plugin-battery-status/www/battery.js",
-        "id": "cordova-plugin-battery-status.battery",
-        "pluginId": "cordova-plugin-battery-status",
+        "file": "plugins/cordova-plugin-qrscanner/www/www.min.js",
+        "id": "cordova-plugin-qrscanner.QRScanner",
+        "pluginId": "cordova-plugin-qrscanner",
         "clobbers": [
-            "navigator.battery"
+            "QRScanner"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-battery-status/src/browser/BatteryProxy.js",
-        "id": "cordova-plugin-battery-status.Battery",
-        "pluginId": "cordova-plugin-battery-status",
+        "file": "plugins/cordova-plugin-qrscanner/src/browser/plugin.min.js",
+        "id": "cordova-plugin-qrscanner.QRScannerProxy",
+        "pluginId": "cordova-plugin-qrscanner",
         "runs": true
     },
     {
-        "file": "plugins/cordova-plugin-dialogs/www/notification.js",
-        "id": "cordova-plugin-dialogs.notification",
-        "pluginId": "cordova-plugin-dialogs",
-        "merges": [
-            "navigator.notification"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-dialogs/www/browser/notification.js",
-        "id": "cordova-plugin-dialogs.notification_browser",
-        "pluginId": "cordova-plugin-dialogs",
-        "merges": [
-            "navigator.notification"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-starprnt/www/StarPRNT.js",
-        "id": "cordova-plugin-starprnt.StarPRNT",
-        "pluginId": "cordova-plugin-starprnt",
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "id": "cordova-plugin-statusbar.statusbar",
+        "pluginId": "cordova-plugin-statusbar",
         "clobbers": [
-            "starprnt"
+            "window.StatusBar"
         ]
     },
     {
-        "file": "plugins/cordova-plugin-networkinterface/www/networkinterface.js",
-        "id": "cordova-plugin-networkinterface.networkinterface",
-        "pluginId": "cordova-plugin-networkinterface",
-        "clobbers": [
-            "window.networkinterface"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-networkinterface/src/browser/networkinterfaceProxy.js",
-        "id": "cordova-plugin-networkinterface.networkinterfaceProxy",
-        "pluginId": "cordova-plugin-networkinterface",
+        "file": "plugins/cordova-plugin-statusbar/src/browser/StatusBarProxy.js",
+        "id": "cordova-plugin-statusbar.StatusBarProxy",
+        "pluginId": "cordova-plugin-statusbar",
         "runs": true
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "cordova-plugin-fullscreen": "1.1.0",
     "cordova-plugin-inappbrowser": "3.0.0",
-    "cordova-plugin-whitelist": "1.3.3",
-    "cordova-plugin-battery-status": "2.0.2",
-    "cordova-plugin-dialogs": "2.0.1",
-    "cordova-plugin-starprnt": "2.1.0",
-    "cordova-plugin-networkinterface": "2.0.0"
+    "cordova-plugin-qrscanner": "3.0.1",
+    "cordova-plugin-statusbar": "2.4.2",
+    "cordova-plugin-whitelist": "1.3.3"
 }
 // BOTTOM OF METADATA
 });

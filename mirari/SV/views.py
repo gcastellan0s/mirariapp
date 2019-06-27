@@ -8,11 +8,18 @@ class sv__Sellpoint__TemplateView(Generic__TemplateView):
     template_name = "SV__TemplateView.pug"
 
 ########################################################
+class TicketInvoiceMX__TemplateView(Generic__TemplateView):
+    template_name = "TicketInvoiceMX__TemplateView.pug"
+
+########################################################
+class GetTicketQR__TemplateView(Generic__TemplateView):
+    template_name = "GetTicketQR__TemplateView.pug"
+
+########################################################
 class SVbarcodeScanner__TemplateView(Generic__TemplateView):
     template_name = "BarcodeScanner__TemplateView.pug"
     def proccess_context(self, context):
         context['code'] = self.request.GET.get('code')
-        #context['ticket'] = Ticket.objects.get(key='9v6z6t4ktvbq')
         return context
 
 ########################################################
@@ -72,3 +79,8 @@ class Sellpoint__ApiView(Generic__ApiView):
             for cut in cuts:
                 cut.makeRasurado(request.POST.get('rasurado'))
             return JsonResponse({'rasurado':True})
+        if Action == 'makeInvoiceTicket':
+            ticket = Ticket.objects.filter(key = request.POST.get('ticket')).first()
+            if ticket.stampTicket(cfdiReceptorRfc=request.POST.get('rfc'), cfdiReceptorNombre=request.POST.get('razonSocial'), cfdiReceptorUsocfdi=request.POST.get('usoCFDI','G03')):
+                return JsonResponse({'message':'Enviamos tu factura a: '+request.POST.get('email')})
+        return JsonResponse({'message':'Ocurrió un error en el servidor'}, status=500)

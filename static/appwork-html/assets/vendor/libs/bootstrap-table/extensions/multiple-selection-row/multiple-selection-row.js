@@ -1,1 +1,119 @@
-!function(t,e){var o=function(t){var e={};function o(l){if(e[l])return e[l].exports;var n=e[l]={i:l,l:!1,exports:{}};return t[l].call(n.exports,n,n.exports,o),n.l=!0,n.exports}return o.m=t,o.c=e,o.d=function(t,e,l){o.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:l})},o.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},o.t=function(t,e){if(1&e&&(t=o(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var l=Object.create(null);if(o.r(l),Object.defineProperty(l,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var n in t)o.d(l,n,function(e){return t[e]}.bind(null,n));return l},o.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return o.d(e,"a",e),e},o.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},o.p="",o(o.s=322)}({322:function(t,e,o){o(323)},323:function(t,e){!function(t){"use strict";document.onselectstart=function(){return!1};var e=function(e){return(e=t(e)).is("table")?e:e.parents().find(".table")},o=function(t){var o=e(t.currentTarget);window.event.ctrlKey&&n(t.currentTarget,o,!1,!1),0===window.event.button&&(window.event.ctrlKey||window.event.shiftKey||(i(o),n(t.currentTarget,o,!1,!1)),window.event.shiftKey&&r([o.bootstrapTable("getOptions").multipleSelectRowLastSelectedRow.rowIndex,t.currentTarget.rowIndex],o))},l=function(o){var l=e(o.currentTarget);i(l),n(function(e){return(e=t(e)).parent().parent()}(o.currentTarget),l,!1,!1)},n=function(e,o,l,n){l?(e=t(e),o.bootstrapTable("getOptions").multipleSelectRowLastSelectedRow=void 0,e.removeClass(o.bootstrapTable("getOptions").multipleSelectRowCssClass),o.bootstrapTable("uncheck",e.data("index"))):(o.bootstrapTable("getOptions").multipleSelectRowLastSelectedRow=e,e=t(e),n?(e.addClass(o.bootstrapTable("getOptions").multipleSelectRowCssClass),o.bootstrapTable("check",e.data("index"))):e.hasClass(o.bootstrapTable("getOptions").multipleSelectRowCssClass)?(e.removeClass(o.bootstrapTable("getOptions").multipleSelectRowCssClass),o.bootstrapTable("uncheck",e.data("index"))):(e.addClass(o.bootstrapTable("getOptions").multipleSelectRowCssClass),o.bootstrapTable("check",e.data("index"))))},r=function(t,e){t.sort(function(t,e){return t-e});for(var o=t[0];o<=t[1];o++)n(e.bootstrapTable("getOptions").multipleSelectRowRows[o-1],e,!1,!0)},i=function(t){for(var e=0;e<t.bootstrapTable("getOptions").multipleSelectRowRows.length;e++)n(t.bootstrapTable("getOptions").multipleSelectRowRows[e],t,!0,!1)};t.extend(t.fn.bootstrapTable.defaults,{multipleSelectRow:!1,multipleSelectRowCssClass:"multiple-select-row-selected",multipleSelectRowLastSelectedRow:void 0,multipleSelectRowRows:[]});var s=t.fn.bootstrapTable.Constructor,a=s.prototype.init;s.prototype.initBody,s.prototype.init=function(){if(this.options.multipleSelectRow){var t=this;this.options.multipleSelectRowLastSelectedRow=void 0,this.options.multipleSelectRowRows=[],this.$el.on("post-body.bs.table",function(e){setTimeout(function(){t.options.multipleSelectRowRows=t.$body.children(),t.options.multipleSelectRowRows.click(o),t.options.multipleSelectRowRows.find("input[type=checkbox]").change(l)},1)})}a.apply(this,Array.prototype.slice.apply(arguments))},s.prototype.clearAllMultipleSelectionRow=function(){i(this)},t.fn.bootstrapTable.methods.push("clearAllMultipleSelectionRow")}(jQuery)}});if("object"==typeof o){var l=["object"==typeof module&&"object"==typeof module.exports?module.exports:null,"undefined"!=typeof window?window:null,t&&t!==window?t:null];for(var n in o)l[0]&&(l[0][n]=o[n]),l[1]&&"__esModule"!==n&&(l[1][n]=o[n]),l[2]&&(l[2][n]=o[n])}}(this);
+
+(function(r,f) {
+	var a=f();
+	if(typeof a!=='object')return;
+	var e=[typeof module==='object'&&typeof module.exports==='object'?module.exports:null,typeof window!=='undefined'?window:null,r&&r!==window?r:null];
+	for(var i in a){e[0]&&(e[0][i]=a[i]);e[1]&&i!=='__esModule'&&(e[1][i] = a[i]);e[2]&&(e[2][i]=a[i]);}
+})(this,function(){
+	return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./libs/bootstrap-table/extensions/multiple-selection-row/multiple-selection-row.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./libs/bootstrap-table/extensions/multiple-selection-row/multiple-selection-row.js":
+/*!******************************************************************************************!*\
+  !*** ./libs/bootstrap-table/extensions/multiple-selection-row/multiple-selection-row.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("__webpack_require__(/*! ../../../../node_modules/bootstrap-table/src/extensions/multiple-selection-row/bootstrap-table-multiple-selection-row.js */ \"./node_modules/bootstrap-table/src/extensions/multiple-selection-row/bootstrap-table-multiple-selection-row.js\");\n\n//# sourceURL=webpack:///./libs/bootstrap-table/extensions/multiple-selection-row/multiple-selection-row.js?");
+
+/***/ }),
+
+/***/ "./node_modules/bootstrap-table/src/extensions/multiple-selection-row/bootstrap-table-multiple-selection-row.js":
+/*!**********************************************************************************************************************!*\
+  !*** ./node_modules/bootstrap-table/src/extensions/multiple-selection-row/bootstrap-table-multiple-selection-row.js ***!
+  \**********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("/**\n * @author: Dennis Hernández\n * @webSite: http://djhvscf.github.io/Blog\n * @version: v1.0.0\n */\n!function ($) {\n  'use strict';\n\n  document.onselectstart = function () {\n    return false;\n  };\n\n  var getTableObjectFromCurrentTarget = function getTableObjectFromCurrentTarget(currentTarget) {\n    currentTarget = $(currentTarget);\n    return currentTarget.is(\"table\") ? currentTarget : currentTarget.parents().find(\".table\");\n  };\n\n  var getRow = function getRow(target) {\n    target = $(target);\n    return target.parent().parent();\n  };\n\n  var onRowClick = function onRowClick(e) {\n    var that = getTableObjectFromCurrentTarget(e.currentTarget);\n\n    if (window.event.ctrlKey) {\n      toggleRow(e.currentTarget, that, false, false);\n    }\n\n    if (window.event.button === 0) {\n      if (!window.event.ctrlKey && !window.event.shiftKey) {\n        clearAll(that);\n        toggleRow(e.currentTarget, that, false, false);\n      }\n\n      if (window.event.shiftKey) {\n        selectRowsBetweenIndexes([that.bootstrapTable(\"getOptions\").multipleSelectRowLastSelectedRow.rowIndex, e.currentTarget.rowIndex], that);\n      }\n    }\n  };\n\n  var onCheckboxChange = function onCheckboxChange(e) {\n    var that = getTableObjectFromCurrentTarget(e.currentTarget);\n    clearAll(that);\n    toggleRow(getRow(e.currentTarget), that, false, false);\n  };\n\n  var toggleRow = function toggleRow(row, that, clearAll, useShift) {\n    if (clearAll) {\n      row = $(row);\n      that.bootstrapTable(\"getOptions\").multipleSelectRowLastSelectedRow = undefined;\n      row.removeClass(that.bootstrapTable(\"getOptions\").multipleSelectRowCssClass);\n      that.bootstrapTable(\"uncheck\", row.data(\"index\"));\n    } else {\n      that.bootstrapTable(\"getOptions\").multipleSelectRowLastSelectedRow = row;\n      row = $(row);\n\n      if (useShift) {\n        row.addClass(that.bootstrapTable(\"getOptions\").multipleSelectRowCssClass);\n        that.bootstrapTable(\"check\", row.data(\"index\"));\n      } else {\n        if (row.hasClass(that.bootstrapTable(\"getOptions\").multipleSelectRowCssClass)) {\n          row.removeClass(that.bootstrapTable(\"getOptions\").multipleSelectRowCssClass);\n          that.bootstrapTable(\"uncheck\", row.data(\"index\"));\n        } else {\n          row.addClass(that.bootstrapTable(\"getOptions\").multipleSelectRowCssClass);\n          that.bootstrapTable(\"check\", row.data(\"index\"));\n        }\n      }\n    }\n  };\n\n  var selectRowsBetweenIndexes = function selectRowsBetweenIndexes(indexes, that) {\n    indexes.sort(function (a, b) {\n      return a - b;\n    });\n\n    for (var i = indexes[0]; i <= indexes[1]; i++) {\n      toggleRow(that.bootstrapTable(\"getOptions\").multipleSelectRowRows[i - 1], that, false, true);\n    }\n  };\n\n  var clearAll = function clearAll(that) {\n    for (var i = 0; i < that.bootstrapTable(\"getOptions\").multipleSelectRowRows.length; i++) {\n      toggleRow(that.bootstrapTable(\"getOptions\").multipleSelectRowRows[i], that, true, false);\n    }\n  };\n\n  $.extend($.fn.bootstrapTable.defaults, {\n    multipleSelectRow: false,\n    multipleSelectRowCssClass: 'multiple-select-row-selected',\n    //internal variables used by the extension\n    multipleSelectRowLastSelectedRow: undefined,\n    multipleSelectRowRows: []\n  });\n  var BootstrapTable = $.fn.bootstrapTable.Constructor,\n      _init = BootstrapTable.prototype.init,\n      _initBody = BootstrapTable.prototype.initBody;\n\n  BootstrapTable.prototype.init = function () {\n    if (this.options.multipleSelectRow) {\n      var that = this; //Make sure that the internal variables have the correct value\n\n      this.options.multipleSelectRowLastSelectedRow = undefined;\n      this.options.multipleSelectRowRows = [];\n      this.$el.on(\"post-body.bs.table\", function (e) {\n        setTimeout(function () {\n          that.options.multipleSelectRowRows = that.$body.children();\n          that.options.multipleSelectRowRows.click(onRowClick);\n          that.options.multipleSelectRowRows.find(\"input[type=checkbox]\").change(onCheckboxChange);\n        }, 1);\n      });\n    }\n\n    _init.apply(this, Array.prototype.slice.apply(arguments));\n  };\n\n  BootstrapTable.prototype.clearAllMultipleSelectionRow = function () {\n    clearAll(this);\n  };\n\n  $.fn.bootstrapTable.methods.push('clearAllMultipleSelectionRow');\n}(jQuery);\n\n//# sourceURL=webpack:///./node_modules/bootstrap-table/src/extensions/multiple-selection-row/bootstrap-table-multiple-selection-row.js?");
+
+/***/ })
+
+/******/ });
+});;

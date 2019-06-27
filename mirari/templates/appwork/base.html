@@ -24,12 +24,12 @@
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/bootstrap-material.css' %}">
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/appwork-material.css' %}">
 	{%block theme%}
-		<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/theme-gradient-material.css' %}">
+		<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/theme-corporate-material.css' %}">
 	{%endblock theme%}
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/colors-material.css' %}">
 	<link rel="stylesheet" href="{%static 'appwork-html/vendor/css/uikit.css' %}">
 	<link rel="stylesheet" href="{%static 'appwork-html/assets/css/demo.css' %}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.25.0/sweetalert2.min.css" />
+	<link rel="stylesheet" href="{%static 'mirari/css/sweetalert.css'%}" />
 {%endblock styles%}
 
 {%block head_scripts%}
@@ -60,7 +60,7 @@
 	<script>
 		window.attachMaterialRippleOnLoad();
 	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.25.0/sweetalert2.min.js"></script>
+	<script src="{%static 'mirari/js/sweetalert.js'%}"></script>
 {%endblock js%}
 
 {%block global_functions%}

@@ -12,15 +12,19 @@ block content
             .d-flex.justify-content-center.align-items-center
                 .ui-w-60
                     .w-100.position-relative(style='padding-bottom: 54%')
-                img(src='{{G.MEDIA}}{{ G.ORGANIZATION.LOGO_BG }}', style='max-width: 300px;')
+                img(src='{{G.MEDIA}}{{G.ORGANIZATION.LOGO_BG}}', style='max-width: 300px;')
             form.my-3(v-on:submit.prevent='login(credentials)')
                 .form-group
-                    label.form-label {% trans 'Usuario o Email'%}
+                    label.form-label 
+                        i.fas.fa-user 
+                        | {% trans ' Usuario o Email'%}
                     input.form-control(type='text', v-model='credentials.username')
                 .form-group
                     label.form-label.d-flex.justify-content-between.align-items-end
-                        div Contraseña
-                        a.d-block.small(href='javascript:void(0)') {% trans 'Olvidaste tu contraseña?'%}
+                        div 
+                            i.fas.fa-key 
+                            | {% trans ' Contraseña'%}
+                        a.d-block.small(href='javascript:void(0)' style="color:inherit") {% trans 'Olvidaste tu contraseña?'%}
                     input.form-control(type='password', v-model='credentials.password' ref='password')
                 .d-flex.justify-content-between.align-items-center.m-0
                     label.custom-control.custom-checkbox.m-0
@@ -28,13 +32,17 @@ block content
                         span.custom-control-label {% trans 'Recuerdame'%}
                     button.btn.btn-primary(type='submit') {% trans 'Entrar'%}
             .text-center.text-muted
-                a(href='javascript:void(0)') {% trans 'Registrate'%}
+                a(href='javascript:void(0)' style="color:inherit") {% trans 'Aun no tienes cuenta?'%}
             a(v-if="SaveUsers" v-for="user in SaveUsers" @click="changeUser(user)" href="javascript:void(0)")
                 .media.align-items-center.mt-2.p-2(style="background-color:#efefef;")
                     .media-body.ml-3
                         .text-light.small.font-weight-semibold.line-height-1.mb-1 ENTRAR COMO
                         .font-weight-bolder.line-height-1.text-dark ${user}
-            a.btn.btn-primary.btn-block.mt-3(href="/AppInvoice/") {% trans 'FACTURACIÓN'%}
+            {% if G.ORGANIZATION.ticketInvoiceLoginButton %}
+            a.btn.btn-primary.btn-block.mt-4(href="{%url 'SV:TicketInvoiceMX__TemplateView'%}") 
+                i.fas.fa-file-invoice.mr-2
+                | {% trans 'FACTURACIÓN'%}
+            {%endif%}
 
 block js
     {{block.super}}
@@ -45,7 +53,7 @@ script.
         credentials: {
             username: '',
             password: '',
-            code: '{{ G.ORGANIZATION.code }}',
+            code: '{{G.ORGANIZATION.code}}',
             remember: true,
         },
         SaveUsers:[],

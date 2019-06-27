@@ -8,9 +8,10 @@ block content
     // begin::Modal
     #kt_modal_ticket.modal.fade(tabindex='-1', role='dialog', aria-labelledby='TicketDetails', aria-hidden='true')
         .modal-dialog.modal-sm(role='document')
-            .modal-content
+            .modal-content(style="min-width:350px")
                 .modal-body(v-if='Ticket')
-                    h3.text-center.mb-1 TOTAL $ ${Ticket.total|formatPrice}
+                    h3.text-center.mb-1(v-if="Ticket.onAccount") A CUENTA ${Ticket.getOnAccount.MXN}
+                    h3.text-center.mb-1(v-else) TOTAL ${Ticket.getTotal.TOTAL.MXN}
                     h5.text-center.mb-0 FOLIO ${Ticket.barcode}
                     p.text-center.mb-0 ${Ticket.format_date} ${Ticket.format_time}
                     p.text-center.mb-0 ${Ticket.sellpoint.name}
@@ -24,25 +25,41 @@ block content
                         p.text-center.mb-0(v-if='Ticket.clientID') ID Cliente: ${Ticket.clientID}
                         p.text-center.mb-0(v-if='Ticket.clientName') Nombre: ${Ticket.clientName}
                         p.text-center.mb-0(v-if='Ticket.email') Email: ${Ticket.email}
-                        p.text-center.mb-0(v-if='Ticket.phone') Tel&eacute;fono: ${Ticket.phone}
+                        p.text-center.mb-0(v-if='Ticket.phone') Teléfono: ${Ticket.phone}
                         p.text-center.mb-0(v-if='Ticket.rfc') RFC: ${Ticket.rfc}
-                        p.text-center.mb-0(v-if='Ticket.datetimeOfDelivery') Fecha de entrega: ${Ticket.datetimeOfDelivery|FormatTDate}
+                        p.text-center.mb-0(v-if='Ticket.datetimeOfDelivery') Fecha de entrega: ${Ticket.datetimeOfDelivery|formatTDate}
                         p.text-center.mb-0(v-if='Ticket.destination') Destino: ${Ticket.destination}
                         p.text-center.mb-0(v-if='Ticket.notes') Notas: ${Ticket.notes}
                     hr(v-if='Ticket.products.length > 0')
                     div(v-for='product in Ticket.products')
-                        p.text-center.mb-0 ${product.quantity} ${product.productName}
-                            strong.text-center.ml-4 $ ${product.total|formatPrice}
-                        div(v-for='offer in product.offers')
-                            p.text-right.mb-0 ${offer.name}
+                        strong.mr-3 ${product.quantity} 
+                        small ${product.productName}
+                        strong.text-left.ml-3 $${product.total|formatPrice}
+                        strong.text-danger.text-left.ml-1(v-if="product.getTotalDisscount")
+                            small -$${product.getTotalDisscount|formatPrice}
+                        p.text-danger.text-left.mb-0.ml-5(v-for='offer in product.offers' v-if="product.getTotalDisscount > 0")
+                            small ${offer.name}
                     hr
-                    p.text-right.mb-0(v-else='')
+                    p.text-right.mb-0 
+                        |IEPS: 
+                        strong  ${Ticket.getIeps.MXN}
+                    p.text-right.mb-0 
+                        |IVA: 
+                        strong  ${Ticket.getIva.MXN}
+                    p.text-right.mb-0 
+                        |Subtotal: 
+                        strong  ${Ticket.getSubTotal.MXN}
+                    p.text-right.mb-0(v-if="Ticket.getTotal.TOTALDISCOUNTS.INT")
+                        |Descuentos: 
+                        strong  ${Ticket.getTotal.TOTALDISCOUNTS.MXN}
+                    p.text-right.mb-0 
+                        |Total: 
+                        strong  ${Ticket.getTotal.TOTAL.MXN}
                     p.text-center.mb-0
                         small ${Ticket.barcode} :: ${Ticket.key}
                     hr
                     h5.text-center.mb-0 ${Ticket.status}
                     h5.text-center.mb-0 ${Ticket.ticketType}
-                    
                     hr
                     .form-group
                         label(for='Ticket') ESTATUS DEL TICKET
@@ -77,11 +94,7 @@ script.
 
     {%block filters%}
         {{block.super}}
-        formatPrice: ((value) => {
-            let val = (value/1).toFixed(2)
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-        }),
-        FormatTDate: ((value) => {
+        formatTDate: ((value) => {
             moment.locale('es');
             return String(moment(value).format('DD/MM/YYYY h:mm:ss'))
         }),

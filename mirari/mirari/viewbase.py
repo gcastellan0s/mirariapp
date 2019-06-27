@@ -62,6 +62,8 @@ def get_variables(class_view):
         organization = Organization.objects.get(pk=class_view.request.session['organization'])
     except:
         organization = Organization.objects.filter(sites=site).first()
+    if not organization:
+        organization = Organization.objects.all().first()
     return {
         'ORGANIZATION': organization,
         'SITE': site,

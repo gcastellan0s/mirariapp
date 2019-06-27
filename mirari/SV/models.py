@@ -4,6 +4,9 @@ from .vars import *
 
 from mirari.mirari.viewbase import Basic_Serializer
 
+IVA = settings.IVA
+IEPS = settings.IEPS
+
 ########################################################################################
 VARS = {
     'NAME':'Punto de venta',
@@ -550,12 +553,12 @@ VARS = {
             """,
         },
         {
-            'field': 'getSellpoint',
+            'field': 'getSellpointName',
             'title': 'Punto de Venta',
             'template': 
             """
-                <a href="#" ticket={{id}} style="text-decoration:none;color:{{getColor}}!important;" class="a-no getTicket">
-                    {{getSellpoint}}
+                <a href="#" ticket={{id}} style="text-decoration:none;color:{{getSellpointColor}}!important;" class="a-no getTicket">
+                    {{getSellpointName}}
                 </a>
             """,
         },
@@ -570,46 +573,6 @@ VARS = {
             """,
         },
         {
-            'field': 'getIepsMoney',
-            'title': 'IEPS',
-            'template': 
-            """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
-                    {{getIepsMoney}}
-                </a>
-            """,
-        },
-        {
-            'field': 'getIvaMoney',
-            'title': 'IVA',
-            'template': 
-            """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
-                    {{getIvaMoney}}
-                </a>
-            """,
-        },
-        {
-            'field': 'getOnAccountMoney',
-            'title': 'A CUENTA',
-            'template': 
-            """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
-                    {{getOnAccountMoney}}
-                </a>
-            """,
-        },
-        {
-            'field': 'getTotalMoney',
-            'title': 'TOTAL',
-            'template': 
-            """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
-                    {{getTotalMoney}}
-                </a>
-            """,
-        },
-        {
             'field': 'status',
             'title': 'ESTATUS',
             'template': 
@@ -620,14 +583,60 @@ VARS = {
             """,
         },
         {
-            'field': 'getLenOffers',
-            'title': 'ESTATUS',
+            'field': 'getOnAccount',
+            'title': 'A CUENTA',
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
+                    {{getOnAccount.MXN}}
+                </a>
+            """,
+        },
+        {
+            'field': 'getIeps',
+            'title': 'IEPS',
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
+                    {{getIeps.MXN}}
+                </a>
+            """,
+        },
+        {
+            'field': 'getIva',
+            'title': 'IVA',
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
+                    {{getIva.MXN}}
+                </a>
+            """,
+        },
+        {
+            'field': 'getSubTotal',
+            'title': 'SUBTOTAL',
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
+                    {{getSubTotal.MXN}}
+                </a>
+            """,
+        },
+        {
+            'field': 'getTotal',
+            'title': 'TOTAL',
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
+                    {{getTotal.TOTAL.MXN}}
+                </a>
+            """,
         },
     ],
     'PAGELENGTH': 50,
     'HIDE_CHECKBOX_LIST': True,
     'HIDE_BUTTONS_LIST': True,
-    'SERIALIZER': ['getColor'],
+    'SERIALIZER': ['getSellpointColor'],
     'FILTERS': {
         'status': {
             'size':'4',
@@ -743,62 +752,98 @@ class Ticket(Model_base):
         for product in ticket['products']:
             TicketProducts().addTicket(self, product)
         return self
-    def getLenOffers(self):
-        offers = []
-        for ticketProduct in TicketProducts.objects.filter(ticket = self, offers = None):
-            if not ticketProduct.offers in offers:
-                offers.append(ticketProduct.offers)
-        return len(offers)
     def scanner(self):
         if (self.status == 'PENDIENTE'):
             self.status = 'COBRADO'
             self.save()
         return self
-    def getCutSerial(self):
-        return self.cut.serial
-    def getSellpoint(self):
-        return self.sellpoint.name
-    def getOnAccount(self):
-        return "{0:.2f}".format(self.onAccount)
-    def getTotal(self):
-        return "{0:.2f}".format(self.total)
-    def getIva(self):
-        return "{0:.2f}".format(self.iva)
-    def getIeps(self):
-        return "{0:.2f}".format(self.ieps)
-    def getOnAccountMoney(self):
-        return Money(self.getOnAccount(), Currency.MXN).format('es_MX')
-    def getTotalMoney(self):
-        return Money(self.getTotal(), Currency.MXN).format('es_MX')
-    def getIvaMoney(self):
-        return Money(self.getIva(), Currency.MXN).format('es_MX')
-    def getIepsMoney(self):
-        return Money(self.getIeps(), Currency.MXN).format('es_MX')
     def getProducts(self):
         return TicketProducts.objects.filter(ticket=self)
-    def getTicketType(self):
-        return ", ".join(o.name for o in self.ticketType.all())
-    def getColor(self):
-        return self.sellpoint.color
-    def stampTicket(self, receptorRfc='', receptorRazonSocial=''):
-        #if self.sellpoint.canStampTickets():
-            #INV = False
-            #return INV
+    def getOnAccount(self):
+        if not self.onAccount:
+            return {
+                'INT': 0,
+                'MXN': '-',
+            }
+        return {
+            'INT': self.onAccount,
+            'MXN': Money( "{0:.2f}".format(self.onAccount), Currency.MXN).format('es_MX'),
+        }
+    def getTotal(self):
+        totaldiscounts = 0
+        for ticketProduct in self.getProducts():
+            totaldiscounts += ticketProduct.getTotalDisscount()
+        return {
+            'TOTALDISCOUNTS':{
+                'INT': totaldiscounts,
+                'MXN': Money( "{0:.2f}".format(totaldiscounts), Currency.MXN).format('es_MX'),
+            },
+            'TOTAL':{
+                'INT': self.total,
+                'MXN': Money( "{0:.2f}".format(self.total), Currency.MXN).format('es_MX'),
+            }
+        }
+    def getSubTotal(self):
+        return {
+            'INT': self.total - self.iva - self.ieps,
+            'MXN': Money( "{0:.2f}".format(self.total - self.iva - self.ieps), Currency.MXN).format('es_MX'),
+        }
+    def getIva(self):
+        return {
+            'INT': self.iva,
+            'MXN': Money( "{0:.2f}".format(self.iva), Currency.MXN).format('es_MX'),
+        }
+    def getIeps(self):
+        return {
+            'INT': self.ieps,
+            'MXN': Money( "{0:.2f}".format(self.ieps), Currency.MXN).format('es_MX'),
+        }
+    def getLens(self):
+        return {
+            'PRODUCTS': len(self.getProducts()),
+            'OFFERSTYPE': len(self.getOffersType()),
+            'OFFERSTOTAL': len(self.getOffersTotal()),
+            'PRODUCTSWITHOFFERS': len(self.getProductsWithOffers()),
+        }
+    def getOffersType(self):
+        offers = []
+        for ticketProduct in self.getProducts():
+            for offer in ticketProduct.offers.all():
+                if not offer in offers:
+                    offers.append(offer)
+        return offers
+    def getOffersTotal(self):
+        offers = []
+        for ticketProduct in self.getProducts():
+            for offer in ticketProduct.offers.all():
+                offers.append(offer)
+        return offers
+    def getProductsWithOffers(self):
+        products = []
+        for ticketProduct in self.getProducts():
+            if len(ticketProduct.offers.all())>0:
+                if not ticketProduct.product in products:
+                    products.append(ticketProduct.product)
+        return products
+    def stampTicket(self, cfdiReceptorRfc='', cfdiReceptorNombre='', cfdiReceptorUsocfdi='', receptorRfc='CAMG890722JB7', receptorRazonSocial='g@gustavo-castellanos.com', zipCode='06500'):
         INV = {}
-        INV['fecha'] = str(datetime.datetime.now().isoformat())[:19]
+        INV['organization'] = self.sellpoint.organization
         INV['serie'] = 'SuVenta'
         INV['folio'] = self.barcode
+        INV['fecha'] = str(datetime.datetime.now().isoformat())[:19]
         INV['noCertificado'] = self.sellpoint.fiscalDataTickets.noCer
         INV['moneda'] = 'MXN'
-        INV['formaPago'] = '01'
         INV['tipoDeComprobante'] = 'I'
         INV['condicionesDePago'] = 'CONDICIONES'
+        INV['lugarExpedicion'] = zipCode
         INV['metodoPago'] = 'PUE'
-        INV['tipoCambio'] = '1'
-        INV['lugarExpedicion'] = self.sellpoint.fiscalDataTickets.zipcode
+        INV['formaPago'] = '01'
         INV['cfdiEmisorRfc'] =  self.sellpoint.fiscalDataTickets.rfc
         INV['cfdiEmisorNombre'] = self.sellpoint.fiscalDataTickets.razonSocial
         INV['cfdiEmisorRegimenFiscal'] = '601'
+        INV['cfdiReceptorRfc'] = receptorRfc.upper()
+        INV['cfdiReceptorNombre'] = receptorRazonSocial
+        INV['cfdiReceptorUsocfdi'] = 'G03'
         INV['cfdiEmisorStreet'] = self.sellpoint.fiscalDataTickets.street
         INV['cfdiEmisorExtNumber'] = self.sellpoint.fiscalDataTickets.extNumber
         INV['cfdiEmisorIntNumber'] = self.sellpoint.fiscalDataTickets.intNumber
@@ -807,55 +852,136 @@ class Ticket(Model_base):
         INV['cfdiEmisorState'] = self.sellpoint.fiscalDataTickets.state
         INV['cfdiEmisorZipcode'] = self.sellpoint.fiscalDataTickets.zipcode
         INV['cfdiEmisorCountry'] = self.sellpoint.fiscalDataTickets.country
-        INV['cfdiReceptorRfc'] = receptorRfc.upper()
-        INV['cfdiReceptorNombre'] = receptorRazonSocial
-        INV['cfdiReceptorUsocfdi'] = 'G03'
         conceptos = []
+        impuestos = 0
+        total = 0
+        descuentos = 0
         for ticketProduct in self.getProducts():
-            try:
-                claveProdServ = ticketProduct.product.code.code
-                claveUnidad = ticketProduct.product.product.units.codigo
-                nombreUnidad = ticketProduct.product.product.units.nombre
-            except:
-                claveProdServ = '50181900'
-                claveUnidad = 'H87'
-                nombreUnidad = 'Pieza'
-            c = {
-                'claveProdServ':claveProdServ,
-                'claveUnidad':claveUnidad,
-                'unidad': nombreUnidad,
-                'cantidad': str(ticketProduct.quantity),
-                'noIdentificacion':'01',
-                'descripcion':ticketProduct.productName,
-                'valorUnitario':'{0:.2f}'.format(ticketProduct.price),
-                'importe':'{0:.2f}'.format(ticketProduct.total),
-                'impuestosTransladados':[],
-                'descuento':'0.00'
-            }
-            if ticketProduct.iva:
-                c['impuestosTransladados'].append({
-                    'base':'{0:.2f}'.format(ticketProduct.total),
-                    'impuesto':'002',
-                    'tipofactor':'Tasa',
-                    'tasaocuota':'0.16',
-                    'importe':'{0:.2f}'.format(ticketProduct.iva),
-                })
-            if ticketProduct.ieps:
-                c['impuestosTransladados'].append({
-                    'base':'{0:.2f}'.format(ticketProduct.total),
-                    'impuesto':'003',
-                    'tipofactor':'Tasa',
-                    'tasaocuota':'0.08',
-                    'importe':'{0:.2f}'.format(ticketProduct.ieps),
-                })
-            conceptos.append(c)
+            if  ticketProduct.offerprice > 0:
+                try:
+                    claveProdServ = ticketProduct.product.code.code
+                    claveUnidad = ticketProduct.product.product.units.codigo
+                    nombreUnidad = ticketProduct.product.product.units.nombre
+                except:
+                    claveProdServ = '50181900'
+                    claveUnidad = 'H87'
+                    nombreUnidad = 'Pieza'
+                impuestosBase = 1
+                if ticketProduct.iva:
+                    impuestosBase+=.16
+                if ticketProduct.ieps:
+                    impuestosBase+=.08
+                cantidad=float('{0:.1f}'.format(ticketProduct.quantity))
+                valorUnitario=float('{0:.2f}'.format(ticketProduct.offerprice))/impuestosBase
+                c = {
+                    'claveProdServ':claveProdServ,
+                    'claveUnidad':claveUnidad,
+                    'unidad':nombreUnidad,
+                    'cantidad':'{0:.1f}'.format(cantidad),
+                    'noIdentificacion':'01',
+                    'descripcion':ticketProduct.productName,
+                    'valorUnitario':'{0:.2f}'.format(valorUnitario),
+                    'importe':'{0:.2f}'.format(cantidad*valorUnitario),
+                    'descuento':'{0:.2f}'.format(ticketProduct.getTotalDisscount()),
+                    'impuestosTransladados':[],
+                }
+                if ticketProduct.iva:
+                    impuestosTransladados = {
+                        'base':c['importe'],
+                        'impuesto':'002',
+                        'tipoFactor':'Tasa',
+                        'tasaoCuota':'{0:.6f}'.format(IVA),
+                        'importe':'{0:.2f}'.format(float(c['importe'])*IVA),
+                    }
+                    c['impuestosTransladados'].append(impuestosTransladados)
+                    impuestos += float(impuestosTransladados['importe'])
+                if ticketProduct.ieps:
+                    impuestosTransladados = {
+                        'base':c['importe'],
+                        'impuesto':'003',
+                        'tipoFactor':'Tasa',
+                        'tasaoCuota':'{0:.6f}'.format(IEPS),
+                        'importe':'{0:.2f}'.format(float(c['importe'])*IEPS),
+                    }
+                    c['impuestosTransladados'].append(impuestosTransladados)
+                    impuestos += float(impuestosTransladados['importe'])
+                conceptos.append(c)
+                total += float(c['importe'])
         INV['conceptos'] = conceptos
-        INV['subtotal'] = '{0:.2f}'.format(self.total-self.iva-self.ieps)
-        INV['total'] = '{0:.2f}'.format(self.total)
-        return INV
+        INV['subTotal'] = '{0:.2f}'.format(total)
+        INV['total'] = '{0:.2f}'.format(total+impuestos)
+        return self.sellpoint.fiscalDataTickets.makeInvoice(INV)
+    
+    def sendInvoiceEmail(self):
+        email_host = HostEmail.objects.filter(module__code=APP, company=self.sellpoint.organization).first()
+        connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
+        connection.open()
+        context = {
+            'notification': self,
+            'destinatary': target,
+            'organization': self.sellpoint.organization,
+        }
+        template = render_to_string('email/default/base_email.html', context)
+        msg = EmailMultiAlternatives(
+            subject=self.title,
+            body=template,
+            from_email=email_host.prefix +'<'+email_host.email+'>', 
+            to=[target.email],
+            connection=connection
+        )
+        msg.attach_alternative(template, "text/html")
+        msg.send(True)
+            
+        transaction.on_commit(
+            lambda: self.sended_to.add(*self.get_targets())
+        )
+        connection.close()
+
+
+
+
+        html_content = get_template('email.html').render()
+        plaintext = get_template('email.txt').render()
+        msg = EmailMultiAlternatives(
+            subject="Facturación Estrella",
+            body=plaintext,
+            from_email='pasteleriaslaestrella@gmail.com',
+            to=(data['email'],),
+        )
+        msg.attach_file('cfdi.xml')
+        msg.attach_file('cfdi.pdf')
+        msg.attach_alternative(html_content, "text/html")
+        msg.send(False)
+        html_content = get_template('email.html').render()
+        plaintext = get_template('email.txt').render()
+        msg = EmailMultiAlternatives(
+            subject="Facturación Estrella",
+            body=plaintext,
+            from_email='pasteleriaslaestrella@gmail.com',
+            to=('contabilidad.laestrella@gmail.com',),
+        )
+        msg.attach_file('cfdi.xml')
+        msg.attach_file('cfdi.pdf')
+        msg.attach_alternative(html_content, "text/html")
+        msg.send(False)
+        
+
+        
+    def getCutSerial(self):
+        return self.cut.serial
+    def getSellpointName(self):
+        return self.sellpoint.name
+    def getSellpointColor(self):
+        return self.sellpoint.color  
 class TicketSerializer(Basic_Serializer):
     sellpoint = serializers.SerializerMethodField()
     products = serializers.SerializerMethodField()
+    getOnAccount = serializers.ReadOnlyField()
+    getTotal = serializers.ReadOnlyField()
+    getSubTotal = serializers.ReadOnlyField()
+    getIva = serializers.ReadOnlyField()
+    getIeps = serializers.ReadOnlyField()
+    getLens = serializers.ReadOnlyField()
     class Meta(Basic_Serializer.Meta):
         model = Ticket
     def get_sellpoint(self, obj):
@@ -910,8 +1036,14 @@ class TicketProducts(Model_base):
         for offer in product['offers']:
             self.offers.add(Offer.objects.get(id=offer['id']))
         return self
+    def getTotalDisscount(self):
+        if not self.price == self.offerprice:
+            return self.total - (self.offerprice * self.quantity)
+        return 0
+
 class TicketProductsSerializer(Basic_Serializer):
     offers = serializers.SerializerMethodField()
+    getTotalDisscount = serializers.ReadOnlyField()
     class Meta(Basic_Serializer.Meta):
         model = TicketProducts
     def get_offers(self, obj):
