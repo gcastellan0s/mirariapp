@@ -380,7 +380,7 @@ class Notification(Model_base):
     def get_user_notification(self, user):
         return 	Notification.objects.filter(sended_to = user)[0:50]
     def send_mail(self):
-        email_host = HostEmail.objects.filter(module__code=APP, company=self.organization).first()
+        email_host = HostEmail.objects.filter(module__code=APP, organization=self.organization).first()
         connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
         connection.open()
         for target in self.get_targets():
@@ -508,7 +508,7 @@ class InternalMailBox_Mail(Model_base):
     def get_targets(self):
         return self.internalmailbox.emails.replace(' ','').replace(',',';').split(';')
     def send_mail(self):
-        email_host = HostEmail.objects.filter(module__code=APP, company=self.organization).first()
+        email_host = HostEmail.objects.filter(module__code=APP, organization=self.organization).first()
         connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
         connection.open()
         for target in self.get_targets():

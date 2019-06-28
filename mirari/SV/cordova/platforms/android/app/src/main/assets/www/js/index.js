@@ -5,7 +5,7 @@ var app = {
         const ax = axios.create({
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFToken',
-            baseURL: 'http://mirari.xyz',
+            baseURL: 'http://172.16.1.171',
         })
         var ref = null
         new Vue({
@@ -35,8 +35,8 @@ var app = {
                     }
                     else{
                         if(ref==null){
-                            //ref = cordova.InAppBrowser.open('http://'+'172.16.1.237:8000'+get,'_blank','location=no, zoom=no, toolbar=no')
-                            ref = cordova.InAppBrowser.open('http://'+self.url+get,'_blank','location=no, zoom=no, toolbar=no')
+                            ref = cordova.InAppBrowser.open('http://'+'172.16.1.171:8000'+get,'_blank','location=no, zoom=no, toolbar=no')
+                            //ref = cordova.InAppBrowser.open('http://'+self.url+get,'_blank','location=no, zoom=no, toolbar=no')
                             ref.addEventListener('loaderror', function(event){ref.close()});
                             ref.addEventListener("loadstart", (event) => {
                                 if (event.url.includes("/SV/GetTicketQR/")){

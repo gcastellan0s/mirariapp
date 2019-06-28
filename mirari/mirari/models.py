@@ -107,6 +107,7 @@ class Organization(MPTTModel, Model_base):
         return self.sites.all().first()
     def get_modules_code(self):
         return self.modules.all().values_list('code', flat=True)
+    
 
     
 
@@ -417,7 +418,7 @@ VARS = {
     'EXCLUDE_PERMISSIONS':['all'],
 }
 class HostEmail(Model_base):
-    company = models.ForeignKey('Organization', on_delete=models.CASCADE, related_name='+',)
+    organization = models.ForeignKey('Organization', on_delete=models.CASCADE, related_name='+',)
     module = models.ForeignKey('Module', on_delete=models.CASCADE, related_name='+',)
     host = models.CharField(max_length=250)
     port = models.CharField(max_length=250, default='')
@@ -434,6 +435,30 @@ class HostEmail(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.module)
+    def sendMail(self, subject='',template='generic/EmailTemplate.html',fromEmail=None,fromContact='',toEmail=[],files=[], content=None):
+        connection = get_connection(host=self.host , port=self.port, username=self.username, password=self.password, use_tls=True)
+        connection.open()
+        if not fromContact:
+            fromContact = self.prefix
+        context = {
+            'content': content,
+            'organization': self.organization,
+        }
+        render = render_to_string(template, context)
+        for mail in toEmail:
+            msg = EmailMultiAlternatives(
+                subject=subject,
+                body=render,
+                from_email=fromContact+'<'+self.email+'>', 
+                to=[toEmail],
+                connection=connection
+            )
+            msg.attach_alternative(render, "text/html")
+            for file in files:
+                msg.attach_file(file)
+            msg.send(True)
+        connection.close()
+        return True
 
 ########################################################################################
 ########################################################################################

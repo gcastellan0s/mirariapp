@@ -81,6 +81,21 @@ class Sellpoint__ApiView(Generic__ApiView):
             return JsonResponse({'rasurado':True})
         if Action == 'makeInvoiceTicket':
             ticket = Ticket.objects.filter(key = request.POST.get('ticket')).first()
-            if ticket.stampTicket(cfdiReceptorRfc=request.POST.get('rfc'), cfdiReceptorNombre=request.POST.get('razonSocial'), cfdiReceptorUsocfdi=request.POST.get('usoCFDI','G03')):
-                return JsonResponse({'message':'Enviamos tu factura a: '+request.POST.get('email')})
+            if not ticket:
+                return JsonResponse({'message':'No se encontro el ticket'}, status=500)
+            filename = ticket.stampTicket(cfdiReceptorRfc=request.POST.get('rfc'), cfdiReceptorNombre=request.POST.get('razonSocial'), cfdiReceptorUsocfdi=request.POST.get('usoCFDI','G03'))
+            if not filename:
+                return JsonResponse({'message':'Ocurrió un error en el servidor, contacta al administrador'}, status=500)
+            hostEmail = HostEmail.objects.filter(module__code=APP, organization=ticket.sellpoint.organization).first()
+            if not hostEmail:
+                return JsonResponse({'message':'No es posible enviar los archivos por correos, pero se facturó correctamente'}, status=500)
+            hostEmail.sendMail(
+                    subject='RECIBISTE TU FACTURA!', 
+                    fromEmail=ticket.sellpoint.fiscalDataTickets.contactEmail,
+                    fromContact=ticket.sellpoint.fiscalDataTickets.contactName,
+                    toEmail=[request.POST.get('email')], 
+                    files=[filename+'.xml', filename+'.pdf'], 
+                    content=mark_safe("""<h5>Recibiste exitosamente tu factura</h5>""")
+                )
+            return JsonResponse({'message':'Enviamos tu factura a: '+request.POST.get('email')})
         return JsonResponse({'message':'Ocurrió un error en el servidor'}, status=500)

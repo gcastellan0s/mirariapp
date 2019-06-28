@@ -911,62 +911,6 @@ class Ticket(Model_base):
         INV['subTotal'] = '{0:.2f}'.format(total)
         INV['total'] = '{0:.2f}'.format(total+impuestos)
         return self.sellpoint.fiscalDataTickets.makeInvoice(INV)
-    
-    def sendInvoiceEmail(self):
-        email_host = HostEmail.objects.filter(module__code=APP, company=self.sellpoint.organization).first()
-        connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
-        connection.open()
-        context = {
-            'notification': self,
-            'destinatary': target,
-            'organization': self.sellpoint.organization,
-        }
-        template = render_to_string('email/default/base_email.html', context)
-        msg = EmailMultiAlternatives(
-            subject=self.title,
-            body=template,
-            from_email=email_host.prefix +'<'+email_host.email+'>', 
-            to=[target.email],
-            connection=connection
-        )
-        msg.attach_alternative(template, "text/html")
-        msg.send(True)
-            
-        transaction.on_commit(
-            lambda: self.sended_to.add(*self.get_targets())
-        )
-        connection.close()
-
-
-
-
-        html_content = get_template('email.html').render()
-        plaintext = get_template('email.txt').render()
-        msg = EmailMultiAlternatives(
-            subject="Facturación Estrella",
-            body=plaintext,
-            from_email='pasteleriaslaestrella@gmail.com',
-            to=(data['email'],),
-        )
-        msg.attach_file('cfdi.xml')
-        msg.attach_file('cfdi.pdf')
-        msg.attach_alternative(html_content, "text/html")
-        msg.send(False)
-        html_content = get_template('email.html').render()
-        plaintext = get_template('email.txt').render()
-        msg = EmailMultiAlternatives(
-            subject="Facturación Estrella",
-            body=plaintext,
-            from_email='pasteleriaslaestrella@gmail.com',
-            to=('contabilidad.laestrella@gmail.com',),
-        )
-        msg.attach_file('cfdi.xml')
-        msg.attach_file('cfdi.pdf')
-        msg.attach_alternative(html_content, "text/html")
-        msg.send(False)
-        
-
-        
     def getCutSerial(self):
         return self.cut.serial
     def getSellpointName(self):
