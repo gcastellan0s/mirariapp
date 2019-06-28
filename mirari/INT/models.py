@@ -285,19 +285,19 @@ VARS = {
             'title': 'Título',
         },
         {
-            'field': 'property_get_channel',
+            'field': 'get_channel',
             'title': 'Canal',
         },
         {
-            'field': 'property_get_creation_date',
+            'field': 'get_creation_date',
             'title': 'Creado',
         },
         {
-            'field': 'property_get_expiration_date',
+            'field': 'get_expiration_date',
             'title': 'Expira',
         },
         {
-            'field': 'property_get_status',
+            'field': 'get_status',
             'title': 'Estatus',
         },
     ],
