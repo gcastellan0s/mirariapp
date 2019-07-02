@@ -1,59 +1,742 @@
 -load staticfiles i18n
 -load user_agents
 doctype html
-html(lang="{%block language%}es{%endblock language%}" class="{%block class_html%}{%endblock class_html%}")
 head
-    title GRUPO GIMPSA
-    script(src='{%static HTMLPage.static%}vendor/js/material-ripple.js')
-    meta(charset='utf-8' http-equiv='x-ua-compatible', content='IE=edge,chrome=1')
-    meta(name='description', content='')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0')
-    link(rel='icon', type='image/x-icon', href='{%static HTMLPage.static%}favicon.ico')
-    link(href='https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900', rel='stylesheet')
-    link(href='https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i', rel='stylesheet')
-    link(rel='stylesheet', href='{%static HTMLPage.static%}vendor/fonts/ionicons.css')
-    link(rel='stylesheet', href='{%static HTMLPage.static%}vendor/fonts/linearicons.css')
-    link.theme-settings-bootstrap-css(rel='stylesheet', href='{%static HTMLPage.static%}vendor/css/rtl/bootstrap.css')
-    link.theme-settings-appwork-css(rel='stylesheet', href='{%static HTMLPage.static%}vendor/css/rtl/appwork.css')
-    link.theme-settings-theme-css(rel='stylesheet', href='{%static HTMLPage.static%}vendor/css/rtl/theme-corporate.css')
-    link.theme-settings-colors-css(rel='stylesheet', href='{%static HTMLPage.static%}vendor/css/rtl/colors.css')
-    link(rel='stylesheet', href='{%static HTMLPage.static%}vendor/css/rtl/uikit.css')
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
-    link(rel='stylesheet', href='{%static HTMLPage.static%}css/coming-soon.css')
-body
-    .d-flex.align-items-stretch.w-100.ui-mh-100vh.ui-bg-cover.ui-bg-overlay-container(style='background-image: url({%static HTMLPage.static%}img/bg/30.jpg);')
-        .row.no-gutters.w-100
-            .ui-bg-overlay.bg-dark.opacity-50
-            .d-flex.col.flex-column.text-white.px-4.px-sm-5
-                .d-flex.align-items-center.mt-5
-                    .text-large.ml-3 GIMPSA
-                .py-5.my-auto
-                    .display-4.text-expanded.mb-2 COMPRA ORO, PROTEGE TU INVERSIÓN!
-                    h1.display-2.font-weight-bolder.text-expanded PROXIMAMENTE
-                    p.text-big Te podemos eviar un correo cuando el portal de compra este disponible.
-                    .coming-soon-subscribe.pt-5.mt-2.mb-auto
-                        .form-row
-                            .col
-                                input.form-control.form-control-lg.form-control-inverted.font-secondary(type='text', placeholder='Tu email...')
-                            .col-sm-3.mt-2.mt-sm-0
-                                button.btn.btn-primary.btn-lg.btn-block.font-secondary.text-expanded.px-0(type='button')
-                                    small.font-weight-bold NOTIFICAME
-            .d-flex.col-lg-5.col-xl-4.align-items-center.bg-white.py-5.px-4.px-sm-5
-                .flex-shrink-1
-                    h5.font-weight-bold.mb-4 QUIENES 
-                        span.text-primary SOMOS?
-                    p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum fringilla justo, ac consectetur orci pulvinar sit amet. Pellentesque eget egestas sapien. Integer luctus rhoncus dolor, in egestas velit ultrices a. Ut eu urna sodales, ultrices urna imperdiet, sagittis quam.
-                    h5.font-weight-bold.mt-5.mb-4 CONTACTO 
-                    p
-                        i.ion.ion-ios-mail.ui-w-40.text-center.text-lightest.text-big.align-middle
-                        a.align-middle(href='mailto:#') contacto@gimpsa.com.mx
-                    p
-                        i.ion.ion-ios-call.ui-w-40.text-center.text-lightest.text-big.align-middle
-                        span.align-middle (01-800) 022-0499
-                    div
-                        a.btn.icon-btn.borderless.btn-outline-twitter.rounded-pill(href='#')
-                            span.ion.ion-logo-twitter
-                        a.btn.icon-btn.borderless.btn-outline-facebook.rounded-pill(href='#')
-                            span.ion.ion-logo-facebook
-    script(src='{%static HTMLPage.static%}vendor/libs/popper/popper.js')
-    script(src='{%static HTMLPage.static%}vendor/js/bootstrap.js')
+	meta(charset='utf-8')
+	meta(http-equiv='X-UA-Compatible', content='IE=edge')
+	meta(name='viewport', content='width=device-width, initial-scale=1')
+	meta(name='description', content='meta description')
+	// Favicons
+	link(rel='shortcut icon', href='{%static HTMLPage.static%}img/ico.png', type='image/x-icon')
+	link(rel='apple-touch-icon', href='{%static HTMLPage.static%}img/ico.png')
+	// Title
+	title {{ G.ORGANIZATION.TITLE }} {%if G.ORGANIZATION.SLOGAN%}{%endif%} 
+	// ************************* CSS Files *************************
+	// Bootstrap CSS
+	link(rel='stylesheet', href='{%static HTMLPage.static%}css/bootstrap.min.css')
+	// Font Awesome CSS
+	link(rel='stylesheet', href='{%static HTMLPage.static%}css/font-awesome.min.css')
+	// Elegent Icon CSS
+	link(rel='stylesheet', href='{%static HTMLPage.static%}css/elegent-icons.css')
+	// All Plugins CSS css
+	link(rel='stylesheet', href='{%static HTMLPage.static%}css/plugins.css')
+	// style css
+	link(rel='stylesheet', href='{%static HTMLPage.static%}css/main.css')
+	// modernizr JS ============================================
+	script(src='{%static HTMLPage.static%}js/vendor/modernizr-2.8.3.min.js')
+	//if lt IE 9
+		script(src='//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
+		script(src='//oss.maxcdn.com/respond/1.4.2/respond.min.js')
+	link(href='https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900', rel='stylesheet')
+	link(href='https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i', rel='stylesheet')
+style
+	.fact {
+		padding: 5rem 1.5rem!important;
+		min-heigth: 19rem!important;
+	}
+// Main Wrapper Start
+#app.wrapper.sidenav-wrapper.bg--shaft
+	// Header Area Start
+	header.header.header-style-3
+		.header-top.header-top-3
+			.container
+				.row.no-gutters.align-items-center
+					.col-lg-5.col-md-4
+						.header-top-nav.d-flex.align-items-center
+							a.sidenav-button.sidenav-open(href='#')
+								span
+							.language-selector.header-top-nav__item
+								.dropdown.header-top__dropdown
+									a#languageID.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+										span {%trans 'Lenguaje'%}:
+										| ES 
+										i.fa.fa-angle-down
+									.dropdown-menu(aria-labelledby='languageID')
+										a.dropdown-item(href='#')
+											img(src='{%static HTMLPage.static%}img/header/1.jpg', alt='INGLES')
+											| INGLES
+							.currency-selector.header-top-nav__item
+								.dropdown.header-top__dropdown
+									a#currencyID.dropdown-toggle(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+										span {%trans 'Moneda'%}: 
+										| MXN 
+										i.fa.fa-angle-down
+									.dropdown-menu(aria-labelledby='currencyID')
+										a.dropdown-item(href='#') $ DLL
+										a.dropdown-item(href='#') &euro; EURO
+					.col-lg-7.col-md-8.text-right
+						.header-toolbar.header-toolbar-3
+							.search-form-wrapper.search-form-wrapper-3
+								form.search-form.search-form-3(action='#')
+									input#search.search-form__input(type='text', name='search', placeholder='{%trans "Buscar producto"%}')
+									button.search-form__submit(type='submit')
+										i.icon_search
+							ul.header-toolbar-icons
+								li.my-account-icon.dropdown
+									a#userID.dropdown-toggle.bordered-icon(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+										i.fa.fa-sign-in
+									.dropdown-menu(aria-labelledby='userID')
+										a.dropdown-item(href='') {%trans 'ENTRAR'%}
+								li.wishlist-icon
+									a.bordered-icon(href='#')
+										i.fa.fa-heart
+								li.mini-cart-icon
+									.mini-cart.mini-cart--2
+										a#cartDropdown.mini-cart__dropdown-toggle.bordered-icon
+											span.mini-cart__count 0
+											i.icon_cart_alt.mini-cart__icon
+										.mini-cart__dropdown-menu
+											#miniCart.mini-cart__content
+												.mini-cart__item
+													.mini-cart__item--single
+														.mini-cart__item--image
+															img(src='{%static HTMLPage.static%}img/products/1-1-450x450.jpg', alt='product')
+														.mini-cart__item--content
+															h4.mini-cart__item--name
+																a(href='product-details.html') 1KG Oro
+															p.mini-cart__item--quantity x1
+															p.mini-cart__item--price $100.00
+														a.mini-cart__item--remove(href='')
+															i.icon_close
+													.mini-cart__item--single
+														.mini-cart__item--image
+															img(src='{%static HTMLPage.static%}img/products/2-2-450x450.jpg', alt='product')
+														.mini-cart__item--content
+															h4.mini-cart__item--name
+																a(href='product-details.html')
+																	br
+																	small 1KG Plata
+															p.mini-cart__item--quantity x1
+															p.mini-cart__item--price $100.00
+														a.mini-cart__item--remove(href='')
+															i.icon_close
+												.mini-cart__calculation
+													p
+														span.mini-cart__calculation--item
+														span.mini-cart__calculation--ammount $1,070.00
+													p
+														span.mini-cart__calculation--item
+														span.mini-cart__calculation--ammount $4.00
+													p
+														span.mini-cart__calculation--item
+														span.mini-cart__calculation--ammount $214.00
+													p
+														span.mini-cart__calculation--item
+														span.mini-cart__calculation--ammount
+												.mini-cart__btn
+													a.btn.btn-fullwidth.btn-style-1(href='cart.html') VER CARRITO
+													a.btn.btn-fullwidth.btn-style-1(href='checkout.html') FINALIZAR COMPRA
+		.vertiacl-header
+			a.sidenav-button.sidenav-close(href='#')
+				span
+			.vertiacl-header-wrapper
+				#verticalHeader.header-inner
+					.logo-container
+						a.logo-box(href='/')
+							img(src='{%static HTMLPage.static%}img/logo.png', alt='Logo' style="max-height:50px;")
+					.side-navigation.mb--50.pb--90.mb-md--40.pb-md-70
+						ul.vertical-menu
+							li.vertical-menu__item
+								a.vertical-menu__link(href='') {%trans 'PRODUCTOS'%}
+							li.vertical-menu__item.vertical-has-children
+								a.vertical-menu__link(href='#') {%trans 'REFINERIA'%}
+								ul.sub-menu
+									li
+									
+										router-link(to="/QuienesSomos")
+											a(href='javascript:void(0)') {%trans 'QUIENES SOMOS'%}
+									li
+										router-link(to="/Plantas")
+											a(href='javascript:void(0)') {%trans 'PLANTAS'%}
+							li.vertical-menu__item
+								a.vertical-menu__link(href='') {%trans 'BLOG'%}
+							li.vertical-menu__item
+								a.vertical-menu__link(href='') {%trans 'CONTACTANOS'%}
+					.newsletter-2.mb--50
+						// h3 PREGUNTAS FRECUENTES
+						p.my-1
+							a.social__link(href="#")
+								small Metales de inversion
+						p.my-1
+							a.social__link(href="#")
+								small Recompra de monedas y lingotes
+						p.my-1
+							a.social__link(href="#")
+								small Custodia de oro y plata
+					ul.social.social-round.mb--20
+						li.social__item
+							a.social__link(href='http://facebook.com' target="_blank")
+								i.fa.fa-facebook
+						li.social__item
+							a.social__link(href='http://youtube.com' target="_blank")
+								i.fa.fa-youtube
+					p.copyright-text
+						a(href='') {% now "Y" %} &copy;  {{ G.ORGANIZATION.TITLE }} 
+					p.my-1
+						small 
+							i.fa.fa-phone.mx-2
+							| 01800-0220499
+					p.my-1
+						small 
+							i.fa.fa-envelope.mx-2
+							| info@credipyme.com.mx
+	// Header Area End
+	// Main Content Wrapper Start
+	.main-content-wrapper(v-if="$route.path == '/'")
+		// Slider area Start
+		.slider-area
+			.homepage-slider
+				// Single Slide Start
+				.single-slider.full-height.content-v-center(style='background-image: url({%static HTMLPage.static%}img/slider/slider1-mirora3-1620x909.jpg)')
+					.container
+						.row
+							.col-12
+								.slider-content
+									h5(data-animation='rollIn', data-duration='.8s', data-delay='.5s') Oferta exclusiva -20% este mes
+									h1(data-animation='fadeInDown', data-duration='.8s', data-delay='.2s') Lingote Oro 1KG
+									p.mb--30.mb-sm--20(data-animation='fadeInDown', data-duration='.8s', data-delay='.2s') Filarmónica de Viena 
+									p.mb--50.mb-sm--20(data-animation='fadeInDown', data-duration='.8s', data-delay='.2s')
+										| 
+										strong $820,183.04
+											small MXN
+									p.mb--50.mb-sm--20(data-animation='fadeInDown', data-duration='.8s', data-delay='.2s')
+										small PRECIO DE RECOMPRA 
+										| $800,183.04 MXN
+									.slide-btn-group(data-animation='fadeInUp', data-duration='1s', data-delay='.3s')
+										a.btn.btn-bordered.btn-style-1(href='shop.html') ORDENAR AHORA
+				// Single Slide End
+				// Single Slide Start
+				.single-slider.full-height.content-v-center(style='background-image: url({%static HTMLPage.static%}img/slider/slider3-mirora3-1620x909.jpg)')
+					.container
+						.row
+							.col-12
+								.slider-content
+									h5(data-animation='rollIn', data-duration='.8s', data-delay='.5s') Oferta exclusiva -20% este mes
+									h1(data-animation='fadeInDown', data-duration='.8s', data-delay='.2s') Lingote Oro 1KG
+									p.mb--30.mb-sm--20(data-animation='fadeInDown', data-duration='.8s', data-delay='.2s') Filarmónica de Viena 
+									p.mb--50.mb-sm--20(data-animation='fadeInDown', data-duration='.8s', data-delay='.2s')
+										| 
+										strong $820,183.04
+											small MXN
+									p.mb--50.mb-sm--20(data-animation='fadeInDown', data-duration='.8s', data-delay='.2s')
+										small PRECIO DE RECOMPRA 
+										| $800,183.04 MXN
+									.slide-btn-group(data-animation='fadeInUp', data-duration='1s', data-delay='.3s')
+										a.btn.btn-bordered.btn-style-1(href='shop.html') ORDENAR AHORA
+				// Single Slide End
+		// Slider area End
+		// Corporate area Start
+			.corporate-area.border-top.border-bottom.ptb--80.ptb-md--60
+				.container
+					.row
+						.col-md-3.col-sm-6.mb-sm--30
+							.corporate-2.text-center
+								i.fa.fa-globe
+								h3 Free Shipping
+								p Free shipping on all order
+						.col-md-3.col-sm-6.mb-sm--30
+							.corporate-2.text-center
+								i.fa.fa-check-square-o
+								h3 Money Return
+								p Back guarantee under 7 days
+						.col-md-3.col-sm-6.mb-xsm--30
+							.corporate-2.text-center
+								i.fa.fa-bell
+								h3 Member Discount
+								p Onevery order over $120.00
+						.col-md-3.col-sm-6
+							.corporate-2.text-center
+								i.fa.fa-clock-o
+								h3 Online Support
+								p Support online 24 hours a day
+		// Corporate area End
+		// Products Tab area Start
+		.product-tab.bg--dark-4.pt--80.pb--60.pt-md--60.pb-md--45
+			.container
+				.row
+					.col-12.text-center
+						ul#product-tab.nav.nav-tabs.product-tab__head.bg--dark-4(role='tablist')
+							li.product-tab__item.nav-item.active
+								a#nav-featured-tab.product-tab__link.nav-link.active(data-toggle='tab', href='#nav-featured', role='tab', aria-selected='true') METALES
+							li.product-tab__item.nav-item
+								a#nav-new-tab.product-tab__link.nav-link(data-toggle='tab', href='#nav-new', role='tab', aria-selected='false') ORO
+							li.product-tab__item.nav-item
+								a#nav-bestseller-tab.product-tab__link.nav-link(data-toggle='tab', href='#nav-bestseller', role='tab', aria-selected='false') PLATA
+						#product-tabContent.tab-content.product-tab__content
+							#nav-featured.tab-pane.fade.show.active(role='tabpanel')
+								.product-carousel.js-product-carousel
+									.product-carousel-group
+										.mirora-product.bg--dark-4
+											.product-img
+												img.primary-image(src='{%static HTMLPage.static%}img/products/1-450x450.jpg', alt='Product')
+												img.secondary-image(src='{%static HTMLPage.static%}img/products/1-1-450x450.jpg', alt='Product')
+											.product-content.text-center
+												span FILARMONICA DE VIENA
+												h4
+													a(href='#') ORO 1KG
+												.product-price-wrapper
+													span.money $820,183.04
+											.mirora_product_action.bg--dark-4.text-center.position-absolute
+												.product-rating
+													span
+														$820,183.04
+												p
+												.product-action
+													a.same-action(href='#', title='wishlist')
+														i.fa.fa-heart-o
+													a.add_cart.cart-item.action-cart(href='#', title='wishlist')
+														span COMPRAR
+									.product-carousel-group
+										.mirora-product.bg--dark-4
+											.product-img
+												img.primary-image(src='{%static HTMLPage.static%}img/products/2-450x450.jpg', alt='Product')
+												img.secondary-image(src='{%static HTMLPage.static%}img/products/2-2-450x450.jpg', alt='Product')
+											.product-content.text-center
+												span FILARMONICA DE VIENA
+												h4
+													a(href='#') ORO 1KG
+												.product-price-wrapper
+													span.money $820,183.04
+											.mirora_product_action.bg--dark-4.text-center.position-absolute
+												.product-rating
+													span
+														$820,183.04
+												p
+												.product-action
+													a.same-action(href='#', title='wishlist')
+														i.fa.fa-heart-o
+													a.add_cart.cart-item.action-cart(href='#', title='wishlist')
+														span COMPRAR
+									.product-carousel-group
+										.mirora-product.bg--dark-4
+											.product-img
+												img.primary-image(src='{%static HTMLPage.static%}img/products/3-450x450.jpg', alt='Product')
+												img.secondary-image(src='{%static HTMLPage.static%}img/products/3-3-450x450.jpg', alt='Product')
+											.product-content.text-center
+												span FILARMONICA DE VIENA
+												h4
+													a(href='#') ORO 1KG
+												.product-price-wrapper
+													span.money $820,183.04
+											.mirora_product_action.bg--dark-4.text-center.position-absolute
+												.product-rating
+													span
+														$820,183.04
+												p
+												.product-action
+													a.same-action(href='#', title='wishlist')
+														i.fa.fa-heart-o
+													a.add_cart.cart-item.action-cart(href='#', title='wishlist')
+														span COMPRAR
+									.product-carousel-group
+										.mirora-product.bg--dark-4
+											.product-img
+												img.primary-image(src='{%static HTMLPage.static%}img/products/2-450x450.jpg', alt='Product')
+												img.secondary-image(src='{%static HTMLPage.static%}img/products/2-2-450x450.jpg', alt='Product')
+											.product-content.text-center
+												span FILARMONICA DE VIENA
+												h4
+													a(href='#') ORO 1KG
+												.product-price-wrapper
+													span.money $820,183.04
+											.mirora_product_action.bg--dark-4.text-center.position-absolute
+												.product-rating
+													span
+														$820,183.04
+												p
+												.product-action
+													a.same-action(href='#', title='wishlist')
+														i.fa.fa-heart-o
+													a.add_cart.cart-item.action-cart(href='#', title='wishlist')
+														span COMPRAR
+									.product-carousel-group
+										.mirora-product.bg--dark-4
+											.product-img
+												img.primary-image(src='{%static HTMLPage.static%}img/products/1-450x450.jpg', alt='Product')
+												img.secondary-image(src='{%static HTMLPage.static%}img/products/1-1-450x450.jpg', alt='Product')
+											.product-content.text-center
+												span FILARMONICA DE VIENA
+												h4
+													a(href='#') ORO 1KG
+												.product-price-wrapper
+													span.money $820,183.04
+											.mirora_product_action.bg--dark-4.text-center.position-absolute
+												.product-rating
+													span
+														$820,183.04
+												p
+												.product-action
+													a.same-action(href='#', title='wishlist')
+														i.fa.fa-heart-o
+													a.add_cart.cart-item.action-cart(href='#', title='wishlist')
+														span COMPRAR
+									.product-carousel-group
+										.mirora-product.bg--dark-4
+											.product-img
+												img.primary-image(src='{%static HTMLPage.static%}img/products/3-450x450.jpg', alt='Product')
+												img.secondary-image(src='{%static HTMLPage.static%}img/products/3-3-450x450.jpg', alt='Product')
+											.product-content.text-center
+												span FILARMONICA DE VIENA
+												h4
+													a(href='#') ORO 1KG
+												.product-price-wrapper
+													span.money $820,183.04
+											.mirora_product_action.bg--dark-4.text-center.position-absolute
+												.product-rating
+													span
+														$820,183.04
+												p
+												.product-action
+													a.same-action(href='#', title='wishlist')
+														i.fa.fa-heart-o
+													a.add_cart.cart-item.action-cart(href='#', title='wishlist')
+														span COMPRAR
+							#nav-new.tab-pane.fade(role='tabpanel')
+								.product-carousel.js-product-carousel
+									.product-carousel-group
+										.mirora-product.bg--dark-4
+											.product-img
+												img.primary-image(src='{%static HTMLPage.static%}img/products/2-450x450.jpg', alt='Product')
+												img.secondary-image(src='{%static HTMLPage.static%}img/products/2-2-450x450.jpg', alt='Product')
+											.product-content.text-center
+												span FILARMONICA DE VIENA
+												h4
+													a(href='#') ORO 1KG
+												.product-price-wrapper
+													span.money $820,183.04
+											.mirora_product_action.bg--dark-4.text-center.position-absolute
+												.product-rating
+													span
+														$820,183.04
+												p
+												.product-action
+													a.same-action(href='#', title='wishlist')
+														i.fa.fa-heart-o
+													a.add_cart.cart-item.action-cart(href='#', title='wishlist')
+														span COMPRAR
+									.product-carousel-group
+										.mirora-product.bg--dark-4
+											.product-img
+												img.primary-image(src='{%static HTMLPage.static%}img/products/1-450x450.jpg', alt='Product')
+												img.secondary-image(src='{%static HTMLPage.static%}img/products/1-1-450x450.jpg', alt='Product')
+											.product-content.text-center
+												span FILARMONICA DE VIENA
+												h4
+													a(href='#') ORO 1KG
+												.product-price-wrapper
+													span.money $820,183.04
+											.mirora_product_action.bg--dark-4.text-center.position-absolute
+												.product-rating
+													span
+														$820,183.04
+												p
+												.product-action
+													a.same-action(href='#', title='wishlist')
+														i.fa.fa-heart-o
+													a.add_cart.cart-item.action-cart(href='#', title='wishlist')
+														span COMPRAR
+							#nav-bestseller.tab-pane.fade(role='tabpanel')
+								.product-carousel.js-product-carousel
+									.product-carousel-group
+										.mirora-product.bg--dark-4
+											.product-img
+												img.primary-image(src='{%static HTMLPage.static%}img/products/3-450x450.jpg', alt='Product')
+												img.secondary-image(src='{%static HTMLPage.static%}img/products/3-3-450x450.jpg', alt='Product')
+											.product-content.text-center
+												span FILARMONICA DE VIENA
+												h4
+													a(href='#') ORO 1KG
+												.product-price-wrapper
+													span.money $820,183.04
+											.mirora_product_action.bg--dark-4.text-center.position-absolute
+												.product-rating
+													span
+														$820,183.04
+												p
+												.product-action
+													a.same-action(href='#', title='wishlist')
+														i.fa.fa-heart-o
+													a.add_cart.cart-item.action-cart(href='#', title='wishlist')
+														span COMPRAR
+									.product-carousel-group
+										.mirora-product.bg--dark-4
+											.product-img
+												img.primary-image(src='{%static HTMLPage.static%}img/products/2-450x450.jpg', alt='Product')
+												img.secondary-image(src='{%static HTMLPage.static%}img/products/2-2-450x450.jpg', alt='Product')
+											.product-content.text-center
+												span FILARMONICA DE VIENA
+												h4
+													a(href='#') ORO 1KG
+												.product-price-wrapper
+													span.money $820,183.04
+											.mirora_product_action.bg--dark-4.text-center.position-absolute
+												.product-rating
+													span
+														$820,183.04
+												p
+												.product-action
+													a.same-action(href='#', title='wishlist')
+														i.fa.fa-heart-o
+													a.add_cart.cart-item.action-cart(href='#', title='wishlist')
+														span COMPRAR
+		// Products Tab area End
+		// Banner area Start
+		section.banner-area.banner-bg-1.ptb--80.ptb-md--60
+			.banner-box.text-center
+				h5.banner__label Todos los envíos estan protegidos con nuestro seguro garantizado
+				h2.banner__name PROTEGE TU INVERSIÓN
+				p.banner__text.mb--50.mb-md--20 Adquiere oro y plata de inversión
+		// Banner area End
+		// Blog area Start
+		section.blog-area.border-bottom.ptb--80.ptb-md--60
+			.container
+				.row
+					.col-12
+						.section-title.mb--30
+							h2 ARTICULOS
+				.row
+					.col-12
+						.blog-carousel.nav-top.slick-item-gutter
+							article.blog
+								a.blog__thumb(href='#')
+									img(src='{%static HTMLPage.static%}img/blog/post1-370x230.jpg', alt='Blog')
+								.blog__content
+									.blog__meta
+										p.blog__author
+											a.text-white(href='#') PORQUE INVERTIR EN ORO Y PLATA CON GIMPSA?
+									h3.blog__title
+										a(href='#')
+									.blog__text
+										p
+										a.read-more(href='#') LEER MAS
+							article.blog
+								a.blog__thumb(href='#')
+									img(src='{%static HTMLPage.static%}img/blog/post2-370x230.jpg', alt='Blog')
+								.blog__content
+									.blog__meta
+										p.blog__author
+											a.text-white(href='#') NUESTROS SERVICIOS DE CUSTODIA DE ORO
+									h3.blog__title
+										a(href='#')
+									.blog__text
+										p
+										a.read-more(href='#') LEER MAS
+							article.blog
+								a.blog__thumb(href='#')
+									img(src='{%static HTMLPage.static%}img/blog/post3-370x230.jpg', alt='Blog')
+								.blog__content
+									.blog__meta
+										p.blog__author
+											a.text-white(href='#') QUE TAN SENCILLO ES COMPRAR METALES PRECIOSOS?
+									h3.blog__title
+										a(href='#')
+									.blog__text
+										p
+										a.read-more(href='#') LEER MAS
+							article.blog
+								a.blog__thumb(href='#')
+									img(src='{%static HTMLPage.static%}img/blog/post4-370x230.jpg', alt='Blog')
+								.blog__content
+									.blog__meta
+										p.blog__author
+											a.text-white(href='#') SE PUEDE GANAR DINERO COMPRANDO ORO?
+									h3.blog__title
+										a(href='#')
+									.blog__text
+										p
+										a.read-more(href='#') LEER MAS
+		// Blog area End
+	.main-content-wrapper(v-if="$route.path == '/QuienesSomos'")
+		.about-area.bg--dark-3
+			.container-fluid.p-0
+				.row.no-gutters.align-items-center
+					.col-xl-6
+						.img-box.text-center
+							img(src='{%static HTMLPage.static%}img/about/about-us-img1.jpg', alt='about')
+					.col-xl-6
+						.row
+							.col-10.offset-1
+								.about-text.text-center
+									h2.heading-secondary.mb--40.mb-sm--30
+										.logo-container
+											a.logo-box(href='/')
+												img(src='{%static HTMLPage.static%}img/logo.png', alt='Logo' style="max-height:120px;")
+									h2.heading-secondary.mb--40.mb-sm--30 TOTAL CONFIABILIDAD
+									p Servimos a nuestros clientes con atención, materiales, productos y servicios de la mas alta calidad, propiciando una relación de negocio de largo plazo en un ambiente de total confiabilidad
+										
+		.fact-area
+			.container-fluid.p-0
+				.row.no-gutters
+					.col-lg-3.col-sm-6
+						.fact
+							.fact__content
+								h3
+									span.counter 560
+									|  EMPLEADOS
+								p SABEMOS DE LA IMPORTANCIA DEL CAPITAL HUMANO
+					.col-lg-3.col-sm-6
+						.fact
+							.fact__content
+								h3
+									span ISO 9001
+								p TENEMOS EL CERTIFICADO ISO 9001:2008
+					.col-lg-3.col-sm-6
+						.fact
+							.fact__content
+								h3
+									span.counter 29
+									|  AÑOS
+								p DE EXPERIENCIA EN LA EN EL MERCADO DE LOS METALES PRECIOSOS
+					.col-lg-3.col-sm-6
+						.fact
+							.fact__content
+								h3
+									span CERTIFICACIONES
+								p CONTAMOS CON ACREDITACIÓN POR PARTE DE EMA
+		.breadcrumb-area
+			.container
+				.row
+					.col-12.text-center
+						h1 NUESTROS CLIENTES
+						p Estamos comprometidos con la calidad, satisfacción y confianza de los clientes, entregando siempre a tiempo y contamos con sistemas de mantenimientos.
+						.product-details-thumbnail.mt-5
+							#thumbmenu-horizontal.thumb-menu.product-details-thumb-menu.nav-vertical-center.slick-initialized.slick-slider
+								i.fa.fa-angle-left.slick-prev.slick-btn.slick-arrow(style='')
+								.slick-list.draggable
+									.slick-track(style='opacity: 1; width: 2072px; transform: translate3d(-888px, 0px, 0px);')
+										.thumb-menu-item.slick-slide.slick-cloned(data-slick-index='-4', aria-hidden='true', style='width: 128px;', tabindex='-1')
+											a.nav-link(href='#product-large-two', data-toggle='tab', tabindex='-1')
+												img(src='assets/img/products/4-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide.slick-cloned(data-slick-index='-3', aria-hidden='true', style='width: 128px;', tabindex='-1')
+											a.nav-link(href='#product-large-three', data-toggle='tab', tabindex='-1')
+												img(src='assets/img/products/5-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide.slick-cloned(data-slick-index='-2', aria-hidden='true', style='width: 128px;', tabindex='-1')
+											a.nav-link(href='#product-large-four', data-toggle='tab', tabindex='-1')
+												img(src='assets/img/products/6-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide.slick-cloned(data-slick-index='-1', aria-hidden='true', style='width: 128px;', tabindex='-1')
+											a.nav-link(href='#product-large-five', data-toggle='tab', tabindex='-1')
+												img(src='assets/img/products/10-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide(data-slick-index='0', aria-hidden='true', style='width: 128px;', tabindex='-1')
+											a.nav-link.active(href='#product-large-one', data-toggle='tab', tabindex='-1')
+												img(src='assets/img/products/3-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide(data-slick-index='1', aria-hidden='true', style='width: 128px;', tabindex='-1')
+											a.nav-link(href='#product-large-two', data-toggle='tab', tabindex='-1')
+												img(src='assets/img/products/4-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide.slick-current.slick-active(data-slick-index='2', aria-hidden='false', style='width: 128px;', tabindex='0')
+											a.nav-link(href='#product-large-three', data-toggle='tab', tabindex='0')
+												img(src='assets/img/products/5-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide.slick-active(data-slick-index='3', aria-hidden='false', style='width: 128px;', tabindex='0')
+											a.nav-link(href='#product-large-four', data-toggle='tab', tabindex='0')
+												img(src='assets/img/products/6-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide.slick-active(data-slick-index='4', aria-hidden='false', style='width: 128px;', tabindex='0')
+											a.nav-link(href='#product-large-five', data-toggle='tab', tabindex='0')
+												img(src='assets/img/products/10-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide.slick-cloned.slick-active(data-slick-index='5', aria-hidden='false', style='width: 128px;', tabindex='-1')
+											a.nav-link.active(href='#product-large-one', data-toggle='tab', tabindex='0')
+												img(src='assets/img/products/3-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide.slick-cloned(data-slick-index='6', aria-hidden='true', style='width: 128px;', tabindex='-1')
+											a.nav-link(href='#product-large-two', data-toggle='tab', tabindex='-1')
+												img(src='assets/img/products/4-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide.slick-cloned(data-slick-index='7', aria-hidden='true', style='width: 128px;', tabindex='-1')
+											a.nav-link(href='#product-large-three', data-toggle='tab', tabindex='-1')
+												img(src='assets/img/products/5-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide.slick-cloned(data-slick-index='8', aria-hidden='true', style='width: 128px;', tabindex='-1')
+											a.nav-link(href='#product-large-four', data-toggle='tab', tabindex='-1')
+												img(src='assets/img/products/6-450x450.jpg', alt='product thumb')
+										.thumb-menu-item.slick-slide.slick-cloned(data-slick-index='9', aria-hidden='true', style='width: 128px;', tabindex='-1')
+											a.nav-link(href='#product-large-five', data-toggle='tab', tabindex='-1')
+												img(src='assets/img/products/10-450x450.jpg', alt='product thumb')
+								i.fa.fa-angle-right.slick-next.slick-btn.slick-arrow(style='')
+								
+	// Main Content Wrapper Start
+	// Footer Start
+	footer.footer.border-top.ptb--40.ptb-md--30
+		.container
+			.row.mb--40.mb-md--30
+				.col-lg-5.col-md-6.mb-md--30
+					.footer-widget
+						h3.widget-title CONTACTO GIMPSA
+						.widget-content.mb--20
+							p Telefono:  +01-800-022-0499
+							p Email: info@gimpsa.com.mx
+							p 
+								small Direccion: Rio Lerma #333, Col, Cuauhtémoc D.F. C.P. 06500
+						ul.social.social-round
+							li.social__item
+								a.social__link(href='http://facebook.com')
+									i.fa.fa-facebook
+							li.social__item
+								a.social__link(href='http://youtube.com')
+									i.fa.fa-youtube
+				.col-lg-3.col-md-6.mb-md--30
+					.footer-widget
+						h3.widget-title Information
+						ul.widget-menu
+							li
+								a(href='') About Us
+							li
+								a(href='') Delivery Information
+							li
+								a(href='') Privacy Policy
+							li
+								a(href='') Terms &amp; Conditions
+							li
+								a(href='') Gift Certificates
+							li
+								a(href='') Contact Us
+				.col-lg-4.col-md-6.mb-sm--30
+					.footer-widget
+						h3.widget-title Extras
+						ul.widget-menu
+							li
+								a(href='') Brands
+							li
+								a(href='') Gift Certificates
+							li
+								a(href='') Affiliate
+							li
+								a(href='') Specials
+							li
+								a(href='') My Account
+							li
+								a(href='') Returns
+			.row.mb--40.mb-md--30
+				.col-12
+					ul.footer-menu
+						li
+							a(href='') INICIO
+						li
+							a(href='') PRODUCTOS
+						li
+							a(href='') EMPRESA
+						li
+							a(href='') POLITICAS DE PRIVACIDAD
+						li
+							a(href='') TERMINOS Y CONDICIONES
+						li
+							a(href='') CONTACTO
+			.row
+				.col-12.text-center
+					p.copyright-text
+						a(href='#') ACEPTAMOS TODOS LOS METODOS DE PAGO
+					img(src='{%static HTMLPage.static%}img/others/payment.png', alt='payment')
+	// Footer End
+	// Scroll To Top Start
+	a.scroll-to-top(href='')
+		i.fa.fa-angle-double-up
+	// Scroll To Top End
+// Main Wrapper End
+// ************************* JS Files *************************
+script(src='{% static "mirari/js/vue.js"%}')
+script(src='{% static "mirari/js/vue-router.js"%}')
+script(src='{%static HTMLPage.static%}js/vue-main.js')
+// jQuery JS
+script(src='{%static HTMLPage.static%}js/vendor/jquery.min.js')
+// Bootstrap and Popper Bundle JS
+script(src='{%static HTMLPage.static%}js/bootstrap.bundle.min.js')
+// All Plugins Js
+script(src='{%static HTMLPage.static%}js/plugins.js')
+// Ajax Mail Js
+script(src='{%static HTMLPage.static%}js/ajax-mail.js')
+// Main JS
+script(src='{%static HTMLPage.static%}js/main.js')

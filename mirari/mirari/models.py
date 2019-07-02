@@ -56,10 +56,9 @@ VARS = {
                 'url': 'url_update',
             },
         ],
-        'FORM': ['name','code','default_mail','contact_mail', 'sites'],
     }
 def path_system(self, filename):
-    upload_to = "companys/%s_%s/SYSTEM/%s" % (self.id, self.code, filename)
+    upload_to = "O/%s%s/SYSTEM/%s" % (self.id, self.code, filename)
     return upload_to
 class Organization(MPTTModel, Model_base):
     parent = TreeForeignKey('self', null=True, blank=True, related_name='+', db_index=True, on_delete=models.CASCADE)
@@ -71,6 +70,7 @@ class Organization(MPTTModel, Model_base):
     contact_mail = models.EmailField('Email de contacto para clientes', blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     modules = models.ManyToManyField('Module', blank=True, related_name='+',)
+    color = models.CharField('Color de la empresa', max_length=50, default='#191919')
     TITLE = models.CharField(max_length=255, blank=True, null=True)
     SLOGAN = models.CharField(max_length=255, blank=True, null=True)
     LAYOUT = models.CharField(max_length=255, blank=True, null=True)
@@ -441,22 +441,18 @@ class HostEmail(Model_base):
         if not fromContact:
             fromContact = self.prefix
         context = {
+            'MEDIA_URL': settings.STATIC_URL,
+            'STATIC_URL': settings.MEDIA_URL,
             'content': content,
             'organization': self.organization,
         }
         render = render_to_string(template, context)
         for mail in toEmail:
-            msg = EmailMultiAlternatives(
-                subject=subject,
-                body=render,
-                from_email=fromContact+'<'+self.email+'>', 
-                to=[toEmail],
-                connection=connection
-            )
+            msg = EmailMultiAlternatives(subject=subject,body=render,from_email=fromContact+'<'+self.email+'>',to=[toEmail],connection=connection)
             msg.attach_alternative(render, "text/html")
             for file in files:
                 msg.attach_file(file)
-            msg.send(True)
+            #msg.send(True)
         connection.close()
         return True
 

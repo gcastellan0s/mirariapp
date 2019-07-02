@@ -17,7 +17,7 @@ block content
                         div {% trans 'KEY del Ticket'%}
                         a.d-block.small
                             button.btn.btn-primary(v-on:click.prevent="getTicketQR()" style="margin-top:-3rem;")
-                                i.fas.fa-camera.mr-2 
+                                i.fas.fa-camera.mr-2
                                 | {% trans 'ESCANEAR QR'%}
                     input.form-control(type='text', v-model='invoice.ticket' minlength=12 maxlength=12 required autofocus="autofocus")
                 .form-group

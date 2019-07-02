@@ -51,7 +51,6 @@ VARS = {
                 Div('rfc'),
                 Div('razonSocial'),
                 Div('persona'),
-                Div('curp'),
                 HTML('<h5 class="kt-section__title ml-2 mb-4">CERTIFICADOS</h5>'),
                 Div('cer'),
                 Div('key'),
@@ -60,9 +59,8 @@ VARS = {
             ),
             Div(
                 HTML('<h5 class="kt-section__title ml-2 mb-4">DATOS DE CONTACTO</h5>'),
-                Div('zipcode'),
                 Div('contactName'),
-                Div('contactEmail'),
+                Div('zipcode'),
                 HTML('<h5 class="kt-section__title ml-2 mb-4">DIRECCIÓN</h5>'),
                 Div('street'),
                 Div('extNumber'),
@@ -213,38 +211,35 @@ VARS = {
     'APP':APP,
     'LIST': [
         {
-            'field': 'uuid',
-            'title': 'ID',
-            'url': 'url_detail',
-            'serchable': True,
-        },
-        {
-            'field': 'cfdiReceptorRfc',
+            'field': 'getCfdiReceptorRfc',
             'title': 'RFC',
-            'url': 'url_detail',
+            #'url': 'url_detail',
             'serchable': True,
         },
         {
-            'field': 'cfdiReceptorNombre',
+            'field': 'getCfdiReceptorNombre',
             'title': 'Razon Social',
-            'url': 'url_detail',
+            #'url': 'url_detail',
             'serchable': True,
         },
         {
             'field': 'getTotal',
             'title': 'TOTAL',
-            'url': 'url_detail',
+            #'url': 'url_detail',
             'template': 
+                #"""
+                    #<a href="{{url_detail}}" class="a-no">
+                        #{{getTotal.MXN}}
+                    #</a>
+                #""",
                 """
-                    <a href="{{url_detail}}" class="a-no">
-                        {{getTotal.MXN}}
-                    </a>
+                    {{getTotal.MXN}}
                 """,
         },
         {
             'field': 'hasError',
             'title': 'Completada?',
-            'url': 'url_detail',
+            #'url': 'url_detail',
         },
     ],
     'HIDE_BUTTONS_LIST': True,
@@ -293,6 +288,10 @@ class Invoice(Model_base):
             'INT':self.total,
             'MXN':Money( "{0:.2f}".format(self.total), Currency.MXN).format('es_MX'),
         }
+    def getCfdiReceptorRfc(self):
+        return self.render_if(self.cfdiReceptorRfc)
+    def getCfdiReceptorNombre(self):
+        return self.render_if(self.cfdiReceptorNombre)
     def makeInvoice(self, data):
         self.organization = data['organization']
         self.rfc = data['cfdiReceptorRfc']

@@ -85,7 +85,6 @@ AWS_S3_OBJECT_PARAMETERS = {
 
 # STATIC
 # ------------------------
-
 STATICFILES_STORAGE = 'config.settings.production.StaticRootS3BotoStorage'
 STATIC_URL = 'https://s3.amazonaws.com/'+AWS_STORAGE_BUCKET_NAME+'/static/'
 
@@ -128,7 +127,6 @@ EMAIL_SUBJECT_PREFIX = '[mirari]'
 # ------------------------------------------------------------------------------
 # Django Admin URL regex.
 ADMIN_URL = env('DJANGO_ADMIN_URL')
-
 
 # Gunicorn
 # ------------------------------------------------------------------------------
@@ -214,3 +212,11 @@ RAVEN_CONFIG = {
 # Your stuff...
 # ------------------------------------------------------------------------------
 DEFAULT_DOMAIN = 'mirari.xyz'
+
+# FINKOK
+# ------------------------------------------------------------------------------
+FINKOK = {
+    'USER': env('FINKOK_USER', default='g@gustavo-castellanos.com'),
+    'PASSWORD': env('FINKOK_PASSWORD', default='Password1*'),
+    'URL': env('FINKOK_URL', default='https://demo-facturacion.finkok.com/servicios/soap/'),
+}
