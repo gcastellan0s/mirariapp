@@ -73,10 +73,8 @@ style
 										i.icon_search
 							ul.header-toolbar-icons
 								li.my-account-icon.dropdown
-									a#userID.dropdown-toggle.bordered-icon(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+									a#userID.dropdown-toggle.bordered-icon(href="{%url 'mirari:login__Organization__TemplateView' %}")
 										i.fa.fa-sign-in
-									.dropdown-menu(aria-labelledby='userID')
-										a.dropdown-item(href="{%url 'mirari:login__Organization__TemplateView' %}") {%trans 'ENTRAR'%}
 								li.wishlist-icon
 									a.bordered-icon(href='#')
 										i.fa.fa-heart
