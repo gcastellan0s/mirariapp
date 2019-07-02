@@ -76,7 +76,7 @@ style
 									a#userID.dropdown-toggle.bordered-icon(data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
 										i.fa.fa-sign-in
 									.dropdown-menu(aria-labelledby='userID')
-										a.dropdown-item(href='') {%trans 'ENTRAR'%}
+										a.dropdown-item(href="{%url 'mirari:login__Organization__TemplateView' %}") {%trans 'ENTRAR'%}
 								li.wishlist-icon
 									a.bordered-icon(href='#')
 										i.fa.fa-heart
@@ -595,9 +595,9 @@ style
 		.breadcrumb-area
 			.container
 				.row
-					.col-12.text-center
-						h1 NUESTROS CLIENTES
-						p Estamos comprometidos con la calidad, satisfacción y confianza de los clientes, entregando siempre a tiempo y contamos con sistemas de mantenimientos.	
+					.col-12.text-center.my-5
+						h1 CONTAMOS CON 3 PLANTAS
+						p Tenemos 3 plantas donde procesamos metales preciosos, Adipisicing laborum esse tempor irure consequat in ad cupidatat officia pariatur ullamco pariatur et deserunt.	
 		.about-area.bg--dark-3
 			.container-fluid.p-0
 				.row.no-gutters.align-items-center
@@ -610,16 +610,6 @@ style
 					.col-xl-4
 						.img-box.text-center
 							img(src='{%static HTMLPage.static%}img/about/about-us-img4.jpg', alt='about')
-					.col-xl-6
-						.row
-							.col-10.offset-1
-								.about-text.text-center
-									h2.heading-secondary.mb--40.mb-sm--30
-										.logo-container
-											a.logo-box(href='/')
-												img(src='{%static HTMLPage.static%}img/logo.png', alt='Logo' style="max-height:120px;")
-									h2.heading-secondary.mb--40.mb-sm--30 TOTAL CONFIABILIDAD
-									p Servimos a nuestros clientes con atención, materiales, productos y servicios de la mas alta calidad, propiciando una relación de negocio de largo plazo en un ambiente de total confiabilidad
 		.breadcrumb-area
 			.container
 				.row
@@ -643,6 +633,12 @@ style
 								.thumb-menu-item.slick-slide.slick-cloned(data-slick-index='9', aria-hidden='true', style='width: 128px;', tabindex='-1')
 									a.nav-link(href='#product-large-five', data-toggle='tab', tabindex='-1')
 										img(src='{%static HTMLPage.static%}img/logo/client1.png', alt='product thumb')
+								.thumb-menu-item.slick-slide.slick-cloned(data-slick-index='7', aria-hidden='true', style='width: 128px;', tabindex='-1')
+									a.nav-link(href='#product-large-three', data-toggle='tab', tabindex='-1')
+										img(src='{%static HTMLPage.static%}img/logo/client4.png', alt='product thumb')
+								.thumb-menu-item.slick-slide.slick-cloned(data-slick-index='8', aria-hidden='true', style='width: 128px;', tabindex='-1')
+									a.nav-link(href='#product-large-four', data-toggle='tab', tabindex='-1')
+										img(src='{%static HTMLPage.static%}img/logo/client5.png', alt='product thumb')
 								
 	// Main Content Wrapper Start
 	// Footer Start
