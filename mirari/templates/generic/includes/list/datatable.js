@@ -19,8 +19,8 @@ var KTDatatablesDataSourceAjaxServer = function() {
             language: {
                 'url':'//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json'
             },
-            {%if 'PAGELENGTH' in model.VARS%}
-                pageLength: {{model.VARS.PAGELENGTH}},
+            {%if 'LISTLENGTH' in model.VARS%}
+                pageLength: {{model.VARS.LISTLENGTH}},
             {%else%}
                 pageLength: 25,
             {%endif%}

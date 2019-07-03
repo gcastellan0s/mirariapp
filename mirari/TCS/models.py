@@ -3,6 +3,7 @@ from rest_framework import serializers
 from mirari.mirari.models import *
 from .vars import *
 
+########################################################################################
 VARS = {
     'NAME':'Empresa',
     'PLURAL':'Empresas',
@@ -25,7 +26,7 @@ class Company(Model_base):
         return self.name
 
 
-
+########################################################################################
 VARS = {
     'NAME':'Tienda',
     'PLURAL':'Tiendas',
@@ -58,7 +59,7 @@ class Store(Model_base):
         return Store.objects.filter(company__organization__pk=view.request.session.get('organization'), active=True)
 
 
-
+########################################################################################
 VARS = {
     'NAME':'Marca',
     'PLURAL':'Marcas',
@@ -89,7 +90,7 @@ class Brand(Model_base):
         return Brand.objects.filter(company__organization__pk=view.request.session.get('organization'), active=True).distinct()
 
 
-
+########################################################################################
 VARS = {
     'NAME':'Modelo',
     'PLURAL':'Modelos',
@@ -119,6 +120,8 @@ class Modelo(Model_base):
     def QUERY(self, view):
         return Modelo.objects.filter(brand__company__organization__pk=view.request.session.get('organization'), active=True).distinct()
 
+
+########################################################################################
 VARS = {
     'NAME':'Orden de servicio',
     'PLURAL':'Ordenes de servicio',
@@ -129,22 +132,23 @@ VARS = {
     'APP':APP,
     'HIDE_CHECKBOX_LIST': True,
     'HIDE_BUTTONS_LIST': True,
-    'SERIALIZER': ('get_service_date_html','get_client_name_html','get_contact_phone1_html','get_contact_phone2_html','get_id_html','get_serial_html','get_creation_date_html','get_technical_html','get_concept_html', 'get_status_html', 'get_user_html', 'get_icon_os_html','get_icon_ics_html','get_icon_ics_2_html','get_icon_ics_3_html','get_icon_on_html','get_icon_cn_html','get_contact_phone3_html','get_email_html','get_adress_html','get_store_html','get_brand_html', 'get_modelo_html'),
+    'LISTLENGTH':10,
+    'SERIALIZER': ('get_serial_html','get_creation_date_html','get_technical_html','get_concept_html','get_store_html','get_brand_html','get_modelo_html','get_service_date_html','get_client_name_html', 'get_email_html', 'get_contact_phone1_html', 'get_contact_phone2_html','get_contact_phone3_html','get_adress_html','get_icon_os_html','get_icon_ics_html','get_icon_ics_2_html','get_icon_ics_3_html','get_icon_on_html','get_icon_cn_html'),
     'LIST': [
         {
             'field': 'serial',
             'title': 'ORDEN',
             'template': 
                 """
-                    <a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
+                    <a href="{{url_update}}" class="a-no">
                         <span>
-                            {{property_get_serial_html}}
-                            {{property_get_creation_date_html}}
-                            {{property_get_technical_html}}
-                            {{property_get_concept_html}}
-                            {{property_get_store_html}}
-                            {{property_get_brand_html}}
-                            {{property_get_modelo_html}}
+                            {{get_serial_html}}
+                            {{get_creation_date_html}}
+                            {{get_technical_html}}
+                            {{get_concept_html}}
+                            {{get_store_html}}
+                            {{get_brand_html}}
+                            {{get_modelo_html}}
                         </span>
                     </a>
                 """,
@@ -154,29 +158,26 @@ VARS = {
             'title': 'SERVICIO',
             'template': 
                 """
-                    <a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
+                    <a href="{{url_update}}" class="a-no">
                         <span>
-                        
-                            {{property_get_service_date_html}}
-                            {{property_get_client_name_html}}
-                            {{property_get_email_html}}
-                            {{property_get_contact_phone1_html}}
-                            {{property_get_contact_phone2_html}}
-                            {{property_get_contact_phone3_html}}
-                            {{property_get_adress_html}}
+                            {{get_service_date_html}}
+                            {{get_client_name_html}}
+                            {{get_email_html}}
+                            {{get_contact_phone1_html}}
+                            {{get_contact_phone2_html}}
+                            {{get_contact_phone3_html}}
+                            {{get_adress_html}}
                         </span>
                     </a>
                 """,
         },
         {
-            'field': 'user',
+            'field': 'get_user_html',
             'title': 'INFORMACIÓN',
             'template': 
                 """
-                    <a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
-                        <span>
-                            {{property_get_user_html}}
-                        </span>
+                    <a href="{{url_update}}" class="a-no">
+                        <span>{{get_user_html}}</span>
                     </a>
                 """,
         },
@@ -185,19 +186,20 @@ VARS = {
             'title': 'ICON',
             'template': 
                 """
-                    <a href="{{property_url_update}}" style="color:inherit;text-decoration:none;">
+                    <a href="{{url_update}}" class="a-no">
                         <span>
-                            {{property_get_icon_os_html}}
-                            {{property_get_icon_ics_html}}
-                            {{property_get_icon_ics_2_html}}
-                            {{property_get_icon_ics_3_html}}
-                            {{property_get_icon_on_html}}
-                            {{property_get_icon_cn_html}}
+                            {{get_icon_os_html}}
+                            {{get_icon_ics_html}}
+                            {{get_icon_ics_2_html}}
+                            {{get_icon_ics_3_html}}
+                            {{get_icon_on_html}}
+                            {{get_icon_cn_html}}
                         </span>
                     </a>
                 """,
         },
     ],
+    'LISTLENGTH': 10,
     'SEARCH': ['serial', 'client_name', 'email'],
     'SELECTQ': {
         'technical': {
@@ -539,7 +541,6 @@ class OrderService(Model_base):
         if self.cp:
             adress += 'CP ' + self.cp
         return """<i class="fa fa-map-marker-alt m--icon-font-size-sm5 mr-1"></i> {0}<br />""".format(adress)
-        
     def get_icon_os_html(self):
         if self.icon_os:
             return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>OS: {0}<br />""".format(self.icon_os)
@@ -593,6 +594,7 @@ class OrderService(Model_base):
             return 'm-fc-event--solid-focus m-fc-event--light'
 
 
+########################################################################################
 VARS = {
     'NAME':'Comentario de Orden',
     'PLURAL':'Comentarios de Orden',
@@ -617,7 +619,7 @@ class OrderServiceComment(Model_base):
         return str(self.pk)
 
 
-
+########################################################################################
 VARS = {
     'NAME':'Concepto de Orden',
     'PLURAL':'Conceptos de Orden',
@@ -642,7 +644,7 @@ class OrderServiceConcept(Model_base):
         return str(self.pk)
 
 
-
+########################################################################################
 VARS = {
     'NAME':'Historial de Orden',
     'PLURAL':'Historial de Ordenes',
