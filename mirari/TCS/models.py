@@ -132,8 +132,9 @@ VARS = {
     'APP':APP,
     'HIDE_CHECKBOX_LIST': True,
     'HIDE_BUTTONS_LIST': True,
-    'LISTLENGTH':10,
     'SERIALIZER': ('get_serial_html','get_creation_date_html','get_technical_html','get_concept_html','get_store_html','get_brand_html','get_modelo_html','get_service_date_html','get_client_name_html', 'get_email_html', 'get_contact_phone1_html', 'get_contact_phone2_html','get_contact_phone3_html','get_adress_html','get_icon_os_html','get_icon_ics_html','get_icon_ics_2_html','get_icon_ics_3_html','get_icon_on_html','get_icon_cn_html'),
+    'PAGEList': 'OrderService__ListView.pug',
+    'LISTLENGTH':10,
     'LIST': [
         {
             'field': 'serial',
@@ -180,10 +181,12 @@ VARS = {
                         <span>{{get_user_html}}</span>
                     </a>
                 """,
+            
         },
         {
             'field': 'icon_os',
             'title': 'ICON',
+            'width':250,
             'template': 
                 """
                     <a href="{{url_update}}" class="a-no">
@@ -476,58 +479,75 @@ class OrderService(Model_base):
     def get_id_html(self):
         return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
     def get_serial_html(self):
-        return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small class="m--font-brandºº">[{1}]</small><br />'.format(self.serial, self.service.upper())
+        return """
+            <strong class="mr-2 h3">
+                {0}
+            </strong> 
+            <small class="m--font-brandºº">[{1}]</small>
+            <br />
+        """.format(self.serial, self.service.upper())
     def get_creation_date_html(self):
-        return """<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.creation_date.strftime('%d %b %Y %I:%M %p'))
+        return """
+            <i class="fa fa-calendar m--icon-font-size-sm5 mr-1 text-muted"></i>
+            {0}<br />
+            """.format(self.creation_date.strftime('%d %b %Y %I:%M %p'))
     def get_user_html(self):
-        return """<i class="fa fa-user-edit m--icon-font-size-sm5 mr-1"></i> OPERADOR: {0}<br />""".format(self.user)
+        return """
+            <i class="fa fa-user-edit m--icon-font-size-sm5 mr-1 text-muted"></i> 
+            OPERADOR: {0}
+            <br />
+        """.format(self.user)
     def get_technical_html(self):
-        return """<i class="fa fa-user-cog m--icon-font-size-sm5 mr-1"></i> TECNICO: {0}<br />""".format(self.technical)
+        return """
+            <i class="fa fa-user-cog m--icon-font-size-sm5 mr-1 text-muted"></i> 
+            {0}
+            <br />
+        """.format(self.technical)
     def get_concept_html(self):
-        return """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.concept)
+        return """<i class="fa fa-cog m--icon-font-size-sm5 mr-1 text-muted"></i>{0}<br />""".format(self.concept)
     def get_store_html(self):
         if self.store:
-            return """<i class="fa fa-store m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.store)
+            return """<i class="fa fa-store m--icon-font-size-sm5 mr-1 text-muted"></i>{0}<br />""".format(self.store)
         else:
             return ''
     def get_brand_html(self):
         if self.brand:
-            return """<i class="fa fa-tags m--icon-font-size-sm5 mr-1"></i>{0} """.format(self.brand)
+            return """<i class="fa fa-tags m--icon-font-size-sm5 mr-1 text-muted"></i>{0} """.format(self.brand)
         else:
             return ''
     def get_modelo_html(self):
         if self.modelo:
-            return """<i class="fa fa-tag m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.modelo)
+            return """<i class="fa fa-tag m--icon-font-size-sm5 mr-1 text-muted"></i>{0}<br />""".format(self.modelo)
         else:
             return ''
     def get_service_date_html(self):
         if self.service_date:
-            return """<i class="fa fa-calendar-check m--icon-font-size-sm5 mr-1"></i><strong>{0}</strong><br />""".format(self.service_date.strftime('%d %b %Y'))
+            return """<i class="fa fa-calendar-check m--icon-font-size-sm5 mr-1 text-muted"></i><strong>{0}</strong><br />""".format(self.service_date.strftime('%d %b %Y'))
         else:
-            return '<i class="fa fa-calendar m--icon-font-size-sm5 mr-1"></i>'
+            return '<i class="fa fa-calendar m--icon-font-size-sm5 mr-1 text-muted"></i>'
     def get_client_name_html(self):
         if self.client_name:
-            return """<i class="fa fa-user m--icon-font-size-sm5 mr-1"></i>{0}<br />""".format(self.client_name.title())
+            return """<i class="fa fa-user m--icon-font-size-sm5 mr-1 text-muted"></i>{0}<br />""".format(self.client_name.title())
         else:
             return ''
     def get_email_html(self):
         if self.email:
-            return """<i class="fa fa-envelope m--icon-font-size-sm5 mr-1"></i>TEL: {0}<br />""".format(self.email)
+            return """<i class="fa fa-envelope m--icon-font-size-sm5 mr-1 text-muted"></i>MAIL: {0}<br />""".format(self.email)
         else:
             return ''
     def get_contact_phone1_html(self):
         if self.contact_phone1:
-            return """<i class="fa fa-phone m--icon-font-size-sm5 mr-1"></i>TEL: {0}<br />""".format(self.contact_phone1)
+            return """<i class="fa fa-phone m--icon-font-size-sm5 mr-1 text-muted"></i>TEL: {0}<br />""".format(self.contact_phone1)
         else:
             return ''
     def get_contact_phone2_html(self):
         if self.contact_phone2:
-            return """<i class="fa fa-building m--icon-font-size-sm5 mr-1"></i>OFI: {0}<br />""".format(self.contact_phone2)
+            return """<i class="fa fa-building m--icon-font-size-sm5 mr-1 text-muted"></i>OFI: {0}<br />""".format(self.contact_phone2)
         else:
             return ''
     def get_contact_phone3_html(self):
         if self.contact_phone3:
-            return """<i class="fa fa-mobile m--icon-font-size-sm5 mr-1"></i>CEL: {0}<br />""".format(self.contact_phone3)
+            return """<i class="fa fa-mobile m--icon-font-size-sm5 mr-1 text-muted"></i>CEL: {0}<br />""".format(self.contact_phone3)
         else:
             return ''
     def get_adress_html(self):
@@ -540,30 +560,30 @@ class OrderService(Model_base):
             adress += self.city + ' '
         if self.cp:
             adress += 'CP ' + self.cp
-        return """<i class="fa fa-map-marker-alt m--icon-font-size-sm5 mr-1"></i> {0}<br />""".format(adress)
+        return """<i class="fa fa-map-marker-alt m--icon-font-size-sm5 mr-1 text-muted"></i> {0}<br />""".format(adress)
     def get_icon_os_html(self):
         if self.icon_os:
-            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>OS: {0}<br />""".format(self.icon_os)
+            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1 text-muted"></i>OS: {0}<br />""".format(self.icon_os)
         return ''
     def get_icon_ics_html(self):
         if self.icon_ics:
-            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>ICS: {0}<br />""".format(self.icon_ics)
+            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1 text-muted"></i>ICS: {0}<br />""".format(self.icon_ics)
         return ''
     def get_icon_ics_2_html(self):
         if self.icon_ics_2:
-            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>ICS2: {0}<br />""".format(self.icon_ics_2)
+            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1 text-muted"></i>ICS2: {0}<br />""".format(self.icon_ics_2)
         return ''
     def get_icon_ics_3_html(self):
         if self.icon_ics_3:
-            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>ICS3: {0}<br />""".format(self.icon_ics_3)
+            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1 text-muted"></i>ICS3: {0}<br />""".format(self.icon_ics_3)
         return ''
     def get_icon_on_html(self):
         if self.icon_on:
-            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>ON: {0}<br />""".format(self.icon_on)
+            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1 text-muted"></i>ON: {0}<br />""".format(self.icon_on)
         return ''
     def get_icon_cn_html(self):
         if self.icon_cn:
-            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1"></i>CN: {0}<br />""".format(self.icon_cn)
+            return  """<i class="fa fa-cog m--icon-font-size-sm5 mr-1 text-muted"></i>CN: {0}<br />""".format(self.icon_cn)
         return ''
     def get_total(self):
         orderserviceconcept = OrderServiceConcept.objects.filter(orderservice = self)

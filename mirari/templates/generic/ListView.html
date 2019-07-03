@@ -51,8 +51,10 @@
             <!--begin: Search Form -->
             <div class="kt-form kt-form--label-right kt-margin-t-20 kt-margin-b-10">
                 <div class="row align-items-center">
+                    {%block searchForm%}
                     <div class="col-xl-8 order-2 order-xl-1">
                         <div class="row align-items-center">
+                            {%block searchInput%}
                             {%if SERCHABLE%}
                                 <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
                                     <div class="kt-input-icon kt-input-icon--left">
@@ -63,6 +65,7 @@
                                     </div>
                                 </div>
                             {%endif%}
+                            {%endblock searchInput%}
                             <div class="col-md-9 kt-margin-b-20-tablet-and-mobile">
                                 <div class="row align-items-center">
                                     {% for item in filters %}
@@ -90,6 +93,7 @@
                             </div>
                         </div>
                     </div>
+                    {%endblock searchForm%}
                     <div class="col-xl-4 order-1 order-xl-2 kt-align-right">
                         {%if model.url_add%}
                             {%if 'Can_Create__'|prepend_perm:model.VARS|if_has_perm:request and not 'create' in model.VARS.EXCLUDE_PERMISSIONS%}
