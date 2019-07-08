@@ -3,11 +3,10 @@ extends 'appwork/layout-without-navbar.html'
 -load i18n
 
 block content
-    .embed-responsive.embed-responsive-16by9(style="max-height: 250px;")
-        iframe.embed-responsive-item(id="xauusd" src='https://www.forex.com/en/forex-trading/xau-usd' style="max-height: 250px;")
-    .embed-responsive.embed-responsive-16by9.mt-5(style="max-height: 250px;")
-        iframe.embed-responsive-item(id="xagusd" src='https://www.forex.com/en/forex-trading/xag-usd' style="max-height: 250px;")
-    
+    iframe.embed-responsive-item(id="xauusd" src='https://www.forex.com/en/forex-trading/xau-usd' style="position:relative;display:block;width:100%;padding:0;overflow:hidden;height:382px;margin-top:-150px;z-index:100;background-color:whitesmoke;" scrolling="no")
+    iframe.embed-responsive-item(id="xauusd" src='https://www.forex.com/en/forex-trading/xag-usd' style="position:relative;display:block;width:100%;padding:0;overflow:hidden;height:382px;margin-top:-150px;z-index:90;background-color:whitesmoke;" scrolling="no")
+    iframe.embed-responsive-item(id="xauusd" src='https://www.forex.com/en/forex-trading/usd-mxn/' style="position:relative;display:block;width:100%;padding:0;overflow:hidden;height:382px;margin-top:-150px;z-index:80;background-color:whitesmoke;" scrolling="no")
+
 block js
 
 script.
@@ -17,13 +16,13 @@ script.
 
     {%block mounted%}
         {{block.super}}
-        var framexauusd = document.getElementById('xauusd');
-        var framexagusd = document.getElementById('xagusd');
-        framexauusd.onload = function () {
-            framexauusd.contentWindow.scrollTo(0,200);
-        }
-        framexagusd.onload = function () {
-            framexagusd.contentWindow.scrollTo(0,200);
-        }
+        //var framexauusd = document.getElementById('xauusd');
+        //var framexagusd = document.getElementById('xagusd');
+        //framexauusd.onload = function () {
+            //framexauusd.contentWindow.scrollTo(0,200);
+        //}
+        //framexagusd.onload = function () {
+            //framexagusd.contentWindow.scrollTo(0,200);
+        //}
     {%endblock mounted%}
 .

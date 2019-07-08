@@ -296,8 +296,9 @@ STATICFILES_FINDERS += ['compressor.finders.CompressorFinder']
 # Your stuff...
 # ------------------------------------------------------------------------------
 PAGINATOR_SIZE = 10
-CORS_ORIGIN_ALLOW_ALL = True
 DEFAULT_DOMAIN = 'mirari.xyz'
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # FINKOK
 # ------------------------------------------------------------------------------
