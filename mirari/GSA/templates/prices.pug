@@ -1,0 +1,29 @@
+extends 'appwork/layout-without-navbar.html'
+-load static
+-load i18n
+
+block content
+    .embed-responsive.embed-responsive-16by9(style="max-height: 250px;")
+        iframe.embed-responsive-item(id="xauusd" src='https://www.forex.com/en/forex-trading/xau-usd' style="max-height: 250px;")
+    .embed-responsive.embed-responsive-16by9.mt-5(style="max-height: 250px;")
+        iframe.embed-responsive-item(id="xagusd" src='https://www.forex.com/en/forex-trading/xag-usd' style="max-height: 250px;")
+    
+block js
+
+script.
+    {%block data%}
+        {{block.super}}
+    {%endblock data%}
+
+    {%block mounted%}
+        {{block.super}}
+        var framexauusd = document.getElementById('xauusd');
+        var framexagusd = document.getElementById('xagusd');
+        framexauusd.onload = function () {
+            framexauusd.contentWindow.scrollTo(0,200);
+        }
+        framexagusd.onload = function () {
+            framexagusd.contentWindow.scrollTo(0,200);
+        }
+    {%endblock mounted%}
+.

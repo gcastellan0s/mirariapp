@@ -1,0 +1,30 @@
+extends "metronic/layout-5.html"
+-load static
+
+block title%
+    | 403 Forbbiden
+
+block styles
+    link(href="{%static 'metronic/dist/demo5/assets/app/custom/error/error-v5.default.css'%}", rel='stylesheet', type='text/css')
+    {{block.super}}
+    style.
+        .kt-grid__item{
+            min-height: 100vh!important;
+        }
+
+block body_class
+    | kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading
+
+block body_content
+    .kt-grid.kt-grid--ver.kt-grid--root
+        .kt-grid__item.kt-grid__item--fluid.kt-grid.kt-error-v5(style="background-image: url({%static 'metronic/dist/default/assets/media//error/bg5.jpg'%});")
+            .kt-error_container
+                span.kt-error_title
+                    h1 Oops!
+                p.kt-error_subtitle
+                p.kt-error_description
+                    | No tienes permiso para estar aqui.
+                    br
+                    a.btn.btn-outline-primary.btn-tallest.mt-3(href="javascript: history.go(-1)")
+                        i.flaticon2-back
+                        | REGRESAR

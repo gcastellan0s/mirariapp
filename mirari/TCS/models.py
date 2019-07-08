@@ -16,7 +16,7 @@ VARS = {
 class Company(Model_base):
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     name = models.CharField('Nombre de la empresa', max_length=250)
-    id_bckp = models.IntegerField()
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -47,7 +47,7 @@ class Store(Model_base):
     adress = models.CharField('Domicilio', max_length=250, blank=True, null=True)
     phone = models.CharField('Teléfono', max_length=250, blank=True, null=True)
     name = models.CharField('Nombre de la tienda', max_length=250)
-    id_bckp = models.IntegerField()
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -78,7 +78,7 @@ class Brand(Model_base):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+',)
     company = models.ManyToManyField('Company', verbose_name="Empresas que la venden")
     name = models.CharField('Marca', max_length=250)
-    id_bckp = models.IntegerField()
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -109,7 +109,7 @@ class Modelo(Model_base):
     brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, verbose_name="Marca")
     name = models.CharField('Nombre del modelo', max_length=250)
     description = models.CharField('Descripción', max_length=250, blank=True, null=True)
-    id_bckp = models.IntegerField()
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -123,6 +123,42 @@ class Modelo(Model_base):
 
 ########################################################################################
 VARS = {
+    'NAME':'Informacion de Orden',
+    'PLURAL':'Informacion de Orden',
+    'MODEL':'Modelo',
+    'NEW':'NUEVA',
+    'NEW_GENDER': 'una nueva',
+    'THIS': 'esta',
+    'APP':APP,
+    'EXCLUDE_PERMISSIONS': ['delete','create','update'],
+    'LIST': [
+        {
+            'field': 'id',
+            'title': 'INFORMACIÓN',
+            'template': 
+                """
+                    <a href="{{url_update}}" class="a-no">
+                        <span>INFORMACION DE LA ORDEN EN LAS IMPRESIONES</span>
+                    </a>
+                """,
+            
+        },
+    ],
+}
+class OrderServiceInformation(Model_base):
+    organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+',)
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return 'Orden de servicio'
+    def QUERY(self, view):
+        return OrderServiceInformation.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
+
+########################################################################################
+VARS = {
     'NAME':'Orden de servicio',
     'PLURAL':'Ordenes de servicio',
     'MODEL':'OrderService',
@@ -130,11 +166,14 @@ VARS = {
     'NEW_GENDER': 'una nueva',
     'THIS': 'esta',
     'APP':APP,
+    'EXCLUDE_PERMISSIONS': ['delete'],
     'HIDE_CHECKBOX_LIST': True,
     'HIDE_BUTTONS_LIST': True,
     'SERIALIZER': ('get_serial_html','get_creation_date_html','get_technical_html','get_concept_html','get_store_html','get_brand_html','get_modelo_html','get_service_date_html','get_client_name_html', 'get_email_html', 'get_contact_phone1_html', 'get_contact_phone2_html','get_contact_phone3_html','get_adress_html','get_icon_os_html','get_icon_ics_html','get_icon_ics_2_html','get_icon_ics_3_html','get_icon_on_html','get_icon_cn_html'),
     'PAGEList': 'OrderService__ListView.pug',
+    'PAGECreate': 'OrderService__CreateView.pug',
     'LISTLENGTH':10,
+    'LISTDOM': "<'row'<'col-sm-12 col-md-6'p><'col-sm-12 col-md-6'i>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-4'p><'col-sm-12 col-md-2 mt-2'l><'col-sm-12 col-md-6'i>>",
     'LIST': [
         {
             'field': 'serial',
@@ -329,11 +368,6 @@ VARS = {
         ),
     ],
     'FORM_CLASS': 'small_form',
-    'FORM_SIZE': ('col-xl-8 offset-xl-2','col-xl-9'),
-    'TEMPLATE_NAME': {
-        'CREATEVIEW': 'OrderService__CreateView.html',
-    },
-    'FORM_BUTTONS': 'TOP',
 }
 class OrderService(Model_base):
     estatus_choices = ESTATUS
@@ -380,7 +414,7 @@ class OrderService(Model_base):
     icon_ics_3 = models.CharField('icon ics 3', max_length=250, blank=True, default="")
     icon_on = models.CharField(max_length=250, blank=True)
     icon_cn = models.CharField(max_length=250, blank=True)
-    id_bckp = models.IntegerField()
+    id_bckp = models.IntegerField(blank=True, null=True)
     brandName = models.CharField(max_length=250, blank=True)
     comments = models.TextField(blank=True, verbose_name="Comentarios")
     VARS = VARS
@@ -426,50 +460,43 @@ class OrderService(Model_base):
         if not form.instance.pk:
             form.instance.user = view.request.user
         return form
-    def EXTRA_RESPONSE(self, request):
-        if self.request.GET.get('comment'):
-            if not self.request.GET.get('comment') == 'false':
-                orderservicecomment = OrderServiceComment()
-                orderservicecomment.orderservice = self.object
-                orderservicecomment.user = request.user
-                orderservicecomment.comment = self.request.GET.get('comment')
-                orderservicecomment.save()
-            class OrderServiceComment_Serializer(serializers.ModelSerializer):
-                username = serializers.CharField(source='user.visible_username')
-                class Meta:
-                    model = OrderServiceComment
-                    fields = ('__all__')
-            return JsonResponse({'OrderServiceComment': OrderServiceComment_Serializer(OrderServiceComment.objects.filter(orderservice = self.object).order_by('creation_date'), many=True).data})
-        if self.request.GET.get('status'):
-            self.object.status = self.request.GET.get('status')
-            self.object.save()
-            return JsonResponse({'api': 'OK'})
-        if self.request.GET.get('concept'):
-            if not self.request.GET.get('concept') == 'false':
+    def APIRESPONSE(self, view):
+        api = view.request.GET.get('api', '')
+        if api == 'addConcept':
+            if view.request.POST.get('concept') and view.request.POST.get('quantity'):
                 orderserviceconcept = OrderServiceConcept()
-                orderserviceconcept.orderservice = self.object
-                orderserviceconcept.user = request.user
-                orderserviceconcept.concept = self.request.GET.get('concept')
-                orderserviceconcept.quantity = self.request.GET.get('quantity')
+                orderserviceconcept.orderservice = view.object
+                orderserviceconcept.user = view.request.user
+                orderserviceconcept.concept = view.request.POST.get('concept')
+                orderserviceconcept.quantity = view.request.POST.get('quantity')
                 orderserviceconcept.save()
-            class OrderServiceConcept_Serializer(serializers.ModelSerializer):
-                username = serializers.CharField(source='user.visible_username')
-                class Meta:
-                    model = OrderServiceConcept
-                    fields = ('__all__')
-            return JsonResponse({'OrderServiceConcept': OrderServiceConcept_Serializer(OrderServiceConcept.objects.filter(orderservice = self.object).order_by('creation_date'), many=True).data})
-        if self.request.GET.get('get_calendar'):
-            start = datetime.datetime.utcfromtimestamp(int(self.request.GET.get('start'))).date()
-            end = datetime.datetime.utcfromtimestamp(int(self.request.GET.get('end'))).date()
+            return JsonResponse({'OrderServiceConcept':OrderServiceConceptSerializer(OrderServiceConcept.objects.filter(orderservice=view.object).order_by('creation_date'),many=True).data})
+        if api == 'addComment':
+            if view.request.POST.get('comment'):
+                orderservicecomment = OrderServiceComment()
+                orderservicecomment.orderservice = view.object
+                orderservicecomment.user = view.request.user
+                orderservicecomment.comment = view.request.POST.get('comment')
+                orderservicecomment.save()
+            return JsonResponse({'OrderServiceComment': OrderServiceCommentSerializer(OrderServiceComment.objects.filter(orderservice=view.object).order_by('creation_date'),many=True).data})
+        if api == 'updateStatus':    
+            if view.request.POST.get('status'):
+                view.object.status = view.request.POST.get('status')
+                view.object.save()
+            return JsonResponse({'api':'ok'})
+        if api == 'getCalendar':   
+            start = datetime.datetime.utcfromtimestamp(int(view.request.GET.get('start'))).date()
+            end = datetime.datetime.utcfromtimestamp(int(view.request.GET.get('end'))).date()
             class OrderServiceCalendar_Serializer(serializers.ModelSerializer):
                 class Meta:
                     model = OrderService
                     fields = ('title','start','end', 'id', 'url_update','className', 'description')
             query = OrderService.objects.filter(service_date__range=(start, end))
-            if self.request.GET.get('show'):
-                query = query.filter(zone = self.request.GET.get('show'))
+            if view.request.GET.get('show'):
+                query = query.filter(zone = view.request.GET.get('show'))
             serializer = OrderServiceCalendar_Serializer(query, many=True)
             return JsonResponse(serializer.data,  safe=False)
+        return JsonResponse({'message':'No se encontro el método'}, status=500)
     def QUERY(self, view):
         team_codes = view.request.user.get_my_teams_codes()
         if 'Operador' in team_codes or 'Administrador' in team_codes:
@@ -628,8 +655,8 @@ class OrderServiceComment(Model_base):
     orderservice = models.ForeignKey('OrderService', on_delete=models.CASCADE, related_name='+',)
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
     comment = models.TextField()
-    creation_date = models.DateTimeField()
-    id_bckp = models.IntegerField()
+    creation_date = models.DateTimeField(auto_now_add=True, editable=True)
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -637,7 +664,11 @@ class OrderServiceComment(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return str(self.pk)
-
+class OrderServiceCommentSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.visible_username')
+    class Meta:
+        model = OrderServiceComment
+        fields = ('__all__')
 
 ########################################################################################
 VARS = {
@@ -653,7 +684,7 @@ class OrderServiceConcept(Model_base):
     orderservice = models.ForeignKey('OrderService', on_delete=models.CASCADE, related_name='+',)
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
     concept = models.CharField(max_length=250, blank=True,)
-    quantity = models.IntegerField()
+    quantity = models.FloatField()
     creation_date = models.DateTimeField(auto_now_add=True, editable=True)
     VARS = VARS
     class Meta(Model_base.Meta):
@@ -662,7 +693,11 @@ class OrderServiceConcept(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return str(self.pk)
-
+class OrderServiceConceptSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.visible_username')
+    class Meta:
+        model = OrderServiceConcept
+        fields = ('__all__')
 
 ########################################################################################
 VARS = {

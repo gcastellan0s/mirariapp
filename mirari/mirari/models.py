@@ -174,6 +174,7 @@ class User(AbstractUser, Model_base):
     phone = models.CharField('Telefono de contacto', max_length=50, blank=True, null=True)
     gender = models.CharField('Género', choices=GENDER, max_length=50, blank=True, null=True)
     can_change_password = models.BooleanField('Puede cambiar su contraseña?', default=True, help_text='Un usuario puede cambiar su propio passwrod desde su cuenta?')
+    needChangePassword = models.BooleanField('Debe cambiar la contraseña?', default=False, help_text='El usuario debe cambiar su contraseña al primer inicio de sesión?')
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
@@ -187,14 +188,21 @@ class User(AbstractUser, Model_base):
             return """{0}""".format(self.username, self.email)
     def QUERY(self, view):
         return User.objects.filter(organization__pk=view.request.session.get('organization'), active=True).exclude(is_superuser=True)
+    def APIRESPONSE(self, view):
+        api = view.request.GET.get('api', '')
+        if api == 'changeOrganization':
+            if view.request.user.is_superuser:
+                view.request.user.organization = Organization.objects.get(id=view.request.POST.get('organizationPK'))
+                view.request.session['organization'] = view.request.POST.get('organizationPK')
+                view.request.user.save()
+                return JsonResponse({'api':True})
+        return JsonResponse({'message':'No se encontro el método'}, status=500)
     def url_list(self):
         return reverse('mirari:User__ListView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})
     def url_add(self):
         return reverse('mirari:User__CreateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})
     def url_update(self):
         return reverse('mirari:User__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
-    def url_password(self):
-        return reverse('mirari:UserPassword__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
     def url_password(self):
         return reverse('mirari:UserPassword__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
     def my_organizations(self):

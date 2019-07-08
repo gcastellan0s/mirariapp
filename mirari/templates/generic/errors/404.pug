@@ -1,0 +1,30 @@
+extends "metronic/layout-5.html"
+-load static
+
+block title%
+    | 403 Forbbiden
+
+block styles
+    link(href="{%static 'metronic/dist/demo5/assets/app/custom/error/error-v3.default.css'%}", rel='stylesheet', type='text/css')
+    {{block.super}}
+    style.
+        .kt-grid__item{
+            min-height: 100vh!important;
+        }
+
+block body_class
+    | kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading
+
+block body_content
+        
+    .kt-grid.kt-grid--ver.kt-grid--root
+        .kt-grid__item.kt-grid__item--fluid.kt-grid.kt-error-v3(style="background-image: url({%static 'metronic/dist/default/assets/media//error/bg3.jpg'%});")
+            .kt-error_container
+                span.kt-error_number
+                    h1 404
+                p.kt-error_title.kt-font-light Oops! No hay nada aqui
+                p.kt-error_subtitle
+                    a.btn.btn-light.btn-tallest.mt-3(href="javascript: history.go(-1)")
+                        i.flaticon2-back
+                        | REGRESAR
+    

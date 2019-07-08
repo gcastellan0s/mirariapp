@@ -5,9 +5,7 @@
 
 <style>
     {%block css%}
-        .kt-portlet__head{
-            background-color: white!important;
-        }
+        {{block.super}}
         .kt-header__bottom{
             background-color: #20253e!important;
         }
@@ -29,13 +27,11 @@
         .kt-body{
             min-height: 77.2vh;
         }
-        .table td:focus {
-            outline-width: 0px;
-        }
     {%endblock css%}
 </style>
 
 {%block font%}
+    {{block.super}}
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
     <script>            
         WebFont.load({
@@ -52,7 +48,6 @@
 {%endblock body_class%}
 
 {%block body_content%}
-        <!-- begin:: Page -->
         <!-- begin:: Header Mobile -->
         <div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
             <div class="kt-header-mobile__brand">
@@ -256,37 +251,25 @@
         </div>
         <!-- end:: Page -->
         <!-- begin::Scrolltop -->
-            <div id="kt_scrolltop" class="kt-scrolltop">
-                <i class="fa fa-arrow-up"></i>
-            </div>
+        <div id="kt_scrolltop" class="kt-scrolltop">
+            <i class="fa fa-arrow-up"></i>
+        </div>
         <!-- end::Scrolltop -->
 {%endblock body_content%}
 
 {%block js%} 
-    <script>            
-        var KTAppOptions = {
-            "colors":{
-                "state":{
-                    "brand":"#3d94fb",
-                    "light":"#ffffff",
-                    "dark":"#282a3c",
-                    "primary":"#5867dd",
-                    "success":"#34bfa3",
-                    "info":"#3d94fb",
-                    "warning":"#ffb822",
-                    "danger":"#fd2763" //#fd27eb
-                },
-                "base":{
-                    "label":["#c5cbe3","#a1a8c3","#3d4465","#3e4466"],
-                    "shape":["#f0f3ff","#d9dffa","#afb4d4","#646c9a"]
-                }
-            }
-        };
+    {{block.super}}
+    <script>     
+        var KTAppOptions = {"colors":{"state":{"brand":"#fff","dark":"#282a3c","light":"#ffffff","primary":"#5867dd","success":"#34bfa3","info":"#36a3f7","warning":"#ffb822","danger":"#fff"},"base":{"label":["#c5cbe3","#a1a8c3","#3d4465","#3e4466"],"shape":["#f0f3ff","#d9dffa","#afb4d4","#646c9a"]}}};       
+        {%if request.user.can_change_password and request.user.needChangePassword and not request.get_full_path == request.user.url_password and request.user.is_authenticated%}
+            window.location.replace("{{request.user.url_password}}");
+        {%endif%}
     </script>
 {%endblock js%}
 
 <script>
 {%block data%} 
+    {{block.super}}
     {%for key, modules in 'mirari'|get_menu%}
         MENU__{{key}}:[
             {%for module in modules.modules%}
@@ -299,15 +282,16 @@
 {%endblock data%}
 
 {%block methods%}
-    change_organization(pk) {
+    {{block.super}}
+    change_organization(organizationPK) {
         Block();
-        Ax('post', '{%url 'mirari:ChangeOrganization__ApiView' 'mirari' 'Organization'%}?pk='+pk).then(function(json){
-            if (!json.data.message) location.reload();
-            else {
-                swal('Error!', json.data.message, 'error') 
-                UnBlock();
-            }
-        })
+        Ax('post', "{{request.user.url_update}}?api=changeOrganization", {organizationPK:organizationPK})
+        .then(function(json){
+            if (json.data.api) location.reload();
+        }).catch((error) => {
+            UnBlock()
+            Swal.fire('Algo salio mal!', error.response.data.message, 'error')
+        });
     },
     back_history() {
         window.history.back();
@@ -315,9 +299,7 @@
 {%endblock methods%}
 
 {%block global_functions%}
+    {{block.super}}
     {%include 'generic/includes/global_functions.html'%}
 {%endblock global_functions%}
-
-{%block scripts%}
-{%endblock scripts%}
 </script>

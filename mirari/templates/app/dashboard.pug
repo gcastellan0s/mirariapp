@@ -19,7 +19,6 @@ block content
     .row.grid
         {%for key, modules in ''|get_menu%}
         .col-xl-4.grid-item(v-if='MENU__{{key}}.length > 0')
-            // begin:: Widgets/Notifications
             .kt-portlet
                 .kt-portlet__head
                     .kt-portlet__head-label
@@ -48,10 +47,7 @@ block content
                             |       {%endif%}
                             |   {%endif%}
                             {%endfor%}
-            // end:: Widgets/Notifications
         {%endfor%}
-
-    
 
 block js
     {{block.super}}

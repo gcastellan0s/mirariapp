@@ -70,26 +70,6 @@ class logout__Organization__TemplateView(Generic__TemplateView):
 class dashboard__Organization__TemplateView(Generic__TemplateView):
     template_name = "app/dashboard.pug"
     def dispatch(self, request, *args, **kwargs):
-        if request.method == 'POST':
-            email_host = HostEmail.objects.get(id=1)
-            connection = get_connection(host=email_host.host , port=email_host.port, username=email_host.username, password=email_host.password, use_tls=True)
-            connection.open()
-            context = {
-                'notification': 'Prueba',
-                'destinatary': 'gustavo.castellanos@credipyme.com.mx'
-            }
-            template = render_to_string('email/default/base_email.html', context)
-            msg = EmailMultiAlternatives(
-                subject='CONTACTO CREDIPyME',
-                body=template,
-                from_email=email_host.prefix +'<'+email_host.email+'>', 
-                to=['gustavo.castellanos@credipyme.com.mx'],
-                connection=connection
-            )
-            msg.attach_alternative(template, "text/html")
-            msg.send(True)
-            connection.close()
-            return JsonResponse({'MENSAJE':'GRACIAS TU MENSAJE SE ENVIO CON EXITO'})
         if not request.user.is_authenticated:
             organization = get_variables(self)['ORGANIZATION']
             if HTMLPage.objects.filter(organization=organization):
@@ -98,16 +78,10 @@ class dashboard__Organization__TemplateView(Generic__TemplateView):
             else:
                 return HttpResponseRedirect(reverse('mirari:login__Organization__TemplateView', args=[]))
         else:
-            try:
-                if 'SV' in request.user.organization.get_modules_code():
-                    if 'ven' in request.user.visible_username:
-                        return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/sellpoint?sellpointMode=sellpoint')
-                    if 'caj' in request.user.visible_username:
-                        return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/casher')
-                    if 'ped' in request.user.visible_username:
-                        return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/order?orderMode=selectOrder')
-            except:
-                pass
+            pass
+            #if 'SV' in request.user.organization.get_modules_code():
+                #if apps.get_model('SV', 'Sellpoint')().getMySellpoints(request.user):
+                    #return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/dashboard')
         return super().dispatch(request, *args, **kwargs)
 ################################################################################################
 ################################################################################################
@@ -147,28 +121,33 @@ class User__UpdateView(Generic__UpdateView):
         return super().form_valid(form)
 
 class UserPassword__UpdateView(Generic__UpdateView):
+    template_name = "UserPassword__CreateView.pug"
     def get_form_class(self):
         class Form(Basic_Form):
-            new_password = forms.CharField(widget=forms.PasswordInput(), label='Nueva contraseña', help_text='Ingresa una nueva contraseña')
+            new_password = forms.CharField(widget=forms.PasswordInput(), label='<span class="h5">Nueva contraseña</h5>', help_text='No olvides tu contraseña')
             class Meta(Basic_Form.Meta):
                 model = self.model
                 fields = ('new_password',)
         return Form
-    def form_valid(self, form):
-        form.instance.set_password(form.cleaned_data['new_password'])
-        form.save()
-        return super().form_valid(form)
-    def get_success_url(self):
-        if self.request.user.has_perm('mirari.Can_Change__Password'):
-            return self.model().url_list()
-        else:
-            return HttpResponseRedirect('/')
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('new_password'):
+            user = self.get_object()
+            user.set_password(request.POST.get('new_password'))
+            if user == self.request.user:
+                user.needChangePassword = False
+            user.save()
+            if self.request.user.has_perm('mirari.Can_Change__Password'):
+                return HttpResponseRedirect(self.model().url_list())
+            else:
+                return HttpResponseRedirect('/')
+        return super().get(request, *args, **kwargs)
     def proccess_context(self, context):
-        if not self.request.user.has_perm('mirari.Can_Change__Password'):
+        if self.request.user.has_perm('mirari.Can_Change__Password'):
+            if not self.get_object().organization.pk == self.request.session.get('organization'):
+                raise PermissionDenied
+        else:
             if not self.request.user.pk == self.kwargs['pk']:
                 raise PermissionDenied
-            context['breadcrumbs'] = ' '
-        context['hide_extra_submmit'] = True
         context['rules'] = """
             new_password: {
                 required: 1,
@@ -177,62 +156,17 @@ class UserPassword__UpdateView(Generic__UpdateView):
         """
         return context
 
-class GetUser__ApiView(Generic__ApiView):
-    permissions = True
-    def get_objects(self):
-        class ApiSerializer(Base_Serializer):
-            pass
-        ApiSerializer.Meta.model = self.model
-        return ApiSerializer(self.request.user)
-
-class ChangeOrganization__ApiView(Generic__ApiView):
-    permissions = False
-    def actions(self, request, *args, **kwargs):
-        request.session['organization'] = self.object.pk
-        if request.user.is_superuser:
-            request.user.organization = self.object
-            request.user.save()
-        return True
-
-class Select2GetQuery__ApiView(Generic__ApiView):
-    def get_objects(self):
-        class ApiSerializer(Base_Serializer):
-            class Meta(Basic_Serializer.Meta):
-                model = self.model
-        query = Team.objects.filter(code='Local').first().members.all()
-        return ApiSerializer(query, many=True)
-
-########################################################
-
-class mirari__ApiView(Generic__ApiView):
-    permissions = False
-    def get_serializers(self, request):
-        action = request.GET.get('api')
-        if action == 'getCodeOrganization':
-            class SiteSerializer(Basic_Serializer):
-                class Meta(Basic_Serializer.Meta):
-                    model = Site
-            class OrganizationSerializer(Basic_Serializer):
-                sites = serializers.SerializerMethodField()
-                class Meta(Basic_Serializer.Meta):
-                    model = Organization
-                def get_sites(self, obj):
-                    return SiteSerializer(obj.sites.all().last()).data
-            if not Organization.objects.filter(code__iexact=request.POST.get('code')).first():
-                return JsonResponse({'message':'No se encontró este código de empresa'}, status=500)
-            return JsonResponse({'organization':OrganizationSerializer(Organization.objects.filter(code__iexact=request.POST.get('code')).first()).data})
-
 ###############################################################################################
 ###############################################################################################
 ######### 404 #################################################################################
 class dashboard__400(Generic__TemplateView):
-    template_name = "generic/errors/400.html"
+    template_name = "generic/errors/400.pug"
 
 class dashboard__403(Generic__TemplateView):
-    template_name = "generic/errors/403.html"
+    template_name = "generic/errors/403.pug"
 
 class dashboard__404(Generic__TemplateView):
-    template_name = "generic/errors/404.html"
+    template_name = "generic/errors/404.pug"
 
 class dashboard__500(Generic__TemplateView):
-    template_name = "generic/errors/500.html"
+    template_name = "generic/errors/500.pug"

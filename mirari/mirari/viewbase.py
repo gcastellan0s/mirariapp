@@ -249,7 +249,6 @@ class Base_Form(Basic_Form):
         return kwargs
 
 
-
 ################################################################################################################
 ######### TEMPLATE #############################################################################################
 ################################################################################################################
@@ -556,11 +555,15 @@ class Base_Create(object):
         return super().form_invalid(form)
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
-        extra_response = self.extra_response(request)
-        if extra_response:
-            return extra_response
+        if self.request.GET.get('api'):
+            return self.APIRESPONSE(self)
         if self.request.GET.get('action') == 'select2':
             return self.select2_response()
+        return response
+    def post(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        if self.request.GET.get('api'):
+            return self.APIRESPONSE(self)
         return response
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -574,6 +577,8 @@ class Base_Create(object):
     ############################################################################################################
     def initialize(self, request, *args, **kwargs):
         self.model = apps.get_model(kwargs['app'], kwargs['model'])
+        if 'PAGECreate' in self.model.VARS:
+            self.template_name = self.model.VARS['PAGECreate']
         return True
     def get_success_url(self):
         if 'save' in self.request.POST:
@@ -651,8 +656,11 @@ class Base_Create(object):
                     self.helper.layout.append(div)
                 self.helper.layout.append(HTML(FORMTEMPLATE2))
         return Form
-    def extra_response(self, request):
-        return self.model.EXTRA_RESPONSE(self, request)
+    def APIRESPONSE(self, view):
+        response = self.model.APIRESPONSE(self.model, view)
+        if response:
+            return response
+        return JsonResponse({'message':'No hay métodos asociados'}, status=500)
     def select2_response(self):
         return JsonResponse({'items': Select2Serializer(self)})
     def select2filter(self, query):

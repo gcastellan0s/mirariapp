@@ -35,8 +35,11 @@ var KTDatatablesDataSourceAjaxServer = function() {
                 },
             },
             dom:
-				"<'row'<'col-sm-12'tr>>" +
-				"<'row'<'col-sm-12 col-md-4'p><'col-sm-12 col-md-2 mt-2'l><'col-sm-12 col-md-6'i>>",
+            {%if 'LISTDOM' in model.VARS%}
+                "{{model.VARS.LISTDOM|safe}}",
+            {%else%}
+                "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-4'p><'col-sm-12 col-md-2 mt-2'l><'col-sm-12 col-md-6'i>>",
+            {%endif%}
             {%if 'select' in list.0%}
                 headerCallback: function(thead, data, start, end, display) {
                     thead.getElementsByTagName('th')[0].innerHTML = `

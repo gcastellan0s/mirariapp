@@ -1,4 +1,3 @@
-///////VALIDATE
 $.extend($.validator.messages, {
     required: "Este campo es obligatorio.",
     remote: "Por favor, rellena este campo.",
@@ -21,7 +20,6 @@ $.extend($.validator.messages, {
     nieES: "Por favor, escribe un NIE válido.",
     cifES: "Por favor, escribe un CIF válido."
 });
-
 $(".kt-form").validate({
     rules: {
         {{rules|safe}}

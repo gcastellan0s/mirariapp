@@ -25,7 +25,6 @@
                     {%endif%}
                 </span>
             </button>
-            {%if not hide_extra_submmit%}
                 <button type="button" class="btn btn-brand dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" style="padding: 0rem 0; min-width: 280px;">
@@ -53,7 +52,7 @@
                             </li>
                         {%endif%}
                         {%if object%}
-                            {%if not hide_delete_button%}
+                            {%if 'Can_Create__'|prepend_perm:model.VARS|if_has_perm:request and not 'create' in model.VARS.EXCLUDE_PERMISSIONS%}
                                 <li class="kt-nav__item">
                                     <button class="kt-nav__link" type="submit" name="delete" style="min-width: 100%; padding: 1rem 1.75rem; border-color: #fff #fff #fff!important;">
                                         <i class="kt-nav__link-icon flaticon2-trash"></i> 
@@ -66,7 +65,6 @@
                         {%endif%}
                     </ul>
                 </div>
-            {%endif%}
         </div>
     </div>
 </div>

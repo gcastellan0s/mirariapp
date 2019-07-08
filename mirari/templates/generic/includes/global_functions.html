@@ -1,9 +1,13 @@
 {% load i18n %}
 
-window.Ax=function(method,url,data={},errorDialog=true,timeout=0){ 
+window.Ax=function(method, url, data={}, errorDialog=true, timeout=0){
     data.csrfmiddlewaretoken = '{{ csrf_token }}' 
-    return axios({method:method,url:url,data:Qs.stringify(data),timeout:timeout})
-    .catch((error) => {if(errorDialog) swal('Ooops!','{% trans "Algo salió mal"%}','error')});
+    return axios({
+        method: method,
+        url: url,
+        data: Qs.stringify(data),
+        timeout: timeout
+    });
 }
 
 window.Block=function(text='Espere un momento...'){$.blockUI({message:'<div class="sk-folding-cube sk-primary"><div class="sk-cube1 sk-cube"></div><div class="sk-cube2 sk-cube"></div><div class="sk-cube4 sk-cube"></div><div class="sk-cube3 sk-cube"></div></div><h5 style="color: #444">'+text+'</h5>',css: {backgroundColor: 'transparent',border: '0',zIndex: 9999999},overlayCSS:  {backgroundColor: '#fff',opacity: 0.8,zIndex: 9999990}});}

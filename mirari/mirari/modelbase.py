@@ -142,10 +142,11 @@ class Model_base(models.Model):
     def select2filter(self, query):
         return query
     ###########
+    def APIRESPONSE(self, view):
+        return False
     def FORM_VALID(self, view, form):
         return form
-    def EXTRA_RESPONSE(self, request):
-        return False
+    
     ###########
     def render_boolean(self, field):
         if field:

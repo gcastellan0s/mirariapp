@@ -64,6 +64,16 @@ MENU = {
 				'model': APP + '.Modelo',
 				'url': 'Generic__ListView',
 			},
+            {
+				'title': 'Datos de Impresión',
+				'icon': 'flaticon-list',
+				'text': 'Datos de impresion de las ordenes',
+				'subtext': 'Datos de impresion de las ordenes',
+				'apps': [APP, ],
+				'permission': 'Can_View',
+				'model': APP + '.OrderServiceInformation',
+				'url': 'Generic__ListView',
+			},
 		]
 	},
 	'TCS__utilidades': {

@@ -1,0 +1,4 @@
+APP = 'GSA'
+
+MENU = {
+}

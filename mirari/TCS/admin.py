@@ -22,3 +22,7 @@ class ModeloAdmin(PassAdmin):
 @admin.register(OrderService)
 class OrderServiceAdmin(PassAdmin):
 	pass
+
+@admin.register(OrderServiceInformation)
+class OrderServiceInformationAdmin(PassAdmin):
+	pass
