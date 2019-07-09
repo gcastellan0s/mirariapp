@@ -2,7 +2,7 @@ APP = 'SV'
 
 MENU = {
     'SV': {
-        'title': 'SUVENTA',
+        'title': 'SU VENTA',
         'modules': [
             {
                 'title': 'PUNTOS DE VENTA',
@@ -45,7 +45,7 @@ MENU = {
                 'url': 'Generic__ListView',
             },
             {
-                'title': 'CORTE',
+                'title': 'CORTES',
                 'icon': 'fa fa-cut',
                 'text': 'LISTADO DE CORTES',
                 'subtext': 'Listado de cortes en la organización',

@@ -262,23 +262,14 @@ class Base_Template(object):
     #http_method_not_allowed()
     #get_context_data()
     ############################################################################################################
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context = self.proccess_context(context)
         context['model'], context['G'] = self.model, get_variables(self)
-        context['HTMLPage'] = self.HTMLPage
         return context
     ############################################################################################################
     def proccess_context(self, context):
         return context
-    def get_default_serializer(self):
-        class Serializer(Base_Serializer):
-            class Meta(Base_Serializer.Meta):
-                model = self.model
-        return Serializer
-
 
 ################################################################################################################
 ######### TEMPLATE #############################################################################################
@@ -524,7 +515,6 @@ class Base_Create(object):
     template_name = 'generic/CreateView.html'
     permissions = True
     model = None
-    formhelper = None
     ############################################################################################################
     #as_view()
     #dispatch()
@@ -543,6 +533,8 @@ class Base_Create(object):
     ############################################################################################################
     def dispatch(self, request, *args, **kwargs):
         self.initialize(request, *args, **kwargs)
+        if self.request.GET.get('api', None):
+            return self.APIRESPONSE(self)
         return super().dispatch(request, *args, **kwargs)
     def form_valid(self, form):
         try:
@@ -551,19 +543,10 @@ class Base_Create(object):
             pass
         form = form.instance.FORM_VALID(self, form)
         return super().form_valid(form)
-    def form_invalid(self, form):
-        return super().form_invalid(form)
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
-        if self.request.GET.get('api'):
-            return self.APIRESPONSE(self)
         if self.request.GET.get('action') == 'select2':
             return self.select2_response()
-        return response
-    def post(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
-        if self.request.GET.get('api'):
-            return self.APIRESPONSE(self)
         return response
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

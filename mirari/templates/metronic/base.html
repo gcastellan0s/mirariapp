@@ -233,7 +233,7 @@
                             <div class="kt-container">
                                 <div class="kt-footer__wrapper">
                                     <div class="kt-footer__copyright text-light">
-                                        {% now "Y" %} {{ G.ORGANIZATION.TITLE }} :: {{ G.ORGANIZATION.SLOGAN }} <a href="/" target="_blank" class="text-secondary">- MIRARI.XYZ</a>
+                                        {% now "Y" %} {{ G.ORGANIZATION.TITLE }}{%if G.ORGANIZATION.SLOGAN%} :: {{ G.ORGANIZATION.SLOGAN }}{%endif%} <a href="/" target="_blank" class="text-secondary">by MIRARI.XYZ</a>
                                     </div>
                                     <div class="kt-footer__menu">
                                         <a href="" target="_blank">NOSOTROS</a>

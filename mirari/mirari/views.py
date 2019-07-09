@@ -78,10 +78,12 @@ class dashboard__Organization__TemplateView(Generic__TemplateView):
             else:
                 return HttpResponseRedirect(reverse('mirari:login__Organization__TemplateView', args=[]))
         else:
-            pass
-            #if 'SV' in request.user.organization.get_modules_code():
-                #if apps.get_model('SV', 'Sellpoint')().getMySellpoints(request.user):
-                    #return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/dashboard')
+            try:
+                if 'SV' in request.user.organization.get_modules_code():
+                    if 'ven' in request.user.visible_username or 'caj' in request.user.visible_username or 'ped' in request.user.visible_username:
+                        return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/dashboard')
+            except:
+                pass
         return super().dispatch(request, *args, **kwargs)
 ################################################################################################
 ################################################################################################
@@ -129,10 +131,10 @@ class UserPassword__UpdateView(Generic__UpdateView):
                 model = self.model
                 fields = ('new_password',)
         return Form
-    def post(self, request, *args, **kwargs):
-        if request.POST.get('new_password'):
+    def form_valid(self, form):
+        if self.request.POST.get('new_password'):
             user = self.get_object()
-            user.set_password(request.POST.get('new_password'))
+            user.set_password(self.request.POST.get('new_password'))
             if user == self.request.user:
                 user.needChangePassword = False
             user.save()

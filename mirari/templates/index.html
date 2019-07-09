@@ -8,7 +8,7 @@
     <meta name="description" content="">
     {%block viewport%}<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">{%endblock viewport%}
     <link href="{%if G.ORGANIZATION.ICO%}{{ G.ORGANIZATION.ICO.url }}{%endif%}" rel="icon" type="image/x-icon" />
-    <title>{%block title%}{{ G.ORGANIZATION.TITLE }} :: {{ G.ORGANIZATION.SLOGAN }}{%endblock title%}</title>
+    <title>{%block title%}{{ G.ORGANIZATION.TITLE }}{%if G.ORGANIZATION.SLOGAN%} :: {{ G.ORGANIZATION.SLOGAN }}{%endif%}{%endblock title%}</title>
     {%block font%}{%endblock font%}
     {%block icons%}{%endblock icons%}
     {%block styles%}{%endblock styles%}
