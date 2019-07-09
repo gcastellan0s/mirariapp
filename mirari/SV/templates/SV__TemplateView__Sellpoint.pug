@@ -78,8 +78,10 @@
                                 .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.is_favorite" :style="{ borderColor: Menu.color }")
                                     .text-big
                                         strong $ ${productattribute.price|formatPrice}
-                                    p
+                                    p.text-center.mb-0
                                         | ${productattribute.product.name}
+                                    p.text-center.mb-0(v-if="productattribute.product.description")
+                                        small ${productattribute.product.description}
                 // Layout footer
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3

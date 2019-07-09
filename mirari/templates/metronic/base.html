@@ -76,35 +76,35 @@
                         <div class="kt-header__top">
                             <div class="kt-container">
                                 <!-- begin:: Brand -->
-                                    <div class="kt-header__brand   kt-grid__item" id="kt_header_brand">
-                                        <div class="kt-header__brand-logo">
-                                            <a href="/">
-                                                <img alt="" src="{{G.MEDIA}}{{ G.ORGANIZATION.LOGO }}" style="max-width: {{G.ORGANIZATION.DASHBOARD_LOGO_WIDTH|default:'85' }}px; max-height:50px"/>
-                                            </a>
-                                        </div>
-                                        <div class="kt-header__brand-nav">
-                                            <div class="dropdown">
-                                                <button type="button" class="btn btn-pill btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                    {{request|get_session_organization}}
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-fit dropdown-menu-md">
-                                                    <ul class="kt-nav kt-nav--bold kt-nav--md-space kt-margin-t-20 kt-margin-b-20">
-                                                        {%for organization in request.user.my_organizations%}
-                                                            <li class="kt-nav__item">
-                                                                <a class="kt-nav__link active" href="#{{organization.pk}}" v-on:click.prevent="change_organization('{{organization.pk}}')">
-                                                                    <span class="kt-nav__link-icon"><i class="flaticon-more"></i></span>
-                                                                    <span class="kt-nav__link-text">{{ organization }}</span>
-                                                                </a>
-                                                            </li>
-                                                        {%endfor%}
-                                                    </ul>
-                                                </div>
+                                <div class="kt-header__brand   kt-grid__item" id="kt_header_brand">
+                                    <div class="kt-header__brand-logo">
+                                        <a href="/">
+                                            <img alt="" src="{{G.MEDIA}}{{ G.ORGANIZATION.LOGO }}" style="max-width: {{G.ORGANIZATION.DASHBOARD_LOGO_WIDTH|default:'85' }}px; max-height:50px"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- end:: Brand -->
+                                <!-- begin:: Header Topbar -->
+                                <div class="kt-grid__item kt-header__topbar">
+                                    <div class="kt-header__brand-nav mr-4">
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-secondary btn-font-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                {{request|get_session_organization}}
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-fit dropdown-menu-md">
+                                                <ul class="kt-nav kt-nav--bold kt-nav--md-space kt-margin-t-20 kt-margin-b-20">
+                                                    {%for organization in request.user.my_organizations%}
+                                                        <li class="kt-nav__item">
+                                                            <a class="kt-nav__link active" href="#{{organization.pk}}" v-on:click.prevent="change_organization('{{organization.pk}}')">
+                                                                <span class="kt-nav__link-icon"><i class="flaticon-more"></i></span>
+                                                                <span class="kt-nav__link-text">{{ organization }}</span>
+                                                            </a>
+                                                        </li>
+                                                    {%endfor%}
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
-                                <!-- end:: Brand -->
-                                <!-- begin:: Header Topbar -->
-                                <div class="kt-header__topbar">
                                     <!--begin: User bar -->
                                     <div class="kt-header__topbar-item kt-header__topbar-item--user">
                                         <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,10px">

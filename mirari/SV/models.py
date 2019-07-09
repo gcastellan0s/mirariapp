@@ -70,6 +70,12 @@ VARS = {
         'supervisors': {
             'plugin': 'selectmultiple',
         },
+        'fiscalDataTickets': {
+            'plugin': 'select2',
+        },
+        'fiscalDataCuts': {
+            'plugin': 'select2',
+        },
     },
     'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','printer','barcode','number_tickets','haveExpenses','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1', 'fiscalDataTickets', 'fiscalDataCuts'),
 }
@@ -103,8 +109,8 @@ class Sellpoint(Model_base):
     have_orders = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     priority = models.IntegerField('Numero de tickets que imprime', default=0)
 
-    fiscalDataTickets = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL)
-    fiscalDataCuts = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL)
+    fiscalDataTickets = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Tickets", help_text="Debes darlo de alta en la pestaña de Mi Factura")
+    fiscalDataCuts = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Cortes", help_text="Debes darlo de alta en la pestaña de Mi Factura")
 
     VARS = VARS
     class Meta(Model_base.Meta):
@@ -139,7 +145,7 @@ class Sellpoint(Model_base):
     def get_have_casher(self):
         return self.render_boolean(not self.have_casher)
     def get_haveExpenses(self):
-        return self.render_boolean(not self.haveExpenses)
+        return self.render_boolean(self.haveExpenses)
     def get_color(self):
         return self.render_color(self.color)
     def get_serial(self):
@@ -324,8 +330,7 @@ VARS = {
             css_class="col-md-4"),
         css_class="form-group m-form__group row"),
     ],
-    'FORM_SIZE': 'col-xl-12',
-    'FORM_CLASS': 'small_form',
+    'FORM_SIZE': ['col-xl-12','col-xl-12'],
     'SELECTQ': {
         'code': {
             'model': ['mirari', 'ProductsServicesSAT'],
@@ -435,14 +440,16 @@ def sellpoints_changed(sender, **kwargs):
     instance = kwargs.pop('instance', None)
     if action == 'post_add':
         for sellpoint in instance.sellpoints.all():
+            exist = ProductAttributes.objects.filter(product=instance,sellpoint=sellpoint).first()
             productAttributes = ProductAttributes.objects.get_or_create(product=instance,sellpoint=sellpoint)[0]
             productAttributes.active=True
-            productAttributes.price = instance.price
-            productAttributes.iva = instance.iva
-            productAttributes.ieps = instance.ieps
-            productAttributes.bar_code = instance.bar_code
-            productAttributes.is_dynamic = instance.is_dynamic
-            productAttributes.is_favorite = instance.is_favorite
+            if not exist:
+                productAttributes.price = instance.price
+                productAttributes.iva = instance.iva
+                productAttributes.ieps = instance.ieps
+                productAttributes.bar_code = instance.bar_code
+                productAttributes.is_dynamic = instance.is_dynamic
+                productAttributes.is_favorite = instance.is_favorite
             productAttributes.save()
     if action == 'pre_remove':
         for sellpoint in instance.sellpoints.all():
@@ -593,6 +600,16 @@ VARS = {
             """,
         },
         {
+            'field': 'getOnAccount',
+            'title': 'A cuenta',
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
+                    {{getOnAccount.MXN}}
+                </a>
+            """,
+        },
+        {
             'field': 'getTotal',
             'title': 'TOTAL',
             'template': 
@@ -670,6 +687,7 @@ class Ticket(Model_base):
     ticketType = models.CharField(choices=TICKETTYPE, max_length=100, default="VENTA")
     rasurado = models.BooleanField(default=False)
     invoiced = models.BooleanField(default=False)
+    creditPayment = models.BooleanField(default=False)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -719,6 +737,7 @@ class Ticket(Model_base):
             self.rfc = ticket.get('rfc')
         self.cut = self.sellpoint.getCut()
         self.save()
+        self.cut.ticketTypes.add(self.ticketType)
         for product in ticket['products']:
             TicketProducts().addTicket(self, product)
         return self
@@ -737,7 +756,7 @@ class Ticket(Model_base):
             }
         return {
             'INT': self.onAccount,
-            'MXN': Money( "{0:.2f}".format(self.onAccount), Currency.MXN).format('es_MX'),
+            'MXN': Money( "{0:.2f}".format(float(self.onAccount)), Currency.MXN).format('es_MX'),
         }
     def getTotal(self):
         totaldiscounts = 0

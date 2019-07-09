@@ -9,12 +9,24 @@ block object_name
 block styles
     {{block.super}}
     link(href="{%static 'metronic/dist/demo5/assets/app/custom/invoices/invoice-v2.default.css'%}", rel='stylesheet', type='text/css')
+    style.
+        .kt-invoice-2 .kt-invoice__actions .kt-invoice__container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    .
 
 block content
     .kt-portlet
         .kt-portlet__body.kt-portlet__body--fit
             .kt-invoice-2(v-if='CutDetail')
                 .kt-invoice__wrapper
+                    .kt-invoice__actions.px-5.pt-4
+                        .kt-invoice__container
+                            button.btn.btn-label-brand.btn-bold(type='button', onclick='window.print();' v-if="!CutDetail.final_time") HACER CORTE
+                            button.btn.btn-label-brand.btn-bold(type='button', onclick='window.print();' v-if="CutDetail.final_time") FACTURAR
+                            button.btn.btn-brand.btn-bold(type='button', onclick='window.print();') IMPRIMIR
                     .kt-invoice__head.kt-invoice__container.kt-invoice__container--centered
                         .row
                             .col-lg-6
@@ -110,7 +122,7 @@ block content
                                             strong ${CutDetail.getTotalDetail[key]['CANCELADO'].MXN}
                                     tr
                                         td(colspan='4')
-                                        td(:style='{color:CutDetail.SellpointDetail.color}') TOTAL
+                                        td(:style='{color:CutDetail.SellpointDetail.color}') TOTAL ( ${CutDetail.getLens[key]['TOTAL']} )
                                         td
                                             strong ${CutDetail.getTotalDetail[key]['COBRADO'].MXN}
                     .kt-invoice__footer.mt-0.pt-0
@@ -141,6 +153,7 @@ block content
                                         td.kt--align-right
                                             small + FALTANTE
                                             strong.ml-2 ${CutDetail.getTotalDetail.__ALL.TOTAL.MXN}
+                    
 
 script.
     {%block data%}
