@@ -16,6 +16,8 @@
     "cordova-android": "^8.0.0",
     "cordova-browser": "^6.0.0",
     "cordova-icon": "^1.0.0",
+    "cordova-ios": "^5.0.1",
+    "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-fullscreen": "^1.2.0",
     "cordova-plugin-inappbrowser": "^3.0.0",
     "cordova-plugin-qrscanner": "^3.0.1",
@@ -31,7 +33,8 @@
     },
     "platforms": [
       "android",
-      "browser"
+      "browser",
+      "ios"
     ]
   },
   "devDependencies": {
