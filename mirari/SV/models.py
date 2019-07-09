@@ -583,42 +583,12 @@ VARS = {
             """,
         },
         {
-            'field': 'getOnAccount',
-            'title': 'A CUENTA',
+            'field': 'getDate',
+            'title': 'Fecha/Hora',
             'template': 
             """
                 <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
-                    {{getOnAccount.MXN}}
-                </a>
-            """,
-        },
-        {
-            'field': 'getIeps',
-            'title': 'IEPS',
-            'template': 
-            """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
-                    {{getIeps.MXN}}
-                </a>
-            """,
-        },
-        {
-            'field': 'getIva',
-            'title': 'IVA',
-            'template': 
-            """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
-                    {{getIva.MXN}}
-                </a>
-            """,
-        },
-        {
-            'field': 'getSubTotal',
-            'title': 'SUBTOTAL',
-            'template': 
-            """
-                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
-                    {{getSubTotal.MXN}}
+                    {{getDate}}
                 </a>
             """,
         },
@@ -916,7 +886,9 @@ class Ticket(Model_base):
     def getSellpointName(self):
         return self.sellpoint.name
     def getSellpointColor(self):
-        return self.sellpoint.color  
+        return self.sellpoint.color
+    def getDate(self):
+        return self.render_datetime(self.date)
 class TicketSerializer(Basic_Serializer):
     sellpoint = serializers.SerializerMethodField()
     products = serializers.SerializerMethodField()
