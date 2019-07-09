@@ -678,7 +678,7 @@ class Ticket(Model_base):
     def __str__(self):
         return '{0} | {1}'.format(self.sellpoint, self.barcode)
     def QUERY(self, view):
-        return Ticket.objects.filter(sellpoint__organization__pk=view.request.session.get('organization'), active=True, sellpoint__supervisors=view.request.user)
+        return Ticket.objects.filter(sellpoint__organization__pk=view.request.session.get('organization'), active=True, sellpoint__supervisors=view.request.user)[0:5000]
     def my_organization(self):
         return self.sellpoint.my_organization()
     def new(self, ticket):
