@@ -510,7 +510,7 @@ script.
             })
             .catch((error) => {
                 UnBlock()
-                swal('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
+                Swal.fire('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
             })
             .finally(() => {
                 UnBlock()
@@ -527,7 +527,7 @@ script.
                 });
             })
             .catch((error) => {
-                swal('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
+                Swal.fire('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
             })
             .finally(() => {
             });

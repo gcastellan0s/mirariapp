@@ -271,18 +271,20 @@ VARS = {
             'title': 'Información de producto',
             'template': 
                 """
-                    <span>
-                        <strong class="mr-2">{{get_name}}</strong>{{get_is_active}}<br /> 
-                        {{get_menu}} <br />
-                        <small>
-                            {{get_code}}<br /> 
-                            {{get_units}}
-                        </small>
-                    </span>
+                    <a href="{{url_update}}" style="text-decoration:none;" class="a-no getTicket">
+                        <span>
+                            <strong class="mr-2">{{get_name}}</strong>{{get_is_active}}<br /> 
+                            {{get_menu}} {{get_PhotoIcon}}<br />
+                            <small>
+                                {{get_code}}<br /> 
+                                {{get_units}}
+                            </small>
+                        </span>
+                    </a>
                 """,
         },
     ],
-    'SERIALIZER': ['get_code','get_units','get_is_active','get_productattributes','get_menu','get_sellpoint'],
+    'SERIALIZER': ['get_code','get_units','get_is_active','get_productattributes','get_menu','get_sellpoint','get_PhotoIcon'],
     'FILTERS': {
         'is_active': {
             'size':'4',
@@ -305,6 +307,7 @@ VARS = {
         }
     },
     'HIDE_CHECKBOX_LIST': True,
+    'HIDE_BUTTONS_UPDATE': True,
     'FORM': [
         Div(
             Div(
@@ -314,6 +317,8 @@ VARS = {
                 Div('sellpoints'),
                 Div('menu'),
                 Div('is_active'),
+                HTML('<h3 class="kt-section__title">FOTO DEL PRODUCTO</h3>'),
+                Div('photo'),
             css_class="col-md-8"),
             Div(
                 HTML('<h3 class="kt-section__title">DATOS SUGERIDOS</h3>'),
@@ -356,6 +361,9 @@ VARS = {
         },
     },
 }
+def pathProductImage(self, filename):
+    upload_to = "O/%s%s/SV/Prod/%s" % (self.organization.id, self.organization.code, filename)
+    return upload_to
 class Product(Model_base):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE)
     name = models.CharField('Nombre del producto', max_length=250)
@@ -371,6 +379,7 @@ class Product(Model_base):
     bar_code = models.CharField('Código de Barras ', max_length=250, blank=True, null=True, help_text='')
     is_dynamic = models.BooleanField('Precio dinámico ', default=False, help_text='El precio es dinámico? (sugerido)')
     is_favorite = models.BooleanField('Es favorito? ', default=False, help_text='Este producto es favorito? (sugerido)')
+    photo = ProcessedImageField(upload_to=pathProductImage, blank=True, null=True, verbose_name="Imagen del producto", help_text="Esta imagen se muestra en el botón del punto de venta")
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -403,6 +412,11 @@ class Product(Model_base):
             string_menu += mark_safe(self.render_boolean_del('<small class="m--font-'+menu.render_string_color(menu.is_active)+'"><i class="fa fa-circle" style="color:'+menu.color+'!important"></i>'+menu.name+'</small>', menu.is_active))
             string_menu += ', '
         return string_menu[0:len(string_menu)-2]
+    def get_PhotoIcon(self):
+        if self.photo:
+            return '<i class="fas fa-photo"></i>'
+        else:
+            return  ''
     def get_productattributes(self):
         string = ''
         for sellpoint in self.sellpoints.all():

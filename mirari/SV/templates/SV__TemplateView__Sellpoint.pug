@@ -75,7 +75,7 @@
                                         strong ${offer.discountValue} % 
                                     p
                                         | ${offer.name}
-                                .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.masonry-item(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.is_favorite" :style="{ borderColor: Menu.color }")
+                                .d-flex.flex-md-column.flex-wrap.justify-content-md-center.align-items-center.masonry-item.filter-img(v-for="productattribute in ProductAttributes" v-on:click="addProduct(productattribute)" v-if="productattribute.is_favorite" :style="{ borderColor: Menu.color }" style="background:url('http://localhost:8000/media/O/8CBDA/SV/Prod/concha.png') center center; background-size: cover;")
                                     .text-big
                                         strong $ ${productattribute.price|formatPrice}
                                     p.text-center.mb-0

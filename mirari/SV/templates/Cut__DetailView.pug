@@ -24,8 +24,8 @@ block content
                 .kt-invoice__wrapper
                     .kt-invoice__actions.px-5.pt-4
                         .kt-invoice__container
-                            button.btn.btn-label-brand.btn-bold(type='button', onclick='window.print();' v-if="!CutDetail.final_time") HACER CORTE
-                            button.btn.btn-label-brand.btn-bold(type='button', onclick='window.print();' v-if="CutDetail.final_time") FACTURAR
+                            button.btn.btn-label-brand.btn-bold(type='button', v-on:click.prevent='makeCut()' v-if="!CutDetail.final_time") HACER CORTE
+                            button.btn.btn-label-brand.btn-bold(type='button', v-on:click.prevent='makeInvoice()' v-if="CutDetail.final_time") FACTURAR
                             button.btn.btn-brand.btn-bold(type='button', onclick='window.print();') IMPRIMIR
                     .kt-invoice__head.kt-invoice__container.kt-invoice__container--centered
                         .row
@@ -163,15 +163,40 @@ script.
 
     {%block mounted%}
         {{block.super}}
-        Block(text="Calculando corte...");
-        Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCut',{'cut':{{object.pk}}},errorDialog=false).then(function(json){
-            self.CutDetail = json.data.cut
-        }).catch((error) => {
-            swal('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
-        }).finally(() => {
-            UnBlock();
-        });
+        self.getCut()
     {%endblock mounted%}
+
+    {%block methods%}
+        {{block.super}}
+        getCut:(() => {
+            Block(text="Calculando corte...");
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCut',{'cut':{{object.pk}}}, errorDialog=false)
+            .then((json) => {
+                self.CutDetail = json.data.cut
+            }).catch((error) => {
+                UnBlock();
+                Swal.fire('Ooops!',error.response.data.message,'error')
+            }).finally(() => {
+                UnBlock();
+            });
+        }),
+        makeCut:((cutID='Actual') => {
+            Block(text="Haciendo corte...");
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
+                sellpoint: JSON.stringify(self.CutDetail.SellpointDetail),
+                cutID:cutID,
+            }, errorDialog=false, timeout=10000)
+            .then((json) => {
+                self.getCut()
+            }).catch((error) => {
+                UnBlock()
+                Swal.fire('Ooops!',error.response.data.message,'error')
+            });
+        }),
+        makeInvoice:(() => {
+            Swal.fire('Ooops!', 'FUNCIÓN NO DISPONIBLE AÚN', 'error')
+        }),
+    {%endblock methods%}
 
     {%block filters%}
         {{block.super}}

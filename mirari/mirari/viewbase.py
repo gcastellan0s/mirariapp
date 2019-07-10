@@ -266,6 +266,7 @@ class Base_Template(object):
         context = super().get_context_data(**kwargs)
         context = self.proccess_context(context)
         context['model'], context['G'] = self.model, get_variables(self)
+        context['HTMLPage'] = self.HTMLPage
         return context
     ############################################################################################################
     def proccess_context(self, context):

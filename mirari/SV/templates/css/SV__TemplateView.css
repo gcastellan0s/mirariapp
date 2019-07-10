@@ -28,3 +28,7 @@
 .sidenav-toggle::after {
     margin-right: -30px;
 }
+.filter-img::before{
+    filter:opacity(.3);
+    background-image: url('http://localhost:8000/media/O/8CBDA/SV/Prod/concha.png');
+}
