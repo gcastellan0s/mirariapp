@@ -30,7 +30,6 @@ block js
     {{block.super}}
     script(src="{%static 'appwork-html/vendor/libs/moment/moment.js'%}")
     script(src="{%static 'appwork-html/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js'%}")
-    script(src="{%static 'mirari/js/print.js'%}")
 
 script.
     {%block constants%}
@@ -399,8 +398,6 @@ script.
                 if(self.Ticket.status=='PENDIENTE') ticketFormat.push(["qr",self.Ticket.key])
                 else ticketFormat.push(["cut"])
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
-            }else{
-                
             }
         }),
         initTicket: (() => {

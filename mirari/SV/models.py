@@ -614,6 +614,16 @@ VARS = {
             """,
         },
         {
+            'field': 'getCut',
+            'title': 'Corte',
+            'template': 
+            """
+                <a href="#" ticket={{id}} style="text-decoration:none;" class="a-no getTicket">
+                    {{getCut}}
+                </a>
+            """,
+        },
+        {
             'field': 'getOnAccount',
             'title': 'A cuenta',
             'template': 
@@ -921,7 +931,9 @@ class Ticket(Model_base):
     def getSellpointColor(self):
         return self.sellpoint.color
     def getDate(self):
-        return self.render_datetime(self.date)
+        return mark_safe(self.render_datetime(self.date) +' <br/> <small>'+self.format_date+' / '+self.format_time+'</small>')
+    def getCut(self):
+        return self.cut.serial
 class TicketSerializer(Basic_Serializer):
     sellpoint = serializers.SerializerMethodField()
     products = serializers.SerializerMethodField()
