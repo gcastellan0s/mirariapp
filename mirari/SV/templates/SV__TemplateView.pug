@@ -30,6 +30,7 @@ block js
     {{block.super}}
     script(src="{%static 'appwork-html/vendor/libs/moment/moment.js'%}")
     script(src="{%static 'appwork-html/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js'%}")
+    script(src="{%static 'mirari/js/print.js'%}")
 
 script.
     {%block constants%}
@@ -130,7 +131,7 @@ script.
     {%block methods%}
         {{block.super}}
         getOnlineStatus: (()=> {
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getOnlineStatus', {}, false, 2000).then((json)=>{
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getOnlineStatus', {}, false, 3000).then((json)=>{
                 self.Offline = false
             }).catch((error) => {
                 self.Offline = true
@@ -398,6 +399,8 @@ script.
                 if(self.Ticket.status=='PENDIENTE') ticketFormat.push(["qr",self.Ticket.key])
                 else ticketFormat.push(["cut"])
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
+            }else{
+                
             }
         }),
         initTicket: (() => {
