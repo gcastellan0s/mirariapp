@@ -1601,7 +1601,7 @@ VARS = {
             css_class="form-group m-form__group row"
         ),
     ],
-    'FORM_SIZE': 'col-md-12',
+    'FORM_SIZE': ['col-md-12','col-md-12'],
     'FORM_CLASS': 'm-form small_form',
     'SELECTQ': {
         'discountProducts': {
