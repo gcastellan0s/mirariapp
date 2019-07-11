@@ -92,6 +92,22 @@ class Organization(MPTTModel, Model_base):
         return self.name
     def QUERY(self, view):
         return Organization.objects.filter(pk = view.request.session.get("organization"))
+    def APIRESPONSE(self, view):
+        api = view.request.GET.get('api', '')
+        if api == 'getCodeOrganization':
+            class SiteSerializer(Basic_Serializer):
+                class Meta(Basic_Serializer.Meta):
+                    model = Site
+            class OrganizationSerializer(Basic_Serializer):
+                sites = serializers.SerializerMethodField()
+                class Meta(Basic_Serializer.Meta):
+                    model = Organization
+                def get_sites(self, obj):
+                    return SiteSerializer(obj.sites.all().last()).data
+            if not Organization.objects.filter(code__iexact=request.POST.get('code')).first():
+                return JsonResponse({'message':'No se encontró este código de empresa'}, status=500)
+            return JsonResponse({'organization':OrganizationSerializer(Organization.objects.filter(code__iexact=request.POST.get('code')).first()).data})
+        return JsonResponse({'message':'No se encontro el método'}, status=500)
     def save(self, *args, **kwargs):
         self.name = self.name.upper()
         super().save()

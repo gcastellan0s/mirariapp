@@ -27,6 +27,8 @@ class Sellpoint__ApiView(Generic__ApiView):
     permissions = False
     def get_serializers(self, request):
         Action = request.GET.get('api')
+        if Action == 'getOnlineStatus':
+            return JsonResponse({'api':'ok'}, safe=False)
         if Action == 'barcodeScanner':
             ticket = Ticket.objects.filter(key=request.POST.get('barcode'),sellpoint__organization__code=request.POST.get('code')).first()
             if ticket:

@@ -12,6 +12,9 @@ block css
 
 block content
     {{block.super}}
+    .row(style="background-color:rgba(103, 3, 3, 0.66);width:100%;margin:auto;position:fixed;z-index:1;" v-if="Offline")
+        span(style="margin:auto;color:#fff")
+            small NO HAY CONEXION A INTERNET
     div(v-if="$route.path === '/sellpoint'") 
         include SV__TemplateView__Sellpoint.pug
     div(v-else-if="$route.path === '/casher'") 
@@ -41,6 +44,7 @@ script.
 
     {%block data%}
         {{block.super}}
+        Offline: false,
         ErrorText: null,
         Sellpoints: null,
         Sellpoint: null,
@@ -104,10 +108,13 @@ script.
         //SEND PENDINGS
         setInterval(function(){
             self.sendPendings()
-        }, 300000);
+        }, 600000);
         setInterval(function(){
             self.getStates()
-        }, 600000);
+        }, 1200000);
+        setInterval(function(){
+            self.getOnlineStatus()
+        }, 60000); //120000);
         //FOCUS BarCodeInput
         router.afterEach((to, from) => {
             if(to.path=='/casher'){
@@ -122,6 +129,13 @@ script.
 
     {%block methods%}
         {{block.super}}
+        getOnlineStatus: (()=> {
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getOnlineStatus', {}, false, 2000).then((json)=>{
+                self.Offline = false
+            }).catch((error) => {
+                self.Offline = true
+            });
+        }),
         getStates: ((postFunctions = false) => {
             if (postFunctions) Block('Actualizando configuracion...')
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates',{},false,0).then(function(json){
@@ -594,7 +608,6 @@ script.
         }),
         onSubmit:((BarCode) => {
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=barcodeScanner',{barcode:self.BarCode, code:'{{request.user.organization.code}}'}).then(function(json){
-                console.log(json)
                 PublicSocket.emit('Send_Event','{{request.user.organization.code}}','scanTicket', json.data.ticket)
             }).catch((error) => {
             })
@@ -614,7 +627,7 @@ script.
         /////SYSTEM
         reloadSystem: ((text='Espere un momento...') => {
             Block(text)
-            location.reload();
+            window.location.replace("/login");
         }),
         /////SOCKETIO
         recibePrinterConection: ((data) => {
@@ -686,6 +699,9 @@ script.
         includes: ((object, element) => {
             if (!object) return false
             return object.includes(element)
+        }),
+        getPhoto: ((productattribute) => {
+            return productattribute.product.photo
         }),
     {%endblock methods%}
 

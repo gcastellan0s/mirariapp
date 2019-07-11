@@ -746,33 +746,14 @@ class Base_Api(object):
             except Exception as e:
                 raise PermissionDenied
             return True
-    def actions(self, request):
-        return True
     def get_serializers(self, request):
         objects = self.get_objects().data
         self.actions(request)
         return JsonResponse(objects)
-    def get_objects(self):
-        pk = self.get_pk()
-        if pk:
-            try:
-                class ApiSerializer(Base_Serializer):
-                    class Meta(Basic_Serializer.Meta):
-                        pass
-                ApiSerializer.Meta.model = self.model
-                return ApiSerializer(self.get_object(pk))
-            except self.model.DoesNotExist:
-                raise Http404
-        else:
-            pass
-    def get_object(self, pk):
-        self.object = self.model.objects.get(pk=pk)
-        return self.object
-    def get_pk(self):
-        if 'pk' in self.request.GET:
-            return self.request.GET['pk']
-        else:
-            return None
+    def APIRESPONSE(self, view):
+        response = self.model.APIRESPONSE(self.model, view)
+        if response:
+            return response
 
 class View400(TemplateView):
     template_name = "generic/errors/400.html"

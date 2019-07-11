@@ -80,11 +80,13 @@ class dashboard__Organization__TemplateView(Generic__TemplateView):
         else:
             if 'SV' in request.user.organization.get_modules_code():
                 Sellpoint = apps.get_model('SV','Sellpoint')
-                if Sellpoint.getMySellpointsVendor(Sellpoint, request.user).first():
+                if Sellpoint.getMySellpointsSupervisor(Sellpoint, request.user).first():
+                    pass
+                elif Sellpoint.getMySellpointsVendor(Sellpoint, request.user).first():
                     return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/sellpoint?sellpointMode=sellpoint')
-                if Sellpoint.getMySellpointsCasher(Sellpoint, request.user).first():
+                elif Sellpoint.getMySellpointsCasher(Sellpoint, request.user).first():
                     return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/casher')
-                if Sellpoint.getMySellpointsOrder(Sellpoint, request.user).first():
+                elif Sellpoint.getMySellpointsOrder(Sellpoint, request.user).first():
                     return HttpResponseRedirect(reverse('SV:sv__Sellpoint__TemplateView', args=[])+'#/order?orderMode=selectOrder')
         return super().dispatch(request, *args, **kwargs)
 ################################################################################################
@@ -159,6 +161,24 @@ class UserPassword__UpdateView(Generic__UpdateView):
             },
         """
         return context
+
+class mirari__ApiView(Generic__ApiView):
+    permissions = False
+    def get_serializers(self, request):
+        action = request.GET.get('api')
+        if action == 'getCodeOrganization':
+            class SiteSerializer(Basic_Serializer):
+                class Meta(Basic_Serializer.Meta):
+                    model = Site
+            class OrganizationSerializer(Basic_Serializer):
+                sites = serializers.SerializerMethodField()
+                class Meta(Basic_Serializer.Meta):
+                    model = Organization
+                def get_sites(self, obj):
+                    return SiteSerializer(obj.sites.all().last()).data
+            if not Organization.objects.filter(code__iexact=request.POST.get('code')).first():
+                return JsonResponse({'message':'No se encontró este código de empresa'}, status=500)
+            return JsonResponse({'organization':OrganizationSerializer(Organization.objects.filter(code__iexact=request.POST.get('code')).first()).data})
 
 ###############################################################################################
 ###############################################################################################

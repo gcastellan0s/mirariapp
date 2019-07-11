@@ -5,7 +5,7 @@ var app = {
         const ax = axios.create({
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFToken',
-            baseURL: 'http://172.16.1.171',
+            baseURL: 'http://192.168.10.66:8000',
         })
         var ref = null
         new Vue({
@@ -35,8 +35,8 @@ var app = {
                     }
                     else{
                         if(ref==null){
-                            ref = cordova.InAppBrowser.open('http://'+'172.16.1.171:8000'+get,'_blank','location=no, zoom=no, toolbar=no')
-                            //ref = cordova.InAppBrowser.open('http://'+self.url+get,'_blank','location=no, zoom=no, toolbar=no')
+                            //ref = cordova.InAppBrowser.open('http://'+'192.168.10.66:8000'+get,'_blank','location=no, zoom=no, toolbar=no')
+                            ref = cordova.InAppBrowser.open('http://'+self.url+get,'_blank','location=no, zoom=no, toolbar=no')
                             ref.addEventListener('loaderror', function(event){ref.close()});
                             ref.addEventListener("loadstart", (event) => {
                                 if (event.url.includes("/SV/GetTicketQR/")){
@@ -56,7 +56,7 @@ var app = {
                         $cookies.set('url', json.data.organization.sites.domain, "3y")
                         location.reload()
                     }).catch((error) => {
-                        swal('Oops!', error.response.data.message, 'error')
+                        Swal.fire('Ooops!', error.response.data.message, 'error')
                     })
                 }),
                 getQR:(() => {

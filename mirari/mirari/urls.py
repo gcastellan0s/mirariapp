@@ -21,7 +21,7 @@ urlpatterns = [
 	path('update/UserUpdateView/<slug:app>/<int:pk>/<slug:model>/', login_required(User__UpdateView.as_view()), name='User__UpdateView'),
 
 	path('update/UserPassword/<slug:app>/<int:pk>/<slug:model>/', login_required(UserPassword__UpdateView.as_view()), name='UserPassword__UpdateView'),
-    #path('api/mirari/<slug:app>/<slug:model>/', mirari__ApiView.as_view(), name='mirari__ApiView'),
+    path('api/mirari/<slug:app>/<slug:model>/', mirari__ApiView.as_view(), name='mirari__ApiView'),
     #path('api/GetUserApiView/<slug:app>/<slug:action>/<slug:model>/', GetUser__ApiView.as_view(), name='GetUser__ApiView'),
 	#path('api/ChangeOrganizationApiView/<slug:app>/<slug:model>/', ChangeOrganization__ApiView.as_view(), name='ChangeOrganization__ApiView'),
 	#path('api/Select2GetQueryApiView/<slug:app>/<slug:action>/<slug:model>/', login_required(Select2GetQuery__ApiView.as_view()), name='Select2GetQuery__ApiView'),
@@ -31,6 +31,5 @@ urlpatterns = [
     path('gdetail/<slug:app>/<int:pk>/<slug:model>/', login_required(Generic__DetailView.as_view()), name='Generic__DetailView'),
 	path('gupdate/<slug:app>/<int:pk>/<slug:model>/', login_required(Generic__UpdateView.as_view()), name='Generic__UpdateView'),
 	path('gdelete/<slug:app>/<int:pk>/<slug:model>/', login_required(Generic__DeleteView.as_view()), name='Generic__DeleteView'),
-	path('gapi/<slug:app>/<slug:action>/<slug:model>/', login_required(Generic__ApiView.as_view()), name='Generic__ApiView'),
-	
+	path('gapi/<slug:app>/<slug:action>/<slug:model>/', Generic__ApiView.as_view(), name='Generic__ApiView'),
 ]
