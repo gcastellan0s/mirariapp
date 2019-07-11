@@ -931,7 +931,7 @@ class Ticket(Model_base):
     def getSellpointColor(self):
         return self.sellpoint.color
     def getDate(self):
-        return mark_safe(self.render_datetime(self.date) +' <br/> <small>'+self.format_date+' / '+self.format_time+'</small>')
+        return mark_safe(self.render_datetime(self.date) +' <br/> <small>'+self.format_date+' '+self.format_time+'</small>')
     def getCut(self):
         return self.cut.serial
 class TicketSerializer(Basic_Serializer):
