@@ -108,7 +108,7 @@ script.
         //SEND PENDINGS
         setInterval(function(){
             self.sendPendings()
-        }, 699999);
+        }, 399999);
         setInterval(function(){
             self.getStates()
         }, 300000);
@@ -131,11 +131,15 @@ script.
         {{block.super}}
         getOnlineStatus: (()=> {
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getOnlineStatus', {}, false, 3000).then((json)=>{
+                if (self.Offline){
+                    self.sendPendings()
+                    setTimeout(function(){
+                        self.getStates()
+                    }, 5000);
+                }
                 self.Offline = false
-                self.ReconnectTime = 120000
             }).catch((error) => {
                 self.Offline = true
-                self.ReconnectTime = 1000
             });
         }), 
         getStates: ((postFunctions = false) => {

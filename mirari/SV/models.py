@@ -322,7 +322,6 @@ VARS = {
                 HTML('<h3 class="kt-section__title">FOTO DEL PRODUCTO</h3>'),
                 Div('photo'),
                 HTML('<h3 class="kt-section__title">RECETA</h3>'),
-                Div('recipe'),
             css_class="col-md-8"),
             Div(
                 HTML('<h3 class="kt-section__title">DATOS SUGERIDOS</h3>'),
@@ -361,9 +360,6 @@ VARS = {
             'plugin': 'selectmultiple',
         },
         'menu': {
-            'plugin': 'selectmultiple',
-        },
-        'recipe': {
             'plugin': 'selectmultiple',
         },
     },

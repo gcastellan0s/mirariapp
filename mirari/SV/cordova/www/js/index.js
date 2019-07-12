@@ -5,7 +5,7 @@ var app = {
         const ax = axios.create({
             xsrfCookieName: 'csrftoken',
             xsrfHeaderName: 'X-CSRFToken',
-            baseURL: 'http://192.168.10.66:8000',
+            baseURL: 'http://mirari.xyz',
         })
         var ref = null
         new Vue({
@@ -35,7 +35,6 @@ var app = {
                     }
                     else{
                         if(ref==null){
-                            //ref = cordova.InAppBrowser.open('http://'+'192.168.10.66:8000'+get,'_blank','location=no, zoom=no, toolbar=no')
                             ref = cordova.InAppBrowser.open('http://'+self.url+get,'_blank','location=no, zoom=no, toolbar=no')
                             ref.addEventListener('loaderror', function(event){ref.close()});
                             ref.addEventListener("loadstart", (event) => {
