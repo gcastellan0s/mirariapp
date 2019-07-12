@@ -98,7 +98,7 @@ script.
         },
         BarCode:'',
         ShowKeyboard: false,
-        Keyboard: ['1','2','3','4','5','6','7','8','9','<','0','.']
+        Keyboard: ['1','2','3','4','5','6','7','8','9','<','0','.'],
     {%endblock data%}
 
     {%block mounted%}
@@ -108,13 +108,13 @@ script.
         //SEND PENDINGS
         setInterval(function(){
             self.sendPendings()
-        }, 600000);
+        }, 699999);
         setInterval(function(){
             self.getStates()
-        }, 1200000);
+        }, 300000);
         setInterval(function(){
             self.getOnlineStatus()
-        }, 60000); //120000);
+        }, 30000); //120000);
         //FOCUS BarCodeInput
         router.afterEach((to, from) => {
             if(to.path=='/casher'){
@@ -132,10 +132,12 @@ script.
         getOnlineStatus: (()=> {
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getOnlineStatus', {}, false, 3000).then((json)=>{
                 self.Offline = false
+                self.ReconnectTime = 120000
             }).catch((error) => {
                 self.Offline = true
+                self.ReconnectTime = 1000
             });
-        }),
+        }), 
         getStates: ((postFunctions = false) => {
             if (postFunctions) Block('Actualizando configuracion...')
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates',{},false,0).then(function(json){
@@ -427,109 +429,112 @@ script.
             }
         }),
         makeCut: ((cutID='Actual') => {
-            Block(text="Haciendo corte...");
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
-                sellpoint: JSON.stringify(self.Sellpoint),
-                cutID:cutID,
-            },errorDialog=false, timeout=10000)
-            .then((json) => {
-                if (PrivateSocket){
-                    ticketFormat = []
-                    ticketFormat.push(["times",[1]])
-                    ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
-                    ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.getTotalDetail['__ALL']['COBRADO']['MXN']])
-                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                    ticketFormat.push(["text", 'FOLIO: ' + String(json.data.cut.serial)])
-                    ticketFormat.push(["text", moment(json.data.cut.final_time).format('MMMM D, h:mm:ss a')])
-                    ticketFormat.push(["text", json.data.cut.SellpointDetail.name])
-                    ticketFormat.push(["text", '------------------------------------------'])
-                    if(json.data.cut.SellpointDetail.header_line_black_1) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_black_1])
-                    if(json.data.cut.SellpointDetail.header_line_black_2) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_black_2])
-                    ticketFormat.push(["set",["CT", "A", "", 1, 1]])
-                    if(json.data.cut.SellpointDetail.header_line_1) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_1])
-                    if(json.data.cut.SellpointDetail.header_line_2) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_2])
-                    if(json.data.cut.SellpointDetail.footer_line_1) ticketFormat.push(["text", json.data.cut.SellpointDetail.footer_line_1])
-                    ticketFormat.push(["text", '# tickets faltantes: ' + json.data.cut.getLens['__ALL']['PENDIENTE']])
-                    ticketFormat.push(["text", '# tickets cancelados: ' + json.data.cut.getLens['__ALL']['CANCELADO']])
-                    ticketFormat.push(["text", '# de clientes: ' + json.data.cut.getLens['__ALL']['COBRADO']])
-                    ticketFormat.push(["text", '1er venta: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a')])
-                    for (const propProductsDetail in json.data.cut.getProductsDetail){
+            if(self.Offline) Swal.fire('Ooops!','No se puede hacer corte sin conexión a internet','error')
+            else{ 
+                Block(text="Haciendo corte...");
+                Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
+                    sellpoint: JSON.stringify(self.Sellpoint),
+                    cutID:cutID,
+                },errorDialog=false, timeout=10000)
+                .then((json) => {
+                    if (PrivateSocket){
+                        ticketFormat = []
+                        ticketFormat.push(["times",[1]])
+                        ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
+                        ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.getTotalDetail['__ALL']['COBRADO']['MXN']])
                         ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                        ticketFormat.push(["text", 'FOLIO: ' + String(json.data.cut.serial)])
+                        ticketFormat.push(["text", moment(json.data.cut.final_time).format('MMMM D, h:mm:ss a')])
+                        ticketFormat.push(["text", json.data.cut.SellpointDetail.name])
                         ticketFormat.push(["text", '------------------------------------------'])
-                        if (propProductsDetail=='__ALL') ticketFormat.push(["text", 'VENTA TOTAL'])
-                        else ticketFormat.push(["text", propProductsDetail])
+                        if(json.data.cut.SellpointDetail.header_line_black_1) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_black_1])
+                        if(json.data.cut.SellpointDetail.header_line_black_2) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_black_2])
+                        ticketFormat.push(["set",["CT", "A", "", 1, 1]])
+                        if(json.data.cut.SellpointDetail.header_line_1) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_1])
+                        if(json.data.cut.SellpointDetail.header_line_2) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_2])
+                        if(json.data.cut.SellpointDetail.footer_line_1) ticketFormat.push(["text", json.data.cut.SellpointDetail.footer_line_1])
+                        ticketFormat.push(["text", '# tickets faltantes: ' + json.data.cut.getLens['__ALL']['PENDIENTE']])
+                        ticketFormat.push(["text", '# tickets cancelados: ' + json.data.cut.getLens['__ALL']['CANCELADO']])
+                        ticketFormat.push(["text", '# de clientes: ' + json.data.cut.getLens['__ALL']['COBRADO']])
+                        ticketFormat.push(["text", '1er venta: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a')])
+                        for (const propProductsDetail in json.data.cut.getProductsDetail){
+                            ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                            ticketFormat.push(["text", '------------------------------------------'])
+                            if (propProductsDetail=='__ALL') ticketFormat.push(["text", 'VENTA TOTAL'])
+                            else ticketFormat.push(["text", propProductsDetail])
+                            ticketFormat.push(["text", '------------------------------------------'])
+                            if (json.data.cut.getTotalDetail[propProductsDetail]['COBRADO']['NUMBER'] != 0){
+                                json.data.cut.getProductsDetail[propProductsDetail]['COBRADO'].forEach(function(product){
+                                    ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice['MXN'] + ' --> ' + product.getTotal['MXN']])
+                                    for (const propOffer in product.offers){
+                                        ticketFormat.push(["set",["RT", "A", "", 1, 1]])
+                                        ticketFormat.push(["text", String(product.offers[propOffer].quantity) + ' ' + product.offers[propOffer].offerName])
+                                    }
+                                    if (Object.keys(product.offers).length > 0){
+                                        ticketFormat.push(["text", product.getOffersTotal['MXN']])
+                                        ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                                    }
+                                })
+                                ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                                ticketFormat.push(["text", 'TOTAL COBRADO: ' + json.data.cut.getTotalDetail[propProductsDetail]['COBRADO']['MXN']])
+                                ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                            }
+                            if (json.data.cut.getTotalDetail[propProductsDetail]['PENDIENTE']['NUMBER'] != 0){
+                                json.data.cut.getProductsDetail[propProductsDetail]['PENDIENTE'].forEach(function(product){
+                                    ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice['MXN'] + ' --> ' + product.getTotal['MXN']])
+                                    for (const propOffer in product.offers){
+                                        ticketFormat.push(["set",["RT", "A", "", 1, 1]])
+                                        ticketFormat.push(["text", String(product.offers[propOffer].quantity) + ' ' + product.offers[propOffer].offerName])
+                                    }
+                                    if (Object.keys(product.offers).length > 0){
+                                        ticketFormat.push(["text", product.getOffersTotal['MXN']])
+                                        ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                                    }
+                                });
+                                ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                                ticketFormat.push(["text", 'TOTAL FALTANTE: ' + json.data.cut.getTotalDetail[propProductsDetail]['PENDIENTE']['MXN']])
+                                ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                            }
+                            if (json.data.cut.getTotalDetail[propProductsDetail]['CANCELADO']['NUMBER'] != 0){
+                                json.data.cut.getProductsDetail[propProductsDetail]['CANCELADO'].forEach(function(product){
+                                    ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice['MXN'] + ' --> ' + product.getTotal['MXN']])
+                                    for (const propOffer in product.offers){
+                                        ticketFormat.push(["set",["RT", "A", "", 1, 1]])
+                                        ticketFormat.push(["text", String(product.offers[propOffer].quantity) + ' ' + product.offers[propOffer].offerName])
+                                    }
+                                    if (Object.keys(product.offers).length > 0){
+                                        ticketFormat.push(["text", product.getOffersTotal['MXN']])
+                                        ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                                    }
+                                });
+                                ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                                ticketFormat.push(["text", 'TOTAL CANCELADO: ' + json.data.cut.getTotalDetail[propProductsDetail]['CANCELADO']['MXN']])
+                                ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                            }
+                        }
                         ticketFormat.push(["text", '------------------------------------------'])
-                        if (json.data.cut.getTotalDetail[propProductsDetail]['COBRADO']['NUMBER'] != 0){
-                            json.data.cut.getProductsDetail[propProductsDetail]['COBRADO'].forEach(function(product){
-                                ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice['MXN'] + ' --> ' + product.getTotal['MXN']])
-                                for (const propOffer in product.offers){
-                                    ticketFormat.push(["set",["RT", "A", "", 1, 1]])
-                                    ticketFormat.push(["text", String(product.offers[propOffer].quantity) + ' ' + product.offers[propOffer].offerName])
-                                }
-                                if (Object.keys(product.offers).length > 0){
-                                    ticketFormat.push(["text", product.getOffersTotal['MXN']])
-                                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                                }
-                            })
-                            ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                            ticketFormat.push(["text", 'TOTAL COBRADO: ' + json.data.cut.getTotalDetail[propProductsDetail]['COBRADO']['MXN']])
-                            ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                        }
-                        if (json.data.cut.getTotalDetail[propProductsDetail]['PENDIENTE']['NUMBER'] != 0){
-                            json.data.cut.getProductsDetail[propProductsDetail]['PENDIENTE'].forEach(function(product){
-                                ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice['MXN'] + ' --> ' + product.getTotal['MXN']])
-                                for (const propOffer in product.offers){
-                                    ticketFormat.push(["set",["RT", "A", "", 1, 1]])
-                                    ticketFormat.push(["text", String(product.offers[propOffer].quantity) + ' ' + product.offers[propOffer].offerName])
-                                }
-                                if (Object.keys(product.offers).length > 0){
-                                    ticketFormat.push(["text", product.getOffersTotal['MXN']])
-                                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                                }
-                            });
-                            ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                            ticketFormat.push(["text", 'TOTAL FALTANTE: ' + json.data.cut.getTotalDetail[propProductsDetail]['PENDIENTE']['MXN']])
-                            ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                        }
-                        if (json.data.cut.getTotalDetail[propProductsDetail]['CANCELADO']['NUMBER'] != 0){
-                            json.data.cut.getProductsDetail[propProductsDetail]['CANCELADO'].forEach(function(product){
-                                ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice['MXN'] + ' --> ' + product.getTotal['MXN']])
-                                for (const propOffer in product.offers){
-                                    ticketFormat.push(["set",["RT", "A", "", 1, 1]])
-                                    ticketFormat.push(["text", String(product.offers[propOffer].quantity) + ' ' + product.offers[propOffer].offerName])
-                                }
-                                if (Object.keys(product.offers).length > 0){
-                                    ticketFormat.push(["text", product.getOffersTotal['MXN']])
-                                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                                }
-                            });
-                            ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                            ticketFormat.push(["text", 'TOTAL CANCELADO: ' + json.data.cut.getTotalDetail[propProductsDetail]['CANCELADO']['MXN']])
-                            ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
-                        }
+                        ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                        ticketFormat.push(["text", 'TOTAL FALTANTE: ' + json.data.cut.getTotalDetail['__ALL']['PENDIENTE']['MXN']])
+                        ticketFormat.push(["text", 'TOTAL CANCELADO: ' + json.data.cut.getTotalDetail['__ALL']['CANCELADO']['MXN']])
+                        ticketFormat.push(["text", '-------------------------'])
+                        ticketFormat.push(["text", 'IVA: ' + json.data.cut.getIvaDetail['__ALL']['COBRADO']['MXN']])
+                        ticketFormat.push(["text", 'IEPS: ' + json.data.cut.getIepsDetail['__ALL']['COBRADO']['MXN']])
+                        ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.getTotalDetail['__ALL']['COBRADO']['MXN']])
+                        ticketFormat.push(["text", '-------------------------'])
+                        ticketFormat.push(["text", 'TOTAL + FALTANTE: ' + json.data.cut.getTotalDetail['__ALL']['TOTAL']['MXN']])
+                        ticketFormat.push(["cut"])
+                        PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
                     }
-                    ticketFormat.push(["text", '------------------------------------------'])
-                    ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
-                    ticketFormat.push(["text", 'TOTAL FALTANTE: ' + json.data.cut.getTotalDetail['__ALL']['PENDIENTE']['MXN']])
-                    ticketFormat.push(["text", 'TOTAL CANCELADO: ' + json.data.cut.getTotalDetail['__ALL']['CANCELADO']['MXN']])
-                    ticketFormat.push(["text", '-------------------------'])
-                    ticketFormat.push(["text", 'IVA: ' + json.data.cut.getIvaDetail['__ALL']['COBRADO']['MXN']])
-                    ticketFormat.push(["text", 'IEPS: ' + json.data.cut.getIepsDetail['__ALL']['COBRADO']['MXN']])
-                    ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.getTotalDetail['__ALL']['COBRADO']['MXN']])
-                    ticketFormat.push(["text", '-------------------------'])
-                    ticketFormat.push(["text", 'TOTAL + FALTANTE: ' + json.data.cut.getTotalDetail['__ALL']['TOTAL']['MXN']])
-                    ticketFormat.push(["cut"])
-                    PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
-                }
-            })
-            .catch((error) => {
-                UnBlock()
-                Swal.fire('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
-            })
-            .finally(() => {
-                UnBlock()
-                if(cutID) self.emmitGetStates()
-            });
+                })
+                .catch((error) => {
+                    UnBlock()
+                    Swal.fire('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
+                })
+                .finally(() => {
+                    UnBlock()
+                    if(cutID) self.emmitGetStates()
+                });
+            }
         }),
         getCuts: ((init=0,final=0) => {
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getRangeCuts', {organization:'{{request.user.organization.code}}', init:init,final:final}, errorDialog=false, timeout=10000)

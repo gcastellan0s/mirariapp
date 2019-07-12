@@ -1,0 +1,132 @@
+extends "generic/ListView.html"
+-load static
+-load i18n
+-load mirari_tags
+
+block content
+    {{block.super}}
+    //begin::Modal
+    #kt_modal_product.modal.fade(tabindex='-1', role='dialog', aria-labelledby='ProductAttributes', aria-hidden='true')
+        .modal-dialog.modal-sm(role='document')
+            .modal-content(style="min-width:350px")
+                .modal-body
+                    form(v-on:submit.prevent="saveData()")
+                        .form-group.kt-form__group.p-3(v-if="ProductAttribute")
+                            .kt-form__actions.mb-4
+                                .row
+                                    .col-12
+                                        button.btn.btn-brand.btn-block(type='submit') GUARDAR DATOS
+                            #div_id_price.form-group.row.mb-4
+                                label.col-form-label.py-0(for='id_price') PRECIO
+                                input#id_price.numberinput.form-control(type='number', name='price', step='any', required='required' v-model="ProductAttribute.price")
+                            #div_id_quantity.form-group.row.mb-4
+                                label.col-form-label.py-0(for='id_quantity') CANTIDAD
+                                input#id_quantity.numberinput.form-control(type='number', name='quantity', step='any', required='required' v-model="ProductAttribute.quantity")   
+                            #div_id_bar_code.form-group.row
+                                label.col-form-label.py-0(for='id_bar_code') CODIGO DE BARRAS
+                                input#id_bar_code.textinput.textInput.form-control(type='text', name='bar_code', maxlength='250' v-model="ProductAttribute.bar_code")
+                            .row
+                                .col-6
+                                    #div_id_iva.form-group.row
+                                        span.kt-switch.kt-switch--lg.kt-switch--icon
+                                            label
+                                                input#id_iva.checkboxinput.form-check-input(type='checkbox', name='iva', checked='checked', v-model="ProductAttribute.iva")
+                                                span
+                                        small#hint_id_iva.form-text.text-muted IVA?
+                                    #div_id_ieps.form-group.row
+                                        span.kt-switch.kt-switch--lg.kt-switch--icon
+                                            label
+                                                input#id_ieps.checkboxinput.form-check-input(type='checkbox', name='ieps', v-model="ProductAttribute.ieps")
+                                                span
+                                        small#hint_id_ieps.form-text.text-muted IEPS?
+                                .col-6
+                                    #div_id_is_favorite.form-group.row
+                                        span.kt-switch.kt-switch--lg.kt-switch--icon
+                                            label
+                                                input#id_is_favorite.checkboxinput.form-check-input(type='checkbox', name='is_favorite', checked='checked', v-model="ProductAttribute.is_favorite")
+                                                span
+                                        small#hint_id_is_favorite.form-text.text-muted FAVORITO?
+                                    #div_id_is_active.form-group.row
+                                        span.kt-switch.kt-switch--lg.kt-switch--icon
+                                            label
+                                                input#id_is_active.checkboxinput.form-check-input(type='checkbox', name='is_active', checked='checked', v-model="ProductAttribute.is_active")
+                                                span
+                                        small#hint_id_is_active.form-text.text-muted ACTIVO?
+
+script.
+    {%block data%}
+        {{block.super}}
+        ProductAttribute: null,
+    {%endblock data%}
+
+    {%block mounted%}
+        {{block.super}}
+        $(document).on('click','.getProduct',function(){
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getProductAttribute', {'productAttribute': $(this).attr('idProduct')}).then(function(json){
+                self.ProductAttribute = json.data.getProductAttribute
+                $('#kt_modal_product').modal('show')
+            });
+        });
+    {%endblock mounted%}
+
+    {%block methods%}
+        {{block.super}}
+        saveData:()=>{
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=saveProductAttribute', self.ProductAttribute)
+            .then((json) => {
+                console.log(json.data.ProductAttributes)
+                $("#price__"+json.data.ProductAttributes.id).text('$ '+self.$options.filters.formatPrice(json.data.ProductAttributes.price))
+                $("#quantity__"+json.data.ProductAttributes.id).text(json.data.ProductAttributes.quantity)
+                if (json.data.ProductAttributes.iva){
+                    $("#iva__"+json.data.ProductAttributes.id).children().removeClass( "kt-badge--danger" )
+                    $("#iva__"+json.data.ProductAttributes.id).children().addClass( "kt-badge--success" )
+                }
+                else{
+                    $("#iva__"+json.data.ProductAttributes.id).children().addClass( "kt-badge--danger" )
+                    $("#iva__"+json.data.ProductAttributes.id).children().removeClass( "kt-badge--success" )
+                }
+                if (json.data.ProductAttributes.ieps){
+                    $("#ieps__"+json.data.ProductAttributes.id).children().removeClass( "kt-badge--danger" )
+                    $("#ieps__"+json.data.ProductAttributes.id).children().addClass( "kt-badge--success" )
+                }
+                else{
+                    $("#ieps__"+json.data.ProductAttributes.id).children().addClass( "kt-badge--danger" )
+                    $("#ieps__"+json.data.ProductAttributes.id).children().removeClass( "kt-badge--success" )
+                }
+                if (json.data.ProductAttributes.is_active){
+                    $("#active__"+json.data.ProductAttributes.id).children().removeClass( "kt-badge--danger" )
+                    $("#active__"+json.data.ProductAttributes.id).children().addClass( "kt-badge--success" )
+                }
+                else{
+                    $("#active__"+json.data.ProductAttributes.id).children().addClass( "kt-badge--danger" )
+                    $("#active__"+json.data.ProductAttributes.id).children().removeClass( "kt-badge--success" )
+                }
+                if (json.data.ProductAttributes.is_dynamic){
+                    $("#dynamic__"+json.data.ProductAttributes.id).children().removeClass( "kt-badge--danger" )
+                    $("#dynamic__"+json.data.ProductAttributes.id).children().addClass( "kt-badge--success" )
+                }
+                else{
+                    $("#dynamic__"+json.data.ProductAttributes.id).children().addClass( "kt-badge--danger" )
+                    $("#dynamic__"+json.data.ProductAttributes.id).children().removeClass( "kt-badge--success" )
+                }
+                if (json.data.ProductAttributes.is_favorite){
+                    $("#favorite__"+json.data.ProductAttributes.id).children().removeClass( "kt-badge--danger" )
+                    $("#favorite__"+json.data.ProductAttributes.id).children().addClass( "kt-badge--success" )
+                }
+                else{
+                    $("#favorite__"+json.data.ProductAttributes.id).children().addClass( "kt-badge--danger" )
+                    $("#favorite__"+json.data.ProductAttributes.id).children().removeClass( "kt-badge--success" )
+                }
+                $('#kt_modal_product').modal('hide')
+            });
+        },
+    {%endblock methods%}
+
+    {%block filters%}
+        {{block.super}}
+    {%endblock filters%}
+
+    {%block watch%}
+        {{block.super}}
+    {%endblock watch%}
+.

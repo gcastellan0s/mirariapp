@@ -271,10 +271,11 @@ VARS = {
             'title': 'Información de producto',
             'template': 
                 """
-                    <a href="{{url_update}}" style="text-decoration:none;" class="a-no getTicket">
+                    <a href="{{url_update}}" style="text-decoration:none;" class="a-no">
                         <span>
-                            <strong class="mr-2">{{get_name}}</strong>{{get_is_active}}<br /> 
-                            {{get_menu}} {{get_PhotoIcon}}<br />
+                            <strong class="mr-2">{{get_name}}</strong>{{get_is_active}}
+                            <br /> 
+                            {{get_menu}} {{get_photoIcon}}<br />
                             <small>
                                 {{get_code}}<br /> 
                                 {{get_units}}
@@ -284,7 +285,8 @@ VARS = {
                 """,
         },
     ],
-    'SERIALIZER': ['get_code','get_units','get_is_active','get_productattributes','get_menu','get_sellpoint','get_PhotoIcon'],
+    'PAGEList': 'Product__ListView.pug',
+    'SERIALIZER': ['get_code','get_units','get_is_active','get_productattributes','get_menu','get_sellpoint','get_photoIcon'],
     'FILTERS': {
         'is_active': {
             'size':'4',
@@ -319,6 +321,8 @@ VARS = {
                 Div('is_active'),
                 HTML('<h3 class="kt-section__title">FOTO DEL PRODUCTO</h3>'),
                 Div('photo'),
+                HTML('<h3 class="kt-section__title">RECETA</h3>'),
+                Div('recipe'),
             css_class="col-md-8"),
             Div(
                 HTML('<h3 class="kt-section__title">DATOS SUGERIDOS</h3>'),
@@ -359,6 +363,9 @@ VARS = {
         'menu': {
             'plugin': 'selectmultiple',
         },
+        'recipe': {
+            'plugin': 'selectmultiple',
+        },
     },
 }
 def pathProductImage(self, filename):
@@ -386,7 +393,7 @@ class Product(Model_base):
         verbose_name_plural = VARS['PLURAL']
         permissions = permissions(VARS)
     def __str__(self):
-        return '{0}'.format(self.name)
+        return mark_safe('{0} <small>({1})</small>'.format(self.name, self.description))
     def QUERY(self, view):
         return Product.objects.filter(organization__pk=view.request.session.get('organization'), active=True)
     def get_is_active(self):
@@ -409,10 +416,10 @@ class Product(Model_base):
     def get_menu(self):
         string_menu = ''
         for menu in self.menu.all():
-            string_menu += mark_safe(self.render_boolean_del('<small class="m--font-'+menu.render_string_color(menu.is_active)+'"><i class="fa fa-circle" style="color:'+menu.color+'!important"></i>'+menu.name+'</small>', menu.is_active))
+            string_menu += mark_safe(self.render_boolean_del('<small class="m--font-'+menu.render_string_color(menu.is_active)+'"><i class="fa fa-circle mr-2" style="color:'+menu.color+'!important"></i>'+menu.name+'</small>', menu.is_active))
             string_menu += ', '
         return string_menu[0:len(string_menu)-2]
-    def get_PhotoIcon(self):
+    def get_photoIcon(self):
         if self.photo:
             return '<i class="fas fa-photo"></i>'
         else:
@@ -421,14 +428,28 @@ class Product(Model_base):
         string = ''
         for sellpoint in self.sellpoints.all():
             productattributes = ProductAttributes.objects.get(product=self,sellpoint=sellpoint)
+            quantity = int(productattributes.quantity)
             string += """
-                    <a href="{9}">
+                    <a href="javascript:void(0)" class="getProduct" idProduct="{9}">
                         <div class="kt-portlet mb-1" style="border: 1px solid {10};background-color: #f1f1f1;">
-                            <div class="kt-portlet__body py-2 px-3">
-                                    {8}
-                                <h5 class="text-dark">{1}</h5>
-                                <div class="kt-section__content kt-section__content--solid">
-                                    {2} {3} {7} {5} {6}
+                            <div class="row">
+                                <div class="col-8 pr-1">
+                                    <div class="kt-portlet__body pt-1 pb-2 px-3">
+                                        <h6 class="text-dark"><span class="text-muted">PUNTO DE VENTA:</span> {8}</h6>
+                                        <div class="kt-section__content kt-section__content--solid">
+                                            <span id="iva__{9}">{2}</span>
+                                            <span id="ieps__{9}">{3}</span>
+                                            <span id="active__{9}">{7}</span>
+                                            <span id="dynamic__{9}">{5}</span>
+                                            <span id="favorite__{9}">{6}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 pl-1">
+                                    <div class="kt-portlet__body pt-2 pb-0 px-3">
+                                        <h6 class="text-dark"><span class="text-muted">PRECIO:</span> <span id="price__{9}">{1}</span></h6>
+                                        <h6 class="text-dark"><span class="text-muted">EXISTENCIA:</span> <span id="quantity__{9}">{11}</span></h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -443,8 +464,9 @@ class Product(Model_base):
                 productattributes.get_badge_is_favorite(),
                 productattributes.get_badge_is_active(),
                 productattributes.get_sellpoint(),
-                productattributes.url_update(),
+                productattributes.id,
                 productattributes.sellpoint.color,
+                quantity,
             )
         if not string:
             string = '<strong>No hay puntos de venta asociados</strong>'
@@ -486,7 +508,7 @@ VARS = {
     'APP':APP,
     'EXCLUDE_PERMISSIONS': ['all'],
     'REDIRECT_MODEL':['SV','Product'],
-    'FORM': ('alias','price','bar_code','iva','ieps','is_dynamic','is_favorite','is_active',),
+    'FORM': ('alias','price','quantity','bar_code','iva','ieps','is_dynamic','is_favorite','is_active',),
     'RULES': """
         price: {
             min: 0,
@@ -498,6 +520,7 @@ class ProductAttributes(Model_base):
     sellpoint = models.ForeignKey('Sellpoint', related_name='Sellpoint', on_delete=models.CASCADE)
     alias = models.CharField(max_length=250, blank=True, null=True, help_text="Nombre con el que se imprime este producto", default="")
     price = models.FloatField('Precio en esta sucursal',default=0)
+    quantity = models.FloatField(default=0)
     iva = models.BooleanField('I.V.A.', default=True, help_text="Graba IVA?")
     ieps = models.BooleanField('IEPS.', default=True, help_text="Graba IEPS?")
     bar_code = models.CharField('Código de Barras', max_length=250, blank=True, null=True,)
@@ -994,6 +1017,8 @@ class TicketProducts(Model_base):
         self.iva = product['ivaTotal']
         self.ieps = product['iepsTotal']
         self.save()
+        self.product.quantity -= self.quantity
+        self.product.save()
         for offer in product['offers']:
             self.offers.add(Offer.objects.get(id=offer['id']))
         return self
@@ -1001,7 +1026,6 @@ class TicketProducts(Model_base):
         if not self.price == self.offerprice:
             return self.total - (self.offerprice * self.quantity)
         return 0
-
 class TicketProductsSerializer(Basic_Serializer):
     offers = serializers.SerializerMethodField()
     getTotalDisscount = serializers.ReadOnlyField()
