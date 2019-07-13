@@ -321,7 +321,6 @@ VARS = {
                 Div('is_active'),
                 HTML('<h3 class="kt-section__title">FOTO DEL PRODUCTO</h3>'),
                 Div('photo'),
-                HTML('<h3 class="kt-section__title">RECETA</h3>'),
             css_class="col-md-8"),
             Div(
                 HTML('<h3 class="kt-section__title">DATOS SUGERIDOS</h3>'),
