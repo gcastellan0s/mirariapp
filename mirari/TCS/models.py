@@ -3,6 +3,8 @@ from rest_framework import serializers
 from mirari.mirari.models import *
 from .vars import *
 
+from dateutil.relativedelta import relativedelta
+
 ########################################################################################
 VARS = {
     'NAME':'Empresa',
@@ -498,12 +500,12 @@ class OrderService(Model_base):
             return JsonResponse(serializer.data,  safe=False)
         return JsonResponse({'message':'No se encontro el método'}, status=500)
     def QUERY(self, view):
-        return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()[0:1000]
         team_codes = view.request.user.get_my_teams_codes()
         if 'Operador' in team_codes or 'Administrador' in team_codes:
-            return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()[0:1000]
+            orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
         else:
-            return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.usera, active=True).distinct()
+            orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.usera, active=True).distinct()
+        return orderService.filter(creation_date__gtl=datetime.datetime.now()-relativedelta(month=12))
     def get_id_html(self):
         return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
     def get_serial_html(self):
