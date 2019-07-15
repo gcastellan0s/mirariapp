@@ -449,19 +449,19 @@ class Base_List(object):
         try: 
             return self.model().QUERY(self)
         except Exception as e:
-            print("########")
-            print(str(e))
             try:
                 return self.model.objects.filter(organization__pk=self.request.session.get('organization'), active=True)
             except:
                 return self.model.objects.none()
     def query_search(self, query_list, query):
+        if not view.request.GET.get('search[value]'):
+            return query_list
         if not self.SERCHABLE:
             return query_list
         q = Q()
         for attribute in self.SERCHABLE:
             q.add(Q(**{attribute+'__icontains': query}), Q.OR)
-        return query_list.filter(q)
+        return query_list.filter(q)[0:1000]
     def query_filter(self, request, query_list):
         filters = self.filters()
         for value in filters:
