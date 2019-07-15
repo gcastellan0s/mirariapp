@@ -449,6 +449,8 @@ class Base_List(object):
         try: 
             return self.model().QUERY(self)
         except Exception as e:
+            print("########")
+            print(str(e))
             try:
                 return self.model.objects.filter(organization__pk=self.request.session.get('organization'), active=True)
             except:
