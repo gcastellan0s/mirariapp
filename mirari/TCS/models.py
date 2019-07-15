@@ -3,7 +3,7 @@ from rest_framework import serializers
 from mirari.mirari.models import *
 from .vars import *
 
-from dateutil.relativedelta import relativedelta
+from datetime import timedelta
 
 ########################################################################################
 VARS = {
@@ -505,7 +505,7 @@ class OrderService(Model_base):
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
         else:
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.usera, active=True).distinct()
-        return orderService.filter(creation_date__gtl=datetime.datetime.now()-relativedelta(month=1))
+        return orderService.filter(creation_date__gte=datetime.datetime.now()-timedelta(days=180))
     def get_id_html(self):
         return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
     def get_serial_html(self):
