@@ -454,8 +454,6 @@ class Base_List(object):
             except:
                 return self.model.objects.none()
     def query_search(self, query_list, query):
-        if not view.request.GET.get('search[value]'):
-            return query_list
         if not self.SERCHABLE:
             return query_list
         q = Q()
