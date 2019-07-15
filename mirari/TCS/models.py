@@ -505,7 +505,7 @@ class OrderService(Model_base):
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
         else:
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.usera, active=True).distinct()
-        orderService = orderService.filter(creation_date__gt=datetime.datetime.now()-timedelta(days=180))
+        orderService = orderService.filter(creation_date__gt=datetime.datetime.now()-timedelta(days=60))
         print("#####2")
         return orderService
     def get_id_html(self):
