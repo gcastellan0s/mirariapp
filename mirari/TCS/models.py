@@ -498,9 +498,10 @@ class OrderService(Model_base):
             return JsonResponse(serializer.data,  safe=False)
         return JsonResponse({'message':'No se encontro el método'}, status=500)
     def QUERY(self, view):
+        return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()[0:1000]
         team_codes = view.request.user.get_my_teams_codes()
         if 'Operador' in team_codes or 'Administrador' in team_codes:
-            return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
+            return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()[0:1000]
         else:
             return OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.usera, active=True).distinct()
     def get_id_html(self):

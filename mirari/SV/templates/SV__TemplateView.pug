@@ -135,14 +135,14 @@ script.
                     self.sendPendings()
                     setTimeout(function(){
                         self.getStates()
-                    }, 5000);
+                    }, 10000);
                 }
                 self.Offline = false
             }).catch((error) => {
                 self.Offline = true
             });
         }), 
-        getStates: ((postFunctions = false) => {
+        getStates: ((postFunctions=false, updateTickets=true) => {
             if (postFunctions) Block('Actualizando configuracion...')
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates',{},false,0).then(function(json){
                 if (!postFunctions) Block('Actualizando configuracion...')
@@ -165,7 +165,7 @@ script.
                 })
                 self.ProductAttributes = json.data.productAttributes
                 self.Offers = json.data.offers
-                self.Tickets = json.data.tickets
+                if(updateTickets) self.Tickets = json.data.tickets
                 if(postFunctions){
                     self.initializePublicSocket()
                     if(self.Menus) self.Menu = self.Menus[0]
