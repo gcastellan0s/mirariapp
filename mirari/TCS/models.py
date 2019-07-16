@@ -505,6 +505,8 @@ class OrderService(Model_base):
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
         else:
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.user, active=True).distinct()
+        if len(request.GET.get('search[value]', '')) > 3:
+            return orderService
         return orderService.filter(service_date__gt=datetime.datetime.now()-timedelta(days=180))
     def get_id_html(self):
         return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
