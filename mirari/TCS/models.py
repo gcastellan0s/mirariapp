@@ -504,7 +504,7 @@ class OrderService(Model_base):
         if 'Operador' in team_codes or 'Administrador' in team_codes:
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
         else:
-            orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.usera, active=True).distinct()
+            orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.user, active=True).distinct()
         return orderService.first()#.filter(service_date__gt=datetime.datetime.now()-timedelta(days=30))
     def get_id_html(self):
         return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
