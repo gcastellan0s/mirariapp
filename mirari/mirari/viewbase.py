@@ -459,7 +459,7 @@ class Base_List(object):
         q = Q()
         for attribute in self.SERCHABLE:
             q.add(Q(**{attribute+'__icontains': query}), Q.OR)
-        return query_list.filter(q)[0:1000]
+        return query_list.filter(q)
     def query_filter(self, request, query_list):
         filters = self.filters()
         for value in filters:
