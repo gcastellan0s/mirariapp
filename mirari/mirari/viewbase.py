@@ -446,6 +446,7 @@ class Base_List(object):
                 dictionary_datatable.append({'field': '', 'title': '', 'width': 150, 'sortable':'false', 'template': extrabuttons + btn_update + btn_delete})
         return dictionary_datatable
     def query_list(self):
+        return self.model().QUERY(self)
         try: 
             return self.model().QUERY(self)
         except Exception as e:
