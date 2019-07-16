@@ -446,13 +446,14 @@ class Base_List(object):
                 dictionary_datatable.append({'field': '', 'title': '', 'width': 150, 'sortable':'false', 'template': extrabuttons + btn_update + btn_delete})
         return dictionary_datatable
     def query_list(self):
-        try: 
-            return self.model().QUERY(self)
-        except Exception as e:
-            try:
-                return self.model.objects.filter(organization__pk=self.request.session.get('organization'), active=True)
-            except:
-                return self.model.objects.none()
+        return self.model().QUERY(self)
+        #try: 
+#            
+        #except Exception as e:
+            #try:
+                #return self.model.objects.filter(organization__pk=self.request.session.get('organization'), active=True)
+            #except:
+                #return self.model.objects.none()
     def query_search(self, query_list, query):
         if not self.SERCHABLE:
             return query_list
