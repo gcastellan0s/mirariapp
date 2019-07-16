@@ -505,7 +505,7 @@ class OrderService(Model_base):
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
         else:
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.usera, active=True).distinct()
-        return orderService#.filter(service_date__gt=datetime.datetime.now()-timedelta(days=30))
+        return orderService.last()#.filter(service_date__gt=datetime.datetime.now()-timedelta(days=30))
     def get_id_html(self):
         return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
     def get_serial_html(self):
