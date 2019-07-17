@@ -21,7 +21,8 @@ block content
         {%if object%}
         .col-xl-9.kt-hide
             #print_order
-                .kt-portlet.kt-portlet
+                {%for x in 'xx'%}
+                .kt-portlet.kt-portlet(style="min-height: 900px;")
                     .kt-invoice-2.p-5
                         .kt-invoice__wrapper
                             .kt-invoice__head
@@ -31,7 +32,7 @@ block content
                                             .col-8
                                                 .row
                                                     .col-6(style='text-align: center;color: inherit;')
-                                                        img(src="{%static 'metronic/dist/demo5/assets/app/media/img//logos/logo_client_color.png'%}")
+                                                        img(src="{%static 'pages/tecnoservicio/img/icon_ordenes.png'%}")
                                                         p.mb-0 Tel. 01800 6819542
                                                     .col-6(style='text-align: center;color: inherit;')
                                                         img(src='{{G.MEDIA}}{{ G.ORGANIZATION.LOGO }}' style='max-width: 200px;')
@@ -165,6 +166,7 @@ block content
                                                 .kt-invoice__item
                                                     p FIRMA:
                                                         strong.ml-2 
+                {%endfor%}
         {%endif%}                                                    
         {% if perms.TCS.Can_Update__OrderService %}    
         {%if object%}
