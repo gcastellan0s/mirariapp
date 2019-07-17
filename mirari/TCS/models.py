@@ -467,24 +467,25 @@ class OrderService(Model_base):
         if api == 'addConcept':
             if view.request.POST.get('concept') and view.request.POST.get('quantity'):
                 orderserviceconcept = OrderServiceConcept()
-                orderserviceconcept.orderservice = view.object
+                orderserviceconcept.orderservice = view.get_object()
                 orderserviceconcept.user = view.request.user
                 orderserviceconcept.concept = view.request.POST.get('concept')
                 orderserviceconcept.quantity = view.request.POST.get('quantity')
                 orderserviceconcept.save()
-            return JsonResponse({'OrderServiceConcept':OrderServiceConceptSerializer(OrderServiceConcept.objects.filter(orderservice=view.object).order_by('creation_date'),many=True).data})
+            return JsonResponse({'OrderServiceConcept':OrderServiceConceptSerializer(OrderServiceConcept.objects.filter(orderservice=view.get_object()).order_by('creation_date'),many=True).data})
         if api == 'addComment':
             if view.request.POST.get('comment'):
                 orderservicecomment = OrderServiceComment()
-                orderservicecomment.orderservice = view.object
+                orderservicecomment.orderservice = view.get_object()
                 orderservicecomment.user = view.request.user
                 orderservicecomment.comment = view.request.POST.get('comment')
                 orderservicecomment.save()
-            return JsonResponse({'OrderServiceComment': OrderServiceCommentSerializer(OrderServiceComment.objects.filter(orderservice=view.object).order_by('creation_date'),many=True).data})
+            return JsonResponse({'OrderServiceComment': OrderServiceCommentSerializer(OrderServiceComment.objects.filter(orderservice=view.get_object()).order_by('creation_date'),many=True).data})
         if api == 'updateStatus':    
             if view.request.POST.get('status'):
-                view.object.status = view.request.POST.get('status')
-                view.object.save()
+                obj = view.get_object()
+                obj.status = view.request.POST.get('status')
+                obj.save()
             return JsonResponse({'api':'ok'})
         if api == 'getCalendar':   
             start = datetime.datetime.utcfromtimestamp(int(view.request.GET.get('start'))).date()
@@ -512,12 +513,12 @@ class OrderService(Model_base):
         return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
     def get_serial_html(self):
         return """
-            <strong class="mr-2 h3">
+            <strong class="mr-2 h3 {2}">
                 {0}
             </strong> 
             <small class="m--font-brandºº">[{1}]</small>
             <br />
-        """.format(self.serial, self.service.upper())
+        """.format(self.serial, self.service.upper(), self.getColorStatus())
     def get_creation_date_html(self):
         return """
             <i class="fa fa-calendar m--icon-font-size-sm5 mr-1 text-muted"></i>
@@ -632,19 +633,29 @@ class OrderService(Model_base):
     def description(self):
         return mark_safe("""T. {0} | C. {1}""".format(self.technical.visible_username, self.client_name))
     def className(self):
-        if self.status == 'Nueva':
-            return 'm-fc-event--solid-primary m-fc-event--light'
-        elif self.status == 'Alerta':
-            return 'm-fc-event--solid-warning m-fc-event--light'
+        if self.status == 'Alerta':
+            return 'fc-event-warning fc-event-solid-warning'
         elif self.status == 'Espera de refacciones':
-            return 'm-fc-event--solid-accent m-fc-event--light'
+            return 'fc-event-warning fc-event-solid-warning'
         elif self.status == 'Terminada':
-            return 'm-fc-event--solid-metal m-fc-event--light'
+            return 'fc-event-dark fc-event-solid-dark'
         elif self.status == 'Cancelada':
-            return 'm-fc-event--solid-danger m-fc-event--light'
+            return 'fc-event-danger fc-event-solid-danger'
         elif self.status == 'Especial':
-            return 'm-fc-event--solid-focus m-fc-event--light'
-
+            return 'fc-event-success fc-event-solid-success'
+        return 'fc-event-info fc-event-solid-info'
+    def getColorStatus(self):
+        if self.status == 'Alerta':
+            return 'text-warning'
+        elif self.status == 'Espera de refacciones':
+            return 'text-warning'
+        elif self.status == 'Terminada':
+            return 'text-dark'
+        elif self.status == 'Cancelada':
+            return 'text-danger'
+        elif self.status == 'Especial':
+            return 'text-success'
+        return 'text-info'
 
 ########################################################################################
 VARS = {

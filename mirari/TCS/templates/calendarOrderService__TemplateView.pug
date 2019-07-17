@@ -1,4 +1,3 @@
-
 extends "generic/TemplateView.html"
 -load static
 -load i18n
@@ -68,7 +67,6 @@ script.
                                 },
                                 success: function(json) {
                                     var events = [];
-                                    console.log(json)
                                     $.each(json, function(i, event) {
                                         events.push({
                                             id: event.serial,
