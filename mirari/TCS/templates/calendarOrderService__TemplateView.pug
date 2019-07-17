@@ -22,6 +22,14 @@ block subheader
             | {{ model.add_text.0 }}
         {%endif%}
         {%endif%}
+        {%if request.GET.zone == 'Foraneo'%}
+        a.btn.btn-primary.btn-elevate.btn-icon-sm.mb-2.ml-3(href='/TCS/calendar/?zone=Local')
+            | VER LOCALES
+        {%endif%}
+        {%if request.GET.zone == 'Local'%}
+        a.btn.btn-primary.btn-elevate.btn-icon-sm.mb-2.ml-3(href='/TCS/calendar/?zone=Foraneo')
+            | VER FORANEAS
+        {%endif%}
 
 block content
     #kt_portlet.kt-portlet
@@ -64,6 +72,7 @@ script.
                                     start: start.unix(),
                                     end: end.unix(),
                                     api: 'getCalendar',
+                                    zone: '{{request.GET.zone}}',
                                 },
                                 success: function(json) {
                                     var events = [];

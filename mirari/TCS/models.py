@@ -494,9 +494,10 @@ class OrderService(Model_base):
                 class Meta:
                     model = OrderService
                     fields = ('title','start','end', 'id', 'url_update','className', 'description')
-            query = OrderService.objects.filter(service_date__range=(start, end))
-            if view.request.GET.get('show'):
-                query = query.filter(zone = view.request.GET.get('show'))
+            query = self.QUERY(self, view)
+            query = query.filter(service_date__range=(start, end))
+            if view.request.GET.get('zone', None):
+                query = query.filter(zone = view.request.GET.get('zone'))
             serializer = OrderServiceCalendar_Serializer(query, many=True)
             return JsonResponse(serializer.data,  safe=False)
         return JsonResponse({'message':'No se encontro el método'}, status=500)
