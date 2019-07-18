@@ -4,40 +4,41 @@ from .vars import *
 
 @admin.register(Sellpoint)
 class SellpointAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(Menu)
 class MenuAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(Product)
 class ProductAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(ProductAttributes)
 class ProductAttributesAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(Ticket)
 class TicketAdmin(PassAdmin):
-	list_display = ('sellpoint','barcode', 'key','rasurado','total')
+    list_display = ('sellpoint','barcode', 'key','rasurado','total',)
+    search_fields = ('key', 'barcode')
 
 @admin.register(TicketProducts)
 class TicketProductsAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(Cut)
 class CutAdmin(PassAdmin):
-	list_display = ('sellpoint',)
+    list_display = ('sellpoint',)
 
 @admin.register(Offer)
 class OfferAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(ClientProfile)
 class ClientProfileAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(Client)
 class ClientAdmin(PassAdmin):
-	pass
+    pass

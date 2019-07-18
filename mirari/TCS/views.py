@@ -153,7 +153,7 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
                     #pass
         return super().dispatch(request, *args, **kwargs)
 
-
+"""
 import csv
 from mirari.mirari.models import *
 from mirari.TCS.models import *
@@ -208,3 +208,4 @@ with open('temp/mexicof/ordenes_tienda.csv') as csv_file:
             store.phone = row[4]
             store.name = row[1]
             store.id_bckp = row[0]
+"""
