@@ -21,7 +21,7 @@
                                     td ${ticket.key}
                                     td(:style="{color:ticket.sellpoint.color}") ${ticket.sellpoint.name}
                                     td(:style="{color:ticket.sellpoint.color}") ${ticket.ticketType}
-                                    td ${ticket.date|formatDate}
+                                    td ${ticket.format_date} ${ticket.format_time}
                                     td 
                                         strong ${ticket.barcode}
                                     td(v-if="ticket.onAccount") 
