@@ -712,6 +712,14 @@ script.
 
     {%block filters%}
         {{block.super}}
+        ticketsTotal: ((statusTicket) => {
+            total = 0
+            pendingTickets = self.Tickets.filter(function(ticket) {return (ticket.status == statusTicket)})
+            pendingTickets.forEach(ticket => {
+                total += ticket.total
+            });
+            return total
+        }),
     {%endblock filters%}
 
     {%block watch%}
