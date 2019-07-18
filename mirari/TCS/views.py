@@ -154,62 +154,57 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
 
-#import csv
-#from mirari.mirari.models import *
-#from mirari.TCS.models import *
-#
-#o = Organization.objects.get(id=6)
-#
-#with open('temp/mexicof/users_user.csv') as csv_file: 
-    #csv_reader = csv.reader(csv_file, delimiter=',') 
-    #for row in csv_reader: 
-        #user = User.objects.filter(id_bckp=row[0]).first()
-        #if not user:
-            #user = User()
-            #user.username = o.code + '__' + row[4]
-            #user.visible_username = row[4]
-            #user.email = row[7]
-            #user.id_bckp = row[0]
-        #user.can_change_password = True
-        #user.needChangePassword = True
-        #user.save()
-        #user.set_password(user.visible_username)
-        #profileName = row[11]
-        #if profileName == 'Tecnico foraneo':
-            #profileName = 'FORANEO'
-        #elif profileName == 'Tecnico local':
-            #profileName = 'LOCAL'
-        #elif profileName == 'Operador':
-            #profileName = 'OPERADOR'
-        #elif profileName == 'Administrador':
-            #profileName = 'ADMINISTRADOR'
-        #profile = Profile.objects.get(name= o.code + '__' + profileName)
-        #user.groups.clear()
-        #user.groups.add(profile)
-#
-#with open('temp/mexicof/users_user.csv') as csv_file: 
-    #csv_reader = csv.reader(csv_file, delimiter=',') 
-    #for row in csv_reader: 
-        #user = User.objects.filter(id_bckp=row[0]).first()
-        #if not user:
-            #user = User()
-            #user.username = o.code + '__' + row[4]
-            #user.visible_username = row[4]
-            #user.email = row[7]
-            #user.id_bckp = row[0]
-        #user.can_change_password = True
-        #user.needChangePassword = True
-        #user.save()
-        #user.set_password(user.visible_username)
-        #profileName = row[11]
-        #if profileName == 'Tecnico foraneo':
-            #profileName = 'FORANEO'
-        #elif profileName == 'Tecnico local':
-            #profileName = 'LOCAL'
-        #elif profileName == 'Operador':
-            #profileName = 'OPERADOR'
-        #elif profileName == 'Administrador':
-            #profileName = 'ADMINISTRADOR'
-        #profile = Profile.objects.get(name= o.code + '__' + profileName)
-        #user.groups.clear()
-        #user.groups.add(profile)    
+import csv
+from mirari.mirari.models import *
+from mirari.TCS.models import *
+o = Organization.objects.get(id=6)
+
+with open('temp/mexicof/users_user.csv') as csv_file: 
+    csv_reader = csv.reader(csv_file, delimiter=',') 
+    for row in csv_reader: 
+        user = User.objects.filter(id_bckp=row[0]).first()
+        if not user:
+            user = User()
+            user.username = o.code + '__' + row[4]
+            user.visible_username = row[4]
+            user.email = row[7]
+            user.id_bckp = row[0]
+        user.can_change_password = True
+        user.needChangePassword = True
+        user.save()
+        user.set_password(user.visible_username)
+        profileName = row[11]
+        if profileName == 'Tecnico foraneo':
+            profileName = 'FORANEO'
+        elif profileName == 'Tecnico local':
+            profileName = 'LOCAL'
+        elif profileName == 'Operador':
+            profileName = 'OPERADOR'
+        elif profileName == 'Administrador':
+            profileName = 'ADMINISTRADOR'
+        profile = Profile.objects.get(name= o.code + '__' + profileName)
+        user.groups.clear()
+        user.groups.add(profile)
+
+with open('temp/mexicof/users_empresa.csv') as csv_file: 
+    csv_reader = csv.reader(csv_file, delimiter=',') 
+    for row in csv_reader: 
+        company = Company.objects.filter(id_bckp=row[0]).first()
+        if not company:
+            company = Company()
+            company.organization = o
+            company.name = row[1]
+            company.id_bckp = row[0]
+
+with open('temp/mexicof/ordenes_tienda.csv') as csv_file: 
+    csv_reader = csv.reader(csv_file, delimiter=',') 
+    for row in csv_reader: 
+        store = Store.objects.filter(id_bckp=row[0]).first()
+        if not store:
+            store = Store()
+            store.company = Company.objects.filter(id_bckp=row[5]).first()
+            store.state = row[2]
+            store.adress = row[3]
+            store.phone = row[4]
+            store.name = row[1]
+            store.id_bckp = row[0]

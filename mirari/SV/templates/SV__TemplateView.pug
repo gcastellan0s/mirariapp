@@ -145,6 +145,7 @@ script.
         getStates: ((postFunctions=false, updateTickets=true) => {
             if (postFunctions) Block('Actualizando configuracion...')
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates',{},false,0).then(function(json){
+                console.log(json)
                 if (!postFunctions) Block('Actualizando configuracion...')
                 self.Sellpoints = json.data.sellpoints
                 self.Sellpoint = self.Sellpoints[0]
