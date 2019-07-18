@@ -287,7 +287,7 @@
         Block();
         Ax('post', "{{request.user.url_update}}?api=changeOrganization", {organizationPK:organizationPK})
         .then(function(json){
-            if (json.data.api) location.reload();
+            if (json.data.api) window.location.replace("{%url 'mirari:login__Organization__TemplateView'%}");
         }).catch((error) => {
             UnBlock()
             Swal.fire('Algo salio mal!', error.response.data.message, 'error')

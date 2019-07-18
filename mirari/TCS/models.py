@@ -405,7 +405,7 @@ class OrderService(Model_base):
     brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, verbose_name="Marca")
     brandName = models.CharField(max_length=250, blank=True)
     report_name = models.CharField(max_length=250, blank=True, verbose_name="Nombre de quien reporta")
-    modelo = models.ForeignKey('Modelo', on_delete=models.SET_NULL, null=True, verbose_name="Modelo")
+    modelo = models.ForeignKey('Modelo', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Modelo")
     modeloName = models.CharField(max_length=250, blank=True)
     serial_number = models.CharField(max_length=250, blank=True, verbose_name="Numero de serie")
     hidden_notes = models.TextField(blank=True, verbose_name="Notas OCULTAS<small>(No se imprimen en la orden)</small>")
@@ -457,7 +457,61 @@ class OrderService(Model_base):
     def save(self, *args, **kwargs):
         if not self.serial:
             self.serial = Serial.objects.filter(organization=self.organization, content_type=ContentType.objects.get_for_model(self)).first().get_serial()
+        orderServiceConcept = None
+        if not self.pk:
+            orderServiceConcept = OrderServiceConcept()
         super().save()
+        if orderServiceConcept:
+            orderServiceConcept.orderservice = self
+            if self.service == 'Icon':
+                if self.concept == 'Armado':
+                    orderServiceConcept.concept = '**Armado'
+                    orderServiceConcept.quantity = 23
+                elif self.concept == 'Revision':
+                    orderServiceConcept.concept = '**Revision'
+                    orderServiceConcept.quantity = 50
+                elif self.concept == 'OrdenesIcon':
+                    orderServiceConcept.concept = '**Orden Icon'
+                    orderServiceConcept.quantity = 50
+                elif self.concept == 'Mantenimiento':
+                    orderServiceConcept.concept = '**Mantenimiento'
+                    orderServiceConcept.quantity = 50
+                elif self.concept == 'Servicio':
+                    orderServiceConcept.concept = '**Servicio'
+                    orderServiceConcept.quantity = 50
+            if self.service == 'Tecnoservicio':
+                if self.concept == 'Armado':
+                    orderServiceConcept.concept = '**Armado'
+                    orderServiceConcept.quantity = 650
+                elif self.concept == 'Revision':
+                    orderServiceConcept.concept = '**Revision'
+                    orderServiceConcept.quantity = 350
+                elif self.concept == 'OrdenesIcon':
+                    orderServiceConcept.concept = '**Orden Icon'
+                    orderServiceConcept.quantity = 50
+                elif self.concept == 'Mantenimiento':
+                    orderServiceConcept.concept = '**Mantenimiento'
+                    orderServiceConcept.quantity = 750
+                elif self.concept == 'Servicio':
+                    orderServiceConcept.concept = '**Servicio'
+                    orderServiceConcept.quantity = 750
+            if self.service == 'Tc2':
+                if self.concept == 'Armado':
+                    orderServiceConcept.concept = '**Armado'
+                    orderServiceConcept.quantity = 300
+                elif self.concept == 'Revision':
+                    orderServiceConcept.concept = '**Revision'
+                    orderServiceConcept.quantity = 300
+                elif self.concept == 'OrdenesIcon':
+                    orderServiceConcept.concept = '**Orden Icon'
+                    orderServiceConcept.quantity = 300
+                elif self.concept == 'Mantenimiento':
+                    orderServiceConcept.concept = '**Mantenimiento'
+                    orderServiceConcept.quantity = 300
+                elif self.concept == 'Servicio':
+                    orderServiceConcept.concept = '**Servicio'
+                    orderServiceConcept.quantity = 300
+            orderServiceConcept.save()
     def FORM_VALID(self, view, form):
         if not form.instance.pk:
             form.instance.user = view.request.user
@@ -469,7 +523,7 @@ class OrderService(Model_base):
                 orderserviceconcept = OrderServiceConcept()
                 orderserviceconcept.orderservice = view.get_object()
                 orderserviceconcept.user = view.request.user
-                orderserviceconcept.concept = view.request.POST.get('concept')
+                orderserviceconcept.concept = '['+view.request.user.visible_username+'] '+ view.request.POST.get('concept')
                 orderserviceconcept.quantity = view.request.POST.get('quantity')
                 orderserviceconcept.save()
             return JsonResponse({'OrderServiceConcept':OrderServiceConceptSerializer(OrderServiceConcept.objects.filter(orderservice=view.get_object()).order_by('creation_date'),many=True).data})
@@ -711,7 +765,7 @@ class OrderServiceConcept(Model_base):
     def __str__(self):
         return str(self.pk)
 class OrderServiceConceptSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.visible_username')
+    #username = serializers.CharField(source='user.visible_username')
     class Meta:
         model = OrderServiceConcept
         fields = ('__all__')

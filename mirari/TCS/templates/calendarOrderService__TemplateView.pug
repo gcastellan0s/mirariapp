@@ -36,7 +36,6 @@ block content
         .kt-portlet__body
             #kt_calendar
 
-
 block js
     {{block.super}}
     script(src="{%static 'metronic/dist/demo5/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js'%}", type='text/javascript')
@@ -57,7 +56,7 @@ script.
                         header: {
                             left: 'prev,next today',
                             center: 'title',
-                            right: 'month,agendaWeek,agendaDay,listWeek'
+                            right: 'month'
                         },
                         editable: true,
                         eventLimit: true, // allow "more" link when too many events

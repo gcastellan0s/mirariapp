@@ -12,12 +12,12 @@ class calendar__OrderService__TemplateView(Generic__TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
 class manuales_usuario__OrderService__TemplateView(Generic__TemplateView):
-    template_name = "manuales_usuario__OrderService__TemplateView.html"
+    template_name = "manuales_usuario__OrderService__TemplateView.pug"
     model = apps.get_model('TCS', 'OrderService')
     
 
 class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
-    template_name = "manuales_iconfield__OrderService__TemplateView.html"
+    template_name = "manuales_iconfield__OrderService__TemplateView.pug"
     model = apps.get_model('TCS', 'OrderService')
     def dispatch(self, request, *args, **kwargs):
         #p = Profile.objects.all()
