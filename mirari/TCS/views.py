@@ -155,7 +155,7 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
 
 
 
-
+"""
 import csv
 from mirari.mirari.models import *
 from mirari.TCS.models import *
@@ -267,4 +267,4 @@ with open('temp/mexicof/ordenes_orden.csv') as csv_file:
                 orderService.comments = row[24]
                 orderService.save()
             except Exception as e:
-                priint(str(e))
+                print(str(e))"""
