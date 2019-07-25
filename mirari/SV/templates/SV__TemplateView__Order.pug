@@ -54,6 +54,16 @@
                                             i.fas.fa-search.text-xlarge.opacity-25
                             .col-4
                             .col-4
+                        template(v-if="LastClient")
+                            .row(v-if="Client.id != LastClient.id && $route.query.orderMode=='selectOrder'")
+                                .col-8
+                                .col-4
+                                    .card.bg-primary.border-0.text-white.mb-4(v-on:click="getClient(LastClient)")
+                                        .card-body.d-flex.justify-content-between.align-items-center.py-3
+                                            div
+                                                .text-xlarge ULTIMO CLIENTE
+                                                .small.opacity-75 ${self.LastClient.name}
+                                            i.fas.fa-receipt.text-xlarge.opacity-25
                         .row(v-if="Client.id != 0 && $route.query.orderMode=='selectOrder'")
                             .col-4
                             .col-4
@@ -81,23 +91,25 @@
                             .col-12(v-if="Client.id")
                                 hr
                                 h4(:class="[Client.balance < 0 ? 'text-danger':'text-dark']") SALDO ACTUAL $ ${Client.balance|formatPrice}
-                                table.table.mb-0
+                                table.table.mb-0.pb-5
                                     thead
                                         td FOLIO / CORTE
                                         td FECHA
                                         td TIPO
                                         td TOTAL
                                         td A CUENTA
-                                        td FACTURACION
+                                        //
+                                            td FACTURACION
                                     tbody
-                                        tr.h4(v-for="ticket in Client.tickets" :class="[ticket.total<=ticket.onAccount ? 'COBRADO':'PENDIENTE']")
+                                        tr.h4.py-5(v-for="ticket in Client.tickets" :class="[ticket.total<=ticket.onAccount ? 'COBRADO':'PENDIENTE']" @click="getTicket(ticket.id)")
                                             td ${ticket.barcode} / ${ticket.cut}
-                                            td ${ticket.format_time} ${ticket.format_date} 
+                                            td ${ticket.format_date} ${ticket.format_time}  
                                             td ${ticket.ticketType}  
                                             td ${ticket.total|formatPrice}
                                             td ${ticket.onAccount|formatPrice}
-                                            td
-                                                button.btn.rounded-pill.btn-secondary.btn-xs(type='button' v-if="ticket.rfc") HACER FACTURA
+                                            //
+                                                td
+                                                    button.btn.rounded-pill.btn-secondary.btn-xs(type='button' v-if="ticket.rfc") HACER FACTURA
                         .row(v-if="$route.query.orderMode=='finishOrder'")
                             .col-4
                                 router-link(:to="{path:'order', query:{orderMode:'selectOrder'}}" v-if="Ticket.ticketType == 'REMISION'")
@@ -118,7 +130,7 @@
                                                     .small.opacity-75 EDITAR PRODUCTOS
                                                 i.fas.fa-edit.text-xlarge.opacity-25
                             .col-4
-                                a(href="javascript:void(0)" @click="getBarCode();")
+                                a(href="javascript:void(0)" @click="getBarCode()")
                                     .card.bg-primary.border-0.text-white.mb-2
                                         .card-body.d-flex.justify-content-between.align-items-center.py-3
                                             div
@@ -173,6 +185,62 @@
                                         .input-group-prepend
                                             .input-group-text RFC
                                         input.form-control(type="text" placeholder="RFC DE FACTURACION" v-model="Ticket.rfc")
+                        // Modal template
+                        #modalTicketClient.modal.fade
+                            .modal-dialog.modal-sm
+                                form.modal-content
+                                    .modal-body(v-if='TicketClient')
+                                        h3.text-center.mb-1(v-if="TicketClient.onAccount") A CUENTA ${TicketClient.getOnAccount.MXN}
+                                        h3.text-center.mb-1(v-else) TOTAL ${TicketClient.getTotal.TOTAL.MXN}
+                                        h5.text-center.mb-0 FOLIO ${TicketClient.barcode}
+                                        p.text-center.mb-0 ${TicketClient.format_date} ${TicketClient.format_time}
+                                        p.text-center.mb-0 ${TicketClient.sellpoint.name}
+                                        hr
+                                        small
+                                            p.text-center.mb-0(v-if='TicketClient.sellpoint.header_line_black_1') ${TicketClient.sellpoint.header_line_black_1}
+                                            p.text-center.mb-0(v-if='TicketClient.sellpoint.header_line_black_2') ${TicketClient.sellpoint.header_line_black_2}
+                                            p.text-center.mb-0(v-if='TicketClient.sellpoint.header_line_1') ${TicketClient.sellpoint.header_line_1}
+                                            p.text-center.mb-0(v-if='TicketClient.sellpoint.header_line_2') ${TicketClient.sellpoint.header_line_2}
+                                            hr(v-if='TicketClient.clientID')
+                                            p.text-center.mb-0(v-if='TicketClient.clientID') ID Cliente: ${TicketClient.clientID}
+                                            p.text-center.mb-0(v-if='TicketClient.clientName') Nombre: ${TicketClient.clientName}
+                                            p.text-center.mb-0(v-if='TicketClient.email') Email: ${TicketClient.email}
+                                            p.text-center.mb-0(v-if='TicketClient.phone') Teléfono: ${TicketClient.phone}
+                                            p.text-center.mb-0(v-if='TicketClient.rfc') RFC: ${TicketClient.rfc}
+                                            p.text-center.mb-0(v-if='TicketClient.datetimeOfDelivery') Fecha de entrega: ${TicketClient.datetimeOfDelivery|formatTDate}
+                                            p.text-center.mb-0(v-if='TicketClient.destination') Destino: ${TicketClient.destination}
+                                            p.text-center.mb-0(v-if='TicketClient.notes') Notas: ${TicketClient.notes}
+                                        hr(v-if='TicketClient.products.length > 0')
+                                        div(v-for='product in TicketClient.products')
+                                            strong.mr-3 ${product.quantity} 
+                                            small ${product.productName}
+                                            strong.text-right.ml-3 $${product.total|formatPrice}
+                                            strong.text-danger.text-right.ml-1(v-if="product.getTotalDisscount")
+                                                small.text-right -$${product.getTotalDisscount|formatPrice}
+                                            p.text-danger.text-right.mb-0.ml-5(v-for='offer in product.offers' v-if="product.getTotalDisscount > 0")
+                                                small.text-right ${offer.name}
+                                        hr
+                                        p.text-right.mb-0 
+                                            |IEPS: 
+                                            strong  ${TicketClient.getIeps.MXN}
+                                        p.text-right.mb-0 
+                                            |IVA: 
+                                            strong  ${TicketClient.getIva.MXN}
+                                        p.text-right.mb-0 
+                                            |Subtotal: 
+                                            strong  ${TicketClient.getSubTotal.MXN}
+                                        p.text-right.mb-0(v-if="TicketClient.getTotal.TOTALDISCOUNTS.INT")
+                                            |Descuentos: 
+                                            strong  ${TicketClient.getTotal.TOTALDISCOUNTS.MXN}
+                                        p.text-right.mb-0 
+                                            |Total: 
+                                            strong  ${TicketClient.getTotal.TOTAL.MXN}
+                                        p.text-center.mb-0
+                                            small ${TicketClient.barcode} :: ${TicketClient.key}
+                                        hr
+                                        h5.text-center.mb-0 ${TicketClient.status}
+                                        h5.text-center.mb-0 ${TicketClient.ticketType}
+                                    
                 nav.layout-footer.footer.bg-footer-theme
                     .container-fluid.d-flex.flex-wrap.justify-content-between.text-center.container-p-x.pb-3
                         .pt-3

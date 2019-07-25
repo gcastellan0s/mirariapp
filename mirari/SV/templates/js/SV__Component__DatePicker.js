@@ -4,9 +4,9 @@
 Vue.component('date-picker', {
     mounted: function () {
         $(this.$el).bootstrapMaterialDatePicker(
-            {format : 'DD/MM/YYYY HH:mm',minDate : new Date(),lang: 'es-mx',cancelText: 'CANCELAR',switchOnClick : true}
+            {format : 'DD/MM/YYYY hh:mm A',minDate : new Date(),lang: 'es-mx',cancelText: 'CANCELAR',switchOnClick : true}
         ).on('change', function(e, date){
-            self.Ticket.datetimeOfDelivery = self.$options.filters.FormatTDate(date.format()) 
+            self.Ticket.datetimeOfDelivery = self.$options.filters.formatDate(date.format()) 
         });
     },
     template: '<input/>',

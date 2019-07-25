@@ -967,7 +967,9 @@ class TicketSerializer(Basic_Serializer):
         return SellpointSerializer(obj.sellpoint, read_only=True).data
     def get_products(self, obj):
         return TicketProductsSerializer(TicketProducts.objects.filter(ticket=obj), many=True).data
-
+class TicketsSerializer(Basic_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = Ticket
 ########################################################################################
 VARS = {
     'NAME':'Producto del ticket',

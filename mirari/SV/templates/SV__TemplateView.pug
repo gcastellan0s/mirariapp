@@ -99,6 +99,8 @@ script.
         BarCode:'',
         ShowKeyboard: false,
         Keyboard: ['1','2','3','4','5','6','7','8','9','<','0','.'],
+        TicketClient: null,
+        LastClient: null,
     {%endblock data%}
 
     {%block mounted%}
@@ -309,8 +311,8 @@ script.
         getBarCode:((print=true, send=true, init=true) => {
             Block('Generando...')
             self.Ticket.key = self.randomChars(12, 'aplha_numbers')
-            self.Ticket.format_time = String(moment().format('LTS'))
-            self.Ticket.format_date = String(moment().format('L'))
+            self.Ticket.format_time = String(moment().format('hh:mm A'))
+            self.Ticket.format_date = String(moment().format('DD/MM/YYYY'))
             self.Ticket.status = 'COBRADO'
             if (self.Sellpoint.have_casher) self.Ticket.status = 'PENDIENTE'
             self.Ticket.sellpoint.id = self.Sellpoint.id
@@ -333,6 +335,9 @@ script.
                 if (init) self.initTicket()
                 if (self.Ticket.ticketType == 'GASTO') {
                     self.$router.push({path:'dashboard'})
+                }
+                else if (self.includes(self.Sellpoint.vendors, {{request.user.id}})){
+                    self.$router.push({path:'sellpoint', query:{sellpointMode:'sellpoint'}})
                 }
                 else if (self.includes(self.Sellpoint.orders, {{request.user.id}})){
                     self.resetOrder()
@@ -556,6 +561,7 @@ script.
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClient', client)
                 .then(function(json){
                     self.Client = json.data.client
+                    self.LastClient = json.data.client
                 }).catch((error) => {});
             }
             else{
@@ -563,6 +569,13 @@ script.
             }
             self.initTicket()
             self.$router.push({path:'order', query:{orderMode:'selectOrder'}})
+        }),
+        getTicket: ((ticketID) => {
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getTicket', {'ticket': ticketID})
+            .then(function(json){
+                self.TicketClient=json.data.ticket
+                $("#modalTicketClient").modal('show')
+            }).catch((error) => {});
         }),
         resetOrder: ((resetTicket=false)=>{
             self.Clients = []
@@ -720,16 +733,22 @@ script.
             });
             return total
         }),
+        formatTDate: ((value) => {
+            moment.locale('es');
+            return String(moment(value).format('DD/MM/YYYY h:mm A'))
+        }),
     {%endblock filters%}
 
     {%block watch%}
         {{block.super}}
         'Client.name': function (newData, oldData) {
             if(newData){
-                Ax('get', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClients&query='+newData)
-                .then(function(json){
-                    self.Clients = json.data.clients
-                }).catch((error) => {});
+                if(newData.length > 2){
+                    Ax('get', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getClients&query='+newData)
+                    .then(function(json){
+                        self.Clients = json.data.clients
+                    }).catch((error) => {});
+                }
             }else{self.resetOrder()}
         }
     {%endblock watch%}
