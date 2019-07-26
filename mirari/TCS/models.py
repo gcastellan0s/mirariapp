@@ -50,16 +50,16 @@ VARS = {
     },
     'LIST': [
         {
-            'field': 'company',
+            'field': 'name',
+            'title': 'NOMBRE',
+        },
+        {
+            'field': 'getCompany',
             'title': 'COMPAÑIA',
         },
         {
             'field': 'state',
             'title': 'ESTADO',
-        },
-        {
-            'field': 'name',
-            'title': 'NOMBRE',
         },
     ],
 }
@@ -79,7 +79,8 @@ class Store(Model_base):
         return self.name
     def QUERY(self, view):
         return Store.objects.filter(company__organization__pk=view.request.session.get('organization'), active=True)
-
+    def getCompany(self):
+        return self.company.name
 
 ########################################################################################
 VARS = {
