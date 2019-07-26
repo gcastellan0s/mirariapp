@@ -737,7 +737,13 @@ class OrderService(Model_base):
     def end(self):
         return self.service_date.strftime("%Y-%m-%d")
     def description(self):
-        return mark_safe("""T. {0} | C. {1}""".format(self.technical.visible_username, self.client_name))
+        v = 'No asignado'
+        if self.technical.visible_username:
+            v = self.technical.visible_username
+        c = 'No asignado'
+        if self.client_name:
+            c = self.client_name
+        return mark_safe("""T. {0} | C. {1}""".format(v, c))
     def className(self):
         if self.status == 'Alerta':
             return 'fc-event-warning fc-event-solid-warning'
