@@ -460,57 +460,57 @@ class OrderService(Model_base):
         if not self.pk:
             orderServiceConcept = OrderServiceConcept()
         super().save()
-        #if orderServiceConcept:
-            #orderServiceConcept.orderservice = self
-            #if self.service == 'Icon':
-                #if self.concept == 'Armado':
-                    #orderServiceConcept.concept = '**Armado'
-                    #orderServiceConcept.quantity = 23
-                #elif self.concept == 'Revision':
-                    #orderServiceConcept.concept = '**Revision'
-                    #orderServiceConcept.quantity = 50
-                #elif self.concept == 'OrdenesIcon':
-                    #orderServiceConcept.concept = '**Orden Icon'
-                    #orderServiceConcept.quantity = 50
-                #elif self.concept == 'Mantenimiento':
-                    #orderServiceConcept.concept = '**Mantenimiento'
-                    #orderServiceConcept.quantity = 50
-                #elif self.concept == 'Servicio':
-                    #orderServiceConcept.concept = '**Servicio'
-                    #orderServiceConcept.quantity = 50
-            #if self.service == 'Tecnoservicio':
-                #if self.concept == 'Armado':
-                    #orderServiceConcept.concept = '**Armado'
-                    #orderServiceConcept.quantity = 650
-                #elif self.concept == 'Revision':
-                    #orderServiceConcept.concept = '**Revision'
-                    #orderServiceConcept.quantity = 350
-                #elif self.concept == 'OrdenesIcon':
-                    #orderServiceConcept.concept = '**Orden Icon'
-                    #orderServiceConcept.quantity = 50
-                #elif self.concept == 'Mantenimiento':
-                    #orderServiceConcept.concept = '**Mantenimiento'
-                    #orderServiceConcept.quantity = 750
-                #elif self.concept == 'Servicio':
-                    #orderServiceConcept.concept = '**Servicio'
-                    #orderServiceConcept.quantity = 750
-            #if self.service == 'Tc2':
-                #if self.concept == 'Armado':
-                    #orderServiceConcept.concept = '**Armado'
-                    #orderServiceConcept.quantity = 300
-                #elif self.concept == 'Revision':
-                    #orderServiceConcept.concept = '**Revision'
-                    #orderServiceConcept.quantity = 300
-                #elif self.concept == 'OrdenesIcon':
-                    #orderServiceConcept.concept = '**Orden Icon'
-                    #orderServiceConcept.quantity = 300
-                #elif self.concept == 'Mantenimiento':
-                    #orderServiceConcept.concept = '**Mantenimiento'
-                    #orderServiceConcept.quantity = 300
-                #elif self.concept == 'Servicio':
-                    #orderServiceConcept.concept = '**Servicio'
-                    #orderServiceConcept.quantity = 300
-            #orderServiceConcept.save()
+        if orderServiceConcept:
+            orderServiceConcept.orderservice = self
+            if self.service == 'Icon':
+                if self.concept == 'Armado':
+                    orderServiceConcept.concept = '**Armado'
+                    orderServiceConcept.quantity = 23
+                elif self.concept == 'Revision':
+                    orderServiceConcept.concept = '**Revision'
+                    orderServiceConcept.quantity = 50
+                elif self.concept == 'OrdenesIcon':
+                    orderServiceConcept.concept = '**Orden Icon'
+                    orderServiceConcept.quantity = 50
+                elif self.concept == 'Mantenimiento':
+                    orderServiceConcept.concept = '**Mantenimiento'
+                    orderServiceConcept.quantity = 50
+                elif self.concept == 'Servicio':
+                    orderServiceConcept.concept = '**Servicio'
+                    orderServiceConcept.quantity = 50
+            if self.service == 'Tecnoservicio':
+                if self.concept == 'Armado':
+                    orderServiceConcept.concept = '**Armado'
+                    orderServiceConcept.quantity = 650
+                elif self.concept == 'Revision':
+                    orderServiceConcept.concept = '**Revision'
+                    orderServiceConcept.quantity = 350
+                elif self.concept == 'OrdenesIcon':
+                    orderServiceConcept.concept = '**Orden Icon'
+                    orderServiceConcept.quantity = 50
+                elif self.concept == 'Mantenimiento':
+                    orderServiceConcept.concept = '**Mantenimiento'
+                    orderServiceConcept.quantity = 750
+                elif self.concept == 'Servicio':
+                    orderServiceConcept.concept = '**Servicio'
+                    orderServiceConcept.quantity = 750
+            if self.service == 'Tc2':
+                if self.concept == 'Armado':
+                    orderServiceConcept.concept = '**Armado'
+                    orderServiceConcept.quantity = 300
+                elif self.concept == 'Revision':
+                    orderServiceConcept.concept = '**Revision'
+                    orderServiceConcept.quantity = 300
+                elif self.concept == 'OrdenesIcon':
+                    orderServiceConcept.concept = '**Orden Icon'
+                    orderServiceConcept.quantity = 300
+                elif self.concept == 'Mantenimiento':
+                    orderServiceConcept.concept = '**Mantenimiento'
+                    orderServiceConcept.quantity = 300
+                elif self.concept == 'Servicio':
+                    orderServiceConcept.concept = '**Servicio'
+                    orderServiceConcept.quantity = 300
+            orderServiceConcept.save()
     def FORM_VALID(self, view, form):
         if not form.instance.pk:
             form.instance.user = view.request.user
@@ -555,7 +555,7 @@ class OrderService(Model_base):
             return JsonResponse(serializer.data,  safe=False)
         return JsonResponse({'message':'No se encontro el método'}, status=500)
     def QUERY(self, view):
-        team_codes = view.request.user.get_my_teams_codes()
+        team_codes = view.request.user.get_groups()
         if 'Operador' in team_codes or 'Administrador' in team_codes or view.request.user.is_superuser:
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
         else:
