@@ -13,7 +13,7 @@ block content
                 .ui-w-60
                     .w-100.position-relative(style='padding-bottom: 54%')
                 img(src='{{G.MEDIA}}{{G.ORGANIZATION.LOGO_BG}}', style='max-width: 300px;')
-            {%if G.ORGANIZATION.code == 'MXF' or G.ORGANIZATION.code == 'TCS'%}
+            {%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'TCS'%}
             .text-center.text-danger
                 a(href='javascript:void(0)' style="color:inherit") 
                     span ES LA PRIMER VEZ QUE ENTRAS EN ESTA VERSION? 
@@ -81,7 +81,7 @@ script.
                     $cookies.set('SaveUsers', self.SaveUsers, "3y")
                 } 
                 if (!json.data.message) location.reload();
-                else {%if G.ORGANIZATION.code == 'MXF' or G.ORGANIZATION.code == 'TCS'%}swal('Usuario incorrecto!', 'Intenta poniendo tu usuario tambien en tu contraseña.', 'error'){%else%}swal('Error!', json.data.message, 'error'){%endif%}
+                else {%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'TCS'%}swal('Usuario incorrecto!', 'Intenta poniendo tu usuario tambien en tu contraseña.', 'error'){%else%}swal('Error!', json.data.message, 'error'){%endif%}
             }).finally(() => {
                 UnBlock();
             });
