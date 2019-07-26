@@ -148,12 +148,12 @@ class UserPassword__UpdateView(Generic__UpdateView):
                 return HttpResponseRedirect('/')
         return super().get(request, *args, **kwargs)
     def proccess_context(self, context):
-        if self.request.user.has_perm('mirari.Can_Change__Password'):
-            if not self.get_object().organization.pk == self.request.session.get('organization'):
-                raise PermissionDenied
-        else:
-            if not self.request.user.pk == self.kwargs['pk']:
-                raise PermissionDenied
+        #if self.request.user.has_perm('mirari.Can_Change__Password'):
+            #if not self.get_object().organization.pk == self.request.session.get('organization'):
+                #raise PermissionDenied
+        #else:
+            #if not self.request.user.pk == self.kwargs['pk']:
+                #raise PermissionDenied
         context['rules'] = """
             new_password: {
                 required: 1,
