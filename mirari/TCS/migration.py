@@ -157,3 +157,17 @@ with open('temp/mexicof/ordenes_orden.csv') as csv_file:
             orderService.save()
             #except Exception as e:
                 #print(row[1], str(e))
+            
+with open('temp/mexicof/ordenes_concepto.csv') as csv_file: 
+    csv_reader = csv.reader(csv_file, delimiter=',') 
+    for row in csv_reader: 
+        orderServiceConcept = OrderServiceConcept.objects.filter(id_bckp=row[0], orderservice__organization=o).first()
+        if not orderServiceConcept:
+            orderServiceConcept = OrderServiceConcept()
+            orderServiceConcept.orderservice = OrderService.objects.filter(id_bckp=row[5], organization=o).first()
+            orderServiceConcept.user = User.objects.filter(id_bckp=row[6], organization=o).first()
+            orderServiceConcept.concept = row[1]
+            orderServiceConcept.quantity = row[2]
+            orderServiceConcept.creation_date = dateutil.parser.parse(row[3])
+            orderServiceConcept.id_bckp = row[0]
+            orderServiceConcept.save()

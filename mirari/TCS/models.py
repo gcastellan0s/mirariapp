@@ -756,6 +756,7 @@ class OrderServiceConcept(Model_base):
     concept = models.CharField(max_length=250, blank=True,)
     quantity = models.FloatField()
     creation_date = models.DateTimeField(auto_now_add=True, editable=True)
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -784,6 +785,7 @@ class OrderServiceHistory(Model_base):
     orderservice = models.ForeignKey('OrderService', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
     notes = models.TextField(blank=True, verbose_name="Notas <small>(Impresas en la orden)</small>")
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
