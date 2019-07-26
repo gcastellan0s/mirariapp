@@ -738,8 +738,9 @@ class OrderService(Model_base):
         return self.service_date.strftime("%Y-%m-%d")
     def description(self):
         v = 'No asignado'
-        if self.technical.visible_username:
-            v = self.technical.visible_username
+        if self.technical:
+            if self.technical.visible_username:
+                v = self.technical.visible_username
         c = 'No asignado'
         if self.client_name:
             c = self.client_name
