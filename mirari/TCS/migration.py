@@ -199,7 +199,7 @@ with open('temp/mexicof/ordenes_mensaje.csv') as csv_file:
             if row[4]:
                 orderServiceComment.user = User.objects.filter(id_bckp=row[4], organization=o).first()
             else:
-                orderServiceComment.user = UNone
+                orderServiceComment.user = None
             orderServiceComment.comment = row[2]
             orderServiceComment.creation_date = dateutil.parser.parse(row[1])
             orderServiceComment.id_bckp = row[0]

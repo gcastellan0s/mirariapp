@@ -14,6 +14,12 @@ VARS = {
     'NEW_GENDER': 'una nueva',
     'THIS': 'esta',
     'APP':APP,
+    'LIST': [
+        {
+            'field': 'name',
+            'title': 'NOMBRE',
+        },
+    ],
 }
 class Company(Model_base):
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
@@ -42,6 +48,20 @@ VARS = {
             'plugin': 'select2',
         },
     },
+    'LIST': [
+        {
+            'field': 'company',
+            'title': 'COMPAÑIA',
+        },
+        {
+            'field': 'state',
+            'title': 'ESTADO',
+        },
+        {
+            'field': 'name',
+            'title': 'NOMBRE',
+        },
+    ],
 }
 class Store(Model_base):
     company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name='+', verbose_name="Compañia")
@@ -75,6 +95,16 @@ VARS = {
             'plugin': 'selectmultiple',
         },
     },
+    'LIST': [
+        {
+            'field': 'company',
+            'title': 'COMPAÑIA',
+        },
+        {
+            'field': 'name',
+            'title': 'NOMBRE',
+        },
+    ],
 }
 class Brand(Model_base):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+',)
@@ -106,6 +136,20 @@ VARS = {
             'plugin': 'select2',
         },
     },
+    'LIST': [
+        {
+            'field': 'brand',
+            'title': 'MARCA',
+        },
+        {
+            'field': 'name',
+            'title': 'NOMBRE',
+        },
+        {
+            'field': 'description',
+            'title': 'DESCRIPCIÓN',
+        },
+    ],
 }
 class Modelo(Model_base):
     brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, verbose_name="Marca")
