@@ -743,7 +743,7 @@ class Ticket(Model_base):
         return self.sellpoint.my_organization()
     def new(self, ticket):
         self.sellpoint = Sellpoint.objects.get(id = ticket['sellpoint']['id'])
-        lastTicket = Ticket.objects.filter(key=ticket['key'],total=ticket['total'],sellpoint=self.sellpoint).first()
+        lastTicket = Ticket.objects.filter(key=ticket['key'], total=ticket['total'], sellpoint=self.sellpoint).first()
         if lastTicket:
             return lastTicket
         self.barcode = self.sellpoint.get_serial()

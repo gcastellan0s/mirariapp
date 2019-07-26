@@ -8,7 +8,7 @@ o = Organization.objects.get(id=6)
 with open('temp/mexicof/users_user.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
-        user = User.objects.filter(id_bckp=row[0]).first()
+        user = User.objects.filter(id_bckp=row[0], organization=o).first()
         if not user:
             user = User()
             user.username = o.code + '__' + row[4]
@@ -35,7 +35,7 @@ with open('temp/mexicof/users_user.csv') as csv_file:
 with open('temp/mexicof/users_empresa.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
-        company = Company.objects.filter(id_bckp=row[0]).first()
+        company = Company.objects.filter(id_bckp=row[0], organization=o).first()
         if not company:
             company = Company()
             company.organization = o
@@ -46,10 +46,10 @@ with open('temp/mexicof/users_empresa.csv') as csv_file:
 with open('temp/mexicof/ordenes_tienda.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
-        store = Store.objects.filter(id_bckp=row[0]).first()
+        store = Store.objects.filter(id_bckp=row[0], company__organization=o).first()
         if not store:
             store = Store()
-            store.company = Company.objects.filter(id_bckp=row[5]).first()
+            store.company = Company.objects.filter(id_bckp=row[5], organization=o).first()
             store.state = row[2]
             store.adress = row[3]
             store.phone = row[4]
@@ -57,26 +57,50 @@ with open('temp/mexicof/ordenes_tienda.csv') as csv_file:
             store.id_bckp = row[0]
             store.save()
 
-with open('temp/mexicof/ordenes_orden.csv') as csv_file:
+with open('temp/mexicof/ordenes_marca.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
-        orderService = OrderService.objects.filter(id_bckp=row[0]).first()
+        brand = Brand.objects.filter(id_bckp=row[0], organization=o).first()
+        if not brand:
+            brand = Brand()
+            brand.organization = o
+            brand.name = row[1]
+            brand.id_bckp = row[0]
+            brand.save()
+
+with open('temp/mexicof/ordenes_modelo.csv') as csv_file: 
+    csv_reader = csv.reader(csv_file, delimiter=',') 
+    for row in csv_reader: 
+        modelo = Modelo.objects.filter(id_bckp=row[0], brand__organization=o).first()
+        if not modelo:
+            modelo = Modelo()
+            modelo.brand = Brand.objects.filter(id_bckp=row[3], organization=o).first()
+            modelo.name = row[1]
+            modelo.description = row[2]
+            modelo.id_bckp = row[0]
+            modelo.save()
+            
+
+with open('temp/mexicof/ordenes_orden_example.csv') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',') 
+    for row in csv_reader: 
+        orderService = OrderService.objects.filter(id_bckp=row[0], organization=o).first()
         if not orderService:
-            print(row[0])
-            try:
+            #print(row[0])
+            #try:
                 orderService = OrderService()
                 orderService.serial = row[1]
                 orderService.organization = o
                 orderService.creation_date = dateutil.parser.parse(row[2])# datetime.datetime.strptime(row[2].replace('/','-').split('+')[0], '%Y-%m-%d %H:%M:%S.%f')
-                orderService.user = User.objects.get(id_bckp=row[21])
-                orderService.technical = User.objects.get(id_bckp=row[35])
+                orderService.user = User.objects.get(id_bckp=row[21], organization=o)
+                orderService.technical = User.objects.get(id_bckp=row[35], organization=o)
                 orderService.status = row[3]
                 orderService.service = row[4]
                 orderService.zone = row[5]
                 orderService.concept = row[6]
-                orderService.service_date = dateutil.parser.parse(row[7]) #datetime.datetime.strptime(row[7], '%Y-%m-%d')
-                orderService.buy_date = dateutil.parser.parse(row[8]) #datetime.datetime.strptime(row[8], '%Y-%m-%d')
-                orderService.delivery_date = dateutil.parser.parse(row[9]) #datetime.datetime.strptime(row[9], '%Y-%m-%d')
+                orderService.service_date = dateutil.parser.parse(row[7], organization=o) #datetime.datetime.strptime(row[7], '%Y-%m-%d')
+                orderService.buy_date = dateutil.parser.parse(row[8], organization=o) #datetime.datetime.strptime(row[8], '%Y-%m-%d')
+                orderService.delivery_date = dateutil.parser.parse(row[9], organization=o) #datetime.datetime.strptime(row[9], '%Y-%m-%d')
                 orderService.client_name = row[10]
                 orderService.email = row[11]
                 orderService.contact_phone1 = row[12]
@@ -88,15 +112,15 @@ with open('temp/mexicof/ordenes_orden.csv') as csv_file:
                 orderService.cp = row[18]
                 orderService.address_reference = row[19] + ' ' + row[20]
                 orderService.client_notes = row[23]
-                orderService.company = Company.objects.get(id_bckp=row[31])
-                orderService.companyName = Company.objects.get(id_bckp=row[31]).name
-                orderService.store = Store.objects.get(id_bckp=row[36])
-                orderService.storeName = Store.objects.get(id_bckp=row[36]).name
-                orderService.brand = Brand.objects.get(id_bckp=row[32])
-                orderService.brandName = Brand.objects.get(id_bckp=row[32]).name
+                orderService.company = Company.objects.get(id_bckp=row[31], organization=o)
+                orderService.companyName = Company.objects.get(id_bckp=row[31], organization=o).name
+                orderService.store = Store.objects.get(id_bckp=row[36], organization=o)
+                orderService.storeName = Store.objects.get(id_bckp=row[36], organization=o).name
+                orderService.brand = Brand.objects.get(id_bckp=row[32], organization=o)
+                orderService.brandName = Brand.objects.get(id_bckp=row[32], organization=o).name
                 orderService.report_name = row[21]
-                orderService.modelo = Modelo.objects.get(id_bckp=row[33])
-                orderService.modeloName = Modelo.objects.get(id_bckp=row[33]).name
+                orderService.modelo = Modelo.objects.get(id_bckp=row[33], organization=o)
+                orderService.modeloName = Modelo.objects.get(id_bckp=row[33], organization=o).name
                 orderService.serial_number = row[22]
                 orderService.hidden_notes = row[23]
                 orderService.order_notes = row[24]
@@ -110,5 +134,5 @@ with open('temp/mexicof/ordenes_orden.csv') as csv_file:
                 orderService.comments = row[24]
                 orderService.save()
                 print(orderService.serial)
-            except Exception as e:
-                print (row[1], str(e))
+            #except Exception as e:
+                #print (row[1], str(e))
