@@ -98,12 +98,12 @@ VARS = {
     },
     'LIST': [
         {
-            'field': 'company',
-            'title': 'COMPAÑIA',
-        },
-        {
             'field': 'name',
             'title': 'NOMBRE',
+        },
+        {
+            'field': 'company',
+            'title': 'COMPAÑIAS',
         },
     ],
 }
@@ -121,6 +121,8 @@ class Brand(Model_base):
         return self.name
     def QUERY(self, view):
         return Brand.objects.filter(company__organization__pk=view.request.session.get('organization'), active=True).distinct()
+    def getCompanys(self):
+        return self.render_list(self.company, 'name')
 
 
 ########################################################################################
@@ -166,7 +168,8 @@ class Modelo(Model_base):
         return self.name
     def QUERY(self, view):
         return Modelo.objects.filter(brand__company__organization__pk=view.request.session.get('organization'), active=True).distinct()
-
+    def getBrand(self):
+        return self.brand.name
 
 ########################################################################################
 VARS = {
