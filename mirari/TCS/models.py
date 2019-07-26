@@ -104,7 +104,7 @@ VARS = {
             'title': 'NOMBRE',
         },
         {
-            'field': 'company',
+            'field': 'getCompanys',
             'title': 'COMPAÑIAS',
         },
     ],
