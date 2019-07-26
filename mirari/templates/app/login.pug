@@ -14,7 +14,7 @@ block content
                     .w-100.position-relative(style='padding-bottom: 54%')
                 img(src='{{G.MEDIA}}{{G.ORGANIZATION.LOGO_BG}}', style='max-width: 300px;')
             {%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'TCS'%}
-            .text-center.text-danger
+            .text-center.text-danger.mt-3
                 a(href='javascript:void(0)' style="color:inherit") 
                     span ES LA PRIMER VEZ QUE ENTRAS EN ESTA VERSION? 
                     strong TU CONTRASEÑA ES TU NOMBRE DE USUARIO
@@ -38,6 +38,9 @@ block content
                         input.custom-control-input(type='checkbox' v-model='credentials.remember')
                         span.custom-control-label {% trans 'Recuerdame'%}
                     button.btn.btn-primary(type='submit') {% trans 'Entrar'%}
+            .text-center.text-danger.mt-3
+                a(href='http://mexicof.sistemamexicof.com' style="color:inherit") 
+                    span SI TIENES PROBLEMAS ENTRA A LA VERSIÓN ANTERIOR DANDO CLICK AQUI
             .text-center.text-muted
                 a(href='javascript:void(0)' style="color:inherit") {% trans 'Aun no tienes cuenta?'%}
             a(v-if="SaveUsers" v-for="user in SaveUsers" @click="changeUser(user)" href="javascript:void(0)")
