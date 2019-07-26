@@ -87,7 +87,9 @@ script.
                                         })
                                     })
                                     callback(events)
-                                },
+                                },error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                                    console("Status: " + textStatus); alert("Error: " + errorThrown); 
+                                }  
                             });
                         },
                         eventRender: function(event, element) {
