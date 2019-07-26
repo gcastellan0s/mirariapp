@@ -556,7 +556,7 @@ class OrderService(Model_base):
         return JsonResponse({'message':'No se encontro el método'}, status=500)
     def QUERY(self, view):
         team_codes = view.request.user.get_groups()
-        if 'Operador' in team_codes or 'Administrador' in team_codes or view.request.user.is_superuser:
+        if 'OPERADOR' in team_codes or 'ADMINISTRADOR' in team_codes or view.request.user.is_superuser:
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
         else:
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.user, active=True).distinct()
