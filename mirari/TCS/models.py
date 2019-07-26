@@ -122,7 +122,7 @@ class Brand(Model_base):
     def QUERY(self, view):
         return Brand.objects.filter(company__organization__pk=view.request.session.get('organization'), active=True).distinct()
     def getCompanys(self):
-        return self.render_list(self.company, 'name')
+        return self.render_list(self.company.all(), 'name')
 
 
 ########################################################################################
