@@ -144,7 +144,7 @@ VARS = {
     },
     'LIST': [
         {
-            'field': 'brand',
+            'field': 'getBrand',
             'title': 'MARCA',
         },
         {
