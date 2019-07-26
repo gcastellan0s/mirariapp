@@ -756,13 +756,13 @@ class Base_Api(object):
             return response
 
 class View400(TemplateView):
-    template_name = "generic/errors/400.pug"
+    template_name = "generic/errors/400.html"
 
 class View403(TemplateView):
-    template_name = "generic/errors/403.pug"
+    template_name = "generic/errors/403.html"
 
 class View404(TemplateView):
-    template_name = "generic/errors/404.pug"
+    template_name = "generic/errors/404.html"
 
 class View500(TemplateView):
-    template_name = "generic/errors/500.pug"
+    template_name = "generic/errors/500.html"
