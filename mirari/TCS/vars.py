@@ -71,7 +71,7 @@ MENU = {
 				'subtext': 'Administra modelos de caminadoras y gimnasios',
 				'apps': [APP, ],
 				'permission': 'Can_View',
-				'model': APP + '.Company',
+				'model': APP + '.Modelo',
 				'url': 'Generic__ListView',
 			},
             #{

@@ -20,6 +20,7 @@ VARS = {
             'title': 'NOMBRE',
         },
     ],
+    'FORM': ('name',),
 }
 class Company(Model_base):
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
@@ -62,9 +63,10 @@ VARS = {
             'title': 'ESTADO',
         },
     ],
+    'FORM': ('name','company','state','adress','phone'),
 }
 class Store(Model_base):
-    company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name='+', verbose_name="Compañia")
+    company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name='+', verbose_name="Empresa")
     state  = models.CharField('Estado', max_length=250, blank=True, null=True)
     adress = models.CharField('Domicilio', max_length=250, blank=True, null=True)
     phone = models.CharField('Teléfono', max_length=250, blank=True, null=True)
@@ -106,11 +108,12 @@ VARS = {
             'title': 'COMPAÑIAS',
         },
     ],
+    'FORM': ('name','company',),
 }
 class Brand(Model_base):
     organization = models.ForeignKey('mirari.Organization', on_delete=models.CASCADE, related_name='+',)
     company = models.ManyToManyField('Company', verbose_name="Empresas que la venden")
-    name = models.CharField('Marca', max_length=250)
+    name = models.CharField('Nombre de la marca', max_length=250)
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
@@ -153,6 +156,7 @@ VARS = {
             'title': 'DESCRIPCIÓN',
         },
     ],
+    'FORM': ('name','brand','description'),
 }
 class Modelo(Model_base):
     brand = models.ForeignKey('Brand', on_delete=models.SET_NULL, null=True, verbose_name="Marca")
