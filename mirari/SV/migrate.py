@@ -1,22 +1,19 @@
 import csv
 from mirari.mirari.models import *
-from mirari.TCS.models import *
+from mirari.SV.models import *
 import datetime
 import dateutil.parser
 
 marelisama = 6
-estrella = Organization.objects.filter(id=11)
-
+estrella = Organization.objects.get(id=11)
 nMPanaderia = Sellpoint.objects.get(id=9)
 nMCafeteria = Sellpoint.objects.get(id=10)
 nMPollos = Sellpoint.objects.get(id=11)
 nMTortas = Sellpoint.objects.get(id=12)
-
 Panaderia = 1
 Cafeteria = 2
 Pollos = 4
 Tortas = 3
-ids = [1,2,3,4]
 
 with open('temp/estrella/sellpoint_menu.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
