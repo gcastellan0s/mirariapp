@@ -112,6 +112,8 @@ class Sellpoint(Model_base):
     fiscalDataTickets = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Tickets", help_text="Debes darlo de alta en la pestaña de Mi Factura")
     fiscalDataCuts = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Cortes", help_text="Debes darlo de alta en la pestaña de Mi Factura")
 
+    id_bckp = models.IntegerField(blank=True, null=True)
+
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -218,6 +220,7 @@ class Menu(Model_base, MPTTModel):
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactiva todos los productos de un menú')
     parent = TreeForeignKey('self', null=True, blank=True, related_name='+', db_index=True, on_delete=models.PROTECT, verbose_name='Depende de?', help_text='Elige otro menú solo si este menú depende de otro')
     nivel = models.PositiveIntegerField(default=1)
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -382,6 +385,7 @@ class Product(Model_base):
     is_dynamic = models.BooleanField('Precio dinámico ', default=False, help_text='El precio es dinámico? (sugerido)')
     is_favorite = models.BooleanField('Es favorito? ', default=False, help_text='Este producto es favorito? (sugerido)')
     photo = ProcessedImageField(upload_to=pathProductImage, blank=True, null=True, verbose_name="Imagen del producto", help_text="Esta imagen se muestra en el botón del punto de venta")
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -522,6 +526,7 @@ class ProductAttributes(Model_base):
     is_dynamic = models.BooleanField('Precio dinámico', default=False, help_text='Este producto tiene precio variable?')
     is_favorite = models.BooleanField('Es favorito?', default=False, help_text='Se muestra siempre este producto?')
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar producto?')
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -730,6 +735,7 @@ class Ticket(Model_base):
     rasurado = models.BooleanField(default=False)
     invoiced = models.BooleanField(default=False)
     creditPayment = models.BooleanField(default=False)
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -993,6 +999,7 @@ class TicketProducts(Model_base):
     iva = models.FloatField(default=0)
     ieps = models.FloatField(default=0)
     offers = models.ManyToManyField('Offer', related_name='+', blank=True)
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -1142,6 +1149,7 @@ class Cut(Model_base):
     serial = models.IntegerField(default=1)
     show = models.BooleanField(default=True)
     ticketTypes = TaggableManager()
+    id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
