@@ -5,7 +5,7 @@ import datetime
 import dateutil.parser
 o = Organization.objects.get(id=6)
 
-with open('temp/mexicof/users_user.csv') as csv_file: 
+with open('temp/tecnoservicio/users_user.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         try:
@@ -21,6 +21,7 @@ with open('temp/mexicof/users_user.csv') as csv_file:
             user.needChangePassword = True
             user.save()
             user.set_password(user.visible_username)
+            user.save()
             profileName = row[11]
             if profileName == 'Tecnico foraneo':
                 profileName = 'FORANEO'
@@ -36,7 +37,7 @@ with open('temp/mexicof/users_user.csv') as csv_file:
         except Exception as e:
             print(str(e))
 
-with open('temp/mexicof/users_empresa.csv') as csv_file: 
+with open('temp/tecnoservicio/users_empresa.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         company = Company.objects.filter(id_bckp=row[0], organization=o).first()
@@ -47,7 +48,7 @@ with open('temp/mexicof/users_empresa.csv') as csv_file:
             company.id_bckp = row[0]
             company.save()
 
-with open('temp/mexicof/ordenes_tienda.csv') as csv_file: 
+with open('temp/tecnoservicio/ordenes_tienda.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         store = Store.objects.filter(id_bckp=row[0], company__organization=o).first()
@@ -61,7 +62,7 @@ with open('temp/mexicof/ordenes_tienda.csv') as csv_file:
             store.id_bckp = row[0]
             store.save()
 
-with open('temp/mexicof/ordenes_marca.csv') as csv_file: 
+with open('temp/tecnoservicio/ordenes_marca.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         brand = Brand.objects.filter(id_bckp=row[0], organization=o).first()
@@ -72,7 +73,7 @@ with open('temp/mexicof/ordenes_marca.csv') as csv_file:
             brand.id_bckp = row[0]
             brand.save()
 
-with open('temp/mexicof/ordenes_modelo.csv') as csv_file: 
+with open('temp/tecnoservicio/ordenes_modelo.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         modelo = Modelo.objects.filter(id_bckp=row[0], brand__organization=o).first()
@@ -85,7 +86,7 @@ with open('temp/mexicof/ordenes_modelo.csv') as csv_file:
             modelo.save()
             
 
-with open('temp/mexicof/ordenes_orden.csv') as csv_file:
+with open('temp/tecnoservicio/ordenes_orden.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         orderService = OrderService.objects.filter(id_bckp=row[0], organization=o).first()
@@ -158,7 +159,7 @@ with open('temp/mexicof/ordenes_orden.csv') as csv_file:
             #except Exception as e:
                 #print(row[1], str(e))
             
-with open('temp/mexicof/ordenes_concepto.csv') as csv_file: 
+with open('temp/tecnoservicio/ordenes_concepto.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         orderServiceConcept = OrderServiceConcept.objects.filter(id_bckp=row[0], orderservice__organization=o).first()
@@ -172,7 +173,7 @@ with open('temp/mexicof/ordenes_concepto.csv') as csv_file:
             orderServiceConcept.id_bckp = row[0]
             orderServiceConcept.save()
 
-with open('temp/mexicof/ordenes_concepto.csv') as csv_file: 
+with open('temp/tecnoservicio/ordenes_concepto.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         orderServiceConcept = OrderServiceConcept.objects.filter(id_bckp=row[0], orderservice__organization=o).first()
@@ -189,7 +190,7 @@ with open('temp/mexicof/ordenes_concepto.csv') as csv_file:
             orderServiceConcept.id_bckp = row[0]
             orderServiceConcept.save()
     
-with open('temp/mexicof/ordenes_mensaje.csv') as csv_file: 
+with open('temp/tecnoservicio/ordenes_mensaje.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         orderServiceComment = OrderServiceComment.objects.filter(id_bckp=row[0], orderservice__organization=o).first()
