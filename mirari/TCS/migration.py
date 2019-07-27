@@ -3,7 +3,7 @@ from mirari.mirari.models import *
 from mirari.TCS.models import *
 import datetime
 import dateutil.parser
-o = Organization.objects.get(id=6)
+o = Organization.objects.get(id=3)
 
 with open('temp/tecnoservicio/users_user.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
@@ -31,6 +31,8 @@ with open('temp/tecnoservicio/users_user.csv') as csv_file:
                 profileName = 'OPERADOR'
             elif profileName == 'Administrador':
                 profileName = 'ADMINISTRADOR'
+            elif profileName == 'Tienda':
+                profileName = 'TIENDA'
             profile = Profile.objects.get(name= o.code + '__' + profileName)
             user.groups.clear()
             user.groups.add(profile)
@@ -159,19 +161,6 @@ with open('temp/tecnoservicio/ordenes_orden.csv') as csv_file:
             #except Exception as e:
                 #print(row[1], str(e))
             
-with open('temp/tecnoservicio/ordenes_concepto.csv') as csv_file: 
-    csv_reader = csv.reader(csv_file, delimiter=',') 
-    for row in csv_reader: 
-        orderServiceConcept = OrderServiceConcept.objects.filter(id_bckp=row[0], orderservice__organization=o).first()
-        if not orderServiceConcept:
-            orderServiceConcept = OrderServiceConcept()
-            orderServiceConcept.orderservice = OrderService.objects.filter(id_bckp=row[5], organization=o).first()
-            orderServiceConcept.user = User.objects.filter(id_bckp=row[6], organization=o).first()
-            orderServiceConcept.concept = row[1]
-            orderServiceConcept.quantity = row[2]
-            orderServiceConcept.creation_date = dateutil.parser.parse(row[3])
-            orderServiceConcept.id_bckp = row[0]
-            orderServiceConcept.save()
 
 with open('temp/tecnoservicio/ordenes_concepto.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
