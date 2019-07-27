@@ -13,7 +13,7 @@ block content
                 .ui-w-60
                     .w-100.position-relative(style='padding-bottom: 54%')
                 img(src='{{G.MEDIA}}{{G.ORGANIZATION.LOGO_BG}}', style='max-width: 300px;')
-            {%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'TCS'%}
+            {%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'tcs'%}
             .text-center.text-danger.mt-3
                 a(href='javascript:void(0)' style="color:inherit") 
                     span ES LA PRIMER VEZ QUE ENTRAS EN ESTA VERSION? 
@@ -38,9 +38,14 @@ block content
                         input.custom-control-input(type='checkbox' v-model='credentials.remember')
                         span.custom-control-label {% trans 'Recuerdame'%}
                     button.btn.btn-primary(type='submit') {% trans 'Entrar'%}
-            {%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'TCS'%}
+            {%if G.ORGANIZATION.code == 'mxf'%}
             .text-center.text-danger.mt-3
                 a(href='http://mexicof.sistemamexicof.com' style="color:inherit") 
+                    span SI TIENES PROBLEMAS ENTRA A LA VERSIÓN ANTERIOR DANDO CLICK AQUI
+            {%endif%}
+            {%if G.ORGANIZATION.code == 'tcs'%}
+            .text-center.text-danger.mt-3
+                a(href='http://sistemamexicof.sistemamexicof.com' style="color:inherit") 
                     span SI TIENES PROBLEMAS ENTRA A LA VERSIÓN ANTERIOR DANDO CLICK AQUI
             {%endif%}
             .text-center.text-muted
@@ -86,7 +91,7 @@ script.
                     $cookies.set('SaveUsers', self.SaveUsers, "3y")
                 } 
                 if (!json.data.message) location.reload();
-                else {%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'TCS'%}swal('Usuario incorrecto!', 'Intenta poniendo tu usuario tambien en tu contraseña.', 'error'){%else%}swal('Error!', json.data.message, 'error'){%endif%}
+                else {%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'tcs'%}swal('Usuario incorrecto!', 'Intenta poniendo tu usuario tambien en tu contraseña.', 'error'){%else%}swal('Error!', json.data.message, 'error'){%endif%}
             }).finally(() => {
                 UnBlock();
             });
