@@ -178,7 +178,6 @@ with open('temp/tecnoservicio/ordenes_concepto.csv') as csv_file:
             orderServiceConcept.creation_date = dateutil.parser.parse(row[3])
             orderServiceConcept.id_bckp = row[0]
             orderServiceConcept.save()
-    
 with open('temp/tecnoservicio/ordenes_mensaje.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
@@ -194,5 +193,3 @@ with open('temp/tecnoservicio/ordenes_mensaje.csv') as csv_file:
             orderServiceComment.creation_date = dateutil.parser.parse(row[1])
             orderServiceComment.id_bckp = row[0]
             orderServiceComment.save()
-            
-            

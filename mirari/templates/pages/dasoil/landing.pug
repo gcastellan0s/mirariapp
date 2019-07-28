@@ -1,27 +1,270 @@
--load staticfiles i18n
--load user_agents
-doctype html
+{% load staticfiles i18n %}
 head
-	meta(charset='utf-8')
-	meta(http-equiv='X-UA-Compatible', content='IE=edge')
-	meta(name='viewport', content='width=device-width, initial-scale=1')
-	meta(name='description', content='meta description')
-	// Favicons
-	link(rel='shortcut icon', href='{%static HTMLPage.static%}img/ico.png', type='image/x-icon')
-	link(rel='apple-touch-icon', href='{%static HTMLPage.static%}img/ico.png')
-	// Title
-	title {{ G.ORGANIZATION.TITLE }} {%if G.ORGANIZATION.SLOGAN%}{%endif%} 
-	// Bootstrap CSS
-	link(rel='stylesheet', href='{%static HTMLPage.static%}css/bootstrap.min.css')
-	// Font Awesome CSS
-	link(rel='stylesheet', href='{%static HTMLPage.static%}css/font-awesome.min.css')
-	//if lt IE 9
-		script(src='//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
-		script(src='//oss.maxcdn.com/respond/1.4.2/respond.min.js')
-	link(href='https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900', rel='stylesheet')
-	link(href='https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i', rel='stylesheet')
-style
-// Main Wrapper Start
-#app.wrapper.sidenav-wrapper.bg--shaft
-	img(src='{%static HTMLPage.static%}img/dasoil.jpg', alt='dasoil' style="max-width: 100%")
-// Main Wrapper End
+    title {%block title%}{{ G.ORGANIZATION.TITLE }}{%endblock title%}
+    meta(charset='utf-8')
+    // Stylesheets
+    link(href='{%static HTMLPage.static%}css/bootstrap.css', rel='stylesheet')
+    link(href='{%static HTMLPage.static%}css/style.css', rel='stylesheet')
+    link(href='{%static HTMLPage.static%}css/responsive.css', rel='stylesheet')
+    // Color Switcher Mockup
+    link(href='{%static HTMLPage.static%}css/color-switcher-design.css', rel='stylesheet')
+    // Color Themes
+    link#theme-color-file(href='{%static HTMLPage.static%}css/color-themes/default-theme.css', rel='stylesheet')
+    link(rel='shortcut icon', href='{%static HTMLPage.static%}images/favicon.png', type='image/x-icon')
+    link(rel='icon', href='{%static HTMLPage.static%}images/favicon.png', type='image/x-icon')
+    // Responsive
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')
+    //if lt IE 9
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js')
+    //if lt IE 9
+        script(src='{%static HTMLPage.static%}js/respond.js')
+    style.
+        @font-face {
+            font-family: AlfaSlabOne;
+            src: url({%static HTMLPage.static%}fonts/AlfaSlabOne-Regular.ttf);
+        }   
+        .text-brand{
+            color: #8a9fde!important;
+        }  
+        .font-brand{
+            font-family: AlfaSlabOne!important;
+        }   
+        .banner-section .circular-menu {
+            opacity: .90!important;
+        }  
+        .banner-slider-arrow {
+            opacity: 1!important;
+        }
+        .contact-form {
+            background-color: #000000b3;
+            padding: 10px 10px 10px;
+        }
+.page-wrapper
+    // Preloader
+    .preloader
+    // Sidenav Bar
+    section.sidenav-bar
+        .nav-box
+            .inner-box
+                .upper-box
+                    .btn-box
+                        button.close-btn
+                            span.fa.fa-times
+                // .Side Nav
+                nav.side-nav
+                    ul#nav.navigation.clearfix
+                        li.current
+                            a(href='#Home') INCIO
+                        li.dropdown
+                            a(href='javascript:void(0)') VÁLVULAS
+                            ul
+                                li
+                                    a(href='#Bola') BOLA
+                                li
+                                    a(href='#CompuertaGloboRetencion') COMPUERTA GLOBO RETENCION
+                                li
+                                    a(href='#Mariposa') MARIPOSA
+                                li
+                                    a(href='#Control') CONTROL
+                        li
+                            a(href='#Nosotros') NOSOTROS
+                        li
+                            a(href='#ContactUs') CONTACTO
+                // /.Side-menu
+                .contact-info-box
+                    // Info Box
+                    .info-box
+                        .icon-box
+                            span.fa.fa-home
+                        p   CDMX, MEXICO
+                    // Info Box
+                    .info-box
+                        .icon-box
+                            span.far.fa-clock
+                        p LUNES - VIERNES: 09:00 - 18:00
+                    // Info Box
+                    .info-box
+                        .icon-box
+                            span.far.fa-envelope
+                        p
+                            a(href='tel:(888)123456789') (+521) 55 56979714
+                        p
+                            a(href='mailto:info@dasoil.com.mx') info@dasoil.com.mx
+    // End Sidenav Bar
+    // Start Main Content
+    main#content
+        // Main Header
+        header.main-header
+            .outer-container
+                .main-box.clearfix
+                    .logo-box
+                        .logo
+                            a(href='index.html')
+                                img(src='{%static HTMLPage.static%}images/logo.png', alt='', title='' style="max-width:450px;")
+                    .outer-box.clearfix
+                        // Btn box
+                        .btn-box.no-touch
+                            button.nav-toggler
+                                | MENU
+                                span
+        // End Main Header
+        // Banner Section
+        section.banner-section
+            #banner-slider.banner-slider-wrapper.swiper-container
+                .swiper-wrapper.banner-slider
+                    // SLIDER ITEM
+                    #Home.banner-slider-item.swiper-slide
+                        figure.media-wrapper.slide-inner
+                            img(src='{%static HTMLPage.static%}images/main-slider/1.jpg', alt='')
+                        .content-box
+                            .content
+                                .auto-container
+                                    .inner
+                                        h2.mask-loader.font-brand(style="text-transform: none;font-weight: 100;font-size: 60px;") DasOil
+                                        h3(style="font-size:25px") Tenemos alta especialidad en la proveeduría de válvulas API 6D, API 600 y API 602.
+                                        h3(style="font-size:20px") 
+                                            span.text-brand Manejamos distribuciones de distintas marcas lo cual nos permite darle la mejor opción de acuerdo con las necesidades de sus proyectos.
+                                        .text.mask-loader.mb-3
+                                            br
+                                        .btn-box.mask-loader.mb-0
+                                            a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                                span.btn-title SOLICITA UNA COTIZACIÓN
+                    // SLIDER ITEM
+                    #Bola.banner-slider-item.swiper-slide
+                        figure.media-wrapper.slide-inner
+                            img(src='{%static HTMLPage.static%}images/main-slider/3.jpg', alt='')
+                        .content-box
+                            .content
+                                .auto-container
+                                    h3  
+                                        span(style="font-size: 30%;") NUESTROS PRODUCTOS
+                                        br
+                                        span.theme_color Válvulas de Bola
+                                    .text API 6D, API 6DSS, API 6A, NRF-211-PEMEX-2008, NRF-204-PEMEX-2012, API 607, API 6FA, BS 6755, ISO 15548-1, ISO 15548-2 (Emisiones Fugitivas), ISO 5208 (Rangos de Fuga A), Rango de temperatura desde – 196 °C hasta + 450 °C, SIL 1-3
+                                        br 
+                                    .btn-box
+                                        a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                            span.btn-title SOLICITA UNA COTIZACIÓN
+                    // SLIDER ITEM
+                    #CompuertaGloboRetencion.banner-slider-item.swiper-slide
+                        figure.media-wrapper.slide-inner
+                            img(src='{%static HTMLPage.static%}images/main-slider/2.jpg', alt='')
+                        .content-box
+                            .content
+                                .auto-container
+                                    h3  
+                                        span(style="font-size: 30%;") NUESTROS PRODUCTOS
+                                        br
+                                        span.theme_color Válvulas de Compuerta, Globo y Retención
+                                    .text Acero al carbón API 600, Acero forjado API 602, Bonete a Presión (Pressure seal) de acero al carbón y forjado, Tipo Disco Dual (Duo Check), Servicio Criogénico.
+                                        br 
+                                    .btn-box
+                                        a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                            span.btn-title SOLICITA UNA COTIZACIÓN
+                    // SLIDER ITEM
+                    #Mariposa.banner-slider-item.swiper-slide
+                        figure.media-wrapper.slide-inner
+                            img(src='{%static HTMLPage.static%}images/main-slider/4.jpg', alt='')
+                        .content-box
+                            .content
+                                .auto-container
+                                    h3  
+                                        span(style="font-size: 30%;") NUESTROS PRODUCTOS
+                                        br
+                                        span.theme_color Válvulas de Mariposa de Triple Excentricidad
+                                    .text API 609, ISO 5752, NRF-204-PEMEX-2012, API 607, ISO 10497, ISO 15548-1, ISO 15548-2 (Emisiones Fugitivas), API 598, API 6D (tiempos y presiones de prueba), ISO 5208 (Rangos de Fuga A), Rango de temperatura desde – 196 °C hasta + 450 °C, SIL 1-3, ANSI B16.10, ANSI B16.5 / ANSI B16.47 / MSS SP-44, ANSI B16.25, Bidireccional, Temperaturas desde -196°C (-320°F) hasta +818°C (+1600°F).
+                                        br 
+                                    .btn-box
+                                        a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                            span.btn-title SOLICITA UNA COTIZACIÓN
+                    // SLIDER ITEM
+                    #Control.banner-slider-item.swiper-slide
+                        figure.media-wrapper.slide-inner
+                            img(src='{%static HTMLPage.static%}images/main-slider/5.jpg', alt='')
+                        .content-box
+                            .content
+                                .auto-container
+                                    h3  
+                                        span(style="font-size: 30%;") NUESTROS PRODUCTOS
+                                        br
+                                        span.theme_color Válvulas de Control
+                                    .text Tipo globo o rotatorias (bola, mariposa o tapón excéntrico), las cuales pueden ser suministradas con las características: igual porcentaje, lineal o de apertura rápida.
+                                        br 
+                                    .btn-box
+                                        a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                            span.btn-title SOLICITA UNA COTIZACIÓN
+                    // SLIDER ITEM
+                    #Nosotros.banner-slider-item.swiper-slide
+                        figure.media-wrapper.slide-inner
+                            img(src='{%static HTMLPage.static%}images/main-slider/15.jpg', alt='')
+                        .content-box
+                            .content
+                                .auto-container
+                                    h3  
+                                        span(style="font-size: 50%;") NOSOTROS
+                                    .text Tipo globo o rotatorias (bola, mariposa o tapón excéntrico), las cuales pueden ser suministradas con las características: igual porcentaje, lineal o de apertura rápida.
+                                    h3  
+                                        span.theme_color MISION
+                                    .text Cubrir las necesidades derivadas de la falta de atención de fabricantes ó distribuidores nacionales y extranjeros, ayudando a que sus requisiciones urgentes para Mantenimiento ó Sustitución, sean cubiertas en tiempos y precios adecuados.
+                                    .btn-box
+                                        a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                            span.btn-title CONTACTANOS
+                    // SLIDER ITEM
+                    #ContactUs.banner-slider-item.swiper-slide
+                        figure.media-wrapper.slide-inner
+                            img(src='{%static HTMLPage.static%}images/main-slider/14.jpg', alt='')
+                        .content-box
+                            .content
+                                .auto-container
+                                    .inner
+                                        h2.mask-loader.theme_color(style="text-transform: none;font-weight: 500;font-size: 30px;") CONTACTANOS
+                                            br
+                                            small.text-white(style="font-size:15px;") PERMITANOS SER PARTE DE SU PROYECTO, NOS PONDREMOS EN CONTACTO CON USTED A LA BREVEDAD
+                                        // Form Column
+                                        .form-column.col-lg-12.col-md-12.col-sm-12
+                                            .inner-column
+                                                .contact-form
+                                                    form#contact-form(method='post', action='sendemail.php')
+                                                        .row.clearfix
+                                                            .col-lg-6.col-md-6.col-sm-12.form-group
+                                                                input(type='text', name='username', placeholder='Su Nombre', required='')
+                                                            .col-lg-6.col-md-6.col-sm-12.form-group
+                                                                input(type='text', name='phone', placeholder='Su Email', required='')
+                                                            .col-lg-12.col-md-12.col-sm-12.form-group
+                                                                textarea(name='message', placeholder='Su Mensaje')
+                                                            .col-lg-12.col-md-12.col-sm-12.form-group
+                                                                button.theme-btn.btn-style-one(type='submit', name='submit-form')
+                                                                    span.btn-title ENVIAR DATOS
+                .banner-slider-arrows
+                    i#banner-slider-previous.banner-slider-arrow.banner-slider-arrow--previous.fa.fa-angle-left
+                    i#banner-slider-next.banner-slider-arrow.banner-slider-arrow--next.fa.fa-angle-right
+                .banner-slider-counter
+                    #banner-slider-counter.counter
+                // Social Links
+                .circular-menu
+                    .items-wrapper
+                        a.menu-item(href='#')
+                            span.fab.fa-facebook
+                        a.menu-item(href='#')
+                            span.fab.fa-twitter
+                    button.floating-btn
+                        i.fa.fa-share-alt
+        // End Banner Section
+    // End Main Content
+.scroll-to-top.scroll-to-target(data-target='html')
+    span.fa.fa-angle-up
+// End Color Switcher
+script(src='{%static HTMLPage.static%}js/jquery.js')
+script(src='{%static HTMLPage.static%}js/popper.min.js')
+script(src='{%static HTMLPage.static%}js/bootstrap.min.js')
+script(src='{%static HTMLPage.static%}js/owl.js')
+script(src='{%static HTMLPage.static%}js/wow.js')
+script(src='{%static HTMLPage.static%}js/appear.js')
+script(src='{%static HTMLPage.static%}js/jquery.mCustomScrollbar.concat.min.js')
+script(src='{%static HTMLPage.static%}js/swiper.min.js')
+script(src='{%static HTMLPage.static%}js/jquery.stellar.min.js')
+script(src='{%static HTMLPage.static%}js/TweenMax.min.js')
+script(src='{%static HTMLPage.static%}js/script.js')
+// Color Setting
+script(src='{%static HTMLPage.static%}js/color-settings.js')
