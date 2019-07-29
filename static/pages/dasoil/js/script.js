@@ -157,6 +157,10 @@
 		    }
 		  }
 		});
+        $(".Goto").click(swiper, function(event) {
+            event.preventDefault();
+            swiper.slideTo($(this).attr('goto'));
+        });
 	}
 
 	// Banner Carousel / Owl Carousel 
@@ -526,29 +530,11 @@
 		});
 	}
 	
-	//Contact Form Validation
-	if($('#contact-form').length){
-		$('#contact-form').validate({
-			rules: {
-				username: {
-					required: true
-				},
-				email: {
-					required: true,
-					email: true
-				},
-				phone: {
-					required: true,
-				},
-				subject: {
-					required: true,
-				},
-				message: {
-					required: true
-				}
-			}
-		});
-	}
+    $('#contact-form').on("submit", function(event){
+        event.preventDefault();
+        alert("GRACIAS, RECIBIMOS TUS DATOS")
+        return false;
+    })
 
 	//Jquery Spinner / Quantity Spinner
 	if($('.quantity-spinner').length){

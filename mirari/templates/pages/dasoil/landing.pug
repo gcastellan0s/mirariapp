@@ -40,6 +40,14 @@ head
             background-color: #000000b3;
             padding: 10px 10px 10px;
         }
+        .logoImg{
+            max-width:450px;
+        }
+        @media (max-width: 992px) { 
+            .logoImg{
+                max-width: 180px!important;
+            }
+        }
 .page-wrapper
     // Preloader
     .preloader
@@ -55,22 +63,22 @@ head
                 nav.side-nav
                     ul#nav.navigation.clearfix
                         li.current
-                            a(href='#Home') INCIO
+                            a.Goto(href='#Home' goto=0) INCIO
                         li.dropdown
                             a(href='javascript:void(0)') VÁLVULAS
                             ul
                                 li
-                                    a(href='#Bola') BOLA
+                                    a.Goto(href='#Bola' goto=1) BOLA
                                 li
-                                    a(href='#CompuertaGloboRetencion') COMPUERTA GLOBO RETENCION
+                                    a.Goto(href='#CompuertaGloboRetencion' goto=2) COMPUERTA GLOBO RETENCION
                                 li
-                                    a(href='#Mariposa') MARIPOSA
+                                    a.Goto(href='#Mariposa' goto=3) MARIPOSA
                                 li
-                                    a(href='#Control') CONTROL
+                                    a.Goto(href='#Control' goto=4) CONTROL
                         li
-                            a(href='#Nosotros') NOSOTROS
+                            a.Goto(href='#Nosotros' goto=5) NOSOTROS
                         li
-                            a(href='#ContactUs') CONTACTO
+                            a.Goto(href='#ContactUs' goto=6) CONTACTO
                 // /.Side-menu
                 .contact-info-box
                     // Info Box
@@ -101,7 +109,7 @@ head
                     .logo-box
                         .logo
                             a(href='index.html')
-                                img(src='{%static HTMLPage.static%}images/logo.png', alt='', title='' style="max-width:450px;")
+                                img.logoImg(src='{%static HTMLPage.static%}images/logo.png', alt='', title='' style="")
                     .outer-box.clearfix
                         // Btn box
                         .btn-box.no-touch
@@ -128,7 +136,7 @@ head
                                         .text.mask-loader.mb-3
                                             br
                                         .btn-box.mask-loader.mb-0
-                                            a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                            a.theme-btn.btn-style-two.Goto(href='#ContactUs' goto=6 style="background-color:#39476e;")
                                                 span.btn-title SOLICITA UNA COTIZACIÓN
                     // SLIDER ITEM
                     #Bola.banner-slider-item.swiper-slide
@@ -144,7 +152,7 @@ head
                                     .text API 6D, API 6DSS, API 6A, NRF-211-PEMEX-2008, NRF-204-PEMEX-2012, API 607, API 6FA, BS 6755, ISO 15548-1, ISO 15548-2 (Emisiones Fugitivas), ISO 5208 (Rangos de Fuga A), Rango de temperatura desde – 196 °C hasta + 450 °C, SIL 1-3
                                         br 
                                     .btn-box
-                                        a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                        a.theme-btn.btn-style-two.Goto(href='#ContactUs' goto=6 style="background-color:#39476e;")
                                             span.btn-title SOLICITA UNA COTIZACIÓN
                     // SLIDER ITEM
                     #CompuertaGloboRetencion.banner-slider-item.swiper-slide
@@ -160,7 +168,7 @@ head
                                     .text Acero al carbón API 600, Acero forjado API 602, Bonete a Presión (Pressure seal) de acero al carbón y forjado, Tipo Disco Dual (Duo Check), Servicio Criogénico.
                                         br 
                                     .btn-box
-                                        a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                        a.theme-btn.btn-style-two.Goto(href='#ContactUs' goto=6 style="background-color:#39476e;")
                                             span.btn-title SOLICITA UNA COTIZACIÓN
                     // SLIDER ITEM
                     #Mariposa.banner-slider-item.swiper-slide
@@ -176,7 +184,7 @@ head
                                     .text API 609, ISO 5752, NRF-204-PEMEX-2012, API 607, ISO 10497, ISO 15548-1, ISO 15548-2 (Emisiones Fugitivas), API 598, API 6D (tiempos y presiones de prueba), ISO 5208 (Rangos de Fuga A), Rango de temperatura desde – 196 °C hasta + 450 °C, SIL 1-3, ANSI B16.10, ANSI B16.5 / ANSI B16.47 / MSS SP-44, ANSI B16.25, Bidireccional, Temperaturas desde -196°C (-320°F) hasta +818°C (+1600°F).
                                         br 
                                     .btn-box
-                                        a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                        a.theme-btn.btn-style-two.Goto(href='#ContactUs' goto=6 style="background-color:#39476e;")
                                             span.btn-title SOLICITA UNA COTIZACIÓN
                     // SLIDER ITEM
                     #Control.banner-slider-item.swiper-slide
@@ -192,7 +200,7 @@ head
                                     .text Tipo globo o rotatorias (bola, mariposa o tapón excéntrico), las cuales pueden ser suministradas con las características: igual porcentaje, lineal o de apertura rápida.
                                         br 
                                     .btn-box
-                                        a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                        a.theme-btn.btn-style-two.Goto(href='#ContactUs' goto=6 style="background-color:#39476e;")
                                             span.btn-title SOLICITA UNA COTIZACIÓN
                     // SLIDER ITEM
                     #Nosotros.banner-slider-item.swiper-slide
@@ -210,7 +218,7 @@ head
                                         span.theme_color MISION
                                     .text Cubrir las necesidades derivadas de la falta de atención de fabricantes ó distribuidores nacionales y extranjeros, ayudando a que sus requisiciones urgentes para Mantenimiento ó Sustitución, sean cubiertas en tiempos y precios adecuados.
                                     .btn-box
-                                        a.theme-btn.btn-style-two(href='#ContactUs' style="background-color:#39476e;")
+                                        a.theme-btn.btn-style-two.Goto(href='#ContactUs' goto=6 style="background-color:#39476e;")
                                             span.btn-title CONTACTANOS
                     // SLIDER ITEM
                     #ContactUs.banner-slider-item.swiper-slide
@@ -221,13 +229,13 @@ head
                                 .auto-container
                                     .inner
                                         h2.mask-loader.theme_color(style="text-transform: none;font-weight: 500;font-size: 30px;") CONTACTANOS
-                                            br
+                                        h2.mask-loader   
                                             small.text-white(style="font-size:15px;") PERMITANOS SER PARTE DE SU PROYECTO, NOS PONDREMOS EN CONTACTO CON USTED A LA BREVEDAD
                                         // Form Column
                                         .form-column.col-lg-12.col-md-12.col-sm-12
                                             .inner-column
                                                 .contact-form
-                                                    form#contact-form(method='post', action='sendemail.php')
+                                                    form#contact-form(method='post')
                                                         .row.clearfix
                                                             .col-lg-6.col-md-6.col-sm-12.form-group
                                                                 input(type='text', name='username', placeholder='Su Nombre', required='')
@@ -236,7 +244,7 @@ head
                                                             .col-lg-12.col-md-12.col-sm-12.form-group
                                                                 textarea(name='message', placeholder='Su Mensaje')
                                                             .col-lg-12.col-md-12.col-sm-12.form-group
-                                                                button.theme-btn.btn-style-one(type='submit', name='submit-form')
+                                                                button.theme-btn.btn-style-one(type='submit')
                                                                     span.btn-title ENVIAR DATOS
                 .banner-slider-arrows
                     i#banner-slider-previous.banner-slider-arrow.banner-slider-arrow--previous.fa.fa-angle-left
