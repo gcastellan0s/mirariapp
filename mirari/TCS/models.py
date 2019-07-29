@@ -484,9 +484,9 @@ class OrderService(Model_base):
         return reverse('mirari:Generic__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
     def select2filter(self, query):
         if self.request.GET.get('field') == 'technical':
-            team = apps.get_model('INT', 'Team').objects.filter(code=self.request.GET.get('zone'), organization__id=self.request.session['organization']).first()
-            if team:
-                query = query.filter( pk__in = list(team.members.all().values_list('pk', flat=True)) )
+            profile = apps.get_model('mirari', 'Profile').objects.filter(name__icontains=self.request.GET.get('zone'), organization__id=self.request.session['organization']).first()
+            if profile:
+                query = query.filter( groups = profile )
             else:
                 query = None
         if self.request.GET.get('field') == 'store':
