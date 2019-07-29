@@ -110,24 +110,15 @@ with open('temp/tecnoservicio/ordenes_orden.csv') as csv_file:
         orderService.zone = row[5]
         orderService.concept = row[6]
         if row[7]:
-            try:
-                orderService.service_date = datetime.datetime.strptime(row[7], '%Y-%m-%d')
-            except:
-                orderService.service_date = dateutil.parser.parse(row[7])
+            orderService.service_date = dateutil.parser.parse(row[7], dayfirst=True) #datetime.datetime.strptime(row[7], '%Y-%m-%d')
         else:
             orderService.service_date = None
         if row[8]:
-            try:
-                orderService.service_date = datetime.datetime.strptime(row[8], '%Y-%m-%d')
-            except:
-                orderService.service_date = dateutil.parser.parse(row[8])
+            orderService.buy_date = dateutil.parser.parse(row[8], dayfirst=True) #datetime.datetime.strptime(row[8], '%Y-%m-%d')
         else:
             orderService.buy_date = None
         if row[9]:
-            try:
-                orderService.service_date = datetime.datetime.strptime(row[9], '%Y-%m-%d')
-            except:
-                orderService.service_date = dateutil.parser.parse(row[9])
+            orderService.delivery_date = dateutil.parser.parse(row[9], dayfirst=True) #datetime.datetime.strptime(row[9], '%Y-%m-%d')
         else:
             orderService.delivery_date = None
         orderService.client_name = row[10]
@@ -166,8 +157,6 @@ with open('temp/tecnoservicio/ordenes_orden.csv') as csv_file:
         orderService.id_bckp = row[0]
         orderService.comments = row[24]
         orderService.save()
-            #except Exception as e:
-                #print(row[1], str(e))
             
 
 with open('temp/tecnoservicio/ordenes_concepto.csv') as csv_file: 
