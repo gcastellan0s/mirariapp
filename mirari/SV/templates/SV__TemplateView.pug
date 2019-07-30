@@ -194,7 +194,7 @@ script.
         addProduct: ((productattribute) => {
             if (self.Price == 'PRECIO') price = productattribute.price
             else price = self.Price
-            if (self.Quantity == 'CANTIDAD') quantity = '1'
+            if (self.Quantity == 'CANTIDAD') quantity = 1
             else quantity = self.Quantity
             if (!productattribute.isOffer){
                 productLine = self.Ticket.products.find(function(productLine) {
