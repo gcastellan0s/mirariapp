@@ -198,11 +198,6 @@ script.
             if (self.Quantity == 'CANTIDAD') quantity = '1'
             else quantity = self.Quantity
             if (!productattribute.isOffer){
-                if(isNaN(quantity)) {
-                    Swal.fire('ERROR!','Elegiste una cantidad no valida.','error')
-                    self.Quantity = 'CANTIDAD'
-                    return 0
-                }
                 if(quantity.indexOf('.')){
                     if(!productattribute.is_dynamic){
                         Swal.fire('ERROR!','Elegiste una cantidad no valida.','error')
@@ -210,6 +205,11 @@ script.
                         return 0
                     }
                     else quantity = parseFloat(quantity)
+                }
+                if(isNaN(quantity)) {
+                    Swal.fire('ERROR!','Elegiste una cantidad no valida.','error')
+                    self.Quantity = 'CANTIDAD'
+                    return 0
                 }
                 else quantity = parseInt(quantity)
                 productLine = self.Ticket.products.find(function(productLine) {
