@@ -195,7 +195,7 @@ script.
             if (self.Price == 'PRECIO') price = productattribute.price
             else price = self.Price
             if (self.Quantity == 'CANTIDAD') quantity = 1
-            else quantity = parseInt(self.Quantity)
+            else quantity = parseFloat(self.Quantity)
             if (!productattribute.isOffer){
                 productLine = self.Ticket.products.find(function(productLine) {
                     return productLine.id == productattribute.id && productLine.price == productattribute.price;
