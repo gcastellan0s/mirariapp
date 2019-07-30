@@ -480,8 +480,6 @@ class OrderService(Model_base):
         return str(self.serial)
     def url_add(self):
         return reverse('mirari:Generic__CreateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})
-    def url_update(self):
-        return reverse('mirari:Generic__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk})
     def select2filter(self, query):
         if self.request.GET.get('field') == 'technical':
             profile = apps.get_model('mirari', 'Profile').objects.filter(name__icontains=self.request.GET.get('zone'), organization__id=self.request.session['organization']).first()
