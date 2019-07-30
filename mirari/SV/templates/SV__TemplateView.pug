@@ -115,9 +115,9 @@ script.
             pendingTickets = self.Tickets.filter(function(ticket) {return (ticket.barcode == 0)})
             if(pendingTickets.length < 1) self.getStates()
         }, 300000);
-        setInterval(function(){
-            self.getOnlineStatus()
-        }, 30000); //120000);
+        //setInterval(function(){
+            //self.getOnlineStatus()
+        //}, 30000); //120000);
         //FOCUS BarCodeInput
         router.afterEach((to, from) => {
             if(to.path=='/casher'){
@@ -195,25 +195,24 @@ script.
             if (self.Price == 'PRECIO') price = productattribute.price
             else price = self.Price
 
-            if (self.Quantity == 'CANTIDAD') quantity = 1
+            if (self.Quantity == 'CANTIDAD') quantity = '1'
             else quantity = self.Quantity
             
             if (!productattribute.isOffer){
-                //if(isNaN(quantity)) {
-                    //Swal.fire('ERROR!','Elegiste una cantidad no valida.','error')
-                    //self.Quantity = 'CANTIDAD'
-                    //return 0
-                //}
-                //if(quantity.indexOf('.')){
-                    //if(!productattribute.is_dynamic){
-                        //Swal.fire('ERROR!','Elegiste una cantidad no valida.','error')
-                        //self.Quantity = 'CANTIDAD'
-                        //return 0
-                    //}
-                    //else quantity = parseFloat(quantity)
-                //}
-                //else quantity = parseInt(quantity)
-
+                if(isNaN(quantity)) {
+                    Swal.fire('ERROR!','Elegiste una cantidad no valida.','error')
+                    self.Quantity = 'CANTIDAD'
+                    return 0
+                }
+                if(quantity.indexOf('.')){
+                    if(!productattribute.is_dynamic){
+                        Swal.fire('ERROR!','Elegiste una cantidad no valida.','error')
+                        self.Quantity = 'CANTIDAD'
+                        return 0
+                    }
+                    else quantity = parseFloat(quantity)
+                }
+                else quantity = parseInt(quantity)
                 productLine = self.Ticket.products.find(function(productLine) {
                     return productLine.id == productattribute.id && productLine.price == productattribute.price;
                 });
