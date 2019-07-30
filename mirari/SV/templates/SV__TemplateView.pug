@@ -194,19 +194,9 @@ script.
         addProduct: ((productattribute) => {
             if (self.Price == 'PRECIO') price = productattribute.price
             else price = self.Price
-
             if (self.Quantity == 'CANTIDAD') quantity = '1'
             else quantity = self.Quantity
             if (!productattribute.isOffer){
-                if(quantity.indexOf('.')){
-                    if(!productattribute.is_dynamic){
-                        Swal.fire('ERROR!','Elegiste una cantidad no valida.','error')
-                        self.Quantity = 'CANTIDAD'
-                        return 0
-                    }
-                    else quantity = parseFloat(quantity)
-                }
-                else quantity = parseInt(quantity)
                 productLine = self.Ticket.products.find(function(productLine) {
                     return productLine.id == productattribute.id && productLine.price == productattribute.price;
                 });
