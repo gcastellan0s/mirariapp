@@ -206,11 +206,6 @@ script.
                     }
                     else quantity = parseFloat(quantity)
                 }
-                if(isNaN(quantity)) {
-                    Swal.fire('ERROR!','Elegiste una cantidad no valida.','error')
-                    self.Quantity = 'CANTIDAD'
-                    return 0
-                }
                 else quantity = parseInt(quantity)
                 productLine = self.Ticket.products.find(function(productLine) {
                     return productLine.id == productattribute.id && productLine.price == productattribute.price;
