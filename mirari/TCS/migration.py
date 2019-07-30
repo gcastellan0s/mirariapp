@@ -157,7 +157,6 @@ with open('temp/tecnoservicio/ordenes_orden.csv') as csv_file:
         orderService.id_bckp = row[0]
         orderService.comments = row[24]
         orderService.save()
-            
 
 with open('temp/tecnoservicio/ordenes_concepto.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
