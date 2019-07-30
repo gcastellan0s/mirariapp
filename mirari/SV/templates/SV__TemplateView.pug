@@ -133,14 +133,14 @@ script.
     {%block methods%}
         {{block.super}}
         getOnlineStatus: (()=> {
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getOnlineStatus', {}, false, 3000).then((json)=>{
-                if (self.Offline){
-                    self.sendPendings()
-                }
-                self.Offline = false
-            }).catch((error) => {
-                self.Offline = true
-            });
+            //Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getOnlineStatus', {}, false, 3000).then((json)=>{
+                //if (self.Offline){
+                    //self.sendPendings()
+                //}
+                //self.Offline = false
+            //}).catch((error) => {
+                //self.Offline = true
+            //});
         }), 
         getStates: ((postFunctions=false, updateTickets=true) => {
             if (postFunctions) Block('Actualizando configuracion...')
