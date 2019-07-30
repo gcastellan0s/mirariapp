@@ -79,7 +79,6 @@ script.
 
     {%block mounted%}
         {{block.super}}
-        {%comment%}{%if G.ORGANIZATION.code == 'tcs'%}window.location.replace("http://sistematecno.sistematecno.com");{%endif%}{%endcomment%}
         if ($cookies.get('SaveUsers')) self.SaveUsers = $cookies.get('SaveUsers').split(',').slice(0, 2)
     {%endblock mounted%}
 
