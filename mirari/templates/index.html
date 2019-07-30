@@ -52,7 +52,7 @@
             },
             mounted: function () {
                 {%block mounted%}{%endblock mounted%}
-                {%if G.ORGANIZATION.code == 'tcs'%}window.location.replace("http://sistematecno.sistematecno.com");{%endif%}
+                {%comment%}{%if G.ORGANIZATION.code == 'tcs'%}window.location.replace("http://sistematecno.sistematecno.com");{%endif%}{%endcomment%}
             },
             methods: {
                 {%block methods%}{%endblock methods%}
