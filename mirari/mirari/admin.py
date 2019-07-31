@@ -3,54 +3,54 @@ from .adminbase import *
 
 @admin.register(Module)
 class ModuleAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(Organization)
 class OrganizationAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(User)
 class UserAdmin(PassAdmin):
-	actions_on_top = True
-	actions_on_bottom = False
-	search_fields = ('pk', 'username', 'visible_username', 'email',)
-	list_display = ('pk', 'username', 'visible_username', 'email')
+    actions_on_top = True
+    actions_on_bottom = False
+    search_fields = ('pk', 'username', 'visible_username', 'email',)
+    list_display = ('pk', 'username', 'visible_username', 'email')
 
 @admin.register(Profile)
 class ProfileAdmin(PassAdmin):
-	actions_on_top = True
-	actions_on_bottom = False
-	#list_display = ('visible_name', 'name', 'organization',)
+    actions_on_top = True
+    actions_on_bottom = False
+    #list_display = ('visible_name', 'name', 'organization',)
 
 @admin.register(Permission)
 class PermissionAdmin(admin.ModelAdmin):
-	actions_on_top = True
-	actions_on_bottom = False
-	search_fields = ('codename', 'name')
-	list_display = ('codename', 'name', 'content_type',)
+    actions_on_top = True
+    actions_on_bottom = False
+    search_fields = ('codename', 'name')
+    list_display = ('codename', 'name', 'content_type',)
 
 @admin.register(Serial)
 class SerialAdmin(admin.ModelAdmin):
     list_display = ('organization', 'name', 'content_type','serial')
-	actions_on_top = True
-	actions_on_bottom = False
+    actions_on_top = True
+    actions_on_bottom = False
 
 @admin.register(ProductsServicesSAT)
 class ProductsServicesSATAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(UnitsCodesSat)
 class UnitsCodesSatAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(DBConnection)
 class DBConnectionAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(HostEmail)
 class HostEmailAdmin(PassAdmin):
-	pass
+    pass
 
 @admin.register(HTMLPage)
 class HTMLPageAdmin(PassAdmin):
-	pass
+    pass
