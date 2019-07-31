@@ -29,6 +29,12 @@ class PermissionAdmin(admin.ModelAdmin):
 	search_fields = ('codename', 'name')
 	list_display = ('codename', 'name', 'content_type',)
 
+@admin.register(Serial)
+class SerialAdmin(admin.ModelAdmin):
+    list_display = ('organization', 'name', 'content_type','serial')
+	actions_on_top = True
+	actions_on_bottom = False
+
 @admin.register(ProductsServicesSAT)
 class ProductsServicesSATAdmin(PassAdmin):
 	pass
