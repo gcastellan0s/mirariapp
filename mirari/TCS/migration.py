@@ -56,13 +56,13 @@ with open('temp/mexicof/ordenes_tienda.csv') as csv_file:
         store = Store.objects.filter(id_bckp=row[0], company__organization=o).first()
         if not store:
             store = Store()
-            store.company = Company.objects.filter(id_bckp=row[5], organization=o).first()
-            store.state = row[2]
-            store.adress = row[3]
-            store.phone = row[4]
-            store.name = row[1]
-            store.id_bckp = row[0]
-            store.save()
+        store.company = Company.objects.filter(id_bckp=row[5], organization=o).first()
+        store.state = row[2]
+        store.adress = row[3]
+        store.phone = row[4]
+        store.name = row[1]
+        store.id_bckp = row[0]
+        store.save()
 
 with open('temp/mexicof/ordenes_marca.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
@@ -70,10 +70,10 @@ with open('temp/mexicof/ordenes_marca.csv') as csv_file:
         brand = Brand.objects.filter(id_bckp=row[0], organization=o).first()
         if not brand:
             brand = Brand()
-            brand.organization = o
-            brand.name = row[1]
-            brand.id_bckp = row[0]
-            brand.save()
+        brand.organization = o
+        brand.name = row[1]
+        brand.id_bckp = row[0]
+        brand.save()
 
 with open('temp/mexicof/ordenes_modelo.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
@@ -81,11 +81,11 @@ with open('temp/mexicof/ordenes_modelo.csv') as csv_file:
         modelo = Modelo.objects.filter(id_bckp=row[0], brand__organization=o).first()
         if not modelo:
             modelo = Modelo()
-            modelo.brand = Brand.objects.filter(id_bckp=row[3], organization=o).first()
-            modelo.name = row[1]
-            modelo.description = row[2]
-            modelo.id_bckp = row[0]
-            modelo.save()
+        modelo.brand = Brand.objects.filter(id_bckp=row[3], organization=o).first()
+        modelo.name = row[1]
+        modelo.description = row[2]
+        modelo.id_bckp = row[0]
+        modelo.save()
             
 
 with open('temp/mexicof/ordenes_orden.csv') as csv_file:
