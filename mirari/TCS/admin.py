@@ -8,7 +8,7 @@ class CompanyAdmin(PassAdmin):
 
 @admin.register(Store)
 class StoreAdmin(PassAdmin):
-	pass
+	list_display = ('id', 'name', 'id_bckp',)
 
 @admin.register(Brand)
 class BrandAdmin(PassAdmin):
