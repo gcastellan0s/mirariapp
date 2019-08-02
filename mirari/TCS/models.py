@@ -545,7 +545,7 @@ class OrderService(Model_base):
                 elif self.concept == 'Servicio':
                     orderServiceConcept.concept = '**Servicio'
                     orderServiceConcept.quantity = 750
-            if self.service == 'Tc2':
+            if self.service == 'Tc2' or self.service == 'MexicoF':
                 if self.concept == 'Armado':
                     orderServiceConcept.concept = '**Armado'
                     orderServiceConcept.quantity = 300
