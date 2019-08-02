@@ -38,11 +38,6 @@ block content
                         input.custom-control-input(type='checkbox' v-model='credentials.remember')
                         span.custom-control-label {% trans 'Recuerdame'%}
                     button.btn.btn-primary(type='submit') {% trans 'Entrar'%}
-            {%if G.ORGANIZATION.code == 'mxf'%}
-            .text-center.text-danger.mt-3
-                a(href='http://mexicof.sistemamexicof.com' style="color:inherit") 
-                    span SI TIENES PROBLEMAS ENTRA A LA VERSIÓN ANTERIOR DANDO CLICK AQUI
-            {%endif%}
             {%if G.ORGANIZATION.code == 'tcs'%}
             .text-center.text-danger.mt-3
                 a(href='http://sistemamexicof.sistemamexicof.com' style="color:inherit") 
