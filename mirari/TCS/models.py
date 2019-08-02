@@ -476,7 +476,7 @@ class OrderService(Model_base):
         verbose_name = VARS['NAME']
         verbose_name_plural = VARS['PLURAL']
         permissions = permissions(VARS)
-        ordering = ['-id']
+        ordering = ['-serial']
     def __str__(self):
         return str(self.serial)
     def url_add(self):
