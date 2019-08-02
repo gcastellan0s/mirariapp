@@ -157,35 +157,34 @@ with open('temp/tecnoservicio/ordenes_orden.csv') as csv_file:
         orderService.id_bckp = row[0]
         orderService.comments = row[24]
         orderService.save()
-
 with open('temp/tecnoservicio/ordenes_concepto.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         orderServiceConcept = OrderServiceConcept.objects.filter(id_bckp=row[0], orderservice__organization=o).first()
         if not orderServiceConcept:
             orderServiceConcept = OrderServiceConcept()
-            orderServiceConcept.orderservice = OrderService.objects.filter(id_bckp=row[5], organization=o).first()
-            if row[6]:
-                orderServiceConcept.user = User.objects.filter(id_bckp=row[6], organization=o).first()
-            else:
-                orderServiceConcept.user = None
-            orderServiceConcept.concept = row[1]
-            orderServiceConcept.quantity = row[2]
-            orderServiceConcept.creation_date = dateutil.parser.parse(row[3])
-            orderServiceConcept.id_bckp = row[0]
-            orderServiceConcept.save()
+        orderServiceConcept.orderservice = OrderService.objects.filter(id_bckp=row[5], organization=o).first()
+        if row[6]:
+            orderServiceConcept.user = User.objects.filter(id_bckp=row[6], organization=o).first()
+        else:
+            orderServiceConcept.user = None
+        orderServiceConcept.concept = row[1]
+        orderServiceConcept.quantity = row[2]
+        orderServiceConcept.creation_date = dateutil.parser.parse(row[3])
+        orderServiceConcept.id_bckp = row[0]
+        orderServiceConcept.save()
 with open('temp/tecnoservicio/ordenes_mensaje.csv') as csv_file: 
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         orderServiceComment = OrderServiceComment.objects.filter(id_bckp=row[0], orderservice__organization=o).first()
-        if not orderServiceComment:
-            orderServiceComment = OrderServiceComment()
-            orderServiceComment.orderservice = OrderService.objects.filter(id_bckp=row[3], organization=o).first()
-            if row[4]:
-                orderServiceComment.user = User.objects.filter(id_bckp=row[4], organization=o).first()
-            else:
-                orderServiceComment.user = None
-            orderServiceComment.comment = row[2]
-            orderServiceComment.creation_date = dateutil.parser.parse(row[1])
-            orderServiceComment.id_bckp = row[0]
-            orderServiceComment.save()
+    if not orderServiceComment:
+        orderServiceComment = OrderServiceComment()
+        orderServiceComment.orderservice = OrderService.objects.filter(id_bckp=row[3], organization=o).first()
+        if row[4]:
+            orderServiceComment.user = User.objects.filter(id_bckp=row[4], organization=o).first()
+        else:
+            orderServiceComment.user = None
+        orderServiceComment.comment = row[2]
+        orderServiceComment.creation_date = dateutil.parser.parse(row[1])
+        orderServiceComment.id_bckp = row[0]
+        orderServiceComment.save()
