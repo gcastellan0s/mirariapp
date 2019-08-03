@@ -38,11 +38,13 @@ block content
                         input.custom-control-input(type='checkbox' v-model='credentials.remember')
                         span.custom-control-label {% trans 'Recuerdame'%}
                     button.btn.btn-primary(type='submit') {% trans 'Entrar'%}
+            {%comment%}                    
             {%if G.ORGANIZATION.code == 'tcs'%}
             .text-center.text-danger.mt-3
                 a(href='http://sistemamexicof.sistemamexicof.com' style="color:inherit") 
                     span SI TIENES PROBLEMAS ENTRA A LA VERSIÓN ANTERIOR DANDO CLICK AQUI
             {%endif%}
+            {%endcomment%}
             .text-center.text-muted
                 a(href='javascript:void(0)' style="color:inherit") {% trans 'Aun no tienes cuenta?'%}
             a(v-if="SaveUsers" v-for="user in SaveUsers" @click="changeUser(user)" href="javascript:void(0)")
