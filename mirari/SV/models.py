@@ -4,9 +4,6 @@ from .vars import *
 
 from mirari.mirari.viewbase import Basic_Serializer
 
-from imagekit.models import ImageSpec
-from imagekit.processors import resize
-
 IVA = settings.IVA
 IEPS = settings.IEPS
 
@@ -104,15 +101,19 @@ class Sellpoint(Model_base):
     printer = models.CharField('Impresora ID', max_length=80, blank=True, null=True)
     barcode = models.BooleanField('Muestra Escaner?', default=False, help_text='Activalo para conectar un escaner a una PC')
     haveExpenses = models.BooleanField('Crea Gastos?', default=True, help_text='Crea gastos esta sucursal?')
+
     have_credit = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     have_credit_cards = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     have_disscounts = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     have_expenses = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     have_orders = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     priority = models.IntegerField('Numero de tickets que imprime', default=0)
+
     fiscalDataTickets = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Tickets", help_text="Debes darlo de alta en la pestaña de Mi Factura")
     fiscalDataCuts = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Cortes", help_text="Debes darlo de alta en la pestaña de Mi Factura")
+
     id_bckp = models.IntegerField(blank=True, null=True)
+
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
