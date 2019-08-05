@@ -34,7 +34,7 @@ USE_I18N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-l10n
 USE_L10N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
-USE_TZ = False
+USE_TZ = True
 
 DATE_INPUT_FORMATS = ['%d/%m/%Y']
 DATETIME_INPUT_FORMATS = ['%d/%m/%Y %H:%M:%S']
