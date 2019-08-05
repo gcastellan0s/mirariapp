@@ -208,8 +208,8 @@ block content
                                             .col-4
                                                 .kt-invoice__item
                                                     p TELÉFONO:
-                                                        {%if contact_phone1 or contact_phone2%}
-                                                        strong.ml-2 {{object.contact_phone1}} {{object.contact_phone2}}
+                                                        {%if contact_phone1 or contact_phone2 or contact_phone3%}
+                                                        strong.ml-2 {{object.contact_phone1}} {{object.contact_phone2}} {{object.contact_phone3}}
                                                         {%else%}
                                                         strong.ml-2 -
                                                         {%endif%}
@@ -223,6 +223,12 @@ block content
                                                 .kt-invoice__item
                                                     p DIRECCION:
                                                         strong.ml-2 {{object.get_adress_html|safe|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-12
+                                                .kt-invoice__item
+                                                    p REFERENCIAS:
+                                                        strong.ml-2 {{object.address_reference|safe|default:'-'}}
                                     .kt-invoice__items
                                         .row
                                             .col-6
@@ -299,15 +305,18 @@ block content
                                         .row
                                             .col-12
                                                 .kt-invoice__item
-                                                    p NOTAS DEL CLIENTE:
-                                                        strong.ml-2 {{object.client_notes|default:'-'}}
-                                                .kt-invoice__item
                                                     p COMENTARIOS:
                                                         strong.ml-2 {{object.order_notes|default:'-'}}
                                                 .kt-invoice__item.d-print-none
                                                     p COMENTARIOS OCULTOS:
                                                         strong.ml-2 {{object.hidden_notes|default:'-'}}
                                     hr
+                                    .kt-invoice__items
+                                        .row
+                                            .col-12
+                                                .kt-invoice__item
+                                                    p NOTAS DEL CLIENTE:
+                                                        strong.ml-2 {{object.client_notes|default:'-'}}
                                     .kt-invoice__items
                                         .row.mb-5
                                             .col-6
