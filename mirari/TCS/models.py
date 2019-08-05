@@ -616,7 +616,9 @@ class OrderService(Model_base):
             orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.user, active=True).distinct()
         if len(view.request.GET.get('search[value]', '')) > 3:
             return orderService.filter(service_date__gt=datetime.datetime.now()-timedelta(days=365))
-        return orderService.filter(service_date__gt=datetime.datetime.now()-timedelta(days=180))
+        if 'FORANEO' in team_codes or 'LOCALES' in team_codes:
+            return orderService.filter(service_date__gt=datetime.datetime.now()-timedelta(days=365))
+        return orderService.filter(service_date__gt=datetime.datetime.now()-timedelta(days=30))
     def get_id_html(self):
         return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
     def get_serial_html(self):
