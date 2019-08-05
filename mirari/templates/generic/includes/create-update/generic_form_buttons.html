@@ -15,7 +15,7 @@
     </div>
     <div class="kt-portlet__head-toolbar">
         <div class="btn-group">
-            <button type="submit" class="btn btn-brand" name="save">
+            <button type="submit" class="btn btn-brand" name="{%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'tcs'%}save__edit{%else%}save{%endif%}">
                 <i class="la la-save"></i>
                 <span class="kt-hidden-mobile">
                     {%if not object%}

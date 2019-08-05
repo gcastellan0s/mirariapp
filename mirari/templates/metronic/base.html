@@ -202,6 +202,22 @@
                                             {% endblock menu_header %}
                                         </ul>
                                     </div>
+                                    {%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'tcs' or G.ORGANIZATION.code == 'mri'%}
+                                        <div class="kt-header-toolbar">
+                                            <div class="kt-quick-search" id="quick_search_OrderService">
+                                                <form method="get" class="kt-quick-search__form" v-on:submit.prevent="orderServiceIDSubmit">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="flaticon-list"></i>
+                                                            </span>
+                                                        </div>
+                                                        <input v-model="orderServiceID" type="text" class="form-control kt-quick-search__input" placeholder="FOLIO ORDEN...">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    {%endif%}
                                 </div>
                                 <!-- end: Header Menu -->
                             </div>
@@ -279,6 +295,7 @@
             {%endfor%}
         ],
     {%endfor%}
+    orderServiceID:'',
 {%endblock data%}
 
 {%block methods%}
@@ -288,6 +305,20 @@
         Ax('post', "{{request.user.url_update}}?api=changeOrganization", {organizationPK:organizationPK})
         .then(function(json){
             if (json.data.api) window.location.replace("{%url 'mirari:login__Organization__TemplateView'%}");
+        }).catch((error) => {
+            UnBlock()
+            Swal.fire('Algo salio mal!', error.response.data.message, 'error')
+        });
+    },
+    orderServiceIDSubmit() {
+        Block();
+        Ax('post', "{{request.user.url_update}}?api=orderServiceID", {orderServiceID:self.orderServiceID})
+        .then(function(json){
+            if(json.data.api == true) window.location.replace(json.data.url_update)
+            else {
+                Swal.fire('Algo salio mal!', 'No se encontró este folio en el sistema', 'error')
+                UnBlock()
+            }
         }).catch((error) => {
             UnBlock()
             Swal.fire('Algo salio mal!', error.response.data.message, 'error')

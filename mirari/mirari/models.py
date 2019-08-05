@@ -212,6 +212,11 @@ class User(AbstractUser, Model_base):
                 view.request.session['organization'] = view.request.POST.get('organizationPK')
                 view.request.user.save()
                 return JsonResponse({'api':True})
+        if api == 'orderServiceID':
+            orderService = apps.get_model('TCS', 'OrderService').objects.filter(serial = view.request.POST.get('orderServiceID', 0)).first()
+            if orderService:
+                return JsonResponse({'api':True, 'url_update': reverse('mirari:Generic__UpdateView', kwargs={'app': orderService.VARS['APP'], 'model': orderService.VARS['MODEL'], 'pk': orderService.pk})})
+            return JsonResponse({'api':False, })
         return JsonResponse({'message':'No se encontro el método'}, status=500)
     def url_list(self):
         return reverse('mirari:User__ListView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL']})

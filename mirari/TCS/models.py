@@ -605,6 +605,8 @@ class OrderService(Model_base):
                 query = query.filter(zone = view.request.GET.get('zone'))
             serializer = OrderServiceCalendar_Serializer(query, many=True)
             return JsonResponse(serializer.data,  safe=False)
+        if api == 'getOrderURL':    
+            return JsonResponse({'api':'ok'})
         return JsonResponse({'message':'No se encontro el método'}, status=500)
     def QUERY(self, view):
         team_codes = view.request.user.get_groups()
