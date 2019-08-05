@@ -562,7 +562,8 @@ class OrderService(Model_base):
                 elif self.concept == 'Servicio':
                     orderServiceConcept.concept = '**Servicio'
                     orderServiceConcept.quantity = 750
-            orderServiceConcept.save()
+            if not self.service == 'eComerce':
+                orderServiceConcept.save()
     def FORM_VALID(self, view, form):
         if not form.instance.pk:
             form.instance.user = view.request.user

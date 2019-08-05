@@ -136,6 +136,7 @@ SERVICIO = (
 	('Icon', 'Icon'),
 	('Tecnoservicio', 'Tecnoservicio'),
     ('MexicoF', 'MexicoF'),
+    ('eComerce', 'eComerce'),
 )
 
 ZONAS = (
