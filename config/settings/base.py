@@ -30,9 +30,9 @@ LANGUAGE_CODE = 'es-MX'
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 #SITE_ID = 1
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
-USE_I18N = False
+USE_I18N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-l10n
-USE_L10N = False
+USE_L10N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = False
 
