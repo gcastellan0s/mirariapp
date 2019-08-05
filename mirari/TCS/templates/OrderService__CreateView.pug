@@ -32,18 +32,29 @@ block content
                                             .col-8
                                                 .row
                                                     .col-6(style='text-align: center;color: inherit;')
+                                                        {%if G.ORGANIZATION.code == 'tcs'%}
                                                         img(src="{%static 'pages/tecnoservicio/img/icon_ordenes.png'%}")
+                                                        {%endif%}
                                                         p.mb-0 Tel. 01800 6819542
                                                     .col-6(style='text-align: center;color: inherit;')
                                                         img(src='{{G.MEDIA}}{{ G.ORGANIZATION.LOGO }}' style='max-width: 200px;')
+                                                        {%if G.ORGANIZATION.code == 'tcs'%}
                                                         p.mb-0 www.caminadorasygimnasios.com
+                                                        p.mb-0 servicio@mexicof.com
+                                                        p.mb-0 Tel. 53353837 / 11067518
+                                                        {%endif%}
+                                                        {%if G.ORGANIZATION.code == 'mxf'%}
+                                                        p.mb-0 www.mexicof.com
                                                         p.mb-0 servicio@caminadorasygimnasios.com
                                                         p.mb-0 Tel. 53353837 / 11067518
+                                                        {%endif%}
                                             .col-4
                                                 .row
                                                     .col-6(style='text-align:right;')
                                                         p.mb-0.h3 OS: {{object.serial}}
+                                                        {%comment%}
                                                         p.mb-0.h5 TOTAL: $ ${total|makeTotalConcepts|formatPrice}
+                                                        {%endcomment%}
                                                     .col-6(style='text-align:right;')
                                                         p.mb-0 ALTA: {{object.creation_date|date:"SHORT_DATETIME_FORMAT"}}
                                                         p.mb-0 TIPO: 
@@ -191,18 +202,29 @@ block content
                                             .col-8
                                                 .row
                                                     .col-6(style='text-align: center;color: inherit;')
+                                                        {%if G.ORGANIZATION.code == 'tcs'%}
                                                         img(src="{%static 'pages/tecnoservicio/img/icon_ordenes.png'%}")
+                                                        {%endif%}
                                                         p.mb-0 Tel. 01800 6819542
                                                     .col-6(style='text-align: center;color: inherit;')
                                                         img(src='{{G.MEDIA}}{{ G.ORGANIZATION.LOGO }}' style='max-width: 200px;')
+                                                        {%if G.ORGANIZATION.code == 'tcs'%}
                                                         p.mb-0 www.caminadorasygimnasios.com
+                                                        p.mb-0 servicio@mexicof.com
+                                                        p.mb-0 Tel. 53353837 / 11067518
+                                                        {%endif%}
+                                                        {%if G.ORGANIZATION.code == 'mxf'%}
+                                                        p.mb-0 www.mexicof.com
                                                         p.mb-0 servicio@caminadorasygimnasios.com
                                                         p.mb-0 Tel. 53353837 / 11067518
+                                                        {%endif%}
                                             .col-4
                                                 .row
                                                     .col-6(style='text-align:right;')
                                                         p.mb-0.h3 OS: {{object.serial}}
+                                                        {%comment%}
                                                         p.mb-0.h5 TOTAL: $ ${total|makeTotalConcepts|formatPrice}
+                                                        {%endcomment%}
                                                     .col-6(style='text-align:right;')
                                                         p.mb-0 ALTA: {{object.creation_date|date:"SHORT_DATETIME_FORMAT"}}
                                                         p.mb-0 TIPO: 
@@ -394,7 +416,9 @@ block content
                     .kt-widget4__item
                         .kt-widget4__body
                             p.kt-widget4__text.my-0 {{object.get_user_html|safe}}
+                            {% language 'es-MX' %}
                             p.kt-widget4__text.my-0 {{object.get_creation_date_html|safe}}
+                            {% endlanguage %}
             {%if not 'LOCAL' in request.user.get_groups and not 'FORANEO' in request.user.get_groups%}
             {% if perms.TCS.Can_Update__OrderService %}
             .kt-portlet.kt-portlet
@@ -455,9 +479,7 @@ block content
                         span
                             i.la.la-envelope
                             span ENVIAR comentario
-        {%endif%}
-    
-                    
+        {%endif%}                    
     
 
 block js

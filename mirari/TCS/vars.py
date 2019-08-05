@@ -131,16 +131,18 @@ ESTATUS= (
 	('Cancelada', 'Cancelada'),
 	('Especial', 'Especial'),
 )
+
 SERVICIO = (
 	('Icon', 'Icon'),
 	('Tecnoservicio', 'Tecnoservicio'),
-    ('Tc2', 'Tc2'),
     ('MexicoF', 'MexicoF'),
 )
+
 ZONAS = (
 	('Local', 'Local'),
 	('Foraneo', 'Foraneo'),
 )
+
 CONCEPTO = (
 	('Armado', 'Armado'),# $23, $650, 
 	('Revision', 'Revision'),# $50, $350
@@ -148,5 +150,3 @@ CONCEPTO = (
 	('Mantenimiento', 'Mantenimiento'),# $50, $750
     ('Servicio', 'Servicio'),# $50, $750
 )
-
-#-300, 

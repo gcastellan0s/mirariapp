@@ -526,7 +526,7 @@ class OrderService(Model_base):
                     orderServiceConcept.quantity = 50
                 elif self.concept == 'Mantenimiento':
                     orderServiceConcept.concept = '**Mantenimiento'
-                    orderServiceConcept.quantity = 50
+                    orderServiceConcept.quantity = 65
                 elif self.concept == 'Servicio':
                     orderServiceConcept.concept = '**Servicio'
                     orderServiceConcept.quantity = 50
@@ -546,22 +546,22 @@ class OrderService(Model_base):
                 elif self.concept == 'Servicio':
                     orderServiceConcept.concept = '**Servicio'
                     orderServiceConcept.quantity = 750
-            if self.service == 'Tc2' or self.service == 'MexicoF':
+            if self.service == 'MexicoF':
                 if self.concept == 'Armado':
                     orderServiceConcept.concept = '**Armado'
-                    orderServiceConcept.quantity = 300
+                    orderServiceConcept.quantity = 650
                 elif self.concept == 'Revision':
                     orderServiceConcept.concept = '**Revision'
-                    orderServiceConcept.quantity = 300
+                    orderServiceConcept.quantity = 350
                 elif self.concept == 'OrdenesIcon':
                     orderServiceConcept.concept = '**Orden Icon'
-                    orderServiceConcept.quantity = 300
+                    orderServiceConcept.quantity = 50
                 elif self.concept == 'Mantenimiento':
                     orderServiceConcept.concept = '**Mantenimiento'
-                    orderServiceConcept.quantity = 300
+                    orderServiceConcept.quantity = 750
                 elif self.concept == 'Servicio':
                     orderServiceConcept.concept = '**Servicio'
-                    orderServiceConcept.quantity = 300
+                    orderServiceConcept.quantity = 750
             orderServiceConcept.save()
     def FORM_VALID(self, view, form):
         if not form.instance.pk:
@@ -631,7 +631,7 @@ class OrderService(Model_base):
         return """
             <i class="fa fa-calendar m--icon-font-size-sm5 mr-1 text-muted"></i>
             {0}<br />
-            """.format(self.creation_date.strftime('%d %b %Y %I:%M %p'))
+            """.format(self.creation_date.strftime('%d/%m/%Y %I:%M %p'))
     def get_user_html(self):
         return """
             <i class="fa fa-user-edit m--icon-font-size-sm5 mr-1 text-muted"></i> 
@@ -663,7 +663,7 @@ class OrderService(Model_base):
             return ''
     def get_service_date_html(self):
         if self.service_date:
-            return """<i class="fa fa-calendar-check m--icon-font-size-sm5 mr-1 text-muted"></i><strong>{0}</strong><br />""".format(self.service_date.strftime('%d %b %Y'))
+            return """<i class="fa fa-calendar-check m--icon-font-size-sm5 mr-1 text-muted"></i><strong>{0}</strong><br />""".format(self.service_date.strftime('%d/%m/%Y'))
         else:
             return '<i class="fa fa-calendar m--icon-font-size-sm5 mr-1 text-muted"></i>'
     def get_client_name_html(self):
