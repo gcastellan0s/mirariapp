@@ -69,7 +69,7 @@ block content
                                             .col-4
                                                 .kt-invoice__item
                                                     p TELÉFONO:
-                                                        {%if contact_phone1 or contact_phone2 or contact_phone3%}
+                                                        {%if object.contact_phone1 or object.contact_phone2 or object.contact_phone3%}
                                                         strong.ml-2 {{object.contact_phone1}} {{object.contact_phone2}} {{object.contact_phone3}}
                                                         {%else%}
                                                         strong.ml-2 -
@@ -239,7 +239,7 @@ block content
                                             .col-4
                                                 .kt-invoice__item
                                                     p TELÉFONO:
-                                                        {%if contact_phone1 or contact_phone2 or contact_phone3%}
+                                                        {%if object.contact_phone1 or object.contact_phone2 or object.contact_phone3%}
                                                         strong.ml-2 {{object.contact_phone1}} {{object.contact_phone2}} {{object.contact_phone3}}
                                                         {%else%}
                                                         strong.ml-2 -
