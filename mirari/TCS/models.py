@@ -297,7 +297,7 @@ VARS = {
         },
     ],
     'LISTLENGTH': 10,
-    'SEARCH': ['serial', 'client_name', 'email'],
+    'SEARCH': ['serial', 'client_name', 'email', 'icon_ics', 'icon_ics_2', 'icon_ics_3', 'serial_number', 'icon_os', 'icon_on', 'icon_cn'],
     'SELECTQ': {
         'technical': {
             'model': ['mirari', 'User'],
