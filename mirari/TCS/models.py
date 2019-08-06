@@ -80,6 +80,8 @@ class Store(Model_base):
         ordering = ['-id_bckp']
     def __str__(self):
         return self.name
+    def my_organization(self):
+        return self.company.organization
     def QUERY(self, view):
         return Store.objects.filter(company__organization__pk=view.request.session.get('organization'), active=True)
     def getCompany(self):

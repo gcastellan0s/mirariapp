@@ -80,7 +80,7 @@ VARS = {
             'plugin': 'select2',
         },
     },
-    'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','printer','barcode','number_tickets','haveExpenses','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1', 'fiscalDataTickets', 'fiscalDataCuts'),
+    'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','printer','barcode','number_tickets','haveExpenses','haveExchange','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1', 'fiscalDataTickets', 'fiscalDataCuts'),
 }
 class Sellpoint(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
@@ -104,6 +104,7 @@ class Sellpoint(Model_base):
     printer = models.CharField('Impresora ID', max_length=80, blank=True, null=True)
     barcode = models.BooleanField('Muestra Escaner?', default=False, help_text='Activalo para conectar un escaner a una PC')
     haveExpenses = models.BooleanField('Crea Gastos?', default=True, help_text='Crea gastos esta sucursal?')
+    haveExchange = models.BooleanField('Entrega cambio', default=False, help_text='Entrega cámbio?')
 
     have_credit = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     have_credit_cards = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
