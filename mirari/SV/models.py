@@ -4,7 +4,7 @@ from .vars import *
 
 from mirari.mirari.viewbase import Basic_Serializer
 
-from imagekit.models import ImageSpecField
+from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFill
 
 IVA = settings.IVA
@@ -387,8 +387,7 @@ class Product(Model_base):
     bar_code = models.CharField('Código de Barras ', max_length=250, blank=True, null=True, help_text='')
     is_dynamic = models.BooleanField('Precio dinámico ', default=False, help_text='El precio es dinámico? (sugerido)')
     is_favorite = models.BooleanField('Es favorito? ', default=False, help_text='Este producto es favorito? (sugerido)')
-    photo = ProcessedImageField(upload_to=pathProductImage, blank=True, null=True, verbose_name="Imagen del producto", help_text="Esta imagen se muestra en el botón del punto de venta")
-    photo_thumbnail = ImageSpecField(source='photo', processors=[ResizeToFill(100, 100)], format='JPEG', options={'quality': 60})
+    photo = ProcessedImageField(upload_to=pathProductImage, processors=[ResizeToFill(400, 200)], format='JPEG', options={'quality': 60}, blank=True, null=True, verbose_name="Imagen del producto", help_text="Esta imagen se muestra en el botón del punto de venta")
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
