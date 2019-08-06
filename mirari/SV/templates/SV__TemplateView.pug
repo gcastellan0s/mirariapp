@@ -723,7 +723,8 @@ script.
             return object.includes(element)
         }),
         getPhoto: ((productattribute) => {
-            return productattribute.product.photo
+            console.log(productattribute)
+            return productattribute.product.photo_thumbnail
         }),
     {%endblock methods%}
 
