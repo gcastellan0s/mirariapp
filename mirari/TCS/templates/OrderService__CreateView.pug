@@ -431,10 +431,12 @@ block content
                                     select#id_status.form-control(name='status', required='', v-model='status')
                                         option(v-for='option in status_options', v-bind:value='option.value') ${option.text}
             {%endif%}
+            {%endif%}
             a.btn.btn-brand.kt-btn.kt-btn--icon.kt-btn--wide.kt-btn--md.mb-4(href='#', v-on:click.prevent='print_order()')
                 span
                     i.la.la-print
                     span IMPRIMIR orden
+            {%if not 'LOCAL' in request.user.get_groups and not 'FORANEO' in request.user.get_groups%}
             {% if perms.TCS.Can_Create__OrderServiceConcept %}
             .kt-portlet.kt-portlet
                 .kt-portlet__body
