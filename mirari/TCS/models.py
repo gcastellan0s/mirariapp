@@ -509,65 +509,65 @@ class OrderService(Model_base):
             else:
                 query = query.none()
         return query
-    def save(self, *args, **kwargs):
-        if not self.serial:
-            self.serial = Serial.objects.filter(organization=self.organization, content_type=ContentType.objects.get_for_model(self)).first().get_serial()
-        orderServiceConcept = None
-        if not self.pk:
-            orderServiceConcept = OrderServiceConcept()
-        super().save()
-        if orderServiceConcept:
-            orderServiceConcept.orderservice = self
-            if self.service == 'Icon':
-                if self.concept == 'Armado':
-                    orderServiceConcept.concept = '**Armado'
-                    orderServiceConcept.quantity = 23
-                elif self.concept == 'Revision':
-                    orderServiceConcept.concept = '**Revision'
-                    orderServiceConcept.quantity = 50
-                elif self.concept == 'OrdenesIcon':
-                    orderServiceConcept.concept = '**Orden Icon'
-                    orderServiceConcept.quantity = 50
-                elif self.concept == 'Mantenimiento':
-                    orderServiceConcept.concept = '**Mantenimiento'
-                    orderServiceConcept.quantity = 65
-                elif self.concept == 'Servicio':
-                    orderServiceConcept.concept = '**Servicio'
-                    orderServiceConcept.quantity = 50
-            if self.service == 'Tecnoservicio':
-                if self.concept == 'Armado':
-                    orderServiceConcept.concept = '**Armado'
-                    orderServiceConcept.quantity = 650
-                elif self.concept == 'Revision':
-                    orderServiceConcept.concept = '**Revision'
-                    orderServiceConcept.quantity = 350
-                elif self.concept == 'OrdenesIcon':
-                    orderServiceConcept.concept = '**Orden Icon'
-                    orderServiceConcept.quantity = 50
-                elif self.concept == 'Mantenimiento':
-                    orderServiceConcept.concept = '**Mantenimiento'
-                    orderServiceConcept.quantity = 750
-                elif self.concept == 'Servicio':
-                    orderServiceConcept.concept = '**Servicio'
-                    orderServiceConcept.quantity = 750
-            if self.service == 'MexicoF':
-                if self.concept == 'Armado':
-                    orderServiceConcept.concept = '**Armado'
-                    orderServiceConcept.quantity = 650
-                elif self.concept == 'Revision':
-                    orderServiceConcept.concept = '**Revision'
-                    orderServiceConcept.quantity = 350
-                elif self.concept == 'OrdenesIcon':
-                    orderServiceConcept.concept = '**Orden Icon'
-                    orderServiceConcept.quantity = 50
-                elif self.concept == 'Mantenimiento':
-                    orderServiceConcept.concept = '**Mantenimiento'
-                    orderServiceConcept.quantity = 750
-                elif self.concept == 'Servicio':
-                    orderServiceConcept.concept = '**Servicio'
-                    orderServiceConcept.quantity = 750
-            if not self.service == 'eComerce':
-                orderServiceConcept.save()
+    #def save(self, *args, **kwargs):
+        #if not self.serial:
+            #self.serial = Serial.objects.filter(organization=self.organization, content_type=ContentType.objects.get_for_model(self)).first().get_serial()
+        #orderServiceConcept = None
+        #if not self.pk:
+            #orderServiceConcept = OrderServiceConcept()
+        #super().save()
+        #if orderServiceConcept:
+            #orderServiceConcept.orderservice = self
+            #if self.service == 'Icon':
+                #if self.concept == 'Armado':
+                    #orderServiceConcept.concept = '**Armado'
+                    #orderServiceConcept.quantity = 23
+                #elif self.concept == 'Revision':
+                    #orderServiceConcept.concept = '**Revision'
+                    #orderServiceConcept.quantity = 50
+                #elif self.concept == 'OrdenesIcon':
+                    #orderServiceConcept.concept = '**Orden Icon'
+                    #orderServiceConcept.quantity = 50
+                #elif self.concept == 'Mantenimiento':
+                    #orderServiceConcept.concept = '**Mantenimiento'
+                    #orderServiceConcept.quantity = 65
+                #elif self.concept == 'Servicio':
+                    #orderServiceConcept.concept = '**Servicio'
+                    #orderServiceConcept.quantity = 50
+            #if self.service == 'Tecnoservicio':
+                #if self.concept == 'Armado':
+                    #orderServiceConcept.concept = '**Armado'
+                    #orderServiceConcept.quantity = 650
+                #elif self.concept == 'Revision':
+                    #orderServiceConcept.concept = '**Revision'
+                    #orderServiceConcept.quantity = 350
+                #elif self.concept == 'OrdenesIcon':
+                    #orderServiceConcept.concept = '**Orden Icon'
+                    #orderServiceConcept.quantity = 50
+                #elif self.concept == 'Mantenimiento':
+                    #orderServiceConcept.concept = '**Mantenimiento'
+                    #orderServiceConcept.quantity = 750
+                #elif self.concept == 'Servicio':
+                    #orderServiceConcept.concept = '**Servicio'
+                    #orderServiceConcept.quantity = 750
+            #if self.service == 'MexicoF':
+                #if self.concept == 'Armado':
+                    #orderServiceConcept.concept = '**Armado'
+                    #orderServiceConcept.quantity = 650
+                #elif self.concept == 'Revision':
+                    #orderServiceConcept.concept = '**Revision'
+                    #orderServiceConcept.quantity = 350
+                #elif self.concept == 'OrdenesIcon':
+                    #orderServiceConcept.concept = '**Orden Icon'
+                    #orderServiceConcept.quantity = 50
+                #elif self.concept == 'Mantenimiento':
+                    #orderServiceConcept.concept = '**Mantenimiento'
+                    #orderServiceConcept.quantity = 750
+                #elif self.concept == 'Servicio':
+                    #orderServiceConcept.concept = '**Servicio'
+                    #orderServiceConcept.quantity = 750
+            #if not self.service == 'eComerce':
+                #orderServiceConcept.save()
     def FORM_VALID(self, view, form):
         if not form.instance.pk:
             form.instance.user = view.request.user
@@ -793,7 +793,7 @@ class OrderServiceComment(Model_base):
     orderservice = models.ForeignKey('OrderService', on_delete=models.CASCADE, related_name='+',)
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
     comment = models.TextField()
-    creation_date = models.DateTimeField(auto_now_add=True, editable=True)
+    creation_date = models.DateTimeField()
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
@@ -823,7 +823,7 @@ class OrderServiceConcept(Model_base):
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
     concept = models.CharField(max_length=250, blank=True,)
     quantity = models.FloatField()
-    creation_date = models.DateTimeField(auto_now_add=True, editable=True)
+    creation_date = models.DateTimeField()
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
