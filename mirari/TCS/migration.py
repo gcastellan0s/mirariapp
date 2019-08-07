@@ -193,7 +193,7 @@ with open('temp/tecnoservicio/ordenes_mensaje.csv') as csv_file:
                     orderServiceComment.user = None
                 orderServiceComment.comment = row[2]
                 orderServiceComment.id_bckp = row[0]
-            orderServiceComment.creation_date = dateutil.parser.parse(row[1])v
+            orderServiceComment.creation_date = dateutil.parser.parse(row[1])
             orderServiceComment.save()
         except Exception as e:
             print(str(e))
