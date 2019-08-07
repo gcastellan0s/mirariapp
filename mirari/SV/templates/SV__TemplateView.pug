@@ -185,6 +185,7 @@ script.
             PublicSocket = io.connect('http://50.18.229.242:8002');
             PublicSocket.emit('room', '{{request.user.organization.code}}');
             PublicSocket.on('Recibe_Event', (event, data) => {
+                console.log(event, data)
                 if (event == 'getStates') self.recibeGetStates(data);
                 if (event == 'printerConection') self.recibePrinterConection(data);
                 if (event == 'sendTicket') self.recibePrintTicket(data);
