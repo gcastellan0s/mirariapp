@@ -177,6 +177,8 @@ class Modelo(Model_base):
         return Modelo.objects.filter(brand__company__organization__pk=view.request.session.get('organization'), active=True).distinct()
     def getBrand(self):
         return self.brand.name
+    def my_organization(self):
+        return self.brand.organization
 
 ########################################################################################
 VARS = {
@@ -431,7 +433,7 @@ class OrderService(Model_base):
     estatus_choices = ESTATUS
     serial = models.IntegerField(verbose_name="Folio de la orden")
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-    creation_date = models.DateTimeField(auto_now_add=True, editable=True)
+    creation_date = models.DateTimeField()
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
     technical = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True, verbose_name="Tecnico")
     status = models.CharField(max_length=250, choices=ESTATUS, verbose_name="Estatus", default="Nueva") #Esta parte esta agregada directamente al codigo OrderService__CreateView.html
