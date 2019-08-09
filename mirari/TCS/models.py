@@ -760,24 +760,24 @@ class OrderService(Model_base):
         elif self.status == 'Espera de refacciones':
             return 'fc-event-warning fc-event-solid-warning'
         elif self.status == 'Terminada':
-            return 'fc-event-dark fc-event-solid-dark'
+            return 'fc-event-info fc-event-solid-info'
         elif self.status == 'Cancelada':
             return 'fc-event-danger fc-event-solid-danger'
         elif self.status == 'Especial':
             return 'fc-event-success fc-event-solid-success'
-        return 'fc-event-info fc-event-solid-info'
+        return 'fc-event-dark fc-event-solid-dark'
     def getColorStatus(self):
         if self.status == 'Alerta':
             return 'text-warning'
         elif self.status == 'Espera de refacciones':
             return 'text-warning'
         elif self.status == 'Terminada':
-            return 'text-dark'
+            return 'text-info'
         elif self.status == 'Cancelada':
             return 'text-danger'
         elif self.status == 'Especial':
             return 'text-success'
-        return 'text-info'
+        return 'text-dark'
 
 ########################################################################################
 VARS = {
