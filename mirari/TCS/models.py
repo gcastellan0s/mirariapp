@@ -639,7 +639,7 @@ class OrderService(Model_base):
         return """
             <i class="fa fa-calendar m--icon-font-size-sm5 mr-1 text-muted"></i>
             {0}<br />
-            """.format(self.creation_date.pytz.strftime('%d/%m/%Y %I:%M %p'))
+            """.format(self.creation_date.strftime('%d/%m/%Y %I:%M %p'))
     def get_user_html(self):
         return """
             <i class="fa fa-user-edit m--icon-font-size-sm5 mr-1 text-muted"></i> 
