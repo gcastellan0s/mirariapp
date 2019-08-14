@@ -132,6 +132,13 @@ ESTATUS= (
 	('Especial', 'Especial'),
 )
 
+SERVICIO = (
+	('Icon', 'Icon'),
+	('Tecnoservicio', 'Tecnoservicio'),
+    ('MexicoF', 'MexicoF'),
+    ('eComerce', 'eCommerce'),
+)
+
 ZONAS = (
 	('Local', 'Local'),
 	('Foraneo', 'Foraneo'),

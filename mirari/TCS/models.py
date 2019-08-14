@@ -216,14 +216,6 @@ class OrderServiceInformation(Model_base):
     def QUERY(self, view):
         return OrderServiceInformation.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
 
-
-
-SERVICIO = (
-	('Icon', 'Icon'),
-	('Tecnoservicio', 'Tecnoservicio'),
-    ('MexicoF', 'MexicoF'),
-    ('eComerce', 'eCommerce'),
-)
 ########################################################################################
 VARS = {
     'NAME':'Orden de servicio',
