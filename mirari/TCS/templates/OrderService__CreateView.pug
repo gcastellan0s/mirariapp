@@ -60,6 +60,7 @@ block content
                                                         p.mb-0 TIPO: 
                                                             strong.ml-2 {{object.service}}
                                                         p.mb-0 TÉCNICO: {{object.technical|upper}}
+                                                        p.mb-0 OPERADOR: {{object.user|upper}}
                                     .kt-invoice__items
                                         .row
                                             .col-4
@@ -230,6 +231,7 @@ block content
                                                         p.mb-0 TIPO: 
                                                             strong.ml-2 {{object.service}}
                                                         p.mb-0 TÉCNICO: {{object.technical|upper}}
+                                                        p.mb-0 OPERADOR: {{object.user|upper}}
                                     .kt-invoice__items
                                         .row
                                             .col-4
@@ -408,9 +410,11 @@ block content
                 .kt-portlet__head.kt-portlet__head--noborder
                     .kt-portlet__head-label
                         h2.text-light ID: {{object.serial}}  
+                {%if not 'LOCAL' in request.user.get_groups and not 'FORANEO' in request.user.get_groups%}
                 .kt-portlet__head.kt-portlet__head--noborder(style="min-height:35px;")
                     .kt-portlet__head-label
                         h4.text-light TOTAL: $ ${total|makeTotalConcepts|formatPrice}
+                {%endif%}
             .kt-portlet.kt-portlet
                 .kt-portlet__body
                     .kt-widget4__item
@@ -512,6 +516,12 @@ script.
         {%if object%}
             self.addConcept();
             self.addComment();
+        {%endif%}
+        {%if request.user.organization.id == 3%}
+            $("[for=id_id_service_3]").hide()
+        {%else if request.user.organization.id == 6%}
+            $("[for=id_id_service_2]").hide()
+            $("[for=id_id_service_4]").hide()
         {%endif%}
     {%endblock created%}
 

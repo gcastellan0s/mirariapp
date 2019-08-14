@@ -184,10 +184,12 @@ with open('temp/tecnoservicio/ordenes_mensaje.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',') 
     for row in csv_reader: 
         try:
-            orderServiceComment = OrderServiceComment.objects.filter(id_bckp=row[0], orderservice__organization=o).first()
-            if not orderServiceComment:
-                orderServiceComment = OrderServiceComment()
-                orderServiceComment.orderservice = OrderService.objects.filter(id_bckp=row[3], organization=o).first()
+            orderservice = OrderService.objects.filter(id_bckp=row[3], organization=o).first()
+            if orderservice:
+                orderServiceComment = OrderServiceComment.objects.filter(id_bckp=row[0], orderservice__organization=o).first()
+                if not orderServiceComment:
+                    orderServiceComment = OrderServiceComment()
+                orderServiceComment.orderservice = orderservice
                 if row[4]:
                     try:
                         orderServiceComment.user = User.objects.filter(id_bckp=row[4], organization=o).first()
@@ -198,7 +200,7 @@ with open('temp/tecnoservicio/ordenes_mensaje.csv') as csv_file:
                 orderServiceComment.comment = row[2]
                 orderServiceComment.id_bckp = row[0]
                 orderServiceComment.save()
-            orderServiceComment.creation_date = dateutil.parser.parse(row[1])
-            orderServiceComment.save()
+                orderServiceComment.creation_date = dateutil.parser.parse(row[1])
+                orderServiceComment.save()
         except Exception as e:
             print(str(e))
