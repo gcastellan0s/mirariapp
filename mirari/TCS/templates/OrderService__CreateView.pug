@@ -519,7 +519,8 @@ script.
         {%endif%}
         {%if request.user.organization.id == 3%}
             $("[for=id_id_service_3]").hide()
-        {%else if request.user.organization.id == 6%}
+        {%endif%}
+        {%if request.user.organization.id == 6%}
             $("[for=id_id_service_2]").hide()
             $("[for=id_id_service_4]").hide()
         {%endif%}
