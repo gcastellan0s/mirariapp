@@ -4,7 +4,7 @@ from mirari.mirari.models import *
 from .vars import *
 
 from datetime import timedelta
-import pytz
+from dateutil import tz
 
 ########################################################################################
 VARS = {
