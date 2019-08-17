@@ -444,6 +444,7 @@ script.
             self.getStates(printInventory=true)
         }),
         printInventory: (() => {
+            Block(text="Haciendo inventario...");
             if (PrivateSocket){
                 ticketFormat = []
                 ticketFormat.push(["times",[1]])
@@ -458,6 +459,7 @@ script.
                 ticketFormat.push(["cut"])
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
             }
+            UnBlock();
         }),
         makeCut: ((cutID='Actual') => {
             if(self.Offline) Swal.fire('Ooops!','No se puede hacer corte sin conexión a internet','error')
