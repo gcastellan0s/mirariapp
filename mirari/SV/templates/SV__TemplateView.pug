@@ -143,7 +143,7 @@ script.
                 self.Offline = true
             });
         }), 
-        getStates: ((postFunctions=false, updateTickets=true) => {
+        getStates: ((postFunctions=false, updateTickets=true, printInventory=false) => {
             if (postFunctions) Block('Actualizando configuracion...')
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates',{},false,0).then(function(json){
                 if (!postFunctions) Block('Actualizando configuracion...')
@@ -178,6 +178,9 @@ script.
             .finally(() => {
                 if (!postFunctions){
                     UnBlock()
+                }
+                if (printInventory){
+                    self.printInventory();
                 }
             });
         }),
@@ -435,6 +438,25 @@ script.
                 phone: null,
                 rfc: null,
                 ticketType: 'VENTA',
+            }
+        }),
+        makeInventory: (() => {
+            self.getStates(printInventory=true)
+        }),
+        printInventory: (() => {
+            if (PrivateSocket){
+                ticketFormat = []
+                ticketFormat.push(["times",[1]])
+                ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                ticketFormat.push(["text", self.Sellpoint.name])
+                ticketFormat.push(["text", 'INVENTARIO'])    
+                ticketFormat.push(["text", moment().format('MMMM D, h:mm:ss a')])
+                ticketFormat.push(["set",["CT", "A", "", 1, 1]])
+                self.ProductAttributes.forEach(function(product) {
+                    ticketFormat.push(["text", String(product.quantity) + ' ' + product.product.name + ' ' + product.product.description])
+                });
+                ticketFormat.push(["cut"])
+                PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
             }
         }),
         makeCut: ((cutID='Actual') => {
