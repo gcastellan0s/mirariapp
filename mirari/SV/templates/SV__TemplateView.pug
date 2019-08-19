@@ -468,7 +468,7 @@ script.
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
                     sellpoint: JSON.stringify(self.Sellpoint),
                     cutID:cutID,
-                },errorDialog=false, timeout=10000)
+                },errorDialog=false, timeout=0)
                 .then((json) => {
                     if (PrivateSocket){
                         ticketFormat = []
