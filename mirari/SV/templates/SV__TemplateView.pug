@@ -561,7 +561,6 @@ script.
                 })
                 .catch((error) => {
                     UnBlock()
-                    console.log(error)
                     Swal.fire('Ooops!','{% trans "No hay conexión con el servidor, intente de nuevo mas tarde."%}','error')
                 })
                 .finally(() => {
