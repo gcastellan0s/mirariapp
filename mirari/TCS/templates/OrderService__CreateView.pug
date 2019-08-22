@@ -519,10 +519,14 @@ script.
         {%endif%}
         {%if request.user.organization.id == 3%}
             $("[for=id_id_service_3]").hide()
+            $("[for=id_id_service_5]").hide()
+            $("[for=id_id_service_6]").hide()
         {%endif%}
         {%if request.user.organization.id == 6%}
+            $("[for=id_id_service_1]").hide()
             $("[for=id_id_service_2]").hide()
             $("[for=id_id_service_4]").hide()
+            $("[for=id_id_concept_3]").hide()
         {%endif%}
     {%endblock created%}
 

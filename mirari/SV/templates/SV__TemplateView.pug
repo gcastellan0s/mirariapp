@@ -116,9 +116,9 @@ script.
             pendingTickets = self.Tickets.filter(function(ticket) {return (ticket.barcode == 0)})
             if(pendingTickets.length < 1) self.getStates()
         }, 300000);
-        //setInterval(function(){
-            //self.getOnlineStatus()
-        //}, 60000); //120000);
+        setInterval(function(){
+            self.getOnlineStatus()
+        }, 60000); //120000);
         //FOCUS BarCodeInput
         router.afterEach((to, from) => {
             if(to.path=='/casher'){
@@ -133,16 +133,16 @@ script.
 
     {%block methods%}
         {{block.super}}
-        //getOnlineStatus: (()=> {
-            //Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getOnlineStatus', {}, false, 3000).then((json)=>{
-                //if (self.Offline){
-                    //self.sendPendings()
-                //}
-                //self.Offline = false
-            //}).catch((error) => {
-                //self.Offline = true
-            //});
-        //}), 
+        getOnlineStatus: (()=> {
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getOnlineStatus', {}, false, 3000).then((json)=>{
+                if (self.Offline){
+                    self.sendPendings()
+                }
+                self.Offline = false
+            }).catch((error) => {
+                self.Offline = true
+            });
+        }), 
         getStates: ((postFunctions=false, updateTickets=true, printInventory=false) => {
             if (postFunctions) Block('Actualizando configuracion...')
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getStates',{},false,0).then(function(json){
@@ -575,7 +575,7 @@ script.
                 json.data.cuts.forEach(function(cut, index) {
                     setTimeout(function() {
                         self.makeCut(cutID=cut.id)
-                    }, 3000 * index)
+                    }, 5000 * index)
                 });
             })
             .catch((error) => {
