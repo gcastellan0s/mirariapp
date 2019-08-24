@@ -21,3 +21,18 @@ with open('temp/estrella/sellpoint_menu.csv') as csv_file:
                     menu.save()
         except Exception as e:
             print(str(e))
+
+with open('temp/estrella/sellpoint_product.csv') as csv_file: 
+    csv_reader = csv.reader(csv_file, delimiter=',') 
+    for row in csv_reader: 
+        try:
+            product = Product.objects.filter(id_bckp=row[0], organization=o).first()
+            if not product:
+                product = Product()
+                product.organization = o
+                product.name = row[2]
+                product.menu = Menu.objects.filter(id_bckp=row[6]).first()
+                product.id_bckp = row[0]
+                product.save()
+        except Exception as e:
+            print(str(e))

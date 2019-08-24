@@ -379,7 +379,7 @@ class Product(Model_base):
     description = models.CharField('Atributo o descripción', max_length=250, blank=True, null=True, help_text='Muy breve descripción del producto.')
     code = models.ForeignKey('mirari.ProductsServicesSAT', blank=True, null=True,on_delete=models.PROTECT, verbose_name="Código de producto en el SAT", help_text='Código de registro ante el SAT', related_name='+')
     units = models.ForeignKey('mirari.UnitsCodesSat', blank=True, null=True,on_delete=models.PROTECT, verbose_name="Código de unidad en el SAT", help_text="Unidad de medida para este producto", related_name='+')
-    sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="Puntos de venta", help_text="Se vende en estas sucursales")
+    sellpoints = models.ManyToManyField('Sellpoint', related_name='+', verbose_name="Puntos de venta", help_text="Se vende en estas sucursales", blank=True, null=True)
     menu = models.ManyToManyField('Menu', related_name='+', verbose_name="Menus", help_text="Elige el o los menus donde se vende este producto")
     is_active = models.BooleanField('Esta activo?', default=True, help_text='Desactivar producto?')
     price = models.FloatField('Precio en esta sucursal ', default=0, help_text='Precio para todas las sucursales (sugerido)')
@@ -475,28 +475,28 @@ class Product(Model_base):
             string = '<strong>No hay puntos de venta asociados</strong>'
         return mark_safe(string)
 
-def sellpoints_changed(sender, **kwargs):
-    action = kwargs.pop('action', None)
-    instance = kwargs.pop('instance', None)
-    if action == 'post_add':
-        for sellpoint in instance.sellpoints.all():
-            exist = ProductAttributes.objects.filter(product=instance,sellpoint=sellpoint).first()
-            productAttributes = ProductAttributes.objects.get_or_create(product=instance,sellpoint=sellpoint)[0]
-            productAttributes.active=True
-            if not exist:
-                productAttributes.price = instance.price
-                productAttributes.iva = instance.iva
-                productAttributes.ieps = instance.ieps
-                productAttributes.bar_code = instance.bar_code
-                productAttributes.is_dynamic = instance.is_dynamic
-                productAttributes.is_favorite = instance.is_favorite
-            productAttributes.save()
-    if action == 'pre_remove':
-        for sellpoint in instance.sellpoints.all():
-            productAttributes = ProductAttributes.objects.get_or_create(product=instance,sellpoint=sellpoint)[0]
-            productAttributes.active=False
-            productAttributes.save()
-m2m_changed.connect(sellpoints_changed, sender=Product.sellpoints.through)
+#def sellpoints_changed(sender, **kwargs):
+    #action = kwargs.pop('action', None)
+    #instance = kwargs.pop('instance', None)
+    #if action == 'post_add':
+        #for sellpoint in instance.sellpoints.all():
+            #exist = ProductAttributes.objects.filter(product=instance,sellpoint=sellpoint).first()
+            #productAttributes = ProductAttributes.objects.get_or_create(product=instance,sellpoint=sellpoint)[0]
+            #productAttributes.active=True
+            #if not exist:
+                #productAttributes.price = instance.price
+                #productAttributes.iva = instance.iva
+                #productAttributes.ieps = instance.ieps
+                #productAttributes.bar_code = instance.bar_code
+                #productAttributes.is_dynamic = instance.is_dynamic
+                #productAttributes.is_favorite = instance.is_favorite
+            #productAttributes.save()
+    #if action == 'pre_remove':
+        #for sellpoint in instance.sellpoints.all():
+            #productAttributes = ProductAttributes.objects.get_or_create(product=instance,sellpoint=sellpoint)[0]
+            #productAttributes.active=False
+            #productAttributes.save()
+#m2m_changed.connect(sellpoints_changed, sender=Product.sellpoints.through)
 class ProductSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
         model = Product
