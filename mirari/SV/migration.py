@@ -28,11 +28,13 @@ with open('temp/estrella/sellpoint_product.csv') as csv_file:
         try:
             product = Product.objects.filter(id_bckp=row[0], organization=o).first()
             if not product:
-                product = Product()
-                product.organization = o
-                product.name = row[2]
-                product.menu = Menu.objects.filter(id_bckp=row[6]).first()
-                product.id_bckp = row[0]
-                product.save()
+                menu = Menu.objects.filter(id_bckp=row[6], organizatin=o).first()
+                if row[4] == True:
+                    product = Product()
+                    product.organization = o
+                    product.name = row[2]
+                    product.menu = menu
+                    product.id_bckp = row[0]
+                    product.save()
         except Exception as e:
             print(str(e))
