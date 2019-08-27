@@ -284,6 +284,7 @@ class TablaAmortizacion2__TemplateView(Generic__TemplateView):
         return super().dispatch(request, *args, **kwargs)
     ###########################################################################################
     def proccess_context(self, context):
+        import os 
         context['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
         context['ORACLE_HOME'] = os.environ['ORACLE_HOME']
         context['LD_RUN_PATH'] = os.environ['LD_RUN_PATH']
