@@ -151,5 +151,6 @@ CONCEPTO = (
 	('Revision', 'Revision'),# $50, $350
 	('OrdenesIcon', 'OrdenesIcon'),# $50,
 	('Mantenimiento', 'Mantenimiento'),# $50, $750
-    ('Servicio', 'Servicio'),# $50, $750
+    ('Servicio', 'Servicio'),
+	('Venta', 'Venta'),
 )

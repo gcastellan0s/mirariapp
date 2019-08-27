@@ -535,6 +535,8 @@ class OrderService(Model_base):
                 elif self.concept == 'Servicio':
                     orderServiceConcept.concept = '**Servicio'
                     orderServiceConcept.quantity = 50
+                if not self.concept == 'Venta':
+                    orderServiceConcept.save()
             if self.service == 'Tecnoservicio':
                 if self.concept == 'Armado':
                     orderServiceConcept.concept = '**Armado'
@@ -551,6 +553,8 @@ class OrderService(Model_base):
                 elif self.concept == 'Servicio':
                     orderServiceConcept.concept = '**Servicio'
                     orderServiceConcept.quantity = 750
+                if not self.concept == 'Venta':
+                    orderServiceConcept.save()
             if self.service == 'MexicoF':
                 if self.concept == 'Armado':
                     orderServiceConcept.concept = '**Armado'
@@ -567,10 +571,8 @@ class OrderService(Model_base):
                 elif self.concept == 'Servicio':
                     orderServiceConcept.concept = '**Servicio'
                     orderServiceConcept.quantity = 750
-            try:
-                orderServiceConcept.save()
-            except:
-                pass
+                if not self.concept == 'Venta':
+                    orderServiceConcept.save()
     def FORM_VALID(self, view, form):
         if not form.instance.pk:
             form.instance.user = view.request.user
