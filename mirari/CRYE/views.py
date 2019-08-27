@@ -32,7 +32,7 @@ class SiebelUnblock__SiebelUnblock__TemplateView(Generic__TemplateView):
     ###########################################################################################
     def proccess_context(self, context):
         import os 
-        context['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
+        #context['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
         context['ORACLE_HOME'] = os.environ['ORACLE_HOME']
         #context['LD_RUN_PATH'] = os.environ['LD_RUN_PATH']
         context['object'] = self.model
