@@ -620,15 +620,12 @@ class OrderService(Model_base):
         return JsonResponse({'message':'No se encontro el método'}, status=500)
     def QUERY(self, view):
         team_codes = view.request.user.get_groups()
-        if 'OPERADOR' in team_codes or 'ADMINISTRADOR' in team_codes or view.request.user.is_superuser:
-            orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
-        else:
-            orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), technical=view.request.user, active=True).distinct()
-        if len(view.request.GET.get('search[value]', '')) > 3:
-            return orderService.filter(service_date__gt=datetime.datetime.now()-timedelta(days=365))
+        orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
         if 'FORANEO' in team_codes or 'LOCALES' in team_codes:
-            return orderService
-        return orderService.filter(service_date__gt=datetime.datetime.now()-timedelta(days=240))
+            orderService = orderService.filter(technical=view.request.user).distinct()
+        if len(view.request.GET.get('search[value]', '')) > 3:
+            return orderService[0:50]
+        return orderService.filter(service_date__gt=datetime.datetime.now()-timedelta(days=30))
     def get_id_html(self):
         return '<strong class="mr-2 m--icon-font-size-lg3">{0}</strong> <small>[{1}]</small><br />'.format(self.id, self.service.upper())
     def get_serial_html(self):
