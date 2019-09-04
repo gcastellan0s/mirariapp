@@ -621,8 +621,8 @@ class OrderService(Model_base):
     def QUERY(self, view):
         team_codes = view.request.user.get_groups()
         orderService = OrderService.objects.filter(organization__pk=view.request.session.get('organization'), active=True).distinct()
-        #if 'FORANEO' in team_codes or 'LOCALES' in team_codes:
-            #returnorderService = orderService.filter(technical=view.request.user).distinct()
+        if 'FORANEO' in team_codes or 'LOCALES' in team_codes:
+            return orderService.none()
         if len(view.request.GET.get('search[value]', '')) > 3:
             return orderService
         return orderService.filter(service_date__gt=datetime.datetime.now()-timedelta(days=30))
