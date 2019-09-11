@@ -758,28 +758,28 @@ class OrderService(Model_base):
         return mark_safe("""T. {0} | C. {1}""".format(v, c))
     def className(self):
         if self.status == 'Alerta':
-            return 'fc-event-warning fc-event-solid-warning'
+            return 'fc-event-danger fc-event-solid-danger'
         elif self.status == 'Espera de refacciones':
             return 'fc-event-warning fc-event-solid-warning'
         elif self.status == 'Terminada':
             return 'fc-event-info fc-event-solid-info'
         elif self.status == 'Cancelada':
-            return 'fc-event-danger fc-event-solid-danger'
+            return 'fc-event-dark fc-event-solid-dark'
         elif self.status == 'Especial':
             return 'fc-event-success fc-event-solid-success'
-        return 'fc-event-dark fc-event-solid-dark'
+        return 'fc-event-brand fc-event-solid-brand'
     def getColorStatus(self):
         if self.status == 'Alerta':
-            return 'text-warning'
+            return 'text-danger'
         elif self.status == 'Espera de refacciones':
             return 'text-warning'
         elif self.status == 'Terminada':
             return 'text-info'
         elif self.status == 'Cancelada':
-            return 'text-danger'
+            return 'text-dark'
         elif self.status == 'Especial':
             return 'text-success'
-        return 'text-dark'
+        return 'text-braand'
 
 ########################################################################################
 VARS = {
