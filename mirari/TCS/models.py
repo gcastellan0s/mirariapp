@@ -779,7 +779,7 @@ class OrderService(Model_base):
             return 'text-dark'
         elif self.status == 'Especial':
             return 'text-success'
-        return 'text-braand'
+        return 'text-brand'
 
 ########################################################################################
 VARS = {
