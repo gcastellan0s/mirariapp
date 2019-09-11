@@ -768,6 +768,7 @@ class OrderService(Model_base):
         elif self.status == 'Especial':
             return 'fc-event-success fc-event-solid-success'
         return 'fc-event-brand fc-event-solid-brand'
+        
     def getColorStatus(self):
         if self.status == 'Alerta':
             return 'text-danger'
