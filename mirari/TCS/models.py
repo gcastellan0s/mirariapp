@@ -767,8 +767,8 @@ class OrderService(Model_base):
             return 'fc-event-dark fc-event-solid-dark'
         elif self.status == 'Especial':
             return 'fc-event-success fc-event-solid-success'
-        return 'fc-event-brand fc-event-solid-brand'
-        
+        return 'fc-event-primary fc-event-solid-primary'
+
     def getColorStatus(self):
         if self.status == 'Alerta':
             return 'text-danger'
