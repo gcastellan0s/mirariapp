@@ -4,6 +4,13 @@ extends "generic/TemplateView.html"
 -load mirari_tags
 
 block styles
+    style
+        .fc-unthemed .fc-event.fc-not-start.fc-end.fc-event-solid-brand, .fc-unthemed .fc-event.fc-not-start.fc-not-end.fc-event-solid-brand, .fc-unthemed .fc-event.fc-start.fc-event-solid-brand, .fc-unthemed .fc-event-dot.fc-not-start.fc-end.fc-event-solid-brand, .fc-unthemed .fc-event-dot.fc-not-start.fc-not-end.fc-event-solid-brand, .fc-unthemed .fc-event-dot.fc-start.fc-event-solid-brand {
+            background: #5866dc;
+        }   
+        .fc-unthemed .fc-event.fc-start.fc-event-brand .fc-content:before, .fc-unthemed .fc-event-dot.fc-start.fc-event-brand .fc-content:before {
+            background: #5866dc;
+        }
     {{block.super}}  
     link(href="{%static 'metronic/dist/demo5/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css'%}", rel='stylesheet', type='text/css')
 
