@@ -42,53 +42,7 @@ block content
                                                 option(value='8/2019') Agosto 2019
                                                 option(value='9/2019') Septiembre 2019
 
-                    .kt-invoice__body.kt-invoice__body--centered
-                        .table-responsive
-                            table.table
-                                thead
-                                    tr
-                                        th DIA
-                                        th PRODUCTOS 0%
-                                        th PRODUCTOS .08%
-                                        th PRODUCTOS .16%
-                                        th SUBTOTAL
-                                        th TOTAL
-                                tbody
-                                    template(v-for="cut in Cuts")
-                                        tr
-                                            td ${cut.0}
-                                            td ${cut.0}
-                                            td ${cut.0}
-                                            td ${cut.0}
-                                            td ${cut.0}
-                    .kt-invoice__footer.mt-0.pt-0
-                        .kt-invoice__table.kt-invoice__table--centered.table-responsive
-                            table.table
-                                tbody
-                                    tr
-                                        td.kt--align-right
-                                            small SUBTOTAL
-                                            strong.ml-2 
-                                    tr
-                                        td.kt--align-right
-                                            small IEPS
-                                            strong.ml-2 
-                                    tr
-                                        td.kt--align-right
-                                            small IVA
-                                            strong.ml-2 
-                                    tr
-                                        td.kt--align-right
-                                            small FALTANTE
-                                            strong.ml-2 
-                                    tr
-                                        td.kt--align-right
-                                            template GRAN TOTAL
-                                            strong.ml-2 
-                                    tr
-                                        td.kt--align-right
-                                            small + FALTANTE
-                                            strong.ml-2 
+                    
     
 
 
@@ -98,15 +52,11 @@ script.
     {%block data%}
         {{block.super}}
         Cuts: [],
-        CutDetail: null,
     {%endblock data%}
 
     {%block mounted%}
         {{block.super}}
         self.getCut()
-        $("#exampleSelect1").on('change', function() {
-            console.log($(this).val())
-        });
     {%endblock mounted%}
 
     {%block methods%}
@@ -116,7 +66,6 @@ script.
             for (day = 1; day < 31; day++) {
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':5,'day':day}, errorDialog=false)
                 .then((json) => {
-                    console.log(json.data.day, json.data.cuts)
                     self.Cuts.push(json.data.day, json.data.cuts)
                 }).catch((error) => {
                     Swal.fire('Ooops!',error.response.data.message,'error')
