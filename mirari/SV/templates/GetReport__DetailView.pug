@@ -29,54 +29,19 @@ block content
                             button.btn.btn-brand.btn-bold(type='button', onclick='window.print();') IMPRIMIR
                     .kt-invoice__head.kt-invoice__container.kt-invoice__container--centered
                         .row
-                            .col-lg-6
-                                .kt-invoice__logo.pt-5.kt-align-right
-                                    h1.kt-align-right CORTE ${CutDetail.serial}
-                                .kt-invoice__items.kt-align-right.py-4
-                                    .kt-invoice__item.kt-align-right
-                                        div
-                                            span.kt-invoice__subtitle FECHA DE CORTE 
-                                            span.kt-invoice__text ${CutDetail.initial_time|formatDate} 
-                                        div
-                                            span.kt-invoice__subtitle PRIMER TICKET 
-                                            span.kt-invoice__text(v-if="CutDetail.final_time") ${CutDetail.final_time|formatDate} 
-                                            span.kt-invoice__text(v-else) 
-                                                strong CORTE EN CURSO
-                                        div
-                                            span.kt-invoice__subtitle TOTAL 
-                                                strong ${CutDetail.getLens.__ALL.TOTAL} 
-                                                | TICKETS 
-                                            span.kt-invoice__text
-                                                strong ${CutDetail.getTotalDetail.__ALL.TOTAL.MXN}
-                                        div
-                                            span.kt-invoice__subtitle TOTAL 
-                                                strong ${CutDetail.getLens.__ALL.PENDIENTE} 
-                                                | FALTANTES 
-                                            span.kt-invoice__text
-                                                strong ${CutDetail.getTotalDetail.__ALL.PENDIENTE.MXN}
-                                        div
-                                            span.kt-invoice__subtitle TOTAL 
-                                                strong ${CutDetail.getLens.__ALL.CANCELADO} 
-                                                | CANCELADOS 
-                                            span.kt-invoice__text
-                                                strong ${CutDetail.getTotalDetail.__ALL.CANCELADO.MXN}
-                            .col-lg-6
-                                .kt-invoice__logo.pt-5
-                                    h1(:style='{color:CutDetail.SellpointDetail.color}') ${CutDetail.SellpointDetail.name}
-                                .kt-invoice__items.kt-align-right.py-4
-                                    .kt-invoice__item.kt-align-left
-                                        div(v-if='CutDetail.SellpointDetail.header_line_black_1')
-                                            span.kt-invoice__subtitle
-                                                small ${CutDetail.SellpointDetail.header_line_black_1}
-                                        div(v-if='CutDetail.SellpointDetail.header_line_black_2')
-                                            span.kt-invoice__subtitle
-                                                small ${CutDetail.SellpointDetail.header_line_black_2}
-                                        div(v-if='CutDetail.SellpointDetail.header_line_1')
-                                            span.kt-invoice__subtitle
-                                                small ${CutDetail.SellpointDetail.header_line_1}
-                                        div(v-if='CutDetail.SellpointDetail.header_line_2')
-                                            span.kt-invoice__subtitle
-                                                small ${CutDetail.SellpointDetail.header_line_2}
+                            .col-lg-12
+                                form.kt-form.kt-form--label-right
+                                    .kt-portlet__body
+                                        .form-group.row
+                                            label.col-form-label.col-lg-3.col-sm-12 Minimum Setup
+                                            .col-lg-4.col-md-9.col-sm-12
+                                                input#kt_daterangepicker_1.form-control(type='text', readonly='', placeholder='Select time')
+                                    .kt-portlet__foot
+                                        .kt-form__actions
+                                            .row
+                                                .col-lg-9.ml-lg-auto
+                                                    button.btn.btn-brand(type='submit') Submit
+                                                    button.btn.btn-secondary(type='submit') Cancel
                     .kt-invoice__body.kt-invoice__body--centered
                         .table-responsive(v-for='(cuttypes, key) in CutDetail.getProductsDetail')
                             h5(v-if="key=='__ALL'", :style='{color:CutDetail.SellpointDetail.color}') TOTAL
@@ -156,7 +121,8 @@ block content
 
 block js
     {{block.super}}
-    script(src="{%static 'default/demo1/dist/assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js'%}")
+    script(src="{%static 'metronic/dist/demo5/assets/app/custom/invoices/invoice-v2.default.css'%}")
+    /metronic/themes/metronic/theme/default/demo1/dist/assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js
 
 script.
     {%block data%}
