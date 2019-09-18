@@ -42,3 +42,7 @@ class ClientProfileAdmin(PassAdmin):
 @admin.register(Client)
 class ClientAdmin(PassAdmin):
     pass
+
+@admin.register(SellpointGroups)
+class SellpointGroupsAdmin(PassAdmin):
+    pass
