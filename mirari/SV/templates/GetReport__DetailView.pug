@@ -153,7 +153,10 @@ block content
                                         td.kt--align-right
                                             small + FALTANTE
                                             strong.ml-2 ${CutDetail.getTotalDetail.__ALL.TOTAL.MXN}
-                    
+
+block js
+    {{block.super}}
+    script(src="{%static 'default/demo1/dist/assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js'%}")
 
 script.
     {%block data%}
@@ -169,7 +172,7 @@ script.
     {%block methods%}
         {{block.super}}
         getCut:(() => {
-            Block(text="Calculando corte...");
+            Block(text="Calculando tabla...");
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCut',{'cut':{{object.pk}}}, errorDialog=false)
             .then((json) => {
                 self.CutDetail = json.data.cut
