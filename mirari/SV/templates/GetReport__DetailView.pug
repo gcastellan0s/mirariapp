@@ -126,11 +126,6 @@ script.
     {%block mounted%}
         {{block.super}}
         self.getCut()
-        $('#kt_daterangepicker_1').daterangepicker({
-            buttonClasses: ' btn',
-            applyClass: 'btn-primary',
-            cancelClass: 'btn-secondary'
-        });
     {%endblock mounted%}
 
     {%block methods%}
@@ -145,6 +140,11 @@ script.
                 Swal.fire('Ooops!',error.response.data.message,'error')
             }).finally(() => {
                 UnBlock();
+                $('#kt_daterangepicker_1').daterangepicker({
+                    buttonClasses: ' btn',
+                    applyClass: 'btn-primary',
+                    cancelClass: 'btn-secondary'
+                });
             });
         }),
         makeCut:((cutID='Actual') => {
