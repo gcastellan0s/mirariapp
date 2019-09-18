@@ -128,7 +128,7 @@ block content
 script.
     {%block data%}
         {{block.super}}
-        CutDetail: null,
+        Cuts: [],
     {%endblock data%}
 
     {%block mounted%}
@@ -137,14 +137,6 @@ script.
         $("#exampleSelect1").on('change', function() {
             console.log($(this).val())
         });
-        //$("#exampleSelect1").live('change', function() {
-            //console.log($(this).val())
-            ////if ($(this).val() == 'selectionKey'){
-                ////DoSomething();
-            ////} else {
-                ////DoSomethingElse();
-            ////}
-        //});
     {%endblock mounted%}
 
     {%block methods%}
@@ -154,7 +146,7 @@ script.
             for (day = 1; day < 31; day++) {
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':5,'day':day}, errorDialog=false)
                 .then((json) => {
-                    console.log(json)
+                    this.Cuts.push(json.data.cuts);
                 }).catch((error) => {
                     Swal.fire('Ooops!',error.response.data.message,'error')
                 })

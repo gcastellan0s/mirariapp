@@ -32,11 +32,7 @@ class Sellpoint__ApiView(Generic__ApiView):
 		elif Action == 'getReport':
 			sellpointgroup = SellpointGroups.objects.get(pk=request.POST.get('sellpointgroup'))
 			cut = Cut.objects.filter(sellpoint__in=sellpointgroup.sellpoints.all(), final_time__year=2019, final_time__month=request.POST.get('month'), final_time__day=request.POST.get('day'))
-			#return JsonResponse({'cuts':len(cut)}, safe=False)
-			try:
-				return JsonResponse({'cuts':CutReportSerializer(cut, many=True).data}, safe=False)
-			except Exception as e:
-				return JsonResponse({'error':str(e)})
+			return JsonResponse({'cuts':CutReportSerializer(cut, many=True).data}, safe=False)
 		elif Action == 'barcodeScanner':
 			ticket = Ticket.objects.filter(key=request.POST.get('barcode'),sellpoint__organization__code=request.POST.get('code')).first()
 			if ticket:
