@@ -1976,7 +1976,7 @@ VARS = {
 class SellpointGroups(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
     name = models.CharField('Nombre del grupo', max_length=250)
-    sellpoints = models.ManyToManyField('mirari.Sellpoint', verbose_name='Puntos de venta', blank=True, related_name='+',)
+    sellpoints = models.ManyToManyField('Sellpoint', verbose_name='Puntos de venta', blank=True, related_name='+',)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
