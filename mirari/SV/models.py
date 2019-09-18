@@ -1971,7 +1971,7 @@ VARS = {
             'plugin': 'selectmultiple',
         },
     },
-    'FORM': ('name','sellpoints'),
+    'FORM': ('name',),
 }
 class SellpointGroups(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
@@ -1984,5 +1984,3 @@ class SellpointGroups(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.name)
-    def QUERY(self, view):
-        return SellpointGroups.objects.all()
