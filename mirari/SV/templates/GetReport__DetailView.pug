@@ -119,10 +119,7 @@ block content
                                             small + FALTANTE
                                             strong.ml-2 ${CutDetail.getTotalDetail.__ALL.TOTAL.MXN}
 
-block js
-    {{block.super}}
-    script(src="{%static 'metronic/dist/demo5/assets/app/custom/invoices/invoice-v2.default.css'%}")
-    /metronic/themes/metronic/theme/default/demo1/dist/assets/js/pages/crud/forms/widgets/bootstrap-daterangepicker.js
+
 
 script.
     {%block data%}
@@ -133,11 +130,6 @@ script.
     {%block mounted%}
         {{block.super}}
         self.getCut()
-        $('#kt_daterangepicker_1, #kt_daterangepicker_1_modal').daterangepicker({
-            buttonClasses: ' btn',
-            applyClass: 'btn-primary',
-            cancelClass: 'btn-secondary'
-        });
     {%endblock mounted%}
 
     {%block methods%}
