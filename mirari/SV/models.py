@@ -1949,38 +1949,38 @@ class ClientDetailsSerializer(Basic_Serializer):
         return TicketsSerializer(obj.getTickets(), many=True).data
 
 
-#VARS = {
-#    'NAME':'Grupo puntos de venta',
-#    'PLURAL':'Grupos de puntos de venta',
-#    'MODEL':'SellpointGroups',
-#    'NEW':'NUEVO',
-#    'NEW_GENDER': 'un nuevo',
-#    'THIS': 'este',
-#    'APP':APP,
-#    'LIST': [
-#        {
-#            'field': 'name',
-#            'title': 'Nombre',
-#            'url': 'url_update',
-#            'sorteable': True,
-#            'serchable': True,
-#        },
-#    ],
-#    'SELECTQ': {
-#        'sellpoints': {
-#            'plugin': 'selectmultiple',
-#        },
-#    },
-#    'FORM': ('name','sellpoints'),
-#}
-#class SellpointGroups(Model_base):
-#    organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
-#    name = models.CharField('Nombre del grupo', max_length=250)
-#    sellpoints = models.ManyToManyField('mirari.Sellpoint', verbose_name='Puntos de venta', blank=True, related_name='+',)
-#    VARS = VARS
-#    class Meta(Model_base.Meta):
-#        verbose_name = VARS['NAME']
-#        verbose_name_plural = VARS['PLURAL']
-#        permissions = permissions(VARS)
-#    def __str__(self):
-#        return '{0}'.format(self.name)
+VARS = {
+    'NAME':'Grupo puntos de venta',
+    'PLURAL':'Grupos de puntos de venta',
+    'MODEL':'SellpointGroups',
+    'NEW':'NUEVO',
+    'NEW_GENDER': 'un nuevo',
+    'THIS': 'este',
+    'APP':APP,
+    'LIST': [
+        {
+            'field': 'name',
+            'title': 'Nombre',
+            'url': 'url_update',
+            'sorteable': True,
+            'serchable': True,
+        },
+    ],
+    'SELECTQ': {
+        'sellpoints': {
+            'plugin': 'selectmultiple',
+        },
+    },
+    'FORM': ('name','sellpoints'),
+}
+class SellpointGroups(Model_base):
+    organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
+    name = models.CharField('Nombre del grupo', max_length=250)
+    sellpoints = models.ManyToManyField('mirari.Sellpoint', verbose_name='Puntos de venta', blank=True, related_name='+',)
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return '{0}'.format(self.name)
