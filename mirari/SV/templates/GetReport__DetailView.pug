@@ -20,12 +20,10 @@ block styles
 block content
     .kt-portlet
         .kt-portlet__body.kt-portlet__body--fit
-            .kt-invoice-2(v-if='CutDetail')
+            .kt-invoice-2
                 .kt-invoice__wrapper
                     .kt-invoice__actions.px-5.pt-4
                         .kt-invoice__container
-                            button.btn.btn-label-brand.btn-bold(type='button', v-on:click.prevent='makeCut()' v-if="!CutDetail.final_time") HACER CORTE
-                            button.btn.btn-label-brand.btn-bold(type='button', v-on:click.prevent='makeInvoice()' v-if="CutDetail.final_time") FACTURAR
                             button.btn.btn-brand.btn-bold(type='button', onclick='window.print();') IMPRIMIR
                     .kt-invoice__head.kt-invoice__container.kt-invoice__container--centered
                         .row
@@ -45,9 +43,7 @@ block content
                                                 option(value='9/2019') Septiembre 2019
 
                     .kt-invoice__body.kt-invoice__body--centered
-                        .table-responsive(v-for='(cuttypes, key) in CutDetail.getProductsDetail')
-                            h5(v-if="key=='__ALL'", :style='{color:CutDetail.SellpointDetail.color}') TOTAL
-                            h5(v-else='', :style='{color:CutDetail.SellpointDetail.color}') ${key}
+                        .table-responsive
                             table.table
                                 thead
                                     tr
@@ -58,40 +54,13 @@ block content
                                         th SUBTOTAL
                                         th TOTAL
                                 tbody
-                                    template(v-for="product in cuttypes['COBRADO']")
+                                    template(v-for="cut in Cuts")
                                         tr
-                                            td ${product.productName}
-                                            td ${product.getPrice.MXN}
-                                            td ${product.quantity}
-                                            td ${product.getIva.MXN}
-                                            td ${product.getIeps.MXN}
-                                            td
-                                                strong ${product.getTotal.MXN}
-                                        tr(v-for='offer in product.offers')
-                                            td(colspan='4', style='padding: 0')
-                                            td(style='padding: 0')
-                                                small ${offer.quantity}
-                                            td(style='padding: 0')
-                                                small ${offer.offerName}
-                                        tr(v-if='Object.keys(product.offers).length>0')
-                                            td(colspan='5', style='padding: 0')
-                                            td(style='padding: 0')
-                                                small ${product.getOffersTotal.MXN}
-                                    tr
-                                        td(colspan='4')
-                                        td FALTANTE
-                                        td
-                                            strong ${CutDetail.getTotalDetail[key]['PENDIENTE'].MXN}
-                                    tr
-                                        td(colspan='4')
-                                        td CANCELADO
-                                        td
-                                            strong ${CutDetail.getTotalDetail[key]['CANCELADO'].MXN}
-                                    tr
-                                        td(colspan='4')
-                                        td(:style='{color:CutDetail.SellpointDetail.color}') TOTAL ( ${CutDetail.getLens[key]['TOTAL']} )
-                                        td
-                                            strong ${CutDetail.getTotalDetail[key]['COBRADO'].MXN}
+                                            td ${cut.0}
+                                            td ${cut.0}
+                                            td ${cut.0}
+                                            td ${cut.0}
+                                            td ${cut.0}
                     .kt-invoice__footer.mt-0.pt-0
                         .kt-invoice__table.kt-invoice__table--centered.table-responsive
                             table.table
@@ -99,27 +68,27 @@ block content
                                     tr
                                         td.kt--align-right
                                             small SUBTOTAL
-                                            strong.ml-2 ${CutDetail.getSubTotalDetail.__ALL.COBRADO.MXN}
+                                            strong.ml-2 
                                     tr
                                         td.kt--align-right
                                             small IEPS
-                                            strong.ml-2 ${CutDetail.getIepsDetail.__ALL.COBRADO.MXN}
+                                            strong.ml-2 
                                     tr
                                         td.kt--align-right
                                             small IVA
-                                            strong.ml-2 ${CutDetail.getIvaDetail.__ALL.COBRADO.MXN}
+                                            strong.ml-2 
                                     tr
                                         td.kt--align-right
                                             small FALTANTE
-                                            strong.ml-2 ${CutDetail.getTotalDetail.__ALL.PENDIENTE.MXN}
+                                            strong.ml-2 
                                     tr
                                         td.kt--align-right
-                                            template(:style='{color:CutDetail.SellpointDetail.color}') GRAN TOTAL
-                                            strong.ml-2 ${CutDetail.getTotalDetail.__ALL.COBRADO.MXN}
+                                            template GRAN TOTAL
+                                            strong.ml-2 
                                     tr
                                         td.kt--align-right
                                             small + FALTANTE
-                                            strong.ml-2 ${CutDetail.getTotalDetail.__ALL.TOTAL.MXN}
+                                            strong.ml-2 
     
 
 
@@ -148,16 +117,12 @@ script.
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':5,'day':day}, errorDialog=false)
                 .then((json) => {
                     console.log(json.data.cuts)
-                    self.Cuts.push(json.data.cuts)
+                    self.Cuts.push(day, json.data.cuts)
                 }).catch((error) => {
                     Swal.fire('Ooops!',error.response.data.message,'error')
                 })
             }
             UnBlock();
-        }),
-        makeCut:((cutID='Actual') => {
-        }),
-        makeInvoice:(() => {
         }),
     {%endblock methods%}
 
