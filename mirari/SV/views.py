@@ -31,8 +31,8 @@ class Sellpoint__ApiView(Generic__ApiView):
 			return JsonResponse({'api':'ok'}, safe=False)
 		elif Action == 'getReport':
 			sellpointgroup = SellpointGroups.objects.get(pk=request.POST.get('sellpointgroup'))
-			cut = Cut.objects.filter(sellpoint__in=sellpointgroup.sellpoints.all(), final_time__year=2019, final_time__month=5,)
-			return JsonResponse({'api':'ok'}, safe=False)
+			cut = Cut.objects.filter(sellpoint__in=sellpointgroup.sellpoints.all(), final_time__year=2019, final_time__month=5)
+			return JsonResponse({'api':'ok', 'cuts':CutSerializer(cut, read_only=True).data}, safe=False)
 		elif Action == 'barcodeScanner':
 			ticket = Ticket.objects.filter(key=request.POST.get('barcode'),sellpoint__organization__code=request.POST.get('code')).first()
 			if ticket:
