@@ -112,6 +112,8 @@ block content
                                         td.kt--align-right
                                             small + FALTANTE
                                             strong.ml-2 ${CutDetail.getTotalDetail.__ALL.TOTAL.MXN}
+    
+
 
 
 
@@ -124,28 +126,11 @@ script.
     {%block mounted%}
         {{block.super}}
         self.getCut()
-        
-        var KTBootstrapDaterangepicker = function () {
-            // Private functions
-            var demos = function () {
-                // minimum setup
-                $('#kt_daterangepicker_1, #kt_daterangepicker_1_modal').daterangepicker({
-                    buttonClasses: ' btn',
-                    applyClass: 'btn-primary',
-                    cancelClass: 'btn-secondary'
-                });
-            }
-            return {
-                // public functions
-                init: function() {
-                    demos(); 
-                }
-            };
-        }();
-        jQuery(document).ready(function() {
-            KTBootstrapDaterangepicker.init();
+        $('#kt_daterangepicker_1').daterangepicker({
+            buttonClasses: ' btn',
+            applyClass: 'btn-primary',
+            cancelClass: 'btn-secondary'
         });
-
     {%endblock mounted%}
 
     {%block methods%}
