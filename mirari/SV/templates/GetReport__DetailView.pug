@@ -147,7 +147,7 @@ script.
             for (day = 1; day < 31; day++) {
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':5,'day':day}, errorDialog=false)
                 .then((json) => {
-                    this.Cuts.push(json.data.cuts);
+                    this.Cuts.push(json);
                 }).catch((error) => {
                     Swal.fire('Ooops!',error.response.data.message,'error')
                 })
