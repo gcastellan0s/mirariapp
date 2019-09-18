@@ -29,6 +29,8 @@ class Sellpoint__ApiView(Generic__ApiView):
 		Action = request.GET.get('api')
 		if Action == 'getOnlineStatus':
 			return JsonResponse({'api':'ok'}, safe=False)
+		elif Action == 'getReport':
+			return JsonResponse({'api':'ok'}, safe=False)
 		elif Action == 'barcodeScanner':
 			ticket = Ticket.objects.filter(key=request.POST.get('barcode'),sellpoint__organization__code=request.POST.get('code')).first()
 			if ticket:

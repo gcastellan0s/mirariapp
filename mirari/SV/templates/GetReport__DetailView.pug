@@ -151,36 +151,19 @@ script.
         {{block.super}}
         getCut:(() => {
             Block(text="Calculando tabla...");
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCut',{'cut':{{object.pk}}}, errorDialog=false)
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':'9/2019'}, errorDialog=false)
             .then((json) => {
-                self.CutDetail = json.data.cut
+                console.log(json)
             }).catch((error) => {
                 UnBlock();
                 Swal.fire('Ooops!',error.response.data.message,'error')
             }).finally(() => {
                 UnBlock();
-                $('#kt_daterangepicker_1').daterangepicker({
-                    buttonClasses: ' btn',
-                    applyClass: 'btn-primary',
-                    cancelClass: 'btn-secondary'
-                });
             });
         }),
         makeCut:((cutID='Actual') => {
-            Block(text="Haciendo corte...");
-            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
-                sellpoint: JSON.stringify(self.CutDetail.SellpointDetail),
-                cutID:cutID,
-            }, errorDialog=false, timeout=10000)
-            .then((json) => {
-                self.getCut()
-            }).catch((error) => {
-                UnBlock()
-                Swal.fire('Ooops!',error.response.data.message,'error')
-            });
         }),
         makeInvoice:(() => {
-            Swal.fire('Ooops!', 'FUNCIÓN NO DISPONIBLE AÚN', 'error')
         }),
     {%endblock methods%}
 
