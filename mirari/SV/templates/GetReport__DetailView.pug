@@ -133,6 +133,11 @@ script.
     {%block mounted%}
         {{block.super}}
         self.getCut()
+        $('#kt_daterangepicker_1, #kt_daterangepicker_1_modal').daterangepicker({
+            buttonClasses: ' btn',
+            applyClass: 'btn-primary',
+            cancelClass: 'btn-secondary'
+        });
     {%endblock mounted%}
 
     {%block methods%}
