@@ -35,13 +35,15 @@ block content
                                         .form-group
                                             label(for='') ELIGE UN MES
                                             select#exampleSelect1.form-control
-                                                option Marzo 2019
-                                                option Abril 2019
-                                                option Mayo 2019
-                                                option Junio 2019
-                                                option Julio 2019
-                                                option Agosto 2019
-                                                option Septiembre 2019
+                                                option(selected='') ---
+                                                option(value='3/2019') Marzo 2019
+                                                option(value='4/2019') Abril 2019
+                                                option(value='5/2019') Mayo 2019
+                                                option(value='6/2019') Junio 2019
+                                                option(value='7/2019') Julio 2019
+                                                option(value='8/2019') Agosto 2019
+                                                option(value='9/2019') Septiembre 2019
+
                     .kt-invoice__body.kt-invoice__body--centered
                         .table-responsive(v-for='(cuttypes, key) in CutDetail.getProductsDetail')
                             h5(v-if="key=='__ALL'", :style='{color:CutDetail.SellpointDetail.color}') TOTAL
