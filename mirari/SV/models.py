@@ -1957,11 +1957,12 @@ VARS = {
     'NEW_GENDER': 'un nuevo',
     'THIS': 'este',
     'APP':APP,
+    'PAGEDetail': 'GetReport__DetailView.pug',
     'LIST': [
         {
             'field': 'name',
             'title': 'Nombre',
-            'url': 'url_update',
+            'url': 'url_detail',
             'sorteable': True,
             'serchable': True,
         },

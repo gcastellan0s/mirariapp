@@ -1,0 +1,204 @@
+extends "generic/DetailView.html"
+-load static
+-load i18n
+-load mirari_tags
+
+block object_name
+    {{object.sellpoint.name}}
+
+block styles
+    {{block.super}}
+    link(href="{%static 'metronic/dist/demo5/assets/app/custom/invoices/invoice-v2.default.css'%}", rel='stylesheet', type='text/css')
+    style.
+        .kt-invoice-2 .kt-invoice__actions .kt-invoice__container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    .
+
+block content
+    .kt-portlet
+        .kt-portlet__body.kt-portlet__body--fit
+            .kt-invoice-2(v-if='CutDetail')
+                .kt-invoice__wrapper
+                    .kt-invoice__actions.px-5.pt-4
+                        .kt-invoice__container
+                            button.btn.btn-label-brand.btn-bold(type='button', v-on:click.prevent='makeCut()' v-if="!CutDetail.final_time") HACER CORTE
+                            button.btn.btn-label-brand.btn-bold(type='button', v-on:click.prevent='makeInvoice()' v-if="CutDetail.final_time") FACTURAR
+                            button.btn.btn-brand.btn-bold(type='button', onclick='window.print();') IMPRIMIR
+                    .kt-invoice__head.kt-invoice__container.kt-invoice__container--centered
+                        .row
+                            .col-lg-6
+                                .kt-invoice__logo.pt-5.kt-align-right
+                                    h1.kt-align-right CORTE ${CutDetail.serial}
+                                .kt-invoice__items.kt-align-right.py-4
+                                    .kt-invoice__item.kt-align-right
+                                        div
+                                            span.kt-invoice__subtitle FECHA DE CORTE 
+                                            span.kt-invoice__text ${CutDetail.initial_time|formatDate} 
+                                        div
+                                            span.kt-invoice__subtitle PRIMER TICKET 
+                                            span.kt-invoice__text(v-if="CutDetail.final_time") ${CutDetail.final_time|formatDate} 
+                                            span.kt-invoice__text(v-else) 
+                                                strong CORTE EN CURSO
+                                        div
+                                            span.kt-invoice__subtitle TOTAL 
+                                                strong ${CutDetail.getLens.__ALL.TOTAL} 
+                                                | TICKETS 
+                                            span.kt-invoice__text
+                                                strong ${CutDetail.getTotalDetail.__ALL.TOTAL.MXN}
+                                        div
+                                            span.kt-invoice__subtitle TOTAL 
+                                                strong ${CutDetail.getLens.__ALL.PENDIENTE} 
+                                                | FALTANTES 
+                                            span.kt-invoice__text
+                                                strong ${CutDetail.getTotalDetail.__ALL.PENDIENTE.MXN}
+                                        div
+                                            span.kt-invoice__subtitle TOTAL 
+                                                strong ${CutDetail.getLens.__ALL.CANCELADO} 
+                                                | CANCELADOS 
+                                            span.kt-invoice__text
+                                                strong ${CutDetail.getTotalDetail.__ALL.CANCELADO.MXN}
+                            .col-lg-6
+                                .kt-invoice__logo.pt-5
+                                    h1(:style='{color:CutDetail.SellpointDetail.color}') ${CutDetail.SellpointDetail.name}
+                                .kt-invoice__items.kt-align-right.py-4
+                                    .kt-invoice__item.kt-align-left
+                                        div(v-if='CutDetail.SellpointDetail.header_line_black_1')
+                                            span.kt-invoice__subtitle
+                                                small ${CutDetail.SellpointDetail.header_line_black_1}
+                                        div(v-if='CutDetail.SellpointDetail.header_line_black_2')
+                                            span.kt-invoice__subtitle
+                                                small ${CutDetail.SellpointDetail.header_line_black_2}
+                                        div(v-if='CutDetail.SellpointDetail.header_line_1')
+                                            span.kt-invoice__subtitle
+                                                small ${CutDetail.SellpointDetail.header_line_1}
+                                        div(v-if='CutDetail.SellpointDetail.header_line_2')
+                                            span.kt-invoice__subtitle
+                                                small ${CutDetail.SellpointDetail.header_line_2}
+                    .kt-invoice__body.kt-invoice__body--centered
+                        .table-responsive(v-for='(cuttypes, key) in CutDetail.getProductsDetail')
+                            h5(v-if="key=='__ALL'", :style='{color:CutDetail.SellpointDetail.color}') TOTAL
+                            h5(v-else='', :style='{color:CutDetail.SellpointDetail.color}') ${key}
+                            table.table
+                                thead
+                                    tr
+                                        th PRODUCTO
+                                        th PRECIO
+                                        th CANTIDAD
+                                        th IVA
+                                        th IEPS
+                                        th TOTAL
+                                tbody
+                                    template(v-for="product in cuttypes['COBRADO']")
+                                        tr
+                                            td ${product.productName}
+                                            td ${product.getPrice.MXN}
+                                            td ${product.quantity}
+                                            td ${product.getIva.MXN}
+                                            td ${product.getIeps.MXN}
+                                            td
+                                                strong ${product.getTotal.MXN}
+                                        tr(v-for='offer in product.offers')
+                                            td(colspan='4', style='padding: 0')
+                                            td(style='padding: 0')
+                                                small ${offer.quantity}
+                                            td(style='padding: 0')
+                                                small ${offer.offerName}
+                                        tr(v-if='Object.keys(product.offers).length>0')
+                                            td(colspan='5', style='padding: 0')
+                                            td(style='padding: 0')
+                                                small ${product.getOffersTotal.MXN}
+                                    tr
+                                        td(colspan='4')
+                                        td FALTANTE
+                                        td
+                                            strong ${CutDetail.getTotalDetail[key]['PENDIENTE'].MXN}
+                                    tr
+                                        td(colspan='4')
+                                        td CANCELADO
+                                        td
+                                            strong ${CutDetail.getTotalDetail[key]['CANCELADO'].MXN}
+                                    tr
+                                        td(colspan='4')
+                                        td(:style='{color:CutDetail.SellpointDetail.color}') TOTAL ( ${CutDetail.getLens[key]['TOTAL']} )
+                                        td
+                                            strong ${CutDetail.getTotalDetail[key]['COBRADO'].MXN}
+                    .kt-invoice__footer.mt-0.pt-0
+                        .kt-invoice__table.kt-invoice__table--centered.table-responsive
+                            table.table
+                                tbody
+                                    tr
+                                        td.kt--align-right
+                                            small SUBTOTAL
+                                            strong.ml-2 ${CutDetail.getSubTotalDetail.__ALL.COBRADO.MXN}
+                                    tr
+                                        td.kt--align-right
+                                            small IEPS
+                                            strong.ml-2 ${CutDetail.getIepsDetail.__ALL.COBRADO.MXN}
+                                    tr
+                                        td.kt--align-right
+                                            small IVA
+                                            strong.ml-2 ${CutDetail.getIvaDetail.__ALL.COBRADO.MXN}
+                                    tr
+                                        td.kt--align-right
+                                            small FALTANTE
+                                            strong.ml-2 ${CutDetail.getTotalDetail.__ALL.PENDIENTE.MXN}
+                                    tr
+                                        td.kt--align-right
+                                            template(:style='{color:CutDetail.SellpointDetail.color}') GRAN TOTAL
+                                            strong.ml-2 ${CutDetail.getTotalDetail.__ALL.COBRADO.MXN}
+                                    tr
+                                        td.kt--align-right
+                                            small + FALTANTE
+                                            strong.ml-2 ${CutDetail.getTotalDetail.__ALL.TOTAL.MXN}
+                    
+
+script.
+    {%block data%}
+        {{block.super}}
+        CutDetail: null,
+    {%endblock data%}
+
+    {%block mounted%}
+        {{block.super}}
+        self.getCut()
+    {%endblock mounted%}
+
+    {%block methods%}
+        {{block.super}}
+        getCut:(() => {
+            Block(text="Calculando corte...");
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getCut',{'cut':{{object.pk}}}, errorDialog=false)
+            .then((json) => {
+                self.CutDetail = json.data.cut
+            }).catch((error) => {
+                UnBlock();
+                Swal.fire('Ooops!',error.response.data.message,'error')
+            }).finally(() => {
+                UnBlock();
+            });
+        }),
+        makeCut:((cutID='Actual') => {
+            Block(text="Haciendo corte...");
+            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
+                sellpoint: JSON.stringify(self.CutDetail.SellpointDetail),
+                cutID:cutID,
+            }, errorDialog=false, timeout=10000)
+            .then((json) => {
+                self.getCut()
+            }).catch((error) => {
+                UnBlock()
+                Swal.fire('Ooops!',error.response.data.message,'error')
+            });
+        }),
+        makeInvoice:(() => {
+            Swal.fire('Ooops!', 'FUNCIÓN NO DISPONIBLE AÚN', 'error')
+        }),
+    {%endblock methods%}
+
+    {%block filters%}
+        {{block.super}}
+    {%endblock filters%}
+.
