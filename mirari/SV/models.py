@@ -1984,3 +1984,5 @@ class SellpointGroups(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return '{0}'.format(self.name)
+    def QUERY(self, view):
+        return SellpointGroups.objects.all()
