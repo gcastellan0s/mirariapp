@@ -134,14 +134,17 @@ script.
     {%block mounted%}
         {{block.super}}
         self.getCut()
-        $("#exampleSelect1").live('change', function() {
+        $("#exampleSelect1").on('change', function() {
             console.log($(this).val())
-            //if ($(this).val() == 'selectionKey'){
-                //DoSomething();
-            //} else {
-                //DoSomethingElse();
-            //}
         });
+        //$("#exampleSelect1").live('change', function() {
+            //console.log($(this).val())
+            ////if ($(this).val() == 'selectionKey'){
+                ////DoSomething();
+            ////} else {
+                ////DoSomethingElse();
+            ////}
+        //});
     {%endblock mounted%}
 
     {%block methods%}
