@@ -32,10 +32,16 @@ block content
                             .col-lg-12
                                 form.kt-form.kt-form--label-right
                                     .kt-portlet__body
-                                        .form-group.row
-                                            label.col-form-label.col-lg-3.col-sm-12 RANGO DE FECHAS
-                                            .col-lg-4.col-md-9.col-sm-12
-                                                input#kt_daterangepicker_1.form-control(type='text', readonly='', placeholder='DA CLICK PARA ELEGIR')
+                                        .form-group
+                                            label(for='') ELIGE UN MES
+                                            select#exampleSelect1.form-control
+                                                option Marzo 2019
+                                                option Abril 2019
+                                                option Mayo 2019
+                                                option Junio 2019
+                                                option Julio 2019
+                                                option Agosto 2019
+                                                option Septiembre 2019
                     .kt-invoice__body.kt-invoice__body--centered
                         .table-responsive(v-for='(cuttypes, key) in CutDetail.getProductsDetail')
                             h5(v-if="key=='__ALL'", :style='{color:CutDetail.SellpointDetail.color}') TOTAL
@@ -43,11 +49,11 @@ block content
                             table.table
                                 thead
                                     tr
-                                        th PRODUCTO
-                                        th PRECIO
-                                        th CANTIDAD
-                                        th IVA
-                                        th IEPS
+                                        th DIA
+                                        th PRODUCTOS 0%
+                                        th PRODUCTOS .08%
+                                        th PRODUCTOS .16%
+                                        th SUBTOTAL
                                         th TOTAL
                                 tbody
                                     template(v-for="product in cuttypes['COBRADO']")
