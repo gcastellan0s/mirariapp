@@ -33,15 +33,9 @@ block content
                                 form.kt-form.kt-form--label-right
                                     .kt-portlet__body
                                         .form-group.row
-                                            label.col-form-label.col-lg-3.col-sm-12 Minimum Setup
+                                            label.col-form-label.col-lg-3.col-sm-12 RANGO DE FECHAS
                                             .col-lg-4.col-md-9.col-sm-12
                                                 input#kt_daterangepicker_1.form-control(type='text', readonly='', placeholder='Select time')
-                                    .kt-portlet__foot
-                                        .kt-form__actions
-                                            .row
-                                                .col-lg-9.ml-lg-auto
-                                                    button.btn.btn-brand(type='submit') Submit
-                                                    button.btn.btn-secondary(type='submit') Cancel
                     .kt-invoice__body.kt-invoice__body--centered
                         .table-responsive(v-for='(cuttypes, key) in CutDetail.getProductsDetail')
                             h5(v-if="key=='__ALL'", :style='{color:CutDetail.SellpointDetail.color}') TOTAL
