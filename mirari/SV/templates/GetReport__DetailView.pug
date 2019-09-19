@@ -76,10 +76,13 @@ script.
         {{block.super}}
         getCut:(() => {
             Block(text="Calculando tabla...");
-            for (day = 1; day < 31; day++) {
+            for (day = 1; day <= 31; day++) {
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':5,'day':day}, errorDialog=false)
                 .then((json) => {
-                    self.Cuts.push({'day':json.data.day, 'cuts':json.data.cuts})
+                    if (json.data.cuts){
+                        console.log(json.data)
+                        self.Cuts.push({'day':json.data.day, 'cuts':json.data.cuts})
+                    }
                 }).catch((error) => {
                     Swal.fire('Ooops!',error.response.data.message,'error')
                 })
