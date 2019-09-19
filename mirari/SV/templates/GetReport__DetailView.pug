@@ -80,8 +80,16 @@ script.
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':5,'day':day}, errorDialog=false)
                 .then((json) => {
                     if (json.data.cuts){
-                        console.log(json.data)
                         self.Cuts.push({'day':json.data.day, 'cuts':json.data.cuts})
+                        self.Cuts.sort(function (a, b) {
+                            if (a.day < b.day) {
+                                return 1;
+                            }
+                            if (a.day > b.day) {
+                                return -1;
+                            }
+                            return 0;
+                        });
                     }
                 }).catch((error) => {
                     Swal.fire('Ooops!',error.response.data.message,'error')
