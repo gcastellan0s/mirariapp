@@ -54,12 +54,12 @@ block content
                                         th TOTAL
                                 tbody
                                     tr(v-for="cut in Cuts")
-                                        td ${cut.0}
-                                        td ${cut.1}
-                                        td ${cut.1}
-                                        td ${cut.1}
-                                        td ${cut.1}
-                                        td ${cut.1}
+                                        td ${cut.day}
+                                        td ${cut.cuts}
+                                        td ${cut.cuts}
+                                        td ${cut.cuts}
+                                        td ${cut.cuts}
+                                        td ${cut.cuts}
 
 script.
     {%block data%}
@@ -79,7 +79,7 @@ script.
             for (day = 1; day < 31; day++) {
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':5,'day':day}, errorDialog=false)
                 .then((json) => {
-                    self.Cuts.push(json.data.day, json.data.cuts)
+                    self.Cuts.push({'day':json.data.day, 'cuts':json.data.cuts})
                 }).catch((error) => {
                     Swal.fire('Ooops!',error.response.data.message,'error')
                 })
