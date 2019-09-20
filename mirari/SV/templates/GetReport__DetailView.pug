@@ -103,7 +103,7 @@ script.
         }),
         get08: ((cut) => {
             total = 0
-            for(c in cut.cuts) total += c.getIepsDetail['__ALL'].TOTAL.NUMBER
+            for(c in cut.cuts) total = total + c.getIepsDetail.__ALL.TOTAL.NUMBER
             return total
         }),
         get16: ((cut) => {
