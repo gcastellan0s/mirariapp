@@ -55,11 +55,11 @@ block content
                                 tbody
                                     tr(v-for="cut in Cuts")
                                         td ${cut.day}
-                                        td ${cut.day}
-                                        td ${cut.day}
-                                        td ${cut.day}
-                                        td ${cut.day}
-                                        td ${cut.day}
+                                        td ${cut|get0}
+                                        td ${cut|get08}
+                                        td ${cut|get16}
+                                        td ${cut|getSubTotal}
+                                        td ${cut|getTotal}
 
 script.
     {%block data%}
@@ -97,5 +97,26 @@ script.
 
     {%block filters%}
         {{block.super}}
+        get0: ((cut) => {
+            total = 0
+            return total
+        }),
+        get08: ((cut) => {
+            total = 0
+            for(c in cut.cuts) total += c.getIepsDetail.__ALL.TOTAL.NUMBER
+            return total
+        }),
+        get16: ((cut) => {
+            total = 0
+            return total
+        }),
+        getSubTotal: ((cut) => {
+            total = 0
+            return total
+        }),
+        getTotal: ((cut) => {
+            total = 0
+            return total
+        }),
     {%endblock filters%}
 .
