@@ -55,11 +55,11 @@ block content
                                 tbody
                                     tr(v-for="cut in Cuts")
                                         td ${cut.day}
-                                        td ${cut|get0}
-                                        td ${cut|get08}
-                                        td ${cut|get16}
-                                        td ${cut|getSubTotal}
-                                        td ${cut|getTotal}
+                                        td ${cut.cuts|get0}
+                                        td ${cut.cuts|get08}
+                                        td ${cut.cuts|get16}
+                                        td ${cut.cuts|getSubTotal}
+                                        td ${cut.cuts|getTotal}
 
 script.
     {%block data%}
