@@ -80,10 +80,10 @@ script.
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':5,'day':day}, errorDialog=false)
                 .then((json) => {
                     if (json.data.cuts){
-                        self.Cuts.unshift({'day':parseInt(json.data.day), 'cuts':json.data.cuts})
+                        self.Cuts.push({'day':parseInt(json.data.day), 'cuts':json.data.cuts})
                         self.Cuts.sort(function (a, b) {
-                            if (a.day < b.day) return 1;
-                            if (a.day > b.day) return -1;
+                            if (a.day < b.day) return -1;
+                            if (a.day > b.day) return 1;
                             return 0;
                         });
                     }
