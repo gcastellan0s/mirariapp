@@ -98,24 +98,24 @@ script.
     {%block filters%}
         {{block.super}}
         get0: ((cut) => {
-            total = 0
+            total = 100
             return total
         }),
         get08: ((cut) => {
-            total = 0
+            total = 100
             for(c in cut.cuts) total = total + c.getIepsDetail.__ALL.TOTAL.NUMBER
             return total
         }),
         get16: ((cut) => {
-            total = 0
+            total = 100
             return total
         }),
         getSubTotal: ((cut) => {
-            total = 0
+            total = 100
             return total
         }),
         getTotal: ((cut) => {
-            total = 0
+            total = 100
             return total
         }),
     {%endblock filters%}
