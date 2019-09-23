@@ -151,8 +151,7 @@ script.
                 for (day = 1; day <= 31; day++) {
                     Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':date[0],'day':day}, errorDialog=false)
                     .then((json) => {
-                        console.log(json.data.cuts)
-                        if (json.data.cuts){
+                        if (json.data.cuts.length > 0){
                             self.Cuts.push({'day':parseInt(json.data.day), 'cuts':json.data.cuts})
                             self.Cuts.sort(function (a, b) {
                                 if (a.day < b.day) return -1;
