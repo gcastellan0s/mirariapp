@@ -59,6 +59,7 @@ script.
         Cuts: [],
         selected: null,
         options: [
+            { text: '---', value: '' },
             { text: 'Marzo 2019', value: '3-2019' },
             { text: 'Abril 2019', value: '4-2019' },
             { text: 'Mayo 2019', value: '5-2019' },
@@ -122,4 +123,11 @@ script.
             return total
         }),
     {%endblock filters%}
+
+    %block watch%}
+        {{block.super}}
+        'selected': function (newData, oldData) {
+            console.log(newData)
+        }
+    {%endblock watch%}
 .
