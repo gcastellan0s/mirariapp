@@ -50,7 +50,6 @@ block content
                                         th PRODUCTOS 0%
                                         th PRODUCTOS .08%
                                         th PRODUCTOS .16%
-                                        th SUBTOTAL
                                         th TOTAL
                                 tbody
                                     tr(v-for="cut in Cuts")
@@ -58,7 +57,6 @@ block content
                                         td ${cut|get0}
                                         td ${cut|get08}
                                         td ${cut|get16}
-                                        td ${cut|getSubTotal}
                                         td ${cut|getTotal}
 
 script.
@@ -98,25 +96,25 @@ script.
     {%block filters%}
         {{block.super}}
         get0: ((cut) => {
-            total = 100
+            var total = 100
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIepsDetail.__ALL.TOTAL.NUMBER)
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIvaDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
         get08: ((cut) => {
             var total = 100
-            Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
-            //for(c in cut.cuts) total = total + c.getIepsDetail.__ALL.TOTAL.NUMBER
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIepsDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
         get16: ((cut) => {
-            total = 100
-            return total
-        }),
-        getSubTotal: ((cut) => {
-            total = 100
+            var total = 100
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
         getTotal: ((cut) => {
-            total = 100
+            var total = 100
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
     {%endblock filters%}
