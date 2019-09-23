@@ -96,24 +96,24 @@ script.
     {%block filters%}
         {{block.super}}
         get0: ((cut) => {
-            var total = 100
+            var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
             Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIepsDetail.__ALL.TOTAL.NUMBER)
             Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIvaDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
         get08: ((cut) => {
-            var total = 100
+            var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIepsDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
         get16: ((cut) => {
-            var total = 100
+            var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
         getTotal: ((cut) => {
-            var total = 100
+            var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
