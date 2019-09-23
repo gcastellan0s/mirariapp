@@ -36,7 +36,7 @@ block content
                                                 option(v-for="option in options" v-bind:value="option.value")
                                                     | ${option.text}
                     .kt-invoice__body.kt-invoice__body--centered
-                        .table-responsive
+                        .table-responsive(v-if="Cuts")
                             table.table
                                 thead
                                     tr

@@ -1512,6 +1512,7 @@ class CutReportSerializer(Basic_Serializer):
     getIvaDetail = serializers.ReadOnlyField()
     getIepsDetail = serializers.ReadOnlyField()
     getTotalDetail = serializers.ReadOnlyField()
+    getProductsDetail = serializers.ReadOnlyField()
     class Meta(Basic_Serializer.Meta):
         model = Cut
     def get_SellpointDetail(self, obj):
