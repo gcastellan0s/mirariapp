@@ -114,7 +114,6 @@ script.
             total = total/.16*1.16
             return total
         }),
-        //self.Ticket.iva -= (productLine.ivaTotal*(discountValue*.01))
         getTotal: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
@@ -126,12 +125,6 @@ script.
 
     {%block watch%}
         {{block.super}}
-
-        self.Ticket.iva -= (productLine.ivaTotal*(discountValue*.01))
-
-        354.24 / .16 * 1.16 = productLine.total
-
-
         'selected': function (newData, oldData) {
             self.Cuts = []
             var date = newData.split('-')
