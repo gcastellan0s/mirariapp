@@ -102,8 +102,8 @@ script.
             return total
         }),
         get08: ((cut) => {
-            total = 100
-            Object.entries(cut.cuts).forEach(([key, value]) => console.log(value))
+            var total = 100
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             //for(c in cut.cuts) total = total + c.getIepsDetail.__ALL.TOTAL.NUMBER
             return total
         }),
