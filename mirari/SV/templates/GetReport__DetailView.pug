@@ -110,6 +110,7 @@ script.
     {%block watch%}
         {{block.super}}
         'selected': function (newData, oldData) {
+            self.Cuts = []
             var date = newData.split('-')
             if(date){
                 Block(text="Calculando tabla...");
