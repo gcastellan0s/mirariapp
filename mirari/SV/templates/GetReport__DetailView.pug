@@ -124,7 +124,7 @@ script.
         }),
     {%endblock filters%}
 
-    %block watch%}
+    {%block watch%}
         {{block.super}}
         'selected': function (newData, oldData) {
             console.log(newData)
