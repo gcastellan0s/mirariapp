@@ -4,7 +4,7 @@ extends "generic/DetailView.html"
 -load mirari_tags
 
 block object_name
-    {{object.sellpoint.name}}
+    {{object.name}}
 
 block styles
     {{block.super}}
@@ -28,6 +28,7 @@ block content
                     .kt-invoice__head.kt-invoice__container.kt-invoice__container--centered
                         .row
                             .col-lg-12
+                                h2 {{object.name}}
                                 form.kt-form.kt-form--label-right
                                     .kt-portlet__body
                                         .form-group
@@ -104,7 +105,6 @@ script.
             Object.entries(cut.cuts).forEach(([key, value]) => iva = iva+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             iva = iva/.16*1.16
 
-            
             return total - ieps -iva
         }),
         get0: ((cut) => {
