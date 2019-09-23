@@ -44,11 +44,15 @@ block content
                                         th PRODUCTOS 0%
                                         th PRODUCTOS .08%
                                         th PRODUCTOS .16%
+                                        th IEPS
+                                        th IVA
                                         th TOTAL
                                 tbody
                                     tr(v-for="cut in Cuts")
                                         td ${cut.day}
                                         td $${cut|get0|formatPrice}
+                                        td $${cut|get08|formatPrice}
+                                        td $${cut|get16|formatPrice}
                                         td $${cut|get08|formatPrice}
                                         td $${cut|get16|formatPrice}
                                         td $${cut|getTotal|formatPrice}
