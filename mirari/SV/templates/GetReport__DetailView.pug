@@ -96,7 +96,10 @@ script.
             Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIepsDetail.__ALL.TOTAL.NUMBER)
             Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIvaDetail.__ALL.TOTAL.NUMBER)
 
-            
+            var total = 0
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIepsDetail.__ALL.TOTAL.NUMBER)
+            total = total/.08*1.08
+
             return total
         }),
         get0: ((cut) => {
