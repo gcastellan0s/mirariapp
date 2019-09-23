@@ -44,6 +44,7 @@ block content
                                         th PRODUCTOS 0%
                                         th PRODUCTOS .08%
                                         th PRODUCTOS .16%
+                                        th SUBTOTAL
                                         th IEPS
                                         th IVA
                                         th TOTAL
@@ -51,8 +52,9 @@ block content
                                     tr(v-for="cut in Cuts")
                                         td ${cut.day}
                                         td $${cut|get0|formatPrice}
-                                        td $${cut|get08|formatPrice}
-                                        td $${cut|get16|formatPrice}
+                                        td $${cut|get08|gettotal08|formatPrice}
+                                        td $${cut|get16|gettotal16|formatPrice}
+                                        td $${cut|get0|formatPrice}
                                         td $${cut|get08|formatPrice}
                                         td $${cut|get16|formatPrice}
                                         td $${cut|getTotal|formatPrice}
@@ -104,15 +106,32 @@ script.
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
+        gettotal08: ((total) => {
+            total = total/.08*1.08
+            return total
+        }),
+        gettotal16: ((total) => {
+            total = total/.16*1.16
+            return total
+        }),
+        //self.Ticket.iva -= (productLine.ivaTotal*(discountValue*.01))
         getTotal: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
+
+        
     {%endblock filters%}
 
     {%block watch%}
         {{block.super}}
+
+        self.Ticket.iva -= (productLine.ivaTotal*(discountValue*.01))
+
+        354.24 / .16 * 1.16 = productLine.total
+
+
         'selected': function (newData, oldData) {
             self.Cuts = []
             var date = newData.split('-')
