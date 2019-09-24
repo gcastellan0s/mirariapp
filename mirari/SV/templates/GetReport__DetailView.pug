@@ -63,6 +63,17 @@ block content
                                         td $${cut|gettotalieps|formatPrice}
                                         td $${cut|gettotaliva|formatPrice}
                                         td $${cut|getTotal|formatPrice}
+                                    tr
+                                        td -
+                                        td {{uno}}
+                                        td {{dos}}
+                                        td {{tres}}
+                                        td {{cuatro}}
+                                        td {{cinco}}
+                                        td {{seis}}
+                                        td {{siete}}
+                                        td {{ocho}}
+                                        td {{nueve}}
 
 script.
     {%block data%}
@@ -78,7 +89,16 @@ script.
             { text: 'Julio 2019', value: '7-2019' },
             { text: 'Agosto 2019', value: '8-2019' },
             { text: 'Septiembre 2019', value: '9-2019' },
-        ]
+        ],
+        uno: 0,
+        dos: 0,
+        tres: 0,
+        cuatro: 0,
+        cinco: 0,
+        seis: 0,
+        siete: 0,
+        ocho: 0,
+        nueve: 0,
     {%endblock data%}
 
     {%block mounted%}
@@ -108,14 +128,15 @@ script.
             var iva = 0
             Object.entries(cut.cuts).forEach(([key, value]) => iva = iva+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             iva = iva/.16
-
+            this.uno += total - ieps -iva
             return total - ieps -iva
         }),
-        get0: ((cut) => {
-            var total = 0
-            Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
-            Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIepsDetail.__ALL.TOTAL.NUMBER)
-            Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIvaDetail.__ALL.TOTAL.NUMBER)
+        gettotal08: ((total) => {
+            total = total/.08
+            return total
+        }),
+        gettotal16: ((total) => {
+            total = total/.16
             return total
         }),
         get08: ((cut) => {
@@ -128,19 +149,14 @@ script.
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
-        gettotal08: ((total) => {
-            total = total/.08
-            return total
-        }),
-        gettotal16: ((total) => {
-            total = total/.16
-            return total
-        }),
-        getTotal: ((cut) => {
+        get0: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIepsDetail.__ALL.TOTAL.NUMBER)
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIvaDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
+        
         gettotalieps: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIepsDetail.__ALL.TOTAL.NUMBER)
@@ -153,7 +169,11 @@ script.
             ivatotal = total/.08
             return total + ivatotal
         }),
-
+        getTotal: ((cut) => {
+            var total = 0
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
+            return total
+        }),
         
     {%endblock filters%}
 
