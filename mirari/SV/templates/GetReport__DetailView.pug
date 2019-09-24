@@ -142,16 +142,16 @@ script.
             return total
         }),
         gettotalieps: ((cut) => {
-            var ieps = 0
+            var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIepsDetail.__ALL.TOTAL.NUMBER)
-            iepstotal = ieps/.08
-            return ieps + iepstotal
+            iepstotal = total/.08
+            return total + iepstotal
         }),
         gettotaliva: ((cut) => {
-            var iva = 0
+            var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
-            ivatotal = iva/.08
-            return iva + ivatotal
+            ivatotal = total/.08
+            return total + ivatotal
         }),
 
         
