@@ -99,11 +99,11 @@ script.
 
             var ieps = 0
             Object.entries(cut.cuts).forEach(([key, value]) => ieps = ieps+value.getIepsDetail.__ALL.TOTAL.NUMBER)
-            ieps = ieps/1.08
+            ieps = ieps/.08*1.08
 
             var iva = 0
             Object.entries(cut.cuts).forEach(([key, value]) => iva = iva+value.getIvaDetail.__ALL.TOTAL.NUMBER)
-            iva = iva/1.16
+            iva = iva/.16*1.16
 
             return total - ieps -iva
         }),
@@ -125,11 +125,11 @@ script.
             return total
         }),
         gettotal08: ((total) => {
-            total = total/1.08
+            total = total/.08*1.08
             return total
         }),
         gettotal16: ((total) => {
-            total = total/1.16
+            total = total/.16*1.16
             return total
         }),
         getTotal: ((cut) => {
