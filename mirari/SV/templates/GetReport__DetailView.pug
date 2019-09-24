@@ -48,6 +48,8 @@ block content
                                         th IEPS
                                         th IVA
                                         th SUBTOTAL
+                                        th TOTALIEPS
+                                        th TOTALIVA
                                         th TOTAL
                                 tbody
                                     tr(v-for="cut in Cuts")
@@ -58,6 +60,8 @@ block content
                                         td $${cut|get08|formatPrice}
                                         td $${cut|get16|formatPrice}
                                         td $${cut|get0|formatPrice}
+                                        td $${cut|gettotalieps|formatPrice}
+                                        td $${cut|gettotaliva|formatPrice}
                                         td $${cut|getTotal|formatPrice}
 
 script.
@@ -136,6 +140,18 @@ script.
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
             return total
+        }),
+        gettotalieps: ((cut) => {
+            var ieps = 0
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIepsDetail.__ALL.TOTAL.NUMBER)
+            iepstotal = ieps/.08
+            return ieps + iepstotal
+        }),
+        gettotaliva: ((cut) => {
+            var iva = 0
+            Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
+            ivatotal = iva/.08
+            return iva + ivatotal
         }),
 
         
