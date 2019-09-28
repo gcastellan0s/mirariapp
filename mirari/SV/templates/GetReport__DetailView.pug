@@ -115,20 +115,17 @@ script.
     {%block filters%}
         {{block.super}}
         getall: ((cut) => {
-
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
             Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIepsDetail.__ALL.TOTAL.NUMBER)
             Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIvaDetail.__ALL.TOTAL.NUMBER)
-
             var ieps = 0
             Object.entries(cut.cuts).forEach(([key, value]) => ieps = ieps+value.getIepsDetail.__ALL.TOTAL.NUMBER)
             ieps = ieps/.08
-
             var iva = 0
             Object.entries(cut.cuts).forEach(([key, value]) => iva = iva+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             iva = iva/.16
-            //self.uno = self.uno + total - ieps -iva
+            self.uno = self.uno + total - ieps -iva
             return total - ieps -iva
         }),
         gettotal08: ((total) => {
