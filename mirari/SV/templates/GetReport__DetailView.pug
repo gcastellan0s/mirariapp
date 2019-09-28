@@ -63,17 +63,17 @@ block content
                                         td $${cut|gettotalieps|formatPrice}
                                         td $${cut|gettotaliva|formatPrice}
                                         td $${cut|getTotal|formatPrice}
-                                    tr
-                                        td -
-                                        td ${uno}
-                                        td ${dos}
-                                        td ${tres}
-                                        td ${cuatro}
-                                        td ${cinco}
-                                        td ${seis}
-                                        td ${siete}
-                                        td ${ocho}
-                                        td ${nueve}
+                                    //tr
+                                        //td -
+                                        //td ${uno}
+                                        //td ${dos}
+                                        //td ${tres}
+                                        //td ${cuatro}
+                                        //td ${cinco}
+                                        //td ${seis}
+                                        //td ${siete}
+                                        //td ${ocho}
+                                        //td ${nueve}
 
 script.
     {%block data%}
@@ -90,15 +90,15 @@ script.
             { text: 'Agosto 2019', value: '8-2019' },
             { text: 'Septiembre 2019', value: '9-2019' },
         ],
-        uno: 0,
-        dos: 0,
-        tres: 0,
-        cuatro: 0,
-        cinco: 0,
-        seis: 0,
-        siete: 0,
-        ocho: 0,
-        nueve: 0,
+        //uno: 0,
+        //dos: 0,
+        //tres: 0,
+        //cuatro: 0,
+        //cinco: 0,
+        //seis: 0,
+        //siete: 0,
+        //ocho: 0,
+        //nueve: 0,
     {%endblock data%}
 
     {%block mounted%}
@@ -128,29 +128,29 @@ script.
             var iva = 0
             Object.entries(cut.cuts).forEach(([key, value]) => iva = iva+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             iva = iva/.16
-            self.uno = self.uno + total - ieps -iva
+            //self.uno = self.uno + total - ieps -iva
             return total - ieps -iva
         }),
         gettotal08: ((total) => {
             total = total/.08
-            self.dos = self.dos + total
+            //self.dos = self.dos + total
             return total
         }),
         gettotal16: ((total) => {
             total = total/.16
-            self.tres = self.tres + total
+            //self.tres = self.tres + total
             return total
         }),
         get08: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIepsDetail.__ALL.TOTAL.NUMBER)
-            self.cuatro = self.cuatro + total
+            //self.cuatro = self.cuatro + total
             return total
         }),
         get16: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
-            self.cinco = self.cinco + total
+            //self.cinco = self.cinco + total
             return total
         }),
         get0: ((cut) => {
@@ -158,7 +158,7 @@ script.
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
             Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIepsDetail.__ALL.TOTAL.NUMBER)
             Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIvaDetail.__ALL.TOTAL.NUMBER)
-            self.seis = self.seis + total
+            //self.seis = self.seis + total
             return total
         }),
         
@@ -166,20 +166,20 @@ script.
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIepsDetail.__ALL.TOTAL.NUMBER)
             iepstotal = total/.08
-            self.siete = self.siete + total + iepstotal
+            //self.siete = self.siete + total + iepstotal
             return total + iepstotal
         }),
         gettotaliva: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             ivatotal = total/.08
-            self.ocho = self.ocho + total + ivatotal
+            //self.ocho = self.ocho + total + ivatotal
             return total + ivatotal
         }),
         getTotal: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
-            self.nueve = self.nueve + total
+            //self.nueve = self.nueve + total
             return total
         }),
         
