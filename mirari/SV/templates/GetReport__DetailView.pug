@@ -125,12 +125,12 @@ script.
             var iva = 0
             Object.entries(cut.cuts).forEach(([key, value]) => iva = iva+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             iva = iva/.16
-            self.uno = self.uno + total - ieps -iva
+            //self.uno = self.uno + total - ieps -iva
             return total - ieps -iva
         }),
         gettotal08: ((total) => {
             total = total/.08
-            //self.dos = self.dos + total
+            self.dos = self.dos + total
             return total
         }),
         gettotal16: ((total) => {
