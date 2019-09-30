@@ -40,12 +40,12 @@ block content
                         .row
                             .col-lg-6
                                 .kt-invoice__logo.pt-5.kt-align-right
-                                    h1.kt-align-right ${selected}
+                                    h1.kt-align-right T:$ ${nueve|getNueve|formatPrice}
                                 .kt-invoice__items.kt-align-right.py-4
                                     .kt-invoice__item.kt-align-right
                                         div
-                                            span.kt-invoice__subtitle TOTAL
-                                            span.kt-invoice__text $${nueve|getNueve|formatPrice}
+                                            span.kt-invoice__subtitle ${selected} 
+                                            span.kt-invoice__text 
                             .col-lg-6
                                 .kt-invoice__items.kt-align-right.py-4
                                     .kt-invoice__item.kt-align-left
