@@ -40,21 +40,21 @@ block content
                         .row
                             .col-lg-6
                                 .kt-invoice__logo.pt-5.kt-align-right
-                                    h1.kt-align-right T:$ ${nueve|getNueve|formatPrice}
+                                    h1.kt-align-right $ ${nueve|getNueve|formatPrice}
                                 .kt-invoice__items.kt-align-right.py-4
                                     .kt-invoice__item.kt-align-right
                                         div
                                             span.kt-invoice__subtitle ${selected} 
                                             span.kt-invoice__text 
-                            .col-lg-6
-                                .kt-invoice__items.kt-align-right.py-4
-                                    .kt-invoice__item.kt-align-left
                                         div
                                             span.kt-invoice__subtitle
                                                 small {{object.line1}}
                                         div
                                             span.kt-invoice__subtitle
                                                 small {{object.line2}}
+                            .col-lg-6
+                                .kt-invoice__items.kt-align-right.py-4
+                                    .kt-invoice__item.kt-align-left
                                         div
                                             span.kt-invoice__subtitle
                                                 small {{object.line3}}
