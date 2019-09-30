@@ -1986,14 +1986,14 @@ class SellpointGroups(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
     name = models.CharField('Nombre del grupo', max_length=250)
     sellpoints = models.ManyToManyField('Sellpoint', verbose_name='Puntos de venta', blank=True, related_name='+',)
-    line1 = models.CharField('Linea 1', max_length=250)
-    line2 = models.CharField('Linea 2', max_length=250)
-    line3 = models.CharField('Linea 3', max_length=250)
-    line4 = models.CharField('Linea 4', max_length=250)
-    line5 = models.CharField('Linea 5', max_length=250)
-    line6 = models.CharField('Linea 6', max_length=250)
-    footer1 = models.CharField('Pie1', max_length=250)
-    footer2 = models.CharField('Pie2', max_length=250)
+    line1 = models.CharField('Linea 1', max_length=250, blank=True, null=True)
+    line2 = models.CharField('Linea 2', max_length=250, blank=True, null=True)
+    line3 = models.CharField('Linea 3', max_length=250, blank=True, null=True)
+    line4 = models.CharField('Linea 4', max_length=250, blank=True, null=True)
+    line5 = models.CharField('Linea 5', max_length=250, blank=True, null=True)
+    line6 = models.CharField('Linea 6', max_length=250, blank=True, null=True)
+    footer1 = models.CharField('Pie1', max_length=250, blank=True, null=True)
+    footer2 = models.CharField('Pie2', max_length=250, blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
