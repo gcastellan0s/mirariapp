@@ -65,7 +65,7 @@ block content
                                         td.nueve $${cut|getTotal|formatPrice}
                                     tr
                                         td -
-                                        td ${uno}
+                                        td ${uno|getUno}
                                         td ${dos}
                                         td ${tres}
                                         td ${cuatro}
@@ -168,8 +168,12 @@ script.
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
-        getUno: (()=> {
-
+        getUno: ((total)=> {
+            var uno = document.getElementsByClassName("uno")
+            for (var i = 0; i < uno.length; i++){
+                total+=parseInt(uno[i].innerHTML.replace(',', '').replace('$', ''))
+            }
+            return total
         }),
         getDos: (()=> {
 
