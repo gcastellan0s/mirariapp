@@ -175,56 +175,56 @@ script.
             }
             return total
         }),
-        getDos: (()=> {
+        getDos: ((total)=> {
             var dos = document.getElementsByClassName("dos")
             for (var i = 0; i < dos.length; i++){
                 total+=parseFloat(dos[i].innerHTML.replace(',', '').replace('$', ''))
             }
             return total
         }),
-        getTres: (()=> {
+        getTres: ((total)=> {
             var tres = document.getElementsByClassName("tres")
             for (var i = 0; i < tres.length; i++){
                 total+=parseFloat(tres[i].innerHTML.replace(',', '').replace('$', ''))
             }
             return total
         }),
-        getCuatro: (()=> {
+        getCuatro: ((total)=> {
             var cuatro = document.getElementsByClassName("cuatro")
             for (var i = 0; i < cuatro.length; i++){
                 total+=parseFloat(cuatro[i].innerHTML.replace(',', '').replace('$', ''))
             }
             return total
         }),
-        getCinco: (()=> {
+        getCinco: ((total)=> {
             var cinco = document.getElementsByClassName("cinco")
             for (var i = 0; i < cinco.length; i++){
                 total+=parseFloat(cinco[i].innerHTML.replace(',', '').replace('$', ''))
             }
             return total
         }),
-        getSeis: (()=> {
+        getSeis: ((total)=> {
             var seis = document.getElementsByClassName("seis")
             for (var i = 0; i < seis.length; i++){
                 total+=parseFloat(seis[i].innerHTML.replace(',', '').replace('$', ''))
             }
             return total
         }),
-        getSiete: (()=> {
+        getSiete: ((total)=> {
             var siete = document.getElementsByClassName("siete")
             for (var i = 0; i < siete.length; i++){
                 total+=parseFloat(siete[i].innerHTML.replace(',', '').replace('$', ''))
             }
             return total
         }),
-        getOcho: (()=> {
+        getOcho: ((total)=> {
             var ocho = document.getElementsByClassName("ocho")
             for (var i = 0; i < ocho.length; i++){
                 total+=parseFloat(ocho[i].innerHTML.replace(',', '').replace('$', ''))
             }
             return total
         }),
-        getNueve: (()=> {
+        getNueve: ((total)=> {
             var nueve = document.getElementsByClassName("nueve")
             for (var i = 0; i < nueve.length; i++){
                 total+=parseFloat(nueve[i].innerHTML.replace(',', '').replace('$', ''))
