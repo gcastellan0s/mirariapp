@@ -54,15 +54,15 @@ block content
                                 tbody
                                     tr(v-for="cut in Cuts")
                                         td ${cut.day}
-                                        td $${cut|getall|formatPrice}
-                                        td $${cut|get08|gettotal08|formatPrice}
-                                        td $${cut|get16|gettotal16|formatPrice}
-                                        td $${cut|get08|formatPrice}
-                                        td $${cut|get16|formatPrice}
-                                        td $${cut|get0|formatPrice}
-                                        td $${cut|gettotalieps|formatPrice}
-                                        td $${cut|gettotaliva|formatPrice}
-                                        td $${cut|getTotal|formatPrice}
+                                        td.uno $${cut|getall|formatPrice}
+                                        td.dos $${cut|get08|gettotal08|formatPrice}
+                                        td.tres $${cut|get16|gettotal16|formatPrice}
+                                        td.cuatro $${cut|get08|formatPrice}
+                                        td.cinco $${cut|get16|formatPrice}
+                                        td.seis $${cut|get0|formatPrice}
+                                        td.siete $${cut|gettotalieps|formatPrice}
+                                        td.ocho $${cut|gettotaliva|formatPrice}
+                                        td.nueve $${cut|getTotal|formatPrice}
                                     tr
                                         td -
                                         td ${uno}
@@ -125,28 +125,22 @@ script.
             var iva = 0
             Object.entries(cut.cuts).forEach(([key, value]) => iva = iva+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             iva = iva/.16
-            //self.uno = self.uno + total - ieps -iva
             return total - ieps -iva
         }),
         gettotal08: ((total) => {
-            self.dos += 1
-            console.log(self.dos)
             return total/.08
         }),
         gettotal16: ((total) => {
-            //self.tres = self.tres + total
             return total/.16
         }),
         get08: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIepsDetail.__ALL.TOTAL.NUMBER)
-            //self.cuatro = self.cuatro + total
             return total
         }),
         get16: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
-            //self.cinco = self.cinco + total
             return total
         }),
         get0: ((cut) => {
@@ -154,7 +148,6 @@ script.
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
             Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIepsDetail.__ALL.TOTAL.NUMBER)
             Object.entries(cut.cuts).forEach(([key, value]) => total = total-value.getIvaDetail.__ALL.TOTAL.NUMBER)
-            //self.seis = self.seis + total
             return total
         }),
         
@@ -162,23 +155,46 @@ script.
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIepsDetail.__ALL.TOTAL.NUMBER)
             iepstotal = total/.08
-            //self.siete = self.siete + total + iepstotal
             return total + iepstotal
         }),
         gettotaliva: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getIvaDetail.__ALL.TOTAL.NUMBER)
             ivatotal = total/.08
-            //self.ocho = self.ocho + total + ivatotal
             return total + ivatotal
         }),
         getTotal: ((cut) => {
             var total = 0
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
-            //self.nueve = self.nueve + total
             return total
         }),
-        
+        getUno: => {
+            
+        },
+        getDos: => {
+
+        },
+        getTres: => {
+
+        },
+        getCuatro: => {
+
+        },
+        getCinco: => {
+
+        },
+        getSeis: => {
+
+        },
+        getSiete: => {
+
+        },
+        getOcho: => {
+
+        },
+        getNueve: => {
+
+        },
     {%endblock filters%}
 
     {%block watch%}
