@@ -1980,7 +1980,7 @@ VARS = {
             'plugin': 'selectmultiple',
         },
     },
-    'FORM': ('name','sellpoints'),
+    'FORM': ('name','sellpoints','line1','line2','line3','line4','line5','line6',),
 }
 class SellpointGroups(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
