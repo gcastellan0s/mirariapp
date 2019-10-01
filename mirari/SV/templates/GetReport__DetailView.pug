@@ -194,12 +194,10 @@ script.
             return total
         }),
         getUno: ((total)=> {
-            total = 0
             var uno = document.getElementsByClassName("uno")
             for (var i = 0; i < uno.length; i++){
-                total+=parseFloat(uno[i].innerHTML.replace(',', '').replace('$', ''))
+                total = total + parseFloat(uno[i].innerHTML.replace(',', '').replace('$', ''))
             }
-            console.log(total)
             return total
         }),
         getDos: ((total)=> {
