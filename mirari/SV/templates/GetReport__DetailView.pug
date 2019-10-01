@@ -196,7 +196,7 @@ script.
         getUno: ((total)=> {
             var uno = document.getElementsByClassName("uno")
             for (var i = 0; i <= uno.length; i++){
-                if(uno[i].innerHTML.replace(',', '').replace('$', '')){
+                if(uno[i]){
                     total+=parseFloat(uno[i].innerHTML.replace(',', '').replace('$', ''))
                 }
             }
