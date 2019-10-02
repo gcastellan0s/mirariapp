@@ -274,12 +274,13 @@ script.
                             Swal.fire('Ooops!',error.response.data.message,'error')
                         })
                     }
+                    UnBlock();
                 }
             }
         },
         Cuts: function (newData, oldData) {
             if (newData != oldData){
-                console.log(newData)
+                console.log(":)")
             }
         }
     {%endblock watch%}
