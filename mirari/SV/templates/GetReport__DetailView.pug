@@ -261,8 +261,7 @@ script.
 
     {%block watch%}
         {{block.super}}
-        'selected': function (newData, oldData) {
-            self.Cuts = []
+        selected: function (newData, oldData) {
             var date = newData.split('-')
             if(date){
                 Block(text="Calculando tabla...");
