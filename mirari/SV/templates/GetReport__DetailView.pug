@@ -90,7 +90,7 @@ block content
                                         td.nueve $${cut|getTotal|formatPrice}
                                     tr
                                         td -
-                                        td(style="background-color:#f3f3f3") $${uno|getUno|formatPrice}
+                                        td(style="background-color:#f3f3f3") $${uno|formatPrice}
                                         td(style="background-color:#f3f3f3") $${dos|getDos|formatPrice}
                                         td(style="background-color:#f3f3f3") $${tres|getTres|formatPrice}
                                         td(style="background-color:#f3f3f3") $${cuatro|getCuatro|formatPrice}
@@ -128,6 +128,14 @@ script.
 
     {%block methods%}
         {{block.super}}
+        getUno: (()=> {
+            var uno = document.getElementsByClassName("uno")
+            //for (var i = 0; i < uno.length; i++){
+                //console.log(parseFloat(uno[i].innerHTML.replace(',', '').replace('$', '')))
+                //total=total+parseFloat(uno[i].innerHTML.replace(',', '').replace('$', ''))
+            //}
+            this.uno = uno.length
+        }),
     {%endblock methods%}
 
     {%block filters%}
@@ -186,14 +194,7 @@ script.
             Object.entries(cut.cuts).forEach(([key, value]) => total = total+value.getTotalDetail.__ALL.TOTAL.NUMBER)
             return total
         }),
-        getUno: ((total)=> {
-            var uno = document.getElementsByClassName("uno")
-            //for (var i = 0; i < uno.length; i++){
-                //console.log(parseFloat(uno[i].innerHTML.replace(',', '').replace('$', '')))
-                //total=total+parseFloat(uno[i].innerHTML.replace(',', '').replace('$', ''))
-            //}
-            return uno.length
-        }),
+        
         getDos: ((total)=> {
             var dos = document.getElementsByClassName("dos")
             for (var i = 0; i < dos.length; i++){
@@ -269,7 +270,7 @@ script.
                                     if (a.day > b.day) return 1;
                                     return 0;
                                 });
-                                console.log(json.data.day)
+                                this.getUno();
                             }
                         }).catch((error) => {
                             Swal.fire('Ooops!',error.response.data.message,'error')
