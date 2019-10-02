@@ -259,8 +259,8 @@ script.
                 var date = newData.split('-')
                 if(date){
                     Block(text="Calculando tabla...");
-                    for (day = 1; day <= 31; day++) {
-                        Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':date[0],'day':day}, errorDialog=false)
+                    async for (day = 1; day <= 31; day++) {
+                        await Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':date[0],'day':day}, errorDialog=false)
                         .then((json) => {
                             if (json.data.cuts.length > 0){
                                 self.Cuts.push({'day':parseInt(json.data.day), 'cuts':json.data.cuts})
@@ -272,11 +272,9 @@ script.
                             }
                         }).catch((error) => {
                             Swal.fire('Ooops!',error.response.data.message,'error')
-                        }).finally(() => {
-                            UnBlock();
-                            console.log(":)")
                         })
                     }
+                    UnBlock();
                 }
             }
         }
