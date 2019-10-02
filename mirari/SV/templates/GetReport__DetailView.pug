@@ -188,7 +188,9 @@ script.
         }),
         getUno: ((total)=> {
             var uno = document.getElementsByClassName("uno")
-            console.log(uno.length)
+            for (var i = 0; i < uno.length; i++){
+                total=total+parseFloat(uno[i].innerHTML.replace(',', '').replace('$', ''))
+            }
             return total
         }),
         getDos: ((total)=> {
