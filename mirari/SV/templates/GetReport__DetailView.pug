@@ -88,7 +88,7 @@ block content
                                         td.siete $${cut|gettotalieps|formatPrice}
                                         td.ocho $${cut|gettotaliva|formatPrice}
                                         td.nueve $${cut|getTotal|formatPrice}
-                                    tr(v-if="totales==true")
+                                    tr(v-if="totalrows==true")
                                         td -
                                         td(style="background-color:#f3f3f3") $${uno|formatPrice}
                                         td(style="background-color:#f3f3f3") $${dos|getDos|formatPrice}
@@ -127,13 +127,13 @@ script.
         siete: 0,
         ocho: 0,
         nueve: 0,
-        totales: false,
+        totalrows: false,
     {%endblock data%}
 
     {%block methods%}
         {{block.super}}
         getAllRowTotales: (()=> {
-            self.totales = true
+            self.totalrows = true
             var uno = document.getElementsByClassName("uno")
             //for (var i = 0; i < uno.length; i++){
                 //console.log(parseFloat(uno[i].innerHTML.replace(',', '').replace('$', '')))
