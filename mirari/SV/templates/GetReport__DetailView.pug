@@ -234,7 +234,7 @@ script.
     {%block watch%}
         {{block.super}}
         'selected': function (newData, oldData) {
-            self.totales = false
+            self.totalrows = false
             if (newData != oldData){
                 var date = newData.split('-')
                 if(date){
