@@ -254,7 +254,7 @@ script.
 
     {%block watch%}
         {{block.super}}
-        selected: function (newData, oldData) {
+        'selected': function (newData, oldData) {
             if (newData != oldData){
                 var date = newData.split('-')
                 if(date){
@@ -278,7 +278,7 @@ script.
                 }
             }
         },
-        Cuts: function (newData, oldData) {
+        'Cuts': function (newData, oldData) {
             if (newData != oldData){
                 console.log(":)")
             }
