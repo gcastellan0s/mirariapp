@@ -272,6 +272,8 @@ script.
                             }
                         }).catch((error) => {
                             Swal.fire('Ooops!',error.response.data.message,'error')
+                        }).finally(() => {
+                            console.log(day)
                         })
                     }
                     UnBlock();
