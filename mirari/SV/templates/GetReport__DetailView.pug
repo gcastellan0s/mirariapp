@@ -134,7 +134,7 @@ script.
                 //console.log(parseFloat(uno[i].innerHTML.replace(',', '').replace('$', '')))
                 //total=total+parseFloat(uno[i].innerHTML.replace(',', '').replace('$', ''))
             //}
-            this.uno = uno.length
+            self.uno = uno.length
         }),
     {%endblock methods%}
 
@@ -270,7 +270,7 @@ script.
                                     if (a.day > b.day) return 1;
                                     return 0;
                                 });
-                                this.getUno();
+                                self.getUno();
                             }
                         }).catch((error) => {
                             Swal.fire('Ooops!',error.response.data.message,'error')
