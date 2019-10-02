@@ -135,11 +135,41 @@ script.
         getAllRowTotales: (()=> {
             self.totalrows = true
             var uno = document.getElementsByClassName("uno")
-            //for (var i = 0; i < uno.length; i++){
-                //console.log(parseFloat(uno[i].innerHTML.replace(',', '').replace('$', '')))
-                //total=total+parseFloat(uno[i].innerHTML.replace(',', '').replace('$', ''))
-            //}
-            self.uno = uno.length
+            for (var i = 0; i < uno.length; i++){
+                self.uno+=parseFloat(uno[i].innerHTML.replace(',', '').replace('$', ''))
+            }
+            var dos = document.getElementsByClassName("dos")
+            for (var i = 0; i < dos.length; i++){
+                self.dos+=parseFloat(dos[i].innerHTML.replace(',', '').replace('$', ''))
+            }
+            var tres = document.getElementsByClassName("tres")
+            for (var i = 0; i < tres.length; i++){
+                self.tres+=parseFloat(tres[i].innerHTML.replace(',', '').replace('$', ''))
+            }
+            var cuatro = document.getElementsByClassName("cuatro")
+            for (var i = 0; i < cuatro.length; i++){
+                self.cuatro+=parseFloat(cuatro[i].innerHTML.replace(',', '').replace('$', ''))
+            }
+            var cinco = document.getElementsByClassName("cinco")
+            for (var i = 0; i < cinco.length; i++){
+                self.cinco+=parseFloat(cinco[i].innerHTML.replace(',', '').replace('$', ''))
+            }
+            var seis = document.getElementsByClassName("seis")
+            for (var i = 0; i < seis.length; i++){
+                self.seis+=parseFloat(seis[i].innerHTML.replace(',', '').replace('$', ''))
+            }
+            var siete = document.getElementsByClassName("siete")
+            for (var i = 0; i < siete.length; i++){
+                self.siete+=parseFloat(siete[i].innerHTML.replace(',', '').replace('$', ''))
+            }
+            var ocho = document.getElementsByClassName("ocho")
+            for (var i = 0; i < ocho.length; i++){
+                self.ocho+=parseFloat(ocho[i].innerHTML.replace(',', '').replace('$', ''))
+            }
+            var nueve = document.getElementsByClassName("nueve")
+            for (var i = 0; i < nueve.length; i++){
+                self.nueve+=parseFloat(nueve[i].innerHTML.replace(',', '').replace('$', ''))
+            }
         }),
     {%endblock methods%}
 
