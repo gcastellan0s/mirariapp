@@ -273,9 +273,7 @@ script.
                         }).catch((error) => {
                             Swal.fire('Ooops!',error.response.data.message,'error')
                         }).finally(() => {
-                            if(day == 31){
-                                UnBlock();
-                            }
+                            console.log(day)
                         })
                     }
                 }
