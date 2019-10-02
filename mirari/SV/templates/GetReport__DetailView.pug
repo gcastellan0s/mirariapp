@@ -277,13 +277,13 @@ script.
                                 return 0;
                             });
                         }
-                    }).then(() => {
-                        coonsole.log(":)")
                     }).catch((error) => {
                         Swal.fire('Ooops!',error.response.data.message,'error')
+                    }).finally(() => {
+                        UnBlock();
+                        console.log(":)")
                     })
                 }
-                UnBlock();
             }
         }
     {%endblock watch%}
