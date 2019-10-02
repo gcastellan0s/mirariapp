@@ -194,10 +194,10 @@ script.
             return total
         }),
         getUno: ((total)=> {
+            total = 0
             var uno = document.getElementsByClassName("uno")
             for (var i = 0; i < uno.length; i++){
                 console.log(i)
-                total = total + parseFloat(uno[i].innerHTML.replace(',', '').replace('$', ''))
             }
             return total
         }),
@@ -277,6 +277,8 @@ script.
                                 return 0;
                             });
                         }
+                    }).then(() => {
+                        coonsole.log(":)")
                     }).catch((error) => {
                         Swal.fire('Ooops!',error.response.data.message,'error')
                     })
