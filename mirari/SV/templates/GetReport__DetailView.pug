@@ -269,11 +269,10 @@ script.
                                     if (a.day > b.day) return 1;
                                     return 0;
                                 });
+                                console.log(json.data.day)
                             }
                         }).catch((error) => {
                             Swal.fire('Ooops!',error.response.data.message,'error')
-                        }).finally(() => {
-                            console.log(day)
                         })
                     }
                     UnBlock();
