@@ -88,7 +88,7 @@ block content
                                         td.siete $${cut|gettotalieps|formatPrice}
                                         td.ocho $${cut|gettotaliva|formatPrice}
                                         td.nueve $${cut|getTotal|formatPrice}
-                                    tr(v-if="totales==true")
+                                    tr(v-if="totales==true && selected")
                                         td -
                                         td(style="background-color:#f3f3f3") $${uno|formatPrice}
                                         td(style="background-color:#f3f3f3") $${dos|getDos|formatPrice}
@@ -101,7 +101,7 @@ block content
                                         td(style="background-color:#f3f3f3") $${nueve|getNueve|formatPrice}
                                     tr(v-else)
                                         td(colspan="10") 
-                                            button.button-block Calcular totales
+                                            button.btn.btn-block.btn-primary Calcular totales
 
 script.
     {%block data%}
