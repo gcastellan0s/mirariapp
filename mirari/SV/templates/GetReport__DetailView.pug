@@ -100,7 +100,7 @@ block content
                                         td(style="background-color:#f3f3f3") $${ocho|getOcho|formatPrice}
                                         td(style="background-color:#f3f3f3") $${nueve|getNueve|formatPrice}
                                     tr(v-else)
-                                        td(colspan="10") 
+                                        td(colspan="10" v-if="selected") 
                                             button.btn.btn-block.btn-primary Calcular totales
 
 script.
