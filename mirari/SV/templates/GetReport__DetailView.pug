@@ -101,7 +101,7 @@ block content
                                         td(style="background-color:#f3f3f3") $${nueve|getNueve|formatPrice}
                                     tr(v-else)
                                         td(colspan="10" v-if="selected") 
-                                            button.btn.btn-block.btn-primary Calcular totales
+                                            button.btn.btn-block.btn-primary(:click="getTotales()") Calcular totales
 
 script.
     {%block data%}
@@ -132,7 +132,8 @@ script.
 
     {%block methods%}
         {{block.super}}
-        getUno: (()=> {
+        getTotales: (()=> {
+            self.totales = true
             var uno = document.getElementsByClassName("uno")
             //for (var i = 0; i < uno.length; i++){
                 //console.log(parseFloat(uno[i].innerHTML.replace(',', '').replace('$', '')))
@@ -260,6 +261,7 @@ script.
     {%block watch%}
         {{block.super}}
         'selected': function (newData, oldData) {
+            self.totales = false
             if (newData != oldData){
                 var date = newData.split('-')
                 if(date){
