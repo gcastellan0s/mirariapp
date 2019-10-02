@@ -276,7 +276,6 @@ script.
                                     if (a.day > b.day) return 1;
                                     return 0;
                                 });
-                                self.getUno();
                             }
                         }).catch((error) => {
                             Swal.fire('Ooops!',error.response.data.message,'error')
