@@ -259,21 +259,24 @@ script.
                 var date = newData.split('-')
                 if(date){
                     Block(text="Calculando tabla...");
-                    async for (day = 1; day <= 31; day++) {
-                        await Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':date[0],'day':day}, errorDialog=false)
-                        .then((json) => {
-                            if (json.data.cuts.length > 0){
-                                self.Cuts.push({'day':parseInt(json.data.day), 'cuts':json.data.cuts})
-                                self.Cuts.sort(function (a, b) {
-                                    if (a.day < b.day) return -1;
-                                    if (a.day > b.day) return 1;
-                                    return 0;
-                                });
-                            }
-                        }).catch((error) => {
-                            Swal.fire('Ooops!',error.response.data.message,'error')
-                        })
+                    async function getData(){
+                        await for (day = 1; day <= 31; day++) {
+                            Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':date[0],'day':day}, errorDialog=false)
+                            .then((json) => {
+                                if (json.data.cuts.length > 0){
+                                    self.Cuts.push({'day':parseInt(json.data.day), 'cuts':json.data.cuts})
+                                    self.Cuts.sort(function (a, b) {
+                                        if (a.day < b.day) return -1;
+                                        if (a.day > b.day) return 1;
+                                        return 0;
+                                    });
+                                }
+                            }).catch((error) => {
+                                Swal.fire('Ooops!',error.response.data.message,'error')
+                            })
+                        }
                     }
+                    getData();
                     UnBlock();
                 }
             }
