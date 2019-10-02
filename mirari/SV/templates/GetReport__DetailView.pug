@@ -272,11 +272,14 @@ script.
                             }
                         }).catch((error) => {
                             Swal.fire('Ooops!',error.response.data.message,'error')
-                        }).finally(() => {
-                            console.log(day)
                         })
                     }
                 }
+            }
+        },
+        Cuts: function (newData, oldData) {
+            if (newData != oldData){
+                console.log(newData)
             }
         }
     {%endblock watch%}
