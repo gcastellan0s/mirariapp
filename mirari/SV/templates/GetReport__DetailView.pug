@@ -187,11 +187,8 @@ script.
             return total
         }),
         getUno: ((total)=> {
-            total = 0
             var uno = document.getElementsByClassName("uno")
-            for (var i = 0; i < uno.length; i++){
-                console.log(i)
-            }
+            console.log(uno.length)
             return total
         }),
         getDos: ((total)=> {
@@ -278,10 +275,5 @@ script.
                 }
             }
         },
-        'Cuts': function (newData, oldData) {
-            if (newData != oldData){
-                console.log(":)")
-            }
-        }
     {%endblock watch%}
 .
