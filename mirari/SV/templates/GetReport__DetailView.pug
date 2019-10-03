@@ -41,25 +41,25 @@ block content
                             .col-lg-6
                                 .kt-invoice__items.kt-align-right.py-4
                                     .kt-invoice__item.kt-align-right
-                                        div 
+                                        div(v-if="'{{object.line6}}'!='None'")
                                             span.kt-invoice__subtitle
                                                 small {{object.line1}}
-                                        div
+                                        div(v-if="'{{object.line6}}'!='None'")
                                             span.kt-invoice__subtitle
                                                 small {{object.line2}}
                             .col-lg-6
                                 .kt-invoice__items.kt-align-right.py-4
                                     .kt-invoice__item.kt-align-left
-                                        div
+                                        div(v-if="'{{object.line6}}'!='None'")
                                             span.kt-invoice__subtitle
                                                 small {{object.line3}}
-                                        div
+                                        div(v-if="'{{object.line6}}'!='None'")
                                             span.kt-invoice__subtitle
                                                 small {{object.line4}}
-                                        div
+                                        div(v-if="'{{object.line6}}'!='None'")
                                             span.kt-invoice__subtitle
                                                 small {{object.line5}}
-                                        div
+                                        div(v-if="'{{object.line6}}'!='None'")
                                             span.kt-invoice__subtitle
                                                 small {{object.line6}}
                         .table-responsive(v-if="Cuts")
