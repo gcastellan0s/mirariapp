@@ -117,7 +117,7 @@ class Sellpoint(Model_base):
     comida = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Comida", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
     bocadillos = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Bocadillos", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
     pan = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Pan", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
-    carne = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Carne", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
+    horneado = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Carne", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
 
     fiscalDataTickets = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Tickets", help_text="Debes darlo de alta en la pestaña de Mi Factura")
     fiscalDataCuts = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Cortes", help_text="Debes darlo de alta en la pestaña de Mi Factura")
@@ -162,6 +162,19 @@ class Sellpoint(Model_base):
         return self.render_color(self.color)
     def get_serial(self):
         return self.serial.get_serial()
+    def get_serial2(self, typeTicket2):
+        if typeTicket2 == 'GENERAL':
+            return '0000000000000'
+        if typeTicket2 == 'CENAS':
+            return self.cenas.get_serial()
+        if typeTicket2 == 'COMIDA':
+            return self.comida.get_serial()
+        if typeTicket2 == 'BOCADILLOS':
+            return self.bocadillos.get_serial()
+        if typeTicket2 == 'PAN':
+            return self.pan.get_serial()
+        if typeTicket2 == 'HORNEADO':
+            return self.horneado.get_serial()
     def getPrinter(self):
         return self.render_if(self.printer)
     def getCut(self):
@@ -718,8 +731,17 @@ class Ticket(Model_base):
         ('DEVOLUCION','DEVOLUCION'),
         ('GASTO','GASTO'),
     )
+    TICKETTYPE2 = (
+        ('GENERAL','GENERAL'),
+        ('CENAS','CENAS'),
+        ('COMIDA','COMIDA'),
+        ('BOCADILLOS','BOCADILLOS'),
+        ('PAN','PAN'),
+        ('HORNEADO','HORNEADO'),
+    )
     sellpoint = models.ForeignKey('Sellpoint', null=True, blank=True, on_delete=models.SET_NULL)
     barcode = models.CharField(max_length=13, default="0000000000000")
+    barcode2 = models.CharField(max_length=13, default="0000000000000")
     key = models.CharField(max_length=12)
     user = models.ForeignKey('mirari.User', null=True, blank=True, on_delete=models.SET_NULL)
     username = models.CharField(max_length=250, null=True, blank=True)
@@ -742,6 +764,7 @@ class Ticket(Model_base):
     phone = models.CharField(max_length=15, null=True, blank=True)
     rfc = models.CharField(max_length=20, null=True, blank=True)
     ticketType = models.CharField(choices=TICKETTYPE, max_length=100, default="VENTA")
+    ticketType2 = models.CharField(choices=TICKETTYPE2, max_length=100, default="GENERAL")
     rasurado = models.BooleanField(default=False)
     invoiced = models.BooleanField(default=False)
     creditPayment = models.BooleanField(default=False)
@@ -773,6 +796,8 @@ class Ticket(Model_base):
         self.iva = ticket['iva']
         self.ieps = ticket['ieps']
         self.ticketType = ticket['ticketType']
+        self.ticketType2 = ticket['ticketType2']
+        self.barcode2 = self.sellpoint.get_serial2(ticket['ticketType2'])
         self.onAccount = ticket['onAccount']
         if ticket['clientID']:
             client = Client.objects.filter(uid=ticket['clientID']).filter(organization=self.sellpoint.organization).first()

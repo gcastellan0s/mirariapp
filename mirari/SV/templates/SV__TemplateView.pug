@@ -62,6 +62,7 @@ script.
             format_time: null,
             format_date: null,
             barcode: '0',
+            barcode2: '0',
             user: '{{request.user.id}}',
             username: null,
             cut: null,
@@ -79,6 +80,7 @@ script.
             phone: null,
             rfc: null,
             ticketType: 'VENTA',
+            ticketType2: 'GENERAL',
         },
         Tickets: [],
         Printers: [],
@@ -327,6 +329,7 @@ script.
             .then((json) => {
                 Block('Imprimiendo...')
                 self.Ticket.barcode = json.data.ticket.barcode
+                self.Ticket.barcode2 = json.data.ticket.barcode2
                 self.Ticket.cut = json.data.ticket.cut
             }).catch((error) => {
             }).finally(() => { 
@@ -369,10 +372,22 @@ script.
         printTicket: ((ticket) => { 
             if (PrivateSocket){
                 ticketFormat = []
-                if(self.Ticket.ticketType=='VENTA') ticketFormat.push(["times",[self.Sellpoint.number_tickets]])
-                else if(self.Ticket.ticketType=='REMISION') ticketFormat.push(["times",[3]])
-                else if(self.Ticket.ticketType=='PAGO') ticketFormat.push(["times",[3]])
-                else if(self.Ticket.ticketType=='DEVOLUCION') ticketFormat.push(["times",[3]])
+                if(self.Ticket.ticketType=='VENTA'){
+                    ticketFormat.push(["times",[self.Sellpoint.number_tickets]])
+                    event = 'Print'
+                }  
+                else if(self.Ticket.ticketType=='REMISION'){
+                    ticketFormat.push(["times",[3]])
+                    event = 'PrintCena'
+                }
+                else if(self.Ticket.ticketType=='PAGO'){
+                    ticketFormat.push(["times",[3]])
+                    event = 'Print'
+                }
+                else if(self.Ticket.ticketType=='DEVOLUCION'){
+                    ticketFormat.push(["times",[3]])
+                    event = 'Print'
+                } 
                 ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                 ticketFormat.push(["image"])
                 if (self.Ticket.onAccount){ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
@@ -411,7 +426,7 @@ script.
                 ticketFormat.push(["text", self.Ticket.barcode + ' :: ' + self.Ticket.key])
                 if(self.Ticket.status=='PENDIENTE') ticketFormat.push(["qr",self.Ticket.key])
                 else ticketFormat.push(["cut"])
-                PrivateSocket.emit('Send_Event','{{request.user.organization.code}}','Print', ticketFormat)
+                PrivateSocket.emit('Send_Event','{{request.user.organization.code}}',event, ticketFormat)
             }
         }),
         initTicket: (() => {
@@ -421,6 +436,7 @@ script.
                 format_time: null,
                 format_date: null,
                 barcode: '0',
+                barcode2: '0',
                 user: '{{request.user.id}}',
                 username: null,
                 cut: null,
@@ -438,6 +454,7 @@ script.
                 phone: null,
                 rfc: null,
                 ticketType: 'VENTA',
+                ticketType2: 'GENERAL',
             }
         }),
         makeInventory: (() => {
