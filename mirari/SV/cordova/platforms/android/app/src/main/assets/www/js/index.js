@@ -35,7 +35,7 @@ var app = {
                     }
                     else{
                         if(ref==null){
-                            ref = cordova.InAppBrowser.open('http://'+self.url+get,'_blank','location=no, zoom=no, toolbar=no')
+                            ref = cordova.InAppBrowser.open('http://' + self.url + get, '_blank', 'location=no,toolbar=no')
                             ref.addEventListener('loaderror', function(event){ref.close()});
                             ref.addEventListener("loadstart", (event) => {
                                 if (event.url.includes("/SV/GetTicketQR/")){

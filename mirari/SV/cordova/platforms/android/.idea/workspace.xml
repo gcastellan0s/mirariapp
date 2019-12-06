@@ -1,13 +1,437 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="93ade901-5e04-484f-ba7d-be6d26cd682c" name="Default Changelist" comment="" />
+    <list default="true" id="f434dc53-6d18-46a8-a960-54029f412b70" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CordovaLib/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CordovaLib/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CordovaLib/CordovaLib.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CordovaLib/CordovaLib.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android.json" beforeDir="false" afterPath="$PROJECT_DIR$/android.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/release/app.aab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/www/cordova_plugins.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/www/cordova_plugins.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/assets/www/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/www/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/xyz/mirari/suventa/MainActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-ldpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-ldpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/xml/config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cordova-plugin-qrscanner/suventa-qrscanner.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/platform_www/cordova_plugins.js" beforeDir="false" afterPath="$PROJECT_DIR$/platform_www/cordova_plugins.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/browser.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/Api.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/browser_handler.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/browser_parser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/build" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/build.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/clean" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/clean.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/defaults.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/run" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/run.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/version" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/cordova/version.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/cordova-js-src/confighelper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/cordova-js-src/exec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/cordova-js-src/platform.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/cordova.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/cordova_plugins.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/plugins/cordova-plugin-fullscreen/www/AndroidFullScreen.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/plugins/cordova-plugin-inappbrowser/src/browser/InAppBrowserProxy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/plugins/cordova-plugin-inappbrowser/www/inappbrowser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/plugins/cordova-plugin-qrscanner/src/browser/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/plugins/cordova-plugin-qrscanner/www/www.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/plugins/cordova-plugin-statusbar/src/browser/StatusBarProxy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/platform_www/plugins/cordova-plugin-statusbar/www/statusbar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/appwork-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/appwork.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/bootstrap-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/colors-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/colors.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/migrate/appwork-130.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/account.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/authentication.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/chat.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/clients.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/contacts.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/file-manager.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/messages.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/products.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/projects.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/search.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/tasks.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/tickets.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/pages/users.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/appwork-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/appwork.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/bootstrap-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/colors-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/colors.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-air-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-air.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-corporate-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-corporate.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-cotton-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-cotton.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-gradient-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-gradient.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-paper-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-paper.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-shadow-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-shadow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-soft-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-soft.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-sunrise-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-sunrise.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-twitlight-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-twitlight.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-vibrant-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/theme-vibrant.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/rtl/uikit.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-air-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-air.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-corporate-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-corporate.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-cotton-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-cotton.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-gradient-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-gradient.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-paper-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-paper.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-shadow-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-shadow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-soft-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-soft.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-sunrise-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-sunrise.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-twitlight-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-twitlight.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-vibrant-material.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/theme-vibrant.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/css/uikit.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-brands-400.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-brands-400.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-brands-400.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-brands-400.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-brands-400.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-regular-400.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-regular-400.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-regular-400.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-regular-400.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-regular-400.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-solid-900.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-solid-900.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-solid-900.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-solid-900.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/fontawesome/fa-solid-900.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/ionicons.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/ionicons/ionicons.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/ionicons/ionicons.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/ionicons/ionicons.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/ionicons/ionicons.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/ionicons/ionicons.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/linearicons.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/linearicons/Linearicons-Free.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/linearicons/Linearicons-Free.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/linearicons/Linearicons-Free.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/linearicons/Linearicons-Free.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/linearicons/Linearicons-Free.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/open-iconic.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/open-iconic/open-iconic.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/open-iconic/open-iconic.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/open-iconic/open-iconic.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/open-iconic/open-iconic.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/open-iconic/open-iconic.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/pe-icon-7-stroke.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/pe-icon-7-stroke/Pe-icon-7-stroke.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/pe-icon-7-stroke/Pe-icon-7-stroke.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/pe-icon-7-stroke/Pe-icon-7-stroke.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/fonts/pe-icon-7-stroke/Pe-icon-7-stroke.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/js/bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/js/dropdown-hover.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/js/layout-helpers.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/js/material-ripple.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/js/mega-dropdown.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/js/pace.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/js/polyfills.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/js/sidenav.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/js/theme-settings.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/animate-css/animate.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/autosize/autosize.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/block-ui/block-ui.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/gallery-fullscreen.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/gallery-indicator.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/gallery-indicator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/gallery-video.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/gallery-video.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/gallery-vimeo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/gallery-youtube.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/gallery.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/gallery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/img/error.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/img/error.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/img/loading.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/img/play-pause.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/img/play-pause.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/img/video-play.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/img/video-play.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/blueimp-gallery/jquery.gallery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootbox/bootbox.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-duallistbox/bootstrap-duallistbox.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-duallistbox/bootstrap-duallistbox.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-markdown/bootstrap-markdown.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-markdown/bootstrap-markdown.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-material-datetimepicker/bootstrap-material-datetimepicker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-menu/bootstrap-menu.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-multiselect/bootstrap-multiselect.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-multiselect/bootstrap-multiselect.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-select/bootstrap-select.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-select/bootstrap-select.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-slider/bootstrap-slider.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-slider/bootstrap-slider.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-sortable/bootstrap-sortable.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-sortable/bootstrap-sortable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-sweetalert/bootstrap-sweetalert.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-sweetalert/bootstrap-sweetalert.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/bootstrap-table.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/bootstrap-table.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/accent-neutralise/accent-neutralise.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/addrbar/addrbar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/auto-refresh/auto-refresh.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/cookie/cookie.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/copy-rows/copy-rows.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/defer-url/defer-url.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/editable/editable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/export/export.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/filter-control/filter-control.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/filter-control/filter-control.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/fixed-columns/fixed-columns.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/fixed-columns/fixed-columns.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/group-by-v2/group-by-v2.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/group-by-v2/group-by-v2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/group-by/group-by.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/group-by/group-by.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/i18n-enhance/i18n-enhance.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/key-events/key-events.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/mobile/mobile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/multi-column-toggle/multi-column-toggle.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/multiple-search/multiple-search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/multiple-selection-row/multiple-selection-row.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/multiple-selection-row/multiple-selection-row.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/multiple-sort/multiple-sort.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/natural-sorting/natural-sorting.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/page-jump-to/page-jump-to.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/page-jump-to/page-jump-to.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/pipeline/pipeline.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/print/print.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/reorder-columns/reorder-columns.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/reorder-rows/reorder-rows.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/reorder-rows/reorder-rows.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/resizable/resizable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/select2-filter/select2-filter.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/sticky-header/sticky-header.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/sticky-header/sticky-header.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/toolbar/toolbar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/tree-column/tree-column.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/tree-column/tree-column.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-table/extensions/treegrid/treegrid.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/bootstrap-tagsinput/bootstrap-tagsinput.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/c3/c3.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/c3/c3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/chartist/chartist.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/chartist/chartist.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/chartjs/chartjs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/clipboard/clipboard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/cropper/cropper.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/cropper/cropper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/d3/d3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/datatables/datatables.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/datatables/datatables.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/dragula/dragula.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/dragula/dragula.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/dropzone/dropzone.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/dropzone/dropzone.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/eve/eve.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/flatpickr/flatpickr.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/flatpickr/flatpickr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/flot/flot.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/flot/flot.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/flot/tooltip.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/flow-js/flow.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/flow-js/flow.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/fullcalendar/fullcalendar.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/fullcalendar/fullcalendar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/fullcalendar/locale-all.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/gmaps/gmaps.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/growl/growl.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/growl/growl.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/idletimer/idletimer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/jstree/jstree.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/jstree/themes/default-dark/32px.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/jstree/themes/default-dark/40px.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/jstree/themes/default-dark/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/jstree/themes/default-dark/throbber.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/jstree/themes/default/32px.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/jstree/themes/default/40px.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/jstree/themes/default/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/jstree/themes/default/throbber.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/knob/knob.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/ladda/ladda.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/ladda/ladda.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/mapael/mapael.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/mapael/maps/france_departments.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/mapael/maps/usa_states.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/mapael/maps/world_countries.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/mapael/maps/world_countries_mercator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/mapael/maps/world_countries_miller.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/markdown/markdown.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/masonry/masonry.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/minicolors/jquery.minicolors.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/minicolors/minicolors.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/minicolors/minicolors.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/moment/moment.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/morris/morris.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/morris/morris.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/nestable/nestable.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/nestable/nestable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/nouislider/nouislider.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/nouislider/nouislider.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/numeral/numeral.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/photoswipe/default-skin.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/photoswipe/default-skin.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/photoswipe/photoswipe.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/photoswipe/photoswipe.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/photoswipe/preloader.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/plyr/plyr.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/plyr/plyr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/popper/popper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/pwstrength-bootstrap/pwstrength-bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/quill/editor.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/quill/quill.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/quill/typography.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/raphael/raphael.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/select2/select2.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/select2/select2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/shepherd/shepherd.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/shepherd/shepherd.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/smartwizard/smartwizard.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/smartwizard/smartwizard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/sortablejs/sortable.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/sparkline/sparkline.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/spin/spin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/spinkit/spinkit.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/sweetalert2/sweetalert2.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/sweetalert2/sweetalert2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/swiper/swiper.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/swiper/swiper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/tableexport/tableexport.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/timepicker/timepicker.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/timepicker/timepicker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/toastr/toastr.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/toastr/toastr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/typeahead-js/typeahead.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/typeahead-js/typeahead.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/validate/validate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vanilla-text-mask/text-mask-addons.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vanilla-text-mask/vanilla-text-mask.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vegas/overlays/01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vegas/overlays/02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vegas/overlays/03.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vegas/overlays/04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vegas/overlays/05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vegas/overlays/06.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vegas/overlays/07.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vegas/overlays/08.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vegas/overlays/09.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vegas/vegas.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/assets/vendor/libs/vegas/vegas.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/cordova-js-src/confighelper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/cordova-js-src/exec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/cordova-js-src/platform.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/cordova.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/cordova_plugins.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/css/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/css/sweetalert.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/img/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/img/logo.pxm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/img/logoBG.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/img/logoBG.pxm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/js/axios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/js/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/js/qs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/js/sweetalert.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/js/vue-cookies.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/js/vue-router.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/js/vue.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/plugins/cordova-plugin-fullscreen/www/AndroidFullScreen.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/plugins/cordova-plugin-inappbrowser/src/browser/InAppBrowserProxy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/plugins/cordova-plugin-inappbrowser/www/inappbrowser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/plugins/cordova-plugin-qrscanner/src/browser/plugin.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/plugins/cordova-plugin-qrscanner/www/www.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/plugins/cordova-plugin-statusbar/src/browser/StatusBarProxy.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../browser/www/plugins/cordova-plugin-statusbar/www/statusbar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/CordovaLib/CordovaLib.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/CordovaLib/CordovaLib.xcodeproj/xcuserdata/gustavocastellanos.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/CordovaLib/CordovaLib.xcodeproj/xcuserdata/gustavocastellanos.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/SUVENTA.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/SUVENTA.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/SUVENTA.xcodeproj/project.xcworkspace/xcuserdata/gustavocastellanos.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/SUVENTA.xcodeproj/project.xcworkspace/xcuserdata/gustavocastellanos.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/SUVENTA.xcodeproj/xcuserdata/gustavocastellanos.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/SUVENTA.xcodeproj/xcuserdata/gustavocastellanos.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/SUVENTA/config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/SUVENTA/config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/cordova/build-extras.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/cordova/build-extras.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/www/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/www/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../plugins/android.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../plugins/android.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../plugins/browser.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../www/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../www/js/index.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="4JPNU18902107884" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -16,65 +440,75 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider editor-type-id="android-manifest" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" column="71" selection-start-line="1" selection-start-column="71" selection-end-line="1" selection-end-column="71" />
+            <state relative-caret-position="120">
+              <caret line="8" column="76" lean-forward="true" selection-start-line="8" selection-start-column="76" selection-end-line="8" selection-end-column="76" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>InAppBrowserDialog</find>
-    </findStrings>
-  </component>
-  <component name="GenerateSignedApkSettings">
-    <option name="EXPORT_PRIVATE_KEY" value="false" />
-    <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/../../cert/suventa" />
-    <option name="KEY_ALIAS" value="suventa" />
-    <option name="REMEMBER_PASSWORDS" value="true" />
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../.." />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/org/apache/cordova/inappbrowser/InAppBrowser.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="1680" />
-    <option name="height" value="1027" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="33" />
+    <option name="y" value="27" />
+    <option name="width" value="1614" />
+    <option name="height" value="1019" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
-      <pane id="AndroidView" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="android" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
-    <property name="ExportApk.BuildVariants" value="release" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="emulator-5554" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2019-11-30T01:34:35.931Z" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
-    <property name="device.picker.selection" value="4JPNU18902107905" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="sync.plugin.last.upgrade.timestamp" value="1561500713415" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -110,8 +544,8 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
       <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
@@ -155,19 +589,20 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="93ade901-5e04-484f-ba7d-be6d26cd682c" name="Default Changelist" comment="" />
-      <created>1561049285603</created>
+      <changelist id="f434dc53-6d18-46a8-a960-54029f412b70" name="Default Changelist" comment="" />
+      <created>1575055619777</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1561049285603</updated>
+      <updated>1575055619777</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
+    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.15995117" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.1984127" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -175,16 +610,16 @@
       <window_info id="Designer" order="6" />
       <window_info id="Resources Explorer" order="7" />
       <window_info id="Capture Tool" order="8" />
-      <window_info anchor="bottom" id="Run" order="0" weight="0.32941177" />
+      <window_info anchor="bottom" id="Run" weight="0.32941177" />
+      <window_info anchor="bottom" id="Debug" />
+      <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Logcat" order="1" />
       <window_info anchor="bottom" id="TODO" order="2" />
       <window_info anchor="bottom" id="Find" order="3" weight="0.32941177" />
       <window_info anchor="bottom" id="Terminal" order="4" />
       <window_info anchor="bottom" id="Event Log" order="5" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="6" />
-      <window_info active="true" anchor="bottom" id="Build" order="7" visible="true" weight="0.22780749" />
-      <window_info anchor="bottom" id="Debug" order="8" />
-      <window_info anchor="bottom" id="Android Profiler" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Build" order="6" weight="0.32941177" />
+      <window_info anchor="bottom" id="Android Profiler" order="7" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Gradle" order="2" />
@@ -193,18 +628,11 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/apache/cordova/inappbrowser/InAppBrowser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="708" column="132" selection-start-line="708" selection-start-column="132" selection-end-line="708" selection-end-column="132" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="71" selection-start-line="1" selection-start-column="71" selection-end-line="1" selection-end-column="71" />
+        <state relative-caret-position="120">
+          <caret line="8" column="76" lean-forward="true" selection-start-line="8" selection-start-column="76" selection-end-line="8" selection-end-column="76" />
         </state>
       </provider>
     </entry>

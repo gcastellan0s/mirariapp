@@ -8,20 +8,24 @@
   },
   "installed_plugins": {
     "cordova-plugin-fullscreen": {
-      "PACKAGE_NAME": "xyz.mirari.suventa"
+      "PACKAGE_NAME": "xyz.mirari.sv"
     },
     "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "xyz.mirari.suventa"
+      "PACKAGE_NAME": "xyz.mirari.sv"
     },
     "cordova-plugin-qrscanner": {
-      "PACKAGE_NAME": "xyz.mirari.suventa"
+      "PACKAGE_NAME": "xyz.mirari.sv"
     },
     "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "xyz.mirari.suventa"
+      "PACKAGE_NAME": "xyz.mirari.sv"
     },
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "xyz.mirari.suventa"
+      "PACKAGE_NAME": "xyz.mirari.sv"
     }
   },
-  "dependent_plugins": {}
+  "dependent_plugins": {
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "xyz.mirari.sv"
+    }
+  }
 }

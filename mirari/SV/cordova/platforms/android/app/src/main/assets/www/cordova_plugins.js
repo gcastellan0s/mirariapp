@@ -35,6 +35,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     }
   ];
   module.exports.metadata = {
+    "cordova-plugin-add-swift-support": "2.0.2",
     "cordova-plugin-fullscreen": "1.1.0",
     "cordova-plugin-inappbrowser": "3.0.0",
     "cordova-plugin-qrscanner": "3.0.1",
