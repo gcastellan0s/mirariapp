@@ -1,5 +1,5 @@
 {
-  "name": "xyz.mirari.suventa",
+  "name": "xyz.mirari.sv",
   "displayName": "SV",
   "version": "1.0.0",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
@@ -21,6 +21,7 @@
     "cordova-plugin-fullscreen": "^1.2.0",
     "cordova-plugin-inappbrowser": "^3.0.0",
     "cordova-plugin-qrscanner": "^3.0.1",
+    "cordova-plugin-qrscanner-dual": "^3.0.5",
     "cordova-plugin-statusbar": "^2.4.2"
   },
   "cordova": {
@@ -32,9 +33,8 @@
       "cordova-plugin-qrscanner": {}
     },
     "platforms": [
-      "android",
-      "browser",
-      "ios"
+      "ios",
+      "android"
     ]
   },
   "devDependencies": {

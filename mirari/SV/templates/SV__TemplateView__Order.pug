@@ -159,7 +159,7 @@
                                         .input-group-prepend
                                             .input-group-text FECHA/HORA
                                         date-picker#b-m-dtp-datetime.form-control(type="text" placeholder="FECHA Y HORA DE ENTREGA" v-model="Ticket.datetimeOfDelivery")
-                                    .input-group.input-group-lg(v-if="Ticket.ticketType == 'REMISION'")
+                                    .input-group.input-group-lg.kt-hide(v-if="Ticket.ticketType == 'REMISION'")
                                         .input-group-prepend
                                             .input-group-text DESTINO
                                         input.form-control(type="text" placeholder="DESTINO DE LA REMISIÓN" v-model="Ticket.destination")
@@ -173,7 +173,7 @@
                                         .input-group-prepend
                                             .input-group-text NOMBRE
                                         input.form-control(type="text" placeholder="NOMBRE O RAZON SOCIAL DEL CLIENTE" v-model="Ticket.clientName")
-                                    .input-group.input-group-lg
+                                    .input-group.input-group-lg.kt-hide
                                         .input-group-prepend
                                             .input-group-text CORREO
                                         input.form-control(type="text" placeholder="CORREO DE CONTACTO" v-model="Ticket.email")
@@ -181,7 +181,7 @@
                                         .input-group-prepend
                                             .input-group-text TELÉFONO
                                         input.form-control(type="text" placeholder="TELEFONO A 10 DIGITOS" v-model="Ticket.phone")
-                                    .input-group.input-group-lg
+                                    .input-group.input-group-lg.kt-hide
                                         .input-group-prepend
                                             .input-group-text RFC
                                         input.form-control(type="text" placeholder="RFC DE FACTURACION" v-model="Ticket.rfc")

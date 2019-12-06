@@ -80,7 +80,7 @@ VARS = {
             'plugin': 'select2',
         },
     },
-    'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','printer','barcode','number_tickets','haveExpenses','haveExchange','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1', 'fiscalDataTickets', 'fiscalDataCuts'),
+    'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','printer','barcode','number_tickets','haveExpenses','haveExchange','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1', 'fiscalDataTickets', 'fiscalDataCuts','cenas','comida','bocadillos','pan','carne'), 
 }
 class Sellpoint(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
@@ -112,6 +112,12 @@ class Sellpoint(Model_base):
     have_expenses = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     have_orders = models.BooleanField('Tiene credito?', default=False, help_text='Tiene credito')
     priority = models.IntegerField('Numero de tickets que imprime', default=0)
+
+    cenas = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Cenas", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
+    comida = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Comida", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
+    bocadillos = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Bocadillos", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
+    pan = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Pan", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
+    carne = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Carne", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')v
 
     fiscalDataTickets = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Tickets", help_text="Debes darlo de alta en la pestaña de Mi Factura")
     fiscalDataCuts = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Cortes", help_text="Debes darlo de alta en la pestaña de Mi Factura")
