@@ -80,7 +80,7 @@ VARS = {
             'plugin': 'select2',
         },
     },
-    'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','printer','barcode','number_tickets','haveExpenses','haveExchange','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1', 'fiscalDataTickets', 'fiscalDataCuts','cenas','comida','bocadillos','pan','carne'), 
+    'FORM': ('name','have_casher','color','vendors','cashers','orders', 'supervisors','is_active','printer','barcode','number_tickets','haveExpenses','haveExchange','header_line_black_1','header_line_black_2','header_line_1','header_line_2','footer_line_1', 'fiscalDataTickets', 'fiscalDataCuts','cenas','comida','bocadillos','pan','horneado'), 
 }
 class Sellpoint(Model_base):
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
