@@ -22,7 +22,7 @@
                                         .card.bg-dark.border-0.text-white.mb-4
                                             .card-body.d-flex.justify-content-between.align-items-center.py-3
                                                 div
-                                                    .text-xlarge BUSCAR ORDEN O CCLIENTE
+                                                    .text-xlarge BUSCAR ORDEN O CLIENTE
                                                     .small.opacity-75 ELIGE UN CLIENTE PARA LA REMISIÓN
                                                 i.fas.fa-user-tag.text-xlarge.opacity-25
                             .col-8
@@ -37,7 +37,7 @@
                                             span(v-if="Client.rfc") RFC: ${Client.rfc}
                             .col-4
                                 router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}")
-                                    a(href="javascript:void(0)" @click="Ticket.ticketType='REMISION'")
+                                    a(href="javascript:void(0)" @click="Ticket.ticketType='REMISION'; Ticket.ticketType2='CENAS';")
                                         .card.bg-primary.border-0.text-white.mb-4
                                             .card-body.d-flex.justify-content-between.align-items-center.py-3
                                                 div
