@@ -378,7 +378,22 @@ script.
                 }  
                 else if(self.Ticket.ticketType=='REMISION'){
                     ticketFormat.push(["times",[3]])
-                    event = 'PrintCena'
+                    event = 'Print'
+                    if(self.Ticket.ticketType2=='CENAS'){
+                        event = 'PrintCenas'
+                    }
+                    if(self.Ticket.ticketType2=='COMIDA'){
+                        event = 'PrintComida'
+                    }
+                    if(self.Ticket.ticketType2=='BOCADILLOS'){
+                        event = 'PrintBocadillos'
+                    }
+                    if(self.Ticket.ticketType2=='PAN'){
+                        event = 'PrintPan'
+                    }
+                    if(self.Ticket.ticketType2=='HORNEADO'){
+                        event = 'PrintHorneado'
+                    }
                 }
                 else if(self.Ticket.ticketType=='PAGO'){
                     ticketFormat.push(["times",[3]])
@@ -390,6 +405,7 @@ script.
                 } 
                 ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                 ticketFormat.push(["image"])
+                ticketFormat.push(["text", self.Ticket.barcode2])
                 if (self.Ticket.onAccount){ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
                 else {ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total))])}
                 ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
