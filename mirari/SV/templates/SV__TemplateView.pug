@@ -407,7 +407,9 @@ script.
                 ticketFormat.push(["image"])
                 if(self.Ticket.ticketType=='REMISION'){
                     ticketFormat.push(["text", self.Ticket.barcode2])
+                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", '------------------------------------------'])
+                    ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                 }
                 if (self.Ticket.onAccount){ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
                 else {ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total))])}
