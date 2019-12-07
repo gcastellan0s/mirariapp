@@ -405,7 +405,10 @@ script.
                 } 
                 ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                 ticketFormat.push(["image"])
-                ticketFormat.push(["text", self.Ticket.barcode2])
+                if(self.Ticket.ticketType=='REMISION'){
+                    ticketFormat.push(["text", self.Ticket.barcode2])
+                    ticketFormat.push(["text", '------------------------------------------'])
+                }
                 if (self.Ticket.onAccount){ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
                 else {ticketFormat.push(["text", '$' + self.$options.filters.formatPrice(String(self.Ticket.total))])}
                 ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
