@@ -406,7 +406,7 @@ script.
                 ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                 ticketFormat.push(["image"])
                 if(self.Ticket.ticketType=='REMISION'){
-                    ticketFormat.push(["text", self.Ticket.barcode2 + ' // ' + self.Ticket.clientID])
+                    ticketFormat.push(["text", self.Ticket.barcode2 + ' - ' + self.Ticket.clientID])
                     ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", '------------------------------------------'])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
@@ -431,7 +431,7 @@ script.
                 if (self.Ticket.notes) ticketFormat.push(["text", 'Notas: ' + self.Ticket.notes.toUpperCase()])
                 ticketFormat.push(["text", '------------------------------------------'])
                 self.Ticket.products.forEach(function(product){
-                    if(self.Ticket.ticketType=='REMISION') ticketFormat.push(["set",["LT", "B", "bu", 1, 2]])
+                    if(self.Ticket.ticketType=='REMISION') ticketFormat.push(["set",["LT", "B", "bu", 2, 2]])
                     else ticketFormat.push(["set",["LT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' ' + '$' + self.$options.filters.formatPrice(String(product.total))])
                     product.offers.forEach(function(offer){
@@ -443,6 +443,7 @@ script.
                 ticketFormat.push(["text", 'IVA: $' + self.$options.filters.formatPrice(String(self.Ticket.iva))])
                 ticketFormat.push(["text", 'IEPS: $' + self.$options.filters.formatPrice(String(self.Ticket.ieps))])
                 if (self.Ticket.onAccount){ticketFormat.push(["text", 'A CUENTA: $' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
+                ticketFormat.push(["set",["LT", "B", "bu", 1, 2]])
                 ticketFormat.push(["text", 'TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total))])
                 ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                 ticketFormat.push(["text", self.Ticket.barcode + ' :: ' + self.Ticket.key])
