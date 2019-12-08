@@ -406,7 +406,7 @@ script.
                 ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                 ticketFormat.push(["image"])
                 if(self.Ticket.ticketType=='REMISION'){
-                    ticketFormat.push(["text", self.Ticket.barcode2])
+                    ticketFormat.push(["text", self.Ticket.barcode2 + ' // ' + self.Ticket.clientID])
                     ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", '------------------------------------------'])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
@@ -660,7 +660,7 @@ script.
         }),
         getDataOrder: (() => {
             if(self.Client.uid){self.Ticket.clientID = self.Client.uid}
-            else{self.Ticket.clientID = self.randomChars(6,'aplha_numbers')}
+            else{self.Ticket.clientID = self.randomChars(4,'aplha_numbers')}
             if(self.Client.clientProfile.code == 'PUBLICO GENERAL' || self.Client.clientProfile.code == null) self.Ticket.onAccount = self.Ticket.total
             self.Ticket.clientName = self.Client.name
             self.Ticket.email = self.Client.email

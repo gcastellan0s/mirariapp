@@ -99,7 +99,7 @@ class Sellpoint__ApiView(Generic__ApiView):
 		elif Action == 'getCut':
 			return JsonResponse({'cut': CutSerializer(Cut.objects.get(id=request.POST.get('cut')), read_only=True).data}, safe=False)
 		elif Action == 'getClients':
-			return JsonResponse({'clients':ClientSerializer(Client.objects.filter(organization=request.user.organization,active=True,is_active=True).filter(Q(name__icontains=request.GET.get('query'))|Q(phone__icontains=request.GET.get('query'))|Q(rfc__icontains=request.GET.get('query'))|Q(email__icontains=request.GET.get('query'))|Q(uid__icontains=request.GET.get('query'))).distinct()[0:50],many=True).data},safe=False)
+			return JsonResponse({'clients':ClientSerializer(Client.objects.filter(organization=request.user.organization,active=True,is_active=True).filter(Q(name__icontains=request.GET.get('query'))|Q(phone__icontains=request.GET.get('query'))|Q(uid__icontains=request.GET.get('query'))).distinct()[0:10],many=True).data},safe=False)
 		elif Action == 'getClient':
 			return JsonResponse({'client':ClientDetailsSerializer(Client.objects.get(organization=request.user.organization,active=True,is_active=True,id=request.POST.get('id'))).data,},safe=False)
 		elif Action == 'changeStatusTicket':
