@@ -35,7 +35,7 @@
                                             span(v-if="Client.email") CORREO: ${Client.email}
                                             br
                                             span(v-if="Client.rfc") RFC: ${Client.rfc}
-                            .col-4
+                            .col-4(v-if="Sellpoint"))
                                 router-link(:to="{path:'sellpoint', query:{sellpointMode:'order'}}" v-if="Sellpoint.cenasid")
                                     a(href="javascript:void(0)" @click="Ticket.ticketType='REMISION'; Ticket.ticketType2='CENAS'; setMenuByID(Sellpoint.cenasid)")
                                         .card.bg-primary.border-0.text-white.mb-4
