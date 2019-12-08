@@ -725,6 +725,7 @@ script.
             return;
         }),
         changeTicket:((TicketID) => {
+            $("#modalTicketClient").modal('hide')
             Swal.fire({
                 title: 'Submit your Github username',
                 input: 'text',
