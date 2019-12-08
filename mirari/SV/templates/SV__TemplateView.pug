@@ -741,7 +741,7 @@ script.
                         console.log(json)
                         return json
                     }).catch(error => {
-                        Swal.showValidationMessage(
+                        alert(
                             `OCURRIO UN ERROR, INTENTELO DE NUEVO!`
                         )
                     })
@@ -749,12 +749,7 @@ script.
                 allowOutsideClick: () => !Swal.isLoading()
             })
             .then((result) => {
-                if (result.value) {
-                    Swal.fire({
-                        title: `${result.value.login}'s avatar`,
-                        imageUrl: result.value.avatar_url
-                    })
-                }
+                console.log("todo bien")
             })
         }),
         /////SYSTEM
