@@ -716,11 +716,12 @@ script.
             })
             return ifActive.length>0 && productattribute.sellpoint==self.Sellpoint.id
         }),
-        getMenuByID: ((MenuId) => {
+        setMenuByID: ((MenuId) => {
             menu = self.Menus.find(function(m) {
                 return m.id == MenuId
             });
-            return menu
+            if (menu) self.Menu = menu
+            return;
         }),
         /////SYSTEM
         reloadSystem: ((text='Espere un momento...') => {
