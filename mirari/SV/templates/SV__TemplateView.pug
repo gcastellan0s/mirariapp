@@ -716,6 +716,12 @@ script.
             })
             return ifActive.length>0 && productattribute.sellpoint==self.Sellpoint.id
         }),
+        getMenuByID: ((MenuId) => {
+            menu = self.Menus.find(function(m) {
+                return m.id == MenuId
+            });
+            return menu
+        }),
         /////SYSTEM
         reloadSystem: ((text='Espere un momento...') => {
             Block(text)
@@ -795,6 +801,7 @@ script.
         getPhoto: ((productattribute) => {
             return productattribute.product.photo
         }),
+        
     {%endblock methods%}
 
     {%block filters%}
