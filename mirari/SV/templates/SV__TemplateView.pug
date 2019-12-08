@@ -443,7 +443,7 @@ script.
                 ticketFormat.push(["text", 'IVA: $' + self.$options.filters.formatPrice(String(self.Ticket.iva))])
                 ticketFormat.push(["text", 'IEPS: $' + self.$options.filters.formatPrice(String(self.Ticket.ieps))])
                 if (self.Ticket.onAccount){ticketFormat.push(["text", 'A CUENTA: $' + self.$options.filters.formatPrice(String(self.Ticket.onAccount))])}
-                ticketFormat.push(["set",["LT", "B", "bu", 1, 2]])
+                ticketFormat.push(["set",["RT", "B", "bu", 1, 2]])
                 ticketFormat.push(["text", 'TOTAL: $' + self.$options.filters.formatPrice(String(self.Ticket.total))])
                 ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                 ticketFormat.push(["text", self.Ticket.barcode + ' :: ' + self.Ticket.key])
