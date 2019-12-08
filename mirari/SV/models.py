@@ -114,10 +114,15 @@ class Sellpoint(Model_base):
     priority = models.IntegerField('Numero de tickets que imprime', default=0)
 
     cenas = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Cenas", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
+    cenasid = models.IntegerField('ID MENU', blank=True, null=True)
     comida = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Comida", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
+    comidaid = models.IntegerField('ID MENU', blank=True, null=True)
     bocadillos = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Bocadillos", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
+    bocadillosid = models.IntegerField('ID MENU', blank=True, null=True)
     pan = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Pan", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
+    panid = models.IntegerField('ID MENU', blank=True, null=True)
     horneado = models.ForeignKey('mirari.Serial', verbose_name="Serie de folios Carne", related_name='+', on_delete=models.SET_NULL, null=True, blank=True, help_text='Asocia una serie a este punto de venta. <strong> Déjalo vacio para asignar folios aleatorios </strong>')
+    horneadoid = models.IntegerField('ID MENU', blank=True, null=True)
 
     fiscalDataTickets = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Tickets", help_text="Debes darlo de alta en la pestaña de Mi Factura")
     fiscalDataCuts = models.ForeignKey('INV.FiscalMX', blank=True, null=True, related_name='+', on_delete=models.SET_NULL, verbose_name="RFC que factura Cortes", help_text="Debes darlo de alta en la pestaña de Mi Factura")
