@@ -727,13 +727,13 @@ script.
         changeTicket:((TicketID) => {
             $("#modalTicketClient").modal('hide')
             Swal.fire({
-                title: 'Submit your Github username',
+                title: 'INGRESA EL TOTAL CORREGIDO',
                 input: 'text',
                 inputAttributes: {
                     autocapitalize: 'off'
                 },
                 showCancelButton: true,
-                confirmButtonText: 'Look up',
+                confirmButtonText: 'ACTUALIZAR',
                 showLoaderOnConfirm: true,
                 preConfirm: (login) => {
                     return fetch(`//api.github.com/users/${login}`)
@@ -745,7 +745,7 @@ script.
                     })
                     .catch(error => {
                         Swal.showValidationMessage(
-                        `Request failed: ${error}`
+                            `Request failed: ${error}`
                         )
                     })
                 },
