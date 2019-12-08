@@ -431,7 +431,7 @@ script.
                 if (self.Ticket.notes) ticketFormat.push(["text", 'Notas: ' + self.Ticket.notes.toUpperCase()])
                 ticketFormat.push(["text", '------------------------------------------'])
                 self.Ticket.products.forEach(function(product){
-                    if(self.Ticket.ticketType=='REMISION') ticketFormat.push(["set",["LT", "A", "bu", 2, 2]])
+                    if(self.Ticket.ticketType=='REMISION') ticketFormat.push(["set",["LT", "A", "bu", 1.5, 2]])
                     else ticketFormat.push(["set",["LT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' ' + '$' + self.$options.filters.formatPrice(String(product.total))])
                     product.offers.forEach(function(offer){
