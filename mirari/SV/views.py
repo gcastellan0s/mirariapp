@@ -134,7 +134,7 @@ class Sellpoint__ApiView(Generic__ApiView):
 			client = ticket.client
 			client.balance += ticket.total
 			ticket.total = float(request.POST.get('total'))
-			client.balance += ticket.total
+			client.balance -= ticket.total
 			client.save()
 			ticket.save()
 			return JsonResponse({'message':'ok'})
