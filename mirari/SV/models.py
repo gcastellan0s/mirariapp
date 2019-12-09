@@ -876,6 +876,11 @@ class Ticket(Model_base):
             'INT': self.ieps,
             'MXN': Money( "{0:.2f}".format(self.ieps), Currency.MXN).format('es_MX'),
         }
+    def getDifference(self):
+        return {
+            'INT': self.difference,
+            'MXN': Money( "{0:.2f}".format(self.difference), Currency.MXN).format('es_MX'),
+        }
     def getLens(self):
         return {
             'PRODUCTS': len(self.getProducts()),
@@ -1008,6 +1013,7 @@ class TicketSerializer(Basic_Serializer):
     getIva = serializers.ReadOnlyField()
     getIeps = serializers.ReadOnlyField()
     getLens = serializers.ReadOnlyField()
+    getDifference = serializers.ReadOnlyField()
     class Meta(Basic_Serializer.Meta):
         model = Ticket
     def get_sellpoint(self, obj):

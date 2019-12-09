@@ -133,6 +133,7 @@ class Sellpoint__ApiView(Generic__ApiView):
 			ticket = Ticket.objects.get(pk = request.POST.get('ticket'))
 			client = ticket.client
 			client.balance += ticket.total
+			ticket.difference = float(request.POST.get('total')) - ticket.total
 			ticket.total = float(request.POST.get('total'))
 			client.balance -= ticket.total
 			client.save()
