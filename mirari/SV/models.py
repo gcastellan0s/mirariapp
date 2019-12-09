@@ -1982,7 +1982,6 @@ class ClientProfileSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
         model = ClientProfile
 class ClientDetailsSerializer(Basic_Serializer):
-
     clientProfile = serializers.SerializerMethodField()
     tickets = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):

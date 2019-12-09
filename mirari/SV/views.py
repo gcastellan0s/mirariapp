@@ -131,7 +131,11 @@ class Sellpoint__ApiView(Generic__ApiView):
 			return JsonResponse({'message':'Enviamos tu factura a: '+request.POST.get('email')})
 		elif Action == 'ChangeTotalTicket':
 			ticket = Ticket.objects.get(pk = request.POST.get('ticket'))
+			client = ticket.client
+			client.balance += ticket.total
 			ticket.total = float(request.POST.get('total'))
+			client.balance += ticket.total
+			client.save()
 			ticket.save()
 			return JsonResponse({'message':'ok'})
 		return JsonResponse({'message':'Ocurrió un error en el servidor'}, status=500)
