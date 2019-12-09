@@ -774,6 +774,7 @@ class Ticket(Model_base):
     invoiced = models.BooleanField(default=False)
     creditPayment = models.BooleanField(default=False)
     id_bckp = models.IntegerField(blank=True, null=True)
+    difference = models.FloatField(default=0)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
