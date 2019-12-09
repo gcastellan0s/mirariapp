@@ -738,8 +738,9 @@ script.
                 preConfirm: (total) => {
                     return Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=ChangeTotalTicket',{ticket:TicketID.id, total:total})
                     .then(function(json){
-                        console.log(json)
-                        return json
+                        self.getClient(self.Client)
+                        console.log("ok")
+                        return;
                     }).catch(error => {
                         alert(
                             `OCURRIO UN ERROR, INTENTELO DE NUEVO!`
