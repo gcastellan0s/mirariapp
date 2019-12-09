@@ -217,7 +217,7 @@
                                         p.text-right.mb-0 
                                             |Subtotal: 
                                             strong  ${TicketClient.getSubTotal.MXN}
-                                        p.text-right.mb-0 
+                                        p.text-right.mb-0(v-if="TicketClient.getDifference.MXN")
                                             |Diferencia: 
                                             strong  ${TicketClient.getDifference.MXN}
                                         p.text-right.mb-0(v-if="TicketClient.getTotal.TOTALDISCOUNTS.INT")
