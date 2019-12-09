@@ -1,4 +1,0 @@
-APP = 'GSA'
-
-MENU = {
-}

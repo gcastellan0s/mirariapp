@@ -34,6 +34,11 @@ MENU = {
 				'model': APP + '.OrderService',
 				'link': '/TCS/calendar/?zone=Foraneo',
 			},
+		]
+	},
+	'INVENTORY': {
+		'title': 'INVENTARIOS',
+		'modules': [
 			{
 				'title': 'Empresas',
 				'icon': 'flaticon-customer',
@@ -74,53 +79,8 @@ MENU = {
 				'model': APP + '.Modelo',
 				'url': 'Generic__ListView',
 			},
-            #{
-				#'title': 'Datos de Impresión',
-				#'icon': 'flaticon-list',
-				#'text': 'Datos de impresion de las ordenes',
-				#'subtext': 'Datos de impresion de las ordenes',
-				#'apps': [APP, ],
-				#'permission': 'Can_View',
-				#'model': APP + '.OrderServiceInformation',
-				#'url': 'Generic__ListView',
-			#},
 		]
 	},
-	'TCS__utilidades': {
-		'title': 'UTILIDADES',
-		'modules': [
-			{
-				'title': 'Correo electrónico',
-				'icon': 'flaticon-paper-plane',
-				'text': 'Consulta tu correo',
-				'subtext': 'Ingresa a tu buzón electrónico',
-				'apps': [APP, ],
-				'permission': '',
-				'model': APP + '.OrderService',
-				'link': 'https://mail.yandex.com/',
-			},
-			{
-				'title': 'Manuales Usuario',
-				'icon': 'flaticon-users-1',
-				'text': 'Manuales de usuario',
-				'subtext': 'Consulta los manuales de usuario',
-				'apps': [APP, ],
-				'permission': '',
-				'model': APP + '.OrderService',
-				'href': 'TCS:manuales_usuario__OrderService__TemplateView',
-			},
-			{
-				'title': 'Manuales IconField',
-				'icon': 'flaticon-layer',
-				'text': 'Manuales de usuario',
-				'subtext': 'Consulta los manuales de IconField',
-				'apps': [APP, ],
-				'permission': '',
-				'model': APP + '.OrderService',
-				'href': 'TCS:manuales_iconfield__OrderService__TemplateView',
-			},
-		]
-	}
 }
 
 ESTATUS= (
