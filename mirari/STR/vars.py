@@ -6,7 +6,7 @@ MENU = {
 		'modules': [
 			{
 				'title': 'Categoria de Productos',
-				'icon': 'fas fa-box',
+				'icon': 'fas fa-clone',
 				'text': 'Categorias de los productos',
 				'subtext': 'Asocia productos a una categoría',
 				'apps': [APP, ],
