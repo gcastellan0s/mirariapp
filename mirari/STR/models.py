@@ -127,9 +127,9 @@ class Product(Model_base):
     notes = models.TextField(blank=True, verbose_name="Notas del producto")
     codebar = models.CharField('Nombre del modelo', max_length=30)
     uid = models.CharField('Nombre del modelo', max_length=30)
-    minimumQuantity = IntegerField(blank=True, null=True)
-    maximumQuantity = IntegerField(blank=True, null=True)
-    deliveryTerm = IntegerField(blank=True, null=True)
+    minimumQuantity = models.IntegerField(blank=True, null=True)
+    maximumQuantity = models.IntegerField(blank=True, null=True)
+    deliveryTerm = models.IntegerField(blank=True, null=True)
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
