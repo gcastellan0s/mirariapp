@@ -57,3 +57,6 @@ MMENU.update(TCS)
 from mirari.SIEBEL.vars import MENU as SIEBEL
 MMENU.update(SIEBEL)
 
+from mirari.STR.vars import MENU as STR
+MMENU.update(STR)
+

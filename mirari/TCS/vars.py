@@ -76,41 +76,6 @@ MENU = {
 			},
 		]
 	},
-	'INVENTORY': {
-		'title': 'PRODUCTOS DE INVENTARIO',
-		'modules': [
-			{
-				'title': 'Categoria de Productos',
-				'icon': 'fas fa-clone',
-				'text': 'Categorias de los productos',
-				'subtext': 'Asocia productos a una categoría',
-				'apps': [APP, ],
-				'permission': 'Can_View',
-				'model': APP + '.CategoryProduct',
-				'url': 'Generic__ListView',
-			},
-			{
-				'title': 'Productos',
-				'icon': 'fas fa-box',
-				'text': 'Productos en el almacén',
-				'subtext': 'Administra todos los productos que deseas administrar',
-				'apps': [APP, ],
-				'permission': 'Can_View',
-				'model': APP + '.Product',
-				'url': 'Generic__ListView',
-			},
-			#{
-				#'title': 'Reglas de abastecimiento',
-				#'icon': 'flaticon-interface-9',
-				#'text': 'Administración de modelos',
-				#'subtext': 'Administra modelos de caminadoras y gimnasios',
-				#'apps': [APP, ],
-				#'permission': 'Can_View',
-				#'model': APP + '.Modelo',
-				#'url': 'Generic__ListView',
-			#},
-		]
-	},
 }
 
 ESTATUS= (
