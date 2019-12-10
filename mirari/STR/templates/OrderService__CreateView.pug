@@ -1,0 +1,592 @@
+extends "generic/CreateView.html"
+-load static
+-load i18n
+-load mirari_tags
+-load crispy_forms_tags
+-load humanize
+
+block styles
+    {{block.super}}
+    style.
+        .m-widget3__text{
+            padding: .5rem;
+        }
+        .kt-widget3 .kt-widget3__item {
+            margin-bottom: 0rem;
+            border-bottom: 0rem dashed #ebedf2;
+        }
+
+block content
+    .row
+        {%if object%}
+        {%if 'LOCAL' in request.user.get_groups or 'FORANEO' in request.user.get_groups%}
+        .col-xl-9
+            #print_order
+                .kt-portlet.kt-portlet(style="min-height: 900px;")
+                    .kt-invoice-2.p-5
+                        .kt-invoice__wrapper
+                            .kt-invoice__head
+                                .kt-invoice__container.kt-invoice__container--centered
+                                    .kt-invoice__logo.mb-5
+                                        .row
+                                            .col-8
+                                                .row
+                                                    .col-6(style='text-align: center;color: inherit;')
+                                                        {%if G.ORGANIZATION.code == 'tcs'%}
+                                                        img(src="{%static 'pages/tecnoservicio/img/icon_ordenes.png'%}")
+                                                        {%endif%}
+                                                        p.mb-0 Tel. 01800 6819542
+                                                    .col-6(style='text-align: center;color: inherit;')
+                                                        img(src='{{G.MEDIA}}{{ G.ORGANIZATION.LOGO }}' style='max-width: 200px;')
+                                                        {%if G.ORGANIZATION.code == 'mxf'%}
+                                                        p.mb-0 www.mexicof.com
+                                                        p.mb-0 servicio@mexicof.com
+                                                        p.mb-0 Tel. 53353837 / 11067518
+                                                        {%endif%}
+                                                        {%if G.ORGANIZATION.code == 'tcs'%}
+                                                        p.mb-0 www.caminadorasygimnasios.com
+                                                        p.mb-0 servicio@caminadorasygimnasios.com
+                                                        p.mb-0 Tel. 55134050 / 56014868
+                                                        {%endif%}
+                                            .col-4
+                                                .row
+                                                    .col-6(style='text-align:right;')
+                                                        p.mb-0.h3 OS: {{object.serial}}
+                                                        {%comment%}
+                                                        p.mb-0.h5 TOTAL: $ ${total|makeTotalConcepts|formatPrice}
+                                                        {%endcomment%}
+                                                    .col-6(style='text-align:right;')
+                                                        p.mb-0 ALTA: {{object.creation_date|date:"SHORT_DATETIME_FORMAT"}}
+                                                        p.mb-0 TIPO: 
+                                                            strong.ml-2 {{object.service}}
+                                                        p.mb-0 TÉCNICO: {{object.technical|upper}}
+                                                        p.mb-0 OPERADOR: {{object.user|upper}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p EMAIL:
+                                                        strong.ml-2 {{object.email|default:'-'}}
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p TELÉFONO:
+                                                        {%if object.contact_phone1 or object.contact_phone2 or object.contact_phone3%}
+                                                        strong.ml-2 {{object.contact_phone1}} {{object.contact_phone2}} {{object.contact_phone3}}
+                                                        {%else%}
+                                                        strong.ml-2 -
+                                                        {%endif%}
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p CLIENTE:
+                                                        strong.ml-2 {{object.client_name|upper|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-12
+                                                .kt-invoice__item
+                                                    p DIRECCION:
+                                                        strong.ml-2 {{object.get_adress_html|safe|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-12
+                                                .kt-invoice__item
+                                                    p REFERENCIAS:
+                                                        strong.ml-2 {{object.address_reference|safe|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-6
+                                                .kt-invoice__item
+                                                    p FECHA COMPRA:
+                                                        strong.ml-2 {{object.buy_date|default:'-'}}
+                                            .col-6
+                                                .kt-invoice__item
+                                                    p FECHA ENTREGA:
+                                                        strong.ml-2 {{object.delivery_date|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-3
+                                                .kt-invoice__item
+                                                    p EMPRESA:
+                                                        strong.ml-2 {{object.company|default:'-'}}
+                                            .col-3
+                                                .kt-invoice__item
+                                                    p TIENDA:
+                                                        strong.ml-2 {{object.store|default:'-'}}
+                                            .col-3
+                                                .kt-invoice__item
+                                                    p MARCA:
+                                                        strong.ml-2 {{object.brand|default:'-'}}
+                                            .col-3
+                                                .kt-invoice__item
+                                                    p MODELO:
+                                                        strong.ml-2 {{object.modelo|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p NO SERIE:
+                                                        strong.ml-2 {{object.serial_number|default:'-'}}
+                                            .col-4
+                                                .m-invoice__item
+                                                    p REPORTA:
+                                                        strong.ml-2 {{object.report_name|upper|default:'-'}}
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p TECNICO:
+                                                        strong.ml-2 {{object.technical|upper|default:'-'}}
+                                    {%if 'LOCAL' in request.user.get_groups or 'FORANEO' in request.user.get_groups%}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p ICON_OS:
+                                                        strong.ml-2 {{object.icon_os|default:'-'}}
+                                            .col-4
+                                                .m-invoice__item
+                                                    p ICON_ICS:
+                                                        strong.ml-2 {{object.icon_ics|default:'-'}}
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p ICON_ICS:
+                                                        strong.ml-2 {{object.icon_ics_2|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p ICON_ICS:
+                                                        strong.ml-2 {{object.icon_ics_3|default:'-'}}
+                                            .col-4
+                                                .m-invoice__item
+                                                    p ICON_ON:
+                                                        strong.ml-2 {{object.icon_on|default:'-'}}
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p ICON_CN:
+                                                        strong.ml-2 {{object.icon_cn|default:'-'}}
+                                    {%endif%}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-12
+                                                .kt-invoice__item
+                                                    p COMENTARIOS:
+                                                        strong.ml-2 {{object.order_notes|default:'-'}}
+                                                .kt-invoice__item.d-print-none
+                                                    p COMENTARIOS OCULTOS:
+                                                        strong.ml-2 {{object.hidden_notes|default:'-'}}
+                                    hr
+                                    .kt-invoice__items
+                                        .row
+                                            .col-12
+                                                .kt-invoice__item
+                                                    p NOTAS DEL CLIENTE:
+                                                        strong.ml-2 {{object.client_notes|default:'-'}}
+                                    .kt-invoice__items
+                                        .row.mb-5
+                                            .col-6
+                                                .kt-invoice__item
+                                                    p FECHA:
+                                                        strong.ml-2 {{object.service_date}}
+                                            .col-6
+                                                .kt-invoice__item
+                                                    p FIRMA:
+                                                        strong.ml-2 
+        {%else%}
+        .col-xl-9.kt-hide
+            #print_order
+                {%for x in 'xx'%}
+                .kt-portlet.kt-portlet(style="min-height: 900px;")
+                    .kt-invoice-2.p-5
+                        .kt-invoice__wrapper
+                            .kt-invoice__head
+                                .kt-invoice__container.kt-invoice__container--centered
+                                    .kt-invoice__logo.mb-5
+                                        .row
+                                            .col-8
+                                                .row
+                                                    .col-6(style='text-align: center;color: inherit;')
+                                                        {%if G.ORGANIZATION.code == 'tcs'%}
+                                                        img(src="{%static 'pages/tecnoservicio/img/icon_ordenes.png'%}")
+                                                        {%endif%}
+                                                        p.mb-0 Tel. 01800 6819542
+                                                    .col-6(style='text-align: center;color: inherit;')
+                                                        img(src='{{G.MEDIA}}{{ G.ORGANIZATION.LOGO }}' style='max-width: 200px;')
+                                                        {%if G.ORGANIZATION.code == 'mxf'%}
+                                                        p.mb-0 www.mexicof.com
+                                                        p.mb-0 servicio@mexicof.com
+                                                        p.mb-0 Tel. 53353837 / 11067518
+                                                        {%endif%}
+                                                        {%if G.ORGANIZATION.code == 'tcs'%}
+                                                        p.mb-0 www.caminadorasygimnasios.com
+                                                        p.mb-0 servicio@caminadorasygimnasios.com
+                                                        p.mb-0 Tel. 55134050 / 56014868
+                                                        {%endif%}
+                                            .col-4
+                                                .row
+                                                    .col-6(style='text-align:right;')
+                                                        p.mb-0.h3 OS: {{object.serial}}
+                                                        {%comment%}
+                                                        p.mb-0.h5 TOTAL: $ ${total|makeTotalConcepts|formatPrice}
+                                                        {%endcomment%}
+                                                    .col-6(style='text-align:right;')
+                                                        p.mb-0 ALTA: {{object.creation_date|date:"SHORT_DATETIME_FORMAT"}}
+                                                        p.mb-0 TIPO: 
+                                                            strong.ml-2 {{object.service}}
+                                                        p.mb-0 TÉCNICO: {{object.technical|upper}}
+                                                        p.mb-0 OPERADOR: {{object.user|upper}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p EMAIL:
+                                                        strong.ml-2 {{object.email|default:'-'}}
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p TELÉFONO:
+                                                        {%if object.contact_phone1 or object.contact_phone2 or object.contact_phone3%}
+                                                        strong.ml-2 {{object.contact_phone1}} {{object.contact_phone2}} {{object.contact_phone3}}
+                                                        {%else%}
+                                                        strong.ml-2 -
+                                                        {%endif%}
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p CLIENTE:
+                                                        strong.ml-2 {{object.client_name|upper|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-12
+                                                .kt-invoice__item
+                                                    p DIRECCION:
+                                                        strong.ml-2 {{object.get_adress_html|safe|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-12
+                                                .kt-invoice__item
+                                                    p REFERENCIAS:
+                                                        strong.ml-2 {{object.address_reference|safe|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-6
+                                                .kt-invoice__item
+                                                    p FECHA COMPRA:
+                                                        strong.ml-2 {{object.buy_date|default:'-'}}
+                                            .col-6
+                                                .kt-invoice__item
+                                                    p FECHA ENTREGA:
+                                                        strong.ml-2 {{object.delivery_date|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-3
+                                                .kt-invoice__item
+                                                    p EMPRESA:
+                                                        strong.ml-2 {{object.company|default:'-'}}
+                                            .col-3
+                                                .kt-invoice__item
+                                                    p TIENDA:
+                                                        strong.ml-2 {{object.store|default:'-'}}
+                                            .col-3
+                                                .kt-invoice__item
+                                                    p MARCA:
+                                                        strong.ml-2 {{object.brand|default:'-'}}
+                                            .col-3
+                                                .kt-invoice__item
+                                                    p MODELO:
+                                                        strong.ml-2 {{object.modelo|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p NO SERIE:
+                                                        strong.ml-2 {{object.serial_number|default:'-'}}
+                                            .col-4
+                                                .m-invoice__item
+                                                    p REPORTA:
+                                                        strong.ml-2 {{object.report_name|upper|default:'-'}}
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p TECNICO:
+                                                        strong.ml-2 {{object.technical|upper|default:'-'}}
+                                    {%if 'LOCAL' in request.user.get_groups or 'FORANEO' in request.user.get_groups%}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p ICON_OS:
+                                                        strong.ml-2 {{object.icon_os|default:'-'}}
+                                            .col-4
+                                                .m-invoice__item
+                                                    p ICON_ICS:
+                                                        strong.ml-2 {{object.icon_ics|default:'-'}}
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p ICON_ICS:
+                                                        strong.ml-2 {{object.icon_ics_2|default:'-'}}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p ICON_ICS:
+                                                        strong.ml-2 {{object.icon_ics_3|default:'-'}}
+                                            .col-4
+                                                .m-invoice__item
+                                                    p ICON_ON:
+                                                        strong.ml-2 {{object.icon_on|default:'-'}}
+                                            .col-4
+                                                .kt-invoice__item
+                                                    p ICON_CN:
+                                                        strong.ml-2 {{object.icon_cn|default:'-'}}
+                                    {%endif%}
+                                    .kt-invoice__items
+                                        .row
+                                            .col-12
+                                                .kt-invoice__item
+                                                    p COMENTARIOS:
+                                                        strong.ml-2 {{object.order_notes|default:'-'}}
+                                                .kt-invoice__item.d-print-none
+                                                    p COMENTARIOS OCULTOS:
+                                                        strong.ml-2 {{object.hidden_notes|default:'-'}}
+                                    hr
+                                    .kt-invoice__items
+                                        .row
+                                            .col-12
+                                                .kt-invoice__item
+                                                    p NOTAS DEL CLIENTE:
+                                                        strong.ml-2 {{object.client_notes|default:'-'}}
+                                    .kt-invoice__items
+                                        .row.mb-5
+                                            .col-6
+                                                .kt-invoice__item
+                                                    p FECHA:
+                                                        strong.ml-2 {{object.service_date}}
+                                            .col-6
+                                                .kt-invoice__item
+                                                    p FIRMA:
+                                                        strong.ml-2 
+                {%endfor%}
+        {%endif%}
+        {%endif%}                                                    
+        {% if perms.TCS.Can_Update__OrderService %}    
+        {%if object%}
+        {%if not 'LOCAL' in request.user.get_groups and not 'FORANEO' in request.user.get_groups%}
+        .col-xl-9
+            | {%crispy form%}
+            .row
+                .col-xl-6
+                    // begin::Portlet
+                    .kt-portlet.kt-portlet--skin-solid.kt-bg-brand
+                        .kt-portlet__head.kt-portlet__head--noborder
+                            .kt-portlet__head-label
+                                h3.kt-portlet__head-title HISTORIAL DE LA ORDEN
+                        .kt-portlet__body
+                            p HISTORIAL AUN NO DISPONIBLE
+                {% if perms.TCS.Can_Create__OrderServiceConcept %}
+                .col-xl-6
+                    // begin::Portlet
+                    .kt-portlet.kt-portlet
+                        .kt-portlet__head
+                            .kt-portlet__head-label
+                                h3.kt-portlet__head-title CONCEPTOS
+                        .kt-portlet__body
+                            .kt-widget4__item(v-for="concept in concepts" v-if="concepts.length")
+                                .kt-widget4__header
+                                    span.kt-widget4__username ${concept.username}
+                                    span.kt-widget4__time.ml-2 
+                                        small ${concept.creation_date|formatDate}
+                                .kt-widget4__body
+                                    p.kt-widget4__text
+                                        strong ${concept.concept}
+                                        span.text-success.ml-2(v-if="concept.quantity > 0")
+                                            strong ${concept.quantity|formatPrice}
+                                        span.text-danger.ml-2(v-if="concept.quantity <= 0")
+                                            strong ${concept.quantity|formatPrice}
+                {%endif%}
+        {%endif%}
+        {%else%}
+        .col-xl-8.offset-xl-2
+            | {%crispy form%}
+        {%endif%}
+        {%endif%}
+        {%if object%}
+        .col-xl-3
+            .kt-portlet.kt-portlet--skin-solid.kt-bg-brand
+                .kt-portlet__head.kt-portlet__head--noborder
+                    .kt-portlet__head-label
+                        h2.text-light ID: {{object.serial}}  
+                {%if not 'LOCAL' in request.user.get_groups and not 'FORANEO' in request.user.get_groups%}
+                .kt-portlet__head.kt-portlet__head--noborder(style="min-height:35px;")
+                    .kt-portlet__head-label
+                        h4.text-light TOTAL: $ ${total|makeTotalConcepts|formatPrice}
+                {%endif%}
+            .kt-portlet.kt-portlet
+                .kt-portlet__body
+                    .kt-widget4__item
+                        .kt-widget4__body
+                            p.kt-widget4__text.my-0 {{object.get_user_html|safe}}
+                            {% language 'es-MX' %}
+                            p.kt-widget4__text.my-0 {{object.get_creation_date_html|safe}}
+                            {% endlanguage %}
+            {%if not 'LOCAL' in request.user.get_groups and not 'FORANEO' in request.user.get_groups%}
+            {% if perms.TCS.Can_Update__OrderService %}
+            .kt-portlet.kt-portlet
+                .kt-portlet__body
+                    .kt-widget4__item
+                        .kt-widget4__body
+                            .form-group.m-form__group.row
+                                .col-md-12
+                                    label.col-form-label.requiredField(for='id_status') Estatus
+                                    select#id_status.form-control(name='status', required='', v-model='status')
+                                        option(v-for='option in status_options', v-bind:value='option.value') ${option.text}
+            {%endif%}
+            {%endif%}
+            a.btn.btn-brand.kt-btn.kt-btn--icon.kt-btn--wide.kt-btn--md.mb-4(href='#', v-on:click.prevent='print_order()')
+                span
+                    i.la.la-print
+                    span IMPRIMIR orden
+            {%if not 'LOCAL' in request.user.get_groups and not 'FORANEO' in request.user.get_groups%}
+            {% if perms.TCS.Can_Create__OrderServiceConcept %}
+            .kt-portlet.kt-portlet
+                .kt-portlet__body
+                    .kt-widget4__item
+                        .kt-widget4__body
+                            .form-group.m-form__group.row
+                                .input-group
+                                    .input-group-prepend
+                                        span.input-group-text Concepto
+                                    input.form-control(type='text' id="id_concept" v-model="concept_text" placeholder="Ingresa concepto")
+                                .input-group.mt-2
+                                    .input-group-prepend
+                                        span.input-group-text Cantidad
+                                    input.form-control(type='text' id="id_quantity" v-model="concept_quantity" placeholder="$ MXN")
+                                a.btn.btn-brand.kt-btn.kt-btn--icon.kt-btn--wide.kt-btn--md.mt-3(href='#', v-on:click.prevent="addConcept(concept_text, concept_quantity)")
+                                    span
+                                        i.la.la-plus
+                                        span AGREGAR concepto
+            {%endif%}
+            {%endif%}
+            .kt-portlet.kt-portlet
+                .kt-portlet__head
+                    .kt-portlet__head-label
+                        h3.kt-portlet__head-title COMENTARIOS
+                .kt-portlet__body
+                    .kt-widget3
+                        .kt-widget3__item(v-for="comment in comments" style="margin-bottom:0rem")
+                            .kt-widget3__header(style="margin-top:.5rem;")
+                                .kt-widget3__user-img
+                                    span.kt-widget3__img.kt-badge.kt-badge--username.kt-badge--unified-primary.kt-badge--lg.kt-badge--rounded.kt-badge--bold ${comment.username[0]}
+                                .kt-widget3__info
+                                    a.kt-widget3__username(href='#') ${comment.username}
+                                    br
+                                    span.kt-widget3__time ${comment.creation_date|formatDate}
+                            .kt-widget3__body
+                                p.kt-widget3__text ${comment.comment}
+                    .form-group(id='')
+                        label.col-form-label(for='id_comment')
+                            small (Escribe un comentario)
+                        textarea#id_comment.textarea.form-control(name='comment', cols='40', rows='10', v-model='comment_text')
+                    a.btn.btn-brand.kt-btn.kt-btn--icon.kt-btn--wide.btn-block.mt-3(href='javascript:void(0);', v-on:click.prevent="addComment(comment_text)")
+                        span
+                            i.la.la-envelope
+                            span ENVIAR comentario
+        {%endif%}                    
+    
+
+block js
+    {{block.super}}
+    script(src="{%static 'mirari/js/print.js'%}", type='text/javascript')
+
+script.
+    {%block data%} 
+        {{block.super}}
+        {%if object%}
+            status: '{{object.status}}',
+            status_options: [
+                {%for choices in model.estatus_choices%}
+                    { text: '{{choices.0}}', value: '{{choices.1}}' },
+                {%endfor%}
+            ],
+            comment_text: '',
+            comments: [],
+            concept_text: '',
+            concept_quantity: '',
+            concepts: [],
+            total: 0,
+        {%endif%}
+    {%endblock data%}
+
+    {%block created%}
+        {{block.super}}
+        {%if object%}
+            self.addConcept();
+            self.addComment();
+        {%endif%}
+        {%if request.user.organization.id == 3%}
+            $("[for=id_id_service_3]").hide()
+            $("[for=id_id_service_5]").hide()
+            $("[for=id_id_service_6]").hide()
+        {%endif%}
+        {%if request.user.organization.id == 6%}
+            $("[for=id_id_service_1]").hide()
+            $("[for=id_id_service_2]").hide()
+            $("[for=id_id_service_4]").hide()
+            $("[for=id_id_concept_3]").hide()
+        {%endif%}
+    {%endblock created%}
+
+    {%block methods%}
+        {{block.super}}
+        {%if object%}
+            print_order: function (){
+                $('#print_order').printThis();
+            },
+            addConcept: function (concept_text=null, concept_quantity=null){
+                Ax('post', '{{request.get_full_path}}?api=addConcept',{concept:concept_text, quantity:concept_quantity})
+                .then(function(json){
+                    self.concepts = json.data.OrderServiceConcept
+                    if(concept_text) Notify('Concepto agregado','')
+                }).catch((error) => {
+                    Swal.fire('Algo salio mal!', error.response.data.message, 'error')
+                }).finally(() => {
+                    self.concept_text = ''
+                    self.concept_quantity = ''
+                });
+            },
+            addComment: function (comment_text=null){
+                Ax('post', '{{request.get_full_path}}?api=addComment',{comment:comment_text})
+                .then(function(json){
+                    self.comments = json.data.OrderServiceComment
+                    if(comment_text) Notify('Comentario agregado','')
+                }).catch((error) => {
+                    Swal.fire('Algo salio mal!', error.response.data.message, 'error')
+                }).finally(() => {
+                    self.comment_text = ''
+                });
+            },
+        {%endif%}
+    {%endblock methods%}
+
+    {%block watch%}
+        {{block.super}}
+        {%if object%}
+            status: function (val) {
+                Ax('post', '{{request.get_full_path}}?api=updateStatus', {status:val})
+                .then(function(json){
+                    Notify('Exito!','Estatus actualizado','')
+                }).catch((error) => {
+                    Swal.fire('Algo salio mal!', error.response.data.message, 'error')
+                })
+            },
+        {%endif%}
+    {%endblock watch%}
+
+    {%block filters%}
+        {{block.super}}
+        {%if object%}
+        makeTotalConcepts:((total) => {
+            t = 0
+            self.concepts.forEach((concept)=>{
+                if(concept.quantity > 0) t += concept.quantity
+            })
+            return t
+        }),
+        {%endif%}
+    {%endblock filters%}
+
+

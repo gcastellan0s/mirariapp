@@ -6,6 +6,7 @@ from .vars import *
 from datetime import timedelta
 from dateutil import tz
 
+
 ########################################################################################
 VARS = {
     'NAME':'Empresa',
