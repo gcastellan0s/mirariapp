@@ -10,6 +10,6 @@ class ProviderAdmin(PassAdmin):
 class CategoryProductAdmin(PassAdmin):
 	list_display = ('id', 'name', 'id_bckp',)
 
-@admin.register(Store)
-class Product(PassAdmin):
+@admin.register(Product)
+class ProductAdmin(PassAdmin):
 	list_display = ('id', 'name', 'id_bckp',)
