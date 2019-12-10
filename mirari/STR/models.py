@@ -91,7 +91,7 @@ class Product(Model_base):
     canBySell = models.BooleanField(default=True)
     canByBuy = models.BooleanField(default=True)
     typeProduct = models.CharField('Forma de generar el descuento', choices=PRODUCTTYPE, max_length=250, default="productQuantity")
-    category = models.ForeignKey('CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',)
+    category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',)
     sellPrice = models.FloatField(blank=True, null=True)
     costPrice = models.FloatField(blank=True, null=True)
     notes = models.TextField(blank=True, verbose_name="Notas del producto")
