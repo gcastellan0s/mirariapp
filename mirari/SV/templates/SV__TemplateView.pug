@@ -453,6 +453,9 @@ script.
                 //}
                 else ticketFormat.push(["cut"])
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}',event, ticketFormat)
+                
+            }else{
+                io.connect('http://192.168.1.100:9100');
             }
         }),
         initTicket: (() => {
