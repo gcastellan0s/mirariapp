@@ -452,7 +452,10 @@ script.
                     //ticketFormat.push(["text", self.Ticket.key])
                 //}
                 else ticketFormat.push(["cut"])
-                PrivateSocket.emit('Send_Event','{{request.user.organization.code}}',event, ticketFormat)
+                if (self.Sellpoint.id){
+                    console.log(ticketFormat)
+                }
+                else PrivateSocket.emit('Send_Event','{{request.user.organization.code}}',event, ticketFormat)
             }
         }),
         initTicket: (() => {

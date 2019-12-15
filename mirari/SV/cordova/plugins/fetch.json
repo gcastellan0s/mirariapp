@@ -46,5 +46,13 @@
     },
     "is_top_level": false,
     "variables": {}
+  },
+  "nodejs-mobile-cordova": {
+    "source": {
+      "type": "registry",
+      "id": "nodejs-mobile-cordova"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }
