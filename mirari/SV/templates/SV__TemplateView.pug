@@ -454,7 +454,7 @@ script.
             }else{
                 data = {
                     ticketFormat: ticketFormat,
-                    user: '{{request.username.visible_username}}'
+                    user: '{{request.user.visible_username}}'
                 }
                 PublicSocket.emit('Send_Event','{{request.user.organization.code}}',event, data)
             }
