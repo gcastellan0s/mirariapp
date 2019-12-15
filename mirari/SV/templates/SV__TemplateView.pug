@@ -371,7 +371,7 @@ script.
             });
         }),
         printTicket: ((ticket) => { 
-            if (PrivateSocket){
+            //if (PrivateSocket){
                 ticketFormat = []
                 if(self.Ticket.ticketType=='VENTA'){
                     ticketFormat.push(["times",[self.Sellpoint.number_tickets]])
@@ -456,7 +456,7 @@ script.
                     console.log(ticketFormat)
                 }
                 else PrivateSocket.emit('Send_Event','{{request.user.organization.code}}',event, ticketFormat)
-            }
+            //}
         }),
         initTicket: (() => {
             self.Ticket = {
