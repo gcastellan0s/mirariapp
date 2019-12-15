@@ -371,7 +371,7 @@ script.
             });
         }),
         printTicket: ((ticket) => { 
-            //if (PrivateSocket){
+            if (PrivateSocket){
                 ticketFormat = []
                 if(self.Ticket.ticketType=='VENTA'){
                     ticketFormat.push(["times",[self.Sellpoint.number_tickets]])
@@ -452,11 +452,8 @@ script.
                     //ticketFormat.push(["text", self.Ticket.key])
                 //}
                 else ticketFormat.push(["cut"])
-                if (self.Sellpoint.id){
-                    console.log(ticketFormat)
-                }
-                else PrivateSocket.emit('Send_Event','{{request.user.organization.code}}',event, ticketFormat)
-            //}
+                PrivateSocket.emit('Send_Event','{{request.user.organization.code}}',event, ticketFormat)
+            }
         }),
         initTicket: (() => {
             self.Ticket = {
