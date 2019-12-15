@@ -452,8 +452,11 @@ script.
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}',event, ticketFormat)
                 
             }else{
-                event = 'EthernetPrint'
-                PublicSocket.emit('Send_Event','{{request.user.organization.code}}',event, ticketFormat)
+                data = {
+                    ticketFormat: ticketFormat,
+                    user: '{{request.visible_username}}'
+                }
+                PublicSocket.emit('Send_Event','{{request.user.organization.code}}',event, data)
             }
         }),
         initTicket: (() => {
