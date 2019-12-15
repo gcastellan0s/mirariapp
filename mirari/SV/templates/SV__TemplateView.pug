@@ -371,7 +371,6 @@ script.
             });
         }),
         printTicket: ((ticket) => { 
-            console.log("ok")
             if (PrivateSocket){
                 ticketFormat = []
                 if(self.Ticket.ticketType=='VENTA'){
@@ -456,8 +455,11 @@ script.
                 PrivateSocket.emit('Send_Event','{{request.user.organization.code}}',event, ticketFormat)
                 
             }else{
-                io.connect('http://192.168.1.100:9100');
-                
+                var connection = new WebSocket('ws://IPAddress:Port');
+                connection.onopen = function () {
+                    connection.send('Ping'); // Send the message 'Ping' to the server
+                };
+                console.log("ok")
             }
         }),
         initTicket: (() => {
