@@ -91,12 +91,12 @@ VARS = {
                 Div('category', css_class="col-md-12"),
                 Div('uid', css_class="col-md-12"),
                 Div('codebar', css_class="col-md-12"),
-                css_class="col-md-8"
+                css_class="col-md-7"
             ),
             Div(
                 Div('sellPrice', css_class="col-md-12"),
                 Div('costPrice', css_class="col-md-12"),
-                css_class="col-md-4"
+                css_class="col-md-5"
             ),
             css_class="form-group m-form__group row"
         ),
@@ -135,7 +135,7 @@ class Product(Model_base):
     category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, verbose_name="Categoría del producto", related_name  ='+',)
     uid = models.CharField('Referencia interna (PKU)', max_length=30)
     codebar = models.CharField('Código de barras', max_length=30)
-    sellPrice = models.FloatField('Precio de venta (pesos) $', blank=True, null=True)
+    sellPrice = models.FloatField('Precio venta (pesos) $', blank=True, null=True)
     costPrice = models.FloatField('Costo (pesos) $', blank=True, null=True)
     notes = models.TextField(blank=True, verbose_name="Notas internas")
 
