@@ -86,19 +86,16 @@ VARS = {
         Div('canBySell', css_class="col-md-12"),
         Div('canByBuy', css_class="col-md-12"),
         Div(
-            Div(
-                Div('typeProduct', css_class="col-md-12"),
-                Div('category', css_class="col-md-12"),
-                Div('uid', css_class="col-md-12"),
-                Div('codebar', css_class="col-md-12"),
-                css_class="col-md-6"
-            ),
-            Div(
-                Div('sellPrice', css_class="col-md-12"),
-                Div('costPrice', css_class="col-md-12"),
-                css_class="col-md-6"
-            ),
-            css_class="form-group m-form__group row"
+            Div('typeProduct', css_class="col-md-12"),
+            Div('category', css_class="col-md-12"),
+            Div('uid', css_class="col-md-12"),
+            Div('codebar', css_class="col-md-12"),
+            css_class="col-md-6"
+        ),
+        Div(
+            Div('sellPrice', css_class="col-md-12"),
+            Div('costPrice', css_class="col-md-12"),
+            css_class="col-md-6"
         ),
         Div('notes', css_class="col-md-12"),
     ],
