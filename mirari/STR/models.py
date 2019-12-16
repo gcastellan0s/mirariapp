@@ -104,25 +104,21 @@ VARS = {
         Div('notes', css_class="col-md-12"),
         Div(
             Div(
-                Div('typeProduct', css_class="col-md-12"),
-                Div('category', css_class="col-md-12"),
-                Div('uid', css_class="col-md-12"),
-                Div('codebar', css_class="col-md-12"),
-                css_class="col-md-6"
+                Div('weight', css_class="col-md-12"),
+                Div('volume', css_class="col-md-12"),
+                css_class="col-md-5"
             ),
             Div(
-                Div('weight', css_class="col-md-6"),
-                Div('volume', css_class="col-md-6"),
-                Div('deliveryTerm', css_class="col-md-6"),
-                Div('minimumQuantity', css_class="col-md-6"),
-                Div('maximumQuantity', css_class="col-md-6"),
-                Div('users', css_class="col-md-12"),
-                Div('deliveryDescription', css_class="col-md-12"),
-                Div('receptionsDescription', css_class="col-md-12"),
-                css_class="col-md-6"
+                Div('deliveryTerm', css_class="col-md-12"),
+                Div('minimumQuantity', css_class="col-md-12"),
+                Div('maximumQuantity', css_class="col-md-12"),
+                css_class="col-md-7"
             ),
             css_class="form-group m-form__group row"
         ),
+        Div('users', css_class="col-md-12"),
+        Div('deliveryDescription', css_class="col-md-12"),
+        Div('receptionsDescription', css_class="col-md-12"),
     ],
     #'SELECTQ': {
         #'technical': {
