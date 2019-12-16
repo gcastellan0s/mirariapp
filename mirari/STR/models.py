@@ -134,6 +134,10 @@ VARS = {
             'placeholder': 'Elige una categoría',
             'minimumInputLength': '0',
         },
+        'users': {
+            'model': ['mirari', 'User'],
+            'plugin': 'selectmultiple',
+        },
     },
 }
 def pathProductImage(self, filename):
