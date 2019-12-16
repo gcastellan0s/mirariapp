@@ -77,7 +77,7 @@ VARS = {
             'title': 'NOMBRE',
         },
     ],
-    'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal small_form',
+    'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
     'FORM': [
         Div(
             Div('name', css_class="col-md-12"),
@@ -120,21 +120,21 @@ VARS = {
         Div('deliveryDescription', css_class="col-md-12"),
         Div('receptionsDescription', css_class="col-md-12"),
     ],
-    #'SELECTQ': {
-        #'technical': {
-            #'model': ['STR', 'CategoryProduct'],
-            #'plugin': 'select2',
-            #'query': [
-                #(
-                    #('organization__pk', 'self.request.session.get("organization")'),
-                #),
-            #],
-            #'sercheable': ('name__icontains'),
-            #'limits': 50,
-            #'placeholder': 'Elige una categoría',
-            #'minimumInputLength': '0',
-        #},
-    #},
+    'SELECTQ': {
+        'category': {
+            'model': ['STR', 'CategoryProduct'],
+            'plugin': 'select2',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                ),
+            ],
+            'sercheable': ('name__icontains'),
+            'limits': 50,
+            'placeholder': 'Elige una categoría',
+            'minimumInputLength': '0',
+        },
+    },
 }
 def pathProductImage(self, filename):
     upload_to = "O/%s%s/STR/Prod/%s" % (self.organization.id, self.organization.code, filename)
