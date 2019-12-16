@@ -62,7 +62,6 @@ class CategoryProduct(Model_base):
         return self.name
 
 
-
 ########################################################################################
 VARS = {
     'NAME':'Producto',
@@ -78,8 +77,24 @@ VARS = {
             'title': 'NOMBRE',
         },
     ],
-    'FORM': ('name','canBySell','canByBuy','typeProduct','category','sellPrice','costPrice','notes','codebar','uid','minimumQuantity','maximumQuantity','deliveryTerm',),
+    'FORM': ('name','canBySell','canByBuy','typeProduct','category','sellPrice','costPrice','notes','codebar','uid','minimumQuantity','maximumQuantity','deliveryTerm','weight','volume','users','deliveryDescription','receptionsDescription'),
+    'SELECTQ': {
+        'technical': {
+            'model': ['mirari', 'CategoryProduct'],
+            'plugin': 'select2',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                ),
+            ],
+            'sercheable': ('name__icontains'),
+            'limits': 50,
+            'placeholder': 'Elige una categoría',
+            'minimumInputLength': '0',
+        },
+    },
 }
+
 class Product(Model_base):
     PRODUCTTYPE = (
         ('Consumible','Consumible'),
@@ -87,19 +102,28 @@ class Product(Model_base):
         ('Almacenaje','Almacenaje'),
     )
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-    name = models.CharField('Nombre del modelo', max_length=250)
-    canBySell = models.BooleanField(default=True)
-    canByBuy = models.BooleanField(default=True)
-    typeProduct = models.CharField('Forma de generar el descuento', choices=PRODUCTTYPE, max_length=250, default="productQuantity")
-    category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',)
-    sellPrice = models.FloatField(blank=True, null=True)
-    costPrice = models.FloatField(blank=True, null=True)
-    notes = models.TextField(blank=True, verbose_name="Notas del producto")
-    codebar = models.CharField('Nombre del modelo', max_length=30)
-    uid = models.CharField('Nombre del modelo', max_length=30)
+
+    name = models.CharField('Nombre del producto', max_length=250)
+    canBySell = models.BooleanField('Puede ser vendido?', default=True)
+    canByBuy = models.BooleanField('Puede ser comprado?', default=True)
+    typeProduct = models.CharField('Tipo de producto', choices=PRODUCTTYPE, max_length=250, default="productQuantity")
+    category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, verbose_name="Categoría del producto", related_name  ='+',)
+    uid = models.CharField('Referencia interna (PKU)', max_length=30)
+    codebar = models.CharField('Código de barras', max_length=30)
+    sellPrice = models.FloatField('Precio de venta', blank=True, null=True)
+    costPrice = models.FloatField('Costo', blank=True, null=True)
+    notes = models.TextField(blank=True, verbose_name="Notas internas")
+
+    weight = models.FloatField('Peso', blank=True, null=True)
+    volume = models.FloatField('Volumen', blank=True, null=True)
+    deliveryTerm = models.IntegerField('Plazo de entrega', blank=True, null=True)
+    users = models.ManyToManyField('mirari.User')
+    deliveryDescription = models.TextField(blank=True)
+    receptionsDescription = models.TextField(blank=True)
+    
     minimumQuantity = models.IntegerField(blank=True, null=True)
     maximumQuantity = models.IntegerField(blank=True, null=True)
-    deliveryTerm = models.IntegerField(blank=True, null=True)
+    
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
