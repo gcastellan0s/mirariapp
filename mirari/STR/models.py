@@ -101,7 +101,6 @@ VARS = {
             css_class="form-group m-form__group row"
         ),
         Div('notes', css_class="col-md-12"),
-        HTML("{% if success %} <p>Operation was successful</p> {% endif %}")
     ],
     #'SELECTQ': {
         #'technical': {
