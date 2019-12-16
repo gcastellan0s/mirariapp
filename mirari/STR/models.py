@@ -87,7 +87,7 @@ VARS = {
         Div('canBySell', css_class="col-md-12"),
         Div('canByBuy', css_class="col-md-12"),
         Div(
-            HTML('<h5 class="kt-section__title ml-2 mb-4">DATOS FISCALES</h5>'),
+            HTML('<h5 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h5>'),
         ),
         Div(
             Div(
@@ -106,6 +106,9 @@ VARS = {
         ),
         Div('photo', css_class="col-md-12"),
         Div('notes', css_class="col-md-12"),
+        Div(
+            HTML('<h5 class="kt-section__title ml-2 mb-4">INVENTARIO</h5>'),
+        ),
         Div(
             Div(
                 Div('weight', css_class="col-md-12"),
