@@ -148,10 +148,10 @@ class ProductHistory(Model_base):
         ('SALIDA','SALIDA'),
         ('ACTUALIZACION','ACTUALIZACION'),
     )
-    user = models.ForeignKey('mirari.User', blank=True, null=True)
+    user = models.ForeignKey('mirari.User', blank=True, null=True, on_delete=models.SET_NULL)
     historyType = models.CharField('Tipo de producto', choices=HISTORYTYPE, max_length=250, default="productQuantity")
     datetime = models.DateTimeField(auto_now_add=True)
-    product = models.ForeignKey('STR.Product', blank=True, null=True)
+    product = models.ForeignKey('STR.Product', blank=True, null=True, on_delete=models.SET_NULL)
     id_bckp = models.IntegerField(blank=True, null=True)
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
