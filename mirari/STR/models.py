@@ -85,6 +85,9 @@ VARS = {
         ),
         Div('canBySell', css_class="col-md-12"),
         Div('canByBuy', css_class="col-md-12"),
+        HTML("""
+            <p>Información General</p>
+        """),
         Div(
             Div(
                 Div('typeProduct', css_class="col-md-12"),
@@ -100,9 +103,11 @@ VARS = {
             ),
             css_class="form-group m-form__group row"
         ),
+        HTML("""
+            <p>Notas Internas</p>
+        """),
         Div('notes', css_class="col-md-12"),
     ],
-    #'FORM': ('name','canBySell','canByBuy','typeProduct','category','sellPrice','costPrice','notes','codebar','uid','minimumQuantity','maximumQuantity','deliveryTerm','weight','volume','users','deliveryDescription','receptionsDescription'),
     #'SELECTQ': {
         #'technical': {
             #'model': ['STR', 'CategoryProduct'],
@@ -127,7 +132,6 @@ class Product(Model_base):
         ('Almacenaje','Almacenaje'),
     )
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-
     name = models.CharField('Nombre del producto', max_length=250)
     canBySell = models.BooleanField('Puede ser vendido?', default=True)
     canByBuy = models.BooleanField('Puede ser comprado?', default=True)
@@ -135,20 +139,17 @@ class Product(Model_base):
     category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, verbose_name="Categoría del producto", related_name  ='+',)
     uid = models.CharField('Referencia interna (PKU)', max_length=30)
     codebar = models.CharField('Código de barras', max_length=30)
-    sellPrice = models.FloatField('Precio venta $', blank=True, null=True)
+    sellPrice = models.FloatField('Venta $', blank=True, null=True)
     costPrice = models.FloatField('Costo $', blank=True, null=True)
     notes = models.TextField(blank=True, verbose_name="NOTAS INTERNAS")
-
     weight = models.FloatField('Peso', blank=True, null=True)
     volume = models.FloatField('Volumen', blank=True, null=True)
     deliveryTerm = models.IntegerField('Plazo de entrega', blank=True, null=True)
     users = models.ManyToManyField('mirari.User', verbose_name="Responsables")
     deliveryDescription = models.TextField(blank=True, verbose_name="Descripción para pedidos de entrega")
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
-    
     minimumQuantity = models.IntegerField(blank=True, null=True)
     maximumQuantity = models.IntegerField(blank=True, null=True)
-    
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
