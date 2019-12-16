@@ -78,21 +78,21 @@ VARS = {
         },
     ],
     'FORM': ('name','canBySell','canByBuy','typeProduct','category','sellPrice','costPrice','notes','codebar','uid','minimumQuantity','maximumQuantity','deliveryTerm','weight','volume','users','deliveryDescription','receptionsDescription'),
-    'SELECTQ': {
-        'technical': {
-            'model': ['STR', 'CategoryProduct'],
-            'plugin': 'select2',
-            'query': [
-                (
-                    ('organization__pk', 'self.request.session.get("organization")'),
-                ),
-            ],
-            'sercheable': ('name__icontains'),
-            'limits': 50,
-            'placeholder': 'Elige una categoría',
-            'minimumInputLength': '0',
-        },
-    },
+    #'SELECTQ': {
+        #'technical': {
+            #'model': ['STR', 'CategoryProduct'],
+            #'plugin': 'select2',
+            #'query': [
+                #(
+                    #('organization__pk', 'self.request.session.get("organization")'),
+                #),
+            #],
+            #'sercheable': ('name__icontains'),
+            #'limits': 50,
+            #'placeholder': 'Elige una categoría',
+            #'minimumInputLength': '0',
+        #},
+    #},
 }
 
 class Product(Model_base):
