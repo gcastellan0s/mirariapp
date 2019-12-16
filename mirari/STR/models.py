@@ -77,7 +77,7 @@ VARS = {
             'title': 'NOMBRE',
         },
     ],
-    'FORM_CLASS': 'small_form',
+    #'FORM_CLASS': 'small_form',
     #'FORM': [
         #Div(
             #Div('name', css_class="col-md-12"),
