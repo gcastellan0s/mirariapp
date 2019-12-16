@@ -176,7 +176,6 @@ class Product(Model_base):
 
     photo = ProcessedImageField(upload_to=pathProductImage, format='JPEG', options={'quality': 60}, blank=True, null=True, verbose_name="Imagen del producto")
 
-    total = 
 
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
