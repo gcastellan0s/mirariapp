@@ -100,7 +100,7 @@ VARS = {
             ),
             css_class="form-group m-form__group row"
         ),
-        Div('photo', css_class="col-md-6"),
+        Div('photo', css_class="col-md-12"),
         Div('notes', css_class="col-md-12"),
     ],
     #'SELECTQ': {
