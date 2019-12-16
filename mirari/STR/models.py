@@ -102,6 +102,27 @@ VARS = {
         ),
         Div('photo', css_class="col-md-12"),
         Div('notes', css_class="col-md-12"),
+        Div(
+            Div(
+                Div('typeProduct', css_class="col-md-12"),
+                Div('category', css_class="col-md-12"),
+                Div('uid', css_class="col-md-12"),
+                Div('codebar', css_class="col-md-12"),
+                css_class="col-md-6"
+            ),
+            Div(
+                Div('weight', css_class="col-md-6"),
+                Div('volume', css_class="col-md-6"),
+                Div('deliveryTerm', css_class="col-md-6"),
+                Div('minimumQuantity', css_class="col-md-6"),
+                Div('maximumQuantity', css_class="col-md-6"),
+                Div('users', css_class="col-md-12"),
+                Div('deliveryDescription', css_class="col-md-12"),
+                Div('receptionsDescription', css_class="col-md-12"),
+                css_class="col-md-6"
+            ),
+            css_class="form-group m-form__group row"
+        ),
     ],
     #'SELECTQ': {
         #'technical': {
@@ -139,6 +160,7 @@ class Product(Model_base):
     sellPrice = models.FloatField('Venta $', blank=True, null=True)
     costPrice = models.FloatField('Costo $', blank=True, null=True)
     notes = models.TextField(blank=True, verbose_name="NOTAS INTERNAS")
+    
     weight = models.FloatField('Peso', blank=True, null=True)
     volume = models.FloatField('Volumen', blank=True, null=True)
     deliveryTerm = models.IntegerField('Plazo de entrega', blank=True, null=True)
@@ -147,6 +169,7 @@ class Product(Model_base):
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
     minimumQuantity = models.IntegerField(blank=True, null=True)
     maximumQuantity = models.IntegerField(blank=True, null=True)
+
     photo = ProcessedImageField(upload_to=pathProductImage, format='JPEG', options={'quality': 60}, blank=True, null=True, verbose_name="Imagen del producto")
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
