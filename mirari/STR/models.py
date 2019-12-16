@@ -171,8 +171,8 @@ class Product(Model_base):
     users = models.ManyToManyField('mirari.User', verbose_name="Responsables")
     deliveryDescription = models.TextField(blank=True, verbose_name="Descripción para entregas")
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
-    minimumQuantity = models.IntegerField('Cantidad mínima'blank=True, null=True)
-    maximumQuantity = models.IntegerField('Cantidad máxima'blank=True, null=True)
+    minimumQuantity = models.IntegerField('Cantidad mínima', blank=True, null=True)
+    maximumQuantity = models.IntegerField('Cantidad máxima', blank=True, null=True)
 
     photo = ProcessedImageField(upload_to=pathProductImage, format='JPEG', options={'quality': 60}, blank=True, null=True, verbose_name="Imagen del producto")
 
