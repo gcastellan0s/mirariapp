@@ -78,7 +78,6 @@ VARS = {
         },
     ],
     'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal small_form',
-    'FORM_SIZE': 'col-md-12',
     'FORM': [
         Div(
             Div('name', css_class="col-md-12"),
