@@ -24,6 +24,7 @@ VARS = {
 class Provider(Model_base):
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     name = models.CharField('Nombre del proveedor', max_length=250)
+    name = models.CharField('Nombre del proveedor', max_length=250)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
@@ -85,6 +86,9 @@ VARS = {
         ),
         Div('canBySell', css_class="col-md-12"),
         Div('canByBuy', css_class="col-md-12"),
+        Div(
+            HTML('<h5 class="kt-section__title ml-2 mb-4">DATOS FISCALES</h5>'),
+        ),
         Div(
             Div(
                 Div('typeProduct', css_class="col-md-12"),
@@ -165,12 +169,15 @@ class Product(Model_base):
     volume = models.FloatField('Volumen', blank=True, null=True)
     deliveryTerm = models.IntegerField('Plazo de entrega', blank=True, null=True)
     users = models.ManyToManyField('mirari.User', verbose_name="Responsables")
-    deliveryDescription = models.TextField(blank=True, verbose_name="Descripción para pedidos de entrega")
+    deliveryDescription = models.TextField(blank=True, verbose_name="Descripción para entregas")
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
-    minimumQuantity = models.IntegerField(blank=True, null=True)
-    maximumQuantity = models.IntegerField(blank=True, null=True)
+    minimumQuantity = models.IntegerField('Cantidad mínima'blank=True, null=True)
+    maximumQuantity = models.IntegerField('Cantidad máxima'blank=True, null=True)
 
     photo = ProcessedImageField(upload_to=pathProductImage, format='JPEG', options={'quality': 60}, blank=True, null=True, verbose_name="Imagen del producto")
+
+    total = 
+
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
