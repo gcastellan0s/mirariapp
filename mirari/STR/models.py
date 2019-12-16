@@ -80,8 +80,8 @@ VARS = {
     #'FORM_CLASS': 'small_form',
     'FORM': [
         Div(
-            Div('name', css_class="col-md-12"),
-            Div('canBySell', css_class="col-md-6"),
+            Div('name'),
+            Div('canBySell'),
             css_class="form-group m-form__group row"
         ),
     ],
