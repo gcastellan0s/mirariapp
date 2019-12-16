@@ -77,11 +77,11 @@ VARS = {
             'title': 'NOMBRE',
         },
     ],
-    'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal small_form mt-3',
+    'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal small_form',
     'FORM': [
         Div(
             Div('name', css_class="col-md-12"),
-            css_class="form-group m-form__group row"
+            css_class="form-group m-form__group row mt-3"
         ),
         Div('canBySell', css_class="col-md-12"),
         Div('canByBuy', css_class="col-md-12"),
