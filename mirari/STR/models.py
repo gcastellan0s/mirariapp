@@ -77,7 +77,7 @@ VARS = {
             'title': 'NOMBRE',
         },
     ],
-    'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal small_form',
+    'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal small_form mt-3',
     'FORM': [
         Div(
             Div('name', css_class="col-md-12"),
