@@ -101,6 +101,7 @@ VARS = {
             css_class="form-group m-form__group row"
         ),
         Div('notes', css_class="col-md-12"),
+        Div('notes', css_class="col-md-12"),
     ],
     #'SELECTQ': {
         #'technical': {
@@ -118,7 +119,9 @@ VARS = {
         #},
     #},
 }
-
+def pathProductImage(self, filename):
+    upload_to = "O/%s%s/STR/Prod/%s" % (self.organization.id, self.organization.code, filename)
+    return upload_to
 class Product(Model_base):
     PRODUCTTYPE = (
         ('Consumible','Consumible'),
@@ -130,7 +133,7 @@ class Product(Model_base):
     canBySell = models.BooleanField('Puede ser vendido?', default=True)
     canByBuy = models.BooleanField('Puede ser comprado?', default=True)
     typeProduct = models.CharField('Tipo de producto', choices=PRODUCTTYPE, max_length=250, default="productQuantity")
-    category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, verbose_name="Categoría del producto", related_name  ='+',)
+    category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, verbose_name="Categoría", related_name  ='+',)
     uid = models.CharField('Referencia interna (PKU)', max_length=30)
     codebar = models.CharField('Código de barras', max_length=30)
     sellPrice = models.FloatField('Venta $', blank=True, null=True)
@@ -144,6 +147,7 @@ class Product(Model_base):
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
     minimumQuantity = models.IntegerField(blank=True, null=True)
     maximumQuantity = models.IntegerField(blank=True, null=True)
+    photo = ProcessedImageField(upload_to=pathProductImage, format='JPEG', options={'quality': 60}, blank=True, null=True, verbose_name="Imagen del producto")
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
