@@ -80,7 +80,7 @@ VARS = {
     'FORM': ('name','canBySell','canByBuy','typeProduct','category','sellPrice','costPrice','notes','codebar','uid','minimumQuantity','maximumQuantity','deliveryTerm','weight','volume','users','deliveryDescription','receptionsDescription'),
     'SELECTQ': {
         'technical': {
-            'model': ['mirari', 'CategoryProduct'],
+            'model': ['STR', 'CategoryProduct'],
             'plugin': 'select2',
             'query': [
                 (
