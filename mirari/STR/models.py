@@ -135,9 +135,9 @@ class Product(Model_base):
     category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, verbose_name="Categoría del producto", related_name  ='+',)
     uid = models.CharField('Referencia interna (PKU)', max_length=30)
     codebar = models.CharField('Código de barras', max_length=30)
-    sellPrice = models.FloatField('Precio venta (pesos) $', blank=True, null=True)
-    costPrice = models.FloatField('Costo (pesos) $', blank=True, null=True)
-    notes = models.TextField(blank=True, verbose_name="Notas internas")
+    sellPrice = models.FloatField('Precio venta $', blank=True, null=True)
+    costPrice = models.FloatField('Costo $', blank=True, null=True)
+    notes = models.TextField(blank=True, verbose_name="NOTAS INTERNAS")
 
     weight = models.FloatField('Peso', blank=True, null=True)
     volume = models.FloatField('Volumen', blank=True, null=True)
