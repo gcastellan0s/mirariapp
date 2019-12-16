@@ -21,7 +21,7 @@ MENU = {
 				'subtext': 'Administra todos los productos que deseas administrar',
 				'apps': [APP, ],
 				'permission': 'Can_View',
-				'model': APP + '.InventoryProduct',
+				'model': APP + '.Product',
 				'url': 'Generic__ListView',
 			},
 		]
