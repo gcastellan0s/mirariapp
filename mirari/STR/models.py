@@ -85,9 +85,7 @@ VARS = {
         ),
         Div('canBySell', css_class="col-md-12"),
         Div('canByBuy', css_class="col-md-12"),
-        HTML("""
-            <p>Información General</p>
-        """),
+        HTML("""<p>Información General</p>"""),
         Div(
             Div(
                 Div('typeProduct', css_class="col-md-12"),
@@ -103,9 +101,6 @@ VARS = {
             ),
             css_class="form-group m-form__group row"
         ),
-        HTML("""
-            <p>Notas Internas</p>
-        """),
         Div('notes', css_class="col-md-12"),
     ],
     #'SELECTQ': {
