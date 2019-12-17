@@ -19,6 +19,85 @@ VARS = {
             'title': 'NOMBRE DEL PROVEEDOR',
         },
     ],
+}
+class Provider(Model_base):
+    PERSONA = (
+        ('FISICA','FISICA'),
+        ('MORAL','MORAL'),
+    )
+    STATES = (
+        ('Aguascalientes', ('Aguascalientes')),
+        ('Baja California', ('Baja California')),
+        ('Baja California Sur', ('Baja California Sur')),
+        ('Campeche', ('Campeche')),
+        ('Chihuahua', ('Chihuahua')),
+        ('Chiapas', ('Chiapas')),
+        ('Coahuila', ('Coahuila')),
+        ('Colima', ('Colima')),
+        ('CDMX', ('CDMX')),
+        ('Durango', ('Durango')),
+        ('Guerrero', ('Guerrero')),
+        ('Guanajuato', ('Guanajuato')),
+        ('Hidalgo', ('Hidalgo')),
+        ('Jalisco', ('Jalisco')),
+        ('Estado de México', ('Estado de México')),
+        ('Michoacán', ('Michoacán')),
+        ('Morelos', ('Morelos')),
+        ('Nayarit', ('Nayarit')),
+        ('Nuevo León', ('Nuevo León')),
+        ('Oaxaca', ('Oaxaca')),
+        ('Puebla', ('Puebla')),
+        ('Querétaro', ('Querétaro')),
+        ('Quintana Roo', ('Quintana Roo')),
+        ('Sinaloa', ('Sinaloa')),
+        ('San Luis Potosí', ('San Luis Potosí')),
+        ('Sonora', ('Sonora')),
+        ('Tabasco', ('Tabasco')),
+        ('Tamaulipas', ('Tamaulipas')),
+        ('Tlaxcala', ('Tlaxcala')),
+        ('Veracruz', ('Veracruz')),
+        ('Yucatán', ('Yucatán')),
+        ('Zacatecas', ('Zacatecas')),
+    )
+    organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
+    rfc = MXRFCField(verbose_name="RFC")
+    razonSocial = models.CharField('Razón social', max_length=255, help_text="Razón social de persona Física o Moral")
+    persona = models.CharField('Tipo de persona', choices=PERSONA, max_length=100, default='Física')
+    curp = MXCURPField('C.U.R.P.', blank=True, null=True)
+    contactEmail = models.EmailField('Email contacto', max_length=100, help_text="Correo donde llegarán las notificaciones de facturación")
+    contactName = models.CharField('Nombre contacto', max_length=255, help_text="Como identifican tus clientes a tu negocio?")
+    street = models.CharField('Calle', max_length=255, blank=True, null=True)
+    extNumber = models.CharField('No. EXT', max_length=150, blank=True, null=True)
+    intNumber = models.CharField('No. INT', max_length=150, blank=True, null=True)
+    region = models.CharField('Colonia', max_length=255, blank=True, null=True)
+    province = models.CharField('Municipio o Delegación', max_length=150, blank=True, null=True)
+    state = models.CharField('Estado', choices=STATES, max_length=100, blank=True, null=True)
+    zipcode = MXZipCodeField('CP')
+    country = models.CharField('País', max_length=100, default='México')
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return self.name
+
+
+########################################################################################
+VARS = {
+    'NAME':'Proveedor',
+    'PLURAL':'Proveedores',
+    'MODEL':'Provider',
+    'NEW':'NUEVO',
+    'NEW_GENDER': 'un nuevo',
+    'THIS': 'este',
+    'APP':APP,
+    'LIST': [
+        {
+            'field': 'name',
+            'title': 'NOMBRE DEL PROVEEDOR',
+        },
+    ],
     'FORM': ('name',),
 }
 class Provider(Model_base):
@@ -87,7 +166,7 @@ VARS = {
         Div('canBySell', css_class="col-md-12"),
         Div('canByBuy', css_class="col-md-12"),
         Div(
-            HTML('<h5 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h5>'),
+            HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h5>'),
         ),
         Div(
             Div(
@@ -107,7 +186,7 @@ VARS = {
         Div('photo', css_class="col-md-12"),
         Div('notes', css_class="col-md-12"),
         Div(
-            HTML('<h5 class="kt-section__title ml-2 mb-4">INVENTARIO</h5>'),
+            HTML('<h4 class="kt-section__title ml-2 mb-4">INVENTARIO</h5>'),
         ),
         Div(
             Div(
@@ -123,7 +202,11 @@ VARS = {
             ),
             css_class="form-group m-form__group row"
         ),
+        Div(
+            HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN EXTRA</h5>'),
+        ),
         Div('users', css_class="col-md-12"),
+        Div('providers', css_class="col-md-12"),
         Div('deliveryDescription', css_class="col-md-12"),
         Div('receptionsDescription', css_class="col-md-12"),
     ],
@@ -172,13 +255,13 @@ class Product(Model_base):
     volume = models.FloatField('Volumen', blank=True, null=True)
     deliveryTerm = models.IntegerField('Plazo de entrega', blank=True, null=True)
     users = models.ManyToManyField('mirari.User', verbose_name="Responsables")
+    providers = models.ManyToManyField('STR.Provider', verbose_name="Proveedores")
     deliveryDescription = models.TextField(blank=True, verbose_name="Descripción para entregas")
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
     minimumQuantity = models.IntegerField('Cantidad mínima', blank=True, null=True)
     maximumQuantity = models.IntegerField('Cantidad máxima', blank=True, null=True)
 
     photo = ProcessedImageField(upload_to=pathProductImage, format='JPEG', options={'quality': 60}, blank=True, null=True, verbose_name="Imagen del producto")
-
 
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
