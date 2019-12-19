@@ -85,36 +85,6 @@ class Provider(Model_base):
 
 ########################################################################################
 VARS = {
-    'NAME':'Proveedor',
-    'PLURAL':'Proveedores',
-    'MODEL':'Provider',
-    'NEW':'NUEVO',
-    'NEW_GENDER': 'un nuevo',
-    'THIS': 'este',
-    'APP':APP,
-    'LIST': [
-        {
-            'field': 'name',
-            'title': 'NOMBRE DEL PROVEEDOR',
-        },
-    ],
-    'FORM': ('name',),
-}
-class Provider(Model_base):
-    organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
-    name = models.CharField('Nombre del proveedor', max_length=250)
-    name = models.CharField('Nombre del proveedor', max_length=250)
-    VARS = VARS
-    class Meta(Model_base.Meta):
-        verbose_name = VARS['NAME']
-        verbose_name_plural = VARS['PLURAL']
-        permissions = permissions(VARS)
-    def __str__(self):
-        return self.name
-
-
-########################################################################################
-VARS = {
     'NAME':'Categoria de producto',
     'PLURAL':'Categoria de productos',
     'MODEL':'CategoryProduct',
