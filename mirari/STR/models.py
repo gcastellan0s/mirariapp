@@ -16,8 +16,49 @@ VARS = {
     'LIST': [
         {
             'field': 'name',
+            'title': 'PROVEEDOR',
+        },
+        {
+            'field': 'rfc',
+            'title': 'RFC',
+        },
+        {
+            'field': 'razonSocial',
+            'title': 'RAZON SOCIAL',
+        },
+        {
+            'field': 'contactEmail',
+            'title': 'EMAIL DE CONTACTO',
+        },
+        {
+            'field': 'contactName',
             'title': 'NOMBRE DEL PROVEEDOR',
         },
+    ],
+    'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
+    'FORM': [
+        Div(
+            Div('name', css_class="col-md-12"),
+            css_class="form-group m-form__group row mt-3"
+        ),
+        Div('rfc', css_class="col-md-12"),
+        Div('razonSocial', css_class="col-md-12"),
+        Div(
+            HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h5>'),
+        ),
+        Div(
+            Div(
+                Div('persona', css_class="col-md-12"),
+                Div('curp', css_class="col-md-12"),
+                Div('contactEmail', css_class="col-md-12"),
+                Div('contactName', css_class="col-md-12"),
+                css_class="col-md-7"
+            ),
+            Div(
+                css_class="col-md-5"
+            ),
+            css_class="form-group m-form__group row"
+        ),
     ],
 }
 class Provider(Model_base):
@@ -60,6 +101,7 @@ class Provider(Model_base):
         ('Zacatecas', ('Zacatecas')),
     )
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
+    name = models.CharField('Alias con el que reconoces este proveedor', max_length=250)
     rfc = MXRFCField(verbose_name="RFC")
     razonSocial = models.CharField('Razón social', max_length=255, help_text="Razón social de persona Física o Moral")
     persona = models.CharField('Tipo de persona', choices=PERSONA, max_length=100, default='Física')
