@@ -6,6 +6,16 @@ MENU = {
 		'modules': [
 			{
 				'title': 'Proveedores',
+				'icon': 'fas fa-box-open',
+				'text': 'Administracion de proveedores',
+				'subtext': 'Controla la mercancia de los proveedores',
+				'apps': [APP, ],
+				'permission': 'Can_View',
+				'model': APP + '.Provider',
+				'url': 'Generic__ListView',
+			},
+			{
+				'title': 'Proveedores',
 				'icon': 'fab fa-black-tie',
 				'text': 'Administracion de proveedores',
 				'subtext': 'Controla la mercancia de los proveedores',

@@ -6,6 +6,77 @@ from .vars import *
 
 ########################################################################################
 VARS = {
+    'NAME':'Almacén',
+    'PLURAL':'Almacenes',
+    'MODEL':'Storehouse',
+    'NEW':'NUEVO',
+    'NEW_GENDER': 'un nuevo',
+    'THIS': 'este',
+    'APP':APP,
+    'LIST': [
+        {
+            'field': 'name',
+            'title': 'ALMACÉN',
+        },
+    ],
+    'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
+}
+class Provider(Model_base):
+    STATES = (
+        ('Aguascalientes', ('Aguascalientes')),
+        ('Baja California', ('Baja California')),
+        ('Baja California Sur', ('Baja California Sur')),
+        ('Campeche', ('Campeche')),
+        ('Chihuahua', ('Chihuahua')),
+        ('Chiapas', ('Chiapas')),
+        ('Coahuila', ('Coahuila')),
+        ('Colima', ('Colima')),
+        ('CDMX', ('CDMX')),
+        ('Durango', ('Durango')),
+        ('Guerrero', ('Guerrero')),
+        ('Guanajuato', ('Guanajuato')),
+        ('Hidalgo', ('Hidalgo')),
+        ('Jalisco', ('Jalisco')),
+        ('Estado de México', ('Estado de México')),
+        ('Michoacán', ('Michoacán')),
+        ('Morelos', ('Morelos')),
+        ('Nayarit', ('Nayarit')),
+        ('Nuevo León', ('Nuevo León')),
+        ('Oaxaca', ('Oaxaca')),
+        ('Puebla', ('Puebla')),
+        ('Querétaro', ('Querétaro')),
+        ('Quintana Roo', ('Quintana Roo')),
+        ('Sinaloa', ('Sinaloa')),
+        ('San Luis Potosí', ('San Luis Potosí')),
+        ('Sonora', ('Sonora')),
+        ('Tabasco', ('Tabasco')),
+        ('Tamaulipas', ('Tamaulipas')),
+        ('Tlaxcala', ('Tlaxcala')),
+        ('Veracruz', ('Veracruz')),
+        ('Yucatán', ('Yucatán')),
+        ('Zacatecas', ('Zacatecas')),
+    )
+    organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
+    name = models.CharField('Alias', max_length=250, help_text="Nombre con el que identificas al proveedor")
+    street = models.CharField('Calle', max_length=255, blank=True, null=True)
+    extNumber = models.CharField('No. EXT', max_length=150, blank=True, null=True)
+    intNumber = models.CharField('No. INT', max_length=150, blank=True, null=True)
+    region = models.CharField('Colonia', max_length=255, blank=True, null=True)
+    province = models.CharField('Municipio o Delegación', max_length=150, blank=True, null=True)
+    state = models.CharField('Estado', choices=STATES, max_length=100, blank=True, null=True, default="CDMX")
+    zipcode = MXZipCodeField('CP', blank=True, null=True)
+    country = models.CharField('País', max_length=100, default='México')
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return self.name
+
+        
+########################################################################################
+VARS = {
     'NAME':'Proveedor',
     'PLURAL':'Proveedores',
     'MODEL':'Provider',
