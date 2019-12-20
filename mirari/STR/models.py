@@ -21,7 +21,7 @@ VARS = {
     ],
     'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
 }
-class Provider(Model_base):
+class Storehouse(Model_base):
     STATES = (
         ('Aguascalientes', ('Aguascalientes')),
         ('Baja California', ('Baja California')),
