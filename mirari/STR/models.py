@@ -101,7 +101,7 @@ class Provider(Model_base):
         ('Zacatecas', ('Zacatecas')),
     )
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
-    name = models.CharField('Alias con el que reconoces este proveedor', max_length=250)
+    name = models.CharField('Alias', max_length=250, help_text="Nombre con el que identificas al proveedor")
     rfc = MXRFCField(verbose_name="RFC", blank=True, null=True)
     razonSocial = models.CharField('Razón social', max_length=255, help_text="Razón social de persona Física o Moral", blank=True, null=True)
     persona = models.CharField('Tipo de persona', choices=PERSONA, max_length=100, default='Física', blank=True, null=True)
