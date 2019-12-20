@@ -5,13 +5,13 @@ MENU = {
 		'title': 'ALMACEN',
 		'modules': [
 			{
-				'title': 'Proveedores',
+				'title': 'Almacenes',
 				'icon': 'fas fa-box-open',
-				'text': 'Administracion de proveedores',
-				'subtext': 'Controla la mercancia de los proveedores',
+				'text': 'Administracion de almacenes',
+				'subtext': 'Controla los datos de tus almacenes',
 				'apps': [APP, ],
 				'permission': 'Can_View',
-				'model': APP + '.Provider',
+				'model': APP + '.Storehouse',
 				'url': 'Generic__ListView',
 			},
 			{
