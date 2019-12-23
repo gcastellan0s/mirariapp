@@ -717,9 +717,9 @@ script.
                 PublicSocket.emit('Send_Event','{{request.user.organization.code}}','scanTicket', json.data.ticket)
                 if (self.Sellpoint.name == 'SUSY PEDIDOS')
                     ticketFormat = []
+                    ticketFormat.push(["times",[1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                     ticketFormat.push(["image"])
-                    ticketFormat.push(["times",[1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                     ticketFormat.push(["text", 'TOTAL: ' + json.data.ticket.total])
                     ticketFormat.push(["text", 'FOLIO: ' + json.data.ticket.barcode])
