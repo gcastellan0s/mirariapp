@@ -715,9 +715,20 @@ script.
         onSubmit:((BarCode) => {
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=barcodeScanner',{barcode:BarCode, code:'{{request.user.organization.code}}'}).then(function(json){
                 PublicSocket.emit('Send_Event','{{request.user.organization.code}}','scanTicket', json.data.ticket)
-                console.log(json.data.ticket)
-                //if (self.Sellpoint.name == 'SUSY PEDIDOS')
-                    //PublicSocket.emit('Send_Event','{{request.user.organization.code}}','scanTicket', json.data.ticket)
+                if (self.Sellpoint.name == 'SUSY PEDIDOS')
+                    ticketFormat = []
+                    ticketFormat.push(["times",[1]])
+                    ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
+                    ticketFormat.push(["text", 'TOTAL: ' + json.data.ticket.total])
+                    ticketFormat.push(["text", 'FOLIO: ' + json.data.ticket.barcode])
+                    ticketFormat.push(["text", moment(json.data.ticket.date).format('MMMM D, h:mm:ss a')])
+                    ticketFormat.push(["text", 'PAGADO'])
+                    ticketFormat.push(["cut"])
+                    data = {
+                        ticketFormat: ticketFormat,
+                        user: '{{request.user.visible_username}}'
+                    }
+                    PublicSocket.emit('Send_Event','{{request.user.organization.code}}', 'Print', data)
             }).catch((error) => {
             })
             .finally(() => {
