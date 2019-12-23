@@ -21,7 +21,7 @@
                     .flex-shrink-1.flex-grow-1.px-1.py-1
                         table.table.mb-0
                             tbody
-                                tr.h4(v-for="ticket in Tickets" v-bind:class="ticket.status" v-on:dblclick="console.log('nada'); onSubmit(ticket.key);")
+                                tr.h4(v-for="ticket in Tickets" v-bind:class="ticket.status" v-on:dblclick="onSubmit(ticket.key);")
                                     td ${ticket.key}
                                     td(:style="{color:ticket.sellpoint.color}") ${ticket.sellpoint.name}
                                     td(:style="{color:ticket.sellpoint.color}") ${ticket.ticketType}
