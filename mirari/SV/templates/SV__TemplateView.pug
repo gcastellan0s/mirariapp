@@ -714,7 +714,6 @@ script.
         }),
         onSubmit:((BarCode) => {
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=barcodeScanner',{barcode:self.BarCode, code:'{{request.user.organization.code}}'}).then(function(json){
-                console.log("sending")
                 PublicSocket.emit('Send_Event','{{request.user.organization.code}}','scanTicket', json.data.ticket)
             }).catch((error) => {
             })
