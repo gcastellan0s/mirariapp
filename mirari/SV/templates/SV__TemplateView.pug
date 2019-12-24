@@ -457,6 +457,11 @@ script.
                     user: '{{request.user.visible_username}}'
                 }
                 PublicSocket.emit('Send_Event','{{request.user.organization.code}}',event, data)
+                {%if request.user.id == 649%}
+                setTimeout(function(){
+                    PublicSocket.emit('Send_Event','{{request.user.organization.code}}',event, data)
+                }, 500);
+                {%endif%}
             }
         }),
         initTicket: (() => {
@@ -517,7 +522,6 @@ script.
                     cutID:cutID,
                 },errorDialog=false, timeout=0)
                 .then((json) => {
-                
                     ticketFormat = []
                     ticketFormat.push(["times",[1]])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
@@ -721,7 +725,7 @@ script.
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
                     ticketFormat.push(["image"])
                     ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
-                    ticketFormat.push(["text", 'TOTAL: ' + json.data.ticket.total])
+                    ticketFormat.push(["text", 'TOTAL: $' + json.data.ticket.total])
                     ticketFormat.push(["text", 'FOLIO: ' + json.data.ticket.barcode])
                     ticketFormat.push(["text", moment(json.data.ticket.date).format('MMMM D, h:mm:ss a')])
                     ticketFormat.push(["text", 'PAGADO'])
