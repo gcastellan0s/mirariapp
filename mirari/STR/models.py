@@ -57,7 +57,7 @@ class Storehouse(Model_base):
         ('Zacatecas', ('Zacatecas')),
     )
     organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
-    name = models.CharField('Alias', max_length=250, help_text="Nombre con el que identificas al proveedor")
+    name = models.CharField('Alias', max_length=250, help_text="Nombre con el que identificas al almacén")
     street = models.CharField('Calle', max_length=255, blank=True, null=True)
     extNumber = models.CharField('No. EXT', max_length=150, blank=True, null=True)
     intNumber = models.CharField('No. INT', max_length=150, blank=True, null=True)
@@ -343,9 +343,7 @@ class Product(Model_base):
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
     minimumQuantity = models.IntegerField('Cantidad mínima', blank=True, null=True)
     maximumQuantity = models.IntegerField('Cantidad máxima', blank=True, null=True)
-
     photo = ProcessedImageField(upload_to=pathProductImage, format='JPEG', options={'quality': 60}, blank=True, null=True, verbose_name="Imagen del producto")
-
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
