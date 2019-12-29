@@ -450,8 +450,8 @@
                 FB.AppEvents.logPageView();   
                 FB.getLoginStatus(function(response) {
                     console.log(response)
+                    if (response.status != 'connected') FB.login();
                 });
-                FB.login();
             };
             (function(d, s, id){
                 var js, fjs = d.getElementsByTagName(s)[0];
