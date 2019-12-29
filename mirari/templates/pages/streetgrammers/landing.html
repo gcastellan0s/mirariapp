@@ -42,7 +42,11 @@
                     <div class="nav-holder">
                         <nav>
                             <ul>
-                                <li><a href="index.html">Home</a></li>
+                                <li>
+                                    <router-link :to="{path:'privacy'}">
+                                        <a href="index.html">PRIVACIDAD</a>
+                                    </router-link>
+                                </li>
                                 <li><a href="portfolio.html" class="act-link">Portfolio</a></li>
                                 <li><a href="about.html">About us </a>
                                 </li>
@@ -102,7 +106,7 @@
             <!--=============== wrapper ===============-->
             <div id="wrapper">
                 <!--=============== Conten holder  ===============-->
-                <div class="content-holder elem scale-bg2 transition3" >
+                <div class="content-holder elem scale-bg2 transition3" v-if="$route.path === '/'">
                     <!--=============== Content  ===============-->
                     <div class="content full-height">
                         <div class="fixed-title"><span>STREETGRAMMERSMX</span></div>
@@ -335,6 +339,14 @@
                     <!-- Content end  -->  
                     <!-- Share container  -->    
                     <div class="share-container  isShare"  data-share="['facebook','pinterest','googleplus','twitter','linkedin']"></div>
+                </div>
+                <!-- content holder end -->
+                <div class="content-holder elem scale-bg2 transition3" v-if="$route.path === '/privacy'">
+                    <!--=============== Content  ===============-->
+                    <div class="content full-height">
+                        
+                    </div>
+                    <!-- Content end  -->  
                 </div>
                 <!-- content holder end -->
             </div>
