@@ -370,5 +370,16 @@
         <script type="text/javascript" src="{%static HTMLPage.static%}js/jquery.min.js"></script>
         <script type="text/javascript" src="{%static HTMLPage.static%}js/plugins.js"></script>
         <script type="text/javascript" src="{%static HTMLPage.static%}js/scripts.js"></script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : 'your-app-id',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v5.0'
+    });
+  };
+</script>
+<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
     </body>
 </html>
