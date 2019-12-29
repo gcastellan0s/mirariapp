@@ -106,7 +106,7 @@
                 <div class="content-holder elem scale-bg2 transition3" >
                     <!--=============== Content  ===============-->
                     <div class="content full-height">
-                        <div class="fixed-title"><span>STREETGRAMMERS</span></div>
+                        <div class="fixed-title"><span>STREETGRAMMERSMX</span></div>
                         <!-- Portfolio counter  -->	
                         <div class="count-folio">
                             <div class="num-album"></div>
@@ -371,16 +371,44 @@
         <script type="text/javascript" src="{%static HTMLPage.static%}js/jquery.min.js"></script>
         <script type="text/javascript" src="{%static HTMLPage.static%}js/plugins.js"></script>
         <script type="text/javascript" src="{%static HTMLPage.static%}js/scripts.js"></script>
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId            : '476861756543279',
-      autoLogAppEvents : true,
-      xfbml            : true,
-      version          : 'v5.0'
-    });
-  };
-</script>
-<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+        <script src="{%static 'mirari/js/vue.js'%}"></script>
+        <script src="{%static 'mirari/js/axios.js'%}"></script>
+        <script src="{%static 'mirari/js/qs.js'%}"></script>
+        <script src="{%static 'mirari/js/vue-router.js'%}"></script>
+        <script type="text/javascript" charset="utf-8">
+            const router = new VueRouter({routes:[{ 
+                path:'/',component:{template:``}
+            }]});
+            new Vue({
+                el: '#app',
+                delimiters: ['${', '}'],
+                router,
+                components: {
+                },
+                data: {
+                },
+                created:function(){
+                },
+                mounted: function () {
+                },
+                methods: {
+                },
+                watch: {
+                },
+                filters: {
+                }
+            });
+        </script>
+            <script>
+                window.fbAsyncInit = function() {
+                    FB.init({
+                    appId            : '476861756543279',
+                    autoLogAppEvents : true,
+                    xfbml            : true,
+                    version          : 'v5.0'
+                    });
+                };
+            </script>
+            <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
     </body>
 </html>
