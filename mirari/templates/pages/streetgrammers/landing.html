@@ -437,7 +437,20 @@
                 data: {
                 },
                 created:function(){
-                    
+                    Ax('post', 'https://api.instagram.com/oauth/access_token', {
+                        app_id: '454437048571765', 
+                        app_secret: '71fafa51bb7f65c2a466cc65588be9a3',
+                        grant_typ: 'authorization_code',
+                        redirect_uri: 'https://www.streetgrammersmx.com/',
+                        code: 'AQADuzKp2MFEO6EKt-gZJTb7Kp2t5AViQ0YclWMsaRePdyyrAxX10_CJfCCscQT2rxVYoedAfnWkWePAEQxFQIqNRaDQJonpo8YImdfjNZ8YrmywFp-S1f-CxlQ3nFTzWi0upvI2lJhwMrZu4asAulyCxKbFdrVk7W5aMb3_vbFu96Et-J6KOtpEJUDlZ_PQ1Hb3OZ4B25J8opjiERicXIen6UNaVIy880LYI0GWJIIP4A#/_',
+                    }).then(function(json){
+                        console.log(json)
+                        return;
+                    }).catch(error => {
+                        alert(
+                            `OCURRIO UN ERROR, INTENTELO DE NUEVO!`
+                        )
+                    })
                 },
                 mounted: function () {
                 },
