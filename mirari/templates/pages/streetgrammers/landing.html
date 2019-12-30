@@ -419,6 +419,15 @@
             const router = new VueRouter({routes:[{ 
                 path:'/',component:{template:``}
             }]});
+            window.Ax=function(method, url, data={}, errorDialog=true, timeout=0){
+                data.csrfmiddlewaretoken = '{{ csrf_token }}' 
+                return axios({
+                    method: method,
+                    url: url,
+                    data: Qs.stringify(data),
+                    timeout: timeout
+                });
+            }
             new Vue({
                 el: '#app',
                 delimiters: ['${', '}'],
@@ -428,6 +437,7 @@
                 data: {
                 },
                 created:function(){
+                    
                 },
                 mounted: function () {
                 },
