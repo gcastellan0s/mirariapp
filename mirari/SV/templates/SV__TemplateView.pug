@@ -734,7 +734,7 @@ script.
                         ticketFormat: ticketFormat,
                         user: '{{request.user.visible_username}}'
                     }
-                    PublicSocket.emit('Send_Event','{{request.user.organization.code}}', 'Print', data)
+                    PublicSocket.emit('Send_Event','{{request.user.organization.code}}', 'PrintPago', data)
             }).catch((error) => {
             })
             .finally(() => {
@@ -810,7 +810,6 @@ script.
             }
         }),
         recibeScanTicket: ((data) => {
-            console.log(data)
             updateTicket = self.Tickets.find(function(ticket) {
                 return ticket.key == data.key;
             });
@@ -819,6 +818,12 @@ script.
                 updateTicket.barcode = data.barcode
                 updateTicket.cut = data.cut
                 self.LastTicketScan = data.barcode
+                Swal.fire({
+                    title: 'OK',
+                    html: `${data.barcode} cobrado con éxito`,
+                    timer: 3000,
+                    timerProgressBar: true,
+                })
             }
         }),
         recibeReloadSystem: ((data) => {
