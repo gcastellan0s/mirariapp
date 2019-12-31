@@ -457,11 +457,6 @@ script.
                     user: '{{request.user.visible_username}}'
                 }
                 PublicSocket.emit('Send_Event','{{request.user.organization.code}}',event, data)
-                {%if request.user.id == 649%}
-                setTimeout(function(){
-                    PublicSocket.emit('Send_Event','{{request.user.organization.code}}',event, data)
-                }, 5000);
-                {%endif%}
             }
         }),
         initTicket: (() => {
@@ -819,8 +814,8 @@ script.
                 updateTicket.cut = data.cut
                 self.LastTicketScan = data.barcode
                 Swal.fire({
-                    title: 'OK',
-                    html: `${data.barcode} cobrado con éxito`,
+                    title: `${data.barcode}`,
+                    html: `Cobrado con éxito`,
                     timer: 3000,
                     timerProgressBar: true,
                 })
