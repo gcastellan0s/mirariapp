@@ -27,7 +27,7 @@
                                             .small.opacity-75 IMPRESÓN DE INVENTARIO EN ${Sellpoint.name}
                                         i.fas.fa-file.text-xlarge.opacity-25
                             .col-4
-                                .card.bg-primary.border-0.text-white.mb-4(v-on:click="makeCut()")
+                                .card.bg-primary.border-0.text-white.mb-4(v-on:click="{%if request.user.organization.code == 'CBDA'%}codeCut(){%else%}makeCut(){%endif%}")
                                     .card-body.d-flex.justify-content-between.align-items-center.py-4
                                         div
                                             .text-xlarge HACER CORTE

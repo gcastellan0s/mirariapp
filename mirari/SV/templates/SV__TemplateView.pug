@@ -508,9 +508,14 @@ script.
             }
             UnBlock();
         }),
+        codeCut: (() => {
+            let cut = prompt("Clave de corte", '');
+            if (cut == '54321') this.makeCut()
+            else alert("Contraseña incorrecta")
+        }),
         makeCut: ((cutID='Actual') => {
             if(self.Offline) Swal.fire('Ooops!','No se puede hacer corte sin conexión a internet','error')
-            else{ 
+            else{
                 Block(text="Haciendo corte...");
                 Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=makeCut', {
                     sellpoint: JSON.stringify(self.Sellpoint),
