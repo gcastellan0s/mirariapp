@@ -508,11 +508,6 @@ script.
             }
             UnBlock();
         }),
-        codeCut: (() => {
-            let cut = prompt("Clave de corte", '');
-            if (cut == 'cbda') this.makeCut()
-            else alert("Contraseña incorrecta")
-        }),
         makeCut: ((cutID='Actual') => {
             if(self.Offline) Swal.fire('Ooops!','No se puede hacer corte sin conexión a internet','error')
             else{
