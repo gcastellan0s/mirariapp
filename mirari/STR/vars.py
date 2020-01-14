@@ -51,8 +51,8 @@ MENU = {
 				'subtext': 'Actualizaciones de entrada de inventario',
 				'apps': [APP, ],
 				'permission': 'Can_View',
-				'model': APP + '.Product',
-				'url': 'Generic__ListView',
+				'model': APP + '.InventoryOrder',
+				'href': 'STR:InventoryOrder__TemplateView',
 			},
 			{
 				'title': 'Ordenes de entrega',
@@ -61,8 +61,8 @@ MENU = {
 				'subtext': 'Actualizaciones de salida de inventario',
 				'apps': [APP, ],
 				'permission': 'Can_View',
-				'model': APP + '.Product',
-				'url': 'Generic__ListView',
+				'model': APP + '.InventoryOrder',
+				'href': 'STR:InventoryOrder__TemplateView',
 			},
 		]
 	},

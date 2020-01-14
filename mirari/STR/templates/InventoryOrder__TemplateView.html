@@ -1,0 +1,47 @@
+{% extends "metronic/layout-5.html" %}
+{% load static %}
+{% load i18n %}
+
+{%block subheader%}
+    <div class="kt-subheader__main">
+        <h3 class="kt-subheader__title kt-subheader__title--separator">
+            <small>SIEBEL</small> 
+			<strong> DESBLOQUEO</strong> 
+        </h3>
+        <span class="kt-subheader__separator kt-hidden"></span>
+        <div class="kt-subheader__breadcrumbs">
+            <a href="/" class="kt-subheader__breadcrumbs-link">
+                INICIO 
+            </a>
+        </div>
+    </div>
+{%endblock subheader%}
+
+{%block content%}
+    <div class="row">
+		<div class="col-md-5">
+			<div class="kt-portlet kt-portlet--tab">
+				<div class="kt-portlet__head">
+					<div class="kt-portlet__head-caption">
+						<div class="kt-portlet__head-title">
+							<h3 class="kt-portlet__head-text mt-2">
+								{{object}}
+							</h3>
+						</div>
+					</div>
+				</div>
+				<!--begin::Form-->
+                    {{form}}
+				<!--end::Form-->
+			</div>
+		</div>
+	</div>
+{%endblock content%}
+
+{%block data%} 
+    {{block.super}}
+{%endblock data%}
+
+{%block methods%}
+    {{block.super}}
+{%endblock methods%}

@@ -353,22 +353,101 @@ class Product(Model_base):
     def __str__(self):
         return self.name
 
-class ProductHistory(Model_base):
-    HISTORYTYPE = (
-        ('ENTRADA','ENTRADA'),
-        ('SALIDA','SALIDA'),
-        ('ACTUALIZACION','ACTUALIZACION'),
+
+########################################################################################
+VARS = {
+    'NAME':'Orden de Inventario',
+    'PLURAL':'Ordenes de Inventario',
+    'MODEL':'InventoryOrder',
+    'NEW':'NUEVA',
+    'NEW_GENDER': 'una nueva',
+    'THIS': 'esta',
+    'APP':APP,
+    'LIST': [
+        {
+            'field': 'id',
+            'title': 'ID',
+        },
+    ],
+    'FORM': ('provider','initialDateTime','initialDateTime','finalDateTime','document','priority','responsible','notes'),
+}
+class InventoryOrder(Model_base):
+    OPERATIONTYPE = (
+        ('ORDEN DE ENTREGA','ORDEN DE ENTREGA'),
+        ('RECEPCIONES','RECEPCIONES'),
     )
-    user = models.ForeignKey('mirari.User', blank=True, null=True, on_delete=models.SET_NULL)
-    historyType = models.CharField('Tipo de producto', choices=HISTORYTYPE, max_length=250, default="productQuantity")
-    datetime = models.DateTimeField(auto_now_add=True)
-    product = models.ForeignKey('STR.Product', blank=True, null=True, on_delete=models.SET_NULL)
-    id_bckp = models.IntegerField(blank=True, null=True)
+    STATUS = (
+        ('BORRADOR','BORRADOR'),
+        ('EN ESPERA','EN ESPERA'),
+        ('PREPARADO','PREPARADO'),
+        ('HECHO','HECHO'),
+    )
+    organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
+    operationType = models.CharField('Tipo de operación', choices=OPERATIONTYPE, max_length=250)
+    status = models.CharField('Estatus', choices=STATUS, max_length=250, default="BORRADOR")
+    provider = models.ForeignKey('STR.Provider', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',)
+    initialDateTime = models.DateTimeField(auto_now_add=True)
+    finalDateTime = models.DateTimeField(blank=True, null=True)
+    document = models.CharField('Documento de referencia', max_length=250, blank=True, null=True)
+    priority = models.IntegerField(default=0)
+    responsible = models.ForeignKey('mirari.User', blank=True, null=True, on_delete=models.SET_NULL, related_name='+',)
+    notes = models.TextField('Notas', max_length=250, blank=True, null=True)
+    VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
         verbose_name_plural = VARS['PLURAL']
         permissions = permissions(VARS)
     def __str__(self):
-        return self.name
-    def QUERY(self, view):
-        return ProductHistory.filter(product__organization__pk=view.request.session.get('organization'))
+        return self.id
+
+
+########################################################################################
+VARS = {
+    'NAME':'Producto de Orden de Inventario',
+    'PLURAL':'Producto de Orden de Inventario',
+    'MODEL':'InventoryOrderProduct',
+    'NEW':'NUEVO',
+    'NEW_GENDER': 'un nuevo',
+    'THIS': 'este',
+    'APP':APP,
+    'EXCLUDE_PERMISSIONS': ['all'],
+}
+class InventoryOrderProduct(Model_base):
+    STATUS = (
+        ('BORRADOR','BORRADOR'),
+        ('EN ESPERA','EN ESPERA'),
+        ('PREPARADO','PREPARADO'),
+        ('HECHO','HECHO'),
+    )
+    inventoryOrder = models.ForeignKey('STR.InventoryOrder', on_delete=models.CASCADE, related_name='+',)
+    product = models.ForeignKey('STR.Product', on_delete=models.CASCADE, related_name='+',)
+    quantity = models.IntegerField('Cantidad')
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return self.id
+
+
+#
+#class ProductHistory(Model_base):
+    #HISTORYTYPE = (
+        #('ENTRADA','ENTRADA'),
+        #('SALIDA','SALIDA'),
+        #('ACTUALIZACION','ACTUALIZACION'),
+    #)
+    #user = models.ForeignKey('mirari.User', blank=True, null=True, on_delete=models.SET_NULL)
+    #historyType = models.CharField('Tipo de producto', choices=HISTORYTYPE, max_length=250, default="productQuantity")
+    #datetime = models.DateTimeField(auto_now_add=True)
+    #product = models.ForeignKey('STR.Product', blank=True, null=True, on_delete=models.SET_NULL)
+    #id_bckp = models.IntegerField(blank=True, null=True)
+    #class Meta(Model_base.Meta):
+        #verbose_name = VARS['NAME']
+        #verbose_name_plural = VARS['PLURAL']
+        #permissions = permissions(VARS)
+    #def __str__(self):
+        #return self.name
+    #def QUERY(self, view):
+        #return ProductHistory.filter(product__organization__pk=view.request.session.get('organization'))
