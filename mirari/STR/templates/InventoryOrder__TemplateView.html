@@ -3,23 +3,3 @@
 {% load i18n %}
 {% load mirari_tags %}
 {% load crispy_forms_tags %}
-
-{%block content%}
-    <div class="row">
-        <div class="{%if 'FORM_SIZE' in model.VARS%}
-                        {%if model.VARS.FORM_SIZE|length > 1%}
-                            {%if object%}
-                                {{model.VARS.FORM_SIZE.1}}
-                            {%else%}
-                                {{model.VARS.FORM_SIZE.0}}
-                            {%endif%}
-                        {%else%}
-                            {{model.VARS.FORM_SIZE}}
-                        {%endif%}
-                    {%else%}
-                        col-xl-8 offset-xl-2
-                    {%endif%}">
-            {% crispy form %}
-        </div>
-    </div>
-{%endblock content%}
