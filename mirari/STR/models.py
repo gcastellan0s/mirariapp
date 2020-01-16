@@ -365,8 +365,8 @@ VARS = {
     'APP':APP,
     'LIST': [
         {
-            'field': 'id',
-            'title': 'ID',
+            'field': 'status',
+            'title': 'STATUS',
         },
     ],
     'FORM': ('provider','initialDateTime','initialDateTime','finalDateTime','document','priority','responsible','notes'),
