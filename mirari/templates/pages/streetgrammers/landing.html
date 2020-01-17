@@ -139,14 +139,14 @@
                                                 <div class="overlay"></div>
                                                 <div class="grid-item">
                                                     <a :href="('https://www.instagram.com/p/' + photo.node.shortcode)" target="_blank">
-                                                        <h3 class="mt-5 mb-5"> <i class="fas fa-heart"></i> {{photo.node.edge_liked_by.count}} &nbsp;  <i class="fas fa-comment"></i> {{photo.node.edge_media_to_comment.count}}</h3>
+                                                        <h3 class="mt-5 mb-5"> <i class="fas fa-heart"></i> ${photo.node.edge_liked_by.count} &nbsp;  <i class="fas fa-comment"></i> ${photo.node.edge_media_to_comment.count}</h3>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="port-subtitle-holder">
                                             <div class="port-subtitle">
-                                                <span>{{photo.node.edge_media_to_caption.edges[0].node.text|getTitle}}</span>
+                                                <span>${photo.node.edge_media_to_caption.edges[0].node.text|getTitle}</span>
                                             </div>
                                         </div>
                                 </div>
@@ -196,6 +196,7 @@
     <script>
         new Vue({
             el: '#wrapper',
+            delimiters: ['${', '}'],
             data: {
                 photos: 'Hol',
             },
