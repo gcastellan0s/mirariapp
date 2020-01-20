@@ -5,6 +5,5 @@ from .vars import *
 app_name = APP
 
 urlpatterns = [
-    path('InventoryOrderReception/', InventoryOrderReception__TemplateView.as_view(), name='InventoryOrderReception__TemplateView'),
-    path('InventoryOrderPicking/', InventoryOrderPicking__TemplateView.as_view(), name='InventoryOrderPicking__TemplateView'),
+    path('list/InventoryOrder/', login_required(InventoryOrder__ListView.as_view()), name='InventoryOrder__ListView'),
 ]   

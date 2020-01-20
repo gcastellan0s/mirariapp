@@ -5,14 +5,11 @@ from .vars import *
 
 
 ###############################################################################################
-# OrderPicking ################################################################################
+# InventoryOrder ##############################################################################
 ###############################################################################################
-class InventoryOrderReception__TemplateView(Generic__TemplateView):
-    ###########################################################################################
-    def dispatch(self, request, *args, **kwargs):
-        return HttpResponseRedirect(reverse('STR:dashboard__Organization__TemplateView', args=[])+'?type=RECEPCIONES')
-
-class InventoryOrderPicking__TemplateView(Generic__TemplateView):
-    ###########################################################################################
-    def dispatch(self, request, *args, **kwargs):
-        return HttpResponseRedirect(reverse('STR:dashboard__Organization__TemplateView', args=[])+'?type=ENTREGA')
+class InventoryOrder__ListView(Generic__ListView):
+    def list(self):
+        extrabuttons = ''
+        if self.request.user.has_perm('mirari.Can_Change__Password'):
+            extrabuttons = '<a href="{{url_password}}" class="btn btn-outline-primary btn-elevate btn-circle btn-icon btn-sm mr-3" title="Cambiar contraseña"><i class="la la-key"></i></a>'
+        return self.render_list(extrabuttons = extrabuttons)

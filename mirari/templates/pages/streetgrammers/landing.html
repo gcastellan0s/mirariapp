@@ -209,7 +209,7 @@
             el: '#wrapper',
             delimiters: ['${', '}'],
             data: {
-                photos: 'Hol',
+                photos: null,
             },
             created:function(){
                 new InstagramFeed({
@@ -228,8 +228,10 @@
                 });
             },
             mounted: function () {
-                initOutdoor();
-                initparallax();
+                function () {
+                    initOutdoor();
+                    initparallax();
+                }, 2000);
             },
             filters: {
                 getTitle: ((text) => {

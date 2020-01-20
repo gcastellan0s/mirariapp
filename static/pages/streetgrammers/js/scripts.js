@@ -628,5 +628,5 @@ $(document).ready(function() {
     function () {
         initOutdoor();
         initparallax();
-    }, 1000);
+    }, 3000);
 });
