@@ -52,7 +52,7 @@ MENU = {
 				'apps': [APP, ],
 				'permission': 'Can_View',
 				'model': APP + '.InventoryOrder',
-				'link': '/STR/list/InventoryOrder/?type=ENTREGA',
+				'link': '/STR/list/InventoryOrder',
 			},
 			{
 				'title': 'Recepciones',
@@ -62,11 +62,8 @@ MENU = {
 				'apps': [APP, ],
 				'permission': 'Can_View',
 				'model': APP + '.InventoryOrder',
-				'link': '/STR/list/InventoryOrder/?type=RECEPCIONES',
+				'link': '/STR/list/InventoryOrder',
 			},
 		]
 	},
 }
-
-'link': '/TCS/calendar/?zone=Local',
-'link': '/TCS/calendar/?zone=Foraneo',
