@@ -5,3 +5,39 @@
 {% load crispy_forms_tags %}
 {% load humanize %}
 
+{% block title %}ORDENES DE ENTREGA :: {{ G.ORGANIZATION.TITLE }}{% endblock title %}
+
+{%block subheader%}
+    <div class="kt-subheader__main">
+        <h3 class="kt-subheader__title kt-subheader__title--separator">
+            {%if not object%}
+                <small>CREAR</small> 
+                <strong style="font-size: 2rem;">ORDEN DE ENTREGA</strong>
+            {%else%}
+                <small>EDITAR</small> 
+                <strong style="font-size: 2rem;">ORDEN DE ENTREGA</strong>
+            {%endif%} 
+        </h3>
+        <span class="kt-subheader__separator kt-hidden"></span>
+        <div class="kt-subheader__breadcrumbs">
+            <a href="/" class="kt-subheader__breadcrumbs-link">
+                INICIO
+            </a>
+            {%if breadcrumbs%}
+                {{breadcrumbs|safe}}
+            {%else%}
+                {%if redirect_model%}
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="{{redirect_model.url_list}}" class="kt-subheader__breadcrumbs-link">
+                        Lista de {{ redirect_model|verbose_name_plural|upper }}
+                    </a>
+                {%else%}
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="{{model.url_list}}" class="kt-subheader__breadcrumbs-link">
+                        Lista de {{ model|verbose_name_plural|upper }}
+                    </a>
+                {%endif%}
+            {%endif%}
+        </div>
+    </div>
+{%endblock subheader%}
