@@ -384,7 +384,7 @@ VARS = {
             'placeholder': 'Elige un proveedor',
             'minimumInputLength': '0',
         },
-        'users': {
+        'responsible': {
             'model': ['mirari', 'User'],
             'plugin': 'selectmultiple',
             'query': [
