@@ -560,7 +560,8 @@ class Base_Create(object):
         return self.get_form_class().AddKwargs(self, super().get_form_kwargs())
     ############################################################################################################
     def initialize(self, request, *args, **kwargs):
-        self.model = apps.get_model(kwargs['app'], kwargs['model'])
+        if not self.model:
+            self.model = apps.get_model(kwargs['app'], kwargs['model'])
         if 'PAGECreate' in self.model.VARS:
             self.template_name = self.model.VARS['PAGECreate']
         return True
