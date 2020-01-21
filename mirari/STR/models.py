@@ -369,12 +369,31 @@ VARS = {
             'title': 'STATUS',
         },
     ],
-    'FORM': ('provider','initialDateTime','initialDateTime','finalDateTime','document','priority','responsible','notes'),
+    'FORM': ('provider', 'document','priority','responsible','notes'),
+    'SELECTQ': {
+        'provider': {
+            'model': ['STR', 'Provider'],
+            'plugin': 'select2',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                ),
+            ],
+            'sercheable': ('name__icontains'),
+            'limits': 50,
+            'placeholder': 'Elige un proveedor',
+            'minimumInputLength': '0',
+        },
+        #'users': {
+            #'model': ['mirari', 'User'],
+            #'plugin': 'selectmultiple',
+        #},
+    },
 }
 class InventoryOrder(Model_base):
     OPERATIONTYPE = (
         ('ORDEN DE ENTREGA','ORDEN DE ENTREGA'),
-        ('RECEPCIONES','RECEPCIONES'),
+        ('RECEPCION','RECEPCION'),
     )
     STATUS = (
         ('BORRADOR','BORRADOR'),
