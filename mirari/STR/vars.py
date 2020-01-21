@@ -45,16 +45,6 @@ MENU = {
 				'url': 'Generic__ListView',
 			},
 			{
-				'title': 'Ordenes de entrega',
-				'icon': 'fas fa-shipping-fast',
-				'text': 'Salidas de producto del almacén',
-				'subtext': 'Actualizaciones de salida de inventario',
-				'apps': [APP, ],
-				'permission': 'Can_View',
-				'model': APP + '.InventoryOrder',
-				'link': '/STR/list/InventoryOrder/?type=ENTREGA',
-			},
-			{
 				'title': 'Recepciones',
 				'icon': 'fas fa-people-carry',
 				'text': 'Entradas de productos al almacén',
@@ -63,6 +53,16 @@ MENU = {
 				'permission': 'Can_View',
 				'model': APP + '.InventoryOrder',
 				'link': '/STR/list/InventoryOrder/?type=RECEPCIONES',
+			},
+			{
+				'title': 'Ordenes de entrega',
+				'icon': 'fas fa-shipping-fast',
+				'text': 'Salidas de producto del almacén',
+				'subtext': 'Actualizaciones de salida de inventario',
+				'apps': [APP, ],
+				'permission': 'Can_View',
+				'model': APP + '.InventoryOrder',
+				'link': '/STR/list/InventoryOrder/?type=ENTREGA',
 			},
 		]
 	},
