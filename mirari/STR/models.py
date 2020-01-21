@@ -387,6 +387,9 @@ VARS = {
         'responsible': {
             'model': ['mirari', 'User'],
             'plugin': 'select2',
+            'sercheable': ('visible_username__icontains'),
+            'limits': 50,
+            'placeholder': 'Elige un responsable',
             'query': [
                 (
                     ('organization__pk', 'self.request.session.get("organization")'),
