@@ -386,7 +386,7 @@ VARS = {
         },
         'responsible': {
             'model': ['mirari', 'User'],
-            'plugin': 'selectmultiple',
+            'plugin': 'select2',
             'query': [
                 (
                     ('organization__pk', 'self.request.session.get("organization")'),
