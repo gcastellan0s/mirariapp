@@ -8,5 +8,5 @@ from .vars import *
 # InventoryOrder ##############################################################################
 ###############################################################################################
 class InventoryOrder__ListView(Generic__ListView):
-    template_name = 'generic/ListViewx.html'
+    template_name = 'InventoryOrder__ListView.html'
     model = InventoryOrder
