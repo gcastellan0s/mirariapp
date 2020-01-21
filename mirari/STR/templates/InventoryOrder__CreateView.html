@@ -20,23 +20,16 @@
         </h3>
         <span class="kt-subheader__separator kt-hidden"></span>
         <div class="kt-subheader__breadcrumbs">
-            <a href="/" class="kt-subheader__breadcrumbs-link">
-                INICIO
-            </a>
-            {%if breadcrumbs%}
-                {{breadcrumbs|safe}}
+            {%if redirect_model%}
+                <span class="kt-subheader__breadcrumbs-separator"></span>
+                <a href="{{redirect_model.url_list}}" class="kt-subheader__breadcrumbs-link">
+                    Lista de {{ redirect_model|verbose_name_plural|upper }}
+                </a>
             {%else%}
-                {%if redirect_model%}
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{redirect_model.url_list}}" class="kt-subheader__breadcrumbs-link">
-                        Lista de {{ redirect_model|verbose_name_plural|upper }}
-                    </a>
-                {%else%}
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{model.url_list}}" class="kt-subheader__breadcrumbs-link">
-                        Lista de {{ model|verbose_name_plural|upper }}
-                    </a>
-                {%endif%}
+                <span class="kt-subheader__breadcrumbs-separator"></span>
+                <a href="{{model.url_list}}" class="kt-subheader__breadcrumbs-link">
+                    Lista de {{ model|verbose_name_plural|upper }}
+                </a>
             {%endif%}
         </div>
     </div>
