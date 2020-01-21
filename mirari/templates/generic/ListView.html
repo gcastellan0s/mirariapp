@@ -97,10 +97,12 @@
                     <div class="col-xl-4 order-1 order-xl-2 kt-align-right">
                         {%if model.url_add%}
                             {%if 'Can_Create__'|prepend_perm:model.VARS|if_has_perm:request and not 'create' in model.VARS.EXCLUDE_PERMISSIONS%}
+                                {%block buttonAdd%}
                                 <a href="{{model.url_add}}" class="btn btn-brand btn-elevate btn-icon-sm mb-2">
                                     <i class="la la-plus"></i>
                                     {{ model.add_text.0 }}
                                 </a>
+                                {%endblock buttonAdd%}
                             {%endif%}
                         {%endif%}
                     </div>
