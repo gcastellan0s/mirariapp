@@ -431,7 +431,7 @@ class InventoryOrder(Model_base):
     priority = models.IntegerField('Prioridad', default=0)
     responsible = models.ForeignKey('mirari.User', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Responsable")
     notes = models.TextField('Notas', max_length=250, blank=True, null=True)
-    product = models.ForeignKey('STR.Product', on_delete=models.CASCADE, related_name='+',)
+    product = models.ForeignKey('STR.Product', on_delete=models.CASCADE, related_name='+', blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
