@@ -369,7 +369,7 @@ VARS = {
             'title': 'STATUS',
         },
     ],
-    'FORM': ('provider','document','priority','responsible','notes'),
+    'FORM': ('provider','document','priority','responsible','notes','product'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
@@ -390,6 +390,18 @@ VARS = {
             'sercheable': ('visible_username__icontains'),
             'limits': 50,
             'placeholder': 'Elige un responsable',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                ),
+            ],
+        },
+        'product': {
+            'model': ['STR', 'Product'],
+            'plugin': 'select2',
+            'sercheable': ('codebar__icontains'),
+            'limits': 50,
+            'placeholder': 'Elige un producto', 
             'query': [
                 (
                     ('organization__pk', 'self.request.session.get("organization")'),
