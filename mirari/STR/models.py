@@ -396,18 +396,6 @@ VARS = {
                 ),
             ],
         },
-        'product': {
-            'model': ['STR', 'Product'],
-            'plugin': 'select2',
-            'sercheable': ('codebar__icontains'),
-            'limits': 50,
-            'placeholder': 'Elige un producto', 
-            'query': [
-                (
-                    ('organization__pk', 'self.request.session.get("organization")'),
-                ),
-            ],
-        },
     },
 }
 class InventoryOrder(Model_base):
