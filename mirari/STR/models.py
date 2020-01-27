@@ -396,6 +396,18 @@ VARS = {
                 ),
             ],
         },
+        'product': {
+            'model': ['STR', 'Product'],
+            'plugin': 'select2',
+            'sercheable': ('codebar__icontains'),
+            'limits': 50,
+            'placeholder': 'Elige un producto',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                ),
+            ],
+        },
     },
 }
 class InventoryOrder(Model_base):
@@ -419,6 +431,7 @@ class InventoryOrder(Model_base):
     priority = models.IntegerField('Prioridad', default=0)
     responsible = models.ForeignKey('mirari.User', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Responsable")
     notes = models.TextField('Notas', max_length=250, blank=True, null=True)
+    product = models.ForeignKey('STR.Product', on_delete=models.CASCADE, related_name='+',)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
