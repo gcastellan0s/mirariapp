@@ -328,11 +328,11 @@ function initOutdoor() {
     $(window).load(function() {
         n();
     });
-    //$(".portfolio_item a").on("click", function() {
-        //var a = $(this).attr("href");
-        //window.location.href = a;
-        //return false;
-    //});
+    $(".portfolio_item a").on("click", function() {
+        var a = $(this).attr("href");
+        window.location.href = a;
+        return false;
+    });
     $(".filter-button").on("click", function() {
         $(".hid-filter").slideToggle(500);
         $(".filter-button i").toggleClass("roticon");
@@ -624,9 +624,6 @@ function initgalheight() {
 }
 //   Init all fucntions  ------------------
 $(document).ready(function() {
-    setTimeout(
-    function () {
-        initOutdoor();
-        initparallax();
-    }, 1000);
+    initOutdoor();
+    initparallax();
 });
