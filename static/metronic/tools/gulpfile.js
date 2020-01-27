@@ -1,5 +1,7 @@
 'use strict';
 
-var requireDir = require('require-dir');
-
-requireDir('./gulp', {recurse: true});
+require('./gulp/build');
+require('./gulp/clean');
+require('./gulp/compile');
+require('./gulp/helpers');
+require('./gulp/watch');
