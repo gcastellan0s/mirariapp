@@ -401,7 +401,7 @@ VARS = {
             'plugin': 'select2',
             'sercheable': ('codebar__icontains'),
             'limits': 50,
-            'placeholder': 'Elige un producto',
+            'placeholder': 'Elige un producto', 
             'query': [
                 (
                     ('organization__pk', 'self.request.session.get("organization")'),
