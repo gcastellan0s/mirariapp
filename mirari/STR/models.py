@@ -369,7 +369,7 @@ VARS = {
             'title': 'STATUS',
         },
     ],
-    'FORM': ('provider','document','priority','responsible','notes','product'),
+    'FORM': ('provider','document','priority','responsible','notes'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
