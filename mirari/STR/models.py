@@ -177,7 +177,7 @@ class Provider(Model_base):
     razonSocial = models.CharField('Razón social', max_length=255, help_text="Razón social de persona Física o Moral", blank=True, null=True)
     persona = models.CharField('Tipo de persona', choices=PERSONA, max_length=100, default='Física', blank=True, null=True)
     curp = MXCURPField('C.U.R.P.', blank=True, null=True)
-    contactEmail = models.EmailField('Email contacto', max_length=100, help_text="Correo donde llegarán las notificaciones de facturación", blank=True, null=True)
+    contactEmail = models.EmailField('Email contacto', blank=True, null=True, max_length=100, help_text="Correo donde llegarán las notificaciones de facturación")
     contactName = models.CharField('Nombre contacto', max_length=255, help_text="Quien responde al contacto del negocio?", blank=True, null=True)
     street = models.CharField('Calle', max_length=255, blank=True, null=True)
     extNumber = models.CharField('No. EXT', max_length=150, blank=True, null=True)
