@@ -311,6 +311,10 @@ VARS = {
             'model': ['mirari', 'User'],
             'plugin': 'selectmultiple',
         },
+        'providers': {
+            'model': ['STR', 'User'],
+            'plugin': 'select2',
+        },
     },
 }
 def pathProductImage(self, filename):
@@ -328,8 +332,8 @@ class Product(Model_base):
     canByBuy = models.BooleanField('Puede ser comprado?', default=True)
     typeProduct = models.CharField('Tipo de producto', choices=PRODUCTTYPE, max_length=250, default="productQuantity")
     category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, verbose_name="Categoría", related_name  ='+',)
-    uid = models.CharField('Referencia interna (PKU)', max_length=30)
-    codebar = models.CharField('Código de barras', max_length=30)
+    uid = models.CharField('Referencia interna (PKU)', max_length=30, blank=True, null=True)
+    codebar = models.CharField('Código de barras', max_length=30, unique=True, blank=True, null=True)
     sellPrice = models.FloatField('Venta $', blank=True, null=True)
     costPrice = models.FloatField('Costo $', blank=True, null=True)
     notes = models.TextField(blank=True, verbose_name="NOTAS INTERNAS")
