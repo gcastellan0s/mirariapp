@@ -77,6 +77,8 @@ class Storehouse(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return self.name
+    def get_street(self):
+        return self.render_if(self.street)
 
         
 ########################################################################################
