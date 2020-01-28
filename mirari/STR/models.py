@@ -18,6 +18,10 @@ VARS = {
             'field': 'name',
             'title': 'ALMACÉN',
         },
+        {
+            'field': 'street',
+            'title': 'CALLE',
+        },
     ],
     'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
 }
@@ -94,7 +98,7 @@ VARS = {
             'title': 'RFC',
         },
         {
-            'field': 'razonSocial',
+            'field': 'get_razonSocial',
             'title': 'RAZON SOCIAL',
         },
         {
@@ -194,6 +198,8 @@ class Provider(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return self.name
+    def get_razonSocial(self):
+        return self.render_if(self.razonSocial)
 
 
 ########################################################################################
