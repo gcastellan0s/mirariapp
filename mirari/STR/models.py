@@ -253,6 +253,26 @@ VARS = {
             'field': 'name',
             'title': 'NOMBRE',
         },
+        {
+            'field': 'id',
+            'title': 'ID',
+        },
+        {
+            'field': 'category',
+            'title': 'CATEGORIA',
+        },
+        {
+            'field': 'uid',
+            'title': 'UID',
+        },
+        {
+            'field': 'codebar',
+            'title': 'CODIGO DE BARRAS',
+        },
+        {
+            'field': 'photo',
+            'title': 'FOTO',
+        },
     ],
     'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
     'FORM': [
@@ -356,7 +376,7 @@ class Product(Model_base):
     name = models.CharField('Nombre del producto', max_length=250)
     canBySell = models.BooleanField('Puede ser vendido?', default=True)
     canByBuy = models.BooleanField('Puede ser comprado?', default=True)
-    typeProduct = models.CharField('Tipo de producto', choices=PRODUCTTYPE, max_length=250, default="productQuantity")
+    typeProduct = models.CharField('Tipo de producto', choices=PRODUCTTYPE, max_length=250, default="Almacenaje")
     category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, verbose_name="Categoría", related_name  ='+',)
     uid = models.CharField('Referencia interna (PKU)', max_length=30, blank=True, null=True)
     codebar = models.CharField('Código de barras', max_length=30, unique=True, blank=True, null=True)
