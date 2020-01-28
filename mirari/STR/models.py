@@ -309,7 +309,13 @@ VARS = {
         },
         'users': {
             'model': ['mirari', 'User'],
-            'plugin': 'selectmultiple',
+            'plugin': 'select2',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                ),
+            ],
+            'sercheable': ('visible_username__icontains'),
         },
         'providers': {
             'model': ['STR', 'Provider'],
