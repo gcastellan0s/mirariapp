@@ -311,16 +311,16 @@ VARS = {
             'model': ['mirari', 'User'],
             'plugin': 'selectmultiple',
         },
-        'providers': {
-            'model': ['STR', 'Provider'],
-            'plugin': 'select2',
-            'query': [
-                (
-                    ('organization__pk', 'self.request.session.get("organization")'),
-                ),
-            ],
-            'sercheable': ('name__icontains','name__icontains'),
-        },
+        #'providers': {
+            #'model': ['STR', 'Provider'],
+            #'plugin': 'select2',
+            #'query': [
+                #(
+                    #('organization__pk', 'self.request.session.get("organization")'),
+                #),
+            #],
+            #'sercheable': ('name__icontains','name__icontains'),
+        #},
     },
 }
 def pathProductImage(self, filename):
@@ -343,7 +343,6 @@ class Product(Model_base):
     sellPrice = models.FloatField('Venta $', blank=True, null=True)
     costPrice = models.FloatField('Costo $', blank=True, null=True)
     notes = models.TextField(blank=True, verbose_name="NOTAS INTERNAS")
-    
     weight = models.FloatField('Peso', blank=True, null=True)
     volume = models.FloatField('Volumen', blank=True, null=True)
     deliveryTerm = models.IntegerField('Plazo de entrega', blank=True, null=True)
