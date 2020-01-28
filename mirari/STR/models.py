@@ -258,19 +258,19 @@ VARS = {
             'title': 'ID',
         },
         {
-            'field': 'category',
+            'field': 'get_category',
             'title': 'CATEGORIA',
         },
         {
-            'field': 'uid',
+            'field': 'get_uid',
             'title': 'UID',
         },
         {
-            'field': 'codebar',
+            'field': 'get_codebar',
             'title': 'CODIGO DE BARRAS',
         },
         {
-            'field': 'photo',
+            'field': 'get_photo',
             'title': 'FOTO',
         },
     ],
@@ -401,6 +401,14 @@ class Product(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return self.name
+    def get_category(self):
+        return self.render_if(self.category)
+    def get_uid(self):
+        return self.render_if(self.uid)
+    def get_codebar(self):
+        return self.render_if(self.codebar)
+    def get_photo(self):
+        return self.render_if(self.photo)
 
 
 ########################################################################################
