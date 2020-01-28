@@ -19,7 +19,7 @@ VARS = {
             'title': 'ALMACÉN',
         },
         {
-            'field': 'street',
+            'field': 'get_street',
             'title': 'CALLE',
         },
     ],
