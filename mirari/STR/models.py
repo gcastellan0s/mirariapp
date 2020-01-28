@@ -312,8 +312,14 @@ VARS = {
             'plugin': 'selectmultiple',
         },
         'providers': {
-            'model': ['STR', 'User'],
+            'model': ['STR', 'Provider'],
             'plugin': 'select2',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                ),
+            ],
+            'sercheable': ('name__icontains','name__icontains'),
         },
     },
 }
