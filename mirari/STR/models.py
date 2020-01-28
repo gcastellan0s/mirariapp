@@ -261,18 +261,18 @@ VARS = {
             #'field': 'get_category',
             #'title': 'CATEGORIA',
         #},
-        #{
-            #'field': 'get_uid',
-            #'title': 'UID',
-        #},
-        #{
-            #'field': 'get_codebar',
-            #'title': 'CODIGO DE BARRAS',
-        #},
-        #{
-            #'field': 'get_photo',
-            #'title': 'FOTO',
-        #},
+        {
+            'field': 'get_uid',
+            'title': 'UID',
+        },
+        {
+            'field': 'get_codebar',
+            'title': 'CODIGO DE BARRAS',
+        },
+        {
+            'field': 'get_photo',
+            'title': 'FOTO',
+        },
     ],
     'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
     'FORM': [
