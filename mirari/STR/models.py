@@ -96,7 +96,7 @@ VARS = {
             'title': 'PROVEEDOR',
         },
         {
-            'field': 'rfc',
+            'field': 'get_rfc',
             'title': 'RFC',
         },
         {
@@ -104,11 +104,11 @@ VARS = {
             'title': 'RAZON SOCIAL',
         },
         {
-            'field': 'contactEmail',
+            'field': 'get_contactEmail',
             'title': 'EMAIL DE CONTACTO',
         },
         {
-            'field': 'contactName',
+            'field': 'get_contactName',
             'title': 'NOMBRE DEL PROVEEDOR',
         },
     ],
@@ -200,8 +200,14 @@ class Provider(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return self.name
+    def get_rfc(self):
+        return self.render_if(self.rfc)
     def get_razonSocial(self):
         return self.render_if(self.razonSocial)
+    def get_contactEmail(self):
+        return self.render_if(self.contactEmail)
+    def get_contactName(self):
+        return self.render_if(self.contactName)
 
 
 ########################################################################################
