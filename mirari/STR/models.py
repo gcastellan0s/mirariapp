@@ -279,12 +279,16 @@ VARS = {
         Div(
             Div('name', css_class="col-md-12"),
             Div('codebar', css_class="col-md-8"),
+            Div(
+                HTML('<button type="button" class="btn btn-primary"><i class="fa fa-dollar-sign"></i> Primary</button>'),
+                css_class="col-md-4"
+            ),
             css_class="form-group m-form__group row mt-3"
         ),
         Div('canBySell', css_class="col-md-12"),
         Div('canByBuy', css_class="col-md-12"),
         Div(
-            HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h5>'),
+            HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h4>'),
         ),
         Div(
             Div(
