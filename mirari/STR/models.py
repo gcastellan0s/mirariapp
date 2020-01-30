@@ -278,6 +278,7 @@ VARS = {
     'FORM': [
         Div(
             Div('name', css_class="col-md-12"),
+            Div('codebar', css_class="col-md-8"),
             css_class="form-group m-form__group row mt-3"
         ),
         Div('canBySell', css_class="col-md-12"),
@@ -290,7 +291,6 @@ VARS = {
                 Div('typeProduct', css_class="col-md-12"),
                 Div('category', css_class="col-md-12"),
                 Div('uid', css_class="col-md-12"),
-                Div('codebar', css_class="col-md-12"),
                 css_class="col-md-7"
             ),
             Div(
