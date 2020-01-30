@@ -280,7 +280,7 @@ VARS = {
             Div('name', css_class="col-md-12"),
             Div('codebar', css_class="col-md-10"),
             Div(
-                HTML('<button type="button" class="btn btn-brand visible-phone visible-tablet"><i class="fas fa-barcode"></i> CAPTURAR</button>'),
+                HTML('<button type="button" class="btn btn-brand visible-phone visible-tablet hidden-desktop"><i class="fas fa-barcode"></i> CAPTURAR</button>'),
                 css_class="col-md-2"
             ),
             css_class="form-group m-form__group row mt-3"
