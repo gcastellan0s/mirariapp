@@ -278,10 +278,10 @@ VARS = {
     'FORM': [
         Div(
             Div('name', css_class="col-md-12"),
-            Div('codebar', css_class="col-md-8"),
+            Div('codebar', css_class="col-md-10"),
             Div(
                 HTML('<button type="button" class="btn btn-primary"><i class="fa fa-dollar-sign"></i> Primary</button>'),
-                css_class="col-md-4"
+                css_class="col-md-2"
             ),
             css_class="form-group m-form__group row mt-3"
         ),
