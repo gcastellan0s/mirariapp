@@ -280,13 +280,24 @@ VARS = {
             Div('name', css_class="col-md-12"),
             Div('codebar', css_class="col-md-10"),
             Div(
-                HTML('<button type="button" class="btn btn-brand"><i class="fas fa-barcode"></i> CAPTURAR</button>'),
+                HTML('<a href="#" class="btn btn-brand"><i class="fas fa-barcode"></i> CAPTURAR</a>'),
                 css_class="col-md-2"
             ),
             css_class="form-group m-form__group row mt-3"
         ),
         Div('canBySell', css_class="col-md-12"),
         Div('canByBuy', css_class="col-md-12"),
+        TabHolder(
+            Tab('First Tab',
+                'field_name_1',
+                Div('field_name_2')
+            ),
+            Tab('Second Tab',
+                Div(
+                    HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h4>'),
+                ),
+            )
+        )
         Div(
             HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h4>'),
         ),
