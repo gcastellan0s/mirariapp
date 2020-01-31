@@ -296,8 +296,8 @@ VARS = {
                 Div(
                     HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h4>'),
                 ),
-            )
-        )
+            ),
+        ),
         Div(
             HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h4>'),
         ),
