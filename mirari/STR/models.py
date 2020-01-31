@@ -290,57 +290,48 @@ VARS = {
         TabHolder(
             Tab('INFORMACIÓN GENERAL',
                 HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h4>'),
+                Div(
+                    Div(
+                        Div('typeProduct', css_class="col-md-12"),
+                        Div('category', css_class="col-md-12"),
+                        Div('uid', css_class="col-md-12"),
+                        css_class="col-md-7"
+                    ),
+                    Div(
+                        Div('sellPrice', css_class="col-md-12"),
+                        Div('costPrice', css_class="col-md-12"),
+                        css_class="col-md-5"
+                    ),
+                    css_class="form-group m-form__group row"
+                ),
+                Div('photo', css_class="col-md-12"),
+                Div('notes', css_class="col-md-12"),
             ),
             Tab('INVENTARIO',
                 HTML('<h4 class="kt-section__title ml-2 mb-4">INVENTARIO</h5>'),
+                Div(
+                    Div(
+                        Div('weight', css_class="col-md-12"),
+                        Div('volume', css_class="col-md-12"),
+                        css_class="col-md-5"
+                    ),
+                    Div(
+                        Div('deliveryTerm', css_class="col-md-12"),
+                        Div('minimumQuantity', css_class="col-md-12"),
+                        Div('maximumQuantity', css_class="col-md-12"),
+                        css_class="col-md-7"
+                    ),
+                    css_class="form-group m-form__group row"
+                ),
             ),
             Tab('INFORMACIÓN EXTRA',
                 HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN EXTRA</h5>'),
+                Div('users', css_class="col-md-12"),
+                Div('providers', css_class="col-md-12"),
+                Div('deliveryDescription', css_class="col-md-12"),
+                Div('receptionsDescription', css_class="col-md-12"),
             ),
         ),
-        Div(
-            HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h4>'),
-        ),
-        Div(
-            Div(
-                Div('typeProduct', css_class="col-md-12"),
-                Div('category', css_class="col-md-12"),
-                Div('uid', css_class="col-md-12"),
-                css_class="col-md-7"
-            ),
-            Div(
-                Div('sellPrice', css_class="col-md-12"),
-                Div('costPrice', css_class="col-md-12"),
-                css_class="col-md-5"
-            ),
-            css_class="form-group m-form__group row"
-        ),
-        Div('photo', css_class="col-md-12"),
-        Div('notes', css_class="col-md-12"),
-        Div(
-            HTML('<h4 class="kt-section__title ml-2 mb-4">INVENTARIO</h5>'),
-        ),
-        Div(
-            Div(
-                Div('weight', css_class="col-md-12"),
-                Div('volume', css_class="col-md-12"),
-                css_class="col-md-5"
-            ),
-            Div(
-                Div('deliveryTerm', css_class="col-md-12"),
-                Div('minimumQuantity', css_class="col-md-12"),
-                Div('maximumQuantity', css_class="col-md-12"),
-                css_class="col-md-7"
-            ),
-            css_class="form-group m-form__group row"
-        ),
-        Div(
-            HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN EXTRA</h5>'),
-        ),
-        Div('users', css_class="col-md-12"),
-        Div('providers', css_class="col-md-12"),
-        Div('deliveryDescription', css_class="col-md-12"),
-        Div('receptionsDescription', css_class="col-md-12"),
     ],
     'SELECTQ': {
         'category': {
