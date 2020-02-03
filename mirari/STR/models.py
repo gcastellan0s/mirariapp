@@ -359,7 +359,7 @@ VARS = {
         },
         'providers': {
             'model': ['STR', 'Provider'],
-            'plugin': 'select2',
+            'plugin': 'selectmultiple',
             #'query': [
                 #(
                     #('organization__pk', 'self.request.session.get("organization")'),
