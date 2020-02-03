@@ -280,7 +280,7 @@ VARS = {
             Div('name', css_class="col-md-12"),
             Div('codebar', css_class="col-md-10"),
             Div(
-                HTML('<a href="#GetQR" class="btn btn-brand"><i class="fas fa-barcode"></i> CAPTURAR</a>'),
+                HTML('<button onclick="alert('Hola mundo')" class="btn btn-brand"><i class="fas fa-barcode"></i> CAPTURAR</button>'),
                 css_class="col-md-2"
             ),
             css_class="form-group m-form__group row mt-3"
