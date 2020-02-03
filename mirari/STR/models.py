@@ -349,23 +349,23 @@ VARS = {
         },
         'users': {
             'model': ['mirari', 'User'],
-            'plugin': 'select2',
-            'query': [
-                (
-                    ('organization__pk', 'self.request.session.get("organization")'),
-                ),
-            ],
-            'sercheable': ('visible_username__icontains'),
+            'plugin': 'selectmultiple',
+            #'query': [
+                #(
+                    #('organization__pk', 'self.request.session.get("organization")'),
+                #),
+            #],
+            #'sercheable': ('visible_username__icontains'),
         },
         'providers': {
             'model': ['STR', 'Provider'],
             'plugin': 'select2',
-            'query': [
-                (
-                    ('organization__pk', 'self.request.session.get("organization")'),
-                ),
-            ],
-            'sercheable': ('name__icontains'),
+            #'query': [
+                #(
+                    #('organization__pk', 'self.request.session.get("organization")'),
+                #),
+            #],
+            #'sercheable': ('name__icontains'),
         },
     },
 }
