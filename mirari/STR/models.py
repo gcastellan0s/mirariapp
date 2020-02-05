@@ -288,7 +288,7 @@ VARS = {
         Div('canBySell', css_class="col-md-12"),
         Div('canByBuy', css_class="col-md-12"),
         TabHolder(
-            Tab('INFORMACIÓN GENERAL',
+            Tab('GENERAL',
                 HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h4>'),
                 Div(
                     Div(
@@ -324,7 +324,7 @@ VARS = {
                     css_class="form-group m-form__group row"
                 ),
             ),
-            Tab('INFORMACIÓN EXTRA',
+            Tab('EXTRA',
                 HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN EXTRA</h5>'),
                 Div('users', css_class="col-md-12"),
                 Div('providers', css_class="col-md-12"),
