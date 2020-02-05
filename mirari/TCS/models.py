@@ -310,7 +310,7 @@ VARS = {
             'plugin': 'select2',
             'query': [
                 (
-                    ('groups__in', 'Group.objects.get(id=33)'),
+                    ('organization__pk', 'self.request.session.get("organization")'),
                 ),
             ],
             'sercheable': ('visible_username__icontains','email__icontains'),
