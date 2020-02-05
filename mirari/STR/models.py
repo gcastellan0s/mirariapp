@@ -504,36 +504,6 @@ class InventoryOrder(Model_base):
         return self.id
 
 
-########################################################################################
-VARS = {
-    'NAME':'Producto de Orden de Inventario',
-    'PLURAL':'Producto de Orden de Inventario',
-    'MODEL':'InventoryOrderProduct',
-    'NEW':'NUEVO',
-    'NEW_GENDER': 'un nuevo',
-    'THIS': 'este',
-    'APP':APP,
-    'EXCLUDE_PERMISSIONS': ['all'],
-}
-class InventoryOrderProduct(Model_base):
-    STATUS = (
-        ('BORRADOR','BORRADOR'),
-        ('EN ESPERA','EN ESPERA'),
-        ('PREPARADO','PREPARADO'),
-        ('HECHO','HECHO'),
-    )
-    inventoryOrder = models.ForeignKey('STR.InventoryOrder', on_delete=models.CASCADE, related_name='+',)
-    product = models.ForeignKey('STR.Product', on_delete=models.CASCADE, related_name='+',)
-    quantity = models.IntegerField('Cantidad')
-    VARS = VARS
-    class Meta(Model_base.Meta):
-        verbose_name = VARS['NAME']
-        verbose_name_plural = VARS['PLURAL']
-        permissions = permissions(VARS)
-    def __str__(self):
-        return self.id
-
-
 #
 #class ProductHistory(Model_base):
     #HISTORYTYPE = (
