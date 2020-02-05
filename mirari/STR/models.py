@@ -352,7 +352,7 @@ VARS = {
             'plugin': 'selectmultiple',
             'query': [
                 (
-                    ('groups__in', 'Group.objects.get(id=33)'),
+                    ('groups__in', 'Group.objects.filter(id=33)'),
                 ),
             ],
             #'sercheable': ('visible_username__icontains'),
