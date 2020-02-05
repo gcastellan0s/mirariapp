@@ -350,11 +350,11 @@ VARS = {
         'users': {
             'model': ['mirari', 'User'],
             'plugin': 'selectmultiple',
-            #'query': [
-                #(
-                    #('organization__pk', 'self.request.session.get("organization")'),
-                #),
-            #],
+            'query': [
+                (
+                    ('groups__in', 'Group.objects.get(id=33)'),
+                ),
+            ],
             #'sercheable': ('visible_username__icontains'),
         },
         'providers': {
