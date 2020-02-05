@@ -311,6 +311,7 @@ VARS = {
             'query': [
                 (
                     ('organization__pk', 'self.request.session.get("organization")'),
+                    ('groups__in', 'Profile.objects.get(id=33)'),
                 ),
             ],
             'sercheable': ('visible_username__icontains','email__icontains'),
