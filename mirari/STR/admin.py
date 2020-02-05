@@ -14,6 +14,6 @@ class ProviderAdmin(PassAdmin):
 class CategoryProductAdmin(PassAdmin):
 	list_display = ('id', 'name',)
 
-@admin.register(Product)
-class ProductAdmin(PassAdmin):
-	list_display = ('id', 'name',)
+@admin.register(InventoryOrder)
+class InventoryOrderAdmin(PassAdmin):
+	list_display = ('id',)
