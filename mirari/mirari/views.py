@@ -180,6 +180,24 @@ class mirari__ApiView(Generic__ApiView):
                 return JsonResponse({'message':'No se encontró este código de empresa'}, status=500)
             return JsonResponse({'organization':OrganizationSerializer(Organization.objects.filter(code__iexact=request.POST.get('code')).first()).data})
 
+class mirari__makeUser__ApiView(Generic__ApiView):
+    permissions = False
+    def get_serializers(self, request):
+        action = request.GET.get('api')
+        if action == 'getCodeOrganization':
+            class SiteSerializer(Basic_Serializer):
+                class Meta(Basic_Serializer.Meta):
+                    model = Site
+            class OrganizationSerializer(Basic_Serializer):
+                sites = serializers.SerializerMethodField()
+                class Meta(Basic_Serializer.Meta):
+                    model = Organization
+                def get_sites(self, obj):
+                    return SiteSerializer(obj.sites.all().last()).data
+            if not Organization.objects.filter(code__iexact=request.POST.get('code')).first():
+                return JsonResponse({'message':'No se encontró este código de empresa'}, status=500)
+            return JsonResponse({'organization':OrganizationSerializer(Organization.objects.filter(code__iexact=request.POST.get('code')).first()).data})
+
 ###############################################################################################
 ###############################################################################################
 ######### 404 #################################################################################
