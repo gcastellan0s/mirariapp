@@ -180,12 +180,12 @@ class mirari__ApiView(Generic__ApiView):
                 return JsonResponse({'message':'No se encontró este código de empresa'}, status=500)
             return JsonResponse({'organization':OrganizationSerializer(Organization.objects.filter(code__iexact=request.POST.get('code')).first()).data})
 
-class mirari__makemeUser__ApiView(Generic__ApiView):
-    def get_serializers(self, request):
+#class mirari__makemeUser__ApiView(Generic__ApiView):
+    #def get_serializers(self, request):
         #self.model = apps.get_model(kwargs['app'], kwargs['model'])
         #user = User.objects.
         #self.actions(request)
-        return JsonResponse(objects)
+        #return JsonResponse(objects)
 
 ###############################################################################################
 ###############################################################################################
