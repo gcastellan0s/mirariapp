@@ -274,6 +274,7 @@ VARS = {
             'title': 'FOTO',
         },
     ],
+    'PAGECreate': 'Product__CreateView.html',
     'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
     'FORM': [
         Div(
@@ -385,13 +386,13 @@ class Product(Model_base):
     typeProduct = models.CharField('Tipo de producto', choices=PRODUCTTYPE, max_length=250, default="Almacenaje")
     category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, verbose_name="Categoría", related_name  ='+',)
     uid = models.CharField('Referencia interna (PKU)', max_length=30, blank=True, null=True)
-    codebar = models.CharField('Código de barras', max_length=30, unique=True, blank=True, null=True)
+    codebar = models.CharField('Código de barras o QR', max_length=30, unique=True, blank=True, null=True)
     sellPrice = models.FloatField('Venta $', blank=True, null=True)
     costPrice = models.FloatField('Costo $', blank=True, null=True)
     notes = models.TextField(blank=True, verbose_name="NOTAS INTERNAS")
-    weight = models.FloatField('Peso', blank=True, null=True)
-    volume = models.FloatField('Volumen', blank=True, null=True)
-    deliveryTerm = models.IntegerField('Plazo de entrega', blank=True, null=True)
+    weight = models.FloatField('Peso (kg)', blank=True, null=True)
+    volume = models.FloatField('Volumen (m2)', blank=True, null=True)
+    deliveryTerm = models.IntegerField('Plazo entrega (días)', blank=True, null=True)
     users = models.ManyToManyField('mirari.User', verbose_name="Responsables", blank=True)
     providers = models.ManyToManyField('STR.Provider', verbose_name="Proveedores", blank=True)
     deliveryDescription = models.TextField(blank=True, verbose_name="Descripción para entregas")

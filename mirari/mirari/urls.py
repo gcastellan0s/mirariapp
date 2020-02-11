@@ -22,7 +22,7 @@ urlpatterns = [
 
 	path('update/UserPassword/<slug:app>/<int:pk>/<slug:model>/', login_required(UserPassword__UpdateView.as_view()), name='UserPassword__UpdateView'),
     path('api/mirari/<slug:app>/<slug:model>/', mirari__ApiView.as_view(), name='mirari__ApiView'),
-	path('api/mirari/makeUser/User/<int:pk>/', mirari__makeUser__ApiView.as_view(), name='mirari__makeUser__ApiView'),
+	path('api/makeuser/<slug:app>/<slug:model>/<int:pk>/', mirari__makemeUser__ApiView.as_view(), name='mirari__makemeUser__ApiView'),
     #path('api/GetUserApiView/<slug:app>/<slug:action>/<slug:model>/', GetUser__ApiView.as_view(), name='GetUser__ApiView'),
 	#path('api/ChangeOrganizationApiView/<slug:app>/<slug:model>/', ChangeOrganization__ApiView.as_view(), name='ChangeOrganization__ApiView'),
 	#path('api/Select2GetQueryApiView/<slug:app>/<slug:action>/<slug:model>/', login_required(Select2GetQuery__ApiView.as_view()), name='Select2GetQuery__ApiView'),
