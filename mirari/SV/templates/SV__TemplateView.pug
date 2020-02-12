@@ -333,6 +333,7 @@ script.
                 self.Ticket.barcode2 = json.data.ticket.barcode2
                 self.Ticket.cut = json.data.ticket.cut
             }).catch((error) => {
+                console.log(error)
             }).finally(() => { 
                 if (print) self.printTicket(self.Ticket)
                 if (self.Sellpoint.haveExchange){
