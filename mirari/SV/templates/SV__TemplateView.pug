@@ -119,9 +119,9 @@ script.
             pendingTickets = self.Tickets.filter(function(ticket) {return (ticket.barcode == 0)})
             if(pendingTickets.length < 1) self.getStates()
         }, 300000);
-        setInterval(function(){
-            self.getOnlineStatus()
-        }, 60000); //120000);
+        //setInterval(function(){
+            //self.getOnlineStatus()
+        //}, 60000); //120000);
         //FOCUS BarCodeInput
         router.afterEach((to, from) => {
             if(to.path=='/casher'){
@@ -636,7 +636,7 @@ script.
                 json.data.cuts.forEach(function(cut, index) {
                     setTimeout(function() {
                         self.makeCut(cutID=cut.id)
-                    }, 8000 * index)
+                    }, 5000 * index)
                 });
             })
             .catch((error) => {
