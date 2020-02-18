@@ -305,6 +305,7 @@ VARS = {
                     ),
                     css_class="form-group m-form__group row"
                 ),
+                Div('description', css_class="col-md-12"),
                 Div('photo', css_class="col-md-12"),
                 Div('notes', css_class="col-md-12"),
             ),
@@ -390,6 +391,7 @@ class Product(Model_base):
     sellPrice = models.FloatField('Venta $', blank=True, null=True)
     costPrice = models.FloatField('Costo $', blank=True, null=True)
     notes = models.TextField(blank=True, verbose_name="NOTAS INTERNAS")
+    description = models.TextField(blank=True, verbose_name="DESCRIPCIÓN")
     weight = models.FloatField('Peso (kg)', blank=True, null=True)
     volume = models.FloatField('Volumen (m2)', blank=True, null=True)
     deliveryTerm = models.IntegerField('Plazo entrega (días)', blank=True, null=True)
