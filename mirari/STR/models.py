@@ -305,14 +305,10 @@ VARS = {
                     ),
                     css_class="form-group m-form__group row"
                 ),
-                
+                Div('uid', css_class="col-md-10"),
                 Div(
-                    Div('uid', css_class="col-md-8"),
-                    Div(
-                        HTML("""<button type="button" onclick="var message={action:'GetQR', target:'uid'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));" class="btn btn-brand"><i class="fas fa-barcode"></i> CAPTURAR</button>"""),
-                        css_class="col-md-3"
-                    ),
-                    css_class="col-md-12"
+                    HTML("""<button type="button" onclick="var message={action:'GetQR', target:'uid'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));" class="btn btn-brand"><i class="fas fa-barcode"></i> CAPTURAR</button>"""),
+                    css_class="col-md-2"
                 ),
                 Div('description', css_class="col-md-12"),
                 Div('photo', css_class="col-md-12"),
