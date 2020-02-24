@@ -294,6 +294,7 @@ VARS = {
                 Div(
                     Div(
                         Div('typeProduct', css_class="col-md-12"),
+                        Div('model', css_class="col-md-12"),
                         Div('category', css_class="col-md-12"),
                         Div('uid', css_class="col-md-8"),
                         Div(
@@ -392,6 +393,7 @@ class Product(Model_base):
     category = models.ForeignKey('STR.CategoryProduct', blank=True, null=True, on_delete=models.SET_NULL, verbose_name="Categoría", related_name  ='+',)
     uid = models.CharField('Referencia interna (PKU)', max_length=30, blank=True, null=True)
     codebar = models.CharField('Código de barras o QR', max_length=30, unique=True, blank=True, null=True)
+    model = models.CharField('Modelo', max_length=50, blank=True, null=True)
     sellPrice = models.FloatField('Venta $', blank=True, null=True)
     costPrice = models.FloatField('Costo $', blank=True, null=True)
     notes = models.TextField(blank=True, verbose_name="NOTAS INTERNAS")
