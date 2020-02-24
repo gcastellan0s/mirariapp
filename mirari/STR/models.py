@@ -294,16 +294,16 @@ VARS = {
                 Div(
                     Div(
                         Div('typeProduct', css_class="col-md-12"),
-                        Div('model', css_class="col-md-12"),
                         Div('category', css_class="col-md-12"),
+                        Div('model', css_class="col-md-12"),
+                        css_class="col-md-7"
+                    ),
+                    Div(
                         Div('uid', css_class="col-md-8"),
                         Div(
                             HTML("""<button type="button" onclick="var message={action:'GetQR', target:'uid'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));" class="btn btn-brand"><i class="fas fa-barcode"></i> CAPTURAR</button>"""),
                             css_class="col-md-4"
                         ),
-                        css_class="col-md-7"
-                    ),
-                    Div(
                         Div('sellPrice', css_class="col-md-12"),
                         Div('costPrice', css_class="col-md-12"),
                         css_class="col-md-5"
