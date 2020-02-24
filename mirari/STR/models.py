@@ -284,6 +284,11 @@ VARS = {
                 HTML("""<button type="button" onclick="var message={action:'GetQR', target:'codebar'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));" class="btn btn-brand"><i class="fas fa-barcode"></i> CAPTURAR</button>"""),
                 css_class="col-md-2"
             ),
+            Div('uid', css_class="col-md-10"),
+            Div(
+                HTML("""<button type="button" onclick="var message={action:'GetQR', target:'uid'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));" class="btn btn-brand"><i class="fas fa-barcode"></i> CAPTURAR</button>"""),
+                css_class="col-md-2"
+            ),
             css_class="form-group m-form__group row mt-3"
         ),
         Div('canBySell', css_class="col-md-12"),
@@ -305,11 +310,7 @@ VARS = {
                     ),
                     css_class="form-group m-form__group row"
                 ),
-                Div('uid', css_class="col-md-10"),
-                Div(
-                    HTML("""<button type="button" onclick="var message={action:'GetQR', target:'uid'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));" class="btn btn-brand"><i class="fas fa-barcode"></i> CAPTURAR</button>"""),
-                    css_class="col-md-2"
-                ),
+                
                 Div('description', css_class="col-md-12"),
                 Div('photo', css_class="col-md-12"),
                 Div('notes', css_class="col-md-12"),
