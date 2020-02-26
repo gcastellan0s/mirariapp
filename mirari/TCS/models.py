@@ -865,3 +865,24 @@ class OrderServiceHistory(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return str(self.pk)
+
+
+########################################################################################
+VARS = {
+    'NAME':'Reporte de Orden',
+    'PLURAL':'Reportes de Ordenes',
+    'MODEL':'OrderServiceReport',
+    'NEW':'NUEVO',
+    'NEW_GENDER': 'un nuevo',
+    'THIS': 'esta',
+    'APP':APP,
+    'EXCLUDE_PERMISSIONS': ['all'],
+}
+class OrderServiceReport(Model_base):
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return str(self.pk)

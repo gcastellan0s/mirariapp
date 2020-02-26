@@ -74,10 +74,19 @@ MENU = {
 				'model': APP + '.Modelo',
 				'url': 'Generic__ListView',
 			},
+			{
+				'title': 'Reportes',
+				'icon': 'far fa-file-excel',
+				'text': 'Reportes de ordenes de servicio',
+				'subtext': 'Ingresa para obtener los reportes especiales',
+				'apps': [APP, ],
+				'permission': 'Can_View',
+				'model': APP + '.OrderServiceReport',
+				'url': 'Generic__ListView',
+			},
 		]
 	},
 }
-
 ESTATUS= (
 	('Nueva', 'Nueva'),
 	('Alerta', 'Alerta'),
