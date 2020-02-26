@@ -87,6 +87,7 @@ MENU = {
 		]
 	},
 }
+
 ESTATUS= (
 	('Nueva', 'Nueva'),
 	('Alerta', 'Alerta'),
