@@ -33,5 +33,5 @@ class OrderServiceReport__TemplateView(Generic__TemplateView):
         return super().dispatch(request, *args, **kwargs)
     ###########################################################################################
     def proccess_context(self, context):
-        context['object'] = self.object
+        #context['object'] = self.object
         return context
