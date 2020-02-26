@@ -6,8 +6,7 @@ extends "generic/TemplateView.html"
 block subheader
     .kt-subheader__main
         h3.kt-subheader__title.kt-subheader__title--separator
-            small MANUAL DE 
-            strong  ICON FIELD
+            strong  REPORTE DE ORDENES DE SERVICIO
         span.kt-subheader__separator.kt-hidden
         .kt-subheader__breadcrumbs.mr-5
             a.kt-subheader__breadcrumbs-link(href='/')  INICIO
@@ -15,4 +14,33 @@ block subheader
 block content
     .row
         .col-lg-12
-            iframe#frame1.m--margin-5(src='https://fs.iconfitness.com/FieldService/index.do', width='100%', frameborder='0', height='600px', noresize='')
+            .form-group.row
+                label.col-form-label.col-lg-3.col-sm-12 Descargar Reporte
+                .col-lg-4.col-md-9.col-sm-12
+                    #kt_daterangepicker_6.input-group.pull-right
+                        input.form-control(type='text', readonly='', placeholder='Selecciona un rango de fechas')
+                        .input-group-append
+                            span.input-group-text
+                                i.la.la-calendar-check-o
+
+block js
+    <script>
+        var a = moment().subtract(29, "days"), t = moment();
+        $("#kt_daterangepicker_6").daterangepicker({
+            buttonClasses: " btn",
+            applyClass: "btn-primary",
+            cancelClass: "btn-secondary",
+            startDate: a,
+            endDate: t,
+            ranges: {
+                Today: [moment(), moment()],
+                Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
+                "Last 7 Days": [moment().subtract(6, "days"), moment()],
+                "Last 30 Days": [moment().subtract(29, "days"), moment()],
+                "This Month": [moment().startOf("month"), moment().endOf("month")],
+                "Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
+            }
+        }, function (a, t, e) {
+            $("#kt_daterangepicker_6 .form-control").val(a.format("MM/DD/YYYY") + " / " + t.format("MM/DD/YYYY"))
+        })
+    </script>
