@@ -82,7 +82,7 @@ MENU = {
 				'apps': [APP, ],
 				'permission': 'Can_View',
 				'model': APP + '.OrderServiceReport',
-				'href': 'TCS:OrderServiceReport__TemplateView',
+				'link': '/TCS/order-service-report/TCS/OrderServiceReport',
 			},
 		]
 	},

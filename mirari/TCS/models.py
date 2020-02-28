@@ -877,8 +877,64 @@ VARS = {
     'THIS': 'esta',
     'APP':APP,
     'EXCLUDE_PERMISSIONS': ['all'],
+    'SELECTQ': {
+        'technical': {
+            'model': ['mirari', 'User'],
+            'plugin': 'select2',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                ),
+            ],
+            'sercheable': ('visible_username__icontains','email__icontains'),
+            'limits': 50,
+            'placeholder': 'Elige un técnico',
+            'minimumInputLength': '0',
+        },
+        'modelo': {
+            'model': ['TCS', 'Modelo'],
+            'plugin': 'select2',
+            'query': 'none',
+            'sercheable': ('name__icontains',),
+            'limits': 50,
+            'placeholder': 'Elige un modelo',
+            'minimumInputLength': '0',
+        },
+        'company': {
+            'model': ['TCS', 'Company'],
+            'plugin': 'select2',
+            'query': [
+                (
+                    ('organization__pk', 'self.request.session.get("organization")'),
+                ),
+            ],
+            'placeholder': 'Elige una empresa',
+        },
+        'store': {
+            'model': ['TCS', 'Store'],
+            'plugin': 'select2',
+            'query': 'none',
+            'sercheable': ('name__icontains',),
+            'limits': 50,
+            'placeholder': 'Elige una tienda',
+            'minimumInputLength': '0',
+        },
+    },
+    'FORM': [
+        Div(
+            Div('technical', css_class="col-md-4"),
+            Div('company', css_class="col-md-4"),
+            Div('store', css_class="col-md-4"),
+            Div('modelo', css_class="col-md-4"),
+            css_class="form-group m-form__group row"
+        ),
+    ],
 }
 class OrderServiceReport(Model_base):
+    technical = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True, verbose_name="Tecnico")
+    company = models.ForeignKey('Company', on_delete=models.SET_NULL, null=True, verbose_name="Empresa")
+    store = models.ForeignKey('Store', on_delete=models.SET_NULL, null=True, verbose_name="Tienda")
+    modelo = models.ForeignKey('Modelo', on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Modelo")
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']

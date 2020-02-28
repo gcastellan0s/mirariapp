@@ -24,14 +24,9 @@ class manuales_iconfield__OrderService__TemplateView(Generic__TemplateView):
 ###############################################################################################
 # OrderServiceReport ##########################################################################
 ###############################################################################################
-class OrderServiceReport__TemplateView(Generic__TemplateView):
+class OrderServiceReport__CreateView(Generic__CreateView):
     model = apps.get_model(APP, 'OrderServiceReport')
-    template_name = "OrderServiceReport__TemplateView.pug"
+    template_name = "OrderServiceReport__CreateView.pug"
     ###########################################################################################
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-    ###########################################################################################
-    def proccess_context(self, context):
-        #context['object'] = self.object
-        return context
+    def form_valid(self, form):
+        return super().form_valid(form)

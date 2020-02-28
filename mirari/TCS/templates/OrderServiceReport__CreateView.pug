@@ -1,7 +1,6 @@
-extends "generic/TemplateView.html"
+extends "generic/CreateView.html"
 -load static
--load i18n
--load mirari_tags
+-load crispy_forms_tags
 
 block subheader
     .kt-subheader__main
@@ -15,16 +14,20 @@ block content
     .row
         .col-lg-12
             .form-group.row
-                label.col-form-label.col-lg-3.col-sm-12 Descargar Reporte
+                label.col-form-label.col-lg-3.col-sm-12 Rango de fechas
                 .col-lg-4.col-md-9.col-sm-12
                     #kt_daterangepicker_6.input-group.pull-right
                         input.form-control(type='text', readonly='', placeholder='Selecciona un rango de fechas')
                         .input-group-append
                             span.input-group-text
                                 i.la.la-calendar-check-o
+        .col-lg-12
+            .form-group.row
+                
 
 script.
     {%block mounted%}
+        {{block.super}}
         var a = moment().subtract(29, "days"), t = moment();
         $("#kt_daterangepicker_6").daterangepicker({
             buttonClasses: " btn",
