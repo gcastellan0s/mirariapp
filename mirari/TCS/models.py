@@ -922,10 +922,10 @@ VARS = {
     },
     'FORM': [
         Div(
-            Div('technical', css_class="col-md-4"),
-            Div('company', css_class="col-md-4"),
-            Div('store', css_class="col-md-4"),
-            Div('modelo', css_class="col-md-4"),
+            Div('technical', css_class="col-md-12"),
+            Div('company', css_class="col-md-12"),
+            Div('store', css_class="col-md-12"),
+            Div('modelo', css_class="col-md-12"),
             css_class="form-group m-form__group row"
         ),
     ],
