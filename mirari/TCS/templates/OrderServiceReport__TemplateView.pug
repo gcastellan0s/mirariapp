@@ -23,8 +23,8 @@ block content
                             span.input-group-text
                                 i.la.la-calendar-check-o
 
-block js
-    <script>
+script.
+    {%block mounted%}
         var a = moment().subtract(29, "days"), t = moment();
         $("#kt_daterangepicker_6").daterangepicker({
             buttonClasses: " btn",
@@ -43,4 +43,4 @@ block js
         }, function (a, t, e) {
             $("#kt_daterangepicker_6 .form-control").val(a.format("MM/DD/YYYY") + " / " + t.format("MM/DD/YYYY"))
         })
-    </script>
+    {%endblock mounted%}
