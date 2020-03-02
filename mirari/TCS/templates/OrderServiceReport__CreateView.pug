@@ -2,6 +2,14 @@ extends "generic/CreateView.html"
 -load static
 -load crispy_forms_tags
 
+style.
+    {%block css%}
+        .select2-container{
+            width: 100%!important;
+        }
+    {%endblock css%}
+
+
 block subheader
     .kt-subheader__main
         h3.kt-subheader__title.kt-subheader__title--separator
