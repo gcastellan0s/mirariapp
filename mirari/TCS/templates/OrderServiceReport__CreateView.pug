@@ -120,6 +120,7 @@ script.
 				Block();
 				Ax('post', '{%url "TCS:OrderServiceReport__CreateView" "TCS" "OrderServiceReport"%}?api=downloadReport', variablesData, errorDialog=true, timeout=0).then(function(json){
 					UnBlock();
+					console.log(json)
 				})
 			}
 			else{
