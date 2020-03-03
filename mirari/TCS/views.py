@@ -48,7 +48,13 @@ class OrderServiceReport__CreateView(Generic__CreateView):
                     'ID', 
                     'SERIAL', 
                     'TECNICO'
-                    ]) 
+                    ])
+                for orderService in orderServices:  
+                    writer.writerow([
+                        orderService.id, 
+                        orderService.serial, 
+                        orderService.user.visible_username,
+                        ])
             #with open('OrderServiceReport.csv', newline='', encoding='latin1') as myFile:
                 #writer = csv.writer(myFile) 
                 #writer.writerow([
