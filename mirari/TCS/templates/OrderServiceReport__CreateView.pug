@@ -3,141 +3,133 @@ extends "generic/CreateView.html"
 -load crispy_forms_tags
 
 block subheader
-	.kt-subheader__main
-		h3.kt-subheader__title.kt-subheader__title--separator
-			strong  REPORTE DE ORDENES DE SERVICIO
-		span.kt-subheader__separator.kt-hidden
-		.kt-subheader__breadcrumbs.mr-5
-			a.kt-subheader__breadcrumbs-link(href='/')  INICIO
+    .kt-subheader__main
+        h3.kt-subheader__title.kt-subheader__title--separator
+            strong  REPORTE DE ORDENES DE SERVICIO
+        span.kt-subheader__separator.kt-hidden
+        .kt-subheader__breadcrumbs.mr-5
+            a.kt-subheader__breadcrumbs-link(href='/')  INICIO
 
 block content
-	.row
-		.col-lg-12
-			.hr
-			.form-group.row
-				label.col-form-label.col-lg-3.col-sm-12 Rango de fechas
-				.col-lg-4.col-md-9.col-sm-12
-					#kt_daterangepicker_6.input-group.pull-right
-						input#dateRange.form-control(type='text', readonly='', placeholder='Selecciona un rango de fechas')
-						.input-group-append
-							span.input-group-text
-								i.la.la-calendar-check-o
-		.col-lg-12
-			.form-group.row
-				label.col-form-label.col-lg-3.col-sm-12 Por Tecnico
-				.col-lg-4.col-md-9.col-sm-12
-					{{form.technical}}
-			.form-group.row
-				label.col-form-label.col-lg-3.col-sm-12 Por Empresa
-				.col-lg-4.col-md-9.col-sm-12
-					{{form.company}}
-			.form-group.row
-				label.col-form-label.col-lg-3.col-sm-12 Por Tienda
-				.col-lg-4.col-md-9.col-sm-12
-					{{form.store}}
-			.form-group.row
-				label.col-form-label.col-lg-3.col-sm-12 Por Modelo
-				.col-lg-4.col-md-9.col-sm-12
-					{{form.modelo}}
-	.row
-		.col-lg-12
-			.hr
-			.kt-section__content.kt-section__content--solid
-				button.btn.btn-primary(type='button',v-on:click.prevent="downloadReport()")
-					i.fas.fa-download
-					| Descargar reporte
+    .row
+        .col-lg-12
+            .hr
+            .form-group.row
+                label.col-form-label.col-lg-3.col-sm-12 Rango de fechas
+                .col-lg-4.col-md-9.col-sm-12
+                    #kt_daterangepicker_6.input-group.pull-right
+                        input#dateRange.form-control(type='text', readonly='', placeholder='Selecciona un rango de fechas')
+                        .input-group-append
+                            span.input-group-text
+                                i.la.la-calendar-check-o
+        .col-lg-12
+            .form-group.row
+                label.col-form-label.col-lg-3.col-sm-12 Por Tecnico
+                .col-lg-4.col-md-9.col-sm-12
+                    {{form.technical}}
+            .form-group.row
+                label.col-form-label.col-lg-3.col-sm-12 Por Empresa
+                .col-lg-4.col-md-9.col-sm-12
+                    {{form.company}}
+            .form-group.row
+                label.col-form-label.col-lg-3.col-sm-12 Por Tienda
+                .col-lg-4.col-md-9.col-sm-12
+                    {{form.store}}
+            .form-group.row
+                label.col-form-label.col-lg-3.col-sm-12 Por Modelo
+                .col-lg-4.col-md-9.col-sm-12
+                    {{form.modelo}}
+    .row
+        .col-lg-12
+            .hr
+            .kt-section__content.kt-section__content--solid
+                button.btn.btn-primary(type='button',v-on:click.prevent="downloadReport()")
+                    i.fas.fa-download
+                    | Descargar reporte
 
 
 script.
-	{%block mounted%}
-		{{block.super}}
-		var a = moment().subtract(29, "days"), t = moment();
-		$("#kt_daterangepicker_6").daterangepicker({
-			buttonClasses: " btn",
-			applyClass: "btn-primary",
-			cancelClass: "btn-secondary",
-			startDate: a,
-			maxDate: moment(),
-			endDate: t,
-			ranges: {
-				Hoy: [moment(), moment()],
-				Ayer: [moment().subtract(1, "days"), moment().subtract(1, "days")],
-				"Últimos 7 días": [moment().subtract(6, "days"), moment()],
-				"Últimos 30 días": [moment().subtract(29, "days"), moment()],
-				"Este mes": [moment().startOf("month"), moment().endOf("month")],
-				"Mes pasado": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
-			},
-			"locale": {
-				"format": "DD/MM/YYYY",
-				"separator": " - ",
-				"applyLabel": "Elegir Rango",
-				"cancelLabel": "Cancelar",
-				"fromLabel": "Desde",
-				"toLabel": "A",
-				"customRangeLabel": "Elegir otro",
-				"weekLabel": "W",
-				"daysOfWeek": [
-					"Do",
-					"Lu",
-					"Ma",
-					"Mi",
-					"Ju",
-					"Vi",
-					"Sa"
-				],
-				"monthNames": [
-					"Enero",
-					"Febrero",
-					"Marzo",
-					"Abril",
-					"Mayo",
-					"Junio",
-					"Julio",
-					"Agosto",
-					"Septiembre",
-					"Octubre",
-					"Noviembre",
-					"Diciembre"
-				],
-				"firstDay": 1
-			},
-		}, function (a, t, e) {
-			$("#kt_daterangepicker_6 .form-control").val(a.format("MM/DD/YYYY") + " / " + t.format("MM/DD/YYYY"))
-		})
-		$(".select2-container--default").css('min-width','100%')
-	{%endblock mounted%}
+    {%block mounted%}
+        {{block.super}}
+        var a = moment().subtract(29, "days"), t = moment();
+        $("#kt_daterangepicker_6").daterangepicker({
+            buttonClasses: " btn",
+            applyClass: "btn-primary",
+            cancelClass: "btn-secondary",
+            startDate: a,
+            maxDate: moment(),
+            endDate: t,
+            ranges: {
+                Hoy: [moment(), moment()],
+                Ayer: [moment().subtract(1, "days"), moment().subtract(1, "days")],
+                "Últimos 7 días": [moment().subtract(6, "days"), moment()],
+                "Últimos 30 días": [moment().subtract(29, "days"), moment()],
+                "Este mes": [moment().startOf("month"), moment().endOf("month")],
+                "Mes pasado": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
+            },
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "separator": " - ",
+                "applyLabel": "Elegir Rango",
+                "cancelLabel": "Cancelar",
+                "fromLabel": "Desde",
+                "toLabel": "A",
+                "customRangeLabel": "Elegir otro",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Do",
+                    "Lu",
+                    "Ma",
+                    "Mi",
+                    "Ju",
+                    "Vi",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+                "firstDay": 1
+            },
+        }, function (a, t, e) {
+            $("#kt_daterangepicker_6 .form-control").val(a.format("MM/DD/YYYY") + " / " + t.format("MM/DD/YYYY"))
+        })
+        $(".select2-container--default").css('min-width','100%')
+    {%endblock mounted%}
 
-	{%block methods%}
-		{{block.super}}
-		
-		downloadReport: function () {
-			Block();
-			data = {
-				'range': $("#dateRange").val(),
-				'technical': $("#id_technical").val(),
-				'company': $("#id_company").val(),
-				'store': $("#id_store").val(),$("#id_").val(),
-				'modelo': $("#id_modelo").val(),
-			}
-			console.log(data)
-			UnBlock();
-			//Block();
-			//if (siebel.unblock_number){
-				//data = {
-					//unblock_number
-				//}
-				//Ax('post', '{%url "CRYE:SiebelUnblock__SiebelUnblock__TemplateView"%}?api=unblock_siebel', siebel, errorDialog=true, timeout=0).then(function(json){
-					//if (json.data.message){
-						//self.siebel.unblock_number = ''
-						//swal.fire('Exito!', json.data.message, 'success')
-					//}
-					//else swal.fire('Error!', json.data.message, 'error') 
-					//UnBlock();
-				//})
-			//}
-			//else {
-				//UnBlock();
-				//swal.fire('Error!', 'Revisa el número de tu consulta', 'error')
-			//}
-		},
-	{%endblock methods%}
+    {%block methods%}
+        {{block.super}}
+        
+        downloadReport: function () {
+            Block();
+            console.log(":)")
+            //Block();
+            //if (siebel.unblock_number){
+                //data = {
+                    //unblock_number
+                //}
+                //Ax('post', '{%url "CRYE:SiebelUnblock__SiebelUnblock__TemplateView"%}?api=unblock_siebel', siebel, errorDialog=true, timeout=0).then(function(json){
+                    //if (json.data.message){
+                        //self.siebel.unblock_number = ''
+                        //swal.fire('Exito!', json.data.message, 'success')
+                    //}
+                    //else swal.fire('Error!', json.data.message, 'error') 
+                    //UnBlock();
+                //})
+            //}
+            //else {
+                //UnBlock();
+                //swal.fire('Error!', 'Revisa el número de tu consulta', 'error')
+            //}
+        },
+    {%endblock methods%}
