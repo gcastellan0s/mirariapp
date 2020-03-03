@@ -41,6 +41,7 @@ class OrderServiceReport__CreateView(Generic__CreateView):
             store = request.POST.get('store')
             modelo = request.POST.get('modelo')
             orderServices = OrderService.objects.filter(creation_date__gt=start, creation_date__lt=end, active=True)
+
             with open('OrderServiceReport.csv', newline='', encoding='latin1') as myFile:
                 writer = csv.writer(myFile) 
                 writer.writerow([
@@ -48,11 +49,12 @@ class OrderServiceReport__CreateView(Generic__CreateView):
                     'SERIAL', 
                     'TECNICO'
                     ]) 
-                for orderService in orderServices:  
-                    writer.writerow([
-                        orderService.id, 
-                        orderService.serial, 
-                        orderService.user
-                        ]) 
+                #for orderService in orderServices:  
+                    #writer.writerow([
+                        #orderService.id, 
+                        #orderService.serial, 
+                        #orderService.user
+                        #]) 
+
             return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo,'start':start,'end':end,'len':len(orderServices)})
         return super().dispatch(request, *args, **kwargs)
