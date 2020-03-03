@@ -2,6 +2,13 @@ extends "generic/CreateView.html"
 -load static
 -load crispy_forms_tags
 
+block subheader
+    .kt-subheader__main
+        h3.kt-subheader__title.kt-subheader__title--separator
+            strong  REPORTE DE ORDENES DE SERVICIO
+        span.kt-subheader__separator.kt-hidden
+        .kt-subheader__breadcrumbs.mr-5
+            a.kt-subheader__breadcrumbs-link(href='/')  INICIO
 
 block content
     .row
