@@ -109,11 +109,11 @@ script.
 
 	{%block methods%}
 		{{block.super}}
-		var variablesData = {
-			'range': $("#dateRange").val(),
-			'technical': $("#id_technical").val(),
-			'company': $("#id_company").val(),
-			'store': $("#id_store").val(),
-			'modelo': $("#id_modelo").val()
-		}
+		var variablesData = {}
+		variablesData.range = $("#dateRange").val()
+		variablesData.technical = $("#id_technical").val()
+		variablesData.company = $("#id_company").val()
+		variablesData.store = $("#id_store").val()
+		variablesData.modelo = $("#id_modelo").val()
+		console.log(variablesData)
 	{%endblock methods%}
