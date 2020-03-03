@@ -40,5 +40,5 @@ class OrderServiceReport__CreateView(Generic__CreateView):
             store = request.POST.get('store')
             modelo = request.POST.get('modelo')
             orderService = OrderService.objects.filter(creation_date__gt=start, creation_date__lt=end, active=True)
-            return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo,'start':start,'end':end,'len':orderService.len()})
+            return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo,'start':start,'end':end,'len':len(orderService)})
         return super().dispatch(request, *args, **kwargs)
