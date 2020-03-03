@@ -34,44 +34,27 @@ class OrderServiceReport__CreateView(Generic__CreateView):
     def dispatch(self, request, *args, **kwargs):
         message, api = 'Hay un error en tu consulta', 'error' 
         if request.method == 'POST':
-            range_ = request.POST.get('range').split(" / ", 1)
-            start = datetime.datetime.strptime(range_[0], '%d/%m/%Y')
-            end = datetime.datetime.strptime(range_[1], '%d/%m/%Y')
-            technical = request.POST.get('technical')
-            company = request.POST.get('company')
-            store = request.POST.get('store')
-            modelo = request.POST.get('modelo')
-            orderServices = OrderService.objects.filter(creation_date__gt=start, creation_date__lt=end, active=True)
-
-            with open('OrderServiceReport.csv', 'w', newline='', encoding='latin1') as csvfile:
-                filewriter = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_NONE)
-                filewriter.writerow([
-                    'ID', 
-                    'SERIAL', 
-                    'TECNICO'
-                    ])
-                for orderService in orderServices:  
+            if request.GET.get('downloadReport'):
+                range_ = request.POST.get('range').split(" / ", 1)
+                start = datetime.datetime.strptime(range_[0], '%d/%m/%Y')
+                end = datetime.datetime.strptime(range_[1], '%d/%m/%Y')
+                technical = request.POST.get('technical')
+                company = request.POST.get('company')
+                store = request.POST.get('store')
+                modelo = request.POST.get('modelo')
+                orderServices = OrderService.objects.filter(creation_date__gt=start, creation_date__lt=end, active=True)
+                with open('OrderServiceReport.csv', 'w', newline='', encoding='latin1') as csvfile:
+                    filewriter = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_NONE)
                     filewriter.writerow([
-                        orderService.id, 
-                        orderService.serial, 
-                        orderService.user.visible_username,
+                        'ID', 
+                        'SERIAL', 
+                        'TECNICO'
                         ])
-                response = HttpResponse(csvfile, content_type='text/csv')
-                response['Content-Disposition'] = 'attachment; filename=OrderServiceReport.csv'
-                return response
-            #with open('OrderServiceReport.csv', newline='', encoding='latin1') as myFile:
-                #writer = csv.writer(myFile) 
-                #writer.writerow([
-                    #'ID', 
-                    #'SERIAL', 
-                    #'TECNICO'
-                    #]) 
-                #for orderService in orderServices:  
-                    #writer.writerow([
-                        #orderService.id, 
-                        #orderService.serial, 
-                        #orderService.user
-                        #]) 
-
-            return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo,'start':start,'end':end,'len':len(orderServices)})
+                    for orderService in orderServices:  
+                        filewriter.writerow([
+                            orderService.id, 
+                            orderService.serial, 
+                            orderService.user.visible_username,
+                            ])
+                return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo,'start':start,'end':end,'len':len(orderServices)})
         return super().dispatch(request, *args, **kwargs)
