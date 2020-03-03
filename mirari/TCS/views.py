@@ -2,6 +2,7 @@
 from mirari.mirari.views import *
 from .models import *
 from .vars import *	
+import csv
 
 class calendar__OrderService__TemplateView(Generic__TemplateView):
     template_name = "calendarOrderService__TemplateView.pug"
@@ -39,6 +40,19 @@ class OrderServiceReport__CreateView(Generic__CreateView):
             company = request.POST.get('company')
             store = request.POST.get('store')
             modelo = request.POST.get('modelo')
-            orderService = OrderService.objects.filter(creation_date__gt=start, creation_date__lt=end, active=True)
-            return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo,'start':start,'end':end,'len':len(orderService)})
+            orderServices = OrderService.objects.filter(creation_date__gt=start, creation_date__lt=end, active=True)
+            with open('OrderServiceReport.csv', 'w', newline='') as file:
+                writer = csv.writer(file) 
+                writer.writerow([
+                    'ID', 
+                    'SERIAL', 
+                    'TECNICO'
+                    ]) 
+                for orderService in orderServices:  
+                    writer.writerow([
+                        orderService.id, 
+                        orderService.serial, 
+                        orderService.user
+                        ]) 
+            return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo,'start':start,'end':end,'len':len(orderServices)})
         return super().dispatch(request, *args, **kwargs)
