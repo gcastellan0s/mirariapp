@@ -32,10 +32,12 @@ class OrderServiceReport__CreateView(Generic__CreateView):
     def dispatch(self, request, *args, **kwargs):
         message, api = 'Hay un error en tu consulta', 'error' 
         if request.method == 'POST':
-            range_ = request.POST.get('range')
+            range_ = request.POST.get('range').split(" / ", 1)
+            start = datetime.strptime(range_[0], '%d/%m/%Y')
+            end = datetime.strptime(range_[1], '%d/%m/%Y')
             technical = request.POST.get('technical')
             company = request.POST.get('company')
             store = request.POST.get('store')
             modelo = request.POST.get('modelo')
-            return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo})
+            return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo,'start':start,'end':end})
         return super().dispatch(request, *args, **kwargs)
