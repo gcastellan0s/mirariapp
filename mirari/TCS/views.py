@@ -32,10 +32,11 @@ class OrderServiceReport__CreateView(Generic__CreateView):
     def dispatch(self, request, *args, **kwargs):
         message, api = 'Hay un error en tu consulta', 'error' 
         if request.method == 'POST':
-            if request.GET.get('api') == 'downloadReport':
-                try:
-                    message, api = 'Solicitud atendida', 'success' 
-                except Exception as e:
-                    message, api = str(e), 'error' 
             return JsonResponse({'message':message,'api':api})
+            #if request.GET.get('api') == 'downloadReport':
+                #try:
+                    #message, api = 'Solicitud atendida', 'success' 
+                #except Exception as e:
+                    #message, api = str(e), 'error' 
+            #return JsonResponse({'message':message,'api':api})
         return super().dispatch(request, *args, **kwargs)
