@@ -50,7 +50,7 @@ class OrderServiceReport__CreateView(Generic__CreateView):
                     'TECNICO'
                     ])
                 for orderService in orderServices:  
-                    writer.writerow([
+                    filewriter.writerow([
                         orderService.id, 
                         orderService.serial, 
                         orderService.user.visible_username,
