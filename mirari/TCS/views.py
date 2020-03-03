@@ -44,7 +44,7 @@ class OrderServiceReport__CreateView(Generic__CreateView):
 
             with open('OrderServiceReport.csv', 'w', newline='', encoding='latin1') as csvfile:
                 filewriter = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_NONE)
-                writer.writerow([
+                filewriter.writerow([
                     'ID', 
                     'SERIAL', 
                     'TECNICO'
