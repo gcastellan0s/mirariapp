@@ -117,7 +117,10 @@ script.
 			variablesData.company = $("#id_company").val()
 			variablesData.store = $("#id_store").val()
 			variablesData.modelo = $("#id_modelo").val()
-			console.log(variablesData)
+			Ax('post', '/TCS/order-service-report/TCS/OrderServiceReport?api=downloadReport', variablesData, errorDialog=true, timeout=0).then(function(json){
+				console.log(json)
+				UnBlock();
+			})
 			UnBlock();
 		}
 	{%endblock methods%}

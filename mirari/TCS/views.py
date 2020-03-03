@@ -28,5 +28,14 @@ class OrderServiceReport__CreateView(Generic__CreateView):
     model = apps.get_model(APP, 'OrderServiceReport')
     template_name = "OrderServiceReport__CreateView.pug"
     ###########################################################################################
-    def form_valid(self, form):
-        return super().form_valid(form)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        message, api = 'Hay un error en tu consulta', 'error' 
+        if request.method == 'POST':
+            if request.GET.get('api') == 'downloadReport':
+                try:
+                    message, api = 'Solicitud atendida', 'success' 
+                except Exception as e:
+                    message, api = str(e), 'error' 
+            return JsonResponse({'message':message,'api':api})
+        return super().dispatch(request, *args, **kwargs)
