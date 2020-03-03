@@ -33,8 +33,8 @@ class OrderServiceReport__CreateView(Generic__CreateView):
         message, api = 'Hay un error en tu consulta', 'error' 
         if request.method == 'POST':
             range_ = request.POST.get('range').split(" / ", 1)
-            start = datetime.strptime(range_[0], '%d/%m/%Y')
-            end = datetime.strptime(range_[1], '%d/%m/%Y')
+            start = datetime.datetime.strptime(range_[0], '%d/%m/%Y')
+            end = datetime.datetime.strptime(range_[1], '%d/%m/%Y')
             technical = request.POST.get('technical')
             company = request.POST.get('company')
             store = request.POST.get('store')
