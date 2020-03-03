@@ -57,3 +57,17 @@ class OrderServiceReport__CreateView(Generic__CreateView):
                         ])
             return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo,'start':start,'end':end,'len':len(orderServices)})
         return super().dispatch(request, *args, **kwargs)
+
+
+class OrderServiceReport__TemplateView(Generic__TemplateView):
+    model = apps.get_model(APP, 'OrderServiceReport')
+    template_name = "OrderServiceReport__CreateView.pug"
+    ###########################################################################################
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="OrderServiceReport.csv"'
+        writer = csv.writer(response)
+        writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+        writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+        return response
