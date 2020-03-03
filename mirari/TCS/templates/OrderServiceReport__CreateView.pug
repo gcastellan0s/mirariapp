@@ -6,6 +6,7 @@ extends "generic/CreateView.html"
 block content
     .row
         .col-lg-12
+            .hr
             .form-group.row
                 label.col-form-label.col-lg-3.col-sm-12 Rango de fechas
                 .col-lg-4.col-md-9.col-sm-12
@@ -31,8 +32,13 @@ block content
                 label.col-form-label.col-lg-3.col-sm-12 Por Modelo
                 .col-lg-4.col-md-9.col-sm-12
                     {{form.modelo}}
-        
-                
+    .row
+        .col-lg-12
+            .hr
+            .kt-section__content.kt-section__content--solid
+                button.btn.btn-primary(type='button')
+                    i.fas.fa-download
+
 
 script.
     {%block mounted%}
