@@ -117,9 +117,14 @@ script.
 			variablesData.company = $("#id_company").val()
 			variablesData.store = $("#id_store").val()
 			variablesData.modelo = $("#id_modelo").val()
-			Ax('post', '{%url "TCS:OrderServiceReport__CreateView" "TCS" "OrderServiceReport"%}?api=downloadReport', variablesData, errorDialog=true, timeout=0).then(function(json){
-				console.log(json)
-				UnBlock();
-			})
+			if (variablesData.range){
+				Ax('post', '{%url "TCS:OrderServiceReport__CreateView" "TCS" "OrderServiceReport"%}?api=downloadReport', variablesData, errorDialog=true, timeout=0).then(function(json){
+					console.log(json)
+					UnBlock();
+				})
+			}
+			else{
+				swal.fire('Faltan Datos', json.data.message, 'Debes elegir un rango de fechas') 
+			}
 		}
 	{%endblock methods%}
