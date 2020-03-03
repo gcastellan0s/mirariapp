@@ -43,7 +43,7 @@ block content
         .col-lg-12
             .hr
             .kt-section__content.kt-section__content--solid
-                button.btn.btn-primary(type='button')
+                button.btn.btn-primary(type='button',v-on:click.prevent="downloadReport()")
                     i.fas.fa-download
                     | Descargar reporte
 
@@ -106,3 +106,30 @@ script.
         })
         $(".select2-container--default").css('min-width','100%')
     {%endblock mounted%}
+
+    {%block methods%}
+        {{block.super}}
+        
+        downloadReport: function () {
+            Block();
+            console.log(":)")
+            //Block();
+            //if (siebel.unblock_number){
+                //data = {
+                    //unblock_number
+                //}
+                //Ax('post', '{%url "CRYE:SiebelUnblock__SiebelUnblock__TemplateView"%}?api=unblock_siebel', siebel, errorDialog=true, timeout=0).then(function(json){
+                    //if (json.data.message){
+                        //self.siebel.unblock_number = ''
+                        //swal.fire('Exito!', json.data.message, 'success')
+                    //}
+                    //else swal.fire('Error!', json.data.message, 'error') 
+                    //UnBlock();
+                //})
+            //}
+            //else {
+                //UnBlock();
+                //swal.fire('Error!', 'Revisa el número de tu consulta', 'error')
+            //}
+        },
+    {%endblock methods%}
