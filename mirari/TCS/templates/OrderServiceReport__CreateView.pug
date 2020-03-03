@@ -18,7 +18,7 @@ block content
                 label.col-form-label.col-lg-3.col-sm-12 Rango de fechas
                 .col-lg-4.col-md-9.col-sm-12
                     #kt_daterangepicker_6.input-group.pull-right
-                        input.form-control(type='text', readonly='', placeholder='Selecciona un rango de fechas')
+                        input#dateRange.form-control(type='text', readonly='', placeholder='Selecciona un rango de fechas')
                         .input-group-append
                             span.input-group-text
                                 i.la.la-calendar-check-o
@@ -110,5 +110,34 @@ script.
     {%block methods%}
         {{block.super}}
         
-        
+        downloadReport: function () {
+            Block();
+            data = {
+                range: $("#dateRange").val(),
+				technical: $("#id_technical").val(),
+                company: $("#id_company").val(),
+                store: $("#id_store").val(),$("#id_").val(),
+                modelo: $("#id_modelo").val(),
+			}
+            console.log(data)
+            UnBlock();
+            //Block();
+            //if (siebel.unblock_number){
+                //data = {
+                    //unblock_number
+                //}
+                //Ax('post', '{%url "CRYE:SiebelUnblock__SiebelUnblock__TemplateView"%}?api=unblock_siebel', siebel, errorDialog=true, timeout=0).then(function(json){
+                    //if (json.data.message){
+                        //self.siebel.unblock_number = ''
+                        //swal.fire('Exito!', json.data.message, 'success')
+                    //}
+                    //else swal.fire('Error!', json.data.message, 'error') 
+                    //UnBlock();
+                //})
+            //}
+            //else {
+                //UnBlock();
+                //swal.fire('Error!', 'Revisa el número de tu consulta', 'error')
+            //}
+        },
     {%endblock methods%}
