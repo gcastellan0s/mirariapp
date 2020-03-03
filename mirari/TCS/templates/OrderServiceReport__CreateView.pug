@@ -109,5 +109,11 @@ script.
 
 	{%block methods%}
 		{{block.super}}
-		let variablesData = {}
+		let variablesData = {
+			range: $("#dateRange").val(),
+			technical: $("#id_technical").val(),
+			company: $("#id_company").val(),
+			store: $("#id_store").val(),
+			modelo: $("#id_modelo").val(),
+		}
 	{%endblock methods%}
