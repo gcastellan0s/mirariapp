@@ -41,8 +41,8 @@ class OrderServiceReport__CreateView(Generic__CreateView):
             store = request.POST.get('store')
             modelo = request.POST.get('modelo')
             orderServices = OrderService.objects.filter(creation_date__gt=start, creation_date__lt=end, active=True)
-            with open('OrderServiceReport.csv', 'w', newline='') as file:
-                writer = csv.writer(file) 
+            with open('OrderServiceReport.csv', newline='', encoding='latin1') as myFile:
+                writer = csv.writer(myFile) 
                 writer.writerow([
                     'ID', 
                     'SERIAL', 
