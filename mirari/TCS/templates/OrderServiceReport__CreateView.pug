@@ -110,7 +110,6 @@ script.
 	{%block methods%}
 		{{block.super}}
 		downloadReport() {
-			Block();
 			var variablesData = {}
 			variablesData.range = $("#dateRange").val()
 			variablesData.technical = $("#id_technical").val()
@@ -118,6 +117,7 @@ script.
 			variablesData.store = $("#id_store").val()
 			variablesData.modelo = $("#id_modelo").val()
 			if (variablesData.range){
+				Block();
 				Ax('post', '{%url "TCS:OrderServiceReport__CreateView" "TCS" "OrderServiceReport"%}?api=downloadReport', variablesData, errorDialog=true, timeout=0).then(function(json){
 					console.log(json)
 					UnBlock();
