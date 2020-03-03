@@ -55,6 +55,9 @@ class OrderServiceReport__CreateView(Generic__CreateView):
                         orderService.serial, 
                         orderService.user.visible_username,
                         ])
+                response = HttpResponse(csvfile, content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename=OrderServiceReport.csv'
+                return response
             #with open('OrderServiceReport.csv', newline='', encoding='latin1') as myFile:
                 #writer = csv.writer(myFile) 
                 #writer.writerow([
