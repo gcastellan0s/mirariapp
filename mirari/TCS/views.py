@@ -33,7 +33,7 @@ class OrderServiceReport__CreateView(Generic__CreateView):
         message, api = 'Hay un error en tu consulta', 'error' 
         if request.method == 'POST':
             print("LLego aqui")
-            return JsonResponse({'message':message,'api':api})s
+            return JsonResponse({'message':message,'api':api})
             #if request.GET.get('api') == 'downloadReport':
                 #try:
                     #message, api = 'Solicitud atendida', 'success' 
