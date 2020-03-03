@@ -3,16 +3,34 @@ extends "generic/CreateView.html"
 -load crispy_forms_tags
 
 
-block subheader
-    .kt-subheader__main
-        h3.kt-subheader__title.kt-subheader__title--separator
-            strong  REPORTE DE ORDENES DE SERVICIO
-        span.kt-subheader__separator.kt-hidden
-        .kt-subheader__breadcrumbs.mr-5
-            a.kt-subheader__breadcrumbs-link(href='/')  INICIO
-
 block content
     .row
+        .col-lg-12
+            .form-group.row
+                label.col-form-label.col-lg-3.col-sm-12 Rango de fechas
+                .col-lg-4.col-md-9.col-sm-12
+                    #kt_daterangepicker_6.input-group.pull-right
+                        input.form-control(type='text', readonly='', placeholder='Selecciona un rango de fechas')
+                        .input-group-append
+                            span.input-group-text
+                                i.la.la-calendar-check-o
+        .col-lg-12
+            .form-group.row
+                label.col-form-label.col-lg-3.col-sm-12 Por Tecnico
+                .col-lg-4.col-md-9.col-sm-12
+                    {{form.technical}}
+            .form-group.row
+                label.col-form-label.col-lg-3.col-sm-12 Por Empresa
+                .col-lg-4.col-md-9.col-sm-12
+                    {{form.company}}
+            .form-group.row
+                label.col-form-label.col-lg-3.col-sm-12 Por Tienda
+                .col-lg-4.col-md-9.col-sm-12
+                    {{form.store}}
+            .form-group.row
+                label.col-form-label.col-lg-3.col-sm-12 Por Modelo
+                .col-lg-4.col-md-9.col-sm-12
+                    {{form.modelo}}
         
                 
 
