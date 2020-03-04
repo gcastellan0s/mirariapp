@@ -49,12 +49,12 @@ class OrderServiceReport__CreateView(Generic__CreateView):
                     'TIPO SERVICIO',
                     'ZONA',
                     'FECHA SERVICIO', 
-                    'TECNICO'
-                    'COMPAÑIA'
-                    'TIENDA'
-                    'MARCA'
-                    'MODELO'
-                    'NUMERO DE SERIE'
+                    'TECNICO',
+                    'COMPAÑIA',
+                    'TIENDA',
+                    'MARCA',
+                    'MODELO',
+                    'NUMERO DE SERIE',
                     ])
                 for orderService in orderServices:
                     filewriter.writerow([
