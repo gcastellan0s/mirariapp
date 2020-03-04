@@ -67,7 +67,6 @@ class OrderServiceReport__TemplateView(Generic__TemplateView):
     def dispatch(self, request, *args, **kwargs):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="OrderServiceReport.csv"'
-        writer = csv.writer(response)
-        writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
-        writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+        with open('OrderServiceReport.csv', 'r', newline='', encoding='latin1') as csvfile:
+        csvfile.writer(response)
         return response
