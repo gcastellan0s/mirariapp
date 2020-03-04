@@ -120,7 +120,8 @@ script.
 				Block();
 				Ax('post', '{%url "TCS:OrderServiceReport__CreateView" "TCS" "OrderServiceReport"%}?api=downloadReport', variablesData, errorDialog=true, timeout=0).then(function(json){
 					UnBlock();
-					console.log(json)
+					var win = window.open('{%url "TCS:OrderServiceReport__TemplateView"%}', '_blank');
+					win.focus();
 				})
 			}
 			else{
