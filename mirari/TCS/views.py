@@ -68,5 +68,5 @@ class OrderServiceReport__TemplateView(Generic__TemplateView):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="OrderServiceReport.csv"'
         with open('OrderServiceReport.csv', 'r', newline='', encoding='latin1') as csvfile:
-        csvfile.writer(response)
-        return response
+            csvfile.writer(response)
+            return response
