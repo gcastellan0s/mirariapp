@@ -101,7 +101,10 @@ script.
 				],
 				"firstDay": 1
 			},
-		},)
+		}, function (a, t, e) {
+			$("#kt_daterangepicker_6 .form-control").val(a.format("DD/MM/YYYY") + " / " + t.format("DD/MM/YYYY"))
+		})
+		$("#kt_daterangepicker_6 .form-control").val(a.format("DD/MM/YYYY") + " / " + t.format("DD/MM/YYYY"))
 		$(".select2-container--default").css('min-width','100%')
 	{%endblock mounted%}
 
