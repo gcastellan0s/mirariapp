@@ -876,7 +876,7 @@ VARS = {
     'NEW_GENDER': 'un nuevo',
     'THIS': 'esta',
     'APP':APP,
-    'EXCLUDE_PERMISSIONS': ['all'],
+    'EXCLUDE_PERMISSIONS': ['create','update','delete'],
     'SELECTQ': {
         'technical': {
             'model': ['mirari', 'User'],
