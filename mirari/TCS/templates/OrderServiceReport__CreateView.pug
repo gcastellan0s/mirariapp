@@ -118,10 +118,9 @@ script.
 			variablesData.store = $("#id_store").val()
 			variablesData.modelo = $("#id_modelo").val()
 			if (variablesData.range){
-				var date1 = moment(variablesData.range.split(" / ", 1)[0],'DD/MM/YYYY');
-				var date2 = moment(variablesData.range.split(" / ", 1)[1],'DD/MM/YYYY');
-				console.log(moment.duration(date1.diff(date2)).asDays())
-				if (moment.duration(date1.diff(date2)).asDays() < 60){
+				var date1 = moment(variablesData.range.split(" / ")[0],'DD/MM/YYYY');
+				var date2 = moment(variablesData.range.split(" / ")[1],'DD/MM/YYYY');
+				if (moment.duration(date2.diff(date1)).asDays() > 60){
 					swal.fire('Demaciada carga', 'Ingresa un numero menor de días', 'error') 
 				}else{
 					Block();
