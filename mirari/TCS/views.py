@@ -61,7 +61,7 @@ class OrderServiceReport__CreateView(Generic__CreateView):
                         orderService.serial, 
                         orderService.service,
                         orderService.zone,
-                        orderService.service_date.date, 
+                        orderService.service_date, 
                         orderService.technical.visible_username,
                         orderService.company,
                         orderService.store,
