@@ -83,9 +83,9 @@ class OrderServiceReport__CreateView(Generic__CreateView):
                         orderService.brand,
                         orderService.modelo,
                         orderService.serial_number,
-                        orderService.hidden_notes.replace('|',''),
-                        orderService.order_notes.replace('|',''),
-                        orderService.comments.replace('|',''),
+                        orderService.hidden_notes,
+                        orderService.order_notes,
+                        orderService.comments,
                         ])
             return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo,'start':start,'end':end,'len':len(orderServices)})
         return super().dispatch(request, *args, **kwargs)
