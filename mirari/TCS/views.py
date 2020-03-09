@@ -41,7 +41,7 @@ class OrderServiceReport__CreateView(Generic__CreateView):
             company = request.POST.get('company')
             store = request.POST.get('store')
             modelo = request.POST.get('modelo')
-            orderServices = OrderService.objects.filter(creation_date__gt=start, creation_date__lt=end, active=True)
+            orderServices = OrderService.objects.filter(creation_date__gt=start, creation_date__lt=end, active=True, organization=request.user.organization)
             if technical:
                 orderServices = orderServices.filter(technical__id=technical)
             if company:
@@ -55,27 +55,33 @@ class OrderServiceReport__CreateView(Generic__CreateView):
                 filewriter.writerow([
                     'FOLIO', 
                     'TIPO SERVICIO',
+                    'ESTATUS',
                     'ZONA',
                     'FECHA SERVICIO', 
+                    'OPERADOR',
                     'TECNICO',
                     'COMPAÑIA',
                     'TIENDA',
                     'MARCA',
                     'MODELO',
                     'NUMERO DE SERIE',
+                    'COMENTARIOS',
                     ])
                 for orderService in orderServices:
                     filewriter.writerow([
                         orderService.serial, 
                         orderService.service,
+                        orderService.status,
                         orderService.zone,
                         orderService.service_date, 
+                        orderService.user.visible_username,
                         orderService.technical.visible_username,
                         orderService.company,
                         orderService.store,
                         orderService.brand,
                         orderService.modelo,
                         orderService.serial_number,
+                        orderService.comments,
                         ])
             return JsonResponse({'range':range_,'technical':technical,'company':company,'store':store,'modelo':modelo,'start':start,'end':end,'len':len(orderServices)})
         return super().dispatch(request, *args, **kwargs)
