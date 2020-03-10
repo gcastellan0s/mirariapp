@@ -29,5 +29,3 @@ class OrderServiceInformationAdmin(PassAdmin):
 @admin.register(OrderServiceConcept)
 class OrderServiceConceptAdmin(PassAdmin):
 	pass
-
-    
