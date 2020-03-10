@@ -261,7 +261,10 @@ VARS = {
             'field': 'get_uid',
             'title': 'UID',
         },
-        
+        {
+            'field': 'get_category',
+            'title': 'CATEGORIA',
+        },
     ],
     'PAGECreate': 'Product__CreateView.html',
     'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
@@ -407,7 +410,7 @@ class Product(Model_base):
     def __str__(self):
         return self.name
     def get_category(self):
-        return self.render_if(self.category)
+        return self.render_if(self.category.name)
     def get_uid(self):
         return self.render_if(self.uid)
     def get_codebar(self):
