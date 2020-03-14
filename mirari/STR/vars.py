@@ -42,7 +42,7 @@ MENU = {
 				'apps': [APP, ],
 				'permission': 'Can_View',
 				'model': APP + '.Product',
-				'url': 'Generic__ListView',
+				'link': '/STR/list/Product/',
 			},
 			{
 				'title': 'Recepciones',
