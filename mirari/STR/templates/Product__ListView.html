@@ -7,17 +7,19 @@
 {%endblock extra_header_menu%}
 
 {%block extra_buttonsList%}
-    <button type="button" class="btn btn-brand mr-2"> CAPTURAR CB</button>    
-    <div class="kt-quick-search" id="quick_search_OrderService">
-        <form method="get" class="kt-quick-search__form">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">
-                        <i class="fas fa-barcode"></i>
-                    </span>
+    <div class="kt-header-toolbar">
+        <button type="button" class="btn btn-brand mr-2"> CAPTURAR CB</button>    
+        <div class="kt-quick-search" id="quick_search_OrderService">
+            <form method="get" class="kt-quick-search__form">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-barcode"></i>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO">
                 </div>
-                <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO">
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 {%endblock extra_buttonsList%}
