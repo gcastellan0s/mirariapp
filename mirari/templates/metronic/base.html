@@ -203,6 +203,7 @@
                                         </ul>
                                     </div>
                                     {%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'tcs' or G.ORGANIZATION.code == 'mri'%}
+                                        {% if perms.TCS.Can_Create__OrderService %}
                                         <div class="kt-header-toolbar">
                                             <div class="kt-quick-search" id="quick_search_OrderService">
                                                 <form method="get" class="kt-quick-search__form" v-on:submit.prevent="orderServiceIDSubmit">
@@ -217,6 +218,7 @@
                                                 </form>
                                             </div>
                                         </div>
+                                        {%endif%}
                                     {%endif%}
                                 </div>
                                 <!-- end: Header Menu -->
