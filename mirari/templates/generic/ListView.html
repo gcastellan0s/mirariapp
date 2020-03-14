@@ -95,6 +95,8 @@
                     </div>
                     {%endblock searchForm%}
                     <div class="col-xl-4 order-1 order-xl-2 kt-align-right">
+                        {%block extra_buttonsList%}
+                        {%endblock extra_buttonsList%}
                         {%if model.url_add%}
                             {%if 'Can_Create__'|prepend_perm:model.VARS|if_has_perm:request and not 'create' in model.VARS.EXCLUDE_PERMISSIONS%}
                                 {%block buttonAdd%}
