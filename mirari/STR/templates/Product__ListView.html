@@ -7,19 +7,8 @@
 {%endblock extra_header_menu%}
 
 {%block extra_buttonsList%}
-    <div class="kt-header-toolbar">
-        <button type="button" class="btn btn-brand mr-2"> CAPTURAR CB</button>    
-        <div class="kt-quick-search" id="quick_search_OrderService">
-            <form method="get" class="kt-quick-search__form">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="fas fa-barcode"></i>
-                        </span>
-                    </div>
-                    <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO">
-                </div>
-            </form>
-        </div>
-    </div>
+    <a href="{{model.url_add}}" class="btn btn-brand btn-elevate btn-icon-sm mb-2">
+                                    <i class="la la-plus"></i>
+                                    {{ model.add_text.0 }}
+                                </a>
 {%endblock extra_buttonsList%}
