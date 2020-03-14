@@ -202,6 +202,7 @@
                                             {% endblock menu_header %}
                                         </ul>
                                     </div>
+                                    {%block extra_header_menu%}
                                     {%if G.ORGANIZATION.code == 'mxf' or G.ORGANIZATION.code == 'tcs' or G.ORGANIZATION.code == 'mri'%}
                                         {% if perms.TCS.Can_Create__OrderService %}
                                         <div class="kt-header-toolbar">
@@ -220,6 +221,7 @@
                                         </div>
                                         {%endif%}
                                     {%endif%}
+                                    {%endblock extra_header_menu%}
                                 </div>
                                 <!-- end: Header Menu -->
                             </div>
