@@ -312,9 +312,6 @@ VARS = {
                 Div(
                     Div(
                         Div('location', css_class="col-md-12"),
-                        css_class="col-md-5"
-                    ),
-                    Div(
                         Div('weight', css_class="col-md-12"),
                         Div('volume', css_class="col-md-12"),
                         css_class="col-md-5"
