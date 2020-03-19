@@ -401,7 +401,7 @@ class Product(Model_base):
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
     minimumQuantity = models.IntegerField('Cantidad mínima', blank=True, null=True)
     maximumQuantity = models.IntegerField('Cantidad máxima', blank=True, null=True)
-    location = models.CharField('Ubicación', max_length=250)
+    location = models.CharField('Ubicación', max_length=250, blank=True, null=True)
     photo = ProcessedImageField(upload_to=pathProductImage, format='JPEG', options={'quality': 60}, blank=True, null=True, verbose_name="Imagen del producto")
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
