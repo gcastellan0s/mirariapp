@@ -311,6 +311,10 @@ VARS = {
                 HTML('<h4 class="kt-section__title ml-2 mb-4">INVENTARIO</h5>'),
                 Div(
                     Div(
+                        Div('location', css_class="col-md-12"),
+                        css_class="col-md-5"
+                    ),
+                    Div(
                         Div('weight', css_class="col-md-12"),
                         Div('volume', css_class="col-md-12"),
                         css_class="col-md-5"
@@ -400,6 +404,7 @@ class Product(Model_base):
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
     minimumQuantity = models.IntegerField('Cantidad mínima', blank=True, null=True)
     maximumQuantity = models.IntegerField('Cantidad máxima', blank=True, null=True)
+    location = models.CharField('Ubicación', max_length=250)
     photo = ProcessedImageField(upload_to=pathProductImage, format='JPEG', options={'quality': 60}, blank=True, null=True, verbose_name="Imagen del producto")
     id_bckp = models.IntegerField(blank=True, null=True)
     VARS = VARS
