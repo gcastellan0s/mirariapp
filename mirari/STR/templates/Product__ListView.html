@@ -17,12 +17,16 @@
                     <i class="fas fa-barcode"></i>
                 </span>
             </div>
-            <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO" autofocus="autofocus" id="id_codebar">
+            <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO" autofocus="autofocus" id="id_codebar" v-model="codebar">
         </div>
     </form>
     
 {%endblock extra_buttonsList%}
 
+{%block data%}
+    {{ block.super }}
+    codebar:'',
+{%endblock data%}
 
 {%block methods%}
     {{ block.super }}
