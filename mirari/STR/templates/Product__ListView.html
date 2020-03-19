@@ -7,7 +7,7 @@
 {%endblock extra_header_menu%}
 
 {%block extra_buttonsList%}
-    <form method="get" class="kt-quick-search__form mb-4">
+    <form method="get" class="kt-quick-search__form mb-4" v-on:submit.prevent="ProductSubmit">
         <div class="input-group">
             <a href="#" class="btn btn-brand btn-elevate btn-icon-sm mr-4" onclick="var message={action:'GetQR', target:'codebar'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));">
                 ESCANEAR CB
@@ -22,3 +22,11 @@
     </form>
     
 {%endblock extra_buttonsList%}
+
+
+{%block methods%}
+    {{ block.super }}
+    back_history() {
+        alert("todo bien")
+    },
+{%endblock methods%}
