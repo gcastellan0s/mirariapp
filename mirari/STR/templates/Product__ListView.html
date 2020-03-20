@@ -32,8 +32,12 @@
     {{ block.super }}
     ProductSubmit() {
         setTimeout( function(){
-            if(self.codebar) alert(self.codebar)
-            else alert('No hay producto seleccionado')
+            if(self.codebar){
+                alert(self.codebar)
+            } 
+            else {
+                alert('No hay producto seleccionado')
+            }
         }, 1000);
     },
 {%endblock methods%}
