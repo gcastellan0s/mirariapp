@@ -23,12 +23,10 @@ class InventoryOrder__CreateView(Generic__CreateView):
 
 class Inventory__ApiView(Generic__ApiView):
 	permissions = False
-	#def get_serializers(self, request):
-		#Action = request.GET.get('api')
-		#if Action == 'getOnlineStatus':
-			#return JsonResponse({'api':'ok'}, safe=False)
-		#elif Action == 'getReport':
+	def get_serializers(self, request):
+		if request.POST.get('codebar'):
 			#sellpointgroup = SellpointGroups.objects.get(pk=request.POST.get('sellpointgroup'))
 			#cut = Cut.objects.filter(sellpoint__in=sellpointgroup.sellpoints.all(), final_time__year=2019, final_time__month=request.POST.get('month'), final_time__day=request.POST.get('day'))
 			#return JsonResponse({'day':request.POST.get('day'), 'cuts':CutReportSerializer(cut, many=True).data}, safe=False)
+			return JsonResponse({'codebar':request.POST.get('codebar')}, safe=False)
 		#return JsonResponse({'message':'Ocurrió un error en el servidor'}, status=500)

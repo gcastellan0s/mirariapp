@@ -23,6 +23,7 @@
     
 {%endblock extra_buttonsList%}
 
+<script>
 {%block data%}
     {{ block.super }}
     codebar:'',
@@ -31,22 +32,34 @@
 {%block methods%}
     {{ block.super }}
     ProductSubmit() {
+        Block();
         setTimeout( function(){
-            Swal.fire({
-                title: 'Multiple inputs',
-                html:
-                    `<div class="kt-widget kt-widget--user-profile-4">
-                        <div class="kt-widget__body">
-                            <a href="#" class="kt-widget__item kt-widget__item--active">
-                                VER PRODUCTO              
-                            </a>
-                            <a href="#" class="kt-widget__item">
-                                AGREGAR AL INVENTARIO          
-                            </a>
-                        </div>
-                    </div>`,
-                focusConfirm: false,
+            Ax('post', '{{ request.path }}', codebar)
+            .then(function(json){
+                console.log(json)
+                Swal.fire({
+                    title: '${json.data.codebar}',
+                    html:
+                        `<div class="kt-widget kt-widget--user-profile-4">
+                            <div class="kt-widget__body">
+                                <a href="#" class="kt-widget__item kt-widget__item--active">
+                                    VER PRODUCTO              
+                                </a>
+                                <a href="#" class="kt-widget__item">
+                                    AGREGAR AL INVENTARIO          
+                                </a>
+                            </div>
+                        </div>`,
+                    focusConfirm: false,
+                })
             })
+            .catch((error) => {
+                console.log(error)
+                swal('Error!', 'Revisa el número de tu consulta', 'error')
+            }).finally(() => {
+                UnBlock();
+            });
         }, 500);
     },
 {%endblock methods%}
+</script>
