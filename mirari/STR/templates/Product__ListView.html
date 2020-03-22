@@ -32,7 +32,7 @@
     {{ block.super }}
     ProductSubmit() {
         setTimeout( function(){
-            const { value: formValues } = await Swal.fire({
+            Swal.fire({
                 title: 'Multiple inputs',
                 html:
                     '<input id="swal-input1" class="swal2-input">' +
@@ -45,10 +45,6 @@
                     ]
                 }
             })
-
-            if (formValues) {
-                Swal.fire(JSON.stringify(formValues))
-            }
         }, 1000);
     },
 {%endblock methods%}
