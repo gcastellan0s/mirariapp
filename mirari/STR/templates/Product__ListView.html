@@ -35,13 +35,19 @@
             Swal.fire({
                 title: 'Multiple inputs',
                 html:
-                    '<input id="swal-input1" class="swal2-input">' +
-                    '<input id="swal-input2" class="swal2-input">',
+                    `<div class="kt-widget__body">
+                        <a href="#" class="kt-widget__item kt-widget__item--active">
+                            Profile Overview              
+                        </a>
+                        <a href="#" class="kt-widget__item">
+                            Personal info             
+                        </a>
+                    </div>`,
                 focusConfirm: false,
                 preConfirm: () => {
                     return [
-                    document.getElementById('swal-input1').value,
-                    document.getElementById('swal-input2').value
+                        document.getElementById('swal-input1').value,
+                        document.getElementById('swal-input2').value
                     ]
                 }
             })
