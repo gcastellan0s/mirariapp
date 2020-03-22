@@ -34,7 +34,7 @@
     ProductSubmit() {
         Block();
         setTimeout( function(){
-            Ax('post', '{{ request.path }}', codebar)
+            Ax('post', '{{ request.path }}', self.codebar)
             .then(function(json){
                 console.log(json)
                 Swal.fire({
