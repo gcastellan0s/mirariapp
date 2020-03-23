@@ -34,6 +34,7 @@
     ProductSubmit() {
         Block();
         setTimeout( function(){
+            console.log(self.codebar)
             Ax('post', '/STR/api/InventoryApi/STR/Product/', {'codebar':self.codebar})
             .then(function(json){
                 console.log(json)
