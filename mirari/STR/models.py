@@ -399,6 +399,7 @@ class Product(Model_base):
     providers = models.ManyToManyField('STR.Provider', verbose_name="Proveedores", blank=True)
     deliveryDescription = models.TextField(blank=True, verbose_name="Descripción para entregas")
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
+    quantity = models.IntegerField('Cantidad', default=0)
     minimumQuantity = models.IntegerField('Cantidad mínima', blank=True, null=True)
     maximumQuantity = models.IntegerField('Cantidad máxima', blank=True, null=True)
     location = models.CharField('Ubicación', max_length=250, blank=True, null=True)
