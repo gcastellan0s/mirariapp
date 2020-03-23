@@ -26,8 +26,4 @@ class Inventory__ApiView(Generic__ApiView):
 	@method_decorator(csrf_exempt)
 	def get_serializers(self, request):
 		if request.POST.get('codebar'):
-			product = Product.objects.get(pk=request.POST.get('codebar'))
-			cut = Cut.objects.filter(sellpoint__in=sellpointgroup.sellpoints.all(), final_time__year=2019, final_time__month=request.POST.get('month'), final_time__day=request.POST.get('day'))
-			return JsonResponse({'day':request.POST.get('day'), 'cuts':CutReportSerializer(cut, many=True).data}, safe=False)
-		return JsonResponse({'codebar':request.POST.get('codebar')}, safe=False)
-		return JsonResponse({'message':'Ocurrió un error en el servidor'}, status=500)
+			return JsonResponse({'product':ProductSerializer(Product.objects.filter(codebar=request.POST.get('codebar').first())).data}, safe=False)

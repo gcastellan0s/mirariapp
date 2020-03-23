@@ -425,6 +425,9 @@ class Product(Model_base):
     def get_photo(self):
         return self.render_if(self.photo)
 
+class ProductSerializer(Basic_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = Product
 
 ########################################################################################
 VARS = {
