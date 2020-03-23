@@ -23,6 +23,7 @@ class InventoryOrder__CreateView(Generic__CreateView):
 
 class Inventory__ApiView(Generic__ApiView):
 	permissions = False
+	@method_decorator(csrf_exempt)
 	def get_serializers(self, request):
 		if request.POST.get('codebar'):
 			#sellpointgroup = SellpointGroups.objects.get(pk=request.POST.get('sellpointgroup'))
