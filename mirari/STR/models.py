@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
+from mirari.mirari.viewbase import Basic_Serializer
 from mirari.mirari.models import *
 from .vars import *
 
