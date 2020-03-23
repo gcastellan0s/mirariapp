@@ -36,22 +36,30 @@
         setTimeout( function(){
             Ax('post', '/STR/api/InventoryApi/STR/Product/', {'codebar':self.codebar})
             .then(function(json){
-                console.log(json)
-                Swal.fire({
-                    title: `${json.data.product.name}`,
-                    html:
-                        `<div class="kt-widget kt-widget--user-profile-4">
-                            <div class="kt-widget__body">
-                                <a href="#" class="kt-widget__item kt-widget__item--active">
-                                    VER PRODUCTO              
-                                </a>
-                                <a href="#" class="kt-widget__item">
-                                    AGREGAR AL INVENTARIO          
-                                </a>
-                            </div>
-                        </div>`,
-                    focusConfirm: false,
-                })
+                if(json.data.product){
+                    Swal.fire({
+                        title: `${json.data.product.name}`,
+                        html:
+                            `<div class="kt-widget kt-widget--user-profile-4">
+                                <div class="kt-widget__body">
+                                    <a href="" class="kt-widget__item kt-widget__item--active">
+                                        VER HOJA DE PRODUCTO              
+                                    </a>
+                                    <a href="" class="kt-widget__item">
+                                        AGREGAR +1 AL INVENTARIO          
+                                    </a>
+                                </div>
+                            </div>`,
+                        focusConfirm: false,
+                    })
+                }else{
+                    Swal.fire(
+                        'Intenta de nuevo',
+                        'Producto no encontrado',
+                        'danger'
+                    )
+                }
+                
             })
             .catch((error) => {
                 console.log(error)
