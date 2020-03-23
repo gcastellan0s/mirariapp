@@ -34,7 +34,7 @@
     ProductSubmit() {
         Block();
         setTimeout( function(){
-            Ax('post', '/STR/api/InventoryApi/STR/Product/', self.codebar)
+            Ax('post', '/STR/api/InventoryApi/STR/Product/', {'codebar':self.codebar})
             .then(function(json){
                 console.log(json)
                 Swal.fire({
