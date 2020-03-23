@@ -25,9 +25,10 @@ class Inventory__ApiView(Generic__ApiView):
 	permissions = False
 	@method_decorator(csrf_exempt)
 	def get_serializers(self, request):
-		if request.POST.get('codebar'):
-			#sellpointgroup = SellpointGroups.objects.get(pk=request.POST.get('sellpointgroup'))
-			#cut = Cut.objects.filter(sellpoint__in=sellpointgroup.sellpoints.all(), final_time__year=2019, final_time__month=request.POST.get('month'), final_time__day=request.POST.get('day'))
-			#return JsonResponse({'day':request.POST.get('day'), 'cuts':CutReportSerializer(cut, many=True).data}, safe=False)
-			return JsonResponse({'codebar':request.POST.get('codebar')}, safe=False)
-		#return JsonResponse({'message':'Ocurrió un error en el servidor'}, status=500)
+		return JsonResponse({'codebar':'OK'}, safe=False)
+		#if request.POST.get('codebar'):
+			##sellpointgroup = SellpointGroups.objects.get(pk=request.POST.get('sellpointgroup'))
+			##cut = Cut.objects.filter(sellpoint__in=sellpointgroup.sellpoints.all(), final_time__year=2019, final_time__month=request.POST.get('month'), final_time__day=request.POST.get('day'))
+			##return JsonResponse({'day':request.POST.get('day'), 'cuts':CutReportSerializer(cut, many=True).data}, safe=False)
+			#return JsonResponse({'codebar':request.POST.get('codebar')}, safe=False)
+		##return JsonResponse({'message':'Ocurrió un error en el servidor'}, status=500)
