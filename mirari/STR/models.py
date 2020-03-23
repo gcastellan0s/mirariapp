@@ -262,6 +262,10 @@ VARS = {
             'title': 'UID',
         },
         {
+            'field': 'quantity',
+            'title': 'Cantidad',
+        },
+        {
             'field': 'get_category',
             'title': 'CATEGORIA',
         },
