@@ -322,6 +322,7 @@ VARS = {
                         css_class="col-md-5"
                     ),
                     Div(
+                        Div('quantity', css_class="col-md-12"),
                         Div('deliveryTerm', css_class="col-md-12"),
                         Div('minimumQuantity', css_class="col-md-12"),
                         Div('maximumQuantity', css_class="col-md-12"),
@@ -404,7 +405,7 @@ class Product(Model_base):
     providers = models.ManyToManyField('STR.Provider', verbose_name="Proveedores", blank=True)
     deliveryDescription = models.TextField(blank=True, verbose_name="Descripción para entregas")
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
-    quantity = models.IntegerField('Cantidad', default=0)
+    quantity = models.IntegerField('CANTIDAD ACTUAL', default=0)
     minimumQuantity = models.IntegerField('Cantidad mínima', blank=True, null=True)
     maximumQuantity = models.IntegerField('Cantidad máxima', blank=True, null=True)
     location = models.CharField('Ubicación', max_length=250, blank=True, null=True)
