@@ -32,8 +32,8 @@
 
 
 {%block created%}
-    $( ".addInventory" ).click(function() {
-        alert(self.codebar)
+    $(document).on('click','.addInventory',function(){
+        alert(self.codebar);
     });
 {%endblock created%}
 
