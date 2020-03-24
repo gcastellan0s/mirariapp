@@ -419,7 +419,7 @@ class Product(Model_base):
     def __str__(self):
         return self.name
     def url_list(self):
-        return 'api/InventoryApi/STR/Product/'
+        return '/api/InventoryApi/STR/Product/'
     def get_category(self):
         return self.render_if(self.category.name)
     def get_uid(self):
