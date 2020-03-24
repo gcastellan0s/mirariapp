@@ -79,8 +79,12 @@
                 
             })
             .catch((error) => {
-                console.log(error)
-                swal('Error!', 'Revisa el número de tu consulta', 'error')
+                Swal.fire(
+                    'Intenta de nuevo',
+                    'Producto no encontrado',
+                    'danger'
+                )
+                self.codebar = ''
             }).finally(() => {
                 UnBlock();
             });
