@@ -29,6 +29,14 @@
     codebar:'',
 {%endblock data%}
 
+
+
+{%block created%}
+    $( ".addInventory" ).click(function() {
+        alert(self.codebar)
+    });
+{%endblock created%}
+
 {%block methods%}
     {{ block.super }}
     ProductSubmit() {
@@ -36,7 +44,7 @@
         setTimeout( function(){
             Ax('post', '/STR/api/InventoryApi/STR/Product/', {'codebar':self.codebar})
             .then(function(json){
-                if(json.data.product){
+                if(json.data.product.name){
                     Swal.fire({
                         title: `${json.data.product.name}`,
                         html:
@@ -45,7 +53,7 @@
                                     <a href="/gupdate/STR/${json.data.product.id}/Product/" class="kt-widget__item kt-widget__item--active">
                                         VER HOJA DE PRODUCTO              
                                     </a>
-                                    <a href="#" v-on:click="agregarInventario(${json.data.product.id})" class="kt-widget__item">
+                                    <a href="#" v-on:click="agregarInventario(${json.data.product.id})" class="kt-widget__item addInventory">
                                         AGREGAR +1 AL INVENTARIO          
                                     </a>
                                 </div>
@@ -68,9 +76,6 @@
                 UnBlock();
             });
         }, 500);
-    },
-    agregarInventario(id) {
-        alert(`Agregado ${id}`)
     },
 {%endblock methods%}
 </script>
