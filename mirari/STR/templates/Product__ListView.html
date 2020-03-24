@@ -34,6 +34,7 @@
 {%block created%}
     $(document).on('click','.addInventory',function(){
         swal.close()
+        console.log(self.codebar)
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'PlusCodebar':self.codebar})
         .then(function(json){
             console.log('Todo bien')
