@@ -419,7 +419,7 @@ class Product(Model_base):
     def __str__(self):
         return self.name
     def url_list(self):
-        return reverse('STR:Inventory__ApiView', kwargs={'app': 'STR', 'model': 'Product'})
+        return reverse('STR:Product__ListView')
     def get_category(self):
         return self.render_if(self.category.name)
     def get_uid(self):
