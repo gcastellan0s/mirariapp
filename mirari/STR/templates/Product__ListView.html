@@ -17,7 +17,7 @@
                     <i class="fas fa-barcode"></i>
                 </span>
             </div>
-            <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO" autofocus="autofocus" id="id_codebar" v-model="codebar">
+            <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO" autofocus="autofocus" id="id_codebar" v-model="codebar" onclick="self.codebar = ''">
         </div>
     </form>
     
@@ -34,7 +34,16 @@
 {%block created%}
     $(document).on('click','.addInventory',function(){
         swal.close()
-        alert(self.codebar);
+        Ax('post', '/STR/api/InventoryApi/STR/Product/', {'PlusCodebar':self.codebar})
+        .then(function(json){
+            
+        })
+        .catch((error) => {
+            console.log(error)
+            swal('Error!', 'Revisa el número de tu consulta', 'error')
+        }).finally(() => {
+            UnBlock();
+        });
     });
 {%endblock created%}
 
