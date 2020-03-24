@@ -33,6 +33,7 @@
 
 {%block created%}
     $(document).on('click','.addInventory',function(){
+        swal.close()
         alert(self.codebar);
     });
 {%endblock created%}
