@@ -266,10 +266,7 @@ VARS = {
             'field': 'quantity',
             'title': 'Cantidad',
         },
-        {
-            'field': 'get_category',
-            'title': 'CATEGORIA',
-        },
+        
     ],
     'PAGECreate': 'Product__CreateView.html',
     'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
