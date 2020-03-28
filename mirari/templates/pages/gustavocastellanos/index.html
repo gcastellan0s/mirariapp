@@ -1,0 +1,474 @@
+{% load user_agents %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gustavo Castellanos</title>
+    <link rel="shortcut icon" href="{%static HTMLPage.static%}ico/favicon.png">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="icons/apple-touch-icon-114x114.png">
+    <link
+        href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic'
+        rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lilita+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans+SC' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link href="{%static HTMLPage.static%}css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="{%static HTMLPage.static%}css/animate.css" rel="stylesheet" type="text/css">
+    <link href="{%static HTMLPage.static%}css/creative-brands.css" rel="stylesheet" type="text/css">
+    <link href="{%static HTMLPage.static%}css/vertical-carousel.css" rel="stylesheet" type="text/css">
+    <link href="{%static HTMLPage.static%}css/custom.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href="{%static HTMLPage.static%}css/pictonic/css/pictonic.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<style>
+    .service:hover>h3 {
+        color: #fff;
+    }
+</style>
+
+<body id="page-top">
+    <a href="#page-top" class="scroll-up scroll"><i class="fa fa-chevron-up"></i></a>
+    <h1>Freelancer</h1>
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavigation"><i
+                            class="fa fa-bars"></i></button>
+                    <img src="{%static HTMLPage.static%}image/jonathan.png" class="navbar-logo pull-left" alt="" />
+                    <a href="index.html" class="navbar-brand animated flipInX" style="font-size: 16px;">Gustavo
+                        Castellanos</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="myNavigation">
+
+                    <ul class="nav navbar-nav navbar-right animated flipInX">
+                        <li><a href="#about" class="scroll">Sobre mi</a></li>
+                        <li><a href="#conocimientos" class="scroll">Habilidades</a></li>
+                        <li><a href="#portafolio" class="scroll">Portafolio</a></li>
+                        <li><a href="#contact" class="scroll">Contacto</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container -->
+        </nav>
+        <div class="jumbotron">
+            <img style="max-height: 250px;" src="{%static HTMLPage.static%}image/jonathan.png" class="img-responsive scrollpoint sp-effect3"
+                alt="" />
+            <div class="social-wrapper">
+                <h2 class="scrollpoint sp-effect3" style="font-size:60px">Gustavo <br /></h2>
+                <ul class="brands brands-inline hidden-xs scrollpoint sp-effect1">
+                    <li><a href="https://www.facebook.com/gcastellan0s"><i
+                                class="fa fa-facebook  hi-icon-effect-8"></i></a></li>
+
+                </ul>
+                <h2 class="scrollpoint sp-effect3" style="font-size:50px">Castellanos</h2>
+                <ul class="brands brands-inline hidden-xs scrollpoint sp-effect2">
+                    <li><a href="http://github.com/gcastellan0s"><i class="fa fa-github"></i></a></li>
+                </ul>
+            </div>
+            <!-- Slideshow start -->
+            <div id="slideshow" class="carousel slide vertical scrollpoint sp-effect3" data-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- Slideshow item 1 active -->
+                    <div class="item active">
+                        <h3>I <i class="fa fa-heart icon-first"></i> webdesign</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- Slideshow end -->
+            <a href="cv/CV.pdf" target="_blank" class="btn btn-reference btn-lg scroll scrollpoint sp-effect1"
+                role="button"><i class="fa fa-download"></i> Ver mi CV </a>
+            <div class="visible-xs-block"><br /></div>
+            <a href="#contact" class="btn btn-reference btn-lg btn-active scroll scrollpoint sp-effect2"
+                role="button"><i class="fa fa-chat"></i> Contactame</a>
+        </div>
+    </header>
+    <section id="about" class="content-first">
+        <div class="container">
+            <div class="row" style="padding-bottom:3rem;">
+                <div class="col-sm-2 hidden-xs scrollpoint sp-effect1">
+                    <!-- Profile image -->
+                    <img src="{%static HTMLPage.static%}image/jonathan.png" class="image-bordered img-responsive" alt="" />
+                </div><!-- Profile end -->
+
+                <div class="col-md-6 col-sm-6 scrollpoint sp-effect1">
+                    <!-- Profile description -->
+                    <h3>Gustavo Castellanos</h3>
+                    <p>Soy un desarrollador web en México, diseño aplicaciones web a la medida, intelectuales y muy
+                        emocionales que intersectan con los objetivos de su negocio y las necesidades de sus clientes,
+                        busco ese punto a fin de ofrecerle una solución sencilla y elegante.</p>
+                    <h3></h3>
+                    <p style="font-size:12px">Soy Ing. en Sistemas Computacionales y Electronicos en ESCOM (IPN) vivo en
+                        CDMX, tengo mas de 8 años desarrollandome como freelance y 10 años como programador, enfoco
+                        todos mis conocimientos a desarrollar servicios web para "Bussines Intelligence" para todo tipo
+                        de empresas y dispositivos.</p>
+                </div><!-- Profile description end-->
+
+                <div class="col-md-4 col-sm-4 scrollpoint sp-effect2">
+                    <!--Timeline-->
+
+                    <div class="timeline hidden-xs" style="margin-top:-80px;margin-bottom:-37px;">
+                        <!-- BLOG POST 1 - START -->
+                        <div class="event" style="margin-bottom: 0px;">
+                            <div class="event-info">
+                                <div class="date">2012</div>
+                            </div>
+                            <span>Desarrollador jr.<br /> <a href="https://www.sykes.com/" target="_blank"
+                                    style="color:inherit;"><strong>SYKES</strong></a></span>
+                        </div> <!-- BLOG POST 1 - END -->
+                        <div class="event" style="margin-bottom: 0px;">
+                            <div class="event-info">
+                                <div class="date">2014</div>
+                            </div>
+                            <span>Profesor WEB<br /><a href="http://www.gaussjordan.edu.mx/" target="_blank"
+                                    style="color:inherit;"><strong>Inst. GAUSS JORDAN (IPN)</strong></a></span>
+                        </div> <!-- BLOG POST 1 - END -->
+                        <div class="event" style="margin-bottom: 0px;">
+                            <div class="event-info">
+                                <div class="date">2017</div>
+                            </div>
+                            <span>Gerente de sistemas<br /><a href="http://credipyme.com.mx/" target="_blank"
+                                    style="color:inherit;"><strong>CREDIPyME</strong></a></span>
+                        </div>
+                        <div class="event" style="margin-bottom: 0px;">
+                            <div class="event-info">
+                                <div class="date">2018</div>
+                            </div>
+                            <span>Cree mi marca<br /><a href="http://www.mirari.xyz/" target="_blank"
+                                    style="color:inherit;"><strong>MIRARI.XYZ</strong></a> <span
+                                    style="font-size:10px">(+ 14 proyectos)</span><br /></span>
+                        </div> <!-- BLOG POST 1 - END -->
+                        <div class="event" style="margin-bottom: 0px;">
+                            <div class="event-info">
+                                <div class="date">2020</div>
+                            </div>
+                            <span>Ingreso a <br /><a href="http://www.workana.com/" target="_blank"
+                                    style="color:inherit;"><strong>WORKANA</strong></a> <span
+                                    style="font-size:10px">(Actualmente)</span><br /></span>
+                        </div> <!-- BLOG POST 1 - END -->
+                    </div>
+                    <!--timeline-->
+                </div>
+                <!--col 3 end-->
+            </div>
+            <!--Row about end-->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a id="skills-toggle" class="btn btn-primary" href="mailto:g@gustavo-castellanos.com"> Permitame colaborar en sus proyectos</a>
+                </div>
+            </div>
+        </div><!-- Container end-->
+    </section>
+    <section id="conocimientos" class="content-second">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="scrollpoint sp-effect3">HABILIDADES</h2>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-python"></i> Python 3</h3>
+                    <p style="font-size:13px">Ocupo Python como mi principal lenguaje de programación ya que es bastante
+                        sencillo pero la herramienta mas poderosa actualmente de desarrollo, su versatilidad y la
+                        filosofía de Python hacen de este mi principal fortaleza como programador. </p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-js01"> </i> Javascript</h3>
+                    <p style="font-size:13px">Ademas ocupo Javascript ya que es la única tecnología que vale la pena del
+                        lado del cliente, su vibrante comunidad y su enfoque hacen de este un lenguaje divertido y muy
+                        robusto.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-c"></i> C++ C#</h3>
+                    <p style="font-size:13px">C es el lenguaje por excelencia en el que se basan muchos otros lenguajes de programación
+                    como python, ofrece grandes velocidades de ejecución, lo ocupo en proyectos en los que el tiempo importa.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-php01"></i>PHP</h3>
+                    <p style="font-size:13px">No suelo ocupar PHP como base, pero su gran popularidad en el mundo web, y que en cuantiosas
+                    ocaciones se necesita implementar comunicacion con este backend, me orillo a aprenderlo a usar.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-prog-django"></i> Django</h3>
+                    <p style="font-size:13px">Trabajo con Django como mi framework en el servidor, ya que usa Python
+                        como lenguaje de programación ademas de que los años que lleva en el mercado lo han convertido
+                        en un framework maduro e ideal para la mayor parte de los proyectos que la industria requiere.
+                    </p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-prog-nodejs02"> </i> Node.JS</h3>
+                    <p style="font-size:13px">Ocupo Node.JS en ocaciones como Backend ya que puedo manejar las librerias
+                        de Socket I/O y esto me permite trabajar con datos en tiempo real, Lo que pasa en el servidor
+                        también ocurre en el lado del cliente. </p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-jquery"> </i> Vue.JS </h4>
+                    </h3>
+                    <p style="font-size:13px">VueJS es mi framework frontend base en mis proyectos ya que sus herramientas, velociad, y versatilidad lo hacen
+                    una herramienta extraordinaria para generar proyectos.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3> React.JS </h4>
+                    </h3>
+                    <p style="font-size:13px">ReactJS se convirtio en el framework mas usado en la parte frontend sinembargo es ligeramente mas complejo de implementar que VueJS por eso
+                    lo uso como mi segunda opción en mis desarrollos.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-jquery"> </i> JQuery </h4>
+                    </h3>
+                    <p style="font-size:13px">Ocupo JQuery para programar todos los eventos del lado del cliente, Todo
+                        lo que con Django no puedo hacer lo hago con JQuery.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-dbs-postgresql"> </i>PostgreSQL</h3>
+                    <p style="font-size:13px">Ocupo PostgreSQL como tecnología para bases de datos relacionadas, como el
+                        control de usuarios y permisos, solo en mis servidores de producción.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-dbs-mysql"> </i>MySQL</h3>
+                    <p style="font-size:13px">Ocupo MYSQL como segunda opción de tecnología para el manejo de bases de datos relacionadas
+                    en mis proyectos</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-dbs-mongodb"> </i> MongoDB</h3>
+                    <p style="font-size:13px">Ocupo MongoDB para bases de datos no relacionadas, como comentarios y
+                        sistema de notificaciones.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-html5-02"> </i> HTML5</h3>
+                    <p style="font-size:13px">Ocupo HTML5 como herramienta de desarrollo de código HTML, ya que me
+                        permite usar geolocalización y puedo con este acceder a hardware de los clientes y de esta forma
+                        hacer aplicaciones mas robustas.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-css3-01"> </i> CSS3</h3>
+                    <p style="font-size:13px">CSS3 es la plataforma en la cual se diseña HTML para mostrar en pantalla y es muy importante
+                    saber al 100% para poder realizar interfaces de usuario modernas y funcionales.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3>BOOTSTRAP</h3>
+                    <p style="font-size:13px">Este framework es el mas famoso para el uso de estilos en la actualidad en el entorno WEB por lo cual lo uso como base
+                    en todos mis proyectos por sus grandes ventajas como el Responsive designe.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3> NGINX</h3>
+                    <p style="font-size:13px">Es un servidor web/proxy inverso ligero de alto rendimiento y un proxy para protocolos de correo electrónico. 
+                    Su versatilidad me permite la correcta configuracion de todos mis servicios.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3>Cordova</h3>
+                    <p style="font-size:13px">Es la plataforma que uso como base para desarrollo Movil, Web y Apps de escritorio, 
+                    ademas de que se puede simplemente agregar a mis proyectos existentes de forma sencilla.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3>Electron</h3>
+                    <p style="font-size:13px">Cuando hay que generar Apps de escritorio la herramienta por exelencia es Electron.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-os-linux"> </i> Linux</h3>
+                    <p style="font-size:13px">La WEB corre a travez de Linux todos mis servidores corren sobre este Sistema Operativo.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-vc-git"> </i> GIT </h3>
+                    <p style="font-size:13px">GIT como control de versiones para todos mis desarrollos.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3> AWS </h3>
+                    <p style="font-size:13px">Amazon actualmente es el proveedor de servicios en nube mas importante y con la mas grande infraestructura, 
+                    ademas de contar con extraordinarias herramientas que ayudan para cualquier tipo de necesidad.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3> Docker</h3>
+                    <p style="font-size:13px">Docker es mi gestor de contenedores que ocupo para mis códigos, ademas de ayudarme con la elasticidad de los servidores</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3>Arduino </h3>
+                    <p style="font-size:13px">Arduino cuenta con una gran cantidad de modulos, la posibilidad de usar
+                        Node.js y Javascript lo que abre las puertas para poder usar aplicaciones embebidas de manera
+                        muy sencilla.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3>Raspberry</h4>
+                    </h3>
+                    <p style="font-size:13px">Raspberry al ser una tarjeta de desarrollo muy pequeña y de gran capacidad para realizar cualquier aplicación embebida.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="separator" class="content-first">
+        <div class="container">
+            <div class="col-md-12">
+                <h3 class="scrollpoint sp-effect3">Otras habilidades</h3>
+                <br />
+                <br />
+            </div>
+            <div class="row scrollpoint sp-effect3">
+                <div class="col-sm-3">
+                    <p> Desarrollo de aplicaciones WEB </p>
+                    <p> Robótica y electrónica  </p>
+                    <p> Consultoría y cursos  </p>
+                </div>
+                <div class="col-sm-3">
+                    <p> Desarrollo de aplicaciones móviles </p>
+                    <p> Manejo de Bases de datos </p>
+                    <p> Configuración de equipos de red   </p>
+                </div>
+                <div class="col-sm-3">
+                    <p> Desarrollo de sistemas embebidos </p>
+                    <p> Diseño de interfaces de usuario UX  </p>
+                    <p> Posicionamiento SEO y SEM </p>
+                </div>
+                <div class="col-sm-3">
+                    <p> Aplicaciones en tiempo real </p>
+                    <p> Soporte técnico  </p>
+                    <p> Marketing digital  </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="portafolio" class="content-second">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="scrollpoint sp-effect3">PORTAFOLIO</h2>
+                    <h3>Actualmente creo todos mis proyectos bajo mi marca <a href="http://mirari.xyz" target="_blank" style="color:inherit">MIRARI.XYZ</a> </h3>
+                    <p><small>[Da click en la imagen para conocer todos mis proyectos]</small></p>
+                </div>
+                <div class="col-md-6 col-md-offset-3 col-sm-offset-3 col-lg-offset-3 showcase-carousel hidden-xs scrollpoint sp-effect2">
+                    <a href="http://mirari.xyz" target="_blank">
+                        <img src="{%static HTMLPage.static%}image/imac.png" class="img-responsive" alt="">
+                        <div id="carousel-reference" class="carousel" data-ride="carousel">
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+                                <div class="item active"><img src="{%static HTMLPage.static%}image/image_01.png" alt=""></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact" class="content-first">
+        <div class="container">
+            <h2 class="scrollpoint sp-effect3">Contactame</h2>
+            <div class="contact-alert">
+            </div>
+            <div class="row">
+                <!-- PRICING TABLE FIRST - start -->
+                <div class="col-sm-4 col-sm-offset-4">
+                    <div class="contact-info">
+                        <p>Gustavo Castellanos</p>
+                        <p><a style="color:inherit" href="phone:+5215537232182">MOVIL: 5537232182</p>
+                        <p><a style="color:inherit" href="mailto:g@gustavo-castellanos.com">CORREO: g@gustavo-castellanos.com</p>
+                    </div>
+                    <form role="form" id="contactForm" style="margin-top:4rem;">
+                        <div class="form-group">
+                            <a class="btn btn-primary" href="mailto:g@gustavo-castellanos.com">Enviar correo electrónico</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 scrollpoint sp-effect3">
+                    <p>www.gustavo-castellanos.com<br />
+                        <br />
+                        Diseñada por <a href="http://mirari.xyz" target="_blank" class="btn btn-footer">MIRARI</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="{%static HTMLPage.static%}js/bootstrap.min.js"></script>
+    <script src="{%static HTMLPage.static%}js/jquery.magnific-popup.min.js"></script>
+    <script src="{%static HTMLPage.static%}js/creative-brands.js"></script>
+    <script src="{%static HTMLPage.static%}js/jquery.easy-pie-chart.js"></script>
+    <script src="{%static HTMLPage.static%}js/modernizr.custom.js"></script>
+    <script src="{%static HTMLPage.static%}js/waypoints.min.js"></script>
+    <script src="{%static HTMLPage.static%}js/jquery.countTo.js"></script>
+    <script src="{%static HTMLPage.static%}js/jqBootstrapValidation.js"></script>
+    <script src="{%static HTMLPage.static%}js/custom.js"></script>
+    <script>
+        $(function () {
+            $("input,textarea").jqBootstrapValidation({
+                preventSubmit: true,
+                submitSuccess: function ($form, event) {
+                    event.preventDefault();
+                    var firstname = $("input#firstname").val();
+                    var lastname = $("input#lastname").val();
+                    var email = $("input#email").val();
+                    var message = $("textarea#message").val();
+                    if (lastname) {
+                        var html = '<p><strong>Muchas gracias ' + firstname + '</strong> de ' +
+                            lastname +
+                            ', por ponerte en contacto conmigo.<br />Me pondre en comunicación lo antes posible, a tu correo: ' +
+                            email + ', <br /><br />tu mensaje fue el siguiente: <br /><br />"' +
+                            message + '"</p>'
+                    } else {
+                        var html = '<p><strong>Muchas gracias ' + firstname +
+                            '</strong>, por ponerte en contacto conmigo.<br />Me pondre en comunicación lo antes posible, a tu correo: ' +
+                            email + ', <br /><br />tu mensaje fue el siguiente: <br /><br />"' +
+                            message + '"</p>'
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "https://mandrillapp.com/api/1.0/messages/send.json",
+                        data: {
+                            "key": "TLapuI4FVMl6jAS3eUHt8g",
+                            "message": {
+                                "html": html,
+                                "text": "",
+                                "subject": "Gracias por contactarme!",
+                                "from_email": "contacto@gustavo-castellanos.com",
+                                "from_name": "Gustavo Castellanos",
+                                "to": [{
+                                        "email": email,
+                                        "name": firstname,
+                                        "type": "to"
+                                    },
+                                    {
+                                        "email": 'g@zaresdelweb.com',
+                                        "name": 'Gustavo Castellanos',
+                                        "type": "to"
+                                    }
+                                ],
+                            },
+                        }
+                    }).done(function (response) {
+                        // Success message
+                        $('.contact-alert').html("<div class='alert alert-success'>");
+                        $('.contact-alert > .alert-success').html(
+                            "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'><i class='fa fa-times'></i></button><strong>Tu mensaje fue enviado.</strong></div>"
+                            );
+                        //clear all fields
+                        $('#contactForm').trigger("reset");
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
