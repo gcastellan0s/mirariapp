@@ -1,357 +1,475 @@
 {% load staticfiles i18n %}
 {% load user_agents %}
 <!DOCTYPE html>
-<!--[if lt IE 7]>  <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js pt" lang="es"> <!--<![endif]-->
+<html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Mirari :: Software Estudio</title>
-	<meta name="description" content="Somos MIRARI, un estudio de software enfocado en la creación de proyectos digitales, desarrollamos aplicaciones web y móviles.">
-	<link rel="canonical" href="http://mirari.xyz/" />
-	<meta http-equiv="cache-control" content="public" />
-	<meta http-equiv="Pragma" content="public">
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700' rel='stylesheet' type='text/css' data-noprefix>
-	<link rel="alternate" hreflang="es" href="http://mirari.xyz/" />
-	<!-- Social: Twitter -->
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="@MirariXYZ">
-	<meta name="twitter:title" content="Mirari :: Software Estudio">
-	<meta name="twitter:description" content="Somos MIRARI, un estudio de software enfocado en la creación de proyectos digitales, desarrollamos aplicaciones web y móviles.">
-	<meta name="twitter:image:src" content="{%static HTMLPage.static%}img/garden-estudio.jpg">
-	<!-- Social: Facebook / Open Graph -->
-	<meta property="fb:admins" content="1254722295">
-	<meta property="og:url" content="http://mirari.xyz/">
-	<meta property="og:type" content="website">
-	<meta property="og:title" content="Mirari :: Software Estudio">
-	<meta property="og:image" content="{%static HTMLPage.static%}img/garden-estudio.jpg"/>
-	<meta property="og:description" content="Somos MIRARI, un estudio de software enfocado en la creación de proyectos digitales, desarrollamos aplicaciones web y móviles.">
-	<meta property="og:site_name" content="mirari.xyz">
-	<!-- Social: Google+ / Schema.org  -->
-	<meta itemprop="name" content="Mirari :: Software Estudio">
-	<meta itemprop="description" content="Somos MIRARI, un estudio de software enfocado en la creación de proyectos digitales, desarrollamos aplicaciones web y móviles.">
-	<meta itemprop="image" content="{%static HTMLPage.static%}img/garden-estudio.jpg">
-	<link media="all" type="text/css" rel="stylesheet" href="{%static HTMLPage.static%}css/main.css">
-	<link rel="icon" href="{%static HTMLPage.static%}img/ico.png">
-	<script src="{%static HTMLPage.static%}js/vendor/modernizr-2.6.2.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gustavo Castellanos</title>
+    <link rel="shortcut icon" href="{%static HTMLPage.static%}ico/favicon.png">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="icons/apple-touch-icon-114x114.png">
+    <link
+        href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic'
+        rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lilita+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans+SC' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <link href="{%static HTMLPage.static%}css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="{%static HTMLPage.static%}css/animate.css" rel="stylesheet" type="text/css">
+    <link href="{%static HTMLPage.static%}css/creative-brands.css" rel="stylesheet" type="text/css">
+    <link href="{%static HTMLPage.static%}css/vertical-carousel.css" rel="stylesheet" type="text/css">
+    <link href="{%static HTMLPage.static%}css/custom.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href="{%static HTMLPage.static%}css/pictonic/css/pictonic.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
 </head>
+
 <style>
-	.menu { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; line-height: 70px; background: #324560; color: #ffffde; font-weight: 500; z-index: 999; border-bottom: 2px solid #32455f; font-size: 22px; }
-	h1 {
-		color: #d9a643;
-	}
-	h2 {
-		color: #d9a643;
-	}
-	.servico-title {
-		color: #d9a643;
-	}
-	.endereco, .copyright {
-		color: #d9a643;
-	}
-	.contato {
-		padding-top: 0px;
-	}
-	.portfolio {
-		padding-bottom: 1px;
-		padding-top: 0px;
-	}
-	@media (max-width: 550px){
-		.content {
-			background: #314460;
-		}
-		.contato h1 {
-			font-size: 50px;
-		}
-	}
-	
+    .service:hover>h3 {
+        color: #fff;
+    }
 </style>
-<body>
-<!--[if lt IE 7]>
-	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-<![endif]-->
-<div class="menu">
-	<ul class="menu-items">
-		<li class="menu-item menu-link"><a href="#o-estudio">ESTUDIO</a></li>
-		<li class="menu-separator menu-item">•</li>
-		<li class="menu-item menu-link"><a href="#portfolio">PORTAFOLIO</a></li>
-		<li class="menu-separator menu-item">•</li>
-		<li class="menu-item menu-link"><a href="#contato">CONTACTO</a></li>
-	</ul>
-</div>
-<div class="viewport" data-0="transform:translate3d(0,0px,0)">
-    <div class="parallax garden" id="home">
-        <div class="layers" data-parallax-strength="0.6">
-			<div data-src="{%static HTMLPage.static%}img/parallax/13-ceu.png" class="layer" data-y="-23" data-parallax="0.0" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/12-sol.png" class="layer" data-x="381" data-y="333" data-parallax="-0.15" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/logo.png" class="layer" data-x="250" data-y="183" data-parallax="0.25" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/11-montes.png" class="layer" data-x="151" data-y="348" data-parallax="0.044" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/10-montes.png" class="layer" data-x="83" data-y="336" data-parallax="0.0696" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/9-montes.png" class="layer" data-x="103" data-y="339" data-parallax="0.1548" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/8-montes.png" class="layer" data-x="94" data-y="339" data-parallax="0.2032" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/7-montes.png" class="layer" data-x="228" data-y="347" data-parallax="0.2664" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/6-arvores.png" class="layer" data-x="206" data-y="351" data-parallax="0.354" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/5-arvores.png" class="layer" data-x="186" data-y="352" data-parallax="0.4168" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/4-lago.png" class="layer" data-x="295" data-y="377" data-parallax="0.478" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/3-pedra.png" class="layer" data-x="403" data-y="375" data-parallax="0.62" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/2-arvore-dir.png" class="layer" data-parallax="0.8" data-x="342" data-y="-17" data-required="true"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/1-arvore-esq.png" class="layer" data-parallax="1" data-y="-18" data-required="true"></div>
-		</div>
-		<div class="garden-mobile-cover"></div>            
-	</div>
-    <div class="content quem-somos" id="o-estudio" style="background: #314460;">
-        <h1 class="quem-somos-title">ESTUDIO</h1>
-		<div class="hr">
-			<div class="line  line-left draw"></div>
-			<div class="inline-svg draw " data-width="79" data-height="27" data-src="{%static HTMLPage.static%}img/ornamento-small.svg"></div>
-			<div class="line  line-right draw"></div>
-		</div>
-		<div class="quem-somos-text">
-			<p>
-				Somos MIRARI, un estudio de software enfocado en la creación de proyectos digitales, desarrollamos aplicaciones web y móviles,
-				usamos todos nuestros conocimientos para ayudar a nuestros clientes a construir sus marcas a través de la tecnología.
-			</p>
-		</div>
-		<div class="hr">
-			<div class="line  line-left draw"></div>
-			<div class="inline-svg draw " data-width="79" data-height="27" data-src="{%static HTMLPage.static%}img/ornamento-small.svg"></div>
-			<div class="line  line-right draw"></div>
-		</div>
-		<h2 class="servicos-title"> 
-			<div class="inline-svg draw ornament-left" data-src="{%static HTMLPage.static%}img/ornamento.svg"></div> 
-				Que Hacemos
-			<div class="inline-svg draw ornament-right" data-src="{%static HTMLPage.static%}img/ornamento.svg"></div>
-		</h2>
-		<ul class="servicos-items">
-			<li class="servicos-item">
-				<div class="servico-icon">
-					<div class="inline-svg draw" data-src="{%static HTMLPage.static%}img/servicos/personalizado.svg" data-width="361" data-height="272"></div>
-				</div>
-				<div class="servico-content">
-					<div class="servico-title">Sitios Personalizados</div>
-					<div class="servico-text">
-						Creamos sitios web únicos, creamos sus proyectos de acuerdo a las necesidades de nuestros clientes.
-					</div>
-				</div>
-			</li>
-			<li class="servicos-item">
-				<div class="servico-content">
-					<div class="servico-title">Herramientas Administrativas</div>
-					<div class="servico-text">
-						Aplicaciones Web o Móviles que ayuden a mejorar las operaciones de su negocio. 
-					</div>
-				</div>
-				<div class="servico-icon">
-					<div class="inline-svg draw" data-src="{%static HTMLPage.static%}img/servicos/responsivo.svg" data-width="400" data-height="290"></div>
-				</div>
-			</li>
-			<li class="servicos-item">
-				<div class="servico-icon">
-					<div class="inline-svg draw" data-src="{%static HTMLPage.static%}img/servicos/ecommerce.svg" data-width="435" data-height="267"></div>
-				</div>
-				<div class="servico-content">
-					<div class="servico-title">E-Commerce</div>
-					<div class="servico-text">
-						Comercio virtual intuitivo y de fácil uso, que ayudará a mejorar sus ventas y crecer su negocio.
-					</div>
-				</div>
-			</li>	
-			<li class="servicos-item">
-				<div class="servico-content">
-					<div class="servico-title">Aplicaciones</div>
-					<div class="servico-text">
-						Desarrollamos aplicaciones para iOS y Android, Windows, Mac y Linux en tablets, smartphones, o PC's
-					</div>
-				</div>
-				<div class="servico-icon">
-					<div class="inline-svg draw" data-src="{%static HTMLPage.static%}img/servicos/app.svg" data-width="396" data-height="305"></div>
-				</div>
-			</li>
-		</ul>            
-	</div>
-    <div class="parallax soil mobile-hide" data-height="120">
-        <div class="layers" data-original-height="175" data-parallax-strength="1">
-			<div class="solo-fill"></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/soil.png" class="layer" data-parallax="1" data-x="0" data-y="0" data-only-touch> </div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/1-chao.png" class="layer" data-parallax="0.85" data-x="0" data-y="-20" data-no-touch></div>
-			<div data-src="{%static HTMLPage.static%}img/parallax/1-chao.png" class="layer" data-parallax="1" data-no-touch></div>
-		</div>            
-	</div>
-    <div class="content portfolio mobile-hide" id="portfolio">
-		<h1 class="portfolio-title">PORTAFOLIO</h1>
-		<div class="hr">
-			<div class="line  line-light  line-left draw"></div>
-			<div class="inline-svg draw  ornament-light " data-width="79" data-height="27" data-src="{%static HTMLPage.static%}img/ornamento-small.svg"></div>
-			<div class="line  line-light  line-right draw"></div>
-		</div>
-		<ul class="portfolio-items">
-			<li class="portfolio-item " data-url="http://www.finezipo.com" data-v="0" data-480-bottom="@data-v:0" data-center-center="@data-v:1" data--480-top="@data-v:0">
-				<a class="portfolio-item-gfx-link" href="http://www.finezipo.com">
-					<div class="portfolio-item-gfx">
-						<div class="portfolio-item-image">
-							<img src="{%static HTMLPage.static%}img/videos/olimoveis.jpg" alt="Olimóveis">
-						</div>
-						<video loop class="portfolio-item-video" preload="none">
-							<source src="{%static HTMLPage.static%}img/videos/finezipo.mp4" type="video/mp4">
-						</video>
-						<div class="inline-svg portfolio-item-wireframe" data-src="{%static HTMLPage.static%}img/wireframe-portfolio.svg"></div>
-					</div>
-				</a>
-				<div class="portfolio-item-text">
-					<div class="portfolio-item-title">
-						FINEZIPO	
-					</div>
-					<div class="portfolio-item-description">
-						Management & PR, empresa dedicada a la representación y comercialización artistica, logística, producciones, y booking
-					</div>
-					<a href="http://www.finezipo.com" class="portfolio-item-button">
-						VER SITIO	
-					</a>
-				</div>	
-			</li>
-			<li class="portfolio-item " data-url="http://www.mexicof.com" data-v="0" data-480-bottom="@data-v:0" data-center-center="@data-v:1" data--480-top="@data-v:0">
-				<div class="portfolio-item-text">
-					<div class="portfolio-item-title">
-						MEXICOF	
-					</div>
-					<div class="portfolio-item-description">
-						Sistema de ordenes de servicio para caminadoras y gimnasios que requieren atención y mantenimiento a nivel nacional
-					</div>
-					<a href="http://www.mexicof.com" class="portfolio-item-button">
-						VER PROYECTO	
-					</a>
-				</div>		
-				<a class="portfolio-item-gfx-link" href="http://www.mexicof.com">
-					<div class="portfolio-item-gfx">
-						<div class="portfolio-item-image">
-							<img src="{%static HTMLPage.static%}img/videos/panizzon.jpg" alt="Panizzon Embalagens">
-						</div>
-						<video loop class="portfolio-item-video" preload="none">
-							<source src="{%static HTMLPage.static%}img/videos/mexicof.mp4" type="video/mp4">
-						</video>
-						<div class="inline-svg portfolio-item-wireframe" data-src="{%static HTMLPage.static%}img/wireframe-portfolio.svg"></div>
-					</div>
-				</a>
-			</li>
-			<li class="portfolio-item " data-url="http://www.manelykoficial.com" data-v="0" data-480-bottom="@data-v:0" data-center-center="@data-v:1" data--480-top="@data-v:0">
-				<a class="portfolio-item-gfx-link" href="http://www.manelykoficial.com">
-					<div class="portfolio-item-gfx">
-						<div class="portfolio-item-image">
-							<img src="{%static HTMLPage.static%}img/videos/1-ano.jpg" alt="1 Ano Garden">
-						</div>
-						<video loop class="portfolio-item-video" preload="none">
-							<source src="{%static HTMLPage.static%}img/videos/manelikoficial.mp4" type="video/mp4">
-						</video>
-						<div class="inline-svg portfolio-item-wireframe" data-src="{%static HTMLPage.static%}img/wireframe-portfolio.svg"></div>
-					</div>
-				</a>
-				<div class="portfolio-item-text">
-					<div class="portfolio-item-title">
-						MANELYKOFICIAL
-					</div>
-					<div class="portfolio-item-description">
-						Cantante y conductora se dió a conocer en el reallity show acapulco shore en mexico y super shore europa
-					</div>
-					<a href="http://www.manelykoficial.com" class="portfolio-item-button">
-						VER SITIO
-					</a>
-				</div>	
-			</li>
-		</ul>
-    </div>
-	<div class="parallax cave mobile-hide" data-height="400">
-		<div class="layers" data-original-height="471" data-parallax-strength="0.45">
-			<div data-src="{%static HTMLPage.static%}img/parallax-cave/fundo.png" class="layer" data-parallax="0.3" data-x="32" data-y="9" data-scale="true" data-no-touch>
-			</div>
-			<div data-src="{%static HTMLPage.static%}img/parallax-cave/cascata-brilho.png" class="layer" data-parallax="-0.4" data-x="385" data-y="100" data-scale="true" data-no-touch>
-			</div>
-			<div data-src="{%static HTMLPage.static%}img/parallax-cave/camada8-atmosfera.png" class="layer" data-parallax="0.5" data-x="100" data-y="0" data-no-touch>
-			</div>
-			<div data-src="{%static HTMLPage.static%}img/parallax-cave/camada6-arvores.png" class="layer" data-parallax="0.1" data-x="38" data-y="201" data-no-touch>
-			</div>
-			<div data-src="{%static HTMLPage.static%}img/parallax-cave/camada5-arvores.png" class="layer" data-parallax="0.23" data-x="6" data-y="213" data-no-touch>
-			</div>
-			<div data-src="{%static HTMLPage.static%}img/parallax-cave/camada4-teto-arvores.png" class="layer" data-parallax="0.37" data-x="0" data-y="35" data-no-touch> <!-- 43 -->
-			</div>
-			<div data-src="{%static HTMLPage.static%}img/parallax-cave/camada3-teto-arvores.png"  class="layer" data-parallax="0.55" data-x="0" data-y="35" data-no-touch>
-			</div>
-			<div data-src="{%static HTMLPage.static%}img/parallax-cave/camada2-teto.png" class="layer" data-parallax="0.7" data-x="0" data-y="14" data-no-touch>
-			</div>
-			<div data-src="{%static HTMLPage.static%}img/parallax-cave/1-teto.png" data-parallax="1" class="layer" data-no-touch>
-			</div>
-			<div data-src="{%static HTMLPage.static%}img/cave.png" data-parallax="1" class="layer" data-only-touch>
-			</div>
-		</div>            
-	</div>
-	<div class="content contato" id="contato">
-		<h1 class="contato-title">CONTACTO</h1>
-		<div class="contato-chamada">
-			Nos encantaría colaborar en sus proyectos
-		</div>
-		<div class="hr">
-			<div class="line  line-left draw"></div>
-			<div class="inline-svg draw " data-width="79" data-height="27" data-src="{%static HTMLPage.static%}img/ornamento-small.svg"></div>
-			<div class="line  line-right draw"></div>
-		</div>
-		<div class="inline-svg draw ornament-left ornament-middle" data-src="{%static HTMLPage.static%}img/ornamento.svg"></div>
-		<div class="contato-text">
-			Envie su email a	
-			<div class="contato-highlight">
-				<a href="mailto:g@mirari.xyz">g@mirari.xyz</a>
-			</div>
-			o marque a	
-			<div class="contato-highlight">
-				Móvil (55) 37232182
-			</div>
-		</div>
-		<div class="inline-svg draw ornament-right ornament-middle" data-src="{%static HTMLPage.static%}img/ornamento.svg"></div>
-		<div class="hr">
-			<div class="line  line-left draw"></div>
-			<div class="inline-svg draw " data-width="79" data-height="27" data-src="{%static HTMLPage.static%}img/ornamento-small.svg"></div>
-			<div class="line  line-right draw"></div>
-		</div>
-		<!--
-		<a href="#" class="social-link">
-			<img src="{%static HTMLPage.static%}img/social-facebook.svg" alt="Facebook">
-		</a>
-		<a href="#" class="social-link">
-			<img src="{%static HTMLPage.static%}img/social-twitter.svg" alt="Twitter">
-		</a>
-		<a href="#" class="social-link">
-			<img src="{%static HTMLPage.static%}img/social-behance.svg" alt="Behance">
-		</a>
-		<div class="endereco">Rio Lerma 333, Cuauhtémoc</div>
-		<div class="copyright">06500 Ciudad de México, CDMX</div>
-		-->
-	</div>
-</div>
-		
-<div class="cover"></div>
-<div class="preloader-container">
-    <div class="preloader-logo">
-    </div>
-    <div class="preloader">
-        <div class="preloader-ball"></div>
-        <div class="preloader-ball"></div>
-        <div class="preloader-ball"></div>
-        <div class="preloader-ball"></div>
-        <div class="preloader-ball"></div>
-        <div class="preloader-ball"></div>
-        <div class="preloader-ball"></div>
-        <div class="preloader-ball"></div>
-    </div>
-</div>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="{%static HTMLPage.static%}js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-        <script src="{%static HTMLPage.static%}js/vendor/jquery.transit.min.js"></script>
-        <script src="{%static HTMLPage.static%}js/vendor/prefixfree.min.js"></script>
-        <script src="{%static HTMLPage.static%}js/vendor/skrollr.min.js"></script>
-        <script src="{%static HTMLPage.static%}js/vendor/snap.svg-min.js"></script>
-        <script src="{%static HTMLPage.static%}js/vendor/inline-svg.js"></script>
-        <script src="{%static HTMLPage.static%}js/main.js"></script>
-    </body>
+
+<body id="page-top">
+    <a href="#page-top" class="scroll-up scroll"><i class="fa fa-chevron-up"></i></a>
+    <h1>Freelancer</h1>
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavigation"><i
+                            class="fa fa-bars"></i></button>
+                    <img src="{%static HTMLPage.static%}image/jonathan.png" class="navbar-logo pull-left" alt="" />
+                    <a href="index.html" class="navbar-brand animated flipInX" style="font-size: 16px;">Gustavo
+                        Castellanos</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="myNavigation">
+
+                    <ul class="nav navbar-nav navbar-right animated flipInX">
+                        <li><a href="#about" class="scroll">Sobre mi</a></li>
+                        <li><a href="#conocimientos" class="scroll">Habilidades</a></li>
+                        <li><a href="#portafolio" class="scroll">Portafolio</a></li>
+                        <li><a href="#contact" class="scroll">Contacto</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container -->
+        </nav>
+        <div class="jumbotron">
+            <img style="max-height: 250px;" src="{%static HTMLPage.static%}image/jonathan.png" class="img-responsive scrollpoint sp-effect3"
+                alt="" />
+            <div class="social-wrapper">
+                <h2 class="scrollpoint sp-effect3" style="font-size:60px">Gustavo <br /></h2>
+                <ul class="brands brands-inline hidden-xs scrollpoint sp-effect1">
+                    <li><a href="https://www.facebook.com/gcastellan0s"><i
+                                class="fa fa-facebook  hi-icon-effect-8"></i></a></li>
+
+                </ul>
+                <h2 class="scrollpoint sp-effect3" style="font-size:50px">Castellanos</h2>
+                <ul class="brands brands-inline hidden-xs scrollpoint sp-effect2">
+                    <li><a href="http://github.com/gcastellan0s"><i class="fa fa-github"></i></a></li>
+                </ul>
+            </div>
+            <!-- Slideshow start -->
+            <div id="slideshow" class="carousel slide vertical scrollpoint sp-effect3" data-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- Slideshow item 1 active -->
+                    <div class="item active">
+                        <h3>I <i class="fa fa-heart icon-first"></i> webdesign</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- Slideshow end -->
+            <a href="cv/CV.pdf" target="_blank" class="btn btn-reference btn-lg scroll scrollpoint sp-effect1"
+                role="button"><i class="fa fa-download"></i> Ver mi CV </a>
+            <div class="visible-xs-block"><br /></div>
+            <a href="#contact" class="btn btn-reference btn-lg btn-active scroll scrollpoint sp-effect2"
+                role="button"><i class="fa fa-chat"></i> Contactame</a>
+        </div>
+    </header>
+    <section id="about" class="content-first">
+        <div class="container">
+            <div class="row" style="padding-bottom:3rem;">
+                <div class="col-sm-2 hidden-xs scrollpoint sp-effect1">
+                    <!-- Profile image -->
+                    <img src="{%static HTMLPage.static%}image/jonathan.png" class="image-bordered img-responsive" alt="" />
+                </div><!-- Profile end -->
+
+                <div class="col-md-6 col-sm-6 scrollpoint sp-effect1">
+                    <!-- Profile description -->
+                    <h3>Gustavo Castellanos</h3>
+                    <p>Soy un desarrollador web en México, diseño aplicaciones web a la medida, intelectuales y muy
+                        emocionales que intersectan con los objetivos de su negocio y las necesidades de sus clientes,
+                        busco ese punto a fin de ofrecerle una solución sencilla y elegante.</p>
+                    <h3></h3>
+                    <p style="font-size:12px">Soy Ing. en Sistemas Computacionales y Electronicos en ESCOM (IPN) vivo en
+                        CDMX, tengo mas de 8 años desarrollandome como freelance y 10 años como programador, enfoco
+                        todos mis conocimientos a desarrollar servicios web para "Bussines Intelligence" para todo tipo
+                        de empresas y dispositivos.</p>
+                </div><!-- Profile description end-->
+
+                <div class="col-md-4 col-sm-4 scrollpoint sp-effect2">
+                    <!--Timeline-->
+
+                    <div class="timeline hidden-xs" style="margin-top:-80px;margin-bottom:-37px;">
+                        <!-- BLOG POST 1 - START -->
+                        <div class="event" style="margin-bottom: 0px;">
+                            <div class="event-info">
+                                <div class="date">2012</div>
+                            </div>
+                            <span>Desarrollador jr.<br /> <a href="https://www.sykes.com/" target="_blank"
+                                    style="color:inherit;"><strong>SYKES</strong></a></span>
+                        </div> <!-- BLOG POST 1 - END -->
+                        <div class="event" style="margin-bottom: 0px;">
+                            <div class="event-info">
+                                <div class="date">2014</div>
+                            </div>
+                            <span>Profesor WEB<br /><a href="http://www.gaussjordan.edu.mx/" target="_blank"
+                                    style="color:inherit;"><strong>Inst. GAUSS JORDAN (IPN)</strong></a></span>
+                        </div> <!-- BLOG POST 1 - END -->
+                        <div class="event" style="margin-bottom: 0px;">
+                            <div class="event-info">
+                                <div class="date">2017</div>
+                            </div>
+                            <span>Gerente de sistemas<br /><a href="http://credipyme.com.mx/" target="_blank"
+                                    style="color:inherit;"><strong>CREDIPyME</strong></a></span>
+                        </div>
+                        <div class="event" style="margin-bottom: 0px;">
+                            <div class="event-info">
+                                <div class="date">2018</div>
+                            </div>
+                            <span>Cree mi marca<br /><a href="http://www.mirari.xyz/" target="_blank"
+                                    style="color:inherit;"><strong>MIRARI.XYZ</strong></a> <span
+                                    style="font-size:10px">(+ 14 proyectos)</span><br /></span>
+                        </div> <!-- BLOG POST 1 - END -->
+                        <div class="event" style="margin-bottom: 0px;">
+                            <div class="event-info">
+                                <div class="date">2020</div>
+                            </div>
+                            <span>Ingreso a <br /><a href="http://www.workana.com/" target="_blank"
+                                    style="color:inherit;"><strong>WORKANA</strong></a> <span
+                                    style="font-size:10px">(Actualmente)</span><br /></span>
+                        </div> <!-- BLOG POST 1 - END -->
+                    </div>
+                    <!--timeline-->
+                </div>
+                <!--col 3 end-->
+            </div>
+            <!--Row about end-->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a id="skills-toggle" class="btn btn-primary" href="mailto:g@gustavo-castellanos.com"> Permitame colaborar en sus proyectos</a>
+                </div>
+            </div>
+        </div><!-- Container end-->
+    </section>
+    <section id="conocimientos" class="content-second">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="scrollpoint sp-effect3">HABILIDADES</h2>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-python"></i> Python 3</h3>
+                    <p style="font-size:13px">Ocupo Python como mi principal lenguaje de programación ya que es bastante
+                        sencillo pero la herramienta mas poderosa actualmente de desarrollo, su versatilidad y la
+                        filosofía de Python hacen de este mi principal fortaleza como programador. </p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-js01"> </i> Javascript</h3>
+                    <p style="font-size:13px">Ademas ocupo Javascript ya que es la única tecnología que vale la pena del
+                        lado del cliente, su vibrante comunidad y su enfoque hacen de este un lenguaje divertido y muy
+                        robusto.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-c"></i> C++ C#</h3>
+                    <p style="font-size:13px">C es el lenguaje por excelencia en el que se basan muchos otros lenguajes de programación
+                    como python, ofrece grandes velocidades de ejecución, lo ocupo en proyectos en los que el tiempo importa.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-php01"></i>PHP</h3>
+                    <p style="font-size:13px">No suelo ocupar PHP como base, pero su gran popularidad en el mundo web, y que en cuantiosas
+                    ocaciones se necesita implementar comunicacion con este backend, me orillo a aprenderlo a usar.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-prog-django"></i> Django</h3>
+                    <p style="font-size:13px">Trabajo con Django como mi framework en el servidor, ya que usa Python
+                        como lenguaje de programación ademas de que los años que lleva en el mercado lo han convertido
+                        en un framework maduro e ideal para la mayor parte de los proyectos que la industria requiere.
+                    </p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-prog-nodejs02"> </i> Node.JS</h3>
+                    <p style="font-size:13px">Ocupo Node.JS en ocaciones como Backend ya que puedo manejar las librerias
+                        de Socket I/O y esto me permite trabajar con datos en tiempo real, Lo que pasa en el servidor
+                        también ocurre en el lado del cliente. </p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-jquery"> </i> Vue.JS </h4>
+                    </h3>
+                    <p style="font-size:13px">VueJS es mi framework frontend base en mis proyectos ya que sus herramientas, velociad, y versatilidad lo hacen
+                    una herramienta extraordinaria para generar proyectos.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3> React.JS </h4>
+                    </h3>
+                    <p style="font-size:13px">ReactJS se convirtio en el framework mas usado en la parte frontend sinembargo es ligeramente mas complejo de implementar que VueJS por eso
+                    lo uso como mi segunda opción en mis desarrollos.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-prog-jquery"> </i> JQuery </h4>
+                    </h3>
+                    <p style="font-size:13px">Ocupo JQuery para programar todos los eventos del lado del cliente, Todo
+                        lo que con Django no puedo hacer lo hago con JQuery.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-dbs-postgresql"> </i>PostgreSQL</h3>
+                    <p style="font-size:13px">Ocupo PostgreSQL como tecnología para bases de datos relacionadas, como el
+                        control de usuarios y permisos, solo en mis servidores de producción.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-dbs-mysql"> </i>MySQL</h3>
+                    <p style="font-size:13px">Ocupo MYSQL como segunda opción de tecnología para el manejo de bases de datos relacionadas
+                    en mis proyectos</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-dbs-mongodb"> </i> MongoDB</h3>
+                    <p style="font-size:13px">Ocupo MongoDB para bases de datos no relacionadas, como comentarios y
+                        sistema de notificaciones.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-html5-02"> </i> HTML5</h3>
+                    <p style="font-size:13px">Ocupo HTML5 como herramienta de desarrollo de código HTML, ya que me
+                        permite usar geolocalización y puedo con este acceder a hardware de los clientes y de esta forma
+                        hacer aplicaciones mas robustas.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-css3-01"> </i> CSS3</h3>
+                    <p style="font-size:13px">CSS3 es la plataforma en la cual se diseña HTML para mostrar en pantalla y es muy importante
+                    saber al 100% para poder realizar interfaces de usuario modernas y funcionales.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3>BOOTSTRAP</h3>
+                    <p style="font-size:13px">Este framework es el mas famoso para el uso de estilos en la actualidad en el entorno WEB por lo cual lo uso como base
+                    en todos mis proyectos por sus grandes ventajas como el Responsive designe.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3> NGINX</h3>
+                    <p style="font-size:13px">Es un servidor web/proxy inverso ligero de alto rendimiento y un proxy para protocolos de correo electrónico. 
+                    Su versatilidad me permite la correcta configuracion de todos mis servicios.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3>Cordova</h3>
+                    <p style="font-size:13px">Es la plataforma que uso como base para desarrollo Movil, Web y Apps de escritorio, 
+                    ademas de que se puede simplemente agregar a mis proyectos existentes de forma sencilla.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3>Electron</h3>
+                    <p style="font-size:13px">Cuando hay que generar Apps de escritorio la herramienta por exelencia es Electron.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3><i class="icon2-os-linux"> </i> Linux</h3>
+                    <p style="font-size:13px">La WEB corre a travez de Linux todos mis servidores corren sobre este Sistema Operativo.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3><i class="icon2-vc-git"> </i> GIT </h3>
+                    <p style="font-size:13px">GIT como control de versiones para todos mis desarrollos.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3> AWS </h3>
+                    <p style="font-size:13px">Amazon actualmente es el proveedor de servicios en nube mas importante y con la mas grande infraestructura, 
+                    ademas de contar con extraordinarias herramientas que ayudan para cualquier tipo de necesidad.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3> Docker</h3>
+                    <p style="font-size:13px">Docker es mi gestor de contenedores que ocupo para mis códigos, ademas de ayudarme con la elasticidad de los servidores</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect2">
+                    <h3>Arduino </h3>
+                    <p style="font-size:13px">Arduino cuenta con una gran cantidad de modulos, la posibilidad de usar
+                        Node.js y Javascript lo que abre las puertas para poder usar aplicaciones embebidas de manera
+                        muy sencilla.</p>
+                </div>
+                <div class="col-md-3 service scrollpoint sp-effect1">
+                    <h3>Raspberry</h4>
+                    </h3>
+                    <p style="font-size:13px">Raspberry al ser una tarjeta de desarrollo muy pequeña y de gran capacidad para realizar cualquier aplicación embebida.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="separator" class="content-first">
+        <div class="container">
+            <div class="col-md-12">
+                <h3 class="scrollpoint sp-effect3">Otras habilidades</h3>
+                <br />
+                <br />
+            </div>
+            <div class="row scrollpoint sp-effect3">
+                <div class="col-sm-3">
+                    <p> Desarrollo de aplicaciones WEB </p>
+                    <p> Robótica y electrónica  </p>
+                    <p> Consultoría y cursos  </p>
+                </div>
+                <div class="col-sm-3">
+                    <p> Desarrollo de aplicaciones móviles </p>
+                    <p> Manejo de Bases de datos </p>
+                    <p> Configuración de equipos de red   </p>
+                </div>
+                <div class="col-sm-3">
+                    <p> Desarrollo de sistemas embebidos </p>
+                    <p> Diseño de interfaces de usuario UX  </p>
+                    <p> Posicionamiento SEO y SEM </p>
+                </div>
+                <div class="col-sm-3">
+                    <p> Aplicaciones en tiempo real </p>
+                    <p> Soporte técnico  </p>
+                    <p> Marketing digital  </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="portafolio" class="content-second">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="scrollpoint sp-effect3">PORTAFOLIO</h2>
+                    <h3>Actualmente creo todos mis proyectos bajo mi marca <a href="http://mirari.xyz" target="_blank" style="color:inherit">MIRARI.XYZ</a> </h3>
+                    <p><small>[Da click en la imagen para conocer todos mis proyectos]</small></p>
+                </div>
+                <div class="col-md-6 col-md-offset-3 col-sm-offset-3 col-lg-offset-3 showcase-carousel hidden-xs scrollpoint sp-effect2">
+                    <a href="http://mirari.xyz" target="_blank">
+                        <img src="{%static HTMLPage.static%}image/imac.png" class="img-responsive" alt="">
+                        <div id="carousel-reference" class="carousel" data-ride="carousel">
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+                                <div class="item active"><img src="{%static HTMLPage.static%}image/image_01.png" alt=""></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="contact" class="content-first">
+        <div class="container">
+            <h2 class="scrollpoint sp-effect3">Contactame</h2>
+            <div class="contact-alert">
+            </div>
+            <div class="row">
+                <!-- PRICING TABLE FIRST - start -->
+                <div class="col-sm-4 col-sm-offset-4">
+                    <div class="contact-info">
+                        <p>Gustavo Castellanos</p>
+                        <p><a style="color:inherit" href="phone:+5215537232182">MOVIL: 5537232182</p>
+                        <p><a style="color:inherit" href="mailto:g@gustavo-castellanos.com">CORREO: g@gustavo-castellanos.com</p>
+                    </div>
+                    <form role="form" id="contactForm" style="margin-top:4rem;">
+                        <div class="form-group">
+                            <a class="btn btn-primary" href="mailto:g@gustavo-castellanos.com">Enviar correo electrónico</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 scrollpoint sp-effect3">
+                    <p>www.gustavo-castellanos.com<br />
+                        <br />
+                        Diseñada por <a href="http://mirari.xyz" target="_blank" class="btn btn-footer">MIRARI</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="{%static HTMLPage.static%}js/bootstrap.min.js"></script>
+    <script src="{%static HTMLPage.static%}js/jquery.magnific-popup.min.js"></script>
+    <script src="{%static HTMLPage.static%}js/creative-brands.js"></script>
+    <script src="{%static HTMLPage.static%}js/jquery.easy-pie-chart.js"></script>
+    <script src="{%static HTMLPage.static%}js/modernizr.custom.js"></script>
+    <script src="{%static HTMLPage.static%}js/waypoints.min.js"></script>
+    <script src="{%static HTMLPage.static%}js/jquery.countTo.js"></script>
+    <script src="{%static HTMLPage.static%}js/jqBootstrapValidation.js"></script>
+    <script src="{%static HTMLPage.static%}js/custom.js"></script>
+    <script>
+        $(function () {
+            $("input,textarea").jqBootstrapValidation({
+                preventSubmit: true,
+                submitSuccess: function ($form, event) {
+                    event.preventDefault();
+                    var firstname = $("input#firstname").val();
+                    var lastname = $("input#lastname").val();
+                    var email = $("input#email").val();
+                    var message = $("textarea#message").val();
+                    if (lastname) {
+                        var html = '<p><strong>Muchas gracias ' + firstname + '</strong> de ' +
+                            lastname +
+                            ', por ponerte en contacto conmigo.<br />Me pondre en comunicación lo antes posible, a tu correo: ' +
+                            email + ', <br /><br />tu mensaje fue el siguiente: <br /><br />"' +
+                            message + '"</p>'
+                    } else {
+                        var html = '<p><strong>Muchas gracias ' + firstname +
+                            '</strong>, por ponerte en contacto conmigo.<br />Me pondre en comunicación lo antes posible, a tu correo: ' +
+                            email + ', <br /><br />tu mensaje fue el siguiente: <br /><br />"' +
+                            message + '"</p>'
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "https://mandrillapp.com/api/1.0/messages/send.json",
+                        data: {
+                            "key": "TLapuI4FVMl6jAS3eUHt8g",
+                            "message": {
+                                "html": html,
+                                "text": "",
+                                "subject": "Gracias por contactarme!",
+                                "from_email": "contacto@gustavo-castellanos.com",
+                                "from_name": "Gustavo Castellanos",
+                                "to": [{
+                                        "email": email,
+                                        "name": firstname,
+                                        "type": "to"
+                                    },
+                                    {
+                                        "email": 'g@zaresdelweb.com',
+                                        "name": 'Gustavo Castellanos',
+                                        "type": "to"
+                                    }
+                                ],
+                            },
+                        }
+                    }).done(function (response) {
+                        // Success message
+                        $('.contact-alert').html("<div class='alert alert-success'>");
+                        $('.contact-alert > .alert-success').html(
+                            "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'><i class='fa fa-times'></i></button><strong>Tu mensaje fue enviado.</strong></div>"
+                            );
+                        //clear all fields
+                        $('#contactForm').trigger("reset");
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
 </html>
