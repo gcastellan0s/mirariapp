@@ -466,7 +466,7 @@ VARS = {
         'responsible': {
             'model': ['mirari', 'User'],
             'plugin': 'select2',
-            'sercheable': ['visible_username__icontains','Group.objects.filter(id=33)'],
+            'sercheable': ['visible_username__icontains'],
             'limits': 50,
             'placeholder': 'Elige un responsable',
             'query': [
