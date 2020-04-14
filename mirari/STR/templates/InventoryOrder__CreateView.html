@@ -43,12 +43,13 @@
                     <!--begin::Widget -->
                     <div class="kt-widget33">
                         <div class="kt-widget33__head col-xl-12">
-                            <button type="submit" name="save__edit" class="btn btn-brand">
+                            <a href="#" onclick="var message={action:'GetQR', target:'codebar'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));" name="save__edit" class="btn btn-brand">
                                 <i class="la la-barcode"></i> 
                                 <span class="kt-hidden-mobile">
                                     ESCANEAR PRODUCTO
                                 </span>
-                            </button>
+                            </a>
+                            <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO" id="id_codebar" v-model="codebar">
                         </div>
                         <div class="kt-widget33__head">
                             <label for="id_product" class="col-form-label  col-xl-3 col-lg-3" v-on:click="addProduct">
@@ -64,7 +65,12 @@
                             <a href="#" class="kt-widget33__title">
                                 PRODUCTOS
                             </a>
-                            <p>No hay productos seleccionados</p>
+                            <p v-if="productList">
+                                ${productList}
+                            </p>
+                            <p v-else>
+                                No hay productos seleccionados
+                            </p>
                             <!--end::Widget 
                             <div class="kt-widget33__items">
                                 <div class="kt-widget33__item">
@@ -112,6 +118,7 @@
 {%block data%}
     {{ block.super }}
     productID: null,
+    codebar: '' ,
     productList: [],
 {%endblock data%}
 
@@ -128,6 +135,7 @@
             Ax('post', '/STR/api/InventoryApi/STR/Product/', {'productID':id_product.value})
             .then(function(json){
                 if(json.data.product.name){
+                    self.productList.push([json.data.product, 0])
                     console.log(json.data.product)
                 }else{
                     Swal.fire('Intenta de nuevo','Producto no encontrado','error')
