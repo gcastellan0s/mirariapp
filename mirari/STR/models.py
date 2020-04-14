@@ -478,7 +478,7 @@ VARS = {
         'product': {
             'model': ['STR', 'Product'],
             'plugin': 'select2',
-            'sercheable': ('codebar__icontains'),
+            'sercheable': ('codebar__icontains','name'),
             'limits': 50,
             'placeholder': 'Elige un producto', 
             'query': [
@@ -517,7 +517,7 @@ class InventoryOrder(Model_base):
         verbose_name_plural = VARS['PLURAL']
         permissions = permissions(VARS)
     def __str__(self):
-        return 'x'
+        return self.id
 
 
 #
