@@ -66,7 +66,21 @@
                                 PRODUCTOS
                             </a>
                             <p v-if="productList.length > 0">
-                                ${productList}
+                                <div class="kt-portlet__body">
+                                    <div class="kt-timeline-v2" v-for="product in productList">
+                                        <div class="kt-timeline-v2__items  kt-padding-top-25 kt-padding-bottom-30">
+                                            <div class="kt-timeline-v2__item">
+                                                <span class="kt-timeline-v2__item-time">${product.1}</span>
+                                                <div class="kt-timeline-v2__item-cricle">
+                                                    <i class="fa fa-genderless kt-font-danger"></i>
+                                                </div>
+                                                <div class="kt-timeline-v2__item-text  kt-padding-top-5">
+                                                    ${product.0.name}                                   	                                	               
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </p>
                             <p v-else>
                                 No hay productos seleccionados
