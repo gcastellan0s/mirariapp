@@ -390,7 +390,7 @@ class Product(Model_base):
     canBySell = models.BooleanField('Puede ser vendido?', default=True)
     canByBuy = models.BooleanField('Puede ser comprado?', default=True)
     typeProduct = models.CharField('Tipo de producto', choices=PRODUCTTYPE, max_length=250, default="Almacenaje")
-    category = models.ForeignKey('STR.CategoryProduct', on_delete=models.SET_NULL, verbose_name="Categoría", related_name  ='+',)
+    category = models.ForeignKey('STR.CategoryProduct', on_delete=models.SET_NULL, verbose_name="Categoría", related_name  ='+', blank=True, null=True)
     uid = models.CharField('PKU', max_length=30, blank=True, null=True)
     codebar = models.CharField('Código de barras o QR', max_length=30, unique=True, blank=True, null=True)
     model = models.CharField('Modelo', max_length=50, blank=True, null=True)
