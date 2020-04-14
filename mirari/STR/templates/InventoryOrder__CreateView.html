@@ -67,12 +67,19 @@
                             </a>
                             <p v-if="productList.length > 0">
                                 <div class="kt-portlet__body">
-                                    <div class="kt-timeline-v2" v-for="product in productList">
-                                        <div class="kt-timeline-v2__items  kt-padding-top-25 kt-padding-bottom-30">
-                                            <div class="kt-timeline-v2__item mt-4">
-                                                <span class="kt-timeline-v2__item-time pr-5">${product[1]}</span>
-                                                <div class="kt-timeline-v2__item-text ml-5">
-                                                    ${product[0]['name']}                                   	                                	               
+                                    <div class="kt-timeline-v3">
+                                        <div class="kt-timeline-v3__items" v-for="product in productList">
+                                            <div class="kt-timeline-v3__item kt-timeline-v3__item--info">
+                                                <span class="kt-timeline-v3__item-time">${product[1]}</span> 
+                                                <div class="kt-timeline-v3__item-desc">							 
+                                                    <span class="kt-timeline-v3__item-text">
+                                                    ${product[0]['name']}
+                                                    </span><br>
+                                                    <span class="kt-timeline-v3__item-user-name">
+                                                    <a href="#" class="kt-link kt-link--dark kt-timeline-v3__itek-link">
+                                                    ${product[0]['codebar']} 
+                                                    </a>
+                                                    </span>		 
                                                 </div>
                                             </div>
                                         </div>
