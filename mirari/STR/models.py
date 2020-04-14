@@ -349,7 +349,7 @@ VARS = {
                     ('organization__pk', 'self.request.session.get("organization")'),
                 ),
             ],
-            'sercheable': ('name__icontains'),
+            'sercheable': ['name__icontains',],
             'limits': 50,
             'placeholder': 'Elige una categoría',
             'minimumInputLength': '0',
