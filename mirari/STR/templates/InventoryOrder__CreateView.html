@@ -156,7 +156,7 @@
                     let resultado = self.productList.findIndex( product => {return product[0].id === json.data.product.id} );
                     console.log(resultado)
                     if (resultado > -1){ self.productList[resultado][1] += 1 }
-                    else { self.productList.push([json.data.product, 1]) }
+                    else { self.productList.unshift([json.data.product, 1]) }
                 }else{
                     Swal.fire('Intenta de nuevo','Producto no encontrado','error')
                 }
