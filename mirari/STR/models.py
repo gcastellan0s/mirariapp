@@ -458,7 +458,7 @@ VARS = {
                     ('organization__pk', 'self.request.session.get("organization")'),
                 ),
             ],
-            'sercheable': ('name__icontains'),
+            'sercheable': ['name__icontains'],
             'limits': 50,
             'placeholder': 'Elige un proveedor',
             'minimumInputLength': '0',
@@ -466,7 +466,7 @@ VARS = {
         'responsible': {
             'model': ['mirari', 'User'],
             'plugin': 'select2',
-            'sercheable': ('visible_username__icontains'),
+            'sercheable': ['visible_username__icontains','Group.objects.filter(id=33)'],
             'limits': 50,
             'placeholder': 'Elige un responsable',
             'query': [
@@ -479,7 +479,7 @@ VARS = {
         'product': {
             'model': ['STR', 'Product'],
             'plugin': 'select2',
-            'sercheable': ('codebar__icontains'),
+            'sercheable': ['codebar__icontains','name__icontains'],
             'limits': 50,
             'placeholder': 'Elige un producto', 
             'query': [
