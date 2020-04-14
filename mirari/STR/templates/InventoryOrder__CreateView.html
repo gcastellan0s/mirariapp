@@ -149,6 +149,7 @@
             .then(function(json){
                 if(json.data.product.name){
                     let resultado = self.productList.findIndex( product => {return product[0].id === json.data.product.id} );
+                    console.log(resultado)
                     if (resultado){ self.productList[resultado][1] += 1 }
                     else { self.productList.push([json.data.product, 1]) }
                 }else{
