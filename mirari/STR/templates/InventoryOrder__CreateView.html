@@ -148,8 +148,8 @@
             Ax('post', '/STR/api/InventoryApi/STR/Product/', {'productID':id_product.value})
             .then(function(json){
                 if(json.data.product.name){
-                    let resultado = self.productList.find( product => {return product[0].id === json.data.product.id} );
-                    if (resultado){ resultado[1] = resultado[1] + 1 }
+                    let resultado = self.productList.findIndex( product => {return product[0].id === json.data.product.id} );
+                    if (resultado){ self.productList[resultado][1] += 1 }
                     else { self.productList.push([json.data.product, 1]) }
                 }else{
                     Swal.fire('Intenta de nuevo','Producto no encontrado','error')
