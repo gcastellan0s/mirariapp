@@ -149,8 +149,8 @@
             .then(function(json){
                 if(json.data.product.name){
                     let resultado = self.productList.find( product => product.0.id === json.data.product.id );
-                    if (resultado) resultado.1 += 1
-                    else self.productList.push([json.data.product, 1])
+                    if (resultado){ resultado.1 += 1 }
+                    else { self.productList.push([json.data.product, 1]) }
                 }else{
                     Swal.fire('Intenta de nuevo','Producto no encontrado','error')
                 }
