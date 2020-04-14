@@ -69,7 +69,7 @@
                                 <div class="kt-portlet__body">
                                     <div class="kt-timeline-v2" v-for="product in productList">
                                         <div class="kt-timeline-v2__items  kt-padding-top-25 kt-padding-bottom-30">
-                                            <div class="kt-timeline-v2__item pt-2">
+                                            <div class="kt-timeline-v2__item pt-4">
                                                 <span class="kt-timeline-v2__item-time">${product[1]}</span>
                                                 <div class="kt-timeline-v2__item-cricle">
                                                 </div>
@@ -149,7 +149,7 @@
             .then(function(json){
                 if(json.data.product.name){
                     let resultado = self.productList.find( product => {return product[0].id === json.data.product.id} );
-                    if (resultado){ resultado[1] += 1 }
+                    if (resultado){ resultado[1] = resultado[1] + 1 }
                     else { self.productList.push([json.data.product, 1]) }
                 }else{
                     Swal.fire('Intenta de nuevo','Producto no encontrado','error')
