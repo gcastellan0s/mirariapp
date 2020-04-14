@@ -122,7 +122,8 @@
 {%block methods%}
     {{ block.super }}
     addProduct() {
-        console.log(self.productID)
+        const id_product = document.querySelector('#id_product');
+        console.log(id_product.value)
     }
 {%endblock methods%}
 </script>
