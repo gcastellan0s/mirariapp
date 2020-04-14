@@ -114,7 +114,7 @@
                                         TOTAL DE PRODUCTOS
                                     </span>
                                     <span class="kt-widget33__subtotal">
-                                        0
+                                        ${productList|TotalProducts}
                                     </span>
                                 </div>
                             </div>
@@ -171,4 +171,16 @@
         }
     },
 {%endblock methods%}
+
+{%block filters%}
+    {{block.super}}
+    TotalProducts: ((productList) => {
+        var total = 0
+        var totalArray  = productList.map( product => {
+            return product[1]
+        })
+        totalArray.forEach(totalProduct => total += totalProduct);
+        return total
+    }),
+{%endblock filters%}
 </script>
