@@ -51,11 +51,11 @@
                             </button>
                         </div>
                         <div class="kt-widget33__head">
-                            <label for="id_product" class="col-form-label  col-xl-3 col-lg-3">
+                            <label for="id_product" class="col-form-label  col-xl-3 col-lg-3" v-on:click="addProduct">
                                 <i class="fas fa-plus"></i> AGREGAR
                             </label> 
                             <div class=" col-xl-9 col-lg-9"> 
-                                <select name="product" id="id_product" class="select form-control autofocus"> 
+                                <select name="product" id="id_product" class="select form-control autofocus" v-model="productID"> 
                                     <option value="" selected>---------</option>
                                 </select> 
                             </div>
@@ -107,6 +107,22 @@
     </div>
 {%endblock content%}
 
+
+<script>
+{%block data%}
+    {{ block.super }}
+    productID: null,
+    productList: [],
+{%endblock data%}
+
 {%block created%}
     $("#div_id_product").hide();
 {%endblock created%}
+
+{%block methods%}
+    {{ block.super }}
+    addProduct() {
+        console.log(self.productID)
+    }
+{%endblock methods%}
+</script>
