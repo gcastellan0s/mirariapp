@@ -117,13 +117,17 @@
 
 {%block created%}
     $("#div_id_product").hide();
+    var id_product = document.querySelector('#id_product');
 {%endblock created%}
 
 {%block methods%}
     {{ block.super }}
     addProduct() {
-        const id_product = document.querySelector('#id_product');
-        console.log(id_product.value)
+        if (id_product.value){
+            Block();
+            console.log(id_product.value)
+            UnBlock();
+        } else Swal.fire('Intenta de nuevo','Producto no encontrado','danger')
     }
 {%endblock methods%}
 </script>
