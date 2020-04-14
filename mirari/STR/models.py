@@ -474,6 +474,7 @@ VARS = {
                     ('organization__pk', 'self.request.session.get("organization")'),
                 ),
             ],
+            'minimumInputLength': '0',
         },
         'product': {
             'model': ['STR', 'Product'],
@@ -486,6 +487,7 @@ VARS = {
                     ('organization__pk', 'self.request.session.get("organization")'),
                 ),
             ],
+            'minimumInputLength': '0',
         },
     },
 }
