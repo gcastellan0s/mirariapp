@@ -56,7 +56,7 @@
                                 <i class="fas fa-plus"></i> AGREGAR
                             </label> 
                             <div class=" col-xl-9 col-lg-9"> 
-                                <select name="product" id="id_product" class="select form-control autofocus" v-model="productID"> 
+                                <select name="product" id="id_product" class="select form-control autofocus"> 
                                     <option value="" selected>---------</option>
                                 </select> 
                             </div>
@@ -135,7 +135,6 @@
 <script>
 {%block data%}
     {{ block.super }}
-    productID: null,
     codebar: '' ,
     productList: [],
 {%endblock data%}
