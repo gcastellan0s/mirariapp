@@ -27,6 +27,8 @@ class Inventory__ApiView(Generic__ApiView):
 	def get_serializers(self, request):
 		if request.POST.get('codebar'):
 			return JsonResponse({'product':ProductSerializer(Product.objects.filter(codebar=request.POST.get('codebar')).first()).data}, safe=False)
+		if request.POST.get('productID'):
+			return JsonResponse({'product':ProductSerializer(Product.objects.filter(pk=request.POST.get('productID')).first()).data}, safe=False)
 		if request.POST.get('PlusCodebar'):
 			product = Product.objects.filter(codebar=request.POST.get('PlusCodebar')).first()
 			product.quantity += 1

@@ -125,10 +125,21 @@
         let id_product = document.querySelector('#id_product');
         if (id_product.value){
             Block();
-            console.log(id_product.value)
-            UnBlock();
+            Ax('post', '/STR/api/InventoryApi/STR/Product/', {'productID':id_product.value})
+            .then(function(json){
+                if(json.data.product.name){
+                    console.log(json.data.product)
+                }else{
+                    Swal.fire('Intenta de nuevo','Producto no encontrado','error')
+                }
+            })
+            .catch((error) => {
+                Swal.fire('Intenta de nuevo','Ocurrio un error','error')
+            }).finally(() => {
+                UnBlock();
+            });
         } else {
-            Swal.fire('Intenta de nuevo','Producto no encontrado','error')
+            Swal.fire('Intenta de nuevo','Elije un producto','error')
         }
     },
 {%endblock methods%}
