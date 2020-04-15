@@ -173,18 +173,21 @@
             Swal.fire('Intenta de nuevo','Elije un producto','error')
         }
     },
-    changeNumber() {
+    changeNumber(product) {
         Swal.fire({
-            title: 'Submit your Github username',
+            title: 'Ingresa el numero de productos',
             input: 'range',
+            icon: 'question',
             inputAttributes: {
                 min: 1,
-                max: 120,
+                max: 25,
                 step: 1
             },
-            showCancelButton: true,
+            inputValue: product[1]
             confirmButtonText: 'Look up',
+            showCancelButton: true,
             cancelButtonText: 'ELIMINAR',
+            cancelButtonColor: 'error',
             showLoaderOnConfirm: true,
             preConfirm: (login) => {
                 return fetch(`//api.github.com/users/${login}`)
