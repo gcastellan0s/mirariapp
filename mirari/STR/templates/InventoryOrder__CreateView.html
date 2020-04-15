@@ -184,33 +184,16 @@
                 step: 1
             },
             inputValue: product[1],
-            confirmButtonText: 'Look up',
+            confirmButtonText: 'ACTUALIZAR PRODUCTO',
             showCancelButton: true,
             cancelButtonText: 'ELIMINAR',
-            cancelButtonColor: 'error',
+            cancelButtonColor: 'danger',
             showLoaderOnConfirm: true,
-            preConfirm: (login) => {
-                return fetch(`//api.github.com/users/${login}`)
-                .then(response => {
-                    if (!response.ok) {
-                    throw new Error(response.statusText)
-                    }
-                    return response.json()
-                })
-                .catch(error => {
-                    Swal.showValidationMessage(
-                    `Request failed: ${error}`
-                    )
-                })
+            preConfirm: (value) => {
+                console.log(value)
+                console.log(product)
+                return true
             },
-            allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-            if (result.value) {
-                Swal.fire({
-                title: `${result.value.login}'s avatar`,
-                imageUrl: result.value.avatar_url
-                })
-            }
         })
     },
 {%endblock methods%}
