@@ -37,7 +37,97 @@
 
 {%block content%}
     <div class="row">
-        
+        <div class="col-xl-5">
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__body">
+                    <!--begin::Widget -->
+                    <div class="kt-widget33">
+                        <div class="kt-widget33__head col-xl-12">
+                            <a href="#" onclick="var message={action:'GetQR', target:'codebar'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));" name="save__edit" class="btn btn-brand">
+                                <i class="la la-barcode"></i> 
+                                <span class="kt-hidden-mobile">
+                                    ESCANEAR PRODUCTO
+                                </span>
+                            </a>
+                            <!--<input type="text" class="form-control kt-quick-search__input hidden" placeholder="CB DEL PRODUCTO" id="id_codebar" v-model="codebar">-->
+                        </div>
+                        <div class="kt-widget33__head">
+                            <label for="id_product" class="col-form-label  col-xl-3 col-lg-3" v-on:click="addProduct">
+                                <i class="fas fa-plus"></i> AGREGAR
+                            </label> 
+                            <div class=" col-xl-9 col-lg-9"> 
+                                <select name="product" id="id_product" class="select form-control autofocus"> 
+                                    <option value="" selected>---------</option>
+                                </select> 
+                            </div>
+                        </div>
+                        <div class="kt-widget33__body">
+                            <a href="#" class="kt-widget33__title">
+                                PRODUCTOS
+                            </a>
+                            <p v-if="productList.length > 0">
+                                <div class="kt-portlet__body">
+                                    <div class="kt-timeline-v3">
+                                        <div class="kt-timeline-v3__items" v-for="product in productList">
+                                            <div class="kt-timeline-v3__item kt-timeline-v3__item--info">
+                                                <span class="kt-timeline-v3__item-time">${product[1]}</span> 
+                                                <div class="kt-timeline-v3__item-desc">							 
+                                                    <span class="kt-timeline-v3__item-text">
+                                                        ${product[0]['name']}
+                                                    </span>
+                                                    <br>
+                                                    <span class="kt-timeline-v3__item-user-name">
+                                                        <span class="kt-link kt-link--dark kt-timeline-v3__itek-link">
+                                                            ${product[0]['codebar']} 
+                                                        </span>
+                                                    </span>		 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p>
+                            <p v-if="productList.length == 0">
+                                No hay productos seleccionados
+                            </p>
+                            <!--end::Widget 
+                            <div class="kt-widget33__items">
+                                <div class="kt-widget33__item">
+                                    <img class="kt-widget33__pic" src="{%static 'metronic/dist/demo5/dist/assets/media/products/product25.jpg'%}" alt="image">
+                                    <div class="kt-widget33__content">
+                                        <span class="kt-widget33__subtitle">
+                                            Three friends
+                                        </span>
+                                        <div class="kt-widget33__action">
+                                            <button type="button" class="btn btn-info btn-sm"><i class="fa fa-minus"></i></button>&nbsp;
+                                            <button type="button" class="btn btn-success btn-sm ml-2"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <span class="kt-widget33__price">
+                                        $42
+                                    </span>
+                                </div>
+                            </div>
+                            -->
+                            <div class="kt-widget33__foot">
+                                <div class="kt-widget33__section">
+                                    <span class="kt-widget33__desc">
+                                        TOTAL DE PRODUCTOS
+                                    </span>
+                                    <span class="kt-widget33__subtotal">
+                                        ${productList|TotalProducts}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Widget -->
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-7">
+            {% crispy form %}
+        </div>
     </div>
 {%endblock content%}
 
