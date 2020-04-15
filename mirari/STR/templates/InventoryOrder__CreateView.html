@@ -69,7 +69,7 @@
                                 <div class="kt-portlet__body">
                                     <div class="kt-timeline-v3">
                                         <div class="kt-timeline-v3__items" v-for="product in productList">
-                                            <div class="kt-timeline-v3__item kt-timeline-v3__item--info" @click="changeNumber()">
+                                            <div class="kt-timeline-v3__item kt-timeline-v3__item--info" @click="changeNumber(product)">
                                                 <span class="kt-timeline-v3__item-time">${product[1]}</span> 
                                                 <div class="kt-timeline-v3__item-desc">							 
                                                     <span class="kt-timeline-v3__item-text">
@@ -184,6 +184,7 @@
             },
             showCancelButton: true,
             confirmButtonText: 'Look up',
+            cancelButtonText: 'ELIMINAR',
             showLoaderOnConfirm: true,
             preConfirm: (login) => {
                 return fetch(`//api.github.com/users/${login}`)
