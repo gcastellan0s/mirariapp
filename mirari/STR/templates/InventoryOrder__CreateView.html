@@ -218,12 +218,12 @@
     sendForm() {
         Block();
         let sendData = {
-            id_provider : document.querySelector('#id_provider').value;
-            id_responsible : document.querySelector('#id_responsible').value;
-            id_priority : document.querySelector('#id_priority').value;
-            id_document : document.querySelector('#id_document').value;
-            id_notes : document.querySelector('#id_notes').value;
-            productList : JSON.stringify( self.productList )
+            id_provider : document.querySelector('#id_provider').value,
+            id_responsible : document.querySelector('#id_responsible').value,
+            id_priority : document.querySelector('#id_priority').value,
+            id_document : document.querySelector('#id_document').value,
+            id_notes : document.querySelector('#id_notes').value,
+            productList : JSON.stringify( self.productList ),
         }
         console.log(sendData)
         UnBlock();
