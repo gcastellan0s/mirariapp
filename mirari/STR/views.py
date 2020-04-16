@@ -25,6 +25,8 @@ class Inventory__ApiView(Generic__ApiView):
 	permissions = False
 	@method_decorator(csrf_exempt)
 	def get_serializers(self, request):
+		if request.POST.get('sendData'):
+			return JsonResponse({'sendData':request.POST.get('sendData')}, safe=False)
 		if request.POST.get('codebar'):
 			return JsonResponse({'product':ProductSerializer(Product.objects.filter(codebar=request.POST.get('codebar')).first()).data}, safe=False)
 		if request.POST.get('productID'):
@@ -33,8 +35,4 @@ class Inventory__ApiView(Generic__ApiView):
 			product = Product.objects.filter(codebar=request.POST.get('PlusCodebar')).first()
 			product.quantity += 1
 			product.save()
-			return JsonResponse({'ok':'ok'}, safe=False)
-		if request.POST.get('sendData'):
-			return JsonResponse({'sendData':request.POST.get('sendData')}, safe=False)
-
-		
+			return JsonResponse({'ok':'ok'}, safe=False)		
