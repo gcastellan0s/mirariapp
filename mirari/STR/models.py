@@ -519,7 +519,7 @@ class InventoryOrder(Model_base):
         verbose_name_plural = VARS['PLURAL']
         permissions = permissions(VARS)
     def __str__(self):
-        return self.id
+        return 'InventoryOrder'
 
 
 #
