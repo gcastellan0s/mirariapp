@@ -190,7 +190,7 @@
             cancelButtonColor: 'danger',
             showLoaderOnConfirm: true,
             preConfirm: (value) => {
-                product[1] = value
+                product[1] = parseInt(value)
                 return true
             },
         }).then((result) => {
