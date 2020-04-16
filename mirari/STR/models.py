@@ -448,7 +448,7 @@ VARS = {
             'title': 'STATUS',
         },
     ],
-    'FORM': ('provider','document','priority','responsible','notes','product'),
+    'FORM': ('provider','responsible','document','priority','notes','product'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
@@ -505,14 +505,14 @@ class InventoryOrder(Model_base):
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     operationType = models.CharField('Tipo de operación', choices=OPERATIONTYPE, max_length=250)
     status = models.CharField('Estatus', choices=STATUS, max_length=250, default="BORRADOR")
-    provider = models.ForeignKey('STR.Provider', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Proveedor")
+    provider = models.ForeignKey('STR.Provider', null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Proveedor")
     initialDateTime = models.DateTimeField(auto_now_add=True)
     finalDateTime = models.DateTimeField(blank=True, null=True)
     document = models.CharField('Documento de referencia', max_length=250, blank=True, null=True)
     priority = models.IntegerField('Prioridad', default=0)
     responsible = models.ForeignKey('mirari.User', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Responsable")
     notes = models.TextField('Notas', max_length=250, blank=True, null=True)
-    product = models.ForeignKey('STR.Product', on_delete=models.CASCADE, related_name='+', blank=True, null=True)
+    product = models.ForeignKey('STR.Product', on_delete=models.SET_NULL, related_name='+', blank=True, null=True)
     VARS = VARS
     class Meta(Model_base.Meta):
         verbose_name = VARS['NAME']
