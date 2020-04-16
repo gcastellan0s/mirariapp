@@ -28,10 +28,10 @@ class Inventory__ApiView(Generic__ApiView):
 		if request.POST.get('sendData'):
 			data = json.loads(request.POST.get('sendData'))
 			inventoryOrder = InventoryOrder()
-			inventoryOrder.provider = Provider.objects.get(pk=data.provider)
-			inventoryOrder.document = data.document
-			inventoryOrder.priority = data.priority
-			inventoryOrder.responsible = User.objects.get(pk=data.responsible)
+			if data.provider:
+				inventoryOrder.provider = Provider.objects.get(pk=data.provider)
+			if data.responsible:
+				inventoryOrder.responsible = User.objects.get(pk=data.responsible)
 			inventoryOrder.notes = data.notes
 			inventoryOrder.operationType = data.type
 			inventoryOrder.save()
