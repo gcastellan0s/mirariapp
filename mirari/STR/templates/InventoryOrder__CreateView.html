@@ -141,6 +141,18 @@
 
 {%block created%}
     $("#div_id_product").hide();
+    $("#saveButtons").html(`
+        <button type="button" class="btn btn-brand">
+            <i class="la la-save"></i>
+            <span class="kt-hidden-mobile">
+                {%if not object%}
+                    GUARDAR {{ model|verbose_name_singular|upper }}
+                {%else%}
+                    ACTUALIZAR <small>{{ model|verbose_name_singular|upper }}</small>
+                {%endif%}
+            </span>
+        </button>
+    `);
 {%endblock created%}
 
 {%block methods%}
