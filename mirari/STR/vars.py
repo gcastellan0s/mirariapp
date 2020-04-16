@@ -52,7 +52,7 @@ MENU = {
 				'apps': [APP, ],
 				'permission': 'Can_View',
 				'model': APP + '.InventoryOrder',
-				'link': '/STR/list/InventoryOrder/?type=RECEPCIONES',
+				'link': '/STR/list/InventoryOrder/?type=in',
 			},
 			{
 				'title': 'Ordenes de entrega',
@@ -62,7 +62,7 @@ MENU = {
 				'apps': [APP, ],
 				'permission': 'Can_View',
 				'model': APP + '.InventoryOrder',
-				'link': '/STR/list/InventoryOrder/?type=ENTREGA',
+				'link': '/STR/list/InventoryOrder/?type=out',
 			},
 		]
 	},

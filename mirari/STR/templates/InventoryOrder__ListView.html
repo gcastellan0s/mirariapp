@@ -3,12 +3,12 @@
 {% load i18n %}
 {% load mirari_tags %}
 
-{% block title %}ORDENES DE ENTREGA :: {{ G.ORGANIZATION.TITLE }}{% endblock title %}
+{% block title %}{%if request.GET.type == 'in'%}ENTRADAS{%else%}SALIDAS{%endif%} :: {{ G.ORGANIZATION.TITLE }}{% endblock title %}
 
 {%block subheader%}
     <div class="kt-subheader__main">
         <h2 class="kt-subheader__title kt-subheader__title--separator">
-			<strong style="font-size: 2rem;">ORDENES DE ENTREGA</strong> 
+			<strong style="font-size: 2rem;">{%if request.GET.type == 'in'%}ENTRADAS{%else%}SALIDAS{%endif%} DE ALMACEN</strong> 
         </h2>
     </div>
 {%endblock subheader%}
@@ -16,6 +16,6 @@
 {%block buttonAdd%}
     <a href="{%url 'STR:InventoryOrder__CreateView'%}" class="btn btn-brand btn-elevate btn-icon-sm mb-2">
         <i class="la la-plus"></i>
-        AGREGAR ORDEN DE ENTREGA
+        {%if request.GET.type == 'in'%}ENTRADAS{%else%}SALIDAS{%endif%} DE ALMACEN
     </a>
 {%endblock buttonAdd%}
