@@ -217,7 +217,7 @@
     },
     sendForm() {
         Block();
-        let sendData = {
+        var sendData = {
             id_provider : document.querySelector('#id_provider').value,
             id_responsible : document.querySelector('#id_responsible').value,
             id_priority : document.querySelector('#id_priority').value,
@@ -225,7 +225,7 @@
             id_notes : document.querySelector('#id_notes').value,
             productList : self.productList,
         }
-        Ax('post', '/STR/api/InventoryApi/STR/Product/', {'sendData':'sendData'})
+        Ax('post', '/STR/api/InventoryApi/STR/Product/', {'sendData':sendData})
         .then(function(json){
             console.log(json)
         })
