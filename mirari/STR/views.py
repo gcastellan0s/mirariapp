@@ -34,5 +34,7 @@ class Inventory__ApiView(Generic__ApiView):
 			product.quantity += 1
 			product.save()
 			return JsonResponse({'ok':'ok'}, safe=False)
+		if request.POST.get('sendData'):
+			return JsonResponse({'sendData':request.POST.get('sendData')}, safe=False)
 
 		
