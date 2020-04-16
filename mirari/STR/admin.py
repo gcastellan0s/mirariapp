@@ -21,3 +21,7 @@ class InventoryOrderAdmin(PassAdmin):
 @admin.register(Product)
 class ProductAdmin(PassAdmin):
 	list_display = ('id',)
+
+@admin.register(InventoryOrderProoduct)
+class InventoryOrderProoduct(PassAdmin):
+	list_display = ('id',)
