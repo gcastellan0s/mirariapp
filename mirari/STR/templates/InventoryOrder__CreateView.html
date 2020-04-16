@@ -11,23 +11,23 @@
     <div class="kt-subheader__main">
         <h3 class="kt-subheader__title kt-subheader__title--separator">
             {%if not object%}
-                <small>CREAR</small> 
-                <strong style="font-size: 2rem;">{%if request.GET.type == 'in'%}ENTRADAS{%else%}SALIDAS{%endif%} DE ALMACÉN</strong>
+                <small>CREAR </small> 
+                <strong style="font-size: 2rem;">{%if request.GET.type == 'in'%} ENTRADA{%else%} SALIDA{%endif%} DE ALMACÉN</strong>
             {%else%}
-                <small>EDITAR</small> 
-                <strong style="font-size: 2rem;">{%if request.GET.type == 'in'%}ENTRADAS{%else%}SALIDAS{%endif%} DE ALMACÉN</strong>
+                <small>EDITAR </small> 
+                <strong style="font-size: 2rem;">{%if request.GET.type == 'in'%} ENTRADA{%else%} SALIDA{%endif%} DE ALMACÉN</strong>
             {%endif%} 
         </h3>
         <span class="kt-subheader__separator kt-hidden"></span>
         <div class="kt-subheader__breadcrumbs">
             {%if redirect_model%}
                 <span class="kt-subheader__breadcrumbs-separator"></span>
-                <a href="{{redirect_model.url_list}}" class="kt-subheader__breadcrumbs-link">
+                <a href="{{redirect_model.url_list}}?type={{request.GET.type}}" class="kt-subheader__breadcrumbs-link">
                     Lista de {{ redirect_model|verbose_name_plural|upper }}
                 </a>
             {%else%}
                 <span class="kt-subheader__breadcrumbs-separator"></span>
-                <a href="{{model.url_list}}" class="kt-subheader__breadcrumbs-link">
+                <a href="{{model.url_list}}?type={{request.GET.type}}" class="kt-subheader__breadcrumbs-link">
                     Lista de {{ model|verbose_name_plural|upper }}
                 </a>
             {%endif%}
