@@ -126,6 +126,23 @@
             </div>
         </div>
         <div class="col-xl-7">
+            
+            {% crispy form %}
+        </div>
+    </div>
+{%endblock content%}
+
+
+<script>
+{%block data%}
+    {{ block.super }}
+    codebar: '' ,
+    productList: [],
+{%endblock data%}
+
+{%block created%}
+    $("#div_id_product").hide();
+    $("#formButtons").html(`
             <div class="kt-portlet__head kt-portlet__head--lg">
                 <div class="kt-portlet__head-label">
                     <div class="btn-group">
@@ -145,22 +162,7 @@
                     </div>
                 </div>
             </div>
-            {% crispy form %}
-        </div>
-    </div>
-{%endblock content%}
-
-
-<script>
-{%block data%}
-    {{ block.super }}
-    codebar: '' ,
-    productList: [],
-{%endblock data%}
-
-{%block created%}
-    $("#div_id_product").hide();
-    //$("#formButtons").hide();
+        `);
 {%endblock created%}
 
 {%block methods%}
