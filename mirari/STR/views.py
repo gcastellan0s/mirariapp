@@ -27,9 +27,15 @@ class Inventory__ApiView(Generic__ApiView):
 	def get_serializers(self, request):
 		if request.POST.get('sendData'):
 			data = json.loads(request.POST.get('sendData'))
-			for product in data['productList']:
-				print(product)
-			return JsonResponse({'sendData':request.POST.get('sendData')}, safe=False)
+			inventoryOrder = InventoryOrder()
+			inventoryOrder.provider = Provider.objects.get(pk=data.provider)
+			inventoryOrder.document = data.document
+			inventoryOrder.priority = data.priority
+			inventoryOrder.responsible = User.objects.get(pk=data.responsible)
+			inventoryOrder.notes = data.notes
+			inventoryOrder.save()
+			#for product in data['productList']:
+			return JsonResponse({'sendData':inventoryOrder.pk}, safe=False)
 		if request.POST.get('codebar'):
 			return JsonResponse({'product':ProductSerializer(Product.objects.filter(codebar=request.POST.get('codebar')).first()).data}, safe=False)
 		if request.POST.get('productID'):
