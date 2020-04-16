@@ -28,6 +28,7 @@ class Inventory__ApiView(Generic__ApiView):
 		if request.POST.get('sendData'):
 			data = json.loads(request.POST.get('sendData'))
 			inventoryOrder = InventoryOrder()
+			inventoryOrder.organization = Organization.objects.get(id=self.request.session.get('organization'))
 			if data['provider']:
 				inventoryOrder.provider = Provider.objects.get(pk=data['provider'])
 			if data['responsible']:
