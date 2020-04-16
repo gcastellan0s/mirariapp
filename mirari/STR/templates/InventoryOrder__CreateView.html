@@ -194,7 +194,10 @@
                 return true
             },
         }).then((result) => {
-            console.log(result)
+            if(result.dismiss === 'cancel'){
+                let resultado = self.productList.findIndex( getProduct => {return getProduct === product} );
+                self.productList.splice(resultado, 1)
+            }
         })
     },
 {%endblock methods%}
