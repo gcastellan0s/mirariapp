@@ -224,6 +224,7 @@
             id_document : document.querySelector('#id_document').value,
             id_notes : document.querySelector('#id_notes').value,
             productList : self.productList,
+            type: '{{request.GET.type}}',
         }
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'sendData': JSON.stringify(sendData)})
         .then(function(json){

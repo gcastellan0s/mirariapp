@@ -493,8 +493,8 @@ VARS = {
 }
 class InventoryOrder(Model_base):
     OPERATIONTYPE = (
-        ('ORDEN DE ENTREGA','ORDEN DE ENTREGA'),
-        ('RECEPCION','RECEPCION'),
+        ('in','in'),
+        ('out','out'),
     )
     STATUS = (
         ('BORRADOR','BORRADOR'),

@@ -33,6 +33,7 @@ class Inventory__ApiView(Generic__ApiView):
 			inventoryOrder.priority = data.priority
 			inventoryOrder.responsible = User.objects.get(pk=data.responsible)
 			inventoryOrder.notes = data.notes
+			inventoryOrder.operationType = data.type
 			inventoryOrder.save()
 			#for product in data['productList']:
 			return JsonResponse({'sendData':inventoryOrder.pk}, safe=False)
