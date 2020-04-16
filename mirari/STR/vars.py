@@ -45,7 +45,7 @@ MENU = {
 				'link': '/STR/list/Product/',
 			},
 			{
-				'title': 'Recepciones',
+				'title': 'Entradas de almacén',
 				'icon': 'fas fa-people-carry',
 				'text': 'Entradas de productos al almacén',
 				'subtext': 'Actualizaciones de entrada de inventario',
@@ -55,7 +55,7 @@ MENU = {
 				'link': '/STR/list/InventoryOrder/?type=in',
 			},
 			{
-				'title': 'Ordenes de entrega',
+				'title': 'Salidas de almacén',
 				'icon': 'fas fa-shipping-fast',
 				'text': 'Salidas de producto del almacén',
 				'subtext': 'Actualizaciones de salida de inventario',
