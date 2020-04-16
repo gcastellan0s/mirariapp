@@ -190,10 +190,11 @@
             cancelButtonColor: 'danger',
             showLoaderOnConfirm: true,
             preConfirm: (value) => {
-                console.log(value)
-                console.log(product)
+                product[1] = value
                 return true
             },
+        }).then((result) => {
+            console.log(result)
         })
     },
 {%endblock methods%}
