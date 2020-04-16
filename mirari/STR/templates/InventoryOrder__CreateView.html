@@ -12,10 +12,10 @@
         <h3 class="kt-subheader__title kt-subheader__title--separator">
             {%if not object%}
                 <small>CREAR</small> 
-                <strong style="font-size: 2rem;">ORDEN DE ENTREGA</strong>
+                <strong style="font-size: 2rem;">{%if request.GET.type == 'in'%}ENTRADAS{%else%}SALIDAS{%endif%} DE ALMACÉN</strong>
             {%else%}
                 <small>EDITAR</small> 
-                <strong style="font-size: 2rem;">ORDEN DE ENTREGA</strong>
+                <strong style="font-size: 2rem;">{%if request.GET.type == 'in'%}ENTRADAS{%else%}SALIDAS{%endif%} DE ALMACÉN</strong>
             {%endif%} 
         </h3>
         <span class="kt-subheader__separator kt-hidden"></span>
