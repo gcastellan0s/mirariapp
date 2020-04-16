@@ -190,7 +190,10 @@
             cancelButtonColor: 'danger',
             showLoaderOnConfirm: true,
             preConfirm: (value) => {
+                let resultado = self.productList.findIndex( getProduct => {return getProduct === product} );
+                self.productList.splice(resultado, 1)
                 product[1] = parseInt(value)
+                self.productList.unshift(product)
                 return true
             },
         }).then((result) => {
