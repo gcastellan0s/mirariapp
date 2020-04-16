@@ -218,13 +218,13 @@
     sendForm() {
         Block();
         var sendData = {
+            type: '{{request.GET.type}}',
             id_provider : document.querySelector('#id_provider').value,
             id_responsible : document.querySelector('#id_responsible').value,
             id_priority : document.querySelector('#id_priority').value,
             id_document : document.querySelector('#id_document').value,
             id_notes : document.querySelector('#id_notes').value,
             productList : self.productList,
-            type: '{{request.GET.type}}',
         }
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'sendData': JSON.stringify(sendData)})
         .then(function(json){
