@@ -126,7 +126,6 @@
             </div>
         </div>
         <div class="col-xl-7">
-            
             {% crispy form %}
         </div>
     </div>
@@ -142,27 +141,6 @@
 
 {%block created%}
     $("#div_id_product").hide();
-    $("#formButtons").html(`
-            <div class="kt-portlet__head kt-portlet__head--lg">
-                <div class="kt-portlet__head-label">
-                    <div class="btn-group">
-                        <a href="javascript:history.back(1)" class="btn btn-clean kt-margin-r-10">
-                            <i class="la la-arrow-left"></i> 
-                            <span class="kt-hidden-mobile">REGRESAR</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="kt-portlet__head-toolbar">
-                    <div class="btn-group">
-                        <button type="submit" name="save__edit" class="btn btn-brand"><i class="la la-save"></i>
-                            <span class="kt-hidden-mobile">
-                                GUARDAR ORDEN DE INVENTARIO
-                            </span>
-                        </button> 
-                    </div>
-                </div>
-            </div>
-        `);
 {%endblock created%}
 
 {%block methods%}
