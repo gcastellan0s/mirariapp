@@ -218,9 +218,9 @@
     sendForm() {
         Block();
         var sendData = {
-            id_provider : document.querySelector('#id_provider').value,
-            id_responsible : document.querySelector('#id_responsible').value,
-            id_notes : document.querySelector('#id_notes').value,
+            provider : document.querySelector('#id_provider').value,
+            responsible : document.querySelector('#id_responsible').value,
+            notes : document.querySelector('#id_notes').value,
             productList : self.productList,
             type : '{{request.GET.type}}',
         }
