@@ -27,6 +27,9 @@ class Inventory__ApiView(Generic__ApiView):
 	def get_serializers(self, request):
 		if request.POST.get('sendData'):
 			data = json.loads(request.POST.get('sendData'))
+			print("#########")
+			print("#########")
+			print(data)
 			inventoryOrder = InventoryOrder()
 			if data.provider:
 				inventoryOrder.provider = Provider.objects.get(pk=data.provider)
