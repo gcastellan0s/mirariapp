@@ -142,7 +142,7 @@
 {%block created%}
     $("#div_id_product").hide();
     $("#saveButtons").html(`
-        <button type="button" class="btn btn-brand">
+        <button type="button" class="btn btn-brand" @click="sendForm()">
             <i class="la la-save"></i>
             <span class="kt-hidden-mobile">
                 {%if not object%}
@@ -214,6 +214,9 @@
                 self.productList.splice(resultado, 1)
             }
         })
+    },
+    sendForm() {
+        console.log("sendform")
     },
 {%endblock methods%}
 
