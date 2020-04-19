@@ -38,8 +38,8 @@ class Inventory__ApiView(Generic__ApiView):
 			inventoryOrder.save()
 			for product in data['productList']:
 				inventoryOrderProoduct = InventoryOrderProoduct()
-				inventoryOrderProoduct.product = Product.objects.get(product[0]['id'])
-				inventoryOrderProoduct.quantity = 1
+				inventoryOrderProoduct.product = Product.objects.get(pk=product[0]['id'])
+				inventoryOrderProoduct.quantity = product[1]
 				inventoryOrderProoduct.inventoryorder = inventoryOrder
 				inventoryOrderProoduct.save()
 			return JsonResponse({'sendData':inventoryOrder.pk}, safe=False)
