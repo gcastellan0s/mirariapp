@@ -224,6 +224,7 @@
             productList : self.productList,
             type : '{{request.GET.type}}',
         }
+        console.log(sendData)
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'sendData': JSON.stringify(sendData)})
         .then(function(json){
             console.log(json)

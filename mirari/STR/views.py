@@ -37,6 +37,11 @@ class Inventory__ApiView(Generic__ApiView):
 			inventoryOrder.operationType = data['type']
 			inventoryOrder.save()
 			#for product in data['productList']:
+				#inventoryOrderProoduct = InventoryOrderProoduct()
+				#inventoryOrderProoduct.product = Product.objects.get(product.id)
+				#inventoryOrderProoduct.quantity = product.
+				#inventoryOrderProoduct.inventoryorder = product.
+				#inventoryOrderProoduct.save()
 			return JsonResponse({'sendData':inventoryOrder.pk}, safe=False)
 			#return JsonResponse({'sendData':request.POST.get('sendData')}, safe=False)
 		if request.POST.get('codebar'):
@@ -47,4 +52,4 @@ class Inventory__ApiView(Generic__ApiView):
 			product = Product.objects.filter(codebar=request.POST.get('PlusCodebar')).first()
 			product.quantity += 1
 			product.save()
-			return JsonResponse({'ok':'ok'}, safe=False)		
+			return JsonResponse({'ok':'ok'}, safe=False)	
