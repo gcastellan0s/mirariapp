@@ -36,12 +36,12 @@ class Inventory__ApiView(Generic__ApiView):
 			inventoryOrder.notes = data['notes']
 			inventoryOrder.operationType = data['type']
 			inventoryOrder.save()
-			#for product in data['productList']:
-				#inventoryOrderProoduct = InventoryOrderProoduct()
-				#inventoryOrderProoduct.product = Product.objects.get(product.id)
-				#inventoryOrderProoduct.quantity = product.
-				#inventoryOrderProoduct.inventoryorder = product.
-				#inventoryOrderProoduct.save()
+			for product in data['productList']:
+				inventoryOrderProoduct = InventoryOrderProoduct()
+				inventoryOrderProoduct.product = Product.objects.get(product[0].id)
+				inventoryOrderProoduct.quantity = int(product.product[1])
+				inventoryOrderProoduct.inventoryorder = inventoryOrder
+				inventoryOrderProoduct.save()
 			return JsonResponse({'sendData':inventoryOrder.pk}, safe=False)
 			#return JsonResponse({'sendData':request.POST.get('sendData')}, safe=False)
 		if request.POST.get('codebar'):
