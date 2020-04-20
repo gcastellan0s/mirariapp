@@ -553,7 +553,8 @@ class InventoryOrderProoductSerializer(Basic_Serializer):
     product = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):
         model = InventoryOrderProoduct
-
+    def get_products(self, obj):
+        return ProductSerializer(obj.product).data
 
 #
 #class ProductHistory(Model_base):
