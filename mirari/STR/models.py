@@ -550,6 +550,7 @@ class InventoryOrderProoduct(Model_base):
         return 'InventoryOrder'
 
 class InventoryOrderProoductSerializer(Basic_Serializer):
+    product = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):
         model = InventoryOrderProoduct
 
