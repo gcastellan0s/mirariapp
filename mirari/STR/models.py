@@ -446,14 +446,17 @@ VARS = {
         {
             'field': 'status',
             'title': 'STATUS',
+            'url': 'url_update',
         },
         {
             'field': 'get_initialDateTime',
             'title': 'FECHA',
+            'url': 'url_update',
         },
         {
             'field': 'get_provider',
             'title': 'PROVEEDOR',
+            'url': 'url_update',
         },
     ],
     'FORM': ('status','provider','responsible','notes','product'),
