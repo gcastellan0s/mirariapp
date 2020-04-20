@@ -535,6 +535,8 @@ class InventoryOrder(Model_base):
             return None
     def get_provider(self):
         return self.provider.name
+    def get_initialDateTime(self):
+        return self.initialDateTime.strftime('%d-%m-%Y %H:%M')
 
 ########################################################################################
 VARS = {
