@@ -447,10 +447,7 @@ VARS = {
             'field': 'status',
             'title': 'STATUS',
         },
-        {
-            'field': 'initialDateTime',
-            'title': 'FECHA',
-        },
+        
         {
             'field': 'get_provider',
             'title': 'PROVEEDOR',
