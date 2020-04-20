@@ -21,6 +21,10 @@ class InventoryOrder__CreateView(Generic__CreateView):
     template_name = 'InventoryOrder__CreateView.html'
     model = InventoryOrder
 
+class InventoryOrder__UpdateView(InventoryOrder__CreateView):
+    template_name = 'InventoryOrder__CreateView.html'
+    model = InventoryOrder
+
 class Inventory__ApiView(Generic__ApiView):
 	permissions = False
 	@method_decorator(csrf_exempt)
