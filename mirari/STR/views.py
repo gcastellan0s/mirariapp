@@ -23,7 +23,6 @@ class InventoryOrder__CreateView(Generic__CreateView):
 
 class InventoryOrder__UpdateView(InventoryOrder__CreateView):
     template_name = 'InventoryOrder__CreateView.html'
-    model = InventoryOrder
 
 class Inventory__ApiView(Generic__ApiView):
 	permissions = False
