@@ -520,6 +520,11 @@ class InventoryOrder(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return 'InventoryOrder'
+    def url_update(self):
+        if not 'update' in self.exclude_permissions():
+            return reverse('mirari:Generic__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk}) + '?type=' + self.operationType
+        else:
+            return None
 
 ########################################################################################
 VARS = {
