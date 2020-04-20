@@ -157,7 +157,9 @@
         Block();
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'getProducts':{{object.id}}})
         .then(function(json){
-            console.log(json)
+            for(product of json.data.products){
+                self.productList.push([product.product, product.quantity])
+            }
         })
         .catch((error) => {
             Swal.fire('Oops! Ocurrio un error','Error al cargar los productos','error')
