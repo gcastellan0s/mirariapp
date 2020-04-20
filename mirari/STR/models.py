@@ -448,7 +448,7 @@ VARS = {
             'title': 'STATUS',
         },
         {
-            'field': 'initialDateTime',
+            'field': 'get_initialDateTime',
             'title': 'FECHA',
         },
         {
