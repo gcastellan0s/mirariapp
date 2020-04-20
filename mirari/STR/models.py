@@ -447,7 +447,10 @@ VARS = {
             'field': 'status',
             'title': 'STATUS',
         },
-        
+        {
+            'field': 'initialDateTime',
+            'title': 'FECHA',
+        },
         {
             'field': 'get_provider',
             'title': 'PROVEEDOR',
@@ -531,7 +534,7 @@ class InventoryOrder(Model_base):
         else:
             return None
     def get_provider(self):
-        return provider.name
+        return self.provider.name
 
 ########################################################################################
 VARS = {
