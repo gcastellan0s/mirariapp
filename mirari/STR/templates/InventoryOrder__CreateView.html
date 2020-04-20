@@ -152,6 +152,7 @@
 
 {%block created%}
     $("#div_id_product").hide();
+    {%if not object%}
     $("#saveButtons").html(`
         <button type="button" class="btn btn-brand" @click="sendForm()">
             <i class="la la-save"></i>
@@ -164,6 +165,7 @@
             </span>
         </button>
     `);
+    {%endif%}
     {%if object%}
         Block();
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'getProducts':{{object.id}}})
