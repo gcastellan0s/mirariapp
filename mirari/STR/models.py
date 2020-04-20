@@ -497,14 +497,14 @@ class InventoryOrder(Model_base):
         ('out','out'),
     )
     STATUS = (
-        ('BORRADOR','BORRADOR'),
+        #('BORRADOR','BORRADOR'),
         ('EN ESPERA','EN ESPERA'),
         ('PREPARADO','PREPARADO'),
         ('HECHO','HECHO'),
     )
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     operationType = models.CharField('Tipo de operación', choices=OPERATIONTYPE, max_length=250)
-    status = models.CharField('Estatus', choices=STATUS, max_length=250, default="BORRADOR")
+    status = models.CharField('Estatus', choices=STATUS, max_length=250, default="EN ESPERA")
     provider = models.ForeignKey('STR.Provider', null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Proveedor")
     initialDateTime = models.DateTimeField(auto_now_add=True)
     finalDateTime = models.DateTimeField(blank=True, null=True)
