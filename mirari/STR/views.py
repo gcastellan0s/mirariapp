@@ -47,7 +47,6 @@ class Inventory__ApiView(Generic__ApiView):
 				inventoryOrderProoduct.inventoryorder = inventoryOrder
 				inventoryOrderProoduct.save()
 			return JsonResponse({'sendData':inventoryOrder.pk}, safe=False)
-			#return JsonResponse({'sendData':request.POST.get('sendData')}, safe=False)
 		if request.POST.get('codebar'):
 			return JsonResponse({'product':ProductSerializer(Product.objects.filter(codebar=request.POST.get('codebar')).first()).data}, safe=False)
 		if request.POST.get('productID'):
@@ -56,4 +55,9 @@ class Inventory__ApiView(Generic__ApiView):
 			product = Product.objects.filter(codebar=request.POST.get('PlusCodebar')).first()
 			product.quantity += 1
 			product.save()
-			return JsonResponse({'ok':'ok'}, safe=False)	
+			return JsonResponse({'ok':'ok'}, safe=False)
+		if request.POST.get('getProducts'):	
+			inventoryOrder = InventoryOrder.objects.get(pk=request.POST.get('getProducts'))
+			products = InventoryOrderProoduct.objects.filter(inventoryorder = inventoryOrder)
+			return JsonResponse({'products':InventoryOrderProoductSerializer(products, many=True).data}, safe=False)
+			

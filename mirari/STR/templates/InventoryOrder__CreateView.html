@@ -153,6 +153,18 @@
             </span>
         </button>
     `);
+    {%if object%}
+        Block();
+        Ax('post', '/STR/api/InventoryApi/STR/Product/', {'getProducts':{{object.id}}})
+        .then(function(json){
+            console.log(json)
+        })
+        .catch((error) => {
+            Swal.fire('Oops! Ocurrio un error','Error al cargar los productos','error')
+        }).finally(() => {
+            UnBlock();
+        });
+    {%endif%} 
 {%endblock created%}
 
 {%block methods%}

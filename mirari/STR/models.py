@@ -549,6 +549,10 @@ class InventoryOrderProoduct(Model_base):
     def __str__(self):
         return 'InventoryOrder'
 
+class InventoryOrderProoductSerializer(Basic_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = InventoryOrderProoduct
+
 
 #
 #class ProductHistory(Model_base):
