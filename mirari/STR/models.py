@@ -447,6 +447,14 @@ VARS = {
             'field': 'status',
             'title': 'STATUS',
         },
+        {
+            'field': 'initialDateTime',
+            'title': 'FECHA',
+        },
+        {
+            'field': 'get_provider',
+            'title': 'PROVEEDOR',
+        },
     ],
     'FORM': ('status','provider','responsible','notes','product'),
     'SELECTQ': {
@@ -525,6 +533,8 @@ class InventoryOrder(Model_base):
             return reverse('STR:InventoryOrder__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk}) + '?type=' + self.operationType
         else:
             return None
+    def get_provider(self):
+        return provider.name
 
 ########################################################################################
 VARS = {

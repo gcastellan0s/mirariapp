@@ -6,6 +6,8 @@ from .vars import *
 from datetime import timedelta
 from dateutil import tz
 
+import zeep
+import xmltodict
 
 ########################################################################################
 VARS = {
@@ -781,6 +783,14 @@ class OrderService(Model_base):
         elif self.status == 'Especial':
             return 'text-success'
         return 'text-primary'
+    def getLiverpoolServices(self):
+        client = zeep.Client(wsdl='https://srproveedoresqa.liverpool.com.mx/wbi/AltaTicket?wsdl')
+        response = client.service.AltaTicket( 
+            username = 'PROVEEDOR_ICONFITNESS',
+            password = '6PeK!UhI!HxH>9',
+        )
+        pass
+    
 
 ########################################################################################
 VARS = {
