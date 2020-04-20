@@ -522,7 +522,7 @@ class InventoryOrder(Model_base):
         return 'InventoryOrder'
     def url_update(self):
         if not 'update' in self.exclude_permissions():
-            return reverse('mirari:Generic__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk}) + '?type=' + self.operationType
+            return reverse('STR:InventoryOrder__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk}) + '?type=' + self.operationType
         else:
             return None
 
