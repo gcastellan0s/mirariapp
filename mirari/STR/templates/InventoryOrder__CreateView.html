@@ -22,12 +22,12 @@
         <div class="kt-subheader__breadcrumbs">
             {%if redirect_model%}
                 <span class="kt-subheader__breadcrumbs-separator"></span>
-                <a href="{{redirect_model.url_list}}?type={{request.GET.type}}" class="kt-subheader__breadcrumbs-link">
+                <a href="/STR/list/InventoryOrder/?type={{request.GET.type}}" class="kt-subheader__breadcrumbs-link">
                     Lista de {{ redirect_model|verbose_name_plural|upper }}
                 </a>
             {%else%}
                 <span class="kt-subheader__breadcrumbs-separator"></span>
-                <a href="{{model.url_list}}?type={{request.GET.type}}" class="kt-subheader__breadcrumbs-link">
+                <a href="/STR/list/InventoryOrder/?type={{request.GET.type}}" class="kt-subheader__breadcrumbs-link">
                     Lista de {{ model|verbose_name_plural|upper }}
                 </a>
             {%endif%}
