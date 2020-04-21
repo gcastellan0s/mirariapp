@@ -8,31 +8,7 @@
 {% block title %}ORDENES DE ENTREGA :: {{ G.ORGANIZATION.TITLE }}{% endblock title %}
 
 {%block subheader%}
-    <div class="kt-subheader__main">
-        <h3 class="kt-subheader__title kt-subheader__title--separator">
-            {%if not object%}
-                <small>CREAR </small> 
-                <strong style="font-size: 2rem;">{%if request.GET.type == 'in'%} ENTRADA{%else%} SALIDA{%endif%} DE ALMACÉN</strong>
-            {%else%}
-                <small>EDITAR </small> 
-                <strong style="font-size: 2rem;">{%if request.GET.type == 'in'%} ENTRADA{%else%} SALIDA{%endif%} DE ALMACÉN</strong>
-            {%endif%} 
-        </h3>
-        <span class="kt-subheader__separator kt-hidden"></span>
-        <div class="kt-subheader__breadcrumbs">
-            {%if redirect_model%}
-                <span class="kt-subheader__breadcrumbs-separator"></span>
-                <a href="/STR/list/InventoryOrder/?type={{request.GET.type}}" class="kt-subheader__breadcrumbs-link">
-                    Lista de {{ redirect_model|verbose_name_plural|upper }}
-                </a>
-            {%else%}
-                <span class="kt-subheader__breadcrumbs-separator"></span>
-                <a href="/STR/list/InventoryOrder/?type={{request.GET.type}}" class="kt-subheader__breadcrumbs-link">
-                    Lista de {{ model|verbose_name_plural|upper }}
-                </a>
-            {%endif%}
-        </div>
-    </div>
+    
 {%endblock subheader%}
 
 {%block content%}
