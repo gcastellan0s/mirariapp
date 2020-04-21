@@ -22,7 +22,11 @@ class InventoryOrder__CreateView(Generic__CreateView):
     model = InventoryOrder
 
 class InventoryOrder__UpdateView(Generic__UpdateView):
-    template_name = 'InventoryOrder__CreateView.html'
+    template_name = 'InventoryOrder__UpdateView.html'
+    model = InventoryOrder
+
+class printInventoryOrder__UpdateView(Generic__UpdateView):
+    template_name = 'printInventoryOrder__UpdateView.html'
     model = InventoryOrder
 
 class Inventory__ApiView(Generic__ApiView):
