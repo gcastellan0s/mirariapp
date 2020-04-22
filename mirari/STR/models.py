@@ -536,6 +536,16 @@ class InventoryOrder(Model_base):
             return reverse('STR:InventoryOrder__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk}) + '?type=' + self.operationType
         else:
             return None
+    def url_update(self):
+        if not 'update' in self.exclude_permissions():
+            return reverse('STR:InventoryOrder__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk}) + '?type=' + self.operationType
+        else:
+            return None
+    def url_print(self):
+        if not 'update' in self.exclude_permissions():
+            return reverse('STR:printInventoryOrder__UpdateView', kwargs={'app': self.VARS['APP'], 'model': self.VARS['MODEL'], 'pk': self.pk}) + '?type=' + self.operationType
+        else:
+            return None
     def get_provider(self):
         return self.provider.name
     def get_initialDateTime(self):
