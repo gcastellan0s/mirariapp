@@ -256,7 +256,7 @@ script.
                 if(date){
                     Block(text="Calculando tabla...");
                     for (day = 1; day <= 31; day++) {
-                        Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'month':date[0],'day':day}, errorDialog=false)
+                        Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getReport',{'sellpointgroup':{{object.pk}},'year':date[1],'month':date[0],'day':day}, errorDialog=false)
                         .then((json) => {
                             if (json.data.cuts.length > 0){
                                 self.Cuts.push({'day':parseInt(json.data.day), 'cuts':json.data.cuts})
