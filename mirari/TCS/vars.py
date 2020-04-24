@@ -82,7 +82,7 @@ MENU = {
 				'apps': [APP, ],
 				'permission': 'Can_View',
 				'model': APP + '.LiverpoolTools',
-				'url': '/TCS/liverpoolTools',
+				'link': '/TCS/liverpoolTools',
 			},
 			{
 				'title': 'Reportes',
