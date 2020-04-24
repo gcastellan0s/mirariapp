@@ -13,6 +13,14 @@ class calendar__OrderService__TemplateView(Generic__TemplateView):
             return self.model.APIRESPONSE(self.model, self)
         return super().dispatch(request, *args, **kwargs)
 
+class liverpoolTools__TemplateView(Generic__TemplateView):
+    template_name = "liverpoolTools__TemplateView.pug"
+    model = apps.get_model('TCS', 'LiverpoolTools')
+    #def dispatch(self, request, *args, **kwargs):
+        #if self.request.GET.get('api'):
+            #return self.model.APIRESPONSE(self.model, self)
+        #return super().dispatch(request, *args, **kwargs)
+
 class manuales_usuario__OrderService__TemplateView(Generic__TemplateView):
     template_name = "manuales_usuario__OrderService__TemplateView.pug"
     model = apps.get_model('TCS', 'OrderService')

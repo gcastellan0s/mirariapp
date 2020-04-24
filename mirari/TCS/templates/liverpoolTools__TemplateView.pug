@@ -1,0 +1,33 @@
+extends "generic/TemplateView.html"
+-load static
+-load i18n
+-load mirari_tags
+
+block styles
+    
+
+block subheader
+    .kt-subheader__main
+        h3.kt-subheader__title.kt-subheader__title--separator
+            strong  HERRAMIENTAS LIVERPOOL
+        span.kt-subheader__separator.kt-hidden
+        .kt-subheader__breadcrumbs.mr-5
+            a.kt-subheader__breadcrumbs-link(href='/')  INICIO
+
+block content
+    #kt_portlet.kt-portlet
+        .kt-portlet__body
+
+script.
+    {%block created%}
+        var KTCalendarBackgroundEvents = function() {
+            return {
+                init: function() {
+                    
+                }
+            };
+        }();
+        jQuery(document).ready(function() {
+            KTCalendarBackgroundEvents.init();
+        });
+    {%endblock created%}

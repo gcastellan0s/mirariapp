@@ -75,6 +75,16 @@ MENU = {
 				'url': 'Generic__ListView',
 			},
 			{
+				'title': 'LIVERPOOL',
+				'icon': 'flaticon-star',
+				'text': 'Herramientas Liverpool',
+				'subtext': 'Herramientas de Liverpool',
+				'apps': [APP, ],
+				'permission': 'Can_View',
+				'model': APP + '.LiverpoolTools',
+				'url': '/TCS/liverpoolTools',
+			},
+			{
 				'title': 'Reportes',
 				'icon': 'far fa-file-excel',
 				'text': 'Reportes de ordenes de servicio',

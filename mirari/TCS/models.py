@@ -436,6 +436,7 @@ VARS = {
 class OrderService(Model_base):
     estatus_choices = ESTATUS
     serial = models.IntegerField(verbose_name="Folio de la orden")
+    serialLiverpool = models.CharField(max_length=250, blank=True, null=True, verbose_name="Liverpool ID" default="")
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     creation_date = models.DateTimeField(auto_now_add=True, editable=True)
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
@@ -790,7 +791,33 @@ class OrderService(Model_base):
             password = '6PeK!UhI!HxH>9',
         )
         pass
-    
+
+########################################################################################
+VARS = {
+    'NAME':'Herramienta Liverpool',
+    'PLURAL':'Herramientas Liverpool',
+    'MODEL':'LiverpoolTools',
+    'NEW':'NUEVA',
+    'NEW_GENDER': 'una nueva',
+    'THIS': 'esta',
+    'APP':APP,
+    'EXCLUDE_PERMISSIONS': ['update', 'delete'],
+}
+class LiverpoolTools(Model_base):
+    consultaTickets = models.TextField(blank=True, verbose_name="Consulta Tickets")
+    consultaActividades = models.TextField(blank=True, verbose_name="Consulta Actividades")
+    consultaNotas = models.TextField(blank=True, verbose_name="Consulta Notas")
+    actualizarTickets = models.TextField(blank=True, verbose_name="Actualizar Tickets")
+    actualizarActividades = models.TextField(blank=True, verbose_name="Actualizar Actividades")
+    actualizarNotas = models.TextField(blank=True, verbose_name="Actualizar Notas")
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return str(self.pk)
+
 
 ########################################################################################
 VARS = {
