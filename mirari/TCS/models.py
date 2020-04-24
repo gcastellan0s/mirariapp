@@ -436,7 +436,7 @@ VARS = {
 class OrderService(Model_base):
     estatus_choices = ESTATUS
     serial = models.IntegerField(verbose_name="Folio de la orden")
-    serialLiverpool = models.CharField(max_length=250, blank=True, null=True, verbose_name="Liverpool ID" default="")
+    serialLiverpool = models.CharField(max_length=250, blank=True, null=True, verbose_name="Liverpool ID", default="")
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     creation_date = models.DateTimeField(auto_now_add=True, editable=True)
     user = models.ForeignKey('mirari.User', related_name='+', on_delete=models.SET_NULL, null=True)
