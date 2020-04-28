@@ -14,7 +14,17 @@ block subheader
 block content
     #kt_portlet.kt-portlet
         .kt-portlet__body
-                    
+            .form-group.form-group-last
+                .alert.alert-secondary(role='alert')
+                    .alert-icon
+                        i.flaticon-warning.kt-font-brand
+                    .alert-text
+                        | Esta herramienta actualiza todas las ordenes que se levantaron desde SIEBEL Liverpool a la plataforma de Tecnoservicio.
+            .form-group.form-group-last
+                button.btn.btn-primary(type='button')
+                    i.fa.fa-download
+                    | DESCARGAR ORDENES SIEBEL
+        .kt-portlet__body
             .form-group.form-group-last
                 .alert.alert-secondary(role='alert')
                     .alert-icon
@@ -28,14 +38,4 @@ block content
 
 script.
     {%block created%}
-        var KTCalendarBackgroundEvents = function() {
-            return {
-                init: function() {
-                    
-                }
-            };
-        }();
-        jQuery(document).ready(function() {
-            KTCalendarBackgroundEvents.init();
-        });
     {%endblock created%}
