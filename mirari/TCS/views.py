@@ -101,7 +101,7 @@ class OrderServiceReport__CreateView(Generic__CreateView):
 
 class OrderServiceReport__TemplateView(Generic__TemplateView):
     model = apps.get_model(APP, 'OrderServiceReport')
-    template_name = "OrderServiceReport__CreateView.pug"
+    template_name = "OrderServiceReport__CreateView.html"
     ###########################################################################################
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
