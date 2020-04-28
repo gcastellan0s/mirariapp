@@ -38,7 +38,7 @@
         {{ block.super }}
         consultaOrdenes() {
             Block();
-            Ax('post', 'api/TCSapi/TCS/OrderService/', {'getOrders':true})
+            Ax('post', 'TCS/api/TCSapi/TCS/OrderService/', {'getOrders':true})
             .then(function(json){
                 console.log(json)
             })
