@@ -13,14 +13,6 @@ class calendar__OrderService__TemplateView(Generic__TemplateView):
             return self.model.APIRESPONSE(self.model, self)
         return super().dispatch(request, *args, **kwargs)
 
-class liverpoolTools__TemplateView(Generic__TemplateView):
-    template_name = "liverpoolTools__TemplateView.pug"
-    model = apps.get_model('TCS', 'LiverpoolTools')
-    #def dispatch(self, request, *args, **kwargs):
-        #if self.request.GET.get('api'):
-            #return self.model.APIRESPONSE(self.model, self)
-        #return super().dispatch(request, *args, **kwargs)
-
 class manuales_usuario__OrderService__TemplateView(Generic__TemplateView):
     template_name = "manuales_usuario__OrderService__TemplateView.pug"
     model = apps.get_model('TCS', 'OrderService')
@@ -101,7 +93,7 @@ class OrderServiceReport__CreateView(Generic__CreateView):
 
 class OrderServiceReport__TemplateView(Generic__TemplateView):
     model = apps.get_model(APP, 'OrderServiceReport')
-    template_name = "OrderServiceReport__CreateView.html"
+    template_name = "OrderServiceReport__CreateView.pug"
     ###########################################################################################
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -109,6 +101,15 @@ class OrderServiceReport__TemplateView(Generic__TemplateView):
             response = HttpResponse(csvfile, content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename="OrderServiceReport.csv"'
             return response
+
+
+class liverpoolTools__TemplateView(Generic__TemplateView):
+    template_name = "liverpoolTools__TemplateView.html"
+    model = apps.get_model('TCS', 'LiverpoolTools')
+    #def dispatch(self, request, *args, **kwargs):
+        #if self.request.GET.get('api'):
+            #return self.model.APIRESPONSE(self.model, self)
+        #return super().dispatch(request, *args, **kwargs)
 
 
 class TCSapi__ApiView(Generic__ApiView):
