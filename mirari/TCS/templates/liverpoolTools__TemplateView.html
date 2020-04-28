@@ -1,0 +1,52 @@
+{% extends "generic/TemplateView.html" %} 
+{% load static %}
+{% load i18n %}
+{% load mirari_tags %}
+
+{%block subheader%}
+    <div class="kt-subheader__main">
+        <h3 class="kt-subheader__title kt-subheader__title--separator"><strong> HERRAMIENTAS LIVERPOOL</strong></h3><span class="kt-subheader__separator kt-hidden"></span>
+        <div class="kt-subheader__breadcrumbs mr-5"><a href="/" class="kt-subheader__breadcrumbs-link"> INICIO</a></div>
+    </div>
+{%endblock subheader%}
+
+{%block content%}
+    <div id="kt_portlet" class="kt-portlet">
+        <div class="kt-portlet__body">
+            <div class="form-group form-group-last">
+                <div role="alert" class="alert alert-secondary">
+                    <div class="alert-icon"><i class="flaticon-warning kt-font-brand"></i></div>
+                    <div class="alert-text">Esta herramienta actualiza todas las ordenes que se levantaron desde SIEBEL Liverpool a la plataforma de Tecnoservicio.</div>
+                </div>
+            </div>
+            <div class="form-group form-group-last">
+                <button type="button" class="btn btn-primary" @click='consultaOrdenes()'>
+                    <i class="fa fa-download"></i>
+                    DESCARGAR ORDENES SIEBEL
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="kt_portlet1" class="kt-portlet">
+        <div class="kt-portlet__body">
+        </div>
+    </div>
+{%endblock content%}
+        
+<script>
+    {%block methods%}
+        {{ block.super }}
+        consultaOrdenes() {
+            Block();
+            Ax('post', 'api/TCSapi/TCS/OrderService/', {'getOrders':true})
+            .then(function(json){
+                console.log(json)
+            })
+            .catch((error) => {
+                Swal.fire('Intenta de nuevo','Ocurrio un error','error')
+            }).finally(() => {
+                UnBlock();
+            });
+        },
+    {%endblock methods%}
+</script>

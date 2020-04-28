@@ -109,3 +109,11 @@ class OrderServiceReport__TemplateView(Generic__TemplateView):
             response = HttpResponse(csvfile, content_type='text/csv')
             response['Content-Disposition'] = 'attachment; filename="OrderServiceReport.csv"'
             return response
+
+
+class TCSapi__ApiView(Generic__ApiView):
+	permissions = False
+	@method_decorator(csrf_exempt)
+	def get_serializers(self, request):
+		if request.POST.get('getOrders'):
+			return JsonResponse({'ok':'ok'}, safe=False)
