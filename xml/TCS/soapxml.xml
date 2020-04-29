@@ -1,0 +1,10 @@
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap-env:Body>
+        <ns0:TransferenciaRequest xmlns:ns0="http://liverpool.com.mx/wbi/AltaTicket">
+            <ns0:operacion>CSR</ns0:operacion>
+            <ns0:archivo>
+                <![CDATA[<cus:LVP_spcConsulta_spcSR_Input xmlns:cus="http://siebel.com/CustomUI"><cus:strUsuario>PROVEEDOR24</cus:strUsuario><cus:strFechaInicio/></cus:LVP_spcConsulta_spcSR_Input>]]>
+            </ns0:archivo>
+        </ns0:TransferenciaRequest>
+    </soap-env:Body>
+</soap-env:Envelope>

@@ -445,7 +445,7 @@ class OrderService(Model_base):
     service = models.CharField(max_length=250, choices=SERVICIO, default="Icon", verbose_name="Tipo de servicio")
     zone = models.CharField(max_length=250, choices=ZONAS, default="Local", verbose_name="Zona")
     concept = models.CharField(max_length=250, choices=CONCEPTO, default="Armado", verbose_name="Concepto")
-    service_date = models.DateField(verbose_name="Fecha programada")
+    service_date = models.DateField(verbose_name="Fecha programada", null=True)
     buy_date = models.DateField(blank=True, null=True, verbose_name="Fecha de compra")
     delivery_date = models.DateField(blank=True, null=True, verbose_name="Fecha de entrega")
     client_name = models.CharField(max_length=500, verbose_name="Nombre completo del cliente")

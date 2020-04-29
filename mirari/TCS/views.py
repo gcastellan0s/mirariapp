@@ -5,6 +5,16 @@ from .vars import *
 import csv
 from django.http import HttpResponse
 
+from lxml.etree import Element, SubElement, tostring, XML, XMLParser, fromstring
+from lxml import etree
+from requests import Session
+from requests.auth import HTTPBasicAuth
+from zeep import Client, Plugin
+from zeep.transports import Transport
+import requests
+import xmltodict
+
+
 class calendar__OrderService__TemplateView(Generic__TemplateView):
     template_name = "calendarOrderService__TemplateView.pug"
     model = apps.get_model('TCS', 'OrderService')
