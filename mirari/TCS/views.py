@@ -116,8 +116,17 @@ class OrderServiceReport__TemplateView(Generic__TemplateView):
 class liverpoolTools__TemplateView(Generic__TemplateView):
     template_name = "liverpoolTools__TemplateView.html"
     model = apps.get_model('TCS', 'LiverpoolTools')
-    def dispatch(self, request, *args, **kwargs):
-        if self.request.GET.get('getOrders'):
+    #def dispatch(self, request, *args, **kwargs):
+        #if self.request.GET.get('api'):
+            #return self.model.APIRESPONSE(self.model, self)
+        #return super().dispatch(request, *args, **kwargs)
+
+
+class TCSapi__ApiView(Generic__ApiView):
+	permissions = False
+	@method_decorator(csrf_exempt)
+	def get_serializers(self, request):
+		if request.POST.get('getOrders'):
             class my_plugin(Plugin):
                 def egress(self, envelope, http_headers, operation, binding_options):
                     xmlString = tostring(envelope, encoding='unicode')
@@ -174,12 +183,3 @@ class liverpoolTools__TemplateView(Generic__TemplateView):
                         orderService.save()
                     orders.append(order['SRId'])
             return JsonResponse({'OrderServices':OrderServiceSerializer(OrderService.objects.filter(serialLiverpool__in=orders), many=True).data}, safe=False)
-        return super().dispatch(request, *args, **kwargs)
-
-
-class TCSapi__ApiView(Generic__ApiView):
-	permissions = False
-	@method_decorator(csrf_exempt)
-	def get_serializers(self, request):
-		if request.POST.get('getOrders'):
-			return JsonResponse({'ok':'ok'}, safe=False)
