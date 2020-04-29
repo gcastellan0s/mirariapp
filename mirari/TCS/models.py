@@ -784,13 +784,10 @@ class OrderService(Model_base):
         elif self.status == 'Especial':
             return 'text-success'
         return 'text-primary'
-    def getLiverpoolServices(self):
-        client = zeep.Client(wsdl='https://srproveedoresqa.liverpool.com.mx/wbi/AltaTicket?wsdl')
-        response = client.service.AltaTicket( 
-            username = 'PROVEEDOR_ICONFITNESS',
-            password = '6PeK!UhI!HxH>9',
-        )
-        pass
+class OrderServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderService
+        fields = ('__all__')
 
 ########################################################################################
 VARS = {
