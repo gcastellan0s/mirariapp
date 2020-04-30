@@ -34,28 +34,30 @@
                     <div class="kt-widget5" >
                         
                         <div class="kt-widget5__item" v-for="orderService in orderServices">
-                            <a href="/gupdate/TCS/${orderService.id}/OrderService/">
+                            
                                 <div class="kt-widget5__content">
-                                    <div class="kt-widget5__section">
-                                        <a href="" class="kt-widget5__title">
-                                            ${orderService.client_notes}
-                                        </a>
-                                        <p class="kt-widget5__desc">
-                                            ${orderService.client_name}}
-                                        </p>
-                                        <div class="kt-widget5__info">
-                                            <span>Status:</span>
-                                            <span class="kt-font-info">${orderService.status}</span>
-                                            <span>Telefono:</span>
-                                            <span class="kt-font-info">${orderService.contact_phone1} ${orderService.contact_phone2} ${orderService.contact_phone3}</span>
-                                            <span>Email:</span>
-                                            <span class="kt-font-info">{{orderService.email}}</span>
+                                    <a href="/gupdate/TCS/${orderService.id}/OrderService/">
+                                        <div class="kt-widget5__section">
+                                            <a href="/gupdate/TCS/${orderService.id}/OrderService/" class="kt-widget5__title">
+                                                ${orderService.client_notes}
+                                            </a>
+                                            <p class="kt-widget5__desc">
+                                                ${orderService.client_name}
+                                            </p>
+                                            <div class="kt-widget5__info">
+                                                <span>Status:</span>
+                                                <span class="kt-font-info">${orderService.status}</span>
+                                                <span>Telefono:</span>
+                                                <span class="kt-font-info">${orderService.contact_phone1} ${orderService.contact_phone2} ${orderService.contact_phone3}</span>
+                                                <span>Email:</span>
+                                                <span class="kt-font-info">${orderService.email}</span>
+                                            </div>
+                                            <div class="kt-widget5__info">
+                                                <span v-if="orderService.service_date">Fecha de servicio programada: ${orderService.service_date}</span>
+                                                <span class="text-danger" v-else>No hay fecha de servicio programada</span>
+                                            </div>
                                         </div>
-                                        <div class="kt-widget5__info">
-                                            <span v-if="orderService.service_date">Fecha de servicio programada: ${orderService.service_date}</span>
-                                            <span class="text-danger" v-else>No hay fecha de servicio programada</span>
-                                        </div>
-                                    </div>
+                                    </a>
                                 </div>						
                                 <div class="kt-widget5__content">
                                     <div class="kt-widget5__stats">
@@ -67,9 +69,8 @@
                                         <span class="kt-widget5__votes">ID LIVERPOOL</span>
                                     </div>
                                 </div>	
-                            </a>
+                            
                         </div>
-                        
                     </div>
                 </div>
             </div>
