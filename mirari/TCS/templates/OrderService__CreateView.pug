@@ -533,6 +533,9 @@ script.
             $("[for=id_id_service_4]").hide()
             $("[for=id_id_concept_3]").hide()
         {%endif%}
+        {%if not object.serialLiverpool%}
+            $("#div_liverpool_notes").hide()
+        {%endif%}
     {%endblock created%}
 
     {%block methods%}
