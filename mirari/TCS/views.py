@@ -174,7 +174,7 @@ class TCSapi__ApiView(Generic__ApiView):
                         orderService.colony = order['LVPProvince']	
                         orderService.city = order['LVPCity'] + ' ' + order['LVPState']	
                         orderService.cp = order['LVPPostalCode']	
-                        orderService.client_notes = order['Abstract'] + ' Area:' + order['INSArea'] + ' SubArea:' + order['INSSub-Area'] + ' Tipo:' + order['LVPType4thLevel']	
+                        orderService.client_notes = order['Abstract'] + ' || Area: ' + order['INSArea'] + ' || SubArea: ' + order['INSSub-Area'] + ' || Tipo: ' + order['LVPType4thLevel']	
                         orderService.company = Company.objects.filter(pk=37).first()	
                         orderService.companyName = 'liverpool'	
                         orderService.report_name = order['LVPCreatedBy']	
