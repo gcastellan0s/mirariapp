@@ -426,6 +426,7 @@ VARS = {
             Div(
                 Div('hidden_notes'),
                 Div('order_notes'),
+                Div('liverpool_notes'),
                 css_class="col-md-8"
             ),
             css_class="form-group m-form__group row"
@@ -461,6 +462,7 @@ class OrderService(Model_base):
     address_lat = models.FloatField(blank=True, null=True)
     address_lng = models.FloatField(blank=True, null=True)
     client_notes = models.TextField(blank=True, verbose_name="Notas sobre el cliente")
+    liverpool_notes = models.TextField(blank=True, verbose_name="Notas para Liverpool")
     company = models.ForeignKey('Company', on_delete=models.SET_NULL, null=True, verbose_name="Empresa")
     companyName = models.CharField(max_length=250, blank=True, null=True)
     store = models.ForeignKey('Store', on_delete=models.SET_NULL, null=True, verbose_name="Tienda")
