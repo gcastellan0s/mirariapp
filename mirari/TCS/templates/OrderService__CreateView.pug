@@ -410,9 +410,11 @@ block content
                 .kt-portlet__head.kt-portlet__head--noborder
                     .kt-portlet__head-label
                         h2.text-light ID: {{object.serial}}
-                        {%if object.serialLiverpool%}
-                        p.text-light LIVERPOOL: {{object.serialLiverpool}}  
-                        {%endif%}
+                {%if object.serialLiverpool%}
+                .kt-portlet__head.kt-portlet__head--noborder(style="min-height:35px;")
+                    .kt-portlet__head-label
+                        h4.text-light LIVERPOOL: {{object.serialLiverpool}}
+                {%endif%}
                 {%if not 'LOCAL' in request.user.get_groups and not 'FORANEO' in request.user.get_groups%}
                 .kt-portlet__head.kt-portlet__head--noborder(style="min-height:35px;")
                     .kt-portlet__head-label
