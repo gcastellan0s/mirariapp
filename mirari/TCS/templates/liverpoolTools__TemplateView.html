@@ -84,7 +84,7 @@
             Block();
             Ax('post', '/TCS/api/TCSapi/TCS/OrderService/', {'getOrders':true})
             .then(function(json){
-                orderServices = json.data.OrderServices
+                self.orderServices = json.data.OrderServices
             })
             .catch((error) => {
                 Swal.fire('Intenta de nuevo','Ocurrio un error','error')
