@@ -538,7 +538,7 @@ script.
         {%endif%}
 
         {%if object.serialLiverpool%}
-            let = activitiesLiverpool
+            let activitiesLiverpool = []
             Block();
             Ax('post', '/TCS/api/TCSapi/TCS/OrderService/', {'activitiesLiverpool':true})
             .then(function(json){
