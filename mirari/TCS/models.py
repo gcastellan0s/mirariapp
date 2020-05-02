@@ -462,7 +462,7 @@ class OrderService(Model_base):
     address_lat = models.FloatField(blank=True, null=True)
     address_lng = models.FloatField(blank=True, null=True)
     client_notes = models.TextField(blank=True, verbose_name="Notas sobre el cliente")
-    liverpool_notes = models.TextField(blank=True, verbose_name="Notas para Liverpool")
+    liverpool_notes = models.TextField(blank=True, verbose_name="Enviar comentarios a Liverpool")
     company = models.ForeignKey('Company', on_delete=models.SET_NULL, null=True, verbose_name="Empresa")
     companyName = models.CharField(max_length=250, blank=True, null=True)
     store = models.ForeignKey('Store', on_delete=models.SET_NULL, null=True, verbose_name="Tienda")
@@ -816,6 +816,32 @@ class LiverpoolTools(Model_base):
         permissions = permissions(VARS)
     def __str__(self):
         return str(self.pk)
+
+#class LiverpoolActividades(Model_base):
+    #orderservice = models.ForeignKey('OrderService', on_delete=models.CASCADE, related_name='+',)
+    #createdByName = models.CharField(max_length=250, blank=True, null=True)
+    #planned = models.DateTimeField(auto_now_add=True, editable=True)
+    #plannedCompletion = models.DateTimeField(blank=True, null=True)
+    #status = models.CharField(max_length=250, blank=True, null=True)
+    #idActividad = models.CharField(max_length=250, blank=True, null=True)
+    #VARS = VARS
+    #class Meta(Model_base.Meta):
+        #verbose_name = VARS['NAME']
+        #verbose_name_plural = VARS['PLURAL']
+        #permissions = permissions(VARS)
+    #def __str__(self):
+        #return str(self.pk)
+#
+#class LiverpoolNotas(Model_base):
+    #VARS = VARS
+    #class Meta(Model_base.Meta):
+        #verbose_name = VARS['NAME']
+        #verbose_name_plural = VARS['PLURAL']
+        #permissions = permissions(VARS)
+    #def __str__(self):
+        #return str(self.pk)
+
+
 
 
 ########################################################################################

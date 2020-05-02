@@ -72,7 +72,7 @@ if (str(response) == '<Response [200]>'):
         orderService.serialLiverpool = order['SRId']
         orderService.organization = Organization.objects.filter(pk=3).first()
         orderService.user = User.objects.filter(pk=656).first()
-        orderService.delivery_date = order['ShipDate']
+        orderService.delivery_date = datetime.datetime.strptime(order['ShipDate'], "%d/%m/%Y").date()
         orderService.client_name = order['ContactFirstName'] + ' ' + order['ContactLastName']
         orderService.email = order['LVPContacteMail']
         orderService.contact_phone1 = order['LVPContactPhone']

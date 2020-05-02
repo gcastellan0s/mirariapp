@@ -536,6 +536,21 @@ script.
         {%if not object.serialLiverpool%}
             $("#div_liverpool_notes").hide()
         {%endif%}
+
+        {%if object.serialLiverpool%}
+            let = activitiesLiverpool
+            Block();
+            Ax('post', '/TCS/api/TCSapi/TCS/OrderService/', {'activitiesLiverpool':true})
+            .then(function(json){
+                console.log(json)
+            }).catch((error) => {
+                Swal.fire('Algo salio mal!', error.response.data.message, 'error')
+            }).finally(() => {
+                UnBlock();
+            });
+        {%endif%}
+
+
     {%endblock created%}
 
     {%block methods%}

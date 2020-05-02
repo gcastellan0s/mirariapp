@@ -183,3 +183,5 @@ class TCSapi__ApiView(Generic__ApiView):
                         orderService.save()	
                     orders.append(order['SRId'])	
             return JsonResponse({'OrderServices':OrderServiceSerializer(OrderService.objects.filter(serialLiverpool__in=orders), many=True).data}, safe=False)
+        if request.POST.get('activitiesLiverpool'):
+            return JsonResponse({'activitiesLiverpool':'ok'}, safe=False)
