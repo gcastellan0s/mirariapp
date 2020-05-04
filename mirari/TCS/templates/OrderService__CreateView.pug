@@ -378,15 +378,17 @@ block content
                         .kt-portlet__body
                             .kt-widget4__item(v-for="activities in activitiesLiverpool" v-if="activitiesLiverpool")
                                 .kt-widget4__header
-                                    span.kt-widget4__username ${activities.CreatedByName}
+                                    span.kt-widget4__username Creado por: ${activities.CreatedByName}
                                     span.kt-widget4__time.ml-2 
-                                        small ${activities.Planned}
-                                        small ${activities.PlannedCompletion}
-                                        small ${activities.Status}
+                                        small Estatus: ${activities.Status}
                                 .kt-widget4__body
                                     p.kt-widget4__text
-                                        small ${activities.CreatedByName}
-                                        small ${activities.IdActividad}
+                                        p
+                                            small Fecha creado: ${activities.Planned}
+                                        p
+                                            small Fecha terminado: ${activities.PlannedCompletion}
+                                        p
+                                            small ID: ${activities.IdActividad}
                 {% if perms.TCS.Can_Create__OrderServiceConcept %}
                 .col-xl-6
                     // begin::Portlet
