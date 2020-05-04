@@ -396,13 +396,15 @@ block content
                         .kt-portlet__body
                             .kt-widget4__item(v-for="notes in notesLiverpool" v-if="notesLiverpool")
                                 .kt-widget4__header
-                                    span.kt-widget4__username Fecha creado: ${notes.CreatedDate}
+                                    span.kt-widget4__username 
+                                        small Fecha creado: ${notes.CreatedDate}
                                 .kt-widget4__body
                                     p.kt-widget4__text
                                         p
                                             small Creado por: ${notes.CreatedByName}
                                         p
-                                            small ${notes.Note}
+                                            small 
+                                                strong ${notes.Note}
                 {% if perms.TCS.Can_Create__OrderServiceConcept %}
                 .col-xl-6
                     // begin::Portlet
