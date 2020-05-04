@@ -380,8 +380,8 @@ block content
                                 .kt-widget4__header
                                     span.kt-widget4__username ${activities.CreatedByName}
                                     span.kt-widget4__time.ml-2 
-                                        small ${activities.Planned|formatDate}
-                                        small ${activities.PlannedCompletion|formatDate}
+                                        small ${activities.Planned}
+                                        small ${activities.PlannedCompletion}
                                         small ${activities.Status}
                                 .kt-widget4__body
                                     p.kt-widget4__text
@@ -618,6 +618,10 @@ script.
                 if(concept.quantity > 0) t += concept.quantity
             })
             return t
+        }),
+        formatDatetwo: ((value) => {
+            moment.locale('es');
+            return String(moment(value)) 18/03/2020 10:35:29
         }),
         {%endif%}
     {%endblock filters%}
