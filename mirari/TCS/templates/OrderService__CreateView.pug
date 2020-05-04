@@ -380,15 +380,13 @@ block content
                                 .kt-widget4__header
                                     span.kt-widget4__username Creado por: ${activities.CreatedByName}
                                     span.kt-widget4__time.ml-2 
-                                        small Estatus: ${activities.Status}
+                                        small Estatus: ${activities.Status} // ID: ${activities.IdActividad}
                                 .kt-widget4__body
                                     p.kt-widget4__text
                                         p
-                                            small Fecha creado: ${activities.Planned}
+                                            small Fecha creado: ${activities.Planned} // Fecha terminado: ${activities.PlannedCompletion}
                                         p
-                                            small Fecha terminado: ${activities.PlannedCompletion}
-                                        p
-                                            small ID: ${activities.IdActividad}
+                                            small 
                     .kt-portlet.kt-portlet
                         .kt-portlet__head
                             .kt-portlet__head-label
@@ -398,13 +396,11 @@ block content
                                 .kt-widget4__header
                                     span.kt-widget4__username 
                                         small Fecha creado: ${notes.CreatedDate}
+                                        small Creado por: ${notes.CreatedByName}
                                 .kt-widget4__body
                                     p.kt-widget4__text
-                                        p
-                                            small Creado por: ${notes.CreatedByName}
-                                        p
-                                            small 
-                                                strong ${notes.Note}
+                                        small 
+                                            strong ${notes.Note}
                 {% if perms.TCS.Can_Create__OrderServiceConcept %}
                 .col-xl-6
                     // begin::Portlet
