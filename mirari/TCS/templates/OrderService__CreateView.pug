@@ -378,7 +378,8 @@ block content
                         .kt-portlet__body
                             .kt-widget4__item(v-for="activities in activitiesLiverpool" v-if="activitiesLiverpool")
                                 .kt-widget4__header
-                                    span.kt-widget4__username Creado por: ${activities.CreatedByName}
+                                    span.kt-widget4__username Creado por:  
+                                        strong ${activities.CreatedByName}
                                     span.kt-widget4__time.ml-2 
                                         small Estatus:  
                                             strong ${activities.Status} 
@@ -398,8 +399,10 @@ block content
                             .kt-widget4__item(v-for="notes in notesLiverpool" v-if="notesLiverpool")
                                 .kt-widget4__header
                                     span.kt-widget4__username 
-                                        small Fecha creado: ${notes.CreatedDate} | 
-                                        small Creado por: ${notes.CreatedByName}
+                                        small Fecha creado: 
+                                            strong ${notes.CreatedDate} 
+                                        small Creado por: 
+                                            strong ${notes.CreatedByName} 
                                 .kt-widget4__body
                                     p.kt-widget4__text
                                         small 
