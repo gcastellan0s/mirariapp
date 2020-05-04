@@ -380,13 +380,16 @@ block content
                                 .kt-widget4__header
                                     span.kt-widget4__username Creado por: ${activities.CreatedByName}
                                     span.kt-widget4__time.ml-2 
-                                        small Estatus: ${activities.Status} | ID: ${activities.IdActividad}
+                                        small Estatus: 
+                                            strong ${activities.Status}
+                                        small 
+                                            strong ID: ${activities.IdActividad}
                                 .kt-widget4__body
                                     p.kt-widget4__text
-                                        p
-                                            small Fecha creado: ${activities.Planned} | Fecha terminado: ${activities.PlannedCompletion}
-                                        p
-                                            small 
+                                            small Fecha creado:  
+                                                strong ${activities.Planned}
+                                            small Fecha terminado: 
+                                                strong ${activities.PlannedCompletion}
                     .kt-portlet.kt-portlet
                         .kt-portlet__head
                             .kt-portlet__head-label
