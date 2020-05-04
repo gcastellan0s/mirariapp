@@ -542,7 +542,7 @@ script.
             Block();
             Ax('post', '/TCS/api/TCSapi/TCS/OrderService/', {'activitiesLiverpool':'{{object.serialLiverpool}}'})
             .then(function(json){
-                console.log(json)
+                console.log(JSON.parse(json.data.activitiesLiverpool))
             }).catch((error) => {
                 Swal.fire('Algo salio mal!', error.response.data.message, 'error')
             }).finally(() => {
