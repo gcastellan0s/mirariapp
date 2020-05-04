@@ -371,21 +371,13 @@ block content
             .row
                 .col-xl-6
                     // begin::Portlet
+                    {%if object.serialLiverpool%}
                     .kt-portlet.kt-portlet--skin-solid.kt-bg-brand
                         .kt-portlet__head.kt-portlet__head--noborder
                             .kt-portlet__head-label
-                                h3.kt-portlet__head-title HISTORIAL DE LA ORDEN
-                        .kt-portlet__body
-                            p HISTORIAL AUN NO DISPONIBLE
-                {% if perms.TCS.Can_Create__OrderServiceConcept %}
-                .col-xl-6
-                    // begin::Portlet
-                    .kt-portlet.kt-portlet
-                        .kt-portlet__head
-                            .kt-portlet__head-label
-                                h3.kt-portlet__head-title CONCEPTOS
-                        .kt-portlet__body
-                            .kt-widget4__item(v-for="concept in concepts" v-if="concepts.length")
+                                h3.kt-portlet__head-title ACTIVIDADES
+                        .kt-widget4__item(v-for="concept in concepts" v-if="concepts.length")
+                            p.kt-widget4__text(v-for="concept in concepts" v-if="concepts.length")
                                 .kt-widget4__header
                                     span.kt-widget4__username ${concept.username}
                                     span.kt-widget4__time.ml-2 
@@ -397,6 +389,26 @@ block content
                                             strong ${concept.quantity|formatPrice}
                                         span.text-danger.ml-2(v-if="concept.quantity <= 0")
                                             strong ${concept.quantity|formatPrice}
+                    {%endif%}
+                .col-xl-6
+                    // begin::Portlet
+                    .kt-portlet.kt-portlet
+                        .kt-portlet__head
+                            .kt-portlet__head-label
+                                h3.kt-portlet__head-title ACTIVIDADES
+                        .kt-portlet__body
+                            .kt-widget4__item(v-for="activities in activitiesLiverpool" v-if="activitiesLiverpool")
+                                .kt-widget4__header
+                                    span.kt-widget4__username ${activities.CreatedByName}
+                                    span.kt-widget4__time.ml-2 
+                                        small ${activities.Planned|formatDate}
+                                        small ${activities.PlannedCompletion|formatDate}
+                                        small ${activities.Status}
+                                .kt-widget4__body
+                                    p.kt-widget4__text
+                                        small ${concept.CreatedByName}
+                                        small ${concept.IdActividad}
+                                        
                 {%endif%}
         {%endif%}
         {%else%}
@@ -513,6 +525,7 @@ script.
             concept_quantity: '',
             concepts: [],
             total: 0,
+            activitiesLiverpool: [],
         {%endif%}
     {%endblock data%}
 
@@ -538,11 +551,10 @@ script.
         {%endif%}
 
         {%if object.serialLiverpool%}
-            let activitiesLiverpool = []
             Block();
             Ax('post', '/TCS/api/TCSapi/TCS/OrderService/', {'activitiesLiverpool':'{{object.serialLiverpool}}'})
             .then(function(json){
-                console.log(JSON.parse(json.data.activitiesLiverpool))
+                self.activitiesLiverpool.push(JSON.parse(json.data.activitiesLiverpool))
             }).catch((error) => {
                 Swal.fire('Algo salio mal!', error.response.data.message, 'error')
             }).finally(() => {
