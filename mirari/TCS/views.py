@@ -124,18 +124,20 @@ class liverpoolTools__TemplateView(Generic__TemplateView):
 
 class TCSapi__ApiView(Generic__ApiView):
     permissions = False
+
+    class my_plugin(Plugin):
+        def egress(self, envelope, http_headers, operation, binding_options):	
+            xmlString = tostring(envelope, encoding='unicode')	
+            xmlString = xmlString.replace("&lt;", "<")	
+            xmlString = xmlString.replace("&gt;", ">")	
+            xmlString = xmlString.replace("&amp;", "&")	
+            parser = XMLParser(strip_cdata=False)	
+            newenvelope = XML(xmlString, parser=parser)	
+            return newenvelope, http_headers
+
     @method_decorator(csrf_exempt)
     def get_serializers(self, request):
         if request.POST.get('getOrders'):
-            class my_plugin(Plugin):
-                def egress(self, envelope, http_headers, operation, binding_options):	
-                    xmlString = tostring(envelope, encoding='unicode')	
-                    xmlString = xmlString.replace("&lt;", "<")	
-                    xmlString = xmlString.replace("&gt;", ">")	
-                    xmlString = xmlString.replace("&amp;", "&")	
-                    parser = XMLParser(strip_cdata=False)	
-                    newenvelope = XML(xmlString, parser=parser)	
-                    return newenvelope, http_headers	
             nscus = 'http://siebel.com/CustomUI'	
             archive = Element('{%s}LVP_spcConsulta_spcSR_Input' % nscus, nsmap={'cus': nscus})	
             subelement = SubElement(archive, '{%s}strUsuario' % nscus)	
@@ -184,4 +186,24 @@ class TCSapi__ApiView(Generic__ApiView):
                     orders.append(order['SRId'])	
             return JsonResponse({'OrderServices':OrderServiceSerializer(OrderService.objects.filter(serialLiverpool__in=orders), many=True).data}, safe=False)
         if request.POST.get('activitiesLiverpool'):
-            return JsonResponse({'activitiesLiverpool':'ok'}, safe=False)
+            nscus = 'http://siebel.com/CustomUI'	
+            archive = Element('{%s}LVP_spcConsulta_spcActividades_Input' % nscus, nsmap={'cus': nscus})	
+            subelement = SubElement(archive, '{%s}Object_spcId' % nscus)	
+            subelement.text = request.POST.get('activitiesLiverpool')
+            request_data = {	
+                'operacion': 'CASP',	
+                'archivo': '<![CDATA['+tostring(archive).decode("utf-8")+']]>',	
+            }	
+            client = Client('http://srproveedores.liverpool.com.mx/wbi/AltaTicket?wsdl', plugins=[my_plugin()])	
+            node = client.create_message(client.service, 'AltaOperation', **request_data)	
+            with open('./xml/TCS/CASP.xml', 'wb') as f:	
+                f.write(tostring(node, pretty_print=True))	
+            headers = {	
+                'Content-Type': 'text/xml',	
+                'SOAPAction': '"http://www.example.org/wbi/AltaOperation"',	
+            }	
+            data = open('./xml/TCS/CASP.xml', 'rb').read()	
+            response = requests.post('https://srproveedoresqa.liverpool.com.mx/wbi/AltaTicket', headers=headers, data=data)
+            xml = xmltodict.parse(xmltodict.parse(response.text.encode())['soapenv:Envelope']['soapenv:Body']['NS1:TransferenciaResponse']['NS1:archivo'])
+            xml = xml['ns:LVP_spcConsulta_spcActividades_Output']['ListOfLvpSrActionIo']['LvpServiceRequestCustom']['ListOfLvpServiceRequestAction']['LvpServiceRequestAction']
+            return JsonResponse({'activitiesLiverpool':json.dumps(xml)}, safe=False)

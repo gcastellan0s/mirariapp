@@ -540,7 +540,7 @@ script.
         {%if object.serialLiverpool%}
             let activitiesLiverpool = []
             Block();
-            Ax('post', '/TCS/api/TCSapi/TCS/OrderService/', {'activitiesLiverpool':true})
+            Ax('post', '/TCS/api/TCSapi/TCS/OrderService/', {'activitiesLiverpool':'{{object.serialLiverpool}}'})
             .then(function(json){
                 console.log(json)
             }).catch((error) => {
