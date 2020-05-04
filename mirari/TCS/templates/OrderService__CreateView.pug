@@ -389,6 +389,20 @@ block content
                                             small Fecha terminado: ${activities.PlannedCompletion}
                                         p
                                             small ID: ${activities.IdActividad}
+                    .kt-portlet.kt-portlet
+                        .kt-portlet__head
+                            .kt-portlet__head-label
+                                h3.kt-portlet__head-title NOTAS
+                        .kt-portlet__body
+                            .kt-widget4__item(v-for="notes in notesLiverpool" v-if="notesLiverpool")
+                                .kt-widget4__header
+                                    span.kt-widget4__username Fecha creado: ${notes.CreatedDate}
+                                .kt-widget4__body
+                                    p.kt-widget4__text
+                                        p
+                                            small Creado por: ${notes.CreatedByName}
+                                        p
+                                            small ${notes.Note}
                 {% if perms.TCS.Can_Create__OrderServiceConcept %}
                 .col-xl-6
                     // begin::Portlet
@@ -526,6 +540,7 @@ script.
             concepts: [],
             total: 0,
             activitiesLiverpool: [],
+            notesLiverpool: [],
         {%endif%}
     {%endblock data%}
 
@@ -552,9 +567,10 @@ script.
 
         {%if object.serialLiverpool%}
             Block();
-            Ax('post', '/TCS/api/TCSapi/TCS/OrderService/', {'activitiesLiverpool':'{{object.serialLiverpool}}'})
+            Ax('post', '/TCS/api/TCSapi/TCS/OrderService/', {'activitiesNotesLiverpool':'{{object.serialLiverpool}}'})
             .then(function(json){
                 self.activitiesLiverpool.push(JSON.parse(json.data.activitiesLiverpool))
+                self.notesLiverpool.push(JSON.parse(json.data.notesLiverpool))
             }).catch((error) => {
                 Swal.fire('Algo salio mal!', error.response.data.message, 'error')
             }).finally(() => {

@@ -185,11 +185,12 @@ class TCSapi__ApiView(Generic__ApiView):
                         orderService.save()	
                     orders.append(order['SRId'])	
             return JsonResponse({'OrderServices':OrderServiceSerializer(OrderService.objects.filter(serialLiverpool__in=orders), many=True).data}, safe=False)
-        if request.POST.get('activitiesLiverpool'):
+            
+        if request.POST.get('activitiesNotesLiverpool'):
             nscus = 'http://siebel.com/CustomUI'	
             archive = Element('{%s}LVP_spcConsulta_spcActividades_Input' % nscus, nsmap={'cus': nscus})	
             subelement = SubElement(archive, '{%s}Object_spcId' % nscus)	
-            subelement.text = request.POST.get('activitiesLiverpool')
+            subelement.text = request.POST.get('activitiesNotesLiverpool')
             request_data = {	
                 'operacion': 'CASP',	
                 'archivo': '<![CDATA['+tostring(archive).decode("utf-8")+']]>',	
@@ -205,5 +206,28 @@ class TCSapi__ApiView(Generic__ApiView):
             data = open('./xml/TCS/CASP.xml', 'rb').read()	
             response = requests.post('https://srproveedoresqa.liverpool.com.mx/wbi/AltaTicket', headers=headers, data=data)
             xml = xmltodict.parse(xmltodict.parse(response.text.encode())['soapenv:Envelope']['soapenv:Body']['NS1:TransferenciaResponse']['NS1:archivo'])
-            xml = xml['ns:LVP_spcConsulta_spcActividades_Output']['ListOfLvpSrActionIo']['LvpServiceRequestCustom']['ListOfLvpServiceRequestAction']['LvpServiceRequestAction']
-            return JsonResponse({'activitiesLiverpool':json.dumps(xml)}, safe=False)
+            activitiesxml = xml['ns:LVP_spcConsulta_spcActividades_Output']['ListOfLvpSrActionIo']['LvpServiceRequestCustom']['ListOfLvpServiceRequestAction']['LvpServiceRequestAction']
+            ########################
+            nscus = 'http://siebel.com/CustomUI'	
+            archive = Element('{%s}LVP_spcConsulta_spcNotas_Input' % nscus, nsmap={'cus': nscus})	
+            subelement = SubElement(archive, '{%s}Object_spcId' % nscus)	
+            subelement.text = request.POST.get('activitiesNotesLiverpool')
+            request_data = {	
+                'operacion': 'CN',	
+                'archivo': '<![CDATA['+tostring(archive).decode("utf-8")+']]>',	
+            }	
+            client = Client('http://srproveedores.liverpool.com.mx/wbi/AltaTicket?wsdl', plugins=[my_plugin()])	
+            node = client.create_message(client.service, 'AltaOperation', **request_data)	
+            with open('./xml/TCS/CN.xml', 'wb') as f:	
+                f.write(tostring(node, pretty_print=True))	
+            headers = {	
+                'Content-Type': 'text/xml',	
+                'SOAPAction': '"http://www.example.org/wbi/AltaOperation"',	
+            }	
+            data = open('./xml/TCS/CN.xml', 'rb').read()	
+            response = requests.post('https://srproveedoresqa.liverpool.com.mx/wbi/AltaTicket', headers=headers, data=data)
+            xml = xmltodict.parse(xmltodict.parse(response.text.encode())['soapenv:Envelope']['soapenv:Body']['NS1:TransferenciaResponse']['NS1:archivo'])
+            notesxml = xml['ns:LVP_spcConsulta_spcNotas_Output']['ListOfLvpSrNotesIo']['LvpServiceRequestCustom']['ListOfLvpServiceRequestNotes']['LvpServiceRequestNotes']
+
+            return JsonResponse({'activitiesLiverpool':json.dumps(activitiesxml), 'notesLiverpool':json.dumps(notesxml)}, safe=False)
+            
