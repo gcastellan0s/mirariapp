@@ -133,6 +133,7 @@ VARS = {
                 css_class="col-md-7"
             ),
             Div(
+                Div('typeProvider', css_class="col-md-12"),
                 css_class="col-md-5"
             ),
             css_class="form-group m-form__group row"
@@ -143,6 +144,10 @@ class Provider(Model_base):
     PERSONA = (
         ('FISICA','FISICA'),
         ('MORAL','MORAL'),
+    )
+    TYPEPROVIDER = (
+        ('NACIONAL','NACIONAL'),
+        ('EXTRANJERO','EXTRANJERO'),
     )
     STATES = (
         ('Aguascalientes', ('Aguascalientes')),
@@ -192,6 +197,7 @@ class Provider(Model_base):
     region = models.CharField('Colonia', max_length=255, blank=True, null=True)
     province = models.CharField('Municipio o Delegación', max_length=150, blank=True, null=True)
     state = models.CharField('Estado', choices=STATES, max_length=100, blank=True, null=True)
+    typeProvider = models.CharField('Tipo', choices=TYPEPROVIDER, default="NACIONAL", max_length=100, blank=True, null=True)
     zipcode = MXZipCodeField('CP', blank=True, null=True)
     country = models.CharField('País', max_length=100, default='México')
     VARS = VARS
@@ -640,6 +646,12 @@ class InventoryOrder(Model_base):
         ('PREPARADA','PREPARADA'),
         ('TERMINADA','TERMINADA'),
     )
+    PAYMENTCONDITION = (
+        ('30 dias','30 dias'),
+        ('45 dias','45 dias'),
+        ('60 dias','60 dias'),
+        ('90 dias','90 dias'),
+    )
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     operationType = models.CharField('Tipo de operación', choices=OPERATIONTYPE, max_length=250)
     status = models.CharField('Estatus', choices=STATUS, max_length=250, default="PREPARADA")
@@ -647,6 +659,7 @@ class InventoryOrder(Model_base):
     client = models.ForeignKey('STR.Client', null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Cliente")
     initialDateTime = models.DateTimeField(auto_now_add=True)
     finalDateTime = models.DateTimeField(blank=True, null=True)
+    paymentCondition = models.CharField('Condiciones de pago', choices=PAYMENTCONDITION, max_length=250, default="30 dias")
     document = models.CharField('Documento de referencia', max_length=250, blank=True, null=True)
     priority = models.IntegerField('Prioridad', default=0)
     responsible = models.ForeignKey('mirari.User', blank=True, null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Responsable")
@@ -693,6 +706,9 @@ VARS = {
 class InventoryOrderProoduct(Model_base):
     product = models.ForeignKey('STR.Product', on_delete=models.SET_NULL, related_name='+', blank=True, null=True)
     quantity = models.IntegerField()
+    cost = models.FloatField()
+    specialCost = models.FloatField()
+    units = models.FloatField()
     inventoryorder = models.ForeignKey('STR.InventoryOrder', on_delete=models.CASCADE, related_name='+')
     VARS = VARS
     class Meta(Model_base.Meta):
