@@ -26,7 +26,7 @@ MENU = {
 			},
 			{
 				'title': 'Clientes',
-				'icon': 'fab fa-male',
+				'icon': 'fas fa-male',
 				'text': 'Administracion de clientes',
 				'subtext': 'Controla la mercancia de los clientes',
 				'apps': [APP, ],
