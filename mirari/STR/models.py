@@ -267,7 +267,7 @@ VARS = {
         ),
     ],
 }
-class Provider(Model_base):
+class Client(Model_base):
     PERSONA = (
         ('FISICA','FISICA'),
         ('MORAL','MORAL'),
@@ -587,7 +587,7 @@ VARS = {
             'url': 'url_update',
         },
     ],
-    'FORM': ('status','provider','responsible','notes','product'),
+    'FORM': ('status','provider','client','responsible','notes','product'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
@@ -644,6 +644,7 @@ class InventoryOrder(Model_base):
     operationType = models.CharField('Tipo de operación', choices=OPERATIONTYPE, max_length=250)
     status = models.CharField('Estatus', choices=STATUS, max_length=250, default="PREPARADA")
     provider = models.ForeignKey('STR.Provider', null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Proveedor")
+    client = models.ForeignKey('STR.Client', null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Cliente")
     initialDateTime = models.DateTimeField(auto_now_add=True)
     finalDateTime = models.DateTimeField(blank=True, null=True)
     document = models.CharField('Documento de referencia', max_length=250, blank=True, null=True)
