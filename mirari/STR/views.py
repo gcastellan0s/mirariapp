@@ -44,15 +44,21 @@ class Inventory__ApiView(Generic__ApiView):
 				inventoryOrder.provider = Provider.objects.get(pk=data['provider'])
 			if data['responsible']:
 				inventoryOrder.responsible = User.objects.get(pk=data['responsible'])
-			if data['status']:
-				inventoryOrder.status = data['status']
+			inventoryOrder.status = data['status']
 			inventoryOrder.notes = data['notes']
 			inventoryOrder.operationType = data['type']
 			inventoryOrder.save()
 			InventoryOrderProoduct.objects.filter(inventoryorder = inventoryOrder).delete()
 			for product in data['productList']:
 				inventoryOrderProoduct = InventoryOrderProoduct()
-				inventoryOrderProoduct.product = Product.objects.get(pk=product[0]['id'])
+				p = Product.objects.get(pk=product[0]['id'])
+				if data['status'] == 'TERMINADA':
+					if data['type'] == 'in':
+						p.quantity += product[1]
+					if data['type'] == 'out':
+						p.quantity -= product[1]
+					p.save()
+				inventoryOrderProoduct.product = p
 				inventoryOrderProoduct.quantity = product[1]
 				inventoryOrderProoduct.inventoryorder = inventoryOrder
 				inventoryOrderProoduct.save()
