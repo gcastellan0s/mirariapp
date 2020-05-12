@@ -42,7 +42,7 @@
                 <div class="kt-portlet__body">
                     <!--begin::Widget -->
                     <div class="kt-widget33">
-                        {%if not object%}
+
                         <div class="kt-widget33__head col-xl-12">
                             <a href="#" onclick="var message={action:'GetQR', target:'codebar'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));" name="save__edit" class="btn btn-brand">
                                 <i class="la la-barcode"></i> 
@@ -62,7 +62,7 @@
                                 </select> 
                             </div>
                         </div>
-                        {%else%}
+                        {%if object%}
                             <div class="kt-widget33__head col-xl-12">
                                 <a href="#" name="save__edit" class="btn btn-brand">
                                     <i class="la la-print"></i> 
