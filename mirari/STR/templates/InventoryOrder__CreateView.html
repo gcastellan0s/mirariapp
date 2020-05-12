@@ -144,7 +144,7 @@
 
 
 
-    <div class="col-xl-9"><!-- kt-hide -->
+    <div class="col-xl-12 mb-5"><!-- kt-hide -->
         <div id="print_order">
             <div class="kt-portlet kt-portlet" style="min-height: 900px;">
                 <div class="kt-invoice-2 p-5">
@@ -170,15 +170,10 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="row">
-                                                <div class="col-6" style="text-align:right;">
-                                                    <p class="mb-0 h3">OS: {{object.serial}}</p>
-                                                    <p class="mb-0 h5">TOTAL: $ </p>
-                                                </div>
-                                                <div class="col-6" style="text-align:right;">
-                                                    <p class="mb-0">ALTA: {{object.creation_date|date:"SHORT_DATETIME_FORMAT"}}</p>
-                                                    <p class="mb-0">TIPO: <strong class="ml-2">{{object.service}}</strong></p>
-                                                    <p class="mb-0">TÉCNICO: {{object.technical|upper}}</p>
-                                                    <p class="mb-0">OPERADOR: {{object.user|upper}}</p>
+                                                <div class="col-12" style="text-align:right;">
+                                                    <p class="mb-0 h3">FECHA: {{object.serial}}</p>
+                                                    <p class="mb-0 h5">FOLIO: $ </p>
+                                                    <p class="mb-0 h5">ID: $ </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -186,28 +181,50 @@
                                 </div>
                                 <div class="kt-invoice__items">
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-8">
                                             <div class="kt-invoice__item">
-                                                <p>EMAIL:<strong class="ml-2">{{object.email|default:'-'}}</strong></p>
+                                                <p>CLIENTE:<strong class="ml-2">{{object.email|default:'-'}}</strong></p>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="kt-invoice__item">
-                                                <p>TELÉFONO:<strong class="ml-2">{{object.contact_phone1}} {{object.contact_phone2}} {{object.contact_phone3}}</strong><strong class="ml-2">-</strong></p>
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="kt-invoice__item">
-                                                <p>CLIENTE:<strong class="ml-2">{{object.client_name|upper|default:'-'}}</strong></p>
+                                                <p>CONDICIONES PAGO:<strong class="ml-2">{{object.contact_phone1}} {{object.contact_phone2}} {{object.contact_phone3}}</strong><strong class="ml-2">-</strong></p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="kt-invoice__items">
                                     <div class="row">
-                                        <div class="col-12">
+                                        <div class="col-8">
                                             <div class="kt-invoice__item">
-                                                <p>DIRECCION:<strong class="ml-2">{{object.get_adress_html|safe|default:'-'}}</strong></p>
+                                                <p>RAZON SOCIAL:<strong class="ml-2">{{object.get_adress_html|safe|default:'-'}}</strong></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="kt-invoice__items">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="kt-invoice__item">
+                                                <p>NOMBRE DE QUIEN SOLICITA:<strong class="ml-2">{{object.get_adress_html|safe|default:'-'}}</strong></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="kt-invoice__items">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="kt-invoice__item">
+                                                <p>PROVEEDOR:<strong class="ml-2">{{object.get_adress_html|safe|default:'-'}}</strong></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="kt-invoice__items">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="kt-invoice__item">
+                                                <p>TIPO:<strong class="ml-2">{{object.get_adress_html|safe|default:'-'}}</strong></p>
                                             </div>
                                         </div>
                                     </div>
