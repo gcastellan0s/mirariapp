@@ -637,7 +637,6 @@ class InventoryOrder(Model_base):
         ('out','out'),
     )
     STATUS = (
-        #('BORRADOR','BORRADOR'),
         ('PREPARADA','PREPARADA'),
         ('TERMINADA','TERMINADA'),
     )
