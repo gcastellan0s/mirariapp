@@ -483,6 +483,7 @@ VARS = {
             'query': [
                 (
                     ('organization__pk', 'self.request.session.get("organization")'),
+                    ('groups__in', 'Group.objects.filter(id=33)'),
                 ),
             ],
             'minimumInputLength': '0',
