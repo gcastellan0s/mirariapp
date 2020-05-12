@@ -152,18 +152,22 @@
 
 {%block created%}
     $("#div_id_product").hide();
-    $("#saveButtons").html(`
-        <button type="button" class="btn btn-brand" @click="sendForm()">
-            <i class="la la-save"></i>
-            <span class="kt-hidden-mobile">
-                {%if not object%}
-                    GUARDAR {{ model|verbose_name_singular|upper }}
-                {%else%}
-                    ACTUALIZAR <small>{{ model|verbose_name_singular|upper }}</small>
-                {%endif%}
-            </span>
-        </button>
-    `);
+    {%if object.status == 'TERMINADA'%}
+        $("#saveButtons").hide();
+    {%else%}
+        $("#saveButtons").html(`
+            <button type="button" class="btn btn-brand" @click="sendForm()">
+                <i class="la la-save"></i>
+                <span class="kt-hidden-mobile">
+                    {%if not object%}
+                        GUARDAR {{ model|verbose_name_singular|upper }}
+                    {%else%}
+                        ACTUALIZAR <small>{{ model|verbose_name_singular|upper }}</small>
+                    {%endif%}
+                </span>
+            </button>
+        `);
+    {%endif%} 
     {%if object%}
         Block();
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'getProducts':{{object.id}}})
