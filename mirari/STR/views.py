@@ -44,6 +44,8 @@ class Inventory__ApiView(Generic__ApiView):
 				inventoryOrder.provider = Provider.objects.get(pk=data['provider'])
 			if data['responsible']:
 				inventoryOrder.responsible = User.objects.get(pk=data['responsible'])
+			if data['status']:
+				inventoryOrder.status = data['status']
 			inventoryOrder.notes = data['notes']
 			inventoryOrder.operationType = data['type']
 			inventoryOrder.save()
