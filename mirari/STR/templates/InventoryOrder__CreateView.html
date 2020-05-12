@@ -179,6 +179,9 @@
         }).finally(() => {
             UnBlock();
         });
+        {%if object.status == 'TERMINADA'%}
+            $("#div_status").hide()
+        {%endif%}
     {%endif%} 
 {%endblock created%}
 
@@ -244,6 +247,7 @@
     },
     sendForm() {
         Block();
+        if (self.productList.length < 1) return 0;
         var sendData = {
             provider : document.querySelector('#id_provider').value,
             responsible : document.querySelector('#id_responsible').value,
