@@ -25,6 +25,16 @@ MENU = {
 				'url': 'Generic__ListView',
 			},
 			{
+				'title': 'Clientes',
+				'icon': 'fab fa-user-tie',
+				'text': 'Administracion de clientes',
+				'subtext': 'Controla la mercancia de los clientes',
+				'apps': [APP, ],
+				'permission': 'Can_View',
+				'model': APP + '.Client',
+				'url': 'Generic__ListView',
+			},
+			{
 				'title': 'Categoria de Productos',
 				'icon': 'fas fa-clone',
 				'text': 'Categorias de los productos',
