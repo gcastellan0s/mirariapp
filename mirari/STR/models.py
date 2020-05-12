@@ -210,6 +210,134 @@ class Provider(Model_base):
     def get_contactName(self):
         return self.render_if(self.contactName)
 
+########################################################################################
+VARS = {
+    'NAME':'Cliente',
+    'PLURAL':'Clientes',
+    'MODEL':'Client',
+    'NEW':'NUEVO',
+    'NEW_GENDER': 'un nuevo',
+    'THIS': 'este',
+    'APP':APP,
+    'LIST': [
+        {
+            'field': 'name',
+            'title': 'CLIENTE',
+        },
+        {
+            'field': 'get_rfc',
+            'title': 'RFC',
+        },
+        {
+            'field': 'get_razonSocial',
+            'title': 'RAZON SOCIAL',
+        },
+        {
+            'field': 'get_contactEmail',
+            'title': 'EMAIL DE CONTACTO',
+        },
+        {
+            'field': 'get_contactName',
+            'title': 'NOMBRE DEL PROVEEDOR',
+        },
+    ],
+    'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
+    'FORM': [
+        Div(
+            Div('name', css_class="col-md-12"),
+            css_class="form-group m-form__group row mt-3"
+        ),
+        Div('rfc', css_class="col-md-12"),
+        Div('razonSocial', css_class="col-md-12"),
+        Div(
+            HTML('<h4 class="kt-section__title ml-2 mb-4">INFORMACIÓN GENERAL</h5>'),
+        ),
+        Div(
+            Div(
+                Div('persona', css_class="col-md-12"),
+                Div('curp', css_class="col-md-12"),
+                Div('contactEmail', css_class="col-md-12"),
+                Div('contactName', css_class="col-md-12"),
+                css_class="col-md-7"
+            ),
+            Div(
+                css_class="col-md-5"
+            ),
+            css_class="form-group m-form__group row"
+        ),
+    ],
+}
+class Provider(Model_base):
+    PERSONA = (
+        ('FISICA','FISICA'),
+        ('MORAL','MORAL'),
+    )
+    STATES = (
+        ('Aguascalientes', ('Aguascalientes')),
+        ('Baja California', ('Baja California')),
+        ('Baja California Sur', ('Baja California Sur')),
+        ('Campeche', ('Campeche')),
+        ('Chihuahua', ('Chihuahua')),
+        ('Chiapas', ('Chiapas')),
+        ('Coahuila', ('Coahuila')),
+        ('Colima', ('Colima')),
+        ('CDMX', ('CDMX')),
+        ('Durango', ('Durango')),
+        ('Guerrero', ('Guerrero')),
+        ('Guanajuato', ('Guanajuato')),
+        ('Hidalgo', ('Hidalgo')),
+        ('Jalisco', ('Jalisco')),
+        ('Estado de México', ('Estado de México')),
+        ('Michoacán', ('Michoacán')),
+        ('Morelos', ('Morelos')),
+        ('Nayarit', ('Nayarit')),
+        ('Nuevo León', ('Nuevo León')),
+        ('Oaxaca', ('Oaxaca')),
+        ('Puebla', ('Puebla')),
+        ('Querétaro', ('Querétaro')),
+        ('Quintana Roo', ('Quintana Roo')),
+        ('Sinaloa', ('Sinaloa')),
+        ('San Luis Potosí', ('San Luis Potosí')),
+        ('Sonora', ('Sonora')),
+        ('Tabasco', ('Tabasco')),
+        ('Tamaulipas', ('Tamaulipas')),
+        ('Tlaxcala', ('Tlaxcala')),
+        ('Veracruz', ('Veracruz')),
+        ('Yucatán', ('Yucatán')),
+        ('Zacatecas', ('Zacatecas')),
+    )
+    organization = models.ForeignKey('mirari.Organization', related_name='+', on_delete=models.CASCADE)
+    name = models.CharField('Alias', max_length=250, help_text="Nombre con el que identificas al proveedor")
+    rfc = MXRFCField(verbose_name="RFC", blank=True, null=True)
+    razonSocial = models.CharField('Razón social', max_length=255, help_text="Razón social de persona Física o Moral", blank=True, null=True)
+    persona = models.CharField('Tipo de persona', choices=PERSONA, max_length=100, default='Física', blank=True, null=True)
+    curp = MXCURPField('C.U.R.P.', blank=True, null=True)
+    contactEmail = models.CharField('Email contacto', blank=True, null=True, max_length=100, help_text="Correo donde llegarán las notificaciones de facturación")
+    contactName = models.CharField('Nombre contacto', max_length=255, help_text="Quien responde al contacto del negocio?", blank=True, null=True)
+    street = models.CharField('Calle', max_length=255, blank=True, null=True)
+    extNumber = models.CharField('No. EXT', max_length=150, blank=True, null=True)
+    intNumber = models.CharField('No. INT', max_length=150, blank=True, null=True)
+    region = models.CharField('Colonia', max_length=255, blank=True, null=True)
+    province = models.CharField('Municipio o Delegación', max_length=150, blank=True, null=True)
+    state = models.CharField('Estado', choices=STATES, max_length=100, blank=True, null=True)
+    zipcode = MXZipCodeField('CP', blank=True, null=True)
+    country = models.CharField('País', max_length=100, default='México')
+    VARS = VARS
+    class Meta(Model_base.Meta):
+        verbose_name = VARS['NAME']
+        verbose_name_plural = VARS['PLURAL']
+        permissions = permissions(VARS)
+    def __str__(self):
+        return self.name
+    def get_rfc(self):
+        return self.render_if(self.rfc)
+    def get_razonSocial(self):
+        return self.render_if(self.razonSocial)
+    def get_contactEmail(self):
+        return self.render_if(self.contactEmail)
+    def get_contactName(self):
+        return self.render_if(self.contactName)
+
 
 ########################################################################################
 VARS = {
@@ -510,9 +638,8 @@ class InventoryOrder(Model_base):
     )
     STATUS = (
         #('BORRADOR','BORRADOR'),
-        ('EN ESPERA','EN ESPERA'),
-        ('PREPARADO','PREPARADO'),
-        ('HECHO','HECHO'),
+        ('PREPARADA','PREPARADA'),
+        ('TERMINADA','TERMINADA'),
     )
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     operationType = models.CharField('Tipo de operación', choices=OPERATIONTYPE, max_length=250)
