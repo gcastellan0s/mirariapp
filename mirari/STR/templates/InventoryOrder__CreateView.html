@@ -247,7 +247,9 @@
     },
     sendForm() {
         Block();
-        if (self.productList.length < 1) return 0;
+        if (self.productList.length < 1) {
+            Swal.fire('Intenta de nuevo','Agrega productos a la orden','error')
+        }
         var sendData = {
             provider : document.querySelector('#id_provider').value,
             responsible : document.querySelector('#id_responsible').value,
