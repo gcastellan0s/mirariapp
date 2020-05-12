@@ -35,8 +35,11 @@ class Inventory__ApiView(Generic__ApiView):
 	def get_serializers(self, request):
 		if request.POST.get('sendData'):
 			data = json.loads(request.POST.get('sendData'))
-			inventoryOrder = InventoryOrder()
-			inventoryOrder.organization = Organization.objects.get(id=self.request.session.get('organization'))
+			if 'idObject' in data:
+				inventoryOrder = InventoryOrder.objects.get(pk=data['idObject'])
+			else:
+				inventoryOrder = InventoryOrder()
+				inventoryOrder.organization = Organization.objects.get(id=self.request.session.get('organization'))
 			if data['provider']:
 				inventoryOrder.provider = Provider.objects.get(pk=data['provider'])
 			if data['responsible']:
@@ -44,6 +47,7 @@ class Inventory__ApiView(Generic__ApiView):
 			inventoryOrder.notes = data['notes']
 			inventoryOrder.operationType = data['type']
 			inventoryOrder.save()
+			InventoryOrderProoduct.objects.filter(inventoryorder = inventoryOrder).delete()
 			for product in data['productList']:
 				inventoryOrderProoduct = InventoryOrderProoduct()
 				inventoryOrderProoduct.product = Product.objects.get(pk=product[0]['id'])
