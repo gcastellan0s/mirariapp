@@ -144,70 +144,72 @@
 
 
 
-<div class="col-xl-9 kt-hide">
-    <div id="print_order">
-        <div class="kt-portlet kt-portlet" style="min-height: 900px;">
-            <div class="kt-invoice-2 p-5">
-                <div class="kt-invoice__wrapper">
-                    <div class="kt-invoice__head">
-                        <div class="kt-invoice__container kt-invoice__container--centered">
-                        <div class="kt-invoice__logo mb-5">
-                            <div class="row">
-                                <div class="col-8">
+    <div class="col-xl-9"><!-- kt-hide -->
+        <div id="print_order">
+            <div class="kt-portlet kt-portlet" style="min-height: 900px;">
+                <div class="kt-invoice-2 p-5">
+                    <div class="kt-invoice__wrapper">
+                        <div class="kt-invoice__head">
+                            <div class="kt-invoice__container kt-invoice__container--centered">
+                                <div class="kt-invoice__logo mb-5">
                                     <div class="row">
-                                        <div class="col-6" style="text-align: center;color: inherit;"><img src="{%static 'pages/tecnoservicio/img/icon_ordenes.png'%}">
-                                            <p class="mb-0">Tel. 01800 6819542</p>
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <div class="col-6" style="text-align: center;color: inherit;"><img src="{%static 'pages/tecnoservicio/img/icon_ordenes.png'%}">
+                                                    <p class="mb-0">Tel. 01800 6819542</p>
+                                                </div>
+                                                <div class="col-6" style="text-align: center;color: inherit;"><img src="{{G.MEDIA}}{{ G.ORGANIZATION.LOGO }}" style="max-width: 200px;">
+                                                    <p class="mb-0">www.mexicof.com</p>
+                                                    <p class="mb-0">servicio@mexicof.com</p>
+                                                    <p class="mb-0">Tel. 53353837 / 11067518</p>
+                                                    <p class="mb-0">www.caminadorasygimnasios.com</p>
+                                                    <p class="mb-0">servicio@caminadorasygimnasios.com</p>
+                                                    <p class="mb-0">Tel. 55134050 / 56014868</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-6" style="text-align: center;color: inherit;"><img src="{{G.MEDIA}}{{ G.ORGANIZATION.LOGO }}" style="max-width: 200px;">
-                                            <p class="mb-0">www.mexicof.com</p>
-                                            <p class="mb-0">servicio@mexicof.com</p>
-                                            <p class="mb-0">Tel. 53353837 / 11067518</p>
-                                            <p class="mb-0">www.caminadorasygimnasios.com</p>
-                                            <p class="mb-0">servicio@caminadorasygimnasios.com</p>
-                                            <p class="mb-0">Tel. 55134050 / 56014868</p>
+                                        <div class="col-4">
+                                            <div class="row">
+                                                <div class="col-6" style="text-align:right;">
+                                                    <p class="mb-0 h3">OS: {{object.serial}}</p>
+                                                    <p class="mb-0 h5">TOTAL: $ ${total|makeTotalConcepts|formatPrice}</p>
+                                                </div>
+                                                <div class="col-6" style="text-align:right;">
+                                                    <p class="mb-0">ALTA: {{object.creation_date|date:"SHORT_DATETIME_FORMAT"}}</p>
+                                                    <p class="mb-0">TIPO: <strong class="ml-2">{{object.service}}</strong></p>
+                                                    <p class="mb-0">TÉCNICO: {{object.technical|upper}}</p>
+                                                    <p class="mb-0">OPERADOR: {{object.user|upper}}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="kt-invoice__items">
                                     <div class="row">
-                                        <div class="col-6" style="text-align:right;">
-                                            <p class="mb-0 h3">OS: {{object.serial}}</p>
-                                            <p class="mb-0 h5">TOTAL: $ ${total|makeTotalConcepts|formatPrice}</p>
+                                        <div class="col-4">
+                                            <div class="kt-invoice__item">
+                                                <p>EMAIL:<strong class="ml-2">{{object.email|default:'-'}}</strong></p>
+                                            </div>
                                         </div>
-                                        <div class="col-6" style="text-align:right;">
-                                            <p class="mb-0">ALTA: {{object.creation_date|date:"SHORT_DATETIME_FORMAT"}}</p>
-                                            <p class="mb-0">TIPO: <strong class="ml-2">{{object.service}}</strong></p>
-                                            <p class="mb-0">TÉCNICO: {{object.technical|upper}}</p>
-                                            <p class="mb-0">OPERADOR: {{object.user|upper}}</p>
+                                        <div class="col-4">
+                                            <div class="kt-invoice__item">
+                                                <p>TELÉFONO:<strong class="ml-2">{{object.contact_phone1}} {{object.contact_phone2}} {{object.contact_phone3}}</strong><strong class="ml-2">-</strong></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="kt-invoice__item">
+                                                <p>CLIENTE:<strong class="ml-2">{{object.client_name|upper|default:'-'}}</strong></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="kt-invoice__items">
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="kt-invoice__item">
-                                    <p>EMAIL:<strong class="ml-2">{{object.email|default:'-'}}</strong></p>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="kt-invoice__item">
-                                    <p>TELÉFONO:<strong class="ml-2">{{object.contact_phone1}} {{object.contact_phone2}} {{object.contact_phone3}}</strong><strong class="ml-2">-</strong></p>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="kt-invoice__item">
-                                    <p>CLIENTE:<strong class="ml-2">{{object.client_name|upper|default:'-'}}</strong></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="kt-invoice__items">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="kt-invoice__item">
-                                        <p>DIRECCION:<strong class="ml-2">{{object.get_adress_html|safe|default:'-'}}</strong></p>
+                                <div class="kt-invoice__items">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="kt-invoice__item">
+                                                <p>DIRECCION:<strong class="ml-2">{{object.get_adress_html|safe|default:'-'}}</strong></p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -217,7 +219,6 @@
             </div>
         </div>
     </div>
-</div>
 
 
 
