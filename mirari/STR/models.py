@@ -540,6 +540,8 @@ class Product(Model_base):
     deliveryDescription = models.TextField(blank=True, verbose_name="Descripción para entregas")
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
     quantity = models.IntegerField('CANTIDAD ACTUAL', default=0)
+    buyCost = models.FloatField('Precio de compra', blank=True, null=True)
+    sellCost = models.FloatField('Precio de venta', blank=True, null=True)
     minimumQuantity = models.IntegerField('Cantidad mínima', blank=True, null=True)
     maximumQuantity = models.IntegerField('Cantidad máxima', blank=True, null=True)
     location = models.CharField('Ubicación', max_length=250, blank=True, null=True)
@@ -704,11 +706,14 @@ VARS = {
     'EXCLUDE_PERMISSIONS':['all'],
 }
 class InventoryOrderProoduct(Model_base):
+    UNITS = (
+        ('Unidades','Unidades'),
+    )
     product = models.ForeignKey('STR.Product', on_delete=models.SET_NULL, related_name='+', blank=True, null=True)
     quantity = models.IntegerField()
-    cost = models.FloatField()
-    specialCost = models.FloatField()
-    units = models.FloatField()
+    cost = models.FloatField(blank=True, null=True)
+    specialCost = models.FloatField(blank=True, null=True)
+    units = models.CharField('Unidades', choices=UNITS, max_length=250, default="Unidades")
     inventoryorder = models.ForeignKey('STR.InventoryOrder', on_delete=models.CASCADE, related_name='+')
     VARS = VARS
     class Meta(Model_base.Meta):
