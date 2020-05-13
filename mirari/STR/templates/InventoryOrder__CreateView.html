@@ -187,9 +187,9 @@
                                             <div class="col-4">
                                                 <div class="row">
                                                     <div class="col-12" style="text-align:right;">
-                                                        <p class="mb-0 h3">FECHA: {{object.serial}}</p>
-                                                        <p class="mb-0 h3">FOLIO: $ </p>
-                                                        <p class="mb-0 h5">ID: $ </p>
+                                                        <p class="mb-0 h3">FECHA: {{object.initialDateTime}}</p>
+                                                        <p class="mb-0 h3">FOLIO: {{object.id}}</p>
+                                                        <p class="mb-0 h5">ID: {{object.id}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -199,12 +199,12 @@
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="kt-invoice__item">
-                                                    <p>CLIENTE:<strong class="ml-2">{{object.email|default:'-'}}</strong></p>
+                                                    <p>CLIENTE:<strong class="ml-2">{{object.provider.name|default:'-'}}</strong></p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="kt-invoice__item">
-                                                    <p>CONDICIONES PAGO:<strong class="ml-2">{{object.contact_phone1}} {{object.contact_phone2}} {{object.contact_phone3}}</strong><strong class="ml-2">-</strong></p>
+                                                    <p>CONDICIONES PAGO:<strong class="ml-2">{{object.paymentCondition|default:'-'}}</strong><strong class="ml-2">-</strong></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -213,12 +213,12 @@
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="kt-invoice__item">
-                                                    <p>RAZON SOCIAL:<strong class="ml-2">{{object.get_adress_html|safe|default:'-'}}</strong></p>
+                                                    <p>RAZON SOCIAL:<strong class="ml-2">{{object.provider.razonSocial|default:'-'}}</strong></p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="kt-invoice__item">
-                                                    <p>TIPO:<strong class="ml-2">{{object.get_adress_html|safe|default:'-'}}</strong></p>
+                                                    <p>TIPO:<strong class="ml-2">{{object.provide.typeProvider|default:'-'}}</strong></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -227,7 +227,7 @@
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="kt-invoice__item">
-                                                    <p>NOMBRE DE QUIEN SOLICITA:<strong class="ml-2">{{object.get_adress_html|safe|default:'-'}}</strong></p>
+                                                    <p>NOMBRE DE QUIEN SOLICITA:<strong class="ml-2">{{object.responsibleName|safe|default:'-'}}</strong></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -236,7 +236,7 @@
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="kt-invoice__item">
-                                                    <p>PROVEEDOR:<strong class="ml-2">{{object.get_adress_html|safe|default:'-'}}</strong></p>
+                                                    <p>PROVEEDOR:<strong class="ml-2">{{object.provider.name|default:'-'}}</strong></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -276,10 +276,14 @@
                                         </div>
                                     </div>
                                     <div class="kt-invoice__items mt-5">
-                                        <div class="row">
+                                        <div class="row" v-for="product in productList">
                                             <div class="col-2">
                                                 <div class="kt-invoice__item">
-                                                    <p></p>
+                                                    <p>
+                                                        ${product[0]['name']}
+                                                        <br >
+                                                        ${product[0]['codebar']} 
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="col-3">
@@ -289,22 +293,30 @@
                                             </div>
                                             <div class="col-1">
                                                 <div class="kt-invoice__item">
-                                                    <p></p>
+                                                    <p>
+                                                        ${product[1]}
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="col-2">
                                                 <div class="kt-invoice__item">
-                                                    <p></p>
+                                                    <p>
+                                                        $ ${product[2]|formatPrice}
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="col-2">
                                                 <div class="kt-invoice__item">
-                                                    <p></p>
+                                                    <p>
+                                                        $ ${product[3]|formatPrice}
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="col-2">
                                                 <div class="kt-invoice__item">
-                                                    <p></p>
+                                                    <p>
+                                                        $ ${(product[1] * product[3])|formatPrice}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -318,7 +330,7 @@
                                             </div>
                                             <div class="col-2">
                                                 <div class="kt-invoice__item">
-                                                    <p>TOTAL</p>
+                                                    <p>TOTAL $ ${productList|TotalPrice|formatPrice}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -327,7 +339,7 @@
                                         <div class="row">
                                             <div class="col-4">
                                                 <div class="kt-invoice__item">
-                                                    <p>TRANSPORTISTA</p>
+                                                    <p>TRANSPORTISTA: {{object.fordwarder|default:'-'}}</p>
                                                 </div>
                                             </div>
                                         </div>
