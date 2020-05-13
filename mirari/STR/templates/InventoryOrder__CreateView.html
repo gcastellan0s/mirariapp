@@ -330,7 +330,7 @@
                                             </div>
                                             <div class="col-2">
                                                 <div class="kt-invoice__item">
-                                                    <p>TOTAL $ ${productList|TotalPrice|formatPrice}</p>
+                                                    <p>TOTAL: $ ${productList|TotalPrice|formatPrice}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -339,7 +339,7 @@
                                         <div class="row">
                                             <div class="col-4">
                                                 <div class="kt-invoice__item">
-                                                    <p>TRANSPORTISTA: {{object.fordwarder|default:'-'}}</p>
+                                                    <p>TRANSPORTISTA:<strong class="ml-2">{{object.fordwarder|default:'-'}}</strong></p>
                                                 </div>
                                             </div>
                                         </div>
