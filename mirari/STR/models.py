@@ -540,8 +540,6 @@ class Product(Model_base):
     deliveryDescription = models.TextField(blank=True, verbose_name="Descripción para entregas")
     receptionsDescription = models.TextField(blank=True, verbose_name="Descripción para recepciones")
     quantity = models.IntegerField('CANTIDAD ACTUAL', default=0)
-    buyCost = models.FloatField('Precio de compra', blank=True, null=True)
-    sellCost = models.FloatField('Precio de venta', blank=True, null=True)
     minimumQuantity = models.IntegerField('Cantidad mínima', blank=True, null=True)
     maximumQuantity = models.IntegerField('Cantidad máxima', blank=True, null=True)
     location = models.CharField('Ubicación', max_length=250, blank=True, null=True)
@@ -645,7 +643,7 @@ class InventoryOrder(Model_base):
         ('out','out'),
     )
     STATUS = (
-        ('PREPARADA','PREPARADA'),
+        ('EN TRANSITO','EN TRANSITO'),
         ('TERMINADA','TERMINADA'),
     )
     PAYMENTCONDITION = (

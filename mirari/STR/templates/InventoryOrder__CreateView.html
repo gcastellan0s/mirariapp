@@ -92,6 +92,12 @@
                                                         <span class="kt-link kt-link--dark kt-timeline-v3__itek-link">
                                                             ${product[0]['codebar']} 
                                                         </span>
+                                                    </span>		
+                                                    <br>
+                                                    <span class="kt-timeline-v3__item-user-name">
+                                                        <span class="kt-link kt-link--dark kt-timeline-v3__itek-link">
+                                                            ${product[0]['codebar']} 
+                                                        </span>
                                                     </span>		 
                                                 </div>
                                             </div>
@@ -407,7 +413,13 @@
                         self.productList.splice(resultado, 1)
                         self.productList.unshift(product)
                     }
-                    else { self.productList.unshift([json.data.product, 1]) }
+                    else { 
+                        let price = json.data.product.costPrice
+                        if (!price){
+                            price = 0
+                        }
+                        self.productList.unshift([json.data.product, 1, price, price])
+                    }
                 }else{
                     Swal.fire('Intenta de nuevo','Producto no encontrado','error')
                 }
