@@ -176,18 +176,17 @@
                                             <div class="col-8">
                                                 <div class="row">
                                                     <div class="col-6" style="text-align: center;color: inherit;"><img src="{%static 'pages/tecnoservicio/img/icon_ordenes.png'%}">
-                                                        <p class="mb-0">Tel. 01800 6819542</p>
+                                                        <p class="mb-0"></p>
                                                     </div>
-                                                    <div class="col-6" style="text-align: center;color: inherit;"><img src="{{G.MEDIA}}{{ G.ORGANIZATION.LOGO }}" style="max-width: 200px;">
+                                                    <div class="col-6" style="text-align: center;color: inherit;"><img src="https://mirariapp.s3.amazonaws.com/media/O/3tcs/SYSTEM/ikstr.png" style="max-width: 200px;">
                                                         <p class="mb-0 h1">ORDEN DE COMPRA</p>
-                                                        <p class="mb-0">Tel. 55134050 / 56014868</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="row">
                                                     <div class="col-12" style="text-align:right;">
-                                                        <p class="mb-0 h3">{{object.initialDateTime|date:"d/M/Y"}}</p>
+                                                        <p class="mb-0 h3">{{object.initialDateTime|date:"d M Y"}}</p>
                                                         <p class="mb-0 h3">FOLIO: {{object.id}}</p>
                                                         <p class="mb-0 h5">ID: {{object.id}}</p>
                                                     </div>
