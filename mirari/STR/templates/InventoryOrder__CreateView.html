@@ -477,6 +477,7 @@
             confirmButtonText: 'ACTUALIZAR PRODUCTO',
             showLoaderOnConfirm: true,
             inputValidator: (value) => {
+                value = parseFloat(value)
                 if (!Number.isInteger(value)){
                     return 'Escribe un valor correcto'
                 }
@@ -501,6 +502,7 @@
             confirmButtonText: 'ACTUALIZAR PRODUCTO',
             showLoaderOnConfirm: true,
             inputValidator: (value) => {
+                value = parseFloat(value)
                 if (!Number.isInteger(value)){
                     return 'Escribe un valor correcto'
                 }
