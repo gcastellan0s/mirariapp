@@ -96,7 +96,7 @@
                                                             <div class="col-xl-4 p-2" {%if not object.status == 'TERMINADA'%}@click="changePrice(product)"{%endif%}>
                                                                 precio: $ ${product[2]}
                                                             </div>
-                                                            <div class="col-xl-4 p-2" {%if not object.status == 'TERMINADA'%}@click="changeNumber(product)"{%endif%}>
+                                                            <div class="col-xl-4 p-2" {%if not object.status == 'TERMINADA'%}@click="changePriceEspecial(product)"{%endif%}>
                                                                 especial: $ ${product[3]}
                                                             </div>
                                                         </div> 
@@ -471,42 +471,10 @@
     },
     changePrice(product) {
         Swal.fire({
-            title: 'Ingresa el numero de productos',
-            input: 'range',
-            icon: 'question',
-            inputAttributes: {
-                min: 1,
-                max: 25,
-                step: 1
-            },
-            inputValue: product[1],
-            confirmButtonText: 'ACTUALIZAR PRODUCTO',
-            showCancelButton: true,
-            cancelButtonText: 'ELIMINAR',
-            cancelButtonColor: 'danger',
-            showLoaderOnConfirm: true,
-            preConfirm: (value) => {
-                let resultado = self.productList.findIndex( getProduct => {return getProduct === product} );
-                self.productList.splice(resultado, 1)
-                product[1] = parseInt(value)
-                self.productList.unshift(product)
-                return true
-            },
-        }).then((result) => {
-            if(result.dismiss === 'cancel'){
-                let resultado = self.productList.findIndex( getProduct => {return getProduct === product} );
-                self.productList.splice(resultado, 1)
-            }
-        })
-
-        Swal.fire({
-            title: 'Enter your IP address',
+            title: 'Ingresa el precio del producto',
             input: 'text',
             inputValue: inputValue,
             confirmButtonText: 'ACTUALIZAR PRODUCTO',
-            showCancelButton: true,
-            cancelButtonText: 'ELIMINAR',
-            cancelButtonColor: 'danger',
             showLoaderOnConfirm: true,
             inputValidator: (value) => {
                 if (!Number.isInteger(value)){
@@ -519,12 +487,35 @@
             preConfirm: (value) => {
                 let resultado = self.productList.findIndex( getProduct => {return getProduct === product} );
                 self.productList.splice(resultado, 1)
-                product[1] = parseInt(value)
+                product[2] = parseFloat(value)
                 self.productList.unshift(product)
                 return true
             },
         })
-
+    },
+    changePriceEspecial(product) {
+        Swal.fire({
+            title: 'Ingresa el precio especial del producto',
+            input: 'text',
+            inputValue: inputValue,
+            confirmButtonText: 'ACTUALIZAR PRODUCTO',
+            showLoaderOnConfirm: true,
+            inputValidator: (value) => {
+                if (!Number.isInteger(value)){
+                    return 'Escribe un valor correcto'
+                }
+                if (value < 0){
+                    return 'Escribe un valor correcto'
+                }
+            },
+            preConfirm: (value) => {
+                let resultado = self.productList.findIndex( getProduct => {return getProduct === product} );
+                self.productList.splice(resultado, 1)
+                product[3] = parseFloat(value)
+                self.productList.unshift(product)
+                return true
+            },
+        })
     },
     sendForm() {
         Block();
