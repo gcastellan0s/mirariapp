@@ -531,10 +531,6 @@
         })
     },
     sendForm() {
-        if (self.productList.length < 1) {
-            Swal.fire('Intenta de nuevo','Agrega productos a la orden','error')
-            return 0;
-        }
         if (!document.querySelector('#id_provider').value) {
             Swal.fire('Intenta de nuevo','Elige un proveedor','error')
             return 0;
@@ -549,6 +545,10 @@
         }
         if (!document.querySelector('#id_paymentCondition').value) {
             Swal.fire('Intenta de nuevo','Elige una condición de pago','error')
+            return 0;
+        }
+        if (self.productList.length < 1) {
+            Swal.fire('Intenta de nuevo','Agrega productos a la orden','error')
             return 0;
         }
         var sendData = {
