@@ -593,7 +593,7 @@ VARS = {
             'url': 'url_update',
         },
     ],
-    'FORM': ('status','provider','client','responsible','product'),
+    'FORM': ('status','provider','client','paymentCondition','responsible','product'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
@@ -657,6 +657,7 @@ class InventoryOrder(Model_base):
     status = models.CharField('Estatus', choices=STATUS, max_length=250, default="PREPARADA")
     provider = models.ForeignKey('STR.Provider', null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Proveedor")
     client = models.ForeignKey('STR.Client', null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Cliente")
+    responsibleName = models.CharField('Nombre de quien solicita', max_length=250)
     initialDateTime = models.DateTimeField(auto_now_add=True)
     finalDateTime = models.DateTimeField(blank=True, null=True)
     paymentCondition = models.CharField('Condiciones de pago', choices=PAYMENTCONDITION, max_length=250, default="30 dias")
