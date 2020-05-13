@@ -721,14 +721,10 @@ VARS = {
     'EXCLUDE_PERMISSIONS':['all'],
 }
 class InventoryOrderProoduct(Model_base):
-    UNITS = (
-        ('Unidades','Unidades'),
-    )
     product = models.ForeignKey('STR.Product', on_delete=models.SET_NULL, related_name='+', blank=True, null=True)
     quantity = models.IntegerField()
     cost = models.FloatField(blank=True, null=True)
     specialCost = models.FloatField(blank=True, null=True)
-    units = models.CharField('Unidades', choices=UNITS, max_length=250, default="Unidades")
     inventoryorder = models.ForeignKey('STR.InventoryOrder', on_delete=models.CASCADE, related_name='+')
     VARS = VARS
     class Meta(Model_base.Meta):

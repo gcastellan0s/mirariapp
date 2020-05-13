@@ -397,7 +397,7 @@
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'getProducts':{{object.id}}})
         .then(function(json){
             for(product of json.data.products){
-                self.productList.push([product.product, product.quantity])
+                self.productList.push([product.product, product.quantity, product.cost, product.specialCost])
             }
         })
         .catch((error) => {
@@ -535,8 +535,16 @@
         if (self.productList.length < 1) {
             Swal.fire('Intenta de nuevo','Agrega productos a la orden','error')
         }
+        if (!document.querySelector('#id_provider').value) Swal.fire('Intenta de nuevo','Elige un proveedor','error')
+        if (!document.querySelector('#id_producttype').value) Swal.fire('Intenta de nuevo','Elige un tipo de producto','error')
+        if (!document.querySelector('#id_fordwarder').value) Swal.fire('Intenta de nuevo','Elige un promotor','error')
+        if (!document.querySelector('#id_paymentCondition').value) Swal.fire('Intenta de nuevo','Elige una condición de pago','error')
         var sendData = {
             provider : document.querySelector('#id_provider').value,
+            producttype : document.querySelector('#id_producttype').value,
+            fordwarder : document.querySelector('#id_fordwarder').value,
+            paymentCondition : document.querySelector('#id_paymentCondition').value,
+            responsibleName : document.querySelector('#id_responsibleName').value,
             responsible : document.querySelector('#id_responsible').value,
             notes : document.querySelector('#id_notes').value,
             status : document.querySelector('#id_status').value,

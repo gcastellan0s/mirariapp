@@ -47,6 +47,10 @@ class Inventory__ApiView(Generic__ApiView):
 			inventoryOrder.status = data['status']
 			inventoryOrder.notes = data['notes']
 			inventoryOrder.operationType = data['type']
+			inventoryOrder.producttype = data['producttype']
+			inventoryOrder.fordwarder = data['fordwarder']
+			inventoryOrder.paymentCondition = data['paymentCondition']
+			inventoryOrder.responsibleName = data['responsibleName']
 			inventoryOrder.save()
 			InventoryOrderProoduct.objects.filter(inventoryorder = inventoryOrder).delete()
 			for product in data['productList']:
@@ -60,6 +64,8 @@ class Inventory__ApiView(Generic__ApiView):
 					p.save()
 				inventoryOrderProoduct.product = p
 				inventoryOrderProoduct.quantity = product[1]
+				inventoryOrderProoduct.cost = product[2]
+				inventoryOrderProoduct.specialCost = product[3]
 				inventoryOrderProoduct.inventoryorder = inventoryOrder
 				inventoryOrderProoduct.save()
 			return JsonResponse({'sendData':inventoryOrder.pk}, safe=False)
