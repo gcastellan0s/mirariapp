@@ -94,10 +94,10 @@
                                                                 ${product[0]['codebar']} 
                                                             </div>
                                                             <div class="col-xl-4 p-2" {%if not object.status == 'TERMINADA'%}@click="changePrice(product)"{%endif%}>
-                                                                precio: $ ${product[2]}
+                                                                precio: $ ${product[2]formatPrice}
                                                             </div>
                                                             <div class="col-xl-4 p-2" {%if not object.status == 'TERMINADA'%}@click="changeNumber(product)"{%endif%}>
-                                                                especial: $ ${product[3]}
+                                                                especial: $ ${product[3]formatPrice}
                                                             </div>
                                                         </div> 
                                                     </span>
