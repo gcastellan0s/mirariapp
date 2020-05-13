@@ -671,7 +671,7 @@ class InventoryOrder(Model_base):
     status = models.CharField('Estatus', choices=STATUS, max_length=250, default="PREPARADA")
     provider = models.ForeignKey('STR.Provider', null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Proveedor")
     client = models.ForeignKey('STR.Client', null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Cliente")
-    responsibleName = models.CharField('Nombre de quien solicita', max_length=250)
+    responsibleName = models.CharField('Nombre de quien solicita', max_length=250, blank=True, null=True)
     initialDateTime = models.DateTimeField(auto_now_add=True)
     finalDateTime = models.DateTimeField(blank=True, null=True)
     fordwarder = models.CharField('Promotor', choices=FORDWARDER, max_length=250, default="30 dias")
