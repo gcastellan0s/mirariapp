@@ -513,6 +513,7 @@
             preConfirm: (value) => {
                 let resultado = self.productList.findIndex( getProduct => {return getProduct === product} );
                 self.productList.splice(resultado, 1)
+                product[2] = parseFloat(value)
                 product[3] = parseFloat(value)
                 self.productList.unshift(product)
                 return true
@@ -551,6 +552,14 @@
         var total = 0
         var totalArray  = productList.map( product => {
             return product[1]
+        })
+        totalArray.forEach(totalProduct => total += totalProduct);
+        return total
+    }),
+    TotalPrice: ((productList) => {
+        var total = 0
+        var totalArray  = productList.map( product => {
+            return product[3]
         })
         totalArray.forEach(totalProduct => total += totalProduct);
         return total
