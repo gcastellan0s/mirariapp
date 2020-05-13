@@ -65,7 +65,7 @@
                         {%endif%}
                         {%if object%}
                             <div class="kt-widget33__head col-xl-12">
-                                <a href="#" name="save__edit" class="btn btn-brand">
+                                <a href="#" name="save__edit" class="btn btn-brand" @click.prevent="printOrder()">
                                     <i class="la la-print"></i> 
                                     <span class="kt-hidden-mobile">
                                         IMPRIMIR ORDEN
@@ -166,6 +166,7 @@
     <div class="row mt-5">
         <div class="col-xl-12 mb-5"><!-- kt-hide -->
             <div id="print_order">
+                {%for x in 'xx'%}
                 <div class="kt-portlet kt-portlet" style="min-height: 900px;">
                     <div class="kt-invoice-2 p-5">
                         <div class="kt-invoice__wrapper">
@@ -175,7 +176,7 @@
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="row">
-                                                    <div class="col-6" style="text-align: center;color: inherit;"><img src="{%static 'pages/tecnoservicio/img/icon_ordenes.png'%}">
+                                                    <div class="col-6" style="text-align: center;color: inherit;">
                                                         <p class="mb-0"></p>
                                                     </div>
                                                     <div class="col-6" style="text-align: center;color: inherit;"><img src="https://mirariapp.s3.amazonaws.com/media/O/3tcs/SYSTEM/ikstr.png" style="max-width: 400px;">
@@ -367,11 +368,16 @@
                         </div>
                     </div>
                 </div>
+                {%endfor%}
             </div>
         </div>
     </div>
 {%endblock content%}
 
+{%block js%}
+    {{block.super}}
+    <script src="{%static 'mirari/js/print.js'%}" type='text/javascript'></script>
+{%endblock%}
 
 <script>
 {%block data%}
@@ -426,6 +432,9 @@
 
 {%block methods%}
     {{ block.super }}
+    printOrder() {
+        $('#print_order').printThis();
+    },
     addProduct() {
         let id_product = document.querySelector('#id_product');
         if (id_product.value){
