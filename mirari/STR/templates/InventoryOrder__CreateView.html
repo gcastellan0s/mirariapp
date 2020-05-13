@@ -478,7 +478,7 @@
             showLoaderOnConfirm: true,
             inputValidator: (value) => {
                 value = parseFloat(value)
-                if (!Number.isInteger(value)){
+                if (Number.isNaN(value)){
                     return 'Escribe un valor correcto'
                 }
                 if (value < 0){
@@ -503,7 +503,7 @@
             showLoaderOnConfirm: true,
             inputValidator: (value) => {
                 value = parseFloat(value)
-                if (!Number.isInteger(value)){
+                if (Number.isNaN(value)){
                     return 'Escribe un valor correcto'
                 }
                 if (value < 0){
