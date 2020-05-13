@@ -567,9 +567,9 @@
     TotalPrice: ((productList) => {
         var total = 0
         var totalArray  = productList.map( product => {
-            return product[3]
+            return [product[3],product[1]]
         })
-        totalArray.forEach(totalProduct => total += totalProduct);
+        totalArray.forEach(totalProduct => total += (totalProduct[0]*totalProduct[1]));
         return total
     }),
     formatPrice: ((value) => {
