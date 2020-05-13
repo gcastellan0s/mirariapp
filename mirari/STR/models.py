@@ -593,7 +593,7 @@ VARS = {
             'url': 'url_update',
         },
     ],
-    'FORM': ('status','provider','client','fordwarder','paymentCondition','responsibleName','responsible','product'),
+    'FORM': ('status','provider','client','producttype','fordwarder','paymentCondition','responsibleName','responsible','product'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
@@ -674,7 +674,8 @@ class InventoryOrder(Model_base):
     responsibleName = models.CharField('Nombre de quien solicita', max_length=250, blank=True, null=True)
     initialDateTime = models.DateTimeField(auto_now_add=True)
     finalDateTime = models.DateTimeField(blank=True, null=True)
-    fordwarder = models.CharField('Promotor', choices=FORDWARDER, max_length=250, default="30 dias")
+    fordwarder = models.CharField('Promotor', choices=FORDWARDER, max_length=250)
+    producttype = models.CharField('Tipo de producto', choices=PRODUCTTYPE, max_length=250)
     paymentCondition = models.CharField('Condiciones de pago', choices=PAYMENTCONDITION, max_length=250, default="30 dias")
     document = models.CharField('Documento de referencia', max_length=250, blank=True, null=True)
     priority = models.IntegerField('Prioridad', default=0)
