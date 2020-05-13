@@ -408,6 +408,8 @@
         {%if object.status == 'TERMINADA'%}
             $("#div_id_status").hide()
         {%endif%}
+    {%else%}
+        $("#div_id_status").hide();
     {%endif%} 
 {%endblock created%}
 
