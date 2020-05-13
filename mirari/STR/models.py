@@ -593,7 +593,7 @@ VARS = {
             'url': 'url_update',
         },
     ],
-    'FORM': ('status','provider','client','fordwarder','paymentCondition','responsibleName','product'),
+    'FORM': ('status','provider','client','fordwarder','paymentCondition','responsibleName','responsible','product'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
