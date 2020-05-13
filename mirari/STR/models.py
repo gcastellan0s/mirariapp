@@ -593,7 +593,7 @@ VARS = {
             'url': 'url_update',
         },
     ],
-    'FORM': ('status','provider','client','paymentCondition','responsible','product'),
+    'FORM': ('status','provider','client','fordwarder','paymentCondition','responsibleName','product'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
@@ -652,6 +652,20 @@ class InventoryOrder(Model_base):
         ('60 dias','60 dias'),
         ('90 dias','90 dias'),
     )
+    PRODUCTTYPE = (
+        ('EQUIPOS-ACCESORIOS','EQUIPOS-ACCESORIOS'),
+        ('REFACCIONES','REFACCIONES'),
+        ('REFACCIONES BICI','REFACCIONES BICI'),
+        ('REFACCIONES TRICI','REFACCIONES TRICI'),
+    )
+    FORDWARDER = (
+        ('BOEKI','BOEKI'),
+        ('CENTRAL CARGO','CENTRAL CARGO'),
+        ('GLOBEX','GLOBEX'),
+        ('TICAMEX','TICAMEX'),
+        ('LUIS GONZALEZ','LUIS GONZALEZ'),
+        ('UPS','UPS'),
+    )
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     operationType = models.CharField('Tipo de operación', choices=OPERATIONTYPE, max_length=250)
     status = models.CharField('Estatus', choices=STATUS, max_length=250, default="PREPARADA")
@@ -660,6 +674,7 @@ class InventoryOrder(Model_base):
     responsibleName = models.CharField('Nombre de quien solicita', max_length=250)
     initialDateTime = models.DateTimeField(auto_now_add=True)
     finalDateTime = models.DateTimeField(blank=True, null=True)
+    fordwarder = models.CharField('Promotor', choices=FORDWARDER, max_length=250, default="30 dias")
     paymentCondition = models.CharField('Condiciones de pago', choices=PAYMENTCONDITION, max_length=250, default="30 dias")
     document = models.CharField('Documento de referencia', max_length=250, blank=True, null=True)
     priority = models.IntegerField('Prioridad', default=0)
