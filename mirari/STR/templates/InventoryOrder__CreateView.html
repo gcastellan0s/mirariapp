@@ -37,7 +37,7 @@
 
 {%block content%}
     <div class="row">
-        <div class="col-xl-5">
+        <div class="col-xl-7">
             <div class="kt-portlet kt-portlet--height-fluid">
                 <div class="kt-portlet__body">
                     <!--begin::Widget -->
@@ -81,8 +81,8 @@
                                 <div class="kt-portlet__body">
                                     <div class="kt-timeline-v3">
                                         <div class="kt-timeline-v3__items" v-for="product in productList">
-                                            <div class="kt-timeline-v3__item kt-timeline-v3__item--info" {%if not object.status == 'TERMINADA'%}@click="changeNumber(product)"{%endif%}>
-                                                <span class="kt-timeline-v3__item-time">${product[1]}</span> 
+                                            <div class="kt-timeline-v3__item kt-timeline-v3__item--info">
+                                                <span class="kt-timeline-v3__item-time" {%if not object.status == 'TERMINADA'%}@click="changeNumber(product)"{%endif%}>${product[1]}</span> 
                                                 <div class="kt-timeline-v3__item-desc">							 
                                                     <span class="kt-timeline-v3__item-text">
                                                         ${product[0]['name']}
@@ -145,7 +145,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-7">
+        <div class="col-xl-5">
             {% crispy form %}
         </div>
     </div>
