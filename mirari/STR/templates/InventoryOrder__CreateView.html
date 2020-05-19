@@ -198,7 +198,7 @@
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="kt-invoice__item">
-                                                    <p>CLIENTE:<strong class="ml-2">{{object.provider.name|default:'-'}}</strong></p>
+                                                    <p>CLIENTE:<strong class="ml-2">IK STR</strong></p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
@@ -212,7 +212,7 @@
                                         <div class="row">
                                             <div class="col-8">
                                                 <div class="kt-invoice__item">
-                                                    <p>RAZON SOCIAL:<strong class="ml-2">{{object.provider.razonSocial|default:'-'}}</strong></p>
+                                                    <p>RAZON SOCIAL:<strong class="ml-2">IK STR S.A DE C.V</strong></p>
                                                 </div>
                                             </div>
                                             <div class="col-4">
@@ -287,7 +287,7 @@
                                             </div>
                                             <div class="col-3">
                                                 <div class="kt-invoice__item">
-                                                    <p></p>
+                                                    <p>${product[0]['model']} </p>
                                                 </div>
                                             </div>
                                             <div class="col-1">
@@ -423,9 +423,9 @@
         {%if object.status == 'TERMINADA'%}
             $("#div_id_status").hide()
         {%endif%}
-    {%else%}
+    {%endif%}
         $("#div_id_status").hide();
-    {%endif%} 
+    
 {%endblock created%}
 
 {%block methods%}
