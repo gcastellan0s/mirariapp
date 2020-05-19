@@ -585,7 +585,7 @@
         Block();
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'sendData': JSON.stringify(sendData)})
         .then(function(json){
-            location.replace(`STR/update/InventoryOrder/STR/${json.data.sendData}/InventoryOrder/?type={{request.GET.type}}`);
+            location.replace(`/STR/update/InventoryOrder/STR/${json.data.sendData}/InventoryOrder/?type={{request.GET.type}}`);
         })
         .catch((error) => {
             Swal.fire('Intenta de nuevo','Ocurrio un error','error')
