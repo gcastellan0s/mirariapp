@@ -643,6 +643,7 @@ class InventoryOrder(Model_base):
         ('out','out'),
     )
     STATUS = (
+        ('BORRADOR','BORRADOR'),
         ('EN TRANSITO','EN TRANSITO'),
         ('TERMINADA','TERMINADA'),
     )
@@ -668,7 +669,7 @@ class InventoryOrder(Model_base):
     )
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     operationType = models.CharField('Tipo de operación', choices=OPERATIONTYPE, max_length=250)
-    status = models.CharField('Estatus', choices=STATUS, max_length=250, default="PREPARADA")
+    status = models.CharField('Estatus', choices=STATUS, max_length=250, default="BORRADOR")
     provider = models.ForeignKey('STR.Provider', null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Proveedor")
     client = models.ForeignKey('STR.Client', null=True, on_delete=models.SET_NULL, related_name='+', verbose_name="Cliente")
     responsibleName = models.CharField('Nombre de quien solicita', max_length=250, blank=True, null=True)
