@@ -42,7 +42,7 @@
                 <div class="kt-portlet__body">
                     <!--begin::Widget -->
                     <div class="kt-widget33">
-                        {%if not object.status == 'TERMINADA'%}
+                        {%if object.status == 'BORRADOR' or not object%}
                         <div class="kt-widget33__head col-xl-12">
                             <a href="#" onclick="var message={action:'GetQR', target:'codebar'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));" name="save__edit" class="btn btn-brand">
                                 <i class="la la-barcode"></i> 
@@ -82,21 +82,21 @@
                                     <div class="kt-timeline-v3">
                                         <div class="kt-timeline-v3__items" v-for="product in productList">
                                             <div class="kt-timeline-v3__item kt-timeline-v3__item--info" style="width: 100%;">
-                                                <span class="kt-timeline-v3__item-time p-2" {%if not object.status == 'TERMINADA'%}@click="changeNumber(product)"{%endif%}>
+                                                <span class="kt-timeline-v3__item-time p-2" {%if object.status == 'BORRADOR' or not object%}@click="changeNumber(product)"{%endif%}>
                                                     ${product[1]}
                                                 </span> 
                                                 <div class="kt-timeline-v3__item-desc">	
                                                     <span class="kt-timeline-v3__item-text">
                                                         <div class="row">
-                                                            <div class="col-xl-4 p-2" {%if not object.status == 'TERMINADA'%}@click="changeNumber(product)"{%endif%}>
+                                                            <div class="col-xl-4 p-2" {%if object.status == 'BORRADOR' or not object%}@click="changeNumber(product)"{%endif%}>
                                                                 ${product[0]['name']}
                                                                 <br >
                                                                 ${product[0]['codebar']} 
                                                             </div>
-                                                            <div class="col-xl-4 p-2" {%if not object.status == 'TERMINADA'%}@click="changePrice(product)"{%endif%}>
+                                                            <div class="col-xl-4 p-2" {%if object.status == 'BORRADOR' or not object%}@click="changePrice(product)"{%endif%}>
                                                                 precio: $ ${product[2]|formatPrice}
                                                             </div>
-                                                            <div class="col-xl-4 p-2" {%if not object.status == 'TERMINADA'%}@click="changePriceEspecial(product)"{%endif%}>
+                                                            <div class="col-xl-4 p-2" {%if object.status == 'BORRADOR' or not object%}@click="changePriceEspecial(product)"{%endif%}>
                                                                 especial: $ ${product[3]|formatPrice}
                                                             </div>
                                                         </div> 
@@ -585,7 +585,7 @@
         Block();
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'sendData': JSON.stringify(sendData)})
         .then(function(json){
-            console.log(json)
+            location.replace(`STR/update/InventoryOrder/STR/${json.data.sendData}/InventoryOrder/?type={{request.GET.type}}`);
         })
         .catch((error) => {
             Swal.fire('Intenta de nuevo','Ocurrio un error','error')
