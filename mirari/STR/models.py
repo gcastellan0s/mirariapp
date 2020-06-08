@@ -387,14 +387,17 @@ VARS = {
         {
             'field': 'name',
             'title': 'NOMBRE',
+            'serchable': True,
         },
         {
             'field': 'get_codebar',
             'title': 'CODIGO DE BARRAS',
+            'serchable': True,
         },
         {
             'field': 'get_uid',
             'title': 'UID',
+            'serchable': True,
         },
         {
             'field': 'quantity',
