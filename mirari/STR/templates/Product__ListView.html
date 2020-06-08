@@ -44,6 +44,7 @@
 {%block methods%}
     {{ block.super }}
     ProductSubmit() {
+        
         Block();
         setTimeout( function(){
             Ax('post', '/STR/api/InventoryApi/STR/Product/', {'codebar':self.codebar})
@@ -84,7 +85,7 @@
             }).finally(() => {
                 UnBlock();
             });
-        }, 500);
+        }, 1500);
     },
 {%endblock methods%}
 </script>
