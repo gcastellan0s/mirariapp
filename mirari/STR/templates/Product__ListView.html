@@ -44,9 +44,8 @@
 {%block methods%}
     {{ block.super }}
     ProductSubmit() {
-        
-        Block();
         setTimeout( function(){
+            Block();
             Ax('post', '/STR/api/InventoryApi/STR/Product/', {'codebar':self.codebar})
             .then(function(json){
                 if(json.data.product.name){
@@ -85,7 +84,7 @@
             }).finally(() => {
                 UnBlock();
             });
-        }, 1500);
+        }, 1000);
     },
 {%endblock methods%}
 </script>
