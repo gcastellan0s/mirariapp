@@ -390,6 +390,11 @@ VARS = {
             'serchable': True,
         },
         {
+            'field': 'model',
+            'title': 'MODELO',
+            'serchable': True,
+        },
+        {
             'field': 'get_codebar',
             'title': 'CODIGO DE BARRAS',
         },
