@@ -45,11 +45,11 @@
     {{ block.super }}
     ProductSubmit() {
         setTimeout( function(){
-            codebar = document.querySelector("#id_codebar");
-            alert(`codebar: ${codebar.val()}`)
+            let codebar = document.querySelector("#id_codebar");
+            alert(`codebar: ${codebar.value}`)
             id_codebar
             Block();
-            Ax('post', '/STR/api/InventoryApi/STR/Product/', {'codebar': self.codebar})
+            Ax('post', '/STR/api/InventoryApi/STR/Product/', {'codebar': codebar.value})
             .then(function(json){
                 if(json.data.product.name){
                     Swal.fire({
@@ -71,7 +71,7 @@
                 }else{
                     Swal.fire(
                         'Intenta de nuevo',
-                        `Producto no encontrado: ${self.codebar}`,
+                        `Producto no encontrado: ${codebar.value}`,
                         'danger'
                     )
                 }
@@ -80,7 +80,7 @@
             .catch((error) => {
                 Swal.fire(
                     'Intenta de nuevo',
-                    `Producto no encontrado: ${self.codebar}`,
+                    `Producto no encontrado: ${codebar.value}`,
                     'danger'
                 )
                 self.codebar = ''
