@@ -45,7 +45,9 @@
     {{ block.super }}
     ProductSubmit() {
         setTimeout( function(){
-            alert(`codebar: ${self.codebar}`)
+            codebar = document.querySelector("#id_codebar");
+            alert(`codebar: ${codebar.val()}`)
+            id_codebar
             Block();
             Ax('post', '/STR/api/InventoryApi/STR/Product/', {'codebar': self.codebar})
             .then(function(json){
