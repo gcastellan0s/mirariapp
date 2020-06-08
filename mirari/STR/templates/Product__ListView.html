@@ -3,9 +3,6 @@
 {% load i18n %}
 {% load mirari_tags %}
 
-{%block extra_header_menu%}
-{%endblock extra_header_menu%}
-
 {%block extra_buttonsList%}
     <form method="get" class="kt-quick-search__form mb-4" v-on:submit.prevent="ProductSubmit" id="FormSubmit">
         <div class="input-group">
@@ -20,7 +17,6 @@
             <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO" autofocus="autofocus" id="id_codebar" v-model="codebar" @click="self.codebar=''">
         </div>
     </form>
-    
 {%endblock extra_buttonsList%}
 
 <script>
