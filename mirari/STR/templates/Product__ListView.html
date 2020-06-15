@@ -33,7 +33,18 @@
         console.log(self.codebar)
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'PlusCodebar':self.codebar})
         .then(function(json){
-            console.log('Todo bien')
+            Swal.fire(
+                    'Exito!',
+                    `Agregado correctamente`,
+                    'success'
+                )
+        })
+        .catch(function(error){
+            Swal.fire(
+                    'Intenta de nuevo',
+                    `${error}`,
+                    'danger'
+                )
         })
         .finally(() => {
             UnBlock();
