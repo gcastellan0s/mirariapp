@@ -30,8 +30,8 @@
 {%block created%}
     $(document).on('click','.addInventory',function(){
         swal.close()
-        console.log(self.codebar)
-        Ax('post', '/STR/api/InventoryApi/STR/Product/', {'PlusCodebar':self.codebar})
+        let codebar = document.querySelector("#id_codebar");
+        Ax('post', '/STR/api/InventoryApi/STR/Product/', {'PlusCodebar':codebar.value})
         .then(function(json){
             Swal.fire(
                     'Exito!',
