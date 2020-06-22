@@ -557,7 +557,9 @@ class Product(Model_base):
         verbose_name_plural = VARS['PLURAL']
         permissions = permissions(VARS)
     def __str__(self):
-        return self.name
+        if not self.model:
+            return 'Modelo no definido'
+        return self.model
     def url_list(self):
         return reverse('STR:Product__ListView')
     def get_category(self):
