@@ -606,7 +606,7 @@ VARS = {
             'url': 'url_update',
         },
     ],
-    'FORM': ('status','provider','client','producttype','fordwarder', 'package', 'guideNumber' 'paymentCondition','responsibleName','responsible','product', 'notes'),
+    'FORM': ('status','provider','client','producttype','fordwarder', 'package', 'guideNumber', 'paymentCondition','responsibleName','responsible','product', 'notes'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
