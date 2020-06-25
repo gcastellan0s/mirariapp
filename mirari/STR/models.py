@@ -602,7 +602,7 @@ VARS = {
         },
         {
             'field': 'get_provider',
-            'title': 'PROVEEDOR',
+            'title': 'PERSONA O EMPRESA',
             'url': 'url_update',
         },
     ],
@@ -719,7 +719,10 @@ class InventoryOrder(Model_base):
         else:
             return None
     def get_provider(self):
-        return self.provider.name
+        if self.operationType == 'in':
+            return self.provider.name
+        if self.operationType == 'out':
+            return self.client.name
     def get_initialDateTime(self):
         return self.initialDateTime.strftime('%d-%m-%Y %H:%M')
     def QUERY(self, view):
