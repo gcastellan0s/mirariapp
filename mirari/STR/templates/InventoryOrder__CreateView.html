@@ -388,8 +388,14 @@
     $("#div_id_product").hide();
     {%if request.GET.type == 'out'%}
         $("#div_id_provider").hide();
+        $("#div_id_producttype").hide();
+        $("#div_id_fordwarder").hide();
+        $("#div_id_paymentCondition").hide();
     {%else%}
         $("#div_id_client").hide();
+        $("#div_id_outType").hide();
+        $("#div_id_package").hide();
+        $("#div_id_guideNumber").hide();
     {%endif%}
     {%if object.status == 'TERMINADA'%}
         $("#saveButtons").hide();
@@ -549,22 +555,37 @@
         })
     },
     sendForm() {
-        if (!document.querySelector('#id_provider').value) {
-            Swal.fire('Intenta de nuevo','Elige un proveedor','error')
-            return 0;
-        }
-        if (!document.querySelector('#id_producttype').value) {
-            Swal.fire('Intenta de nuevo','Elige un tipo de producto','error')
-            return 0;
-        }
-        if (!document.querySelector('#id_fordwarder').value) {
-            Swal.fire('Intenta de nuevo','Elige un promotor','error')
-            return 0;
-        }
-        if (!document.querySelector('#id_paymentCondition').value) {
-            Swal.fire('Intenta de nuevo','Elige una condición de pago','error')
-            return 0;
-        }
+        {%if request.GET.type == 'out'%}
+        if (!document.querySelector('#id_client').value) {
+                Swal.fire('Intenta de nuevo','Elige un cliente','error')
+                return 0;
+            }
+            if (!document.querySelector('#id_outType').value) {
+                Swal.fire('Intenta de nuevo','Elige un tipo de orden','error')
+                return 0;
+            }
+            if (!document.querySelector('#id_package').value) {
+                Swal.fire('Intenta de nuevo','Elige un transportista','error')
+                return 0;
+            }
+        {%else%}
+            if (!document.querySelector('#id_provider').value) {
+                Swal.fire('Intenta de nuevo','Elige un proveedor','error')
+                return 0;
+            }
+            if (!document.querySelector('#id_producttype').value) {
+                Swal.fire('Intenta de nuevo','Elige un tipo de producto','error')
+                return 0;
+            }
+            if (!document.querySelector('#id_fordwarder').value) {
+                Swal.fire('Intenta de nuevo','Elige un promotor','error')
+                return 0;
+            }
+            if (!document.querySelector('#id_paymentCondition').value) {
+                Swal.fire('Intenta de nuevo','Elige una condición de pago','error')
+                return 0;
+            }
+        {%endif%}
         if (self.productList.length < 1) {
             Swal.fire('Intenta de nuevo','Agrega productos a la orden','error')
             return 0;
