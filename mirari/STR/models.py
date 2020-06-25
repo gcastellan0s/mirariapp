@@ -586,6 +586,11 @@ VARS = {
     'APP':APP,
     'LIST': [
         {
+            'field': 'id',
+            'title': 'FOLIO',
+            'url': 'url_update',
+        },
+        {
             'field': 'status',
             'title': 'STATUS',
             'url': 'url_update',
