@@ -606,7 +606,7 @@ VARS = {
             'url': 'url_update',
         },
     ],
-    'FORM': ('status','provider','client','producttype','fordwarder','paymentCondition','responsibleName','responsible','product', 'notes'),
+    'FORM': ('status','provider','client','producttype','fordwarder', 'package', 'guideNumber' 'paymentCondition','responsibleName','responsible','product', 'notes'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
@@ -680,6 +680,17 @@ class InventoryOrder(Model_base):
         ('LUIS GONZALEZ','LUIS GONZALEZ'),
         ('UPS','UPS'),
     )
+    PACKAGE = (
+        ('ALMEX','ALMEX'),
+        ('FEDEX','FEDEX'),
+        ('UPS','UPS'),
+        ('PAQUETE EXPRESS','PAQUETE EXPRESS'),
+        ('DHL','DHL'),
+        ('ESTAFETA','ESTAFETA'),
+        ('MAS A PRISA','MAS A PRISA'),
+        ('3 GUERRAS','3 GUERRAS'),
+        ('RED PACK','RED PACK'),
+    )
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     operationType = models.CharField('Tipo de operación', choices=OPERATIONTYPE, max_length=250)
     status = models.CharField('Estatus', choices=STATUS, max_length=250, default="BORRADOR")
@@ -689,6 +700,8 @@ class InventoryOrder(Model_base):
     initialDateTime = models.DateTimeField(auto_now_add=True)
     finalDateTime = models.DateTimeField(blank=True, null=True)
     fordwarder = models.CharField('Promotor', choices=FORDWARDER, max_length=250, blank=True, null=True)
+    package = models.CharField('Paqueteria', choices=PACKAGE, max_length=250, blank=True, null=True)
+    guideNumber = models.CharField('Numero de Guía', max_length=250, blank=True, null=True)
     producttype = models.CharField('Tipo de producto', choices=PRODUCTTYPE, max_length=250, blank=True, null=True)
     paymentCondition = models.CharField('Condiciones de pago', choices=PAYMENTCONDITION, max_length=250, default="30 dias", blank=True, null=True)
     document = models.CharField('Documento de referencia', max_length=250, blank=True, null=True)
