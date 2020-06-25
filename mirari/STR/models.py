@@ -244,7 +244,7 @@ VARS = {
         },
         {
             'field': 'get_contactName',
-            'title': 'NOMBRE DEL PROVEEDOR',
+            'title': 'NOMBRE DEL CLIENTE',
         },
     ],
     'FORM_CLASS': 'kt-form kt-form--fit kt-form--label-right form-horizontal',
@@ -722,6 +722,8 @@ class InventoryOrder(Model_base):
         return self.provider.name
     def get_initialDateTime(self):
         return self.initialDateTime.strftime('%d-%m-%Y %H:%M')
+    def QUERY(self, view):
+        return InventoryOrder.objects.filter(organization__pk=view.request.session.get('organization'), active=True, operationType=view.request.GET.get('type', ''))
 
 ########################################################################################
 VARS = {
