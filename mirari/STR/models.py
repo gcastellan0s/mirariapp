@@ -606,7 +606,7 @@ VARS = {
             'url': 'url_update',
         },
     ],
-    'FORM': ('status','provider','client','producttype','fordwarder', 'package', 'guideNumber', 'paymentCondition','responsibleName','responsible','product', 'notes'),
+    'FORM': ('status','provider','client','producttype', 'outType', 'fordwarder', 'package', 'guideNumber', 'paymentCondition','responsibleName','responsible','product', 'notes'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
@@ -672,6 +672,11 @@ class InventoryOrder(Model_base):
         ('REFACCIONES BICI','REFACCIONES BICI'),
         ('REFACCIONES TRICI','REFACCIONES TRICI'),
     )
+    OUTTYPE = (
+        ('VENTA','VENTA'),
+        ('ARRENDAMIENTO','ARRENDAMIENTO'),
+        ('EXHIBICION','EXHIBICION'),
+    )
     FORDWARDER = (
         ('BOEKI','BOEKI'),
         ('CENTRAL CARGO','CENTRAL CARGO'),
@@ -703,6 +708,7 @@ class InventoryOrder(Model_base):
     package = models.CharField('Paqueteria', choices=PACKAGE, max_length=250, blank=True, null=True)
     guideNumber = models.CharField('Numero de Guía', max_length=250, blank=True, null=True)
     producttype = models.CharField('Tipo de producto', choices=PRODUCTTYPE, max_length=250, blank=True, null=True)
+    outType = models.CharField('Tipo de salida', choices=OUTTYPE, max_length=250, blank=True, null=True)
     paymentCondition = models.CharField('Condiciones de pago', choices=PAYMENTCONDITION, max_length=250, default="30 dias", blank=True, null=True)
     document = models.CharField('Documento de referencia', max_length=250, blank=True, null=True)
     priority = models.IntegerField('Prioridad', default=0)
