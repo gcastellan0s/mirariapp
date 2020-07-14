@@ -740,12 +740,12 @@ class InventoryOrder(Model_base):
             return None
     def get_provider(self):
         if self.operationType == 'in':
-            if self.provider.name:
+            if self.provider:
                 return self.provider.name
             else:
                 return '-'
         if self.operationType == 'out':
-            if self.client.name:
+            if self.client:    
                 return self.client.name
             else:
                 return '-'
