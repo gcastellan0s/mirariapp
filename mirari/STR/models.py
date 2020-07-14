@@ -606,7 +606,7 @@ VARS = {
             'url': 'url_update',
         },
     ],
-    'FORM': ('status','provider','client','producttype', 'outType', 'fordwarder', 'package', 'guideNumber', 'paymentCondition','responsibleName','responsible','product', 'notes'),
+    'FORM': ('status','provider','client','producttype', 'outType', 'fordwarder', 'package', 'orderNumber', 'guideNumber', 'paymentCondition','responsibleName','responsible','product', 'notes'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
@@ -707,6 +707,7 @@ class InventoryOrder(Model_base):
     fordwarder = models.CharField('Promotor', choices=FORDWARDER, max_length=250, blank=True, null=True)
     package = models.CharField('Paqueteria', choices=PACKAGE, max_length=250, blank=True, null=True)
     guideNumber = models.CharField('Numero de Guía', max_length=250, blank=True, null=True)
+    orderNumber = models.CharField('Numero de Pedido', max_length=250, blank=True, null=True)
     producttype = models.CharField('Tipo de producto', choices=PRODUCTTYPE, max_length=250, blank=True, null=True)
     outType = models.CharField('Tipo de salida', choices=OUTTYPE, max_length=250, blank=True, null=True)
     paymentCondition = models.CharField('Condiciones de pago', choices=PAYMENTCONDITION, max_length=250, default="30 dias", blank=True, null=True)
@@ -739,9 +740,15 @@ class InventoryOrder(Model_base):
             return None
     def get_provider(self):
         if self.operationType == 'in':
-            return self.provider.name
+            if self.provider.name:
+                return self.provider.name
+            else:
+                return '-'
         if self.operationType == 'out':
-            return self.client.name
+            if self.client.name
+                return self.client.name
+            else:
+                return '-'
     def get_initialDateTime(self):
         return self.initialDateTime.strftime('%d-%m-%Y %H:%M')
     def QUERY(self, view):
