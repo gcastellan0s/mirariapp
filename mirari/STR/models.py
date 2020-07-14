@@ -745,7 +745,7 @@ class InventoryOrder(Model_base):
             else:
                 return '-'
         if self.operationType == 'out':
-            if self.client.name
+            if self.client.name:
                 return self.client.name
             else:
                 return '-'
