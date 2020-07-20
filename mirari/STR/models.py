@@ -638,7 +638,7 @@ VARS = {
         'product': {
             'model': ['STR', 'Product'],
             'plugin': 'select2',
-            'sercheable': ['codebar__icontains','name__icontains'],
+            'sercheable': ['codebar__icontains','name__icontains','model__icontains'],
             'limits': 50,
             'placeholder': 'Elige un producto', 
             'query': [
