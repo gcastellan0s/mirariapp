@@ -74,7 +74,7 @@ class Inventory__ApiView(Generic__ApiView):
 		if request.POST.get('productID'):
 			return JsonResponse({'product':ProductSerializer(Product.objects.filter(pk=request.POST.get('productID')).first()).data}, safe=False)
 		if request.POST.get('PlusCodebar'):
-			product = Product.objects.filter(codebar=request.POST.get('PlusCodebar')).first()
+			product = Product.objects.get(codebar=request.POST.get('PlusCodebar'), active=True, organization__id=request.session.get('organization'))
 			product.quantity += 1
 			product.save()
 			return JsonResponse({'ok':'ok'}, safe=False)
