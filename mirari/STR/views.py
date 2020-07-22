@@ -70,7 +70,7 @@ class Inventory__ApiView(Generic__ApiView):
 				inventoryOrderProoduct.save()
 			return JsonResponse({'sendData':inventoryOrder.pk}, safe=False)
 		if request.POST.get('codebar'):
-			return JsonResponse({'product':ProductSerializer(Product.objects.filter(codebar=request.POST.get('codebar')).first()).data}, safe=False)
+			return JsonResponse({'product':ProductSerializer(Product.objects.filter(codebar=request.POST.get('codebar'), active=True, organization__id=request.session.get('organization')).first()).data}, safe=False)
 		if request.POST.get('productID'):
 			return JsonResponse({'product':ProductSerializer(Product.objects.filter(pk=request.POST.get('productID')).first()).data}, safe=False)
 		if request.POST.get('PlusCodebar'):
