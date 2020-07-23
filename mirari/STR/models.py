@@ -606,7 +606,7 @@ VARS = {
             'url': 'url_update',
         },
     ],
-    'FORM': ('status','provider','client','producttype', 'outType', 'fordwarder', 'package', 'orderNumber', 'guideNumber', 'paymentCondition','responsibleName','responsible','product', 'notes'),
+    'FORM': ('status','serial','provider','client','producttype', 'outType', 'fordwarder', 'package', 'orderNumber', 'guideNumber', 'paymentCondition','responsibleName','responsible','product', 'notes'),
     'SELECTQ': {
         'provider': {
             'model': ['STR', 'Provider'],
@@ -705,6 +705,7 @@ class InventoryOrder(Model_base):
     initialDateTime = models.DateTimeField(auto_now_add=True)
     finalDateTime = models.DateTimeField(blank=True, null=True)
     fordwarder = models.CharField('Promotor', choices=FORDWARDER, max_length=250, blank=True, null=True)
+    serial = models.CharField('Serie', max_length=250, blank=True, null=True)
     package = models.CharField('Paqueteria', choices=PACKAGE, max_length=250, blank=True, null=True)
     guideNumber = models.CharField('Numero de Guía', max_length=250, blank=True, null=True)
     orderNumber = models.CharField('Numero de Pedido', max_length=250, blank=True, null=True)

@@ -387,6 +387,7 @@
 {%block created%}
     $("#div_id_product").hide();
     {%if request.GET.type == 'out'%}
+        $("#div_id_serial").hide();
         $("#div_id_provider").hide();
         $("#div_id_producttype").hide();
         $("#div_id_fordwarder").hide();
