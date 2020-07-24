@@ -633,10 +633,8 @@ script.
         getCuts: ((init=0,final=0) => {
             Ax('post', '{%url 'SV:Sellpoint__ApiView' 'SV' 'set_sellpoint' 'Sellpoint'%}?api=getRangeCuts', {organization:'{{request.user.organization.code}}', init:init,final:final}, errorDialog=false, timeout=10000)
             .then((json) => {
-                json.data.cuts.forEach(function(cut, index) {
-                    setTimeout(function() {
-                        self.makeCut(cutID=cut.id)
-                    }, 5000 * index)
+                json.data.cuts.forEach( async (cut, index) => {
+                    await self.makeCut(cutID=cut.id)
                 });
             })
             .catch((error) => {
