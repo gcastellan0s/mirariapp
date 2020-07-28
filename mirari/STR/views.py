@@ -58,7 +58,6 @@ class Inventory__ApiView(Generic__ApiView):
 			inventoryOrder.package = data['package']
 			inventoryOrder.orderNumber = data['orderNumber']
 			inventoryOrder.guideNumber = data['guideNumber']
-			inventoryOrder.product = data['product']
 			inventoryOrder.save()
 			InventoryOrderProoduct.objects.filter(inventoryorder = inventoryOrder).delete()
 			for product in data['productList']:
