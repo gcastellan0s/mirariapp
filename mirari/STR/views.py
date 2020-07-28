@@ -52,7 +52,8 @@ class Inventory__ApiView(Generic__ApiView):
 			inventoryOrder.paymentCondition = data['paymentCondition']
 			inventoryOrder.responsibleName = data['responsibleName']
 			inventoryOrder.serial = data['serial']
-			inventoryOrder.client = data['client']
+			if data['client']:
+				inventoryOrder.client = Client.objects.get(pk=data['client'])
 			inventoryOrder.outType = data['outType']
 			inventoryOrder.package = data['package']
 			inventoryOrder.orderNumber = data['orderNumber']
