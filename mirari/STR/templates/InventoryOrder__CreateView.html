@@ -603,6 +603,13 @@
             status : document.querySelector('#id_status').value,
             productList : self.productList,
             type : '{{request.GET.type}}',
+            serial : document.querySelector('#id_serial').value,
+            client : document.querySelector('#id_client').value,
+            outType : document.querySelector('#id_outType').value,
+            package : document.querySelector('#id_package').value,
+            orderNumber : document.querySelector('#id_orderNumber').value,
+            guideNumber : document.querySelector('#id_guideNumber').value,
+            product : document.querySelector('#id_product').value,
             {%if object%}idObject: {{object.id}},{%endif%}
         }
         Block();

@@ -51,6 +51,13 @@ class Inventory__ApiView(Generic__ApiView):
 			inventoryOrder.fordwarder = data['fordwarder']
 			inventoryOrder.paymentCondition = data['paymentCondition']
 			inventoryOrder.responsibleName = data['responsibleName']
+			inventoryOrder.serial = data['serial']
+			inventoryOrder.client = data['client']
+			inventoryOrder.outType = data['outType']
+			inventoryOrder.package = data['package']
+			inventoryOrder.orderNumber = data['orderNumber']
+			inventoryOrder.guideNumber = data['guideNumber']
+			inventoryOrder.product = data['product']
 			inventoryOrder.save()
 			InventoryOrderProoduct.objects.filter(inventoryorder = inventoryOrder).delete()
 			for product in data['productList']:
