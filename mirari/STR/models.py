@@ -491,10 +491,10 @@ VARS = {
                         </div>
                         <div class="kt-widget6__body">
                             <div class="kt-widget6__item" v-for="product in productsReport">
-                                <span>x${product}</span>
-                                <span>x${product}</span>
-                                <span>x${product}</span>
-                                <span>x${product}</span>
+                                <span>x</span>
+                                <span>x</span>
+                                <span>x</span>
+                                <span>x</span>
                             </div>
                         </div>
                     </div>""")
