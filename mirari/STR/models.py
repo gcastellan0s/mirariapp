@@ -503,7 +503,7 @@ VARS = {
                                 <span>${product.inventoryorder.id}</span>
                                 <span>${product.quantity}</span>
                                 <span>${product.cost}</span>
-                                <span>${product.initialDateTime}</span>
+                                <span>${product.inventoryorder.initialDateTime}</span>
                                 <span>${(product.client ? product.client.razonSocial : product.provider.razonSocial)}</span>
                             </div>
                         </div>
