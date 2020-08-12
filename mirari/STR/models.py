@@ -499,7 +499,7 @@ VARS = {
                             </div>
                         </div>
                         <div class="kt-widget6__body">
-                            <div class="kt-widget6__item" v-for="product in productsReport">
+                            <div class="kt-widget6__item" v-for="product in productsReport" :style="product.inventoryorder.operationType === 'out' ?  { background-color: #ff000014; } : { background-color: #00ff0714; }">
                                 <span>${product.inventoryorder.id}</span>
                                 <span>${product.quantity}</span>
                                 <span>${product.cost}</span>
