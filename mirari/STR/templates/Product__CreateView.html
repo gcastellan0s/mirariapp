@@ -8,12 +8,23 @@
 <script>
 {%block mounted%}
     {{block.super}}
-    const ifrm = document.createElement('iframe');
-    ifrm.setAttribute('id', 'ifrm');
-    ifrm.style.minHeight = "300px";
-    ifrm.style.minWidth = "100%";
-    const el = document.getElementById("ProductReport");
-    el.append(ifrm);
-    ifrm.setAttribute('src', '/gupdate/STR/569/Product/');
+    Ax('post', '/STR/api/InventoryApi/STR/Product/', { 'getProductsReport': {{ object.id }}})
+        .then(function (json) {
+            console.log(json)
+        })
+        .catch((error) => {
+            Swal.fire('Oops! Ocurrio un error', 'Error al cargar los productos', 'error')
+        }).finally(() => {
+            UnBlock();
+        });
+
+
+    // const ifrm = document.createElement('iframe');
+    // ifrm.setAttribute('id', 'ifrm');
+    // ifrm.style.minHeight = "400px";
+    // ifrm.style.minWidth = "100%";
+    // const el = document.getElementById("ProductReport");
+    // el.append(ifrm);
+    // ifrm.setAttribute('src', '/gupdate/STR/569/Product/');
 {%endblock mounted%}
 </script>

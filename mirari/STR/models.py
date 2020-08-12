@@ -480,7 +480,7 @@ VARS = {
             ),
             Tab('REPORTE',
                 HTML('<h4 class="kt-section__title ml-2 mb-4">REPORTE POR PRODUCTO</h4>'),
-                HTML('<div id="ProductReport" style="min-height: 300px;"></div>'),
+                HTML('<div id="ProductReport" style="min-height: 400px;"></div>'),
             ),
         ),
     ],
@@ -759,6 +759,10 @@ class InventoryOrder(Model_base):
     def QUERY(self, view):
         return InventoryOrder.objects.filter(organization__pk=view.request.session.get('organization'), active=True, operationType=view.request.GET.get('type', ''))
 
+class InventoryOrderSerializer(Basic_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = InventoryOrderSerializer
+
 ########################################################################################
 VARS = {
     'NAME':'Producto de Orden de Inventario',
@@ -786,10 +790,13 @@ class InventoryOrderProoduct(Model_base):
 
 class InventoryOrderProoductSerializer(Basic_Serializer):
     product = serializers.SerializerMethodField()
+    inventoryorder = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):
         model = InventoryOrderProoduct
     def get_product(self, obj):
         return ProductSerializer(obj.product).data
+    def get_inventoryorder(self, obj):
+        return InventoryOrderSerializer(obj.inventoryorder).data
 
 #
 #class ProductHistory(Model_base):
