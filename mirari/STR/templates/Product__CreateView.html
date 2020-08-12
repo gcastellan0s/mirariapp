@@ -8,22 +8,20 @@
 <script>
 {%block data%}
     {{block.super}}
-    
+    productsReport: [],
 {%endblock data%}
 
 {%block mounted%}
     {{block.super}}
     Ax('post', '/STR/api/InventoryApi/STR/Product/', { 'getProductsReport':{{object.id}} })
         .then(function (json) {
-            console.log(json)
+            this.productsReport = json.data.products
         })
         .catch((error) => {
             Swal.fire('Oops! Ocurrio un error', 'Error al cargar los productos', 'error')
         }).finally(() => {
             UnBlock();
         });
-
-    
     // const ifrm = document.createElement('iframe');
     // ifrm.setAttribute('id', 'ifrm');
     // ifrm.style.minHeight = "400px";
