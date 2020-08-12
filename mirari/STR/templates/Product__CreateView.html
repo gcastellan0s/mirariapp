@@ -11,6 +11,16 @@
     productsReport: [],
 {%endblock data%}
 
+{% block css %}
+    {{block.super}}
+    .alert-solid-danger{
+        background-color: #dc131347!important;
+    }
+    .alert-solid-success{
+        background-color: #00961a47!important;
+    }
+{% endblock css %}
+
 {%block mounted%}
     {{block.super}}
     Ax('post', '/STR/api/InventoryApi/STR/Product/', { 'getProductsReport':{{object.id}} })
