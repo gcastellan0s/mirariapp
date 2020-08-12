@@ -761,7 +761,7 @@ class InventoryOrder(Model_base):
 
 class InventoryOrderSerializer(Basic_Serializer):
     class Meta(Basic_Serializer.Meta):
-        model = InventoryOrderSerializer
+        model = InventoryOrder
 
 ########################################################################################
 VARS = {
