@@ -478,6 +478,9 @@ VARS = {
                 Div('deliveryDescription', css_class="col-md-12"),
                 Div('receptionsDescription', css_class="col-md-12"),
             ),
+            Tab('REPORTE',
+                HTML('<h4 class="kt-section__title ml-2 mb-4">REPORTE POR PRODUCTO</h5>'),
+            ),
         ),
     ],
     'SELECTQ': {
