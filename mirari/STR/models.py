@@ -827,9 +827,9 @@ class InventoryOrderProoductSerializer(Basic_Serializer):
     def get_inventoryorder(self, obj):
         return InventoryOrderSerializer(obj.inventoryorder).data
     def get_provider(self, obj):
-        return ProviderSerializer(obj.provider).data
+        return ProviderSerializer(obj.inventoryorder.provider).data
     def get_client(self, obj):
-        return ClientSerializer(obj.client).data
+        return ClientSerializer(obj.inventoryorder.client).data
 
 #
 #class ProductHistory(Model_base):
