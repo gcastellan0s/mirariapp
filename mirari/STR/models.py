@@ -480,7 +480,7 @@ VARS = {
             ),
             Tab('REPORTE',
                 HTML('<h4 class="kt-section__title ml-2 mb-4">REPORTE POR PRODUCTO</h4>'),
-                HTML('<div id="ProductReport"></div>'),
+                HTML('<div id="ProductReport" style="min-height: 300px;"></div>'),
             ),
         ),
     ],

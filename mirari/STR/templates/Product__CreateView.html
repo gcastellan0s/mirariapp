@@ -8,6 +8,10 @@
 <script>
 {%block mounted%}
     {{block.super}}
-    console.log(":)")
+    const ifrm = document.createElement('iframe');
+    ifrm.setAttribute('id', 'ifrm'); // assign an id
+    const el = document.getElementById("ProductReport");
+    el.parentNode.insertBefore(ifrm, el);
+    ifrm.setAttribute('src', 'http://www.google.com');
 {%endblock mounted%}
 </script>
