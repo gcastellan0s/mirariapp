@@ -499,7 +499,7 @@ VARS = {
                             </div>
                         </div>
                         <div class="kt-widget6__body">
-                            <div class="kt-widget6__item" v-for="product in productsReport" v-bind:class="product.inventoryorder.operationType === 'out' ?  alert-solid-danger : alert-solid-success">
+                            <div class="kt-widget6__item" v-for="product in productsReport" v-bind:class="product.inventoryorder.operationType === 'out' ?  'alert-solid-danger' : 'alert-solid-success'">
                                 <span>${product.inventoryorder.id}</span>
                                 <span>${product.quantity}</span>
                                 <span>${product.cost}</span>
