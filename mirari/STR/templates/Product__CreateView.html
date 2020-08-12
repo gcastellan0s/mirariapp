@@ -10,6 +10,8 @@
     {{block.super}}
     const ifrm = document.createElement('iframe');
     ifrm.setAttribute('id', 'ifrm');
+    ifrm.style.minHeight = "300px";
+    ifrm.style.minWidth = "100%";
     const el = document.getElementById("ProductReport");
     el.append(ifrm);
     ifrm.setAttribute('src', '/gupdate/STR/569/Product/');
