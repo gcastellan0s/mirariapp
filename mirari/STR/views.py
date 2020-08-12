@@ -90,6 +90,6 @@ class Inventory__ApiView(Generic__ApiView):
 			products = InventoryOrderProoduct.objects.filter(inventoryorder = inventoryOrder)
 			return JsonResponse({'products':InventoryOrderProoductSerializer(products, many=True).data}, safe=False)
 		if request.POST.get('getProductsReport'):	
-			products = InventoryOrderProoduct.objects.filter(id=request.POST.get('productID'))
+			products = InventoryOrderProoduct.objects.filter(id=request.POST.get('getProductsReport'))
 			return JsonResponse({'products':InventoryOrderProoductSerializer(products, many=True).data}, safe=False)
 			
