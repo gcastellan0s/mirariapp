@@ -504,7 +504,7 @@ VARS = {
                                 <span>${product.quantity}</span>
                                 <span>${product.cost}</span>
                                 <span>${product.initialDateTime}</span>
-                                <span>${product.client}</span>
+                                <span>${(product.client ? product.client.razonSocial : product.provider.razonSocial)}</span>
                             </div>
                         </div>
                     </div>""")
