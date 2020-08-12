@@ -15,7 +15,7 @@
     {{block.super}}
     Ax('post', '/STR/api/InventoryApi/STR/Product/', { 'getProductsReport':{{object.id}} })
         .then(function (json) {
-            this.productsReport = json.data.products
+            self.productsReport = json.data.products
         })
         .catch((error) => {
             Swal.fire('Oops! Ocurrio un error', 'Error al cargar los productos', 'error')
