@@ -5,3 +5,9 @@
 {% load crispy_forms_tags %}
 {% load humanize %}
 
+<script>
+{%block mounted%}
+    {{block.super}}
+    console.log(":)")
+{%endblock mounted%}
+</script>
