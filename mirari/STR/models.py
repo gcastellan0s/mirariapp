@@ -216,6 +216,10 @@ class Provider(Model_base):
     def get_contactName(self):
         return self.render_if(self.contactName)
 
+class ProviderSerializer(Basic_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = Provider
+
 ########################################################################################
 VARS = {
     'NAME':'Cliente',
@@ -343,6 +347,10 @@ class Client(Model_base):
         return self.render_if(self.contactEmail)
     def get_contactName(self):
         return self.render_if(self.contactName)
+
+class ClientSerializer(Basic_Serializer):
+    class Meta(Basic_Serializer.Meta):
+        model = Client
 
 
 ########################################################################################
@@ -810,12 +818,18 @@ class InventoryOrderProoduct(Model_base):
 class InventoryOrderProoductSerializer(Basic_Serializer):
     product = serializers.SerializerMethodField()
     inventoryorder = serializers.SerializerMethodField()
+    provider = serializers.SerializerMethodField()
+    client = serializers.SerializerMethodField()
     class Meta(Basic_Serializer.Meta):
         model = InventoryOrderProoduct
     def get_product(self, obj):
         return ProductSerializer(obj.product).data
     def get_inventoryorder(self, obj):
         return InventoryOrderSerializer(obj.inventoryorder).data
+    def get_provider(self, obj):
+        return ProviderSerializer(obj.provider).data
+    def get_client(self, obj):
+        return ClientSerializer(obj.client).data
 
 #
 #class ProductHistory(Model_base):
