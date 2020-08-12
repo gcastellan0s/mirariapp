@@ -9,9 +9,11 @@
 {%block mounted%}
     {{block.super}}
     const ifrm = document.createElement('iframe');
-    ifrm.setAttribute('id', 'ifrm'); // assign an id
+    ifrm.setAttribute('id', 'ifrm');
+    ifrm.style.marginTop = ".25in";
+    ifrm.style.marginTop = ".25in";
     const el = document.getElementById("ProductReport");
-    el.parentNode.insertBefore(ifrm, el);
+    el.parentNode.append(ifrm, el);
     ifrm.setAttribute('src', '/gupdate/STR/569/Product/');
 {%endblock mounted%}
 </script>
