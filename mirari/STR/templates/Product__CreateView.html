@@ -8,6 +8,7 @@
 <script>
 {%block mounted%}
     {{block.super}}
+    console.log({{ object.id }})
     Ax('post', '/STR/api/InventoryApi/STR/Product/', { 'getProductsReport': {{ object.id }}})
         .then(function (json) {
             console.log(json)
