@@ -485,16 +485,18 @@ VARS = {
                             <div class="kt-widget6__item">
                                 <span>Orden</span>
                                 <span>Cantidad</span>
+                                <span>Costo</span>
                                 <span>Fecha</span>
                                 <span>Cliente/Provedor</span>
                             </div>
                         </div>
                         <div class="kt-widget6__body">
                             <div class="kt-widget6__item" v-for="product in productsReport">
-                                <span>${product}</span>
-                                <span>${product}</span>
-                                <span>${product}</span>
-                                <span>${product}</span>
+                                <span>${product.inventoryorder.id}</span>
+                                <span>${product.quantity}</span>
+                                <span>${product.cost}</span>
+                                <span>${product.initialDateTime}</span>
+                                <span>${product.client}</span>
                             </div>
                         </div>
                     </div>""")
