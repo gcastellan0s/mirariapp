@@ -725,7 +725,8 @@ class InventoryOrder(Model_base):
         ('ESTAFETA','ESTAFETA'),
         ('MAS A PRISA','MAS A PRISA'),
         ('3 GUERRAS','3 GUERRAS'),
-        ('RED PACK','RED PACK'),
+        ('RED PACK','RED PACK'), 
+        ('ENTREGAS TECNO','ENTREGAS TECNO'),
     )
     organization = models.ForeignKey('mirari.Organization', blank=True, null=True, on_delete=models.CASCADE, related_name='+',)
     operationType = models.CharField('Tipo de operación', choices=OPERATIONTYPE, max_length=250)
