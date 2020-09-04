@@ -19,7 +19,7 @@
     "cordova-ios": "^5.0.1",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-fullscreen": "^1.2.0",
-    "cordova-plugin-inappbrowser": "^3.0.0",
+    "cordova-plugin-inappbrowser": "^3.1.0",
     "cordova-plugin-qrscanner": "^3.0.1",
     "cordova-plugin-qrscanner-dual": "^3.0.5",
     "cordova-plugin-statusbar": "^2.4.2",
