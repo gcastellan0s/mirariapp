@@ -627,6 +627,16 @@ VARS = {
             'url': 'url_update',
         },
         {
+            'field': 'get_guideNumber',
+            'title': 'GUIA',
+            'url': 'url_update',
+        },
+        {
+            'field': 'get_orderNumber',
+            'title': 'NO. ORDEN',
+            'url': 'url_update',
+        },
+        {
             'field': 'get_initialDateTime',
             'title': 'FECHA',
             'url': 'url_update',
@@ -784,6 +794,16 @@ class InventoryOrder(Model_base):
                 return '-'
     def get_initialDateTime(self):
         return self.initialDateTime.strftime('%d-%m-%Y %H:%M')
+    def get_guideNumber(self):
+        if self.guideNumber:
+            return self.guideNumber
+        else: 
+            return '-'
+    def get_orderNumber(self):
+        if self.orderNumber:
+            return self.orderNumber
+        else: 
+            return '-'
     def QUERY(self, view):
         return InventoryOrder.objects.filter(organization__pk=view.request.session.get('organization'), active=True, operationType=view.request.GET.get('type', ''))
 

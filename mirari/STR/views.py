@@ -63,9 +63,11 @@ class Inventory__ApiView(Generic__ApiView):
 			for product in data['productList']:
 				inventoryOrderProoduct = InventoryOrderProoduct()
 				p = Product.objects.get(pk=product[0]['id'])
-				if data['status'] == 'TERMINADA':
+				if data['status'] == 'TERMINADA' :
 					if data['type'] == 'in':
 						p.quantity += product[1]
+					p.save()
+				if data['status'] == 'TRANSITO' :
 					if data['type'] == 'out':
 						p.quantity -= product[1]
 					p.save()
