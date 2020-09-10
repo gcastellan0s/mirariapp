@@ -65,6 +65,9 @@
             UnBlock();
         });
     });
+{%endblock created%}
+
+{%block mounted%}
     $('#kt_daterangepicker_2').daterangepicker({
         buttonClasses: ' btn',
         applyClass: 'btn-primary',
@@ -72,7 +75,7 @@
     }, function (start, end, label) {
         $('#kt_daterangepicker_2 .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
     });
-{%endblock created%}
+{%endblock mounted%}
 
 {%block methods%}
     {{ block.super }}
