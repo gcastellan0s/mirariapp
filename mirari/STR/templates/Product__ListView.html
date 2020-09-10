@@ -4,12 +4,12 @@
 {% load mirari_tags %}
 
 {%block extra_buttonsList%}
-    <form method="get" class="kt-quick-search__form mb-4" v-on:submit.prevent="ProductSubmit()" id="FormSubmit">
+    <form method="get" class="kt-quick-search__form mb-4">
         <div class="form-group row">
             <label class="col-form-label col-lg-3 col-sm-12">Input Group Setup</label>
             <div class="col-lg-4 col-md-9 col-sm-12">
                 <div class='input-group' id='kt_daterangepicker_2'>
-                    <input type="text" class="form-control" readonly placeholder="Select date range" />
+                    <input type="text" class="form-control" readonly placeholder="Rango" style="min-width: 250px;"/>
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="la la-calendar-check-o"></i></span>
                     </div>
