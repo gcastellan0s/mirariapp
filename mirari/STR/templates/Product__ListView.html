@@ -6,9 +6,9 @@
 {%block extra_buttonsList%}
     <form method="get" class="kt-quick-search__form mb-4" v-on:submit.prevent="ProductSubmit()" id="FormSubmit">
         <div class="form-group row">
-            <label class="col-form-label text-right col-lg-3 col-sm-12">Minimum Setup</label>
+            <label class="col-form-label col-lg-3 col-sm-12">Minimum Setup</label>
             <div class="col-lg-4 col-md-9 col-sm-12">
-                <input type='text' class="form-control" id="kt_daterangepicker_1" readonly placeholder="Select time" type="text" />
+                <input type="text" class="form-control" id="kt_daterangepicker_1" readonly placeholder="Select time" />
             </div>
         </div>
     </form>
@@ -60,10 +60,12 @@
             UnBlock();
         });
     });
-    $('#kt_daterangepicker_1, #kt_daterangepicker_1_modal').daterangepicker({
+    $('#kt_daterangepicker_1_validate').daterangepicker({
         buttonClasses: ' btn',
         applyClass: 'btn-primary',
         cancelClass: 'btn-secondary'
+    }, function (start, end, label) {
+        $('#kt_daterangepicker_1_validate .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
     });
 {%endblock created%}
 
