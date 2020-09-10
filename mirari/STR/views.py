@@ -67,7 +67,7 @@ class Inventory__ApiView(Generic__ApiView):
 					if data['type'] == 'in':
 						p.quantity += product[1]
 					p.save()
-				if data['status'] == 'TRANSITO' :
+				if data['status'] == 'EN TRANSITO' :
 					if data['type'] == 'out':
 						p.quantity -= product[1]
 					p.save()

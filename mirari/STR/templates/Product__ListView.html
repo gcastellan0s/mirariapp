@@ -17,6 +17,21 @@
             <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO" autofocus="autofocus" id="id_codebar" v-model="codebar" @click="self.codebar=''">
         </div>
     </form>
+    <form method="get" class="kt-quick-search__form mb-4" v-on:submit.prevent="ProductSubmit()" id="FormSubmit">
+        <div class="input-group">
+            <a href="#" class="btn btn-brand btn-elevate btn-icon-sm mr-4"
+                onclick="var message={action:'GetQR', target:'codebar'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));">
+                ESCANEAR CB
+            </a>
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="fas fa-barcode"></i>
+                </span>
+            </div>
+            <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO"
+                autofocus="autofocus" id="id_codebar" v-model="codebar" @click="self.codebar=''">
+        </div>
+    </form>
 {%endblock extra_buttonsList%}
 
 <script>
