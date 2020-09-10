@@ -5,16 +5,11 @@
 
 {%block extra_buttonsList%}
     <form method="get" class="kt-quick-search__form mb-4" v-on:submit.prevent="ProductSubmit()" id="FormSubmit">
-        <div class="input-group">
-            <a href="#" class="btn btn-brand btn-elevate btn-icon-sm mr-4" onclick="var message={action:'GetQR', target:'codebar'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));">
-                ESCANEAR CB
-            </a>
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                    <i class="fas fa-barcode"></i>
-                </span>
+        <div class="form-group row">
+            <label class="col-form-label text-right col-lg-3 col-sm-12">Minimum Setup</label>
+            <div class="col-lg-4 col-md-9 col-sm-12">
+                <input type='text' class="form-control" id="kt_daterangepicker_1" readonly placeholder="Select time" type="text" />
             </div>
-            <input type="text" class="form-control kt-quick-search__input" placeholder="CB DEL PRODUCTO" autofocus="autofocus" id="id_codebar" v-model="codebar" @click="self.codebar=''">
         </div>
     </form>
     <form method="get" class="kt-quick-search__form mb-4" v-on:submit.prevent="ProductSubmit()" id="FormSubmit">
@@ -64,6 +59,11 @@
         .finally(() => {
             UnBlock();
         });
+    });
+    $('#kt_daterangepicker_1, #kt_daterangepicker_1_modal').daterangepicker({
+        buttonClasses: ' btn',
+        applyClass: 'btn-primary',
+        cancelClass: 'btn-secondary'
     });
 {%endblock created%}
 
