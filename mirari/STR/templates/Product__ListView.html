@@ -6,10 +6,15 @@
 {%block extra_buttonsList%}
     <form method="get">
         <div class="form-group row">
+            
             <label class="col-form-label col-lg-3 col-sm-12">Rango</label>
-            <div class="col-md-6 col-sm-12">
+            <div class="col-md-8 col-sm-12">
+                <a href="#" class="btn btn-brand btn-elevate btn-icon-sm mr-4"
+                    onclick="var message={action:'GetQR', target:'codebar'}; webkit.messageHandlers.cordova_iab.postMessage(JSON.stringify(message));">
+                    ESCANEAR CB
+                </a>
                 <div class='input-group' id='kt_daterangepicker_2'>
-                    <input type="text" class="form-control" readonly placeholder="Rango"/>
+                    <input type="text" class="form-control" readonly placeholder="Elige las fechas"/>
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="la la-calendar-check-o"></i></span>
                     </div>
