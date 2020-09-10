@@ -68,6 +68,7 @@
 {%endblock created%}
 
 {%block mounted%}
+    {{ block.super }}
     $('#kt_daterangepicker_2').daterangepicker({
         buttonClasses: ' btn',
         applyClass: 'btn-primary',
