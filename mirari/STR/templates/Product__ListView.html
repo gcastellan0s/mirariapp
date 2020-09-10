@@ -60,12 +60,10 @@
             UnBlock();
         });
     });
-    $('#kt_daterangepicker_1_validate').daterangepicker({
+    $('#kt_daterangepicker_1, #kt_daterangepicker_1_modal').daterangepicker({
         buttonClasses: ' btn',
         applyClass: 'btn-primary',
         cancelClass: 'btn-secondary'
-    }, function (start, end, label) {
-        $('#kt_daterangepicker_1_validate .form-control').val(start.format('YYYY-MM-DD') + ' / ' + end.format('YYYY-MM-DD'));
     });
 {%endblock created%}
 
