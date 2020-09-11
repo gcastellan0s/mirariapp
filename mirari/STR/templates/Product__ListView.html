@@ -73,7 +73,7 @@
 
 {%block mounted%}
     {{ block.super }}
-    var start = moment().subtract(29, 'days');
+    var start = moment().subtract(1, 'month');
     var end = moment();
     $('#kt_daterangepicker_2').daterangepicker({
         buttonClasses: ' btn',
