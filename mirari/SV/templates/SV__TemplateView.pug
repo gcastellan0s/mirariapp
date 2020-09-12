@@ -525,16 +525,16 @@ script.
                 .then((json) => {
                     ticketFormat = []
                     ticketFormat.push(["times",[1]])
-                    ticketFormat.push(["set",["CT", "A", "bu", 2, 2]])
-                    ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.getTotalDetail['__ALL']['COBRADO']['MXN']])
                     ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                    ticketFormat.push(["text", 'TOTAL: ' + json.data.cut.getTotalDetail['__ALL']['COBRADO']['MXN']])
+                    //ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", 'FOLIO: ' + String(json.data.cut.serial)])
                     ticketFormat.push(["text", moment(json.data.cut.final_time).format('MMMM D, h:mm:ss a')])
                     ticketFormat.push(["text", json.data.cut.SellpointDetail.name])
                     ticketFormat.push(["text", '------------------------------------------'])
                     if(json.data.cut.SellpointDetail.header_line_black_1) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_black_1])
                     if(json.data.cut.SellpointDetail.header_line_black_2) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_black_2])
-                    ticketFormat.push(["set",["CT", "A", "", 1, 1]])
+                    //ticketFormat.push(["set",["CT", "A", "", 1, 1]])
                     if(json.data.cut.SellpointDetail.header_line_1) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_1])
                     if(json.data.cut.SellpointDetail.header_line_2) ticketFormat.push(["text", json.data.cut.SellpointDetail.header_line_2])
                     if(json.data.cut.SellpointDetail.footer_line_1) ticketFormat.push(["text", json.data.cut.SellpointDetail.footer_line_1])
@@ -543,7 +543,7 @@ script.
                     ticketFormat.push(["text", '# de clientes: ' + json.data.cut.getLens['__ALL']['COBRADO']])
                     ticketFormat.push(["text", '1er venta: ' + moment(json.data.cut.initial_time).format('MMMM D, h:mm:ss a')])
                     for (const propProductsDetail in json.data.cut.getProductsDetail){
-                        ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                        //ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                         ticketFormat.push(["text", '------------------------------------------'])
                         if (propProductsDetail=='__ALL') ticketFormat.push(["text", 'VENTA TOTAL'])
                         else ticketFormat.push(["text", propProductsDetail])
@@ -552,53 +552,53 @@ script.
                             json.data.cut.getProductsDetail[propProductsDetail]['COBRADO'].forEach(function(product){
                                 ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice['MXN'] + ' --> ' + product.getTotal['MXN']])
                                 for (const propOffer in product.offers){
-                                    ticketFormat.push(["set",["RT", "A", "", 1, 1]])
+                                    //ticketFormat.push(["set",["RT", "A", "", 1, 1]])
                                     ticketFormat.push(["text", String(product.offers[propOffer].quantity) + ' ' + product.offers[propOffer].offerName])
                                 }
                                 if (Object.keys(product.offers).length > 0){
                                     ticketFormat.push(["text", product.getOffersTotal['MXN']])
-                                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                                    //ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                                 }
                             })
-                            ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                            //ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                             ticketFormat.push(["text", 'TOTAL COBRADO: ' + json.data.cut.getTotalDetail[propProductsDetail]['COBRADO']['MXN']])
-                            ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                            //ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                         }
                         if (json.data.cut.getTotalDetail[propProductsDetail]['PENDIENTE']['NUMBER'] != 0){
                             json.data.cut.getProductsDetail[propProductsDetail]['PENDIENTE'].forEach(function(product){
                                 ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice['MXN'] + ' --> ' + product.getTotal['MXN']])
                                 for (const propOffer in product.offers){
-                                    ticketFormat.push(["set",["RT", "A", "", 1, 1]])
+                                    //ticketFormat.push(["set",["RT", "A", "", 1, 1]])
                                     ticketFormat.push(["text", String(product.offers[propOffer].quantity) + ' ' + product.offers[propOffer].offerName])
                                 }
                                 if (Object.keys(product.offers).length > 0){
                                     ticketFormat.push(["text", product.getOffersTotal['MXN']])
-                                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                                    //ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                                 }
                             });
-                            ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                            //ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                             ticketFormat.push(["text", 'TOTAL FALTANTE: ' + json.data.cut.getTotalDetail[propProductsDetail]['PENDIENTE']['MXN']])
-                            ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                            //ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                         }
                         if (json.data.cut.getTotalDetail[propProductsDetail]['CANCELADO']['NUMBER'] != 0){
                             json.data.cut.getProductsDetail[propProductsDetail]['CANCELADO'].forEach(function(product){
                                 ticketFormat.push(["text", String(product.quantity) + ' ' + product.productName + ' de ' + product.getPrice['MXN'] + ' --> ' + product.getTotal['MXN']])
                                 for (const propOffer in product.offers){
-                                    ticketFormat.push(["set",["RT", "A", "", 1, 1]])
+                                    //ticketFormat.push(["set",["RT", "A", "", 1, 1]])
                                     ticketFormat.push(["text", String(product.offers[propOffer].quantity) + ' ' + product.offers[propOffer].offerName])
                                 }
                                 if (Object.keys(product.offers).length > 0){
                                     ticketFormat.push(["text", product.getOffersTotal['MXN']])
-                                    ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                                    //ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                                 }
                             });
-                            ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                            //ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                             ticketFormat.push(["text", 'TOTAL CANCELADO: ' + json.data.cut.getTotalDetail[propProductsDetail]['CANCELADO']['MXN']])
-                            ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
+                            //ticketFormat.push(["set",["CT", "A", "bu", 1, 1]])
                         }
                     }
                     ticketFormat.push(["text", '------------------------------------------'])
-                    ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
+                    //ticketFormat.push(["set",["RT", "A", "bu", 1, 1]])
                     ticketFormat.push(["text", 'TOTAL FALTANTE: ' + json.data.cut.getTotalDetail['__ALL']['PENDIENTE']['MXN']])
                     ticketFormat.push(["text", 'TOTAL CANCELADO: ' + json.data.cut.getTotalDetail['__ALL']['CANCELADO']['MXN']])
                     ticketFormat.push(["text", '-------------------------'])
@@ -636,7 +636,7 @@ script.
                 json.data.cuts.forEach(function(cut, index) {
                     setTimeout(function() {
                         self.makeCut(cutID=cut.id)
-                    }, 3500 * index)
+                    }, 4000 * index)
                 });
             })
             .catch((error) => {
