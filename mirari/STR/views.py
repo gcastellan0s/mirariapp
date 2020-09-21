@@ -93,9 +93,12 @@ class Inventory__ApiView(Generic__ApiView):
 			inventoryOrder = InventoryOrder.objects.get(pk=request.POST.get('getProducts'))
 			products = InventoryOrderProoduct.objects.filter(inventoryorder = inventoryOrder)
 			return JsonResponse({'products':InventoryOrderProoductSerializer(products, many=True).data}, safe=False)
-		if request.POST.get('getProductsReport'):	
-			# products = InventoryOrderProoduct.objects.filter(product__id=request.POST.get('getProductsReport'))
-			return JsonResponse({'ok':request.POST.get('getProductsReport')}, safe=False)
+		if request.POST.get('getProductsReport'):
+			dates = request.POST.get('getProductsReport').split(" / ", 1)
+			start = datetime.datetime.strptime(dates[0], '%d-%m-%Y')
+			end = datetime.datetime.strptime(dates[1], '%d-%m-%Y')	
+			inventoryOrderProoduct = InventoryOrderProoduct.objects.filter(inventoryorder__finalDateTime__range=(start, end))
+			return JsonResponse({'inventoryOrderProoduct': InventoryOrderProoductSerializer(inventoryOrderProoduct, many=True)}, safe=False)
 		if request.POST.get('getReportInventori'):
 			range_ = request.POST.get('range').split(" / ", 1)
 			start = datetime.datetime.strptime(range_[0], '%d-%m-%Y')
