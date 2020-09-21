@@ -8,7 +8,7 @@
         <div class="form-group row">
             <div class="col-md-8 col-sm-8">
                 <div class='input-group' id='kt_daterangepicker_2'>
-                    <input type="text" class="form-control" readonly placeholder="Elige las fechas"/>
+                    <input type="text" class="form-control" readonly placeholder="Elige las fechas" id="id_rangepicker"/>
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="la la-calendar-check-o"></i></span>
                     </div>
@@ -135,6 +135,23 @@
                 UnBlock();
             });
         }, 500);
+    },
+    GetReportSubmit() {
+        let rangepicker = document.querySelector("#id_rangepicker");
+        Block();
+        Ax('post', '/STR/api/InventoryApi/STR/Product/', {'getProductsReport': rangepicker.value})
+        .then(function(json){
+            console.log(json)            
+        })
+        .catch((error) => {
+            Swal.fire(
+                'Intenta de nuevo',
+                `Ocurrio un error al procesar su solicitud`,
+                'danger'
+            )
+        }).finally(() => {
+            UnBlock();
+        });
     },
 {%endblock methods%}
 </script>
