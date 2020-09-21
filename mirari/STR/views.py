@@ -119,7 +119,7 @@ class Inventory__ApiView(Generic__ApiView):
 						'XXX',
 						'XXX',
 					])
-			return JsonResponse({'inventoryOrderProoduct': len(inventoryOrderProoduct)}, safe=False)
+			return JsonResponse({'inventoryOrderProoduct': len(inventoryOrderProoducts)}, safe=False)
 		if request.POST.get('getReportInventori'):
 			range_ = request.POST.get('range').split(" / ", 1)
 			start = datetime.datetime.strptime(range_[0], '%d-%m-%Y')
