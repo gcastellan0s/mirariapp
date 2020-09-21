@@ -11,4 +11,5 @@ urlpatterns = [
     path('update/InventoryOrder/<slug:app>/<int:pk>/<slug:model>/', login_required(InventoryOrder__UpdateView.as_view()), name='InventoryOrder__UpdateView'),
     path('print/InventoryOrder/<slug:app>/<int:pk>/<slug:model>/', login_required(printInventoryOrder__UpdateView.as_view()), name='printInventoryOrder__UpdateView'),
     path('api/InventoryApi/<slug:app>/<slug:model>/', Inventory__ApiView.as_view(), name='Inventory__ApiView'),
+    path('product-report/download/', ProductReport__TemplateView.as_view(), name='ProductReport__TemplateView'),
 ]   

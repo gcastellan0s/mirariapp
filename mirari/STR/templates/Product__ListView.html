@@ -141,7 +141,8 @@
         Block();
         Ax('post', '/STR/api/InventoryApi/STR/Product/', {'getProductsReport': rangepicker.value})
         .then(function(json){
-            console.log(json)            
+            var win = window.open('{%url "STR:ProductReport__TemplateView"%}', '_blank');
+			win.focus();           
         })
         .catch((error) => {
             Swal.fire(

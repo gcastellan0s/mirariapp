@@ -97,7 +97,28 @@ class Inventory__ApiView(Generic__ApiView):
 			dates = request.POST.get('getProductsReport').split(" / ", 1)
 			start = datetime.datetime.strptime(dates[0], '%d-%m-%Y')
 			end = datetime.datetime.strptime(dates[1], '%d-%m-%Y')	
-			inventoryOrderProoduct = InventoryOrderProoduct.objects.filter(inventoryorder__initialDateTime__range=(start, end))
+			inventoryOrderProoducts = InventoryOrderProoduct.objects.filter(inventoryorder__initialDateTime__range=(start, end))
+			with open('ProductReport.csv', 'w', newline='', encoding='latin1') as csvfile:
+                filewriter = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_ALL)
+                filewriter.writerow([
+                    'PRODUCTO',
+					'SERIAL',
+                    'CANTIDAD',
+                    'PRECIO NORMAL',
+                    'PRECIO FINAL',
+					'TIPO'
+					'ESTATUS'
+                ])
+                for inventoryOrderProoduct in inventoryOrderProoducts:
+                    filewriter.writerow([
+                        'XXX',
+                        'XXX',
+                        'XXX',
+                        'XXX', 
+                        'XXX',
+                        'XXX',
+                        'XXX',
+                    ])
 			return JsonResponse({'inventoryOrderProoduct': len(inventoryOrderProoduct)}, safe=False)
 		if request.POST.get('getReportInventori'):
 			range_ = request.POST.get('range').split(" / ", 1)
@@ -105,4 +126,14 @@ class Inventory__ApiView(Generic__ApiView):
 			end = datetime.datetime.strptime(range_[1], '%d-%m-%Y')
 			products = InventoryOrderProoduct.objects.filter(inventoryorder__initialDateTime__range=(start, end))
 			return JsonResponse({'products':InventoryOrderProoductSerializer(products, many=True).data}, safe=False)
-			
+
+class ProductReport__TemplateView(Generic__TemplateView):
+    model = Product
+    template_name = 'Product__ListView.html'
+    ###########################################################################################
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        with open('ProductReport.csv', 'r', newline='', encoding='latin1') as csvfile:
+            response = HttpResponse(csvfile, content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="OrderServiceReport.csv"'
+            return response
