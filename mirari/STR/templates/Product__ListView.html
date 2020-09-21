@@ -78,6 +78,9 @@
     var minDate = moment().subtract(3, 'month');
     var maxDate = moment();
     $('#kt_daterangepicker_2').daterangepicker({
+        buttonClasses: ' btn',
+        applyClass: 'd-none',
+        cancelClass: 'd-none',
         startDate: start,
         endDate: end,
         minDate: minDate,
