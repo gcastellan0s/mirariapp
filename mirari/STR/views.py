@@ -107,18 +107,18 @@ class Inventory__ApiView(Generic__ApiView):
 					'CANTIDAD',
 					'PRECIO NORMAL',
 					'PRECIO FINAL',
-					'TIPO'
+					'TIPO',
 					'ESTATUS'
 				])
 				for inventoryOrderProoduct in inventoryOrderProoducts:
 					filewriter.writerow([
-						'XXX',
-						'XXX',
-						'XXX',
-						'XXX', 
-						'XXX',
-						'XXX',
-						'XXX',
+						inventoryOrderProoduct.product.name,
+						inventoryOrderProoduct.product.codebar,
+						inventoryOrderProoduct.quantity,
+						inventoryOrderProoduct.cost, 
+						inventoryOrderProoduct.specialCost,
+						inventoryOrderProoduct.inventoryorder.outType,
+						inventoryOrderProoduct.inventoryorder.status,
 					])
 			return JsonResponse({'inventoryOrderProoduct': len(inventoryOrderProoducts)}, safe=False)
 		if request.POST.get('getReportInventori'):
