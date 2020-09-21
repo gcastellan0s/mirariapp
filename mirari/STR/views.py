@@ -3,6 +3,8 @@ from mirari.mirari.views import *
 from .models import *
 from .vars import *	
 
+import csv
+
 ###############################################################################################
 # Product ##############################################################################
 ###############################################################################################
@@ -93,5 +95,12 @@ class Inventory__ApiView(Generic__ApiView):
 			return JsonResponse({'products':InventoryOrderProoductSerializer(products, many=True).data}, safe=False)
 		if request.POST.get('getProductsReport'):	
 			products = InventoryOrderProoduct.objects.filter(product__id=request.POST.get('getProductsReport'))
+			return JsonResponse({'products':InventoryOrderProoductSerializer(products, many=True).data}, safe=False)
+		if request.POST.get('getReportInventori'):
+			range_ = request.POST.get('range').split(" / ", 1)
+            start = datetime.datetime.strptime(range_[0], '%d-%m-%Y')
+            end = datetime.datetime.strptime(range_[1], '%d-%m-%Y')
+			products = InventoryOrderProoduct.objects.filter(inventoryorder__initialDateTime__range=(start, end))
+			
 			return JsonResponse({'products':InventoryOrderProoductSerializer(products, many=True).data}, safe=False)
 			
