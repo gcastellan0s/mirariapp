@@ -97,7 +97,7 @@ class Inventory__ApiView(Generic__ApiView):
 			dates = request.POST.get('getProductsReport').split(" / ", 1)
 			start = datetime.datetime.strptime(dates[0], '%d-%m-%Y')
 			end = datetime.datetime.strptime(dates[1], '%d-%m-%Y')	
-			inventoryOrderProoduct = InventoryOrderProoduct.objects.filter(inventoryorder__finalDateTime__range=(start, end))
+			inventoryOrderProoduct = InventoryOrderProoduct.objects.filter(inventoryorder__initialDateTime__range=(start, end))
 			return JsonResponse({'inventoryOrderProoduct': len(inventoryOrderProoduct)}, safe=False)
 		if request.POST.get('getReportInventori'):
 			range_ = request.POST.get('range').split(" / ", 1)
