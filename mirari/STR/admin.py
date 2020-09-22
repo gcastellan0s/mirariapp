@@ -8,8 +8,7 @@ class StorehouseAdmin(PassAdmin):
 
 @admin.register(Provider)
 class ProviderAdmin(PassAdmin):
-	list_display = ('id', 'name','uid','codebar')
-	search_fields = ['name','uid','codebar']
+	ist_display = ('id',)
 
 @admin.register(CategoryProduct)
 class CategoryProductAdmin(PassAdmin):
@@ -21,7 +20,8 @@ class InventoryOrderAdmin(PassAdmin):
 	
 @admin.register(Product)
 class ProductAdmin(PassAdmin):
-	list_display = ('id',)
+	list_display = ('id', 'name','uid','codebar')
+	search_fields = ['name','uid','codebar']
 
 @admin.register(InventoryOrderProoduct)
 class InventoryOrderProoduct(PassAdmin):
