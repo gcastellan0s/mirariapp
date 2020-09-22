@@ -16,7 +16,8 @@ class CategoryProductAdmin(PassAdmin):
 
 @admin.register(InventoryOrder)
 class InventoryOrderAdmin(PassAdmin):
-	list_display = ('id',)
+	list_display = ('id','name','uid','codebar')
+	search_fields = ['name','uid','codebar']
 
 @admin.register(Product)
 class ProductAdmin(PassAdmin):
