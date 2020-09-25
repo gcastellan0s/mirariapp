@@ -135,7 +135,7 @@ class Inventory__ApiView(Generic__ApiView):
 						inventoryOrderProoduct.inventoryorder.orderNumber,
 						inventoryOrderProoduct.inventoryorder.guideNumber,
 						inventoryOrderProoduct.inventoryorder.initialDateTime,
-						inventoryOrderProoduct.inventoryorder.tipoSalida,
+						tipoSalida,
 						inventoryOrderProoduct.inventoryorder.status,
 					])
 			return JsonResponse({'inventoryOrderProoduct': len(inventoryOrderProoducts)}, safe=False)
