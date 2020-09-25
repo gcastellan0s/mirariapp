@@ -118,7 +118,7 @@ class Inventory__ApiView(Generic__ApiView):
 				])
 				for inventoryOrderProoduct in inventoryOrderProoducts:
 					
-					if inventoryOrderProoduct.inventoryorder.operationType == 'in'
+					if inventoryOrderProoduct.inventoryorder.operationType == 'in':
 						tipoSalida = 'ENTRADA'
 					else:
 						tipoSalida = 'SALIDA'
