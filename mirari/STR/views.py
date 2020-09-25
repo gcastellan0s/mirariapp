@@ -134,7 +134,7 @@ class Inventory__ApiView(Generic__ApiView):
 						inventoryOrderProoduct.inventoryorder.id,
 						inventoryOrderProoduct.inventoryorder.orderNumber,
 						inventoryOrderProoduct.inventoryorder.guideNumber,
-						inventoryOrderProoduct.inventoryorder.initialDateTime,
+						inventoryOrderProoduct.inventoryorder.initialDateTime.strftime("%m/%d/%Y, %H:%M"),
 						tipoSalida,
 						inventoryOrderProoduct.inventoryorder.status,
 					])
