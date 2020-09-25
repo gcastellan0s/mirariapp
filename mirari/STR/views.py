@@ -103,21 +103,39 @@ class Inventory__ApiView(Generic__ApiView):
 				filewriter = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_ALL)
 				filewriter.writerow([
 					'PRODUCTO',
+					'UID',
 					'SERIAL',
+					'MODEL',
 					'CANTIDAD',
-					'PRECIO NORMAL',
-					'PRECIO FINAL',
+					'PRECIO',
+					'PRECIO ESPECIAL',
+					'ID DE ORDEN',
+					'No DE ORDEN',
+					'No DE GUIA',
+					'FECHA',
 					'TIPO',
 					'ESTATUS'
 				])
 				for inventoryOrderProoduct in inventoryOrderProoducts:
+					
+					if inventoryOrderProoduct.inventoryorder.operationType == 'in'
+						tipoSalida = 'ENTRADA'
+					else:
+						tipoSalida = 'SALIDA'
+
 					filewriter.writerow([
 						inventoryOrderProoduct.product.name,
+						inventoryOrderProoduct.product.model,
+						inventoryOrderProoduct.product.uid,
 						inventoryOrderProoduct.product.codebar,
 						inventoryOrderProoduct.quantity,
 						inventoryOrderProoduct.cost, 
 						inventoryOrderProoduct.specialCost,
-						inventoryOrderProoduct.inventoryorder.outType,
+						inventoryOrderProoduct.inventoryorder.id,
+						inventoryOrderProoduct.inventoryorder.orderNumber,
+						inventoryOrderProoduct.inventoryorder.guideNumber,
+						inventoryOrderProoduct.inventoryorder.initialDateTime,
+						inventoryOrderProoduct.inventoryorder.tipoSalida,
 						inventoryOrderProoduct.inventoryorder.status,
 					])
 			return JsonResponse({'inventoryOrderProoduct': len(inventoryOrderProoducts)}, safe=False)
