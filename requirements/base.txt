@@ -40,6 +40,6 @@ pypugjs==5.7.2
 py-money==0.3.0
 zeep==3.4.0
 boto3==1.9.164
-lxml==4.3.3
+lxml==4.9.1
 pdfkit==0.6.0
 numbertoletters==0.1.3
